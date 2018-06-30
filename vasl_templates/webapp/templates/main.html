@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<title> {{APP_NAME}} </title>
+<link rel="shortcut icon" href="{{url_for('static', filename='images/favicon.ico')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/main.css')}}" />
+</head>
+
+<body>
+
+<form action="/generate">
+Say something:
+<input type="text" name="val" size="20">
+<input type="submit" value="GO">
+</form>
+
+<div id="response"> </div>
+
+</body>
+
+<script src="{{url_for('static',filename='jquery/jquery-3.3.1.min.js')}}"></script>
+<script>
+gGenerateURL = "{{url_for('generate_html')}}" ;
+</script>
+<script src="{{url_for('static',filename='main.js')}}"></script>
+
+</html>

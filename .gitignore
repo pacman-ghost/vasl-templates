@@ -1,0 +1,9 @@
+_work_/
+
+.venv*
+*.pyc
+.pytest_cache/
+*.egg-info/
+
+*.swp
+*.swo

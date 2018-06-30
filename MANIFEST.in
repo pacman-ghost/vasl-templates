@@ -1,0 +1,3 @@
+recursive-include vasl_templates/webapp/config *.*
+recursive-include vasl_templates/webapp/static *.*
+recursive-include vasl_templates/webapp/templates *.*
