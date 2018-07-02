@@ -24,6 +24,7 @@ setup(
             "selenium==3.12.0",
             "pylint==1.9.2",
             "pytest-pylint==0.9.0",
+            "cx-Freeze==5.1.1",
         ],
     },
     include_package_data = True,

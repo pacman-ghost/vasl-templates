@@ -38,6 +38,7 @@ def main():
     """Main entry point for the application."""
 
     # connect stdout/stderr to Python logging
+    # NOTE: Logging to the console causes crashes on Windows if we are frozen, so don't do that!
     sys.stdout = LoggerProxy( logging, logging.INFO )
     sys.stderr = LoggerProxy( logging, logging.WARNING )
 
