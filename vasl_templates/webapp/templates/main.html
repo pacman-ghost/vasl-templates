@@ -5,25 +5,77 @@
 <meta charset="utf-8">
 <title> {{APP_NAME}} </title>
 <link rel="shortcut icon" href="{{url_for('static', filename='images/favicon.ico')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='jquery-ui/jquery-ui.min.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/main.css')}}" />
 </head>
 
 <body>
+<div id="tabs">
 
-<form action="/generate">
-Say something:
-<input type="text" name="val" size="20">
-<input type="submit" value="GO">
-</form>
+<ul>
+    <li> <a href="#tabs-scenario">Scenario</a>
+    <li> <a href="#tabs-ob1">Player 1 OB</a>
+    <li> <a href="#tabs-ob2">Player 2 OB</a>
+    <li> <a href="#tabs-other">Other</a>
+</ul>
 
-<div id="response"> </div>
+<div id="tabs-scenario">
+    <div id="panel-scenario">
+        <fieldset> <legend>Scenario</legend>
+        </fieldset>
+    </div>
+    <div id="panel-vc">
+        <fieldset> <legend>VC</legend>
+        </fieldset>
+    </div>
+    <div id="panel-ssr">
+        <fieldset> <legend>SSR</legend>
+        </fieldset>
+    </div>
+</div>
 
+<div id="tabs-ob1">
+    <div id="panel-obsetup1">
+        <fieldset> <legend>OB setup</legend>
+        </fieldset>
+    </div>
+    <div id="panel-obvehicles1">
+        <fieldset> <legend>Vehicles</legend>
+        </fieldset>
+    </div>
+    <div id="panel-obordnance1">
+        <fieldset> <legend>Ordnance</legend>
+        </fieldset>
+    </div>
+</div>
+
+<div id="tabs-ob2">
+    <div id="panel-obsetup2">
+        <fieldset> <legend>OB setup</legend>
+        </fieldset>
+    </div>
+    <div id="panel-obvehicles2">
+        <fieldset> <legend>Vehicles</legend>
+        </fieldset>
+    </div>
+    <div id="panel-obordnance2">
+        <fieldset> <legend>Ordnance</legend>
+        </fieldset>
+    </div>
+</div>
+
+<div id="tabs-other">
+    <div id="panel-other">
+        <fieldset>
+        </fieldset>
+    </div>
+</div>
+
+</div>
 </body>
 
 <script src="{{url_for('static',filename='jquery/jquery-3.3.1.min.js')}}"></script>
-<script>
-gGenerateURL = "{{url_for('generate_html')}}" ;
-</script>
+<script src="{{url_for('static',filename='jquery-ui/jquery-ui.min.js')}}"></script>
 <script src="{{url_for('static',filename='main.js')}}"></script>
 
 </html>
