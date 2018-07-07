@@ -7,3 +7,4 @@ APP_VERSION = "v0.1"
 APP_DESCRIPTION = "Generate HTML for use in VASL scenarios."
 
 BASE_DIR = os.path.abspath( os.path.join( os.path.split(__file__)[0], ".." ) )
+DATA_DIR = os.path.join( BASE_DIR, "data" )

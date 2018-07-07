@@ -11,6 +11,7 @@ from flask import url_for
 
 from vasl_templates.webapp import app
 app.testing = True
+from vasl_templates.webapp.tests import utils
 
 FLASK_WEBAPP_PORT = 5001
 
@@ -22,10 +23,10 @@ def webapp():
 
     # initialize
     # WTF?! https://github.com/pallets/flask/issues/824
-    def make_webapp_url( endpoint ):
+    def make_webapp_url( endpoint, **kwargs ):
         """Generate a webapp URL."""
         with app.test_request_context():
-            url = url_for( endpoint, _external=True )
+            url = url_for( endpoint, _external=True, **kwargs )
             return url.replace( "localhost/", "localhost:{}/".format(FLASK_WEBAPP_PORT) )
     app.url_for = make_webapp_url
 
@@ -68,6 +69,7 @@ def webdriver():
     )
 
     # return the webdriver to the caller
+    utils._webdriver = driver #pylint: disable=protected-access
     yield driver
 
     # clean up

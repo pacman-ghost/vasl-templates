@@ -4,7 +4,12 @@ body { height: 100% ; }
 
 /* -------------------------------------------------------------------- */
 
-#tabs { position: absolute ; top: 5px ; bottom: 5px ; left: 5px ; right: 5px ; }
+#tabs {
+    display: none ;
+    position: absolute ; top: 5px ; bottom: 5px ; left: 5px ; right: 5px ;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #tabs-scenario {
     display: grid ; display: -ms-grid ;
@@ -53,6 +58,32 @@ body { height: 100% ; }
     height: 100% ;
 }
 
-fieldset { height: calc(100% - 10px) ; margin: 0 5px 5px 5px ; }
+fieldset { height: calc(100% - 30px) ; margin: 0 5px 5px 5px ; padding: 10px ; }
 #tabs-other fieldset { border: none ; }
-fieldset legend { padding: 0 0.2em 0 0.2em ; }
+fieldset legend { padding: 0 0.2em 0 0.2em ; font-style: italic ; font-weight: bold ; }
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.label { font-weight: bold ; }
+input[type="text"] { margin-bottom: 0.25em ; }
+
+#panel-scenario .form-grid {
+    display: grid ; display: -ms-grid ;
+    grid-template-columns: 5em 1fr ; -ms-grid-columns: 5em 1fr ;
+}
+#panel-scenario input[type="button"] { float: right ; }
+/* FUDGE! IE hackamathon follows (nb: <label> doesn't work, we use <div> for labels instead :-/) */
+#panel-scenario div[data-labelfor="scenario_name"] { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
+#panel-scenario input[name="scenario_name"] { -ms-grid-row: 1 ; -ms-grid-column: 2 ; }
+#panel-scenario div[data-labelfor="scenario_location"] { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
+#panel-scenario input[name="scenario_location"] { -ms-grid-row: 2 ; -ms-grid-column: 2 ; }
+#panel-scenario div[data-labelfor="scenario_date"] { -ms-grid-row: 3 ; -ms-grid-column: 1 ; }
+#panel-scenario div.scenario_date { -ms-grid-row: 3 ; -ms-grid-column: 2 ; }
+
+#panel-vc textarea[name="victory_conditions"] { width: calc(100% - 2px) ; height: calc(100% - 1.5em) ; resize: none ; }
+#panel-vc input[type="button"] { float: right ; }
+
+/* -------------------------------------------------------------------- */
+
+.growl-title { display: none ; }
+.growl ul { margin-left: 1em ; }

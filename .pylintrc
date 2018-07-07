@@ -135,6 +135,7 @@ disable=print-statement,
         exception-escape,
         comprehension-escape,
     bad-whitespace,
+    bad-continuation,
     invalid-name,
     wrong-import-position
 

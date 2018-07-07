@@ -1,6 +1,26 @@
 """ Helper utilities. """
 
+from PyQt5.QtWidgets import QApplication
 from selenium.common.exceptions import NoSuchElementException
+
+_webdriver = None
+
+# ---------------------------------------------------------------------
+
+def get_stored_msg( msg_id ):
+    """Get a message stored for us by the front-end."""
+    elem = find_child( _webdriver, "#"+msg_id )
+    if not elem:
+        return None
+    return elem.text
+
+# ---------------------------------------------------------------------
+
+def get_clipboard() :
+    """Get the contents of the clipboard."""
+    app = QApplication( [] ) #pylint: disable=unused-variable
+    clipboard = QApplication.clipboard()
+    return clipboard.text()
 
 # ---------------------------------------------------------------------
 

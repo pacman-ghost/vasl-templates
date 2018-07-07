@@ -6,6 +6,7 @@
 <title> {{APP_NAME}} </title>
 <link rel="shortcut icon" href="{{url_for('static', filename='images/favicon.ico')}}">
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='jquery-ui/jquery-ui.min.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='growl/jquery.growl.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/main.css')}}" />
 </head>
 
@@ -22,10 +23,21 @@
 <div id="tabs-scenario">
     <div id="panel-scenario">
         <fieldset> <legend>Scenario</legend>
+            <div class="form-grid">
+                <div class="label" data-labelfor="scenario_name">Name:</div> <input name="scenario_name" type="text" class="param">
+                <div class="label" data-labelfor="scenario_location">Location:</div> <input name="scenario_location" type="text" class="param">
+                <div class="label" data-labelfor="scenario_date">Date:</div>
+                <div class="scenario_date">
+                    <input name="scenario_date" type="text" size="10" class="param">
+                    <input type="button" class="generate" data-id="scenario" value="Go">
+                </div>
+            </div>
         </fieldset>
     </div>
     <div id="panel-vc">
-        <fieldset> <legend>VC</legend>
+        <fieldset> <legend>Victory Conditions</legend>
+            <textarea name="victory_conditions" type="text" class="param"> </textarea>
+            <input type="button" class="generate" data-id="victory_conditions" value="Go">
         </fieldset>
     </div>
     <div id="panel-ssr">
@@ -74,8 +86,14 @@
 </div>
 </body>
 
-<script src="{{url_for('static',filename='jquery/jquery-3.3.1.min.js')}}"></script>
+<script src="{{url_for('static',filename='jquery-3.3.1.min.js')}}"></script>
 <script src="{{url_for('static',filename='jquery-ui/jquery-ui.min.js')}}"></script>
+<script src="{{url_for('static',filename='jinja.js')}}"></script>
+<script src="{{url_for('static',filename='growl/jquery.growl.js')}}"></script>
+<script>
+gGetTemplatesUrl = "{{url_for('get_templates')}}" ;
+</script>
 <script src="{{url_for('static',filename='main.js')}}"></script>
+<script src="{{url_for('static',filename='utils.js')}}"></script>
 
 </html>
