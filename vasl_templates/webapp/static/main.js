@@ -4,7 +4,7 @@ var gDefaultTemplates = {} ;
 // if they're not set, but they're really, really, really expected to be there.
 var _MANDATORY_PARAMS = {
     scenario: { "SCENARIO_NAME": "scenario name", "SCENARIO_DATE": "scenario date" },
-}
+} ;
 
 // --------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ $(document).ready( function () {
 
     // handle requests to generate HTML snippets
     $("input[type='button'].generate").click( function() {
-        generate_snippet( $(this) )
+        generate_snippet( $(this) ) ;
     } ) ;
 
 } ) ;
@@ -53,7 +53,7 @@ function generate_snippet( $btn )
 {
     // collect all the template parameters
     var params = {} ;
-    add_param = function($elem) { params[ $elem.attr("name").toUpperCase() ] = $elem.val() ; }
+    add_param = function($elem) { params[ $elem.attr("name").toUpperCase() ] = $elem.val() ; } ;
     $("input[type='text'].param").each( function() { add_param($(this)) ; } ) ;
     $("textarea.param").each( function() { add_param($(this)) ; } ) ;
 
@@ -79,8 +79,9 @@ function generate_snippet( $btn )
         showErrorMsg( "Unknown template: " + escapeHTML(template_id) ) ;
         return ;
     }
+    var func, val ;
     try {
-        var func = jinja.compile( gDefaultTemplates[template_id] ).render ;
+        func = jinja.compile( gDefaultTemplates[template_id] ).render ;
     }
     catch( ex ) {
         showErrorMsg( "Can't compile template:<pre>" + escapeHTML(ex) + "</pre>" ) ;
@@ -89,7 +90,7 @@ function generate_snippet( $btn )
 
     // process the template
     try {
-        var val = func( params ) ;
+        val = func( params ) ;
     }
     catch( ex ) {
         showErrorMsg( "Can't process template <em>\"" + template_id + "\"</em>:<pre>" + escapeHTML(ex) + "</pre>" ) ;
