@@ -1,9 +1,19 @@
 """ Helper utilities. """
 
+import urllib.request
+import json
+
 from PyQt5.QtWidgets import QApplication
 from selenium.common.exceptions import NoSuchElementException
 
 _webdriver = None
+
+# ---------------------------------------------------------------------
+
+def get_nationalities( webapp ):
+    """Get the nationalities table."""
+    url = webapp.url_for( "get_nationalities" )
+    return json.load( urllib.request.urlopen( url ) )
 
 # ---------------------------------------------------------------------
 

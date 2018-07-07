@@ -21,19 +21,23 @@
 </ul>
 
 <div id="tabs-scenario">
-    <div id="panel-scenario">
-        <fieldset> <legend>Scenario</legend>
-            <div class="form-grid">
-                <div class="label" data-labelfor="scenario_name">Name:</div> <input name="scenario_name" type="text" class="param">
-                <div class="label" data-labelfor="scenario_location">Location:</div> <input name="scenario_location" type="text" class="param">
-                <div class="label" data-labelfor="scenario_date">Date:</div>
-                <div class="scenario_date">
-                    <input name="scenario_date" type="text" size="10" class="param">
-                    <input type="button" class="generate" data-id="scenario" value="Go">
-                </div>
+    <fieldset> <legend>Scenario</legend>
+        <div id="panel-scenario">
+            <div class="label" data-labelfor="scenario_name">Name:</div> <input name="scenario_name" type="text" class="param">
+            <div class="label" data-labelfor="scenario_location">Location:</div> <input name="scenario_location" type="text" class="param">
+            <div class="label" data-labelfor="scenario_date">Date:</div>
+            <div class="scenario_date">
+                <input name="scenario_date" type="text" size="10" class="param">
+                <input type="button" class="generate" data-id="scenario" value="Go">
             </div>
-        </fieldset>
-    </div>
+        </div>
+        <div id="panel-players">
+            <div></div> <div></div> <div class="label" data-labelfor="elr">ELR</div> <div class="label" data-labelfor="san">SAN</div>
+            <div class="label" data-labelfor="player_1">Player 1:</div> <select name="player_1" class="param"></select> <select name="player_1_elr" class="param"></select> <select name="player_1_san" class="param"></select>
+            <div class="label" data-labelfor="player_2">Player 2:</div> <select name="player_2" class="param"></select> <select name="player_2_elr" class="param"></select> <select name="player_2_san" class="param"></select>
+            <div></div> <div></div> <div></div> <input type="button" class="generate" data-id="players" value="Go">
+        </div>
+    </fieldset>
     <div id="panel-vc">
         <fieldset> <legend>Victory Conditions</legend>
             <textarea name="victory_conditions" type="text" class="param"> </textarea>
@@ -92,8 +96,10 @@
 <script src="{{url_for('static',filename='growl/jquery.growl.js')}}"></script>
 <script>
 gGetTemplatesUrl = "{{url_for('get_templates')}}" ;
+gGetNationalitiesUrl = "{{url_for('get_nationalities')}}" ;
 </script>
 <script src="{{url_for('static',filename='main.js')}}"></script>
+<script src="{{url_for('static',filename='generate.js')}}"></script>
 <script src="{{url_for('static',filename='utils.js')}}"></script>
 
 </html>

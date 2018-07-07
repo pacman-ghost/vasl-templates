@@ -1,10 +1,5 @@
+var gNationalities = {} ;
 var gDefaultTemplates = {} ;
-
-// NOTE: These fields aren't mandatory in the sense that snippet generation will fail
-// if they're not set, but they're really, really, really expected to be there.
-var _MANDATORY_PARAMS = {
-    scenario: { "SCENARIO_NAME": "scenario name", "SCENARIO_DATE": "scenario date" },
-} ;
 
 // --------------------------------------------------------------------
 
@@ -15,6 +10,41 @@ $(document).ready( function () {
         heightStyle: "fill",
     } ).show() ;
     var navHeight = $("#tabs .ui-tabs-nav").height() ;
+    $("input[name='scenario_name']").focus().focus() ;
+
+    // load the ELR's and SAN's
+    var buf = [] ;
+    for ( var i=0 ; i <= 5 ; ++i ) // nb: A19.1: ELR is 0-5
+        buf.push( "<option value='" + i + "'>" + i + "</option>" ) ;
+    buf = buf.join( "" ) ;
+    $("select[name='player_1_elr']").html( buf ).val( 5 ) ;
+    $("select[name='player_2_elr']").html( buf ).val( 5 ) ;
+    buf = [ "<option></option>" ] ; // nb: allow scenarios that have no SAN
+    for ( i=2 ; i <= 7 ; ++i ) // nb: A14.1: SAN is 2-7
+        buf.push( "<option value='" + i + "'>" + i + "</option>" ) ;
+    buf = buf.join( "" ) ;
+    $("select[name='player_1_san']").html( buf ).val( 2 ) ;
+    $("select[name='player_2_san']").html( buf ).val( 2 ) ;
+
+    // load the nationalities
+    $.getJSON( gGetNationalitiesUrl, function(data) {
+        gNationalities = data ;
+        var buf = [] ;
+        for ( var id in gNationalities )
+            buf.push( "<option value='" + id + "'>" + gNationalities[id].display_name + "</option>" ) ;
+        on_player_change(
+            $("select[name='player_1']").html( buf ).val( "german" )
+        ) ;
+        on_player_change(
+            $("select[name='player_2']").html( buf ).val( "russian" )
+        ) ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        showErrorMsg( "Can't get the nationalities:<pre>" + escapeHTML(errorMsg) + "</pre>" ) ;
+    } ) ;
+
+    // add handlers for player changes
+    $("select[name='player_1']").change( function() { on_player_change($(this)) ; } ) ;
+    $("select[name='player_2']").change( function() { on_player_change($(this)) ; } ) ;
 
     // get the default templates
     $.getJSON( gGetTemplatesUrl, function(data) {
@@ -49,59 +79,14 @@ $(document).ready( function () {
 
 // --------------------------------------------------------------------
 
-function generate_snippet( $btn )
+function on_player_change( $select )
 {
-    // collect all the template parameters
-    var params = {} ;
-    add_param = function($elem) { params[ $elem.attr("name").toUpperCase() ] = $elem.val() ; } ;
-    $("input[type='text'].param").each( function() { add_param($(this)) ; } ) ;
-    $("textarea.param").each( function() { add_param($(this)) ; } ) ;
+    // figure out which player was changed
+    var name = $select.attr( "name" ) ;
+    var player_id = name.substring( name.length-1 ) ;
 
-    // check for mandatory parameters
-    var template_id = $btn.data( "id" ) ;
-    if ( template_id in _MANDATORY_PARAMS ) {
-        var missing_params = [] ;
-        for ( var param_id in _MANDATORY_PARAMS[template_id] ) {
-            if ( ! (param_id in params && params[param_id].length > 0) )
-                missing_params.push( _MANDATORY_PARAMS[template_id][param_id] ) ;
-        }
-        if ( missing_params.length > 0 ) {
-            var buf = [ "Missing parameters:<ul>" ] ;
-            for ( var i=0 ; i < missing_params.length ; ++i )
-                buf.push( "<li>" + escapeHTML(missing_params[i]) ) ;
-            buf.push( "</ul>" ) ;
-            showWarningMsg( buf.join("") ) ;
-        }
-    }
-
-    // get the template to generate the snippet from
-    if ( ! (template_id in gDefaultTemplates) ) {
-        showErrorMsg( "Unknown template: " + escapeHTML(template_id) ) ;
-        return ;
-    }
-    var func, val ;
-    try {
-        func = jinja.compile( gDefaultTemplates[template_id] ).render ;
-    }
-    catch( ex ) {
-        showErrorMsg( "Can't compile template:<pre>" + escapeHTML(ex) + "</pre>" ) ;
-        return ;
-    }
-
-    // process the template
-    try {
-        val = func( params ) ;
-    }
-    catch( ex ) {
-        showErrorMsg( "Can't process template <em>\"" + template_id + "\"</em>:<pre>" + escapeHTML(ex) + "</pre>" ) ;
-        return ;
-    }
-    try {
-        copyToClipboard( val ) ;
-    }
-    catch( ex ) {
-        showErrorMsg( "Can't copy to the clipboard:<pre>" + escapeHTML(ex) + "</pre>" ) ;
-        return ;
-    }
-    showInfoMsg( "The HTML snippet has been copied to the clipboard." ) ;
+    // update the tab label
+    var nat = $select.find( "option:selected" ).val() ;
+    var $elem = $("#tabs .ui-tabs-nav a[href='#tabs-ob" + player_id + "']") ;
+    $elem.text( gNationalities[nat].display_name + " OB" ) ;
 }
