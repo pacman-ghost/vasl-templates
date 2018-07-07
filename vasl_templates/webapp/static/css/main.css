@@ -108,6 +108,12 @@ input[type="text"] { margin-bottom: 0.25em ; }
 #panel-vc textarea[name="victory_conditions"] { width: calc(100% - 2px) ; height: calc(100% - 1.5em) ; resize: none ; }
 #panel-vc input[type="button"] { float: right ; }
 
+#panel-obsetup1 textarea[name="ob_setup_1"] { width: calc(100% - 2px) ; height: calc(100% - 1.5em) ; resize: none ; }
+#panel-obsetup1 input[type="button"] { float: right ; }
+
+#panel-obsetup2 textarea[name="ob_setup_2"] { width: calc(100% - 2px) ; height: calc(100% - 1.5em) ; resize: none ; }
+#panel-obsetup2 input[type="button"] { float: right ; }
+
 /* -------------------------------------------------------------------- */
 
 .growl-title { display: none ; }

@@ -15,8 +15,22 @@ function generate_snippet( $btn )
     $("textarea.param").each( function() { add_param($(this)) ; } ) ;
     $("select.param").each( function() { add_param($(this)) ; } ) ;
 
-    // check for mandatory parameters
+    // figore out which template to use
     var template_id = $btn.data( "id" ) ;
+    if ( template_id === "ob_setup_1" ) {
+        template_id = "ob_setup" ;
+        params.OB_SETUP = params.OB_SETUP_1 ;
+        params.OB_SETUP_COLOR = gNationalities[params.PLAYER_1].ob_colors[0] ;
+        params.OB_SETUP_COLOR_2 = gNationalities[params.PLAYER_1].ob_colors[1] ;
+    }
+    else if ( template_id === "ob_setup_2" ) {
+        template_id = "ob_setup" ;
+        params.OB_SETUP = params.OB_SETUP_2 ;
+        params.OB_SETUP_COLOR = gNationalities[params.PLAYER_2].ob_colors[0] ;
+        params.OB_SETUP_COLOR_2 = gNationalities[params.PLAYER_2].ob_colors[1] ;
+    }
+
+    // check for mandatory parameters
     if ( template_id in _MANDATORY_PARAMS ) {
         var missing_params = [] ;
         for ( var param_id in _MANDATORY_PARAMS[template_id] ) {
