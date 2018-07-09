@@ -67,10 +67,10 @@ $(document).ready( function () {
         showErrorMsg( "Can't get the default templates:<pre>" + escapeHTML(errorMsg) + "</pre>" ) ;
     } ) ;
 
-    // FUDGE! CSS grids don't seem to update their layout vertically when
-    // inside a jQuery tab control - we do it manually :-/
     var prevHeight = [] ;
     $(window).resize( function() {
+        // FUDGE! CSS grids don't seem to update their layout vertically when
+        // inside a jQuery tab control - we do it manually :-/
         $(".ui-tabs-panel").each( function() {
             $(this).css( "padding", "5px" ) ; // FUDGE! doesn't work when set in the CSS :-/
             var id = $(this).attr( "id" ) ;
@@ -81,6 +81,12 @@ $(document).ready( function () {
                 prevHeight[id] = h ;
             }
         } ) ;
+        // FUDGE! Some panels are rendering with the wrong width in IE :-/
+        if ( isIE() ) {
+            var set_width = function($elem) { $elem.width( $elem.parent().width() ) ; } ;
+            set_width( $("#panel-vc textarea") ) ;
+            set_width( $("#panel-ssr .content") ) ;
+        }
     } ) ;
     $(window).trigger( "resize" ) ;
 

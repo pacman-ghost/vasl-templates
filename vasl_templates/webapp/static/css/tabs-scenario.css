@@ -1,0 +1,83 @@
+/* -------------------------------------------------------------------- */
+
+#panel-scenario {
+    display: grid ; display: -ms-grid ;
+    grid-template-columns: 5em 1fr ; -ms-grid-columns: 5em 1fr ;
+}
+/* FUDGE! IE hackamathon follows (nb: <label> doesn't work, we use <div> for labels instead :-/) */
+#panel-scenario div[data-labelfor="scenario_name"] { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
+#panel-scenario input[name="scenario_name"] { -ms-grid-row: 1 ; -ms-grid-column: 2 ; }
+#panel-scenario div[data-labelfor="scenario_location"] { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
+#panel-scenario input[name="scenario_location"] { -ms-grid-row: 2 ; -ms-grid-column: 2 ; }
+#panel-scenario div[data-labelfor="scenario_date"] { -ms-grid-row: 3 ; -ms-grid-column: 1 ; }
+#panel-scenario div.scenario_date { -ms-grid-row: 3 ; -ms-grid-column: 2 ; }
+
+#panel-scenario input[type="button"] { float: right ; }
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+#panel-players {
+    margin-top: 1em ;
+    display: grid ; display: -ms-grid ;
+    grid-template-columns: 5em 1fr 3em 3em ; -ms-grid-columns: 5em 1fr 3em 3em ;
+}
+/* FUDGE! IE hackamathon follows (nb: <label> doesn't work, we use <div> for labels instead :-/) */
+#panel-players div[data-labelfor="elr"] { -ms-grid-row: 1 ; -ms-grid-column: 3 ; }
+#panel-players div[data-labelfor="san"] { -ms-grid-row: 1 ; -ms-grid-column: 4 ; }
+#panel-players div[data-labelfor="player_1"] { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
+#panel-players select[name="player_1"] { -ms-grid-row: 2 ; -ms-grid-column: 2 ; }
+#panel-players select[name="player_1_elr"] { -ms-grid-row: 2 ; -ms-grid-column: 3 ; }
+#panel-players select[name="player_1_san"] { -ms-grid-row: 2 ; -ms-grid-column: 4 ; }
+#panel-players div[data-labelfor="player_2"] { -ms-grid-row: 3 ; -ms-grid-column: 1 ; }
+#panel-players select[name="player_2"] { -ms-grid-row: 3 ; -ms-grid-column: 2 ; }
+#panel-players select[name="player_2_elr"] { -ms-grid-row: 3 ; -ms-grid-column: 3 ; }
+#panel-players select[name="player_2_san"] { -ms-grid-row: 3 ; -ms-grid-column: 4 ; }
+#panel-players input[data-id="players"] { -ms-grid-row: 4 ; -ms-grid-column: 4 ; }
+
+#panel-players div[data-labelfor="elr"] { margin-left: 0.25em ; }
+#panel-players div[data-labelfor="san"] { margin-left: 0.25em ; }
+#panel-players select[name="player_1"] { margin-right: 0.5em ; }
+#panel-players select[name="player_2"] { margin-right: 0.5em ; }
+#panel-players select[name="player_1_elr"] { margin-right: 0.25em ; }
+#panel-players select[name="player_2_elr"] { margin-right: 0.25em ; }
+#panel-players input[data-id="players"] { margin-top: 0.25em ; }
+
+/* -------------------------------------------------------------------- */
+
+#panel-vc {
+    height: 100% ;
+    display: grid ; display: -ms-grid ;
+    grid-template-rows: 1fr 2em ; -ms-grid-rows: 1fr 2em ;
+}
+/* FUDGE! IE hackamathon follows (nb: <label> doesn't work, we use <div> for labels instead :-/) */
+#panel-vc .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
+
+#panel-vc textarea { width: 100% ; height: 100% ; resize: none ; }
+#panel-vc input[type="button"] { height: 1.5em ; float: right ; }
+
+/* -------------------------------------------------------------------- */
+
+#panel-ssr {
+    height: 100% ;
+    display: grid ; display: -ms-grid ;
+    grid-template-rows: 1fr 2em ; -ms-grid-rows: 1fr 2em ;
+}
+/* FUDGE! IE hackamathon follows (nb: <label> doesn't work, we use <div> for labels instead :-/) */
+#panel-ssr .content { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
+#panel-ssr .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
+
+#panel-ssr #ssr-sortable { width:100% ; height: calc(100% - 1.5em) ; font-size: 80% ; }
+#panel-ssr #ssr-sortable { list-style-type: none ; margin: 0 ; padding: 0 ; }
+#panel-ssr #ssr-sortable li {
+    margin-bottom: 2px ; padding: 5px ;
+    border: 1px dotted #333 ; background: #eee ;
+}
+#panel-ssr #ssr-sortable li.highlighted { background: #48c8ff ; }
+#panel-ssr #ssr-sortable li:hover { cursor: pointer ; }
+
+#panel-ssr input#add-ssr { float: left ; }
+#panel-ssr #ssr-trash { margin-left: 5px ; float: left ; height: 1.5em ;  }
+#panel-ssr input[data-id="ssr"] { float: right ; }
+
+#ssr-hint { width:100% ; height: calc(100% - 1.5em) ; font-size: 80% ; font-style: italic ; }
+#ssr-hint p { margin-bottom: 1em ; }

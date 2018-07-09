@@ -8,6 +8,8 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='jquery-ui/jquery-ui.min.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='growl/jquery.growl.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/main.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/tabs-scenario.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/tabs-ob.css')}}" />
 </head>
 
 <body>
@@ -21,7 +23,7 @@
 </ul>
 
 <div id="tabs-scenario">
-    <fieldset> <legend>Scenario</legend>
+    <fieldset class="tl"> <legend>Scenario</legend>
         <div id="panel-scenario">
             <div class="label" data-labelfor="scenario_name">Name:</div> <input name="scenario_name" type="text" class="param">
             <div class="label" data-labelfor="scenario_location">Location:</div> <input name="scenario_location" type="text" class="param">
@@ -38,53 +40,65 @@
             <div></div> <div></div> <div></div> <input type="button" class="generate" data-id="players" value="Go">
         </div>
     </fieldset>
-    <div id="panel-vc">
-        <fieldset> <legend>Victory Conditions</legend>
+    <fieldset class="tr"> <legend>Victory Conditions</legend>
+        <div id="panel-vc">
             <textarea name="victory_conditions" type="text" class="param"></textarea>
-            <input type="button" class="generate" data-id="victory_conditions" value="Go">
-        </fieldset>
-    </div>
-    <div id="panel-ssr">
-        <fieldset> <legend>SSR's</legend>
-            <div id="ssr-hint"> <p>Click on the "+" below to add a new SSR, double-click on an SSR to edit it. <p>To re-order the SSR's, use the mouse to drag them around. <p>Ctrl-click on an SSR to delete it, or drag it into the trashcan below. </div>
-            <ul id="ssr-sortable" style="display:none;"></ul>
-            <input type="button" id="add-ssr" value="+"> <img id="ssr-trash" src="{{url_for('static',filename='images/trash.png')}}"> <input type="button" class="generate" data-id="ssr" value="Go">
-        </fieldset>
-    </div>
+            <div class="footer">
+                <input type="button" class="generate" data-id="victory_conditions" value="Go">
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="br"> <legend>SSR's</legend>
+        <div id="panel-ssr">
+            <div class="content">
+                <div id="ssr-hint"> <p>Click on the "+" below to add a new SSR, double-click on an SSR to edit it. <p>To re-order the SSR's, use the mouse to drag them around. <p>Ctrl-click on an SSR to delete it, or drag it into the trashcan below. </div>
+                <ul id="ssr-sortable" style="display:none;"></ul>
+            </div>
+            <div class="footer">
+                <input type="button" id="add-ssr" value="+">
+                <img id="ssr-trash" src="{{url_for('static',filename='images/trash.png')}}">
+                <input type="button" class="generate" data-id="ssr" value="Go">
+            </div>
+        </div>
+    </fieldset>
 </div>
 
 <div id="tabs-ob1">
-    <div id="panel-obsetup1">
-        <fieldset> <legend>OB setup</legend>
+    <fieldset class="tl"> <legend>OB setup</legend>
+        <div id="panel-obsetup1">
             <textarea name="ob_setup_1" type="text" class="param"></textarea>
-            <input type="button" class="generate" data-id="ob_setup_1" value="Go">
-        </fieldset>
-    </div>
-    <div id="panel-obvehicles1">
-        <fieldset> <legend>Vehicles</legend>
-        </fieldset>
-    </div>
-    <div id="panel-obordnance1">
-        <fieldset> <legend>Ordnance</legend>
-        </fieldset>
-    </div>
+            <div class="footer">
+                <input type="button" class="generate" data-id="ob_setup_1" value="Go">
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="r"> <legend>Vehicles</legend>
+        <div id="panel-obvehicles1">
+        </div>
+    </fieldset>
+    <fieldset class="bl"> <legend>Ordnance</legend>
+        <div id="panel-obordnance1">
+        </div>
+    </fieldset>
 </div>
 
 <div id="tabs-ob2">
-    <div id="panel-obsetup2">
-        <fieldset> <legend>OB setup</legend>
+    <fieldset class="tl"> <legend>OB setup</legend>
+        <div id="panel-obsetup2">
             <textarea name="ob_setup_2" type="text" class="param"></textarea>
-            <input type="button" class="generate" data-id="ob_setup_2" value="Go">
-        </fieldset>
-    </div>
-    <div id="panel-obvehicles2">
-        <fieldset> <legend>Vehicles</legend>
-        </fieldset>
-    </div>
-    <div id="panel-obordnance2">
-        <fieldset> <legend>Ordnance</legend>
-        </fieldset>
-    </div>
+            <div class="footer">
+                <input type="button" class="generate" data-id="ob_setup_2" value="Go">
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="r"> <legend>Vehicles</legend>
+        <div id="panel-obvehicles2">
+        </div>
+    </fieldset>
+    <fieldset class="bl"> <legend>Ordnance</legend>
+        <div id="panel-obordnance2">
+        </div>
+    </fieldset>
 </div>
 
 <div id="tabs-other">

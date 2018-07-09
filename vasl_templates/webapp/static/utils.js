@@ -141,3 +141,13 @@ function escapeHTML( val )
     // escape HTML
     return new Option(val).innerHTML ;
 }
+
+function isIE()
+{
+    // check if we're running in IE :-/
+    if ( navigator.userAgent.indexOf("MSIE") !== -1 )
+        return true ;
+    if ( navigator.appVersion.indexOf("Trident/") !== -1 )
+        return true ;
+    return false ;
+}
