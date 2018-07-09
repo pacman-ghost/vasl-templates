@@ -33,6 +33,37 @@ function copyToClipboard( val )
 
 // --------------------------------------------------------------------
 
+function ask( title, msg, args )
+{
+    // ask a question
+    var $dlg = $("#ask") ;
+    $dlg.html( msg ) ;
+    $dlg.dialog( {
+        modal: true,
+        title: title,
+        buttons: {
+            OK: function() {
+                $(this).dialog( "close" ) ;
+                if ( "ok" in args )
+                    args.ok() ;
+            },
+            Cancel: function() {
+                $(this).dialog( "close" ) ;
+                if ( "cancel" in args )
+                    args.cancel() ;
+            },
+        },
+        close: function() {
+            if ( "close" in args )
+                args.close() ;
+        },
+    } ) ;
+
+    return false ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 function showInfoMsg( msg )
 {
     // show the informational message
@@ -40,7 +71,7 @@ function showInfoMsg( msg )
         style: "notice",
         title: null,
         message: msg,
-        location: "br",
+        location: "tr",
     } ) ;
     storeMsgForTestSuite( "_last-info_", msg ) ;
 }
@@ -54,7 +85,7 @@ function showWarningMsg( msg )
         style: "warning",
         title: null,
         message: msg,
-        location: "br",
+        location: "tr",
     } ) ;
     storeMsgForTestSuite( "_last-warning_", msg ) ;
 }
@@ -68,7 +99,7 @@ function showErrorMsg( msg )
         style: "error",
         title: null,
         message: msg,
-        location: "br",
+        location: "tr",
         fixed: true,
     } ) ;
     storeMsgForTestSuite( "_last-error_", msg ) ;

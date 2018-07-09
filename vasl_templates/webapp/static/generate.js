@@ -29,6 +29,12 @@ function generate_snippet( $btn )
         params.OB_SETUP_COLOR = gNationalities[params.PLAYER_2].ob_colors[0] ;
         params.OB_SETUP_COLOR_2 = gNationalities[params.PLAYER_2].ob_colors[1] ;
     }
+    else if ( template_id === "ssr" ) {
+        params.SSR = [] ;
+        $("#ssr-sortable li").each( function() {
+            params.SSR.push( $(this).text() ) ;
+        } ) ;
+    }
 
     // check for mandatory parameters
     if ( template_id in _MANDATORY_PARAMS ) {

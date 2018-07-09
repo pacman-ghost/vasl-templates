@@ -12,6 +12,20 @@ $(document).ready( function () {
     var navHeight = $("#tabs .ui-tabs-nav").height() ;
     $("input[name='scenario_name']").focus().focus() ;
 
+    // initialize
+    $("#ssr-sortable").sortable( { connectWith: "#ssr-trash", cursor: "move" } ) ;
+    init_ssr( $("#ssr-sortable li") ) ;
+    $("#add-ssr").click( add_ssr ) ;
+    $("#ssr-trash").sortable( {
+        receive: function( evt, ui ) { ui.item.remove() ; update_ssr_hint() ; }
+    } ) ;
+    $("#edit-ssr textarea").keydown( function(evt) {
+        if ( evt.keyCode == 13 && evt.ctrlKey ) {
+            $(".ui-dialog.edit-ssr button:contains('OK')").click() ;
+            evt.preventDefault() ;
+        }
+    } ) ;
+
     // load the ELR's and SAN's
     var buf = [] ;
     for ( var i=0 ; i <= 5 ; ++i ) // nb: A19.1: ELR is 0-5

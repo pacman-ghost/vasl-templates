@@ -45,7 +45,10 @@
         </fieldset>
     </div>
     <div id="panel-ssr">
-        <fieldset> <legend>SSR</legend>
+        <fieldset> <legend>SSR's</legend>
+            <div id="ssr-hint"> <p>Click on the "+" below to add a new SSR, double-click on an SSR to edit it. <p>To re-order the SSR's, use the mouse to drag them around. <p>Ctrl-click on an SSR to delete it, or drag it into the trashcan below. </div>
+            <ul id="ssr-sortable" style="display:none;"></ul>
+            <input type="button" id="add-ssr" value="+"> <img id="ssr-trash" src="{{url_for('static',filename='images/trash.png')}}"> <input type="button" class="generate" data-id="ssr" value="Go">
         </fieldset>
     </div>
 </div>
@@ -91,6 +94,9 @@
     </div>
 </div>
 
+<div id="edit-ssr" style="display:none;"> <b>Enter the SSR content:</b> <textarea></textarea> </div>
+<div id="ask" style="display:none;"></div>
+
 </div>
 </body>
 
@@ -104,6 +110,7 @@ gGetNationalitiesUrl = "{{url_for('get_nationalities')}}" ;
 </script>
 <script src="{{url_for('static',filename='main.js')}}"></script>
 <script src="{{url_for('static',filename='generate.js')}}"></script>
+<script src="{{url_for('static',filename='ssr.js')}}"></script>
 <script src="{{url_for('static',filename='utils.js')}}"></script>
 
 </html>
