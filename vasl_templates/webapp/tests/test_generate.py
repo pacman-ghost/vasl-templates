@@ -61,9 +61,9 @@ def test_scenario_snippets( webapp, webdriver ):
     _test_snippet( webdriver, "scenario", {
         "scenario_name": "my scenario",
         "scenario_location": "here",
-        "scenario_date": "now",
+        "scenario_date": "01/02/1942",
     },
-        "name = [my scenario] | loc = [here] | date = [now]",
+        'name = [my scenario] | loc = [here] | date = [01/02/1942] aka "2 January, 1942"',
         None
     )
 

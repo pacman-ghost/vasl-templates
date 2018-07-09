@@ -4,10 +4,20 @@ var _MANDATORY_PARAMS = {
     scenario: { "SCENARIO_NAME": "scenario name", "SCENARIO_DATE": "scenario date" },
 } ;
 
+var _MONTH_NAMES = [ // nb: we assume English :-/
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+] ;
+
 // --------------------------------------------------------------------
 
 function generate_snippet( $btn )
 {
+    // initialize
+    storeMsgForTestSuite( "_last-info_", "" ) ;
+    storeMsgForTestSuite( "_last-warning_", "" ) ;
+    storeMsgForTestSuite( "_last-error_", "" ) ;
+
     // collect all the template parameters
     var params = {} ;
     add_param = function($elem) { params[ $elem.attr("name").toUpperCase() ] = $elem.val() ; } ;
@@ -15,7 +25,7 @@ function generate_snippet( $btn )
     $("textarea.param").each( function() { add_param($(this)) ; } ) ;
     $("select.param").each( function() { add_param($(this)) ; } ) ;
 
-    // figore out which template to use
+    // figure out which template to use
     var template_id = $btn.data( "id" ) ;
     if ( template_id === "ob_setup_1" ) {
         template_id = "ob_setup" ;
@@ -50,6 +60,60 @@ function generate_snippet( $btn )
             buf.push( "</ul>" ) ;
             showWarningMsg( buf.join("") ) ;
         }
+    }
+
+    // extract the scenario date components
+    var scenario_date = $("input[name='scenario_date']").datepicker( "getDate" ) ;
+    if ( scenario_date ) {
+        params.SCENARIO_DAY_OF_MONTH = scenario_date.getDate() ;
+        params.SCENARIO_MONTH = 1 + scenario_date.getMonth() ;
+        params.SCENARIO_MONTH_NAME = _MONTH_NAMES[scenario_date.getMonth()] ;
+        params.SCENARIO_YEAR = scenario_date.getFullYear() ;
+    }
+
+    // generate PF parameters
+    if ( params.SCENARIO_YEAR < 1944 || (params.SCENARIO_YEAR == 1944 && params.SCENARIO_MONTH < 6) )
+        params.PF_RANGE = 1 ;
+    else if ( params.SCENARIO_YEAR == 1944 )
+        params.PF_RANGE = 2 ;
+    else
+        params.PF_RANGE = 3 ;
+    if ( params.SCENARIO_YEAR < 1943 || (params.SCENARIO_YEAR == 1943 && params.SCENARIO_MONTH <= 9) ) {
+        params.PF_CHECK_DRM = "+1" ;
+        params.PF_CHECK_DR = 4 ;
+    } else if ( params.SCENARIO_YEAR >= 1945 ) {
+        params.PF_CHECK_DRM = "-1" ;
+        params.PF_CHECK_DR = 4 ;
+    } else {
+        params.PF_CHECK_DRM = "" ;
+        params.PF_CHECK_DR = 3 ;
+    }
+    if ( template_id === "pf" ) {
+        if ( params.SCENARIO_DATE === "" || params.SCENARIO_YEAR <= 1942 || (params.SCENARIO_YEAR == 1943 && params.SCENARIO_MONTH <= 9) )
+            showWarningMsg( "PF are only available after September 1943." ) ;
+    }
+
+    // generate BAZ parameters
+    if ( params.SCENARIO_YEAR >= 1945 ) {
+        params.BAZ_TYPE = 45 ;
+        params.BAZ_BREAKDOWN = 11 ;
+        params.BAZ_TOKILL = 16 ;
+        params.BAZ_WP = 6 ;
+        params.BAZ_RANGE = 5 ;
+    } else if ( params.SCENARIO_YEAR >= 1944 ) {
+        params.BAZ_TYPE = 44 ;
+        params.BAZ_BREAKDOWN = 11 ;
+        params.BAZ_TOKILL = 16 ;
+        params.BAZ_RANGE = 4 ;
+    } else if ( params.SCENARIO_YEAR == 1943 || (params.SCENARIO_YEAR == 1942 && params.SCENARIO_MONTH >= 11) ) {
+        params.BAZ_TYPE = 43 ;
+        params.BAZ_BREAKDOWN = 10 ;
+        params.BAZ_TOKILL = 13 ;
+        params.BAZ_RANGE = 4 ;
+    }
+    if ( template_id === "baz" ) {
+        if ( params.SCENARIO_DATE === "" || params.SCENARIO_YEAR <= 1941 || (params.SCENARIO_YEAR == 1942 && params.SCENARIO_MONTH < 11) )
+        showWarningMsg( "BAZ are only available from November 1942." ) ;
     }
 
     // check that the players have different nationalities

@@ -1,14 +1,19 @@
-#panel-obsetup1, #panel-obsetup2 {
+.panel-obsetup {
     height: 100% ;
     display: grid ; display: -ms-grid ;
     grid-template-rows: 1fr 2em ; -ms-grid-rows: 1fr 2em ;
     grid-template-columns: 1fr ; -ms-grid-columns: 1fr ;
 }
 /* FUDGE! IE hackamathon follows (nb: <label> doesn't work, we use <div> for labels instead :-/) */
-#panel-obsetup1 .footer, #panel-obsetup2 .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
+.panel-obsetup .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
 
-#panel-obsetup1 textarea { width: 100% ; height: 100% ; resize: none ; }
-#panel-obsetup1 input[type="button"] { float: right ; }
-
-#panel-obsetup2 textarea { width: 100% ; height: 100% ; resize: none ; }
-#panel-obsetup2 input[type="button"] { float: right ; }
+.panel-obsetup textarea { width: 100% ; height: 100% ; resize: none ; }
+.panel-obsetup input[type="button"][data-id='mol'] { float: left ; }
+.panel-obsetup input[type="button"][data-id='mol-p'] { float: left ; }
+.panel-obsetup input[type="button"][data-id='pf'] { float: left ; }
+.panel-obsetup input[type="button"][data-id='psk'] { float: left ; }
+.panel-obsetup input[type="button"][data-id='atmm'] { float: left ; }
+.panel-obsetup input[type="button"][data-id='baz'] { float: left ; }
+.panel-obsetup input[type="button"][data-id='piat'] { float: left ; }
+.panel-obsetup input[type="button"][data-id='ob_setup_1'] { float: right ; }
+.panel-obsetup input[type="button"][data-id='ob_setup_2'] { float: right ; }

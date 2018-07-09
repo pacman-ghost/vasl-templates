@@ -1,6 +1,13 @@
 var gNationalities = {} ;
 var gDefaultTemplates = {} ;
 
+var _NATIONALITY_SPECIFIC_BUTTONS = {
+    "russian": [ "mol", "mol-p" ],
+    "german": [ "pf", "psk", "atmm" ],
+    "american": [ "baz" ],
+    "british": [ "piat" ],
+} ;
+
 // --------------------------------------------------------------------
 
 $(document).ready( function () {
@@ -11,6 +18,13 @@ $(document).ready( function () {
     } ).show() ;
     var navHeight = $("#tabs .ui-tabs-nav").height() ;
     $("input[name='scenario_name']").focus().focus() ;
+
+    // initialize
+    $("input[name='scenario_date']").datepicker( {
+        showAnim: "slideDown",
+        changeMonth: true, changeYear: true,
+        defaultDate: "01/01/1940",
+    } ) ;
 
     // initialize
     $("#ssr-sortable").sortable( { connectWith: "#ssr-trash", cursor: "move" } ) ;
@@ -106,7 +120,16 @@ function on_player_change( $select )
     var player_id = name.substring( name.length-1 ) ;
 
     // update the tab label
-    var nat = $select.find( "option:selected" ).val() ;
+    var player_nat = $select.find( "option:selected" ).val() ;
     var $elem = $("#tabs .ui-tabs-nav a[href='#tabs-ob" + player_id + "']") ;
-    $elem.text( gNationalities[nat].display_name + " OB" ) ;
+    $elem.text( gNationalities[player_nat].display_name + " OB" ) ;
+
+    // show/hide the nationality-specific buttons
+    for ( var nat in _NATIONALITY_SPECIFIC_BUTTONS ) {
+        for ( var i=0 ; i < _NATIONALITY_SPECIFIC_BUTTONS[nat].length ; ++i ) {
+            var button_id = _NATIONALITY_SPECIFIC_BUTTONS[nat][i] ;
+            $elem = $( "#panel-obsetup" + player_id + " input[type='button'][data-id='" + button_id + "']" ) ;
+            $elem.css( "display", nat == player_nat ? "block" : "none" ) ;
+        }
+    }
 }
