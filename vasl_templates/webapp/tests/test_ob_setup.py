@@ -55,6 +55,18 @@ def test_ob_setup( webapp, webdriver ):
     btn2.click()
     assert get_clipboard() == "[setup there.] (col=[OBCOL:french/OBCOL2:french])"
 
+    # set the snippet widths and generate the snippets again
+    select_ob_tab( 1 )
+    elem = find_child( webdriver, "input[name='ob_setup_width_1']" )
+    elem.send_keys( "100px" )
+    btn1.click()
+    assert get_clipboard() == "[setup here.] (col=[OBCOL:british/OBCOL2:british]) (width=[100px])"
+    select_ob_tab( 2 )
+    elem = find_child( webdriver, "input[name='ob_setup_width_2']" )
+    elem.send_keys( "200px" )
+    btn2.click()
+    assert get_clipboard() == "[setup there.] (col=[OBCOL:french/OBCOL2:french]) (width=[200px])"
+
 # ---------------------------------------------------------------------
 
 def test_nationality_specific( webapp, webdriver ):

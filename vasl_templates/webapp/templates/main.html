@@ -28,9 +28,13 @@
             <div class="label" data-labelfor="scenario_name">Name:</div> <input name="scenario_name" type="text" class="param">
             <div class="label" data-labelfor="scenario_location">Location:</div> <input name="scenario_location" type="text" class="param">
             <div class="label" data-labelfor="scenario_date">Date:</div>
-            <div class="scenario_date">
+            <div class="last_row">
                 <input name="scenario_date" type="text" size="10" class="param">
-                <input type="button" class="generate" data-id="scenario" value="Go">
+                <div class="r">
+                    <label for="scenario_width">Width:</label>
+                    <input type="text" class="param" name="scenario_width" size="5">
+                    <input type="button" class="generate" data-id="scenario" value="Go">
+                </div>
             </div>
         </div>
         <div id="panel-players">
@@ -44,6 +48,8 @@
         <div id="panel-vc">
             <textarea name="victory_conditions" type="text" class="param"></textarea>
             <div class="footer">
+                <label for="victory_conditions_width">Width:</label>
+                <input type="text" class="param" name="victory_conditions_width" size="5">
                 <input type="button" class="generate" data-id="victory_conditions" value="Go">
             </div>
         </div>
@@ -55,8 +61,12 @@
                 <ul id="ssr-sortable" style="display:none;"></ul>
             </div>
             <div class="footer">
-                <input type="button" id="add-ssr" value="+">
-                <img id="ssr-trash" src="{{url_for('static',filename='images/trash.png')}}">
+                <div class="l">
+                    <input type="button" id="add-ssr" value="+">
+                    <img id="ssr-trash" src="{{url_for('static',filename='images/trash.png')}}">
+                </div>
+                <label for="ssr_width">Width:</label>
+                <input type="text" class="param" name="ssr_width" size="5">
                 <input type="button" class="generate" data-id="ssr" value="Go">
             </div>
         </div>
@@ -76,6 +86,10 @@
                 <input type="button" class="generate" data-id="baz" value="BAZ">
                 <input type="button" class="generate" data-id="piat" value="PIAT">
                 <input type="button" class="generate" data-id="ob_setup_1" value="Go">
+                <div class="r">
+                    <label for="ob_setup_width_1">Width:</label>
+                    <input type="text" class="param" name="ob_setup_width_1" size="5">
+                </div>
             </div>
         </div>
     </fieldset>
@@ -102,6 +116,10 @@
                 <input type="button" class="generate" data-id="baz" value="BAZ">
                 <input type="button" class="generate" data-id="ob_setup_2" value="Go">
                 <input type="button" class="generate" data-id="piat" value="PIAT">
+                <div class="r">
+                    <label for="ob_setup_width_2">Width:</label>
+                    <input type="text" class="param" name="ob_setup_width_2" size="5">
+                </div>
             </div>
         </div>
     </fieldset>

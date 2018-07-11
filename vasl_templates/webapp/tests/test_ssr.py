@@ -36,12 +36,14 @@ def test_ssr( webapp, webdriver ):
         btn.click()
         # check the generated snippet
         check_snippet()
-    def check_snippet():
+    def check_snippet( width=None ):
         """Check the generated SSR snippet."""
         btn = find_child( webdriver, "input[type='button'][data-id='ssr']" )
         btn.click()
         val = "\n".join( "(*) [{}]".format(e) for e in expected )
-        assert html.unescape(get_clipboard()) == val
+        if width:
+            val += "\nwidth = [{}]".format( width )
+        assert html.unescape( get_clipboard() ) == val
 
     # add an SSR and generate the SSR snippet
     add_ssr( "This is my first SSR." )
@@ -68,3 +70,8 @@ def test_ssr( webapp, webdriver ):
     ActionChains(webdriver).drag_and_drop( elem, trash ).perform()
     del expected[1]
     check_snippet()
+
+    # set the snippet width
+    elem = find_child( webdriver, "input[name='ssr_width']" )
+    elem.send_keys( "300px" )
+    check_snippet( "300px" )

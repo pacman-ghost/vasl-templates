@@ -6,7 +6,6 @@ from vasl_templates.webapp.tests.utils import get_clipboard, get_stored_msg, fin
 
 # ---------------------------------------------------------------------
 
-# initialize
 def _test_snippet( webdriver, template_id, params, expected, expected2 ):
     """Do a single test."""
 
@@ -87,6 +86,17 @@ def test_scenario_snippets( webapp, webdriver ):
         [ "scenario name", "scenario date" ],
     )
 
+    # generate a SCENARIO snippet with a snippet width
+    _test_snippet( webdriver, "scenario", {
+        "scenario_name": "test",
+        "scenario_location": "here",
+        "scenario_date": "01/02/1942",
+        "scenario_width": "20em",
+    },
+        'name = [test] | loc = [here] | date = [01/02/1942] aka "2 January, 1942" | width = [20em]',
+        None
+    )
+
 # ---------------------------------------------------------------------
 
 def test_vc_snippets( webapp, webdriver ):
@@ -99,15 +109,24 @@ def test_vc_snippets( webapp, webdriver ):
     _test_snippet( webdriver, "victory_conditions", {
         "victory_conditions": "Kill 'Em All!",
     },
-        "VC: Kill 'Em All!",
+        "VC: [Kill 'Em All!]",
         None
     )
 
-    # generate a VC snippet
+    # generate an empty VC snippet
     _test_snippet( webdriver, "victory_conditions", {
         "victory_conditions": "",
     },
-        "VC:",
+        "VC: []",
+        None
+    )
+
+    # generate a VC snippet with a width
+    _test_snippet( webdriver, "victory_conditions", {
+        "victory_conditions": "Kill 'Em All!",
+        "victory_conditions_width": "100px",
+    },
+        "VC: [Kill 'Em All!] ; width=[100px]",
         None
     )
 

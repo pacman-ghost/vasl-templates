@@ -10,9 +10,10 @@
 #panel-scenario div[data-labelfor="scenario_location"] { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
 #panel-scenario input[name="scenario_location"] { -ms-grid-row: 2 ; -ms-grid-column: 2 ; }
 #panel-scenario div[data-labelfor="scenario_date"] { -ms-grid-row: 3 ; -ms-grid-column: 1 ; }
-#panel-scenario div.scenario_date { -ms-grid-row: 3 ; -ms-grid-column: 2 ; }
+#panel-scenario div.last_row { -ms-grid-row: 3 ; -ms-grid-column: 2 ; }
 
-#panel-scenario input[type="button"] { float: right ; }
+#panel-scenario .last_row .r { display: block-inline ; float: right ; font-size: 75% ; }
+#panel-scenario input[data-id="scenario"] { height: 2em ; }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
@@ -53,7 +54,8 @@
 #panel-vc .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
 
 #panel-vc textarea { width: 100% ; height: 100% ; resize: none ; }
-#panel-vc input[type="button"] { height: 1.5em ; float: right ; }
+#panel-vc .footer { text-align: right ; font-size: 75% ; }
+#panel-vc input[data-id="victory_conditions"] { height: 2em ; }
 
 /* -------------------------------------------------------------------- */
 
@@ -75,9 +77,9 @@
 #panel-ssr #ssr-sortable li.highlighted { background: #48c8ff ; }
 #panel-ssr #ssr-sortable li:hover { cursor: pointer ; }
 
-#panel-ssr input#add-ssr { float: left ; }
-#panel-ssr #ssr-trash { margin-left: 5px ; float: left ; height: 1.5em ;  }
-#panel-ssr input[data-id="ssr"] { float: right ; }
+#panel-ssr .footer { text-align: right ; font-size: 75% ; }
+#panel-ssr .footer .l { float: left ; }
+#panel-ssr #ssr-trash { margin-left: 5px ; height: 2em ;  }
 
 #ssr-hint { width:100% ; height: calc(100% - 1.5em) ; font-size: 80% ; font-style: italic ; }
 #ssr-hint p { margin-bottom: 1em ; }
