@@ -32,10 +32,10 @@ def test_ob_setup( webapp, webdriver ):
     textarea2.send_keys( "setup there." )
     btn2 = find_child( webdriver, "input[type='button'][data-id='ob_setup_2']" )
     btn2.click()
-    assert get_clipboard().strip() == "[setup there.] (col=[OBCOL:russian/OBCOL2:russian])"
+    assert get_clipboard() == "[setup there.] (col=[OBCOL:russian/OBCOL2:russian])"
     select_ob_tab( 1 )
     btn1.click()
-    assert get_clipboard().strip() == "[setup here.] (col=[OBCOL:german/OBCOL2:german])"
+    assert get_clipboard() == "[setup here.] (col=[OBCOL:german/OBCOL2:german])"
 
     # change the player nationalities and generate the OB SETUP snippets again
     elem = find_child( webdriver, "#tabs .ui-tabs-nav a[href='#tabs-scenario']" )
@@ -50,10 +50,10 @@ def test_ob_setup( webapp, webdriver ):
     sel.select_by_value( "french" )
     select_ob_tab( 1 )
     btn1.click()
-    assert get_clipboard().strip() == "[setup here.] (col=[OBCOL:british/OBCOL2:british])"
+    assert get_clipboard() == "[setup here.] (col=[OBCOL:british/OBCOL2:british])"
     select_ob_tab( 2 )
     btn2.click()
-    assert get_clipboard().strip() == "[setup there.] (col=[OBCOL:french/OBCOL2:french])"
+    assert get_clipboard() == "[setup there.] (col=[OBCOL:french/OBCOL2:french])"
 
 # ---------------------------------------------------------------------
 
@@ -83,7 +83,7 @@ def test_nationality_specific( webapp, webdriver ):
             elem.click()
             elem = find_child( webdriver, "input[type='button'][data-id='pf']" )
             elem.click()
-            assert get_clipboard().strip() == expected
+            assert get_clipboard() == expected
             # check if a warning was issued
             last_warning = get_stored_msg( "_last-warning_" ) or ""
             if warning:
@@ -109,7 +109,7 @@ def test_nationality_specific( webapp, webdriver ):
             elem.click()
             elem = find_child( webdriver, "input[type='button'][data-id='baz']" )
             elem.click()
-            assert get_clipboard().strip() == expected
+            assert get_clipboard() == expected
             # check if a warning was issued
             last_warning = get_stored_msg( "_last-warning_" ) or ""
             if expected == "BAZ: none":
@@ -157,7 +157,7 @@ def test_nationality_specific( webapp, webdriver ):
                 # make sure that the template works
                 elem.click()
                 if isinstance( expected[1], str ):
-                    assert get_clipboard().strip() == expected[1]
+                    assert get_clipboard() == expected[1]
                 elif isinstance( expected[1], types.FunctionType ):
                     expected[1]() #pylint: disable=not-callable
                 else:

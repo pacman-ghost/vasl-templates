@@ -41,7 +41,7 @@ def test_ssr( webapp, webdriver ):
         btn = find_child( webdriver, "input[type='button'][data-id='ssr']" )
         btn.click()
         val = "\n".join( "(*) [{}]".format(e) for e in expected )
-        assert html.unescape(get_clipboard().strip()) == val
+        assert html.unescape(get_clipboard()) == val
 
     # add an SSR and generate the SSR snippet
     add_ssr( "This is my first SSR." )

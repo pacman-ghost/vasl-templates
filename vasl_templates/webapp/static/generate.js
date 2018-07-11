@@ -137,6 +137,7 @@ function generate_snippet( $btn )
     // process the template
     try {
         val = func( params ) ;
+        val = val.trim() ;
     }
     catch( ex ) {
         showErrorMsg( "Can't process template <em>\"" + template_id + "\"</em>:<pre>" + escapeHTML(ex) + "</pre>" ) ;
