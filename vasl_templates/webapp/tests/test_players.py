@@ -26,7 +26,7 @@ def test_player_change( webapp, webdriver ):
     for player_no in [1,2]:
         player_id = _get_player( webdriver, player_no )
         elem = find_child( webdriver, "#tabs .ui-tabs-nav a[href='#tabs-ob{}']".format( player_no ) )
-        assert elem.text == "{} OB".format( nationalities[player_id]["display_name"] )
+        assert elem.text.strip() == "{} OB".format( nationalities[player_id]["display_name"] )
 
     # change player 1
     sel = Select(
@@ -34,7 +34,7 @@ def test_player_change( webapp, webdriver ):
     )
     sel.select_by_value( "finnish" )
     elem = find_child( webdriver, "#tabs .ui-tabs-nav a[href='#tabs-ob1']" )
-    assert elem.text == "{} OB".format( nationalities["finnish"]["display_name"] )
+    assert elem.text.strip() == "{} OB".format( nationalities["finnish"]["display_name"] )
 
     # change player 2
     sel = Select(
@@ -42,4 +42,4 @@ def test_player_change( webapp, webdriver ):
     )
     sel.select_by_value( "japanese" )
     elem = find_child( webdriver, "#tabs .ui-tabs-nav a[href='#tabs-ob2']" )
-    assert elem.text == "{} OB".format( nationalities["japanese"]["display_name"] )
+    assert elem.text.strip() == "{} OB".format( nationalities["japanese"]["display_name"] )

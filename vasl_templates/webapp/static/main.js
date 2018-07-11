@@ -122,7 +122,11 @@ function on_player_change( $select )
     // update the tab label
     var player_nat = $select.find( "option:selected" ).val() ;
     var $elem = $("#tabs .ui-tabs-nav a[href='#tabs-ob" + player_id + "']") ;
-    $elem.text( gNationalities[player_nat].display_name + " OB" ) ;
+    var image_url = gImagesBaseUrl + "/flags/" + player_nat + ".png" ;
+    $elem.html(
+        "<img src='" + image_url + "'>&nbsp;" +
+        "<span>" + escapeHTML(gNationalities[player_nat].display_name) + " OB</span>"
+    ) ;
 
     // show/hide the nationality-specific buttons
     for ( var nat in _NATIONALITY_SPECIFIC_BUTTONS ) {
