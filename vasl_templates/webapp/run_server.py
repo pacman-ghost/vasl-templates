@@ -20,8 +20,8 @@ for fspec in ["config","static","templates"] :
 # run the server
 from vasl_templates.webapp import app
 app.run(
-    host = "localhost",
+    host = app.config.get( "FLASK_HOST", "localhost" ),
     port = app.config["FLASK_PORT_NO"],
-    debug = True,
+    debug = app.config.get( "FLASK_DEBUG", False ),
     extra_files = extra_files
 )
