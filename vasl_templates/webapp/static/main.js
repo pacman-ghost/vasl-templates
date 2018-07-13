@@ -37,6 +37,25 @@ $(document).ready( function () {
     // all done - we can show the menu now
     $("#menu").show() ;
 
+    // dynamically create the OB2 tab from OB1
+    var $ob2 = $("#tabs-ob1").clone() ;
+    var adjustAttr = function( $elem, attrName ) {
+        var val = $elem.attr( attrName ) ;
+        if ( val && val.substring(val.length-1) === "1" )
+            $elem.attr( attrName, val.substring(0,val.length-1)+"2" ) ;
+    } ;
+    var fixupOB2 = function( $elem ) {
+        adjustAttr( $elem, "id" ) ;
+        adjustAttr( $elem, "name" ) ;
+        adjustAttr( $elem, "data-id" ) ;
+        adjustAttr( $elem, "for" ) ;
+        $elem.children().each( function() {
+            fixupOB2( $(this) ) ;
+        } ) ;
+    } ;
+    fixupOB2( $ob2 ) ;
+    $("#tabs-ob2").html( $ob2.html() ) ;
+
     // initialize
     $("#tabs").tabs( {
         heightStyle: "fill",
