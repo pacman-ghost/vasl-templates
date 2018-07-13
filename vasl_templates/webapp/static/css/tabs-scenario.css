@@ -5,11 +5,11 @@
     grid-template-columns: 5em 1fr ; -ms-grid-columns: 5em 1fr ;
 }
 /* FUDGE! IE hackamathon follows (nb: <label> doesn't work, we use <div> for labels instead :-/) */
-#panel-scenario div[data-labelfor="scenario_name"] { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
-#panel-scenario input[name="scenario_name"] { -ms-grid-row: 1 ; -ms-grid-column: 2 ; }
-#panel-scenario div[data-labelfor="scenario_location"] { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
-#panel-scenario input[name="scenario_location"] { -ms-grid-row: 2 ; -ms-grid-column: 2 ; }
-#panel-scenario div[data-labelfor="scenario_date"] { -ms-grid-row: 3 ; -ms-grid-column: 1 ; }
+#panel-scenario div[data-labelfor="SCENARIO_NAME"] { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
+#panel-scenario input[name="SCENARIO_NAME"] { -ms-grid-row: 1 ; -ms-grid-column: 2 ; }
+#panel-scenario div[data-labelfor="SCENARIO_LOCATION"] { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
+#panel-scenario input[name="SCENARIO_LOCATION"] { -ms-grid-row: 2 ; -ms-grid-column: 2 ; }
+#panel-scenario div[data-labelfor="SCENARIO_DATE"] { -ms-grid-row: 3 ; -ms-grid-column: 1 ; }
 #panel-scenario div.last_row { -ms-grid-row: 3 ; -ms-grid-column: 2 ; }
 
 #panel-scenario .last_row .r { display: block-inline ; float: right ; font-size: 75% ; }
@@ -23,24 +23,24 @@
     grid-template-columns: 5em 1fr 3em 3em ; -ms-grid-columns: 5em 1fr 3em 3em ;
 }
 /* FUDGE! IE hackamathon follows (nb: <label> doesn't work, we use <div> for labels instead :-/) */
-#panel-players div[data-labelfor="elr"] { -ms-grid-row: 1 ; -ms-grid-column: 3 ; }
-#panel-players div[data-labelfor="san"] { -ms-grid-row: 1 ; -ms-grid-column: 4 ; }
-#panel-players div[data-labelfor="player_1"] { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
-#panel-players select[name="player_1"] { -ms-grid-row: 2 ; -ms-grid-column: 2 ; }
-#panel-players select[name="player_1_elr"] { -ms-grid-row: 2 ; -ms-grid-column: 3 ; }
-#panel-players select[name="player_1_san"] { -ms-grid-row: 2 ; -ms-grid-column: 4 ; }
-#panel-players div[data-labelfor="player_2"] { -ms-grid-row: 3 ; -ms-grid-column: 1 ; }
-#panel-players select[name="player_2"] { -ms-grid-row: 3 ; -ms-grid-column: 2 ; }
-#panel-players select[name="player_2_elr"] { -ms-grid-row: 3 ; -ms-grid-column: 3 ; }
-#panel-players select[name="player_2_san"] { -ms-grid-row: 3 ; -ms-grid-column: 4 ; }
+#panel-players div[data-labelfor="ELR"] { -ms-grid-row: 1 ; -ms-grid-column: 3 ; }
+#panel-players div[data-labelfor="SAN"] { -ms-grid-row: 1 ; -ms-grid-column: 4 ; }
+#panel-players div[data-labelfor="PLAYER_1"] { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
+#panel-players select[name="PLAYER_1"] { -ms-grid-row: 2 ; -ms-grid-column: 2 ; }
+#panel-players select[name="PLAYER_1_ELR"] { -ms-grid-row: 2 ; -ms-grid-column: 3 ; }
+#panel-players select[name="PLAYER_1_SAN"] { -ms-grid-row: 2 ; -ms-grid-column: 4 ; }
+#panel-players div[data-labelfor="PLAYER_2"] { -ms-grid-row: 3 ; -ms-grid-column: 1 ; }
+#panel-players select[name="PLAYER_2"] { -ms-grid-row: 3 ; -ms-grid-column: 2 ; }
+#panel-players select[name="PLAYER_2_ELR"] { -ms-grid-row: 3 ; -ms-grid-column: 3 ; }
+#panel-players select[name="PLAYER_2_SAN"] { -ms-grid-row: 3 ; -ms-grid-column: 4 ; }
 #panel-players input[data-id="players"] { -ms-grid-row: 4 ; -ms-grid-column: 4 ; }
 
-#panel-players div[data-labelfor="elr"] { margin-left: 0.25em ; }
-#panel-players div[data-labelfor="san"] { margin-left: 0.25em ; }
-#panel-players select[name="player_1"] { margin-right: 0.5em ; }
-#panel-players select[name="player_2"] { margin-right: 0.5em ; }
-#panel-players select[name="player_1_elr"] { margin-right: 0.25em ; }
-#panel-players select[name="player_2_elr"] { margin-right: 0.25em ; }
+#panel-players div[data-labelfor="ELR"] { margin-left: 0.25em ; }
+#panel-players div[data-labelfor="SAN"] { margin-left: 0.25em ; }
+#panel-players select[name="PLAYER_1"] { margin-right: 0.5em ; }
+#panel-players select[name="PLAYER_2"] { margin-right: 0.5em ; }
+#panel-players select[name="PLAYER_1_ELR"] { margin-right: 0.25em ; }
+#panel-players select[name="PLAYER_2_ELR"] { margin-right: 0.25em ; }
 #panel-players input[data-id="players"] { margin-top: 0.25em ; }
 
 /* -------------------------------------------------------------------- */

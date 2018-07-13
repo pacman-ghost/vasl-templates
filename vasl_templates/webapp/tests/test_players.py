@@ -9,7 +9,7 @@ from vasl_templates.webapp.tests.utils import get_nationalities, find_child
 def _get_player( webdriver, player_id ): #pylint: disable=unused-argument
     """Get the nationality of the specified player."""
     sel = Select(
-        find_child( "select[name='player_{}']".format( player_id ) )
+        find_child( "select[name='PLAYER_{}']".format( player_id ) )
     )
     return sel.first_selected_option.get_attribute( "value" )
 
@@ -30,7 +30,7 @@ def test_player_change( webapp, webdriver ):
 
     # change player 1
     sel = Select(
-        find_child( "select[name='player_1']" )
+        find_child( "select[name='PLAYER_1']" )
     )
     sel.select_by_value( "finnish" )
     elem = find_child( "#tabs .ui-tabs-nav a[href='#tabs-ob1']" )
@@ -38,7 +38,7 @@ def test_player_change( webapp, webdriver ):
 
     # change player 2
     sel = Select(
-        find_child( "select[name='player_2']" )
+        find_child( "select[name='PLAYER_2']" )
     )
     sel.select_by_value( "japanese" )
     elem = find_child( "#tabs .ui-tabs-nav a[href='#tabs-ob2']" )

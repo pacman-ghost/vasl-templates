@@ -26,19 +26,19 @@ def test_scenario_persistence( webapp, webdriver ):
     # load the scenario fields
     scenario_params = {
         "scenario": {
-            "scenario_name": "my test scenario", "scenario_location": "right here", "scenario_date": "12/31/1945",
-            "scenario_width": "101",
-            "player_1": "british", "player_1_elr": "1", "player_1_san": "2",
-            "player_2": "french", "player_2_elr": "3", "player_2_san": "4",
-            "victory_conditions": "just do it!", "victory_conditions_width": "102",
-            "ssr": [ "This is an SSR.", "This is another SSR." ],
-            "ssr_width": "103",
+            "SCENARIO_NAME": "my test scenario", "SCENARIO_LOCATION": "right here", "SCENARIO_DATE": "12/31/1945",
+            "SCENARIO_WIDTH": "101",
+            "PLAYER_1": "british", "PLAYER_1_ELR": "1", "PLAYER_1_SAN": "2",
+            "PLAYER_2": "french", "PLAYER_2_ELR": "3", "PLAYER_2_SAN": "4",
+            "VICTORY_CONDITIONS": "just do it!", "VICTORY_CONDITIONS_WIDTH": "102",
+            "SSR": [ "This is an SSR.", "This is another SSR." ],
+            "SSR_WIDTH": "103",
         },
         "ob1": {
-            "ob_setup_1": "Player 1's OB", "ob_setup_width_1": "201",
+            "OB_SETUP_1": "Player 1's OB", "OB_SETUP_WIDTH_1": "201",
         },
         "ob2": {
-            "ob_setup_2": "Player 2's OB", "ob_setup_width_2": "301",
+            "OB_SETUP_2": "Player 2's OB", "OB_SETUP_WIDTH_2": "301",
         },
     }
     load_scenario_fields( scenario_params )
@@ -74,7 +74,7 @@ def test_scenario_persistence( webapp, webdriver ):
     for tab_id in scenario_params:
         select_tab( tab_id )
         for field,val in scenario_params[tab_id].items():
-            if field == "ssr":
+            if field == "SSR":
                 continue # nb: this requires special handling, we do it below
             elem = next( c for c in ( \
                 find_child( "{}[name='{}']".format(elem_type,field) ) \
@@ -85,7 +85,7 @@ def test_scenario_persistence( webapp, webdriver ):
             else:
                 assert elem.get_attribute("value") == val
     ssrs = _get_ssrs()
-    assert ssrs == scenario_params["scenario"]["ssr"]
+    assert ssrs == scenario_params["scenario"]["SSR"]
 
 # ---------------------------------------------------------------------
 

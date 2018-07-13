@@ -32,31 +32,35 @@
 <div id="tabs-scenario">
     <fieldset class="tl"> <legend>Scenario</legend>
         <div id="panel-scenario">
-            <div class="label" data-labelfor="scenario_name">Name:</div> <input name="scenario_name" type="text" class="param">
-            <div class="label" data-labelfor="scenario_location">Location:</div> <input name="scenario_location" type="text" class="param">
-            <div class="label" data-labelfor="scenario_date">Date:</div>
+            <div class="label" data-labelfor="SCENARIO_NAME">Name:</div> <input name="SCENARIO_NAME" type="text" class="param">
+            <div class="label" data-labelfor="SCENARIO_LOCATION">Location:</div> <input name="SCENARIO_LOCATION" type="text" class="param">
+            <div class="label" data-labelfor="SCENARIO_DATE">Date:</div>
             <div class="last_row">
-                <input name="scenario_date" type="text" size="10" class="param">
+                <input name="SCENARIO_DATE" type="text" size="10" class="param">
                 <div class="r">
-                    <label for="scenario_width">Width:</label>
-                    <input type="text" class="param" name="scenario_width" size="5">
+                    <label for="SCENARIO_WIDTH">Width:</label>
+                    <input type="text" class="param" name="SCENARIO_WIDTH" size="5">
                     <input type="button" class="generate" data-id="scenario" value="Go">
                 </div>
             </div>
         </div>
         <div id="panel-players">
-            <div></div> <div></div> <div class="label" data-labelfor="elr">ELR</div> <div class="label" data-labelfor="san">SAN</div>
-            <div class="label" data-labelfor="player_1">Player 1:</div> <select name="player_1" class="param"></select> <select name="player_1_elr" class="param"></select> <select name="player_1_san" class="param"></select>
-            <div class="label" data-labelfor="player_2">Player 2:</div> <select name="player_2" class="param"></select> <select name="player_2_elr" class="param"></select> <select name="player_2_san" class="param"></select>
+            <div></div> <div></div> <div class="label" data-labelfor="ELR">ELR</div> <div class="label" data-labelfor="SAN">SAN</div>
+            <div class="label" data-labelfor="PLAYER_1">Player 1:</div> <select name="PLAYER_1" class="param"></select>
+            <select name="PLAYER_1_ELR" class="param"></select>
+            <select name="PLAYER_1_SAN" class="param"></select>
+            <div class="label" data-labelfor="PLAYER_2">Player 2:</div> <select name="PLAYER_2" class="param"></select>
+            <select name="PLAYER_2_ELR" class="param"></select>
+            <select name="PLAYER_2_SAN" class="param"></select>
             <div></div> <div></div> <div></div> <input type="button" class="generate" data-id="players" value="Go">
         </div>
     </fieldset>
     <fieldset class="tr"> <legend>Victory Conditions</legend>
         <div id="panel-vc">
-            <textarea name="victory_conditions" type="text" class="param"></textarea>
+            <textarea name="VICTORY_CONDITIONS" type="text" class="param"></textarea>
             <div class="footer">
-                <label for="victory_conditions_width">Width:</label>
-                <input type="text" class="param" name="victory_conditions_width" size="5">
+                <label for="VICTORY_CONDITIONS_WIDTH">Width:</label>
+                <input type="text" class="param" name="VICTORY_CONDITIONS_WIDTH" size="5">
                 <input type="button" class="generate" data-id="victory_conditions" value="Go">
             </div>
         </div>
@@ -72,8 +76,8 @@
                     <input type="button" id="add-ssr" value="+">
                     <img id="ssr-trash" src="{{url_for('static',filename='images/trash.png')}}">
                 </div>
-                <label for="ssr_width">Width:</label>
-                <input type="text" class="param" name="ssr_width" size="5">
+                <label for="SSR_WIDTH">Width:</label>
+                <input type="text" class="param" name="SSR_WIDTH" size="5">
                 <input type="button" class="generate" data-id="ssr" value="Go">
             </div>
         </div>
@@ -83,7 +87,7 @@
 <div id="tabs-ob1">
     <fieldset class="tl"> <legend>OB setup</legend>
         <div id="panel-obsetup1" class="panel-obsetup">
-            <textarea name="ob_setup_1" type="text" class="param"></textarea>
+            <textarea name="OB_SETUP_1" type="text" class="param"></textarea>
             <div class="footer">
                 <input type="button" class="generate" data-id="mol" value="MOL">
                 <input type="button" class="generate" data-id="mol-p" value="MOL-P">
@@ -94,8 +98,8 @@
                 <input type="button" class="generate" data-id="piat" value="PIAT">
                 <input type="button" class="generate" data-id="ob_setup_1" value="Go">
                 <div class="r">
-                    <label for="ob_setup_width_1">Width:</label>
-                    <input type="text" class="param" name="ob_setup_width_1" size="5">
+                    <label for="OB_SETUP_WIDTH_1">Width:</label>
+                    <input type="text" class="param" name="OB_SETUP_WIDTH_1" size="5">
                 </div>
             </div>
         </div>
@@ -113,7 +117,7 @@
 <div id="tabs-ob2">
     <fieldset class="tl"> <legend>OB setup</legend>
         <div id="panel-obsetup2" class="panel-obsetup">
-            <textarea name="ob_setup_2" type="text" class="param"></textarea>
+            <textarea name="OB_SETUP_2" type="text" class="param"></textarea>
             <div class="footer">
                 <input type="button" class="generate" data-id="mol" value="MOL">
                 <input type="button" class="generate" data-id="mol-p" value="MOL-P">
@@ -125,7 +129,7 @@
                 <input type="button" class="generate" data-id="piat" value="PIAT">
                 <div class="r">
                     <label for="ob_setup_width_2">Width:</label>
-                    <input type="text" class="param" name="ob_setup_width_2" size="5">
+                    <input type="text" class="param" name="OB_SETUP_WIDTH_2" size="5">
                 </div>
             </div>
         </div>

@@ -37,7 +37,7 @@ function generate_snippet( $btn )
     }
 
     // extract the scenario date components
-    var scenario_date = $("input[name='scenario_date']").datepicker( "getDate" ) ;
+    var scenario_date = $("input[name='SCENARIO_DATE']").datepicker( "getDate" ) ;
     if ( scenario_date ) {
         params.SCENARIO_DAY_OF_MONTH = scenario_date.getDate() ;
         params.SCENARIO_MONTH = 1 + scenario_date.getMonth() ;
@@ -151,7 +151,7 @@ function unload_params()
 {
     // collect all the template parameters
     var params = {} ;
-    add_param = function($elem) { params[ $elem.attr("name").toUpperCase() ] = $elem.val() ; } ;
+    add_param = function($elem) { params[ $elem.attr("name") ] = $elem.val() ; } ;
     $("input[type='text'].param").each( function() { add_param($(this)) ; } ) ;
     $("textarea.param").each( function() { add_param($(this)) ; } ) ;
     $("select.param").each( function() { add_param($(this)) ; } ) ;
@@ -221,13 +221,13 @@ function do_load_scenario( params )
             continue ;
         }
         //jshint loopfunc: true
-        $elem = $("input[type='text'][name='"+key.toLowerCase()+"'].param").each( function() {
+        $elem = $("input[type='text'][name='"+key+"'].param").each( function() {
             set_param( $(this), key ) ;
         } ) ;
-        $elem = $("textarea[type='text'][name='"+key.toLowerCase()+"'].param").each( function() {
+        $elem = $("textarea[type='text'][name='"+key+"'].param").each( function() {
             set_param( $(this), key ) ;
         } ) ;
-        $elem = $("select[name='"+key.toLowerCase()+"'].param").each( function() {
+        $elem = $("select[name='"+key+"'].param").each( function() {
             set_param( $(this), key ).trigger( "change" ) ;
         } ) ;
     }
@@ -279,12 +279,12 @@ function on_new_scenario( verbose )
     $("textarea.param").each( function() { $(this).val("") ; } ) ;
 
     // reset all the template parameters
-    on_player_change( $("select[name='player_1']").val( "german" ) ) ;
-    $("select[name='player_1_elr']").val( 5 ) ;
-    $("select[name='player_1_san']").val( 2 ) ;
-    on_player_change( $("select[name='player_2']").val( "russian" ) ) ;
-    $("select[name='player_2_elr']").val( 5 ) ;
-    $("select[name='player_2_san']").val( 2 ) ;
+    on_player_change( $("select[name='PLAYER_1']").val( "german" ) ) ;
+    $("select[name='PLAYER_1_ELR']").val( 5 ) ;
+    $("select[name='PLAYER_1_SAN']").val( 2 ) ;
+    on_player_change( $("select[name='PLAYER_2']").val( "russian" ) ) ;
+    $("select[name='PLAYER_2_ELR']").val( 5 ) ;
+    $("select[name='PLAYER_2_SAN']").val( 2 ) ;
 
     // reset all the template parameters
     $("#ssr-sortable li").each( function() {

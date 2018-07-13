@@ -46,9 +46,9 @@ def test_scenario_snippets( webapp, webdriver ):
 
     # generate a SCENARIO snippet
     _test_snippet( webdriver, "scenario", {
-        "scenario_name": "my scenario",
-        "scenario_location": "here",
-        "scenario_date": "01/02/1942",
+        "SCENARIO_NAME": "my scenario",
+        "SCENARIO_LOCATION": "here",
+        "SCENARIO_DATE": "01/02/1942",
     },
         'name = [my scenario] | loc = [here] | date = [01/02/1942] aka "2 January, 1942"',
         None
@@ -56,9 +56,9 @@ def test_scenario_snippets( webapp, webdriver ):
 
     # generate a SCENARIO snippet with some fields missing
     _test_snippet( webdriver, "scenario", {
-        "scenario_name": "my scenario",
-        "scenario_location": None,
-        "scenario_date": None,
+        "SCENARIO_NAME": "my scenario",
+        "SCENARIO_LOCATION": None,
+        "SCENARIO_DATE": None,
     },
         "name = [my scenario] | loc = [] | date = []",
         [ "scenario date" ],
@@ -66,9 +66,9 @@ def test_scenario_snippets( webapp, webdriver ):
 
     # generate a SCENARIO snippet with all fields missing
     _test_snippet( webdriver, "scenario", {
-        "scenario_name": None,
-        "scenario_location": None,
-        "scenario_date": None,
+        "SCENARIO_NAME": None,
+        "SCENARIO_LOCATION": None,
+        "SCENARIO_DATE": None,
     },
         "name = [] | loc = [] | date = []",
         [ "scenario name", "scenario date" ],
@@ -76,10 +76,10 @@ def test_scenario_snippets( webapp, webdriver ):
 
     # generate a SCENARIO snippet with a snippet width
     _test_snippet( webdriver, "scenario", {
-        "scenario_name": "test",
-        "scenario_location": "here",
-        "scenario_date": "01/02/1942",
-        "scenario_width": "20em",
+        "SCENARIO_NAME": "test",
+        "SCENARIO_LOCATION": "here",
+        "SCENARIO_DATE": "01/02/1942",
+        "SCENARIO_WIDTH": "20em",
     },
         'name = [test] | loc = [here] | date = [01/02/1942] aka "2 January, 1942" | width = [20em]',
         None
@@ -95,7 +95,7 @@ def test_vc_snippets( webapp, webdriver ):
 
     # generate a VC snippet
     _test_snippet( webdriver, "victory_conditions", {
-        "victory_conditions": "Kill 'Em All!",
+        "VICTORY_CONDITIONS": "Kill 'Em All!",
     },
         "VC: [Kill 'Em All!]",
         None
@@ -103,7 +103,7 @@ def test_vc_snippets( webapp, webdriver ):
 
     # generate an empty VC snippet
     _test_snippet( webdriver, "victory_conditions", {
-        "victory_conditions": "",
+        "VICTORY_CONDITIONS": "",
     },
         "VC: []",
         None
@@ -111,8 +111,8 @@ def test_vc_snippets( webapp, webdriver ):
 
     # generate a VC snippet with a width
     _test_snippet( webdriver, "victory_conditions", {
-        "victory_conditions": "Kill 'Em All!",
-        "victory_conditions_width": "100px",
+        "VICTORY_CONDITIONS": "Kill 'Em All!",
+        "VICTORY_CONDITIONS_WIDTH": "100px",
     },
         "VC: [Kill 'Em All!] ; width=[100px]",
         None
@@ -128,12 +128,12 @@ def test_players_snippets( webapp, webdriver ):
 
     # generate a PLAYERS snippet
     _test_snippet( webdriver, "players", {
-        "player_1": "french",
-        "player_1_elr": "1",
-        "player_1_san": "2",
-        "player_2": "british",
-        "player_2_elr": "3",
-        "player_2_san": "4",
+        "PLAYER_1": "french",
+        "PLAYER_1_ELR": "1",
+        "PLAYER_1_SAN": "2",
+        "PLAYER_2": "british",
+        "PLAYER_2_ELR": "3",
+        "PLAYER_2_SAN": "4",
     },
         "player1=[french] ; ELR=[1] ; SAN=[2] | player2=[british] ; ELR=[3] ; SAN=[4]",
         None
@@ -141,7 +141,7 @@ def test_players_snippets( webapp, webdriver ):
 
     # generate a PLAYERS snippet with both players the same nationality
     _test_snippet( webdriver, "players", {
-        "player_1": "british",
+        "PLAYER_1": "british",
         },
         "player1=[british] ; ELR=[1] ; SAN=[2] | player2=[british] ; ELR=[3] ; SAN=[4]",
         [ "Both players have the same nationality!" ],

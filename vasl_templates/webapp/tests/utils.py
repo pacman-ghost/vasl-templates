@@ -19,7 +19,7 @@ def set_template_params( params ):
     for key,val in params.items():
 
         # check for SSR's (these require special handling)
-        if key == "ssr":
+        if key == "SSR":
             # add them in (nb: we don't consider any existing SSR's)
             from vasl_templates.webapp.tests.test_ssr import add_ssr #pylint: disable=cyclic-import
             for ssr in val:
@@ -39,7 +39,7 @@ def set_template_params( params ):
             elem.clear()
             if val:
                 elem.send_keys( val )
-                if key == "scenario_date":
+                if key == "SCENARIO_DATE":
                     elem.send_keys( Keys.ESCAPE ) # nb: force the calendar popup to close :-/
                     time.sleep( 0.25 )
 

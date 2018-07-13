@@ -55,7 +55,7 @@ def test_ssr( webapp, webdriver ):
     check_snippet()
 
     # set the snippet width
-    elem = find_child( "input[name='ssr_width']" )
+    elem = find_child( "input[name='SSR_WIDTH']" )
     elem.send_keys( "300px" )
     check_snippet( "300px" )
 

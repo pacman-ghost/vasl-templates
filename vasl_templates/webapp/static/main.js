@@ -42,10 +42,10 @@ $(document).ready( function () {
         heightStyle: "fill",
     } ).show() ;
     var navHeight = $("#tabs .ui-tabs-nav").height() ;
-    $("input[name='scenario_name']").focus().focus() ;
+    $("input[name='SCENARIO_NAME']").focus().focus() ;
 
     // initialize
-    $("input[name='scenario_date']").datepicker( {
+    $("input[name='SCENARIO_DATE']").datepicker( {
         showAnim: "slideDown",
         changeMonth: true, changeYear: true,
         defaultDate: "01/01/1940",
@@ -70,14 +70,14 @@ $(document).ready( function () {
     for ( var i=0 ; i <= 5 ; ++i ) // nb: A19.1: ELR is 0-5
         buf.push( "<option value='" + i + "'>" + i + "</option>" ) ;
     buf = buf.join( "" ) ;
-    $("select[name='player_1_elr']").html( buf ) ;
-    $("select[name='player_2_elr']").html( buf ) ;
+    $("select[name='PLAYER_1_ELR']").html( buf ) ;
+    $("select[name='PLAYER_2_ELR']").html( buf ) ;
     buf = [ "<option></option>" ] ; // nb: allow scenarios that have no SAN
     for ( i=2 ; i <= 7 ; ++i ) // nb: A14.1: SAN is 2-7
         buf.push( "<option value='" + i + "'>" + i + "</option>" ) ;
     buf = buf.join( "" ) ;
-    $("select[name='player_1_san']").html( buf ) ;
-    $("select[name='player_2_san']").html( buf ) ;
+    $("select[name='PLAYER_1_SAN']").html( buf ) ;
+    $("select[name='PLAYER_2_SAN']").html( buf ) ;
 
     // load the nationalities
     $.getJSON( gGetNationalitiesUrl, function(data) {
@@ -85,16 +85,16 @@ $(document).ready( function () {
         var buf = [] ;
         for ( var id in gNationalities )
             buf.push( "<option value='" + id + "'>" + gNationalities[id].display_name + "</option>" ) ;
-        $("select[name='player_1']").html( buf ) ;
-        $("select[name='player_2']").html( buf ) ;
+        $("select[name='PLAYER_1']").html( buf ) ;
+        $("select[name='PLAYER_2']").html( buf ) ;
         on_new_scenario( false ) ;
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the nationalities:<pre>" + escapeHTML(errorMsg) + "</pre>" ) ;
     } ) ;
 
     // add handlers for player changes
-    $("select[name='player_1']").change( function() { on_player_change($(this)) ; } ) ;
-    $("select[name='player_2']").change( function() { on_player_change($(this)) ; } ) ;
+    $("select[name='PLAYER_1']").change( function() { on_player_change($(this)) ; } ) ;
+    $("select[name='PLAYER_2']").change( function() { on_player_change($(this)) ; } ) ;
 
     // get the default templates
     $.getJSON( gGetTemplatesUrl, function(data) {
