@@ -16,29 +16,17 @@ def test_ssr( webapp, webdriver ):
 
     # initialize
     expected = []
-    def add_ssr( val ):
-        """Add a new SSR, and check that the SSR snippet is generated correctly."""
-        # add the SSR
+    def _add_ssr( val ):
         expected.append( val )
-        elem = find_child( webdriver, "#add-ssr" )
-        elem.click()
-        edit_ssr( val )
-    def edit_ssr( val ):
-        """Edit an SSR's content, and check that the SSR snippet is generated correctly."""
-        # edit the SSR content
-        textarea = find_child( webdriver, "#edit-ssr textarea" )
-        textarea.clear()
-        textarea.send_keys( val )
-        btn = next(
-            elem for elem in find_children(webdriver,".ui-dialog.edit-ssr button")
-            if elem.text == "OK"
-        )
-        btn.click()
-        # check the generated snippet
+        add_ssr( webdriver, val )
+        check_snippet()
+    def _edit_ssr( ssr_no, val ):
+        expected[ssr_no] = val
+        edit_ssr( webdriver, ssr_no, val )
         check_snippet()
     def check_snippet( width=None ):
         """Check the generated SSR snippet."""
-        btn = find_child( webdriver, "input[type='button'][data-id='ssr']" )
+        btn = find_child( "input[type='button'][data-id='ssr']" )
         btn.click()
         val = "\n".join( "(*) [{}]".format(e) for e in expected )
         if width:
@@ -46,32 +34,56 @@ def test_ssr( webapp, webdriver ):
         assert html.unescape( get_clipboard() ) == val
 
     # add an SSR and generate the SSR snippet
-    add_ssr( "This is my first SSR." )
+    _add_ssr( "This is my first SSR." )
 
     # add an SSR that contains HTML
-    add_ssr( "This snippet contains <b>bold</b> and <i>italic</i> text." )
+    _add_ssr( "This snippet contains <b>bold</b> and <i>italic</i> text." )
 
     # add a multi-line SSR
-    add_ssr( "line 1\nline 2\nline 3" )
+    _add_ssr( "line 1\nline 2\nline 3" )
 
     # edit one of the SSR's
-    elems = find_children( webdriver, "#ssr-sortable li" )
-    assert len(elems) == 3
-    elem = elems[1]
-    ActionChains(webdriver).double_click( elem ).perform()
-    expected[1] = "This SSR was <i>modified</i>."
-    edit_ssr( expected[1] )
+    _edit_ssr( 1, "This SSR was <i>modified</i>." )
 
     # delete one of the SSR's
-    elems = find_children( webdriver, "#ssr-sortable li" )
+    elems = find_children( "#ssr-sortable li" )
     assert len(elems) == 3
     elem = elems[1]
-    trash = find_child( webdriver, "#ssr-trash" )
+    trash = find_child( "#ssr-trash" )
     ActionChains(webdriver).drag_and_drop( elem, trash ).perform()
     del expected[1]
     check_snippet()
 
     # set the snippet width
-    elem = find_child( webdriver, "input[name='ssr_width']" )
+    elem = find_child( "input[name='ssr_width']" )
     elem.send_keys( "300px" )
     check_snippet( "300px" )
+
+# ---------------------------------------------------------------------
+
+def add_ssr( webdriver, val ):
+    """Add a new SSR."""
+    elem = find_child( "#add-ssr" )
+    elem.click()
+    edit_ssr( webdriver, None, val )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def edit_ssr( webdriver, ssr_no, val ):
+    """Edit an SSR's content."""
+
+    # locate the requested SSR and start editing it
+    if ssr_no is not None:
+        elems = find_children( "#ssr-sortable li" )
+        elem = elems[ ssr_no ]
+        ActionChains(webdriver).double_click( elem ).perform()
+
+    # edit the SSR
+    textarea = find_child( "#edit-ssr textarea" )
+    textarea.clear()
+    textarea.send_keys( val )
+    btn = next(
+        elem for elem in find_children(".ui-dialog.edit-ssr button")
+        if elem.text == "OK"
+    )
+    btn.click()

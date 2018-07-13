@@ -7,12 +7,19 @@
 <link rel="shortcut icon" href="{{url_for('static', filename='images/favicon.ico')}}">
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='jquery-ui/jquery-ui.min.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='growl/jquery.growl.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='popmenu/jquery.popmenu.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/main.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/tabs-scenario.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/tabs-ob.css')}}" />
 </head>
 
 <body>
+
+<div id="menu" style="display:none;">
+    <input type="button" value="actions">
+    <input id="load-scenario" type="file" style="display:none;">
+</div>
+
 <div id="tabs">
 
 <ul>
@@ -150,6 +157,8 @@
 <script src="{{url_for('static',filename='jquery-ui/jquery-ui.min.js')}}"></script>
 <script src="{{url_for('static',filename='jinja/jinja.js')}}"></script>
 <script src="{{url_for('static',filename='growl/jquery.growl.js')}}"></script>
+<script src="{{url_for('static',filename='popmenu/jquery.popmenu-1.0.0.min.js')}}"></script>
+<script src="{{url_for('static',filename='download/download.min.js')}}"></script>
 <script>
 gImagesBaseUrl = "{{url_for('static',filename='images')}}" ;
 gGetTemplatesUrl = "{{url_for('get_templates')}}" ;

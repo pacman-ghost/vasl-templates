@@ -13,6 +13,31 @@ var _NATIONALITY_SPECIFIC_BUTTONS = {
 $(document).ready( function () {
 
     // initialize
+    var $menu = $("#menu input") ;
+    $menu.popmenu( {
+        new: { label: "New scenario", action: on_new_scenario },
+        load: { label: "Load scenario", action: on_load_scenario },
+        save: { label: "Save scenario", action: on_save_scenario },
+    } ) ;
+    // nb: we only show the popmenu on left click (not the normal right-click)
+    $menu.off( "contextmenu" ) ;
+    $menu.click( function() {
+        var pos = $(this).offset() ;
+        $(this).data( "PopMenu.contextmenu" ).data( "PopMenu.instance" ).show(
+            pos.left+$(this).width()+4, pos.top+$(this).height()+4, "fade", 200
+        ) ;
+    } ) ;
+    // nb: we dismiss the popmenu on ESCAPE
+    $(document).keydown( function(evt) {
+        if ( evt.keyCode == 27 )
+            $menu.popmenu( "hide" ) ;
+    } ) ;
+    // add a handler for when the "load scenario" file has been selected
+    $("#load-scenario").change( on_load_scenario_file_selected ) ;
+    // all done - we can show the menu now
+    $("#menu").show() ;
+
+    // initialize
     $("#tabs").tabs( {
         heightStyle: "fill",
     } ).show() ;
@@ -45,14 +70,14 @@ $(document).ready( function () {
     for ( var i=0 ; i <= 5 ; ++i ) // nb: A19.1: ELR is 0-5
         buf.push( "<option value='" + i + "'>" + i + "</option>" ) ;
     buf = buf.join( "" ) ;
-    $("select[name='player_1_elr']").html( buf ).val( 5 ) ;
-    $("select[name='player_2_elr']").html( buf ).val( 5 ) ;
+    $("select[name='player_1_elr']").html( buf ) ;
+    $("select[name='player_2_elr']").html( buf ) ;
     buf = [ "<option></option>" ] ; // nb: allow scenarios that have no SAN
     for ( i=2 ; i <= 7 ; ++i ) // nb: A14.1: SAN is 2-7
         buf.push( "<option value='" + i + "'>" + i + "</option>" ) ;
     buf = buf.join( "" ) ;
-    $("select[name='player_1_san']").html( buf ).val( 2 ) ;
-    $("select[name='player_2_san']").html( buf ).val( 2 ) ;
+    $("select[name='player_1_san']").html( buf ) ;
+    $("select[name='player_2_san']").html( buf ) ;
 
     // load the nationalities
     $.getJSON( gGetNationalitiesUrl, function(data) {
@@ -60,12 +85,9 @@ $(document).ready( function () {
         var buf = [] ;
         for ( var id in gNationalities )
             buf.push( "<option value='" + id + "'>" + gNationalities[id].display_name + "</option>" ) ;
-        on_player_change(
-            $("select[name='player_1']").html( buf ).val( "german" )
-        ) ;
-        on_player_change(
-            $("select[name='player_2']").html( buf ).val( "russian" )
-        ) ;
+        $("select[name='player_1']").html( buf ) ;
+        $("select[name='player_2']").html( buf ) ;
+        on_new_scenario( false ) ;
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the nationalities:<pre>" + escapeHTML(errorMsg) + "</pre>" ) ;
     } ) ;

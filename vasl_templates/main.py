@@ -70,7 +70,7 @@ def main():
 
     # run the application
     app = QApplication( sys.argv )
-    url = "http://localhost:{}/main".format( port )
+    url = "http://localhost:{}".format( port )
     main_window = MainWindow( url )
     main_window.show()
     ret_code = app.exec_()

@@ -4,7 +4,7 @@ import types
 
 from selenium.webdriver.support.ui import Select
 
-from vasl_templates.webapp.tests.utils import get_nationalities, get_clipboard, get_stored_msg, find_child
+from vasl_templates.webapp.tests.utils import select_tab, get_nationalities, get_clipboard, get_stored_msg, find_child
 
 # ---------------------------------------------------------------------
 
@@ -14,55 +14,48 @@ def test_ob_setup( webapp, webdriver ):
     # initialize
     webdriver.get( webapp.url_for( "main" ) )
 
-    # initialize
-    def select_ob_tab( player_id ):
-        """Select the OB tab for the specified player."""
-        elem = find_child( webdriver, "#tabs .ui-tabs-nav a[href='#tabs-ob{}']".format( player_id ) )
-        elem.click()
-
     # generate OB SETUP snippets for both players
-    select_ob_tab( 1 )
-    textarea1 = find_child( webdriver,  "textarea[name='ob_setup_1']" )
+    select_tab( "ob1" )
+    textarea1 = find_child( "textarea[name='ob_setup_1']" )
     textarea1.clear()
     textarea1.send_keys( "setup here." )
-    btn1 = find_child( webdriver, "input[type='button'][data-id='ob_setup_1']" )
-    select_ob_tab( 2 )
-    textarea2 = find_child( webdriver,  "textarea[name='ob_setup_2']" )
+    btn1 = find_child( "input[type='button'][data-id='ob_setup_1']" )
+    select_tab( "ob2" )
+    textarea2 = find_child( "textarea[name='ob_setup_2']" )
     textarea2.clear()
     textarea2.send_keys( "setup there." )
-    btn2 = find_child( webdriver, "input[type='button'][data-id='ob_setup_2']" )
+    btn2 = find_child( "input[type='button'][data-id='ob_setup_2']" )
     btn2.click()
     assert get_clipboard() == "[setup there.] (col=[OBCOL:russian/OBCOL2:russian])"
-    select_ob_tab( 1 )
+    select_tab( "ob1" )
     btn1.click()
     assert get_clipboard() == "[setup here.] (col=[OBCOL:german/OBCOL2:german])"
 
     # change the player nationalities and generate the OB SETUP snippets again
-    elem = find_child( webdriver, "#tabs .ui-tabs-nav a[href='#tabs-scenario']" )
-    elem.click()
+    select_tab( "scenario" )
     sel = Select(
-        find_child( webdriver, "select[name='player_1']" )
+        find_child( "select[name='player_1']" )
     )
     sel.select_by_value( "british" )
     sel = Select(
-        find_child( webdriver, "select[name='player_2']" )
+        find_child( "select[name='player_2']" )
     )
     sel.select_by_value( "french" )
-    select_ob_tab( 1 )
+    select_tab( "ob1" )
     btn1.click()
     assert get_clipboard() == "[setup here.] (col=[OBCOL:british/OBCOL2:british])"
-    select_ob_tab( 2 )
+    select_tab( "ob2" )
     btn2.click()
     assert get_clipboard() == "[setup there.] (col=[OBCOL:french/OBCOL2:french])"
 
     # set the snippet widths and generate the snippets again
-    select_ob_tab( 1 )
-    elem = find_child( webdriver, "input[name='ob_setup_width_1']" )
+    select_tab( "ob1" )
+    elem = find_child( "input[name='ob_setup_width_1']" )
     elem.send_keys( "100px" )
     btn1.click()
     assert get_clipboard() == "[setup here.] (col=[OBCOL:british/OBCOL2:british]) (width=[100px])"
-    select_ob_tab( 2 )
-    elem = find_child( webdriver, "input[name='ob_setup_width_2']" )
+    select_tab( "ob2" )
+    elem = find_child( "input[name='ob_setup_width_2']" )
     elem.send_keys( "200px" )
     btn2.click()
     assert get_clipboard() == "[setup there.] (col=[OBCOL:french/OBCOL2:french]) (width=[200px])"
@@ -79,9 +72,8 @@ def test_nationality_specific( webapp, webdriver ):
     # initialize
     def set_scenario_date( date ):
         """Set the scenario date."""
-        elem = find_child( webdriver, "#tabs .ui-tabs-nav a[href='#tabs-scenario']" )
-        elem.click()
-        elem = find_child( webdriver, "#panel-scenario input[name='scenario_date']" )
+        select_tab( "scenario" )
+        elem = find_child( "#panel-scenario input[name='scenario_date']" )
         elem.clear()
         elem.send_keys( "{:02}/01/{:04}".format( date[1], date[0] ) )
 
@@ -91,9 +83,8 @@ def test_nationality_specific( webapp, webdriver ):
         def do_test( date, expected, warning ): #pylint: disable=missing-docstring
             # test snippet generation
             set_scenario_date( date )
-            elem = find_child( webdriver, "#tabs .ui-tabs-nav a[href='#tabs-ob1']" )
-            elem.click()
-            elem = find_child( webdriver, "input[type='button'][data-id='pf']" )
+            select_tab( "ob1" )
+            elem = find_child( "input[type='button'][data-id='pf']" )
             elem.click()
             assert get_clipboard() == expected
             # check if a warning was issued
@@ -117,9 +108,8 @@ def test_nationality_specific( webapp, webdriver ):
         def do_test( date, expected ): #pylint: disable=missing-docstring
             # test snippet generation
             set_scenario_date( date )
-            elem = find_child( webdriver, "#tabs .ui-tabs-nav a[href='#tabs-ob1']" )
-            elem.click()
-            elem = find_child( webdriver, "input[type='button'][data-id='baz']" )
+            select_tab( "ob1" )
+            elem = find_child( "input[type='button'][data-id='baz']" )
             elem.click()
             assert get_clipboard() == expected
             # check if a warning was issued
@@ -151,18 +141,16 @@ def test_nationality_specific( webapp, webdriver ):
     for nat in nationalities:
 
         # change the nationality for player 1
-        elem = find_child( webdriver, "#tabs .ui-tabs-nav a[href='#tabs-scenario']" )
-        elem.click()
+        select_tab( "scenario" )
         sel = Select(
-            find_child( webdriver, "select[name='player_1']" )
+            find_child( "select[name='player_1']" )
         )
         sel.select_by_value( nat )
-        elem = find_child( webdriver, "#tabs .ui-tabs-nav a[href='#tabs-ob1']" )
-        elem.click()
+        select_tab( "ob1" )
 
         # check the nationality-specific buttons
         for button_id,expected in nationality_specific_buttons.items():
-            elem = find_child( webdriver, "input[type='button'][data-id='{}']".format( button_id ) )
+            elem = find_child( "input[type='button'][data-id='{}']".format( button_id ) )
             if nat == expected[0]:
                 # the button should be shown for this nationality
                 assert elem.is_displayed()

@@ -6,10 +6,10 @@ from vasl_templates.webapp import app
 
 # ---------------------------------------------------------------------
 
-@app.route( "/main" )
+@app.route( "/" )
 def main():
     """Return the main page."""
-    return render_template( "main.html" )
+    return render_template( "index.html" )
 
 # ---------------------------------------------------------------------
 

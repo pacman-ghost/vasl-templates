@@ -1,29 +1,17 @@
 """ Test HTML snippet generation. """
 
-from selenium.webdriver.support.ui import Select
-
-from vasl_templates.webapp.tests.utils import get_clipboard, get_stored_msg, find_child
+from vasl_templates.webapp.tests.utils import set_template_params, get_clipboard, get_stored_msg, find_child
 
 # ---------------------------------------------------------------------
 
-def _test_snippet( webdriver, template_id, params, expected, expected2 ):
+def _test_snippet( webdriver, template_id, params, expected, expected2 ): #pylint: disable=unused-argument
     """Do a single test."""
 
     # set the template parameters
-    for key,val in params.items():
-        elem = next( c for c in ( \
-            find_child( webdriver, "{}[name='{}']".format(elem_type,key) ) \
-            for elem_type in ["input","textarea","select"]
-        ) if c )
-        if elem.tag_name == "select":
-            Select(elem).select_by_value( val )
-        else:
-            elem.clear()
-            if val:
-                elem.send_keys( val )
+    set_template_params( params )
 
     # generate the snippet
-    submit = find_child( webdriver, "input[class='generate'][data-id='{}']".format(template_id) )
+    submit = find_child( "input[class='generate'][data-id='{}']".format(template_id) )
     submit.click()
     snippet = get_clipboard()
     lines = [ l.strip() for l in snippet.split("\n") ]
