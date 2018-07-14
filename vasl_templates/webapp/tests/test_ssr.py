@@ -1,6 +1,7 @@
 """ Test generating SSR snippets. """
 
 import html
+import time
 
 from selenium.webdriver.common.action_chains import ActionChains
 
@@ -32,6 +33,9 @@ def test_ssr( webapp, webdriver ):
         if width:
             val += "\nwidth = [{}]".format( width )
         assert html.unescape( get_clipboard() ) == val
+        elem = find_child( ".growl-close" )
+        elem.click()
+        time.sleep( 0.25 )
 
     # add an SSR and generate the SSR snippet
     _add_ssr( "This is my first SSR." )

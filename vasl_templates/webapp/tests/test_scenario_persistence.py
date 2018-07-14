@@ -1,7 +1,6 @@
 """ Test loading/saving scenarios. """
 
 import json
-import time
 
 from selenium.webdriver.support.ui import Select
 
@@ -55,9 +54,6 @@ def test_scenario_persistence( webapp, webdriver ):
     elem.click()
     elem = find_child( "a.PopMenu-Link[data-name='new']" )
     elem.click()
-    elem = find_child( ".growl-close" )
-    elem.click()
-    time.sleep( 0.5 )
 
     # check the save results
     data = _save_scenario()

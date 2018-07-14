@@ -71,7 +71,7 @@ function showInfoMsg( msg )
         style: "notice",
         title: null,
         message: msg,
-        location: "tr",
+        location: "br",
     } ) ;
     storeMsgForTestSuite( "_last-info_", msg ) ;
 }
@@ -85,7 +85,7 @@ function showWarningMsg( msg )
         style: "warning",
         title: null,
         message: msg,
-        location: "tr",
+        location: "br",
     } ) ;
     storeMsgForTestSuite( "_last-warning_", msg ) ;
 }
@@ -99,7 +99,7 @@ function showErrorMsg( msg )
         style: "error",
         title: null,
         message: msg,
-        location: "tr",
+        location: "br",
         fixed: true,
     } ) ;
     storeMsgForTestSuite( "_last-error_", msg ) ;
