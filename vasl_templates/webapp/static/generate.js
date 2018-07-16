@@ -36,6 +36,10 @@ function generate_snippet( $btn )
         params.OB_SETUP_WIDTH = params.OB_SETUP_WIDTH_2 ;
     }
 
+    // include the player display names
+    params.PLAYER_1_NAME = gNationalities[params.PLAYER_1].display_name ;
+    params.PLAYER_2_NAME = gNationalities[params.PLAYER_2].display_name ;
+
     // extract the scenario date components
     var scenario_date = $("input[name='SCENARIO_DATE']").datepicker( "getDate" ) ;
     if ( scenario_date ) {

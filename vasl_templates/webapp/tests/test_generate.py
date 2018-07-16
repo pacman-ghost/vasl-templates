@@ -135,7 +135,7 @@ def test_players_snippets( webapp, webdriver ):
         "PLAYER_2_ELR": "3",
         "PLAYER_2_SAN": "4",
     },
-        "player1=[french] ; ELR=[1] ; SAN=[2] | player2=[british] ; ELR=[3] ; SAN=[4]",
+        "player1=[french:French] ; ELR=[1] ; SAN=[2] | player2=[british:British] ; ELR=[3] ; SAN=[4]",
         None
     )
 
@@ -143,6 +143,6 @@ def test_players_snippets( webapp, webdriver ):
     _test_snippet( webdriver, "players", {
         "PLAYER_1": "british",
         },
-        "player1=[british] ; ELR=[1] ; SAN=[2] | player2=[british] ; ELR=[3] ; SAN=[4]",
+        "player1=[british:British] ; ELR=[1] ; SAN=[2] | player2=[british:British] ; ELR=[3] ; SAN=[4]",
         [ "Both players have the same nationality!" ],
     )
