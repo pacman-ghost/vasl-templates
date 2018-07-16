@@ -126,7 +126,7 @@ function generate_snippet( $btn )
         showErrorMsg( "Unknown template: " + escapeHTML(template_id) ) ;
         return ;
     }
-    var func, val ;
+    var func ;
     try {
         func = jinja.compile( templ ).render ;
     }
@@ -136,8 +136,14 @@ function generate_snippet( $btn )
     }
 
     // process the template
+    var val ;
     try {
-        val = func( params ) ;
+        // NOTE: While it's generally not a good idea to disable auto-escaping, the whole purpose
+        // of this application is to generate HTML snippets, and so virtually every single
+        // template parameter would have to be piped through the "safe" filter :-/ We never render
+        // any of the generated HTML, so any risk exists only when the user pastes the HTML snippet
+        // into a VASL scenario, which uses an ancient HTML engine (with probably no Javascript)...
+        val = func( params, {"autoEscape":false} ) ;
         val = val.trim() ;
     }
     catch( ex ) {

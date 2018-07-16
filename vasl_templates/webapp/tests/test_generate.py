@@ -46,11 +46,11 @@ def test_scenario_snippets( webapp, webdriver ):
 
     # generate a SCENARIO snippet
     _test_snippet( webdriver, "scenario", {
-        "SCENARIO_NAME": "my scenario",
-        "SCENARIO_LOCATION": "here",
+        "SCENARIO_NAME": "my <i>cool</i> scenario",
+        "SCENARIO_LOCATION": "right <u>here</u>",
         "SCENARIO_DATE": "01/02/1942",
     },
-        'name = [my scenario] | loc = [here] | date = [01/02/1942] aka "2 January, 1942"',
+        'name = [my <i>cool</i> scenario] | loc = [right <u>here</u>] | date = [01/02/1942] aka "2 January, 1942"',
         None
     )
 
@@ -95,9 +95,9 @@ def test_vc_snippets( webapp, webdriver ):
 
     # generate a VC snippet
     _test_snippet( webdriver, "victory_conditions", {
-        "VICTORY_CONDITIONS": "Kill 'Em All!",
+        "VICTORY_CONDITIONS": "Kill 'Em <i>All</i>!",
     },
-        "VC: [Kill 'Em All!]",
+        "VC: [Kill 'Em <i>All</i>!]",
         None
     )
 
