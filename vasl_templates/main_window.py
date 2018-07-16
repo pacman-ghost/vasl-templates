@@ -1,7 +1,7 @@
 """ Main application window. """
 
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel
-from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage
 from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtCore import QUrl
 
@@ -28,9 +28,13 @@ class MainWindow( QWidget ):
         layout = QVBoxLayout( self )
         if not webapp.config.get( "DISABLE_WEBENGINEVIEW" ):
             # load the webapp
-            browser = QWebEngineView()
-            layout.addWidget( browser )
-            browser.setUrl( QUrl(url) )
+            # NOTE: We create an off-the-record profile to stop the view from using cached JS files :-/
+            view = QWebEngineView()
+            layout.addWidget( view )
+            profile = QWebEngineProfile( None, view )
+            page = QWebEnginePage( profile, view )
+            view.setPage( page )
+            view.load( QUrl(url) )
         else:
             label = QLabel()
             label.setText( "Running the {} application.\n\nClose this window when you're done.".format( APP_NAME ) )
