@@ -15,7 +15,7 @@ import click
 
 from vasl_templates.main_window import MainWindow
 from vasl_templates.webapp import app as webapp
-from vasl_templates.webapp import generate
+from vasl_templates.webapp import generate, load_debug_config
 
 # ---------------------------------------------------------------------
 
@@ -40,7 +40,8 @@ class LoggerProxy:
 
 @click.command()
 @click.option( "--template-pack", help="Template pack to auto-load (ZIP file or directory)." )
-def main( template_pack ):
+@click.option( "--debug", help="Debug config file." )
+def main( template_pack, debug ):
     """Main entry point for the application."""
 
     # configure the autoload template pack
@@ -53,6 +54,10 @@ def main( template_pack ):
             click.echo( "ERROR: The template pack must be a ZIP file or a directory containing the template files." )
             return 1
         generate.autoload_template_pack = template_pack
+
+    # install the debug config file
+    if debug:
+        load_debug_config( debug )
 
     # connect stdout/stderr to Python logging
     # NOTE: Logging to the console causes crashes on Windows if we are frozen, so don't do that!
