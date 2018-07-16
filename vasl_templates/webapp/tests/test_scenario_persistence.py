@@ -4,7 +4,7 @@ import json
 
 from selenium.webdriver.support.ui import Select
 
-from vasl_templates.webapp.tests.utils import set_template_params, select_tab
+from vasl_templates.webapp.tests.utils import set_template_params, select_tab, select_menu_option
 from vasl_templates.webapp.tests.utils import get_stored_msg, set_stored_msg, find_child, find_children
 
 # ---------------------------------------------------------------------
@@ -50,10 +50,7 @@ def test_scenario_persistence( webapp, webdriver ):
     assert saved_scenario == expected
 
     # reset the scenario
-    elem = find_child( "#menu" )
-    elem.click()
-    elem = find_child( "a.PopMenu-Link[data-name='new']" )
-    elem.click()
+    select_menu_option( "new_scenario" )
 
     # check the save results
     data = _save_scenario()
@@ -114,17 +111,11 @@ def test_loading_ssrs( webapp, webdriver ):
 def _load_scenario( scenario ):
     """Load a scenario into the UI."""
     set_stored_msg( "scenario_persistence", json.dumps(scenario) )
-    elem = find_child( "#menu" )
-    elem.click()
-    elem = find_child( "a.PopMenu-Link[data-name='load']" )
-    elem.click()
+    select_menu_option( "load_scenario" )
 
 def _save_scenario():
     """Save the scenario."""
-    elem = find_child( "#menu" )
-    elem.click()
-    elem = find_child( "a.PopMenu-Link[data-name='save']" )
-    elem.click()
+    select_menu_option( "save_scenario" )
     data = get_stored_msg( "scenario_persistence" )
     return json.loads( data )
 

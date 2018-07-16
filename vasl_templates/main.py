@@ -2,6 +2,8 @@
 """ Main entry point for the application. """
 
 import sys
+import os
+import os.path
 import threading
 import traceback
 import logging
@@ -9,9 +11,11 @@ import urllib.request
 
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import Qt
+import click
 
 from vasl_templates.main_window import MainWindow
 from vasl_templates.webapp import app as webapp
+from vasl_templates.webapp import generate
 
 # ---------------------------------------------------------------------
 
@@ -34,8 +38,21 @@ class LoggerProxy:
 
 # ---------------------------------------------------------------------
 
-def main():
+@click.command()
+@click.option( "--template-pack", help="Template pack to auto-load (ZIP file or directory)." )
+def main( template_pack ):
     """Main entry point for the application."""
+
+    # configure the autoload template pack
+    if template_pack:
+        if template_pack.lower().endswith( ".zip" ):
+            rc = os.path.isfile( template_pack )
+        else:
+            rc = os.path.isdir( template_pack )
+        if not rc:
+            click.echo( "ERROR: The template pack must be a ZIP file or a directory containing the template files." )
+            return 1
+        generate.autoload_template_pack = template_pack
 
     # connect stdout/stderr to Python logging
     # NOTE: Logging to the console causes crashes on Windows if we are frozen, so don't do that!
@@ -85,4 +102,4 @@ def main():
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 if __name__ == "__main__":
-    sys.exit( main() )
+    sys.exit( main() ) #pylint: disable=no-value-for-parameter

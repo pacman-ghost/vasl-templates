@@ -2,3 +2,5 @@ recursive-include vasl_templates/webapp/config *.*
 recursive-include vasl_templates/webapp/data *.*
 recursive-include vasl_templates/webapp/static *.*
 recursive-include vasl_templates/webapp/templates *.*
+
+recursive-include vasl_templates/webapp/tests/fixtures *.*

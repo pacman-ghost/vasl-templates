@@ -17,6 +17,7 @@ setup(
         #   Linux: mesa-libGL-devel ; @"C Development Tools and Libraries"
         # nb: WebEngine seems to be broken in 5.10.1 :-/
         "PyQT5==5.10.0",
+        "click==6.7",
     ],
     extras_require = {
         "dev": [

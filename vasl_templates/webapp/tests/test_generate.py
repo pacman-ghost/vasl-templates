@@ -11,7 +11,7 @@ def _test_snippet( webdriver, template_id, params, expected, expected2 ): #pylin
     set_template_params( params )
 
     # generate the snippet
-    submit = find_child( "input[class='generate'][data-id='{}']".format(template_id) )
+    submit = find_child( "input.generate[data-id='{}']".format(template_id) )
     submit.click()
     snippet = get_clipboard()
     lines = [ l.strip() for l in snippet.split("\n") ]

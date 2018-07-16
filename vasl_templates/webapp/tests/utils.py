@@ -7,11 +7,26 @@ import time
 from PyQt5.QtWidgets import QApplication
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 
 _webdriver = None
 
 # ---------------------------------------------------------------------
+
+def select_tab( tab_id ):
+    """Select a tab in the main page."""
+    elem = find_child( "#tabs .ui-tabs-nav a[href='#tabs-{}']".format( tab_id ) )
+    elem.click()
+
+def select_menu_option( menu_id ):
+    """Select a menu option."""
+    elem = find_child( "#menu" )
+    elem.click()
+    elem = find_child( "a.PopMenu-Link[data-name='{}']".format( menu_id ) )
+    elem.click()
+    wait_for( 5, lambda: find_child("#menu .PopMenu-Container") is None ) # nb: wait for the menu to go away
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def set_template_params( params ):
     """Set template parameters."""
@@ -42,13 +57,6 @@ def set_template_params( params ):
                 if key == "SCENARIO_DATE":
                     elem.send_keys( Keys.ESCAPE ) # nb: force the calendar popup to close :-/
                     time.sleep( 0.25 )
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-def select_tab( tab_id ):
-    """Select a tab in the main page."""
-    elem = find_child( "#tabs .ui-tabs-nav a[href='#tabs-{}']".format( tab_id ) )
-    elem.click()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -91,6 +99,20 @@ def find_children( sel, parent=None ):
     except NoSuchElementException:
         return None
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def dismiss_notifications():
+    """Dismiss all notifications."""
+    while True:
+        elem = find_child( ".growl-close" )
+        if not elem:
+            break
+        try:
+            elem.click()
+            time.sleep( 0.25 )
+        except StaleElementReferenceException:
+            pass # nb: the notification had already auto-closed
+
 # ---------------------------------------------------------------------
 
 def get_clipboard() :
@@ -98,3 +120,12 @@ def get_clipboard() :
     app = QApplication( [] ) #pylint: disable=unused-variable
     clipboard = QApplication.clipboard()
     return clipboard.text()
+
+def wait_for( timeout, func ):
+    """Wait for a condition to become true."""
+    start_time = time.time()
+    while True:
+        if func():
+            break
+        assert time.time() - start_time < timeout
+        time.sleep( 0.1 )

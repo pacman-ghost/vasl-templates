@@ -142,6 +142,11 @@ function escapeHTML( val )
     return new Option(val).innerHTML ;
 }
 
+function pluralString( n, str1, str2 )
+{
+    return (n == 1) ? str1 : str2 ;
+}
+
 function isIE()
 {
     // check if we're running in IE :-/

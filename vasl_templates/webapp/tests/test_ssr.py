@@ -1,11 +1,10 @@
 """ Test generating SSR snippets. """
 
 import html
-import time
 
 from selenium.webdriver.common.action_chains import ActionChains
 
-from vasl_templates.webapp.tests.utils import get_clipboard, find_child, find_children
+from vasl_templates.webapp.tests.utils import get_clipboard, dismiss_notifications, find_child, find_children
 
 # ---------------------------------------------------------------------
 
@@ -33,9 +32,7 @@ def test_ssr( webapp, webdriver ):
         if width:
             val += "\nwidth = [{}]".format( width )
         assert html.unescape( get_clipboard() ) == val
-        elem = find_child( ".growl-close" )
-        elem.click()
-        time.sleep( 0.25 )
+        dismiss_notifications()
 
     # add an SSR and generate the SSR snippet
     _add_ssr( "This is my first SSR." )

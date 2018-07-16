@@ -113,13 +113,18 @@ function generate_snippet( $btn )
         showWarningMsg( "Both players have the same nationality!" ) ;
 
     // get the template to generate the snippet from
-    if ( ! (template_id in gDefaultTemplates) ) {
+    var templ ;
+    if ( template_id in gUserDefinedTemplates )
+        templ = gUserDefinedTemplates[template_id] ;
+    else if ( template_id in gDefaultTemplates )
+        templ = gDefaultTemplates[template_id] ;
+    else {
         showErrorMsg( "Unknown template: " + escapeHTML(template_id) ) ;
         return ;
     }
     var func, val ;
     try {
-        func = jinja.compile( gDefaultTemplates[template_id] ).render ;
+        func = jinja.compile( templ ).render ;
     }
     catch( ex ) {
         showErrorMsg( "Can't compile template:<pre>" + escapeHTML(ex) + "</pre>" ) ;
@@ -173,9 +178,8 @@ function on_load_scenario()
 
     // FOR TESTING PORPOISES! We can't control a file upload from Selenium (since
     // the browser will use native controls), so we store the result in a <div>).
-    var $elem ;
     if ( getUrlParam( "scenario_persistence" ) ) {
-        $elem = $( "#scenario_persistence" ) ; // nb: must have already been created
+        var $elem = $( "#scenario_persistence" ) ; // nb: must have already been created
         do_load_scenario( JSON.parse( $elem.val() ) ) ;
         return ;
     }
@@ -221,7 +225,7 @@ function do_load_scenario( params )
             continue ;
         }
         //jshint loopfunc: true
-        $elem = $("input[type='text'][name='"+key+"'].param").each( function() {
+        var $elem = $("input[type='text'][name='"+key+"'].param").each( function() {
             set_param( $(this), key ) ;
         } ) ;
         $elem = $("textarea[type='text'][name='"+key+"'].param").each( function() {
@@ -293,4 +297,149 @@ function on_new_scenario( verbose )
     update_ssr_hint() ;
     if ( verbose )
         showInfoMsg( "The scenario was reset." ) ;
+}
+
+// --------------------------------------------------------------------
+
+function on_template_pack()
+{
+    // FOR TESTING PORPOISES! We can't control a file upload from Selenium (since
+    // the browser will use native controls), so we store the result in a <div>).
+    if ( getUrlParam( "template_pack_persistence" ) ) {
+        var data = $( "#template_pack_persistence" ).val() ; // nb: must have already been created
+        var pos = data.indexOf( "|" ) ;
+        var fname = data.substring( 0, pos ).trim() ;
+        data = data.substring( pos+1 ).trim() ;
+        if ( fname.substring(fname.length-4) == ".zip" )
+            data = atob( data ) ;
+        do_load_template_pack( fname, data ) ;
+        return ;
+    }
+
+    // ask the user to upload the template pack
+    $("#load-template-pack").trigger( "click" ) ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function on_template_pack_file_selected()
+{
+    // read the selected file
+    var MAX_FILE_SIZE = 2 ; // nb: MB
+    var file = $("#load-template-pack").prop("files")[0] ;
+    if ( file.size > 1024*1024*MAX_FILE_SIZE ) {
+        showErrorMsg( "Template pack is too large (must be no larger than " + MAX_FILE_SIZE + "MB)." ) ;
+        return ;
+    }
+    var fileReader = new FileReader() ;
+    fileReader.onload = function() {
+        var data = fileReader.result ;
+        do_load_template_pack( file.name, data ) ;
+    } ;
+    fileReader.readAsArrayBuffer( file ) ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function do_load_template_pack( fname, data )
+{
+    // initialize
+    var invalid_filename_extns = [] ;
+    var unknown_template_ids = [] ;
+    var new_templates = {} ;
+
+    // initialize
+    function on_new_template( fname, data ) {
+        // make sure the filename is valid
+        if ( fname.substring(fname.length-3) != ".j2" ) {
+            invalid_filename_extns.push( fname ) ;
+            return ;
+        }
+        var template_id = fname.substring( 0, fname.length-3 ).toLowerCase() ;
+        if ( ! (template_id in gDefaultTemplates) ) {
+            unknown_template_ids.push( fname ) ;
+            return ;
+        }
+        // save the new template file
+        new_templates[template_id] = data ;
+    }
+
+    // initialize
+    function install_new_templates( success_msg ) {
+        // check if there were any errors
+        var ok = true ;
+        var buf, tid, i ;
+        if ( invalid_filename_extns.length > 0 ) {
+            buf = [] ;
+            buf.push(
+                "Invalid template ",
+                pluralString( invalid_filename_extns.length, "extension:", "extensions:" ),
+                "<div class='pre'>"
+            ) ;
+            for ( i=0 ; i < invalid_filename_extns.length ; ++i )
+                buf.push( escapeHTML(invalid_filename_extns[i]) + "<br>" ) ;
+            buf.push( "</div>" ) ;
+            buf.push( 'Must be <span class="pre">".zip"</span> or <span class="pre">".j2"</span>.' ) ;
+            showErrorMsg( buf.join("") ) ;
+            ok = false ;
+        }
+        if ( unknown_template_ids.length > 0 ) {
+            buf = [] ;
+            buf.push(
+                "Invalid template ",
+                pluralString( unknown_template_ids.length, "filename:", "filenames:" ),
+                "<div class='pre'>"
+            ) ;
+            for ( i=0 ; i < unknown_template_ids.length ; ++i )
+                buf.push( escapeHTML(unknown_template_ids[i]) + "<br>" ) ;
+            buf.push( "</div>" ) ;
+            buf.push( "Must be one of:<div class='pre'><ul>" ) ;
+            for ( tid in gDefaultTemplates )
+                buf.push( "<li>" + escapeHTML(tid) + ".j2" ) ;
+            buf.push( "</ul></div>" ) ;
+            showErrorMsg( buf.join("") ) ;
+            ok = false ;
+        }
+        if ( ! ok )
+            return ;
+        // all good - install the new templates
+        for ( tid in new_templates ){
+            gUserDefinedTemplates[tid] = new_templates[tid] ;
+        }
+        showInfoMsg( success_msg ) ;
+    }
+
+    // check if we have a ZIP file
+    fname = fname.toLowerCase() ;
+    if ( fname.substring(fname.length-4) == ".zip" ) {
+        // yup - process each file in the ZIP
+        var nFiles = 0 ;
+        JSZip.loadAsync( data ).then( function( zip ) {
+            zip.forEach( function( relPath, zipEntry ) {
+                ++ nFiles ;
+                zipEntry.async( "string" ).then( function( data ) {
+                    // extract the filename (i.e. we ignore sub-directories)
+                    fname = zipEntry.name ;
+                    var pos = Math.max( fname.lastIndexOf("/"), fname.lastIndexOf("\\") ) ;
+                    if ( pos === fname.length-1 )
+                        return ; // nb: ignore directory entries
+                    if ( pos !== -1 )
+                        fname = fname.substring( pos+1 ) ;
+                    on_new_template( fname, data ) ;
+                } ).then( function() {
+                    if ( --nFiles === 0 ) {
+                        install_new_templates( "The template pack was loaded." ) ;
+                    }
+                } ) ;
+            } ) ;
+        } ).catch( function(ex) {
+            showErrorMsg( "Can't unpack the ZIP:<div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
+        } ) ;
+    }
+    else {
+        // nope - assume an individual template file
+        on_new_template( fname, data ) ;
+        install_new_templates( "The template file was loaded." ) ;
+    }
+
 }

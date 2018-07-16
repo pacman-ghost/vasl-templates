@@ -1,5 +1,6 @@
 var gNationalities = {} ;
 var gDefaultTemplates = {} ;
+var gUserDefinedTemplates = {} ;
 
 var _NATIONALITY_SPECIFIC_BUTTONS = {
     "russian": [ "mol", "mol-p" ],
@@ -15,9 +16,11 @@ $(document).ready( function () {
     // initialize
     var $menu = $("#menu input") ;
     $menu.popmenu( {
-        new: { label: "New scenario", action: on_new_scenario },
-        load: { label: "Load scenario", action: on_load_scenario },
-        save: { label: "Save scenario", action: on_save_scenario },
+        new_scenario: { label: "New scenario", action: on_new_scenario },
+        load_scenario: { label: "Load scenario", action: on_load_scenario },
+        save_scenario: { label: "Save scenario", action: on_save_scenario },
+        separator: { type: "separator" },
+        template_pack: { label: "Load template pack", action: on_template_pack },
     } ) ;
     // nb: we only show the popmenu on left click (not the normal right-click)
     $menu.off( "contextmenu" ) ;
@@ -34,6 +37,8 @@ $(document).ready( function () {
     } ) ;
     // add a handler for when the "load scenario" file has been selected
     $("#load-scenario").change( on_load_scenario_file_selected ) ;
+    // add a handler for when the "load template pack" file has been selected
+    $("#load-template-pack").change( on_template_pack_file_selected ) ;
     // all done - we can show the menu now
     $("#menu").show() ;
 
@@ -115,11 +120,24 @@ $(document).ready( function () {
     $("select[name='PLAYER_1']").change( function() { on_player_change($(this)) ; } ) ;
     $("select[name='PLAYER_2']").change( function() { on_player_change($(this)) ; } ) ;
 
-    // get the default templates
-    $.getJSON( gGetTemplatesUrl, function(data) {
+    // get the templates
+    $.getJSON( gGetDefaultTemplatesUrl, function(data) {
         gDefaultTemplates = data ;
     } ).fail( function( xhr, status, errorMsg ) {
-        showErrorMsg( "Can't get the default templates:<pre>" + escapeHTML(errorMsg) + "</pre>" ) ;
+        showErrorMsg( "Can't get the default templates:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+    } ) ;
+    $.getJSON( gGetAutoloadTemplatesUrl, function(data) {
+        if ( "error" in data )
+            showErrorMsg( "Can't get the autoload templates:<div class='pre'>" + escapeHTML(data.error) + "</div>" ) ;
+        else {
+            if ( "_path_" in data ) {
+                showInfoMsg( "Auto-loaded template pack:<div class='pre'>" + escapeHTML(data._path_) + "</div>" ) ;
+                delete data._path_ ;
+            }
+            gUserDefinedTemplates = data ;
+        }
+    } ).fail( function( xhr, status, errorMsg ) {
+        showErrorMsg( "Can't get the autoload templates:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
     } ) ;
 
     var prevHeight = [] ;

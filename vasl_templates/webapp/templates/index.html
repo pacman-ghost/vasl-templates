@@ -18,6 +18,8 @@
 <div id="menu" style="display:none;">
     <input type="button" value="actions">
     <input id="load-scenario" type="file" style="display:none;">
+    <input id="load-template-pack" type="file" style="display:none;">
+    <textarea id="template_pack_persistence" style="display:none;"></textarea>
 </div>
 
 <div id="tabs">
@@ -136,9 +138,11 @@
 <script src="{{url_for('static',filename='growl/jquery.growl.js')}}"></script>
 <script src="{{url_for('static',filename='popmenu/jquery.popmenu-1.0.0.min.js')}}"></script>
 <script src="{{url_for('static',filename='download/download.min.js')}}"></script>
+<script src="{{url_for('static',filename='jszip/jszip.min.js')}}"></script>
 <script>
 gImagesBaseUrl = "{{url_for('static',filename='images')}}" ;
-gGetTemplatesUrl = "{{url_for('get_templates')}}" ;
+gGetDefaultTemplatesUrl = "{{url_for('get_default_templates')}}" ;
+gGetAutoloadTemplatesUrl = "{{url_for('get_autoload_templates')}}" ;
 gGetNationalitiesUrl = "{{url_for('get_nationalities')}}" ;
 </script>
 <script src="{{url_for('static',filename='main.js')}}"></script>
