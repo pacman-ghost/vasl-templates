@@ -58,7 +58,7 @@ function generate_snippet( $btn )
         params.PF_RANGE = 3 ;
     if ( params.SCENARIO_YEAR < 1943 || (params.SCENARIO_YEAR == 1943 && params.SCENARIO_MONTH <= 9) ) {
         params.PF_CHECK_DRM = "+1" ;
-        params.PF_CHECK_DR = 4 ;
+        params.PF_CHECK_DR = 2 ;
     } else if ( params.SCENARIO_YEAR >= 1945 ) {
         params.PF_CHECK_DRM = "-1" ;
         params.PF_CHECK_DR = 4 ;

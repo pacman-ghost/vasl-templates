@@ -93,8 +93,8 @@ def test_nationality_specific( webapp, webdriver ):
                 assert last_warning.startswith( "PF are only available" )
             else:
                 assert last_warning == ""
-        do_test( (1942,1), "PF: range=[1] ; check=[4] (drm=[+1])", True )
-        do_test( (1943,9), "PF: range=[1] ; check=[4] (drm=[+1])", True )
+        do_test( (1942,1), "PF: range=[1] ; check=[2] (drm=[+1])", True )
+        do_test( (1943,9), "PF: range=[1] ; check=[2] (drm=[+1])", True )
         do_test( (1943,10), "PF: range=[1] ; check=[3]", False )
         do_test( (1944,5), "PF: range=[1] ; check=[3]", False )
         do_test( (1944,6), "PF: range=[2] ; check=[3]", False )
