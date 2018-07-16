@@ -113,7 +113,7 @@ $(document).ready( function () {
         $("select[name='PLAYER_2']").html( buf ) ;
         on_new_scenario( false ) ;
     } ).fail( function( xhr, status, errorMsg ) {
-        showErrorMsg( "Can't get the nationalities:<pre>" + escapeHTML(errorMsg) + "</pre>" ) ;
+        showErrorMsg( "Can't get the nationalities:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
     } ) ;
 
     // add handlers for player changes

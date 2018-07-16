@@ -23,7 +23,7 @@ function copyToClipboard( val )
                 console.log( "CLIPBOARD:", val ) ;
         }
         catch( ex ) {
-            showErrorMsg( "Can't copy to the clipboard:<pre>" + escapeHTML(ex) + "</pre>" ) ;
+            showErrorMsg( "Can't copy to the clipboard:<div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
         }
         finally {
             document.body.removeChild( textarea ) ;

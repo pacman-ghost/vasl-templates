@@ -96,7 +96,7 @@ function generate_snippet( $btn )
         if ( missing_params.length > 0 ) {
             var buf = [ "Missing parameters:<ul>" ] ;
             for ( var i=0 ; i < missing_params.length ; ++i )
-                buf.push( "<li>" + escapeHTML(missing_params[i]) ) ;
+                buf.push( "<li> <span class='pre'>" + escapeHTML(missing_params[i]) + "</span>" ) ;
             buf.push( "</ul>" ) ;
             showWarningMsg( buf.join("") ) ;
         }
@@ -123,7 +123,7 @@ function generate_snippet( $btn )
     else if ( template_id in gDefaultTemplates )
         templ = gDefaultTemplates[template_id] ;
     else {
-        showErrorMsg( "Unknown template: " + escapeHTML(template_id) ) ;
+        showErrorMsg( "Unknown template: <span class='pre'>" + escapeHTML(template_id) + "</span>" ) ;
         return ;
     }
     var func ;
@@ -131,7 +131,7 @@ function generate_snippet( $btn )
         func = jinja.compile( templ ).render ;
     }
     catch( ex ) {
-        showErrorMsg( "Can't compile template:<pre>" + escapeHTML(ex) + "</pre>" ) ;
+        showErrorMsg( "Can't compile template:<div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
         return ;
     }
 
@@ -147,14 +147,14 @@ function generate_snippet( $btn )
         val = val.trim() ;
     }
     catch( ex ) {
-        showErrorMsg( "Can't process template <em>\"" + template_id + "\"</em>:<pre>" + escapeHTML(ex) + "</pre>" ) ;
+        showErrorMsg( "Can't process template: <span class='pre'>" + template_id + "</span><div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
         return ;
     }
     try {
         copyToClipboard( val ) ;
     }
     catch( ex ) {
-        showErrorMsg( "Can't copy to the clipboard:<pre>" + escapeHTML(ex) + "</pre>" ) ;
+        showErrorMsg( "Can't copy to the clipboard:<div class'pre'>" + escapeHTML(ex) + "</div>" ) ;
         return ;
     }
     showInfoMsg( "The HTML snippet has been copied to the clipboard." ) ;
@@ -207,7 +207,7 @@ function on_load_scenario_file_selected()
         try {
             data = JSON.parse( fileReader.result ) ;
         } catch( ex ) {
-            showErrorMsg( "Can't load the scenario file:<div>" + escapeHTML(ex) + "</div>" ) ;
+            showErrorMsg( "Can't load the scenario file:<div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
             return ;
         }
         do_load_scenario( data ) ;
@@ -250,7 +250,7 @@ function do_load_scenario( params )
     var buf = [] ;
     for ( key in params ) {
         if ( ! (key in params_loaded) )
-            buf.push( "<li>" + key + " = '" + escapeHTML(params[key]) + "'" ) ;
+            buf.push( "<li> <span class='pre'>" + escapeHTML(key) + " = <span class='pre'>'" + escapeHTML(params[key]) + "</span>'" ) ;
     }
     if ( buf.length > 0 )
         showWarningMsg( "Unknown keys in the scenario file:<ul>" + buf.join("") + "</ul>" ) ;
