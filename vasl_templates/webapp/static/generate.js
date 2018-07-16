@@ -448,6 +448,8 @@ function do_load_template_pack( fname, data )
     }
     else {
         // nope - assume an individual template file
+        if ( data instanceof ArrayBuffer )
+            data = String.fromCharCode.apply( null, new Uint8Array(data) ) ;
         on_new_template( fname, data ) ;
         install_new_templates( "The template file was loaded." ) ;
     }
