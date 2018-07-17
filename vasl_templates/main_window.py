@@ -1,6 +1,8 @@
 """ Main application window. """
 
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel
+import os
+
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFileDialog
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage
 from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtCore import QUrl
@@ -13,7 +15,14 @@ from vasl_templates.webapp import app as webapp
 class MainWindow( QWidget ):
     """Main application window."""
 
+    _main_window = None
+    _curr_scenario_fname = None
+
     def __init__( self, url ):
+
+        # initialize
+        assert MainWindow._main_window is None
+        MainWindow._main_window = self
 
         # initialize
         super().__init__()
@@ -32,6 +41,7 @@ class MainWindow( QWidget ):
             view = QWebEngineView()
             layout.addWidget( view )
             profile = QWebEngineProfile( None, view )
+            profile.downloadRequested.connect( self.onDownloadRequested )
             page = QWebEnginePage( profile, view )
             view.setPage( page )
             view.load( QUrl(url) )
@@ -40,3 +50,29 @@ class MainWindow( QWidget ):
             label.setText( "Running the {} application.\n\nClose this window when you're done.".format( APP_NAME ) )
             layout.addWidget( label )
             QDesktopServices.openUrl( QUrl(url) )
+
+    @staticmethod
+    def onDownloadRequested( item ):
+        """Handle download requests."""
+
+        # ask the user where to save the scenario
+        dlg = QFileDialog(
+            MainWindow._main_window, "Save scenario",
+            os.path.split(MainWindow._curr_scenario_fname)[0] if MainWindow._curr_scenario_fname else None,
+            "Scenario files (*.json);;All files(*)"
+        )
+        dlg.setDefaultSuffix( ".json" )
+        if MainWindow._curr_scenario_fname:
+            dlg.selectFile( os.path.split(MainWindow._curr_scenario_fname)[1] )
+        fname, _  = QFileDialog.getSaveFileName(
+            MainWindow._main_window, "Save scenario",
+            None,
+            "Scenario files (*.json);;All files(*)"
+        )
+        if not fname:
+            return
+
+        # accept the download request
+        item.setPath( fname )
+        item.accept()
+        MainWindow._curr_scenario_fname = fname
