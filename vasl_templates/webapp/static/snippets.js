@@ -24,16 +24,24 @@ function generate_snippet( $btn )
     if ( template_id === "ob_setup_1" ) {
         template_id = "ob_setup" ;
         params.OB_SETUP = params.OB_SETUP_1 ;
-        params.OB_SETUP_COLOR = gNationalities[params.PLAYER_1].ob_colors[0] ;
-        params.OB_SETUP_COLOR_2 = gNationalities[params.PLAYER_1].ob_colors[1] ;
+        delete params.OB_SETUP_1 ;
         params.OB_SETUP_WIDTH = params.OB_SETUP_WIDTH_1 ;
+        delete params.OB_SETUP_WIDTH_1 ;
     }
     else if ( template_id === "ob_setup_2" ) {
         template_id = "ob_setup" ;
         params.OB_SETUP = params.OB_SETUP_2 ;
-        params.OB_SETUP_COLOR = gNationalities[params.PLAYER_2].ob_colors[0] ;
-        params.OB_SETUP_COLOR_2 = gNationalities[params.PLAYER_2].ob_colors[1] ;
+        delete params.OB_SETUP_2 ;
         params.OB_SETUP_WIDTH = params.OB_SETUP_WIDTH_2 ;
+        delete params.OB_SETUP_WIDTH_2 ;
+    }
+    var curr_tab = $("#tabs .ui-tabs-active a").attr( "href" ) ;
+    if ( curr_tab === "#tabs-ob1" ) {
+        params.OB_COLOR = gNationalities[params.PLAYER_1].ob_colors[0] ;
+        params.OB_COLOR_2 = gNationalities[params.PLAYER_1].ob_colors[1] ;
+    } if ( curr_tab === "#tabs-ob2" ) {
+        params.OB_COLOR = gNationalities[params.PLAYER_2].ob_colors[0] ;
+        params.OB_COLOR_2 = gNationalities[params.PLAYER_2].ob_colors[1] ;
     }
 
     // include the player display names

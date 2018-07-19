@@ -93,14 +93,14 @@ def test_nationality_specific( webapp, webdriver ):
                 assert last_warning.startswith( "PF are only available" )
             else:
                 assert last_warning == ""
-        do_test( (1942,1), "PF: range=[1] ; check=[2] (drm=[+1])", True )
-        do_test( (1943,9), "PF: range=[1] ; check=[2] (drm=[+1])", True )
-        do_test( (1943,10), "PF: range=[1] ; check=[3]", False )
-        do_test( (1944,5), "PF: range=[1] ; check=[3]", False )
-        do_test( (1944,6), "PF: range=[2] ; check=[3]", False )
-        do_test( (1944,12), "PF: range=[2] ; check=[3]", False )
-        do_test( (1945,1), "PF: range=[3] ; check=[4] (drm=[-1])", False )
-        do_test( (1946,1), "PF: range=[3] ; check=[4] (drm=[-1])", False )
+        do_test( (1942,1), "PF: range=[1] ; check=[2] (drm=[+1]) ; col=[OBCOL:german]/[OBCOL2:german]", True )
+        do_test( (1943,9), "PF: range=[1] ; check=[2] (drm=[+1]) ; col=[OBCOL:german]/[OBCOL2:german]", True )
+        do_test( (1943,10), "PF: range=[1] ; check=[3] ; col=[OBCOL:german]/[OBCOL2:german]", False )
+        do_test( (1944,5), "PF: range=[1] ; check=[3] ; col=[OBCOL:german]/[OBCOL2:german]", False )
+        do_test( (1944,6), "PF: range=[2] ; check=[3] ; col=[OBCOL:german]/[OBCOL2:german]", False )
+        do_test( (1944,12), "PF: range=[2] ; check=[3] ; col=[OBCOL:german]/[OBCOL2:german]", False )
+        do_test( (1945,1), "PF: range=[3] ; check=[4] (drm=[-1]) ; col=[OBCOL:german]/[OBCOL2:german]", False )
+        do_test( (1946,1), "PF: range=[3] ; check=[4] (drm=[-1]) ; col=[OBCOL:german]/[OBCOL2:german]", False )
 
     # initialize
     def check_baz_snippets():
@@ -120,21 +120,25 @@ def test_nationality_specific( webapp, webdriver ):
                 assert last_warning == ""
         do_test( (1941,1), "BAZ: none" )
         do_test( (1942,10), "BAZ: none" )
-        do_test( (1942,11), "BAZ: '43 ; range=[4] ; X#=[10] ; TK#=[13]" )
-        do_test( (1943,1), "BAZ: '43 ; range=[4] ; X#=[10] ; TK#=[13]" )
-        do_test( (1944,1), "BAZ: '44 ; range=[4] ; X#=[11] ; TK#=[16]" )
-        do_test( (1945,1), "BAZ: '45 ; range=[5] ; X#=[11] ; TK#=[16] ; WP#=[6]" )
-        do_test( (1946,1), "BAZ: '45 ; range=[5] ; X#=[11] ; TK#=[16] ; WP#=[6]" )
+        do_test( (1942,11), "BAZ: '43 ; range=[4] ; X#=[10] ; TK#=[13] ; col=[OBCOL:american]/[OBCOL2:american]" )
+        do_test( (1943,1), "BAZ: '43 ; range=[4] ; X#=[10] ; TK#=[13] ; col=[OBCOL:american]/[OBCOL2:american]" )
+        do_test( (1944,1), "BAZ: '44 ; range=[4] ; X#=[11] ; TK#=[16] ; col=[OBCOL:american]/[OBCOL2:american]" )
+        do_test( (1945,1),
+            "BAZ: '45 ; range=[5] ; X#=[11] ; TK#=[16] ; WP#=[6] ; col=[OBCOL:american]/[OBCOL2:american]"
+        )
+        do_test( (1946,1),
+            "BAZ: '45 ; range=[5] ; X#=[11] ; TK#=[16] ; WP#=[6] ; col=[OBCOL:american]/[OBCOL2:american]"
+        )
 
     # initialize
     nationality_specific_buttons = {
-        "mol": [ "russian", "Burn, baby, burn!" ],
-        "mol-p": [ "russian", "mol-p template" ],
+        "mol": [ "russian", "Burn, baby, burn! ; col=[OBCOL:russian]/[OBCOL2:russian]" ],
+        "mol-p": [ "russian", "mol-p template ; col=[OBCOL:russian]/[OBCOL2:russian]" ],
         "pf": [ "german", check_pf_snippets ],
-        "psk": [ "german", "====> whoosh!" ],
-        "atmm": [ "german", "Kaboom!!!" ],
+        "psk": [ "german", "====> whoosh! ; col=[OBCOL:german]/[OBCOL2:german]" ],
+        "atmm": [ "german", "Kaboom!!! ; col=[OBCOL:german]/[OBCOL2:german]" ],
         "baz": [ "american", check_baz_snippets ],
-        "piat": [ "british", "piat template" ],
+        "piat": [ "british", "piat template ; col=[OBCOL:british]/[OBCOL2:british]" ],
     }
 
     # iterate through each nationality
