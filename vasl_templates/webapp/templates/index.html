@@ -42,7 +42,7 @@
                 <div class="r">
                     <label for="SCENARIO_WIDTH">Width:</label>
                     <input type="text" class="param" name="SCENARIO_WIDTH" size="5">
-                    <input type="button" class="generate" data-id="scenario" value="Go">
+                    <input type="button" class="generate" data-id="scenario" value="Snippet">
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
             <div class="label" data-labelfor="PLAYER_2">Player 2:</div> <select name="PLAYER_2" class="param"></select>
             <select name="PLAYER_2_ELR" class="param"></select>
             <select name="PLAYER_2_SAN" class="param"></select>
-            <div></div> <div></div> <div></div> <input type="button" class="generate" data-id="players" value="Go">
+            <div class="footer"> <input type="button" class="generate" data-id="players" value="Snippet"> </div>
         </div>
     </fieldset>
     <fieldset class="tr"> <legend>Victory Conditions</legend>
@@ -63,7 +63,7 @@
             <div class="footer">
                 <label for="VICTORY_CONDITIONS_WIDTH">Width:</label>
                 <input type="text" class="param" name="VICTORY_CONDITIONS_WIDTH" size="5">
-                <input type="button" class="generate" data-id="victory_conditions" value="Go">
+                <input type="button" class="generate" data-id="victory_conditions" value="Snippet">
             </div>
         </div>
     </fieldset>
@@ -80,7 +80,7 @@
                 </div>
                 <label for="SSR_WIDTH">Width:</label>
                 <input type="text" class="param" name="SSR_WIDTH" size="5">
-                <input type="button" class="generate" data-id="ssr" value="Go">
+                <input type="button" class="generate" data-id="ssr" value="Snippet">
             </div>
         </div>
     </fieldset>
@@ -98,10 +98,10 @@
                 <input type="button" class="generate" data-id="atmm" value="ATMM">
                 <input type="button" class="generate" data-id="baz" value="BAZ">
                 <input type="button" class="generate" data-id="piat" value="PIAT">
-                <input type="button" class="generate" data-id="ob_setup_1" value="Go">
                 <div class="r">
                     <label for="OB_SETUP_WIDTH_1">Width:</label>
                     <input type="text" class="param" name="OB_SETUP_WIDTH_1" size="5">
+                    <input type="button" class="generate" data-id="ob_setup_1" value="Snippet">
                 </div>
             </div>
         </div>
@@ -126,6 +126,7 @@
     </div>
 </div>
 
+<div id="edit-template" style="display:none;"> <textarea></textarea> </div>
 <div id="edit-ssr" style="display:none;"> <b>Enter the SSR content:</b> <textarea></textarea> </div>
 <div id="ask" style="display:none;"></div>
 
@@ -146,7 +147,7 @@ gGetAutoloadTemplatesUrl = "{{url_for('get_autoload_templates')}}" ;
 gGetNationalitiesUrl = "{{url_for('get_nationalities')}}" ;
 </script>
 <script src="{{url_for('static',filename='main.js')}}"></script>
-<script src="{{url_for('static',filename='generate.js')}}"></script>
+<script src="{{url_for('static',filename='snippets.js')}}"></script>
 <script src="{{url_for('static',filename='ssr.js')}}"></script>
 <script src="{{url_for('static',filename='utils.js')}}"></script>
 

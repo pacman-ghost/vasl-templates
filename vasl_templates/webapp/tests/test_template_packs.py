@@ -5,24 +5,9 @@ import zipfile
 import tempfile
 import base64
 
-from selenium.webdriver.support.ui import Select
-
-from vasl_templates.webapp.tests.utils import select_tab, select_menu_option, get_clipboard
+from vasl_templates.webapp.tests.utils import select_menu_option, get_clipboard
 from vasl_templates.webapp.tests.utils import get_stored_msg, set_stored_msg, dismiss_notifications, find_child
-
-# standard templates
-STD_TEMPLATES = {
-    "scenario": [ "scenario", "players", "victory_conditions", "ssr" ],
-    "ob1": [ "ob_setup_1" ],
-}
-
-# nationality-specific templates
-NAT_TEMPLATES = {
-    "german": [ "pf", "psk", "atmm" ],
-    "russian": [ "mol", "mol-p" ],
-    "american": [ "baz" ],
-    "british": [ "piat" ],
-}
+from vasl_templates.webapp.tests.utils import for_each_template
 
 # ---------------------------------------------------------------------
 
@@ -32,52 +17,26 @@ def test_individual_files( webapp, webdriver ):
     # initialize
     webdriver.get( webapp.url_for( "main", store_msgs=1, template_pack_persistence=1 ) )
 
-    # generate a list of all the templates we need to test
-    templates_to_test = set()
-    dname = os.path.join( os.path.split(__file__)[0], "../data/default-templates" )
-    for fname in os.listdir(dname):
-        if os.path.splitext(fname)[1] != ".j2":
-            continue
-        templates_to_test.add( fname )
-
-    # initialize
-    def test_template( template_id ):
+    # try uploading a customized version of each template
+    def test_template( template_id, orig_template_id ):
         """Test uploading a customized version of the template."""
         # make sure generating a snippet returns something
         dismiss_notifications()
-        elem = find_child( "input.generate[data-id='{}']".format( template_id ) )
+        elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
         elem.click()
         assert get_clipboard() != ""
         # upload a new template
-        fname = ("ob_setup" if template_id.startswith("ob_setup_") else template_id) + ".j2"
+        fname = template_id + ".j2"
         set_stored_msg( "template_pack_persistence",
             "{} | {}".format( fname, "UPLOADED TEMPLATE" )
         )
         select_menu_option( "template_pack" )
         # make sure generating a snippet returns the new version
         dismiss_notifications()
-        elem = find_child( "input.generate[data-id='{}']".format( template_id ) )
+        elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
         elem.click()
         assert get_clipboard() == "UPLOADED TEMPLATE"
-        templates_to_test.remove( fname )
-
-    # try uploading a customized version of each template
-    for tab_id,template_ids in STD_TEMPLATES.items():
-        select_tab( tab_id )
-        for template_id in template_ids:
-            test_template( template_id )
-
-    # try uploading a customized version of each nationality-specific template
-    for nat,template_ids in NAT_TEMPLATES.items():
-        select_tab( "scenario" )
-        sel = Select( find_child( "select[name='PLAYER_1']" ) )
-        sel.select_by_value( nat )
-        select_tab( "ob1" )
-        for template_id in template_ids:
-            test_template(template_id )
-
-    # make sure we tested everything
-    assert not templates_to_test
+    for_each_template( test_template )
 
     # try uploading a template with an incorrect filename extension
     set_stored_msg( "template_pack_persistence",
@@ -110,9 +69,7 @@ def test_zip_files( webapp, webdriver ):
 
     # check that the uploaded templates are being used
     _check_snippets(
-        lambda tid: "Customized {}.".format(
-            "OB_SETUP" if tid.startswith("ob_setup_") else tid.upper()
-        )
+        lambda tid: "Customized {}.".format( tid.upper() )
     )
 
     # upload only part of template pack
@@ -142,32 +99,21 @@ def test_autoload_template_pack( webapp, webdriver ):
 
     # check that the autoload'ed templates are being used
     _check_snippets(
-        lambda tid: "Autoload'ed {}.".format(
-            "OB_SETUP" if tid.startswith("ob_setup_") else tid.upper()
-        )
+        lambda tid: "Autoload'ed {}.".format( tid.upper() )
     )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def _check_snippets( func ):
     """Check that snippets are being generated as expected."""
-    for tab_id,template_ids in STD_TEMPLATES.items():
-        select_tab( tab_id )
-        for template_id in template_ids:
-            dismiss_notifications()
-            elem = find_child( "input.generate[data-id='{}']".format( template_id ) )
-            elem.click()
-            assert get_clipboard() == func(template_id)
-    for nat,template_ids in NAT_TEMPLATES.items():
-        select_tab( "scenario" )
-        sel = Select( find_child( "select[name='PLAYER_1']" ) )
-        sel.select_by_value( nat )
-        select_tab( "ob1" )
-        for template_id in template_ids:
-            dismiss_notifications()
-            elem = find_child( "input.generate[data-id='{}']".format( template_id ) )
-            elem.click()
-            assert get_clipboard() == func(template_id)
+
+    def test_template( template_id, orig_template_id ):
+        """Test each template."""
+        dismiss_notifications()
+        elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
+        elem.click()
+        assert get_clipboard() == func( template_id )
+    for_each_template( test_template )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

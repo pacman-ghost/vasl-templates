@@ -163,11 +163,52 @@ $(document).ready( function () {
     } ) ;
     $(window).trigger( "resize" ) ;
 
-    // handle requests to generate HTML snippets
+    // replace all the "generate" buttons with "generate/edit" button/droplist's
+    $("input[type='button'].generate").each( function() {
+        var template_id = $(this).attr( "data-id" ) ;
+        var template_id2 = (template_id.substring(0,9) === "ob_setup_") ? "ob_setup" : template_id ;
+        var buf = [ "<div class='snippet-control' data-id='" + template_id + "'>",
+            $(this).prop( "outerHTML" ),
+            "<select data-id='" + template_id2 + "'>",
+            "<option value='edit' class='edit-template'>Edit</option>",
+            "</select>",
+            "</div>"
+        ] ;
+        var $newElem = $( buf.join("") ) ;
+        $newElem.controlgroup() ;
+        $newElem.children("select").each( function() {
+            $(this).selectmenu( {
+                classes: {
+                    "ui-selectmenu-button": "ui-button-icon-only",
+                    "ui-selectmenu-menu": "snippet-control-menu-item",
+                },
+            } ) ;
+        } ) ;
+        $newElem.children(".ui-button-icon-only").css( "width", "1em" ) ;
+        $newElem.children(".ui-selectmenu-button").click( function() {  $(this).blur() ; } ) ;
+        $(this).replaceWith( $newElem ) ;
+    } ) ;
+
+    // handle requests to generate/edit HTML snippets
     $("input[type='button'].generate").click( function() {
         generate_snippet( $(this) ) ;
     } ) ;
+    $("div.snippet-control select").on( "selectmenuselect", function() {
+        edit_template( $(this).attr("data-id") ) ;
+    } ) ;
 
+    // add some dummy links for the test suite to edit templates
+    if ( getUrlParam( "edit_template_links" ) ) {
+        $("input[type='button'].generate").each( function() {
+           var template_id = $(this).attr( "data-id" ) ;
+            if ( template_id.substring(0,9) === "ob_setup_" )
+                template_id = "ob_setup" ;
+            $( "<a href='#' class='edit-template-link' data-id='" + template_id + "'" +
+               " onclick='edit_template(\"" + template_id + "\")'" +
+               "></a>"
+            ).appendTo( "body" ) ;
+        } ) ;
+    }
 } ) ;
 
 // --------------------------------------------------------------------
@@ -191,7 +232,7 @@ function on_player_change( $select )
     for ( var nat in _NATIONALITY_SPECIFIC_BUTTONS ) {
         for ( var i=0 ; i < _NATIONALITY_SPECIFIC_BUTTONS[nat].length ; ++i ) {
             var button_id = _NATIONALITY_SPECIFIC_BUTTONS[nat][i] ;
-            $elem = $( "#panel-obsetup" + player_id + " input[type='button'][data-id='" + button_id + "']" ) ;
+            $elem = $( "#panel-obsetup" + player_id + " div.snippet-control[data-id='" + button_id + "']" ) ;
             $elem.css( "display", nat == player_nat ? "block" : "none" ) ;
         }
     }

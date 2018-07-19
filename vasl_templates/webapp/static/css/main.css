@@ -20,12 +20,15 @@ body { height: 100% ; }
 
 #tabs .ui-tabs-nav li img { position: relative ; top: 2px ; height: 1em ; }
 
+.snippet-control-menu-item { font-size: 75% ; }
+.ui-selectmenu-icon.ui-icon { margin-top: -8px; }
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #tabs-scenario {
     display: grid ; display: -ms-grid ;
-    grid-template-rows: 14em 1fr ; -ms-grid-rows: 14em 1fr ;
-    grid-template-columns: 25em 1fr ; -ms-grid-columns: 25em 1fr ;
+    grid-template-rows: 16em 1fr ; -ms-grid-rows: 14em 1fr ;
+    grid-template-columns: 28em 1fr ; -ms-grid-columns: 28em 1fr ;
 }
 
 #tabs-scenario fieldset.tr {
@@ -79,6 +82,15 @@ fieldset legend { padding: 0 0.2em 0 0.2em ; font-style: italic ; font-weight: b
 input[type="text"] { margin-bottom: 0.25em ; }
 
 /* -------------------------------------------------------------------- */
+
+.ui-dialog-titlebar { padding: 0.2em 0.5em 0.2em 0.5em !important ; }
+.ui-dialog-titlebar-close { margin-top: -10px !important ; }
+
+.ui-dialog.edit-template .ui-dialog-buttonpane { border: none ; padding: 0 ; font-size: 75% ; }
+#edit-template { padding: 2px ; }
+.ui-dialog.edit-template textarea { resize: none ; width: calc(100% - 4px) ; height: 100% ; }
+.ui-dialog.edit-template textarea { font-family: "Courier New" ; font-size: 80% ; }
+.ui-dialog.edit-template button { margin: 0 0 0 5px ; padding: 0.1em 0.2em ; }
 
 .ui-dialog.edit-ssr .ui-dialog-titlebar { display: none ; }
 .ui-dialog.edit-ssr .ui-dialog-buttonpane { border: none ; padding: 0 ; font-size: 75% ; }

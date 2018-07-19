@@ -1,20 +1,14 @@
 .panel-obsetup {
     height: 100% ;
     display: grid ; display: -ms-grid ;
-    grid-template-rows: 1fr 2em ; -ms-grid-rows: 1fr 2em ;
+    grid-template-rows: 1fr 2.5em ; -ms-grid-rows: 1fr 2.5em ;
     grid-template-columns: 1fr ; -ms-grid-columns: 1fr ;
 }
 /* FUDGE! IE hackamathon follows (nb: <label> doesn't work, we use <div> for labels instead :-/) */
 .panel-obsetup .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
 
 .panel-obsetup textarea { width: 100% ; height: 100% ; resize: none ; }
-.panel-obsetup input[data-id='mol'] { float: left ; }
-.panel-obsetup input[data-id='mol-p'] { float: left ; }
-.panel-obsetup input[data-id='pf'] { float: left ; }
-.panel-obsetup input[data-id='psk'] { float: left ; }
-.panel-obsetup input[data-id='atmm'] { float: left ; }
-.panel-obsetup input[data-id='baz'] { float: left ; }
-.panel-obsetup input[data-id='piat'] { float: left ; }
-.panel-obsetup input[data-id='ob_setup_1'] { float: right ; }
-.panel-obsetup input[data-id='ob_setup_2'] { float: right ; }
-.panel-obsetup div.r { float: right ; font-size: 75% ; }
+.panel-obsetup .footer { font-size: 75% ; }
+.panel-obsetup div.snippet-control { float: left ; margin: 0.25em 0.25em 0 0 ; }
+.panel-obsetup .footer .r { display: block-inline ; float: right ; }
+.panel-obsetup .footer .r div.snippet-control { float: none ; margin-right: 0 ; }

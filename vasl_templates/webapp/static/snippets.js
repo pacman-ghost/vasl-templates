@@ -117,15 +117,9 @@ function generate_snippet( $btn )
         showWarningMsg( "Both players have the same nationality!" ) ;
 
     // get the template to generate the snippet from
-    var templ ;
-    if ( template_id in gUserDefinedTemplates )
-        templ = gUserDefinedTemplates[template_id] ;
-    else if ( template_id in gDefaultTemplates )
-        templ = gDefaultTemplates[template_id] ;
-    else {
-        showErrorMsg( "Unknown template: <span class='pre'>" + escapeHTML(template_id) + "</span>" ) ;
+    var templ = get_template( template_id ) ;
+    if ( templ === null )
         return ;
-    }
     var func ;
     try {
         func = jinja.compile( templ ).render ;
@@ -178,6 +172,54 @@ function unload_params()
     } ) ;
 
     return params ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function get_template( template_id )
+{
+    // get the specified template
+    if ( template_id in gUserDefinedTemplates )
+        return gUserDefinedTemplates[template_id] ;
+    else if ( template_id in gDefaultTemplates )
+        return gDefaultTemplates[template_id] ;
+    showErrorMsg( "Unknown template: <span class='pre'>" + escapeHTML(template_id) + "</span>" ) ;
+    return null ;
+}
+
+// --------------------------------------------------------------------
+
+function edit_template( template_id )
+{
+    // get the specified template
+    var template = get_template( template_id ) ;
+    if ( template === null )
+        return ;
+
+    function on_template_change() {
+        // install the new template
+        gUserDefinedTemplates[template_id] = $("#edit-template textarea").val() ;
+    }
+
+    // let the user edit the template
+    $("#edit-template textarea").val( template ) ;
+    $("#edit-template").dialog( {
+        dialogClass: "edit-template",
+        title: "Editing template: " + escapeHTML(template_id),
+        modal: false,
+        minWidth: 400, minHeight: 200,
+        open: function() {
+            $(this).height( $(this).height() ) ; // fudge: force the textarea to resize
+            $("#edit-template").css( "overflow", "hidden" ) ;
+            $("#edit-template textarea").change( on_template_change ) ;
+        },
+        close: function() {
+            $("#edit-template textarea").off( "change", on_template_change ) ;
+        },
+        buttons: {
+            Close: function() { $(this).dialog( "close" ) ; },
+        },
+    } ) ;
 }
 
 // --------------------------------------------------------------------

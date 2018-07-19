@@ -13,7 +13,6 @@
 #panel-scenario div.last_row { -ms-grid-row: 3 ; -ms-grid-column: 2 ; }
 
 #panel-scenario .last_row .r { display: block-inline ; float: right ; font-size: 75% ; }
-#panel-scenario input[data-id="scenario"] { height: 2em ; }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
@@ -22,6 +21,7 @@
     display: grid ; display: -ms-grid ;
     grid-template-columns: 5em 1fr 3em 3em ; -ms-grid-columns: 5em 1fr 3em 3em ;
 }
+#panel-players .footer { grid-column-start: 1 ; grid-column-end: 5 ; }
 /* FUDGE! IE hackamathon follows (nb: <label> doesn't work, we use <div> for labels instead :-/) */
 #panel-players div[data-labelfor="ELR"] { -ms-grid-row: 1 ; -ms-grid-column: 3 ; }
 #panel-players div[data-labelfor="SAN"] { -ms-grid-row: 1 ; -ms-grid-column: 4 ; }
@@ -33,7 +33,7 @@
 #panel-players select[name="PLAYER_2"] { -ms-grid-row: 3 ; -ms-grid-column: 2 ; }
 #panel-players select[name="PLAYER_2_ELR"] { -ms-grid-row: 3 ; -ms-grid-column: 3 ; }
 #panel-players select[name="PLAYER_2_SAN"] { -ms-grid-row: 3 ; -ms-grid-column: 4 ; }
-#panel-players input[data-id="players"] { -ms-grid-row: 4 ; -ms-grid-column: 4 ; }
+#panel-players .footer { -ms-grid-row: 4 ; -ms-grid-column: 1 ; -ms-grid-column-span: 4 ; }
 
 #panel-players div[data-labelfor="ELR"] { margin-left: 0.25em ; }
 #panel-players div[data-labelfor="SAN"] { margin-left: 0.25em ; }
@@ -42,6 +42,9 @@
 #panel-players select[name="PLAYER_1_ELR"] { margin-right: 0.25em ; }
 #panel-players select[name="PLAYER_2_ELR"] { margin-right: 0.25em ; }
 #panel-players input[data-id="players"] { margin-top: 0.25em ; }
+
+#panel-players .footer { margin-top: 0.25em ; font-size: 75% ; text-align: right ; }
+#panel-players .footer input[type='button'] { margin: 0 ; }
 
 /* -------------------------------------------------------------------- */
 
@@ -55,7 +58,6 @@
 
 #panel-vc textarea { width: 100% ; height: 100% ; resize: none ; }
 #panel-vc .footer { text-align: right ; font-size: 75% ; }
-#panel-vc input[data-id="victory_conditions"] { height: 2em ; }
 
 /* -------------------------------------------------------------------- */
 

@@ -1,5 +1,6 @@
 """ Helper utilities. """
 
+import os
 import urllib.request
 import json
 import time
@@ -9,9 +10,61 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 
+# standard templates
+_STD_TEMPLATES = {
+    "scenario": [ "scenario", "players", "victory_conditions", "ssr" ],
+    "ob1": [ "ob_setup_1" ],
+    "ob2": [ "ob_setup_2" ],
+}
+
+# nationality-specific templates
+_NAT_TEMPLATES = {
+    "german": [ "pf", "psk", "atmm" ],
+    "russian": [ "mol", "mol-p" ],
+    "american": [ "baz" ],
+    "british": [ "piat" ],
+}
+
 _webdriver = None
 
 # ---------------------------------------------------------------------
+
+def for_each_template( func ):
+    """Test each template."""
+
+    # generate a list of all the templates we need to test
+    templates_to_test = set()
+    dname = os.path.join( os.path.split(__file__)[0], "../data/default-templates" )
+    for fname in os.listdir(dname):
+        fname,extn = os.path.splitext( fname )
+        if extn != ".j2":
+            continue
+        templates_to_test.add( fname )
+
+    # test the standard templates
+    for tab_id,template_ids in _STD_TEMPLATES.items():
+        select_tab( tab_id )
+        for template_id in template_ids:
+            template_id2 = "ob_setup" if template_id.startswith("ob_setup_") else template_id
+            func( template_id2, template_id )
+            if template_id != "ob_setup_2":
+                templates_to_test.remove( template_id2 )
+
+    # test the nationality-specific templates
+    # NOTE: The buttons are the same on the OB1 and OB2 tabs, so we only test for player 1.
+    for nat,template_ids in _NAT_TEMPLATES.items():
+        select_tab( "scenario" )
+        sel = Select( find_child( "select[name='PLAYER_1']" ) )
+        sel.select_by_value( nat )
+        select_tab( "ob1" )
+        for template_id in template_ids:
+            func( template_id, template_id )
+            templates_to_test.remove( template_id )
+
+    # make sure we tested everything
+    assert not templates_to_test
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def select_tab( tab_id ):
     """Select a tab in the main page."""
@@ -56,6 +109,7 @@ def set_template_params( params ):
                 elem.send_keys( val )
                 if key == "SCENARIO_DATE":
                     elem.send_keys( Keys.ESCAPE ) # nb: force the calendar popup to close :-/
+                    wait_for( 5, lambda: find_child("#ui-datepicker-div").value_of_css_property("display") == "none" )
                     time.sleep( 0.25 )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
