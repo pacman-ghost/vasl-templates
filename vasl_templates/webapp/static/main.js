@@ -1,4 +1,5 @@
 var gNationalities = {} ;
+var gDefaultNationalities = {} ;
 var gDefaultTemplates = {} ;
 var gUserDefinedTemplates = {} ;
 
@@ -106,11 +107,8 @@ $(document).ready( function () {
     // load the nationalities
     $.getJSON( gGetNationalitiesUrl, function(data) {
         gNationalities = data ;
-        var buf = [] ;
-        for ( var id in gNationalities )
-            buf.push( "<option value='" + id + "'>" + gNationalities[id].display_name + "</option>" ) ;
-        $("select[name='PLAYER_1']").html( buf ) ;
-        $("select[name='PLAYER_2']").html( buf ) ;
+        gDefaultNationalities = $.extend( true, {}, data ) ;
+        load_nationalities() ;
         on_new_scenario( false ) ;
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the nationalities:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
@@ -210,6 +208,26 @@ $(document).ready( function () {
         } ) ;
     }
 } ) ;
+
+// --------------------------------------------------------------------
+
+function load_nationalities()
+{
+    // update the player droplists
+    var curSel1 = $("select[name='PLAYER_1']").val() ;
+    var curSel2 = $("select[name='PLAYER_2']").val() ;
+    var buf = [] ;
+    for ( var id in gNationalities )
+        buf.push( "<option value='" + id + "'>" + gNationalities[id].display_name + "</option>" ) ;
+    $("select[name='PLAYER_1']").html( buf ).val( curSel1 ) ;
+    $("select[name='PLAYER_2']").html( buf ).val( curSel2 ) ;
+
+    // update the OB tabs
+    if ( curSel1 )
+        on_player_change( $("select[name='PLAYER_1']") ) ;
+    if ( curSel2 )
+        on_player_change( $("select[name='PLAYER_2']") ) ;
+}
 
 // --------------------------------------------------------------------
 

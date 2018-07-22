@@ -88,9 +88,4 @@ def get_nationalities():
     with open(fname,"r") as fp:
         nationalities = json.load( fp )
 
-    # auto-generate ID's for those entries that don't already have one
-    for nat in nationalities:
-        if "id" not in nat:
-            nat["id"] = nat["display_name"].lower()
-
-    return jsonify( { n["id"]: n for n in nationalities } )
+    return jsonify( nationalities )

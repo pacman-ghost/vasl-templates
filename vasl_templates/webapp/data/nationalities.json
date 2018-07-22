@@ -1,35 +1,43 @@
-[
+{
 
-{ "display_name": "German",
+"german": {
+  "display_name": "German",
   "ob_colors": [ "OBCOL:german", "OBCOL2:german" ]
 },
 
-{ "display_name": "Russian",
+"russian": {
+  "display_name": "Russian",
   "ob_colors": [ "OBCOL:russian", "OBCOL2:russian" ]
 },
 
-{ "display_name": "American",
+"american": {
+  "display_name": "American",
   "ob_colors": [ "OBCOL:american", "OBCOL2:american" ]
 },
 
-{ "display_name": "British",
+"british": {
+  "display_name": "British",
   "ob_colors": [ "OBCOL:british", "OBCOL2:british" ]
 },
 
-{ "display_name": "French",
+"french": {
+  "display_name": "French",
   "ob_colors": [ "OBCOL:french", "OBCOL2:french" ]
 },
 
-{ "display_name": "Italian",
+"italian": {
+  "display_name": "Italian",
   "ob_colors": [ "OBCOL:italian", "OBCOL2:italian" ]
 },
 
-{ "display_name": "Finnish",
+"finnish": {
+  "display_name": "Finnish",
   "ob_colors": [ "OBCOL:finns", "OBCOL2:finns" ]
 },
 
-{ "display_name": "Japanese",
+"japanese": {
+  "display_name": "Japanese",
   "ob_colors": [ "OBCOL:japanese", "OBCOL2:japanese" ]
 }
 
-]
+}

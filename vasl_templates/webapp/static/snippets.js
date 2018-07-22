@@ -407,10 +407,20 @@ function do_load_template_pack( fname, data )
     var invalid_filename_extns = [] ;
     var unknown_template_ids = [] ;
     var new_templates = {} ;
+    var nationalities = null ;
 
     // initialize
     function on_new_template( fname, data ) {
         // make sure the filename is valid
+        if ( fname.toLowerCase() === "nationalities.json" ) {
+            try {
+                nationalities = JSON.parse( data ) ;
+            } catch( ex ) {
+                showWarningMsg( "Can't parse the nationalities JSON data:<div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
+                return ;
+            }
+            return ;
+        }
         if ( fname.substring(fname.length-3) != ".j2" ) {
             invalid_filename_extns.push( fname ) ;
             return ;
@@ -465,6 +475,11 @@ function do_load_template_pack( fname, data )
         // all good - install the new templates
         for ( tid in new_templates ){
             gUserDefinedTemplates[tid] = new_templates[tid] ;
+        }
+        // install any user-defined nationality data
+        if ( nationalities !== null ) {
+            gNationalities = $.extend( true, {}, gDefaultNationalities, nationalities ) ;
+            load_nationalities() ;
         }
         showInfoMsg( success_msg ) ;
     }

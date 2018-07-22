@@ -15,7 +15,7 @@ import click
 
 from vasl_templates.main_window import MainWindow
 from vasl_templates.webapp import app as webapp
-from vasl_templates.webapp import generate, load_debug_config
+from vasl_templates.webapp import snippets, load_debug_config
 
 # ---------------------------------------------------------------------
 
@@ -53,7 +53,7 @@ def main( template_pack, debug ):
         if not rc:
             click.echo( "ERROR: The template pack must be a ZIP file or a directory containing the template files." )
             return 1
-        generate.autoload_template_pack = template_pack
+        snippets.autoload_template_pack = template_pack
 
     # install the debug config file
     if debug:

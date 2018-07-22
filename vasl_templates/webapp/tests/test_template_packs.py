@@ -5,6 +5,8 @@ import zipfile
 import tempfile
 import base64
 
+from selenium.webdriver.support.ui import Select
+
 from vasl_templates.webapp.tests.utils import select_menu_option, get_clipboard
 from vasl_templates.webapp.tests.utils import get_stored_msg, set_stored_msg, dismiss_notifications, find_child
 from vasl_templates.webapp.tests.utils import for_each_template
@@ -91,8 +93,8 @@ def test_autoload_template_pack( webapp, webdriver ):
 
     # configure the autoload template pack
     dname = os.path.join( os.path.split(__file__)[0], "fixtures/template-packs/autoload/" )
-    from vasl_templates.webapp import generate
-    generate.autoload_template_pack = dname
+    from vasl_templates.webapp import snippets
+    snippets.autoload_template_pack = dname
 
     # initialize
     webdriver.get( webapp.url_for( "main" ) )
@@ -101,6 +103,42 @@ def test_autoload_template_pack( webapp, webdriver ):
     _check_snippets(
         lambda tid: "Autoload'ed {}.".format( tid.upper() )
     )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def test_nationality_data( webapp, webdriver ):
+    """Test a template pack with nationality data."""
+
+    # initialize
+    webdriver.get( webapp.url_for( "main", store_msgs=1, template_pack_persistence=1 ) )
+
+    # select the British as player 1
+    sel = Select(
+        find_child( "select[name='PLAYER_1']" )
+    )
+    sel.select_by_value( "british" )
+    elem = find_child( "a[href='#tabs-ob1']" )
+    assert elem.text.strip() == "British OB"
+    sel = Select( find_child( "select[name='PLAYER_1']" ) )
+    assert sel.first_selected_option.text == "British"
+    players = [ o.text for o in sel.options ]
+
+    # upload a template pack that contains nationality data
+    zip_data = _make_zip_from_files( "with-nationality-data" )
+    _upload_template_pack( zip_data )
+    assert get_stored_msg("_last-error_") is None
+
+    # check that the UI was updated correctly
+    elem = find_child( "a[href='#tabs-ob1']" )
+    assert elem.text.strip() == "Poms! OB"
+    elem = find_child( "select[name='PLAYER_1']" )
+    assert Select(elem).first_selected_option.text == "Poms!"
+
+    # check that there is a new Korean player
+    players2 = [ o.text for o in sel.options ]
+    players2.remove( "Korean" )
+    players2 = [ "British" if o == "Poms!" else o for o in players2 ]
+    assert players2 == players
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
