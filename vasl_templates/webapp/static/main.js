@@ -30,10 +30,14 @@ $(document).ready( function () {
             pos.left+$(this).width()+4, pos.top+$(this).height()+4, "fade", 200
         ) ;
     } ) ;
-    // nb: we dismiss the popmenu on ESCAPE
+    // nb: we dismiss the popmenu and any notifications on ESCAPE
     $(document).keydown( function(evt) {
-        if ( evt.keyCode == 27 )
+        if ( evt.keyCode == 27 ) {
             $menu.popmenu( "hide" ) ;
+            $(".growl-close").each( function() {
+                $(this).trigger( "click" ) ;
+            } ) ;
+        }
     } ) ;
     // add a handler for when the "load scenario" file has been selected
     $("#load-scenario").change( on_load_scenario_file_selected ) ;
