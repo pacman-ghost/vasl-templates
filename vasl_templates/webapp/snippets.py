@@ -9,83 +9,73 @@ from flask import jsonify, abort
 from vasl_templates.webapp import app
 from vasl_templates.webapp.config.constants import DATA_DIR
 
-autoload_template_pack = None
+default_template_pack = None
 
 # ---------------------------------------------------------------------
 
-@app.route( "/templates/default" )
-def get_default_templates():
-    """Get the default templates."""
+@app.route( "/template-pack" )
+def get_template_pack():
+    """Return a template pack.
 
-    # return the default templates
-    dname = os.path.join( DATA_DIR, "default-templates" )
-    return jsonify( _do_get_templates( dname ) )
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-@app.route( "/templates/autoload" )
-def get_autoload_templates():
-    """Get the templates to auto-load at startup.
-
-    We would like the user to be able to specify a template pack to auto-load
-    when starting the desktop app, but it's a little tricky to programatically
-    get the frontend Javascript to accept an upload. We could possibly do it
-    by using QWebChannel, but this would only work if the webapp was running
-    inside PyQt. Instead, we get the frontend to call this endpoint when it
-    starts up, to get the (optional) autoload templates.
+    Loading template packs is currently handled in the front-end, but we need
+    this entry point for the webapp to get the *default* template pack.
+    If, in the future, we support loading other template packs from the backend,
+    we can add a parameter here to specify which one to return.
     """
 
-    # check if an autoload template pack has been configured
-    if not autoload_template_pack:
-        # nope - return an empty response
-        return jsonify( {} )
+    # initialize
+    # NOTE: We always start with the default nationalities data. Unlike template files,
+    # user-defined template packs can add to it, or modify existing entries, but not replace it.
+    base_dir = os.path.join( DATA_DIR, "default-template-pack/" )
+    data = { "templates": {} }
+    fname = os.path.join( base_dir, "nationalities.json" )
+    with open(fname,"r") as fp:
+        data["nationalities"] = json.load( fp )
 
-    # check if the template pack is a directory
-    if os.path.isdir( autoload_template_pack ):
-        # yup - return the template files in it
-        templates = _do_get_templates( autoload_template_pack )
-        templates["_path_"] = autoload_template_pack
-        return jsonify( templates )
+    # check if a default template pack has been configured
+    if default_template_pack:
+        dname = default_template_pack
+        data["_path_"] = dname
+    else:
+        # nope - use our default template pack
+        dname = base_dir
 
-    # return the template files in the specified ZIP file
-    if not os.path.isfile( autoload_template_pack ):
-        return jsonify( { "error": "Can't find template pack: {}".format(autoload_template_pack) } )
-    templates = {}
-    with zipfile.ZipFile( autoload_template_pack, "r" ) as zip_file:
-        for fname in zip_file.namelist():
-            if fname.endswith( "/" ):
-                continue
-            fname2 = os.path.split(fname)[1]
-            templates[os.path.splitext(fname2)[0]] = zip_file.read( fname ).decode( "utf-8" )
-    templates["_path_"] = autoload_template_pack
-    return jsonify( templates )
+    # check if we're loading the template pack from a directory
+    if os.path.isdir( dname ):
+        # yup - return the files in it
+        nat, templates =_do_get_template_pack( dname )
+        data["nationalities"].update( nat )
+        data["templates"] = templates
+    else:
+        # extract the template pack files from the specified ZIP file
+        if not os.path.isfile( dname ):
+            return jsonify( { "error": "Can't find template pack: {}".format(dname) } )
+        with zipfile.ZipFile( dname, "r" ) as zip_file:
+            for fname in zip_file.namelist():
+                if fname.endswith( "/" ):
+                    continue
+                fdata = zip_file.read( fname ).decode( "utf-8" )
+                fname = os.path.split(fname)[1]
+                if fname.lower() == "nationalities.json":
+                    data["nationalities"].update( json.loads( fdata ) )
+                else:
+                    data[os.path.splitext(fname)[0]] = fdata
+
+    return jsonify( data )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def _do_get_templates( dname ):
-    """Get the specified templates."""
+def _do_get_template_pack( dname ):
+    """Get the specified template pack."""
     if not os.path.isdir( dname ):
         abort( 404 )
-    templates = {}
+    nationalities, templates = {}, {}
     for root,_,fnames in os.walk(dname):
         for fname in fnames:
-            fname = os.path.join( root, fname )
-            if os.path.splitext(fname)[1] != ".j2":
-                continue
-            with open(fname,"r") as fp:
-                fname = os.path.split(fname)[1]
-                templates[os.path.splitext(fname)[0]] = fp.read()
-    return templates
-
-# ---------------------------------------------------------------------
-
-@app.route( "/nationalities" )
-def get_nationalities():
-    """Get the nationalities table."""
-
-    # load the nationalities table
-    fname = os.path.join( DATA_DIR, "nationalities.json" )
-    with open(fname,"r") as fp:
-        nationalities = json.load( fp )
-
-    return jsonify( nationalities )
+            # add the next file to the results
+            with open( os.path.join(root,fname), "r" ) as fp:
+                if fname.lower() == "nationalities.json":
+                    nationalities = json.load( fp )
+                elif os.path.splitext(fname)[1] == ".j2":
+                    templates[os.path.splitext(fname)[0]] = fp.read()
+    return nationalities, templates

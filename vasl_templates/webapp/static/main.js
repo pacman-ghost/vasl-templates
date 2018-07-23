@@ -1,7 +1,6 @@
-var gNationalities = {} ;
+var gTemplatePack = {} ;
 var gDefaultNationalities = {} ;
-var gDefaultTemplates = {} ;
-var gUserDefinedTemplates = {} ;
+var gValidTemplateIds = [] ;
 
 var _NATIONALITY_SPECIFIC_BUTTONS = {
     "russian": [ "mol", "mol-p" ],
@@ -104,38 +103,28 @@ $(document).ready( function () {
     $("select[name='PLAYER_1_SAN']").html( buf ) ;
     $("select[name='PLAYER_2_SAN']").html( buf ) ;
 
-    // load the nationalities
-    $.getJSON( gGetNationalitiesUrl, function(data) {
-        gNationalities = data ;
-        gDefaultNationalities = $.extend( true, {}, data ) ;
-        load_nationalities() ;
-        on_new_scenario( false ) ;
-    } ).fail( function( xhr, status, errorMsg ) {
-        showErrorMsg( "Can't get the nationalities:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
-    } ) ;
-
     // add handlers for player changes
     $("select[name='PLAYER_1']").change( function() { on_player_change($(this)) ; } ) ;
     $("select[name='PLAYER_2']").change( function() { on_player_change($(this)) ; } ) ;
 
-    // get the templates
-    $.getJSON( gGetDefaultTemplatesUrl, function(data) {
-        gDefaultTemplates = data ;
-    } ).fail( function( xhr, status, errorMsg ) {
-        showErrorMsg( "Can't get the default templates:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
-    } ) ;
-    $.getJSON( gGetAutoloadTemplatesUrl, function(data) {
+    // get the template pack
+    $.getJSON( gGetTemplatePackUrl, function(data) {
         if ( "error" in data )
-            showErrorMsg( "Can't get the autoload templates:<div class='pre'>" + escapeHTML(data.error) + "</div>" ) ;
+            showErrorMsg( "Can't get the template pack:<div class='pre'>" + escapeHTML(data.error) + "</div>" ) ;
         else {
             if ( "_path_" in data ) {
                 showInfoMsg( "Auto-loaded template pack:<div class='pre'>" + escapeHTML(data._path_) + "</div>" ) ;
                 delete data._path_ ;
             }
-            gUserDefinedTemplates = data ;
         }
+        install_template_pack( data ) ;
+        on_new_scenario( false ) ;
+        gDefaultNationalities = $.extend( true, {}, data.nationalities ) ;
+        // NOTE: If we are loading a user-defined template pack, then what we think
+        // is the set of valid template ID's will depend on what's in it :-/
+        gValidTemplateIds = Object.keys( data.templates ) ;
     } ).fail( function( xhr, status, errorMsg ) {
-        showErrorMsg( "Can't get the autoload templates:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+        showErrorMsg( "Can't get the template pack:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
     } ) ;
 
     var prevHeight = [] ;
@@ -211,14 +200,19 @@ $(document).ready( function () {
 
 // --------------------------------------------------------------------
 
-function load_nationalities()
+function install_template_pack( data )
 {
+    // install the template pack
+    gTemplatePack = data ;
+
     // update the player droplists
     var curSel1 = $("select[name='PLAYER_1']").val() ;
     var curSel2 = $("select[name='PLAYER_2']").val() ;
     var buf = [] ;
-    for ( var id in gNationalities )
-        buf.push( "<option value='" + id + "'>" + gNationalities[id].display_name + "</option>" ) ;
+    var nationalities = gTemplatePack.nationalities ;
+    for ( var id in nationalities )
+        buf.push( "<option value='" + id + "'>" + nationalities[id].display_name + "</option>" ) ;
+    buf = buf.join( "" ) ;
     $("select[name='PLAYER_1']").html( buf ).val( curSel1 ) ;
     $("select[name='PLAYER_2']").html( buf ).val( curSel2 ) ;
 
@@ -241,9 +235,10 @@ function on_player_change( $select )
     var player_nat = $select.find( "option:selected" ).val() ;
     var $elem = $("#tabs .ui-tabs-nav a[href='#tabs-ob" + player_id + "']") ;
     var image_url = gImagesBaseUrl + "/flags/" + player_nat + ".png" ;
+    var nationalities = gTemplatePack.nationalities ;
     $elem.html(
         "<img src='" + image_url + "'>&nbsp;" +
-        "<span>" + escapeHTML(gNationalities[player_nat].display_name) + " OB</span>"
+        "<span>" + escapeHTML(nationalities[player_nat].display_name) + " OB</span>"
     ) ;
 
     // show/hide the nationality-specific buttons

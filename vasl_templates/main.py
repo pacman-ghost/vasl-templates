@@ -44,16 +44,16 @@ class LoggerProxy:
 def main( template_pack, debug ):
     """Main entry point for the application."""
 
-    # configure the autoload template pack
+    # configure the default template pack
     if template_pack:
         if template_pack.lower().endswith( ".zip" ):
             rc = os.path.isfile( template_pack )
         else:
             rc = os.path.isdir( template_pack )
         if not rc:
-            click.echo( "ERROR: The template pack must be a ZIP file or a directory containing the template files." )
+            click.echo( "ERROR: The template pack must be a ZIP file, or a directory containing the template files." )
             return 1
-        snippets.autoload_template_pack = template_pack
+        snippets.default_template_pack = template_pack
 
     # install the debug config file
     if debug:

@@ -34,7 +34,7 @@ def for_each_template( func ):
 
     # generate a list of all the templates we need to test
     templates_to_test = set()
-    dname = os.path.join( os.path.split(__file__)[0], "../data/default-templates" )
+    dname = os.path.join( os.path.split(__file__)[0], "../data/default-template-pack" )
     for fname in os.listdir(dname):
         fname,extn = os.path.splitext( fname )
         if extn != ".j2":
@@ -116,8 +116,9 @@ def set_template_params( params ):
 
 def get_nationalities( webapp ):
     """Get the nationalities table."""
-    url = webapp.url_for( "get_nationalities" )
-    return json.load( urllib.request.urlopen( url ) )
+    url = webapp.url_for( "get_template_pack" )
+    template_pack = json.load( urllib.request.urlopen( url ) )
+    return template_pack["nationalities"]
 
 # ---------------------------------------------------------------------
 

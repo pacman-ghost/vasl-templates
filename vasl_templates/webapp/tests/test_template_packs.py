@@ -88,20 +88,20 @@ def test_zip_files( webapp, webdriver ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def test_autoload_template_pack( webapp, webdriver ):
-    """Test auto-loading template packs."""
+def test_new_default_template_pack( webapp, webdriver ):
+    """Test changing the default template pack."""
 
-    # configure the autoload template pack
-    dname = os.path.join( os.path.split(__file__)[0], "fixtures/template-packs/autoload/" )
+    # configure a new default template pack
+    dname = os.path.join( os.path.split(__file__)[0], "fixtures/template-packs/new-default/" )
     from vasl_templates.webapp import snippets
-    snippets.autoload_template_pack = dname
+    snippets.default_template_pack = dname
 
     # initialize
     webdriver.get( webapp.url_for( "main" ) )
 
-    # check that the autoload'ed templates are being used
+    # check that the new templates are being used
     _check_snippets(
-        lambda tid: "Autoload'ed {}.".format( tid.upper() )
+        lambda tid: "New default {}.".format( tid.upper() )
     )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

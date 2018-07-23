@@ -19,8 +19,10 @@ function generate_snippet( $btn )
     storeMsgForTestSuite( "_last-error_", "" ) ;
 
     // unload the template parameters
-    var params = unload_params() ;
     var template_id = $btn.data( "id" ) ;
+    var params = unload_params() ;
+
+    // set player-specific parameters
     if ( template_id === "ob_setup_1" ) {
         template_id = "ob_setup" ;
         params.OB_SETUP = params.OB_SETUP_1 ;
@@ -35,18 +37,19 @@ function generate_snippet( $btn )
         params.OB_SETUP_WIDTH = params.OB_SETUP_WIDTH_2 ;
         delete params.OB_SETUP_WIDTH_2 ;
     }
+    var nationalities = gTemplatePack.nationalities ;
     var curr_tab = $("#tabs .ui-tabs-active a").attr( "href" ) ;
     if ( curr_tab === "#tabs-ob1" ) {
-        params.OB_COLOR = gNationalities[params.PLAYER_1].ob_colors[0] ;
-        params.OB_COLOR_2 = gNationalities[params.PLAYER_1].ob_colors[1] ;
+        params.OB_COLOR = nationalities[params.PLAYER_1].ob_colors[0] ;
+        params.OB_COLOR_2 = nationalities[params.PLAYER_1].ob_colors[1] ;
     } if ( curr_tab === "#tabs-ob2" ) {
-        params.OB_COLOR = gNationalities[params.PLAYER_2].ob_colors[0] ;
-        params.OB_COLOR_2 = gNationalities[params.PLAYER_2].ob_colors[1] ;
+        params.OB_COLOR = nationalities[params.PLAYER_2].ob_colors[0] ;
+        params.OB_COLOR_2 = nationalities[params.PLAYER_2].ob_colors[1] ;
     }
 
     // include the player display names
-    params.PLAYER_1_NAME = gNationalities[params.PLAYER_1].display_name ;
-    params.PLAYER_2_NAME = gNationalities[params.PLAYER_2].display_name ;
+    params.PLAYER_1_NAME = nationalities[params.PLAYER_1].display_name ;
+    params.PLAYER_2_NAME = nationalities[params.PLAYER_2].display_name ;
 
     // extract the scenario date components
     var scenario_date = $("input[name='SCENARIO_DATE']").datepicker( "getDate" ) ;
@@ -117,7 +120,11 @@ function generate_snippet( $btn )
     }
     if ( template_id === "baz" ) {
         if ( params.SCENARIO_DATE === "" || params.SCENARIO_YEAR <= 1941 || (params.SCENARIO_YEAR == 1942 && params.SCENARIO_MONTH < 11) )
-        showWarningMsg( "BAZ are only available from November 1942." ) ;
+            showWarningMsg( "BAZ are only available from November 1942." ) ;
+    }
+    if ( template_id === "atmm" ) {
+        if ( params.SCENARIO_DATE === "" || params.SCENARIO_YEAR < 1944 )
+            showWarningMsg( "ATMM are only available from 1944." ) ;
     }
 
     // check that the players have different nationalities
@@ -187,10 +194,8 @@ function unload_params()
 function get_template( template_id )
 {
     // get the specified template
-    if ( template_id in gUserDefinedTemplates )
-        return gUserDefinedTemplates[template_id] ;
-    else if ( template_id in gDefaultTemplates )
-        return gDefaultTemplates[template_id] ;
+    if ( template_id in gTemplatePack.templates )
+        return gTemplatePack.templates[template_id] ;
     showErrorMsg( "Unknown template: <span class='pre'>" + escapeHTML(template_id) + "</span>" ) ;
     return null ;
 }
@@ -206,7 +211,7 @@ function edit_template( template_id )
 
     function on_template_change() {
         // install the new template
-        gUserDefinedTemplates[template_id] = $("#edit-template textarea").val() ;
+        gTemplatePack.templates[template_id] = $("#edit-template textarea").val() ;
     }
 
     // let the user edit the template
@@ -406,19 +411,23 @@ function do_load_template_pack( fname, data )
     // initialize
     var invalid_filename_extns = [] ;
     var unknown_template_ids = [] ;
-    var new_templates = {} ;
-    var nationalities = null ;
+    var template_pack = {
+        nationalities: $.extend( true, {}, gDefaultNationalities ),
+        templates: {},
+    } ;
 
     // initialize
-    function on_new_template( fname, data ) {
+    function on_template_pack_file( fname, data ) {
         // make sure the filename is valid
         if ( fname.toLowerCase() === "nationalities.json" ) {
+            var nationalities = null ;
             try {
                 nationalities = JSON.parse( data ) ;
             } catch( ex ) {
                 showWarningMsg( "Can't parse the nationalities JSON data:<div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
                 return ;
             }
+            $.extend( true, template_pack.nationalities, nationalities ) ;
             return ;
         }
         if ( fname.substring(fname.length-3) != ".j2" ) {
@@ -426,16 +435,16 @@ function do_load_template_pack( fname, data )
             return ;
         }
         var template_id = fname.substring( 0, fname.length-3 ).toLowerCase() ;
-        if ( ! (template_id in gDefaultTemplates) ) {
+        if ( gValidTemplateIds.indexOf( template_id ) === -1 ) {
             unknown_template_ids.push( fname ) ;
             return ;
         }
-        // save the new template file
-        new_templates[template_id] = data ;
+        // save the template pack file
+        template_pack.templates[template_id] = data ;
     }
 
     // initialize
-    function install_new_templates( success_msg ) {
+    function install_new_template_pack( success_msg ) {
         // check if there were any errors
         var ok = true ;
         var buf, tid, i ;
@@ -464,23 +473,16 @@ function do_load_template_pack( fname, data )
                 buf.push( escapeHTML(unknown_template_ids[i]) + "<br>" ) ;
             buf.push( "</div>" ) ;
             buf.push( "Must be one of:<div class='pre'><ul>" ) ;
-            for ( tid in gDefaultTemplates )
-                buf.push( "<li>" + escapeHTML(tid) + ".j2" ) ;
+            for ( i=0 ; i < gValidTemplateIds.length ; ++i )
+                buf.push( "<li>" + escapeHTML(gValidTemplateIds[i]) + ".j2" ) ;
             buf.push( "</ul></div>" ) ;
             showErrorMsg( buf.join("") ) ;
             ok = false ;
         }
         if ( ! ok )
             return ;
-        // all good - install the new templates
-        for ( tid in new_templates ){
-            gUserDefinedTemplates[tid] = new_templates[tid] ;
-        }
-        // install any user-defined nationality data
-        if ( nationalities !== null ) {
-            gNationalities = $.extend( true, {}, gDefaultNationalities, nationalities ) ;
-            load_nationalities() ;
-        }
+        // all good - install the new template pack
+        install_template_pack( template_pack ) ;
         showInfoMsg( success_msg ) ;
     }
 
@@ -500,10 +502,10 @@ function do_load_template_pack( fname, data )
                         return ; // nb: ignore directory entries
                     if ( pos !== -1 )
                         fname = fname.substring( pos+1 ) ;
-                    on_new_template( fname, data ) ;
+                    on_template_pack_file( fname, data ) ;
                 } ).then( function() {
                     if ( --nFiles === 0 ) {
-                        install_new_templates( "The template pack was loaded." ) ;
+                        install_new_template_pack( "The template pack was loaded." ) ;
                     }
                 } ) ;
             } ) ;
@@ -515,8 +517,8 @@ function do_load_template_pack( fname, data )
         // nope - assume an individual template file
         if ( data instanceof ArrayBuffer )
             data = String.fromCharCode.apply( null, new Uint8Array(data) ) ;
-        on_new_template( fname, data ) ;
-        install_new_templates( "The template file was loaded." ) ;
+        on_template_pack_file( fname, data ) ;
+        install_new_template_pack( "The template file was loaded." ) ;
     }
 
 }
