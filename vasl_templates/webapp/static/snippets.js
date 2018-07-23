@@ -8,6 +8,11 @@ var _MONTH_NAMES = [ // nb: we assume English :-/
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
 ] ;
+var _DAY_OF_MONTH_POSTFIXES = { // nb: we assume English :-/
+    0: "th",
+    1: "st", 2: "nd", 3: "rd", 4: "th", 5: "th", 6: "th", 7: "th", 8: "th", 9: "th", 10: "th",
+    11: "th", 12: "th", 13: "th"
+} ;
 
 // --------------------------------------------------------------------
 
@@ -53,8 +58,14 @@ function generate_snippet( $btn )
 
     // extract the scenario date components
     var scenario_date = $("input[name='SCENARIO_DATE']").datepicker( "getDate" ) ;
+    var postfix ;
     if ( scenario_date ) {
         params.SCENARIO_DAY_OF_MONTH = scenario_date.getDate() ;
+        if ( params.SCENARIO_DAY_OF_MONTH in _DAY_OF_MONTH_POSTFIXES )
+            postfix = _DAY_OF_MONTH_POSTFIXES[ params.SCENARIO_DAY_OF_MONTH ] ;
+        else
+            postfix = _DAY_OF_MONTH_POSTFIXES[ params.SCENARIO_DAY_OF_MONTH % 10 ] ;
+        params.SCENARIO_DAY_OF_MONTH_POSTFIX = params.SCENARIO_DAY_OF_MONTH + postfix ;
         params.SCENARIO_MONTH = 1 + scenario_date.getMonth() ;
         params.SCENARIO_MONTH_NAME = _MONTH_NAMES[scenario_date.getMonth()] ;
         params.SCENARIO_YEAR = scenario_date.getFullYear() ;
