@@ -32,7 +32,7 @@
 </ul>
 
 <div id="tabs-scenario">
-    <fieldset class="tl"> <legend>Scenario</legend>
+    <fieldset class="tl"> <legend>S<u>c</u>enario</legend>
         <div id="panel-scenario">
             <div class="label" data-labelfor="SCENARIO_NAME">Name:</div> <input name="SCENARIO_NAME" type="text" class="param">
             <div class="label" data-labelfor="SCENARIO_LOCATION">Location:</div> <input name="SCENARIO_LOCATION" type="text" class="param">
@@ -48,7 +48,7 @@
         </div>
         <div id="panel-players">
             <div></div> <div></div> <div class="label" data-labelfor="ELR">ELR</div> <div class="label" data-labelfor="SAN">SAN</div>
-            <div class="label" data-labelfor="PLAYER_1">Player 1:</div> <select name="PLAYER_1" class="param"></select>
+            <div class="label" data-labelfor="PLAYER_1"><u>P</u>layer 1:</div> <select name="PLAYER_1" class="param"></select>
             <select name="PLAYER_1_ELR" class="param"></select>
             <select name="PLAYER_1_SAN" class="param"></select>
             <div class="label" data-labelfor="PLAYER_2">Player 2:</div> <select name="PLAYER_2" class="param"></select>
@@ -57,7 +57,7 @@
             <div class="footer"> <input type="button" class="generate" data-id="players" value="Snippet"> </div>
         </div>
     </fieldset>
-    <fieldset class="tr"> <legend>Victory Conditions</legend>
+    <fieldset class="tr"> <legend>Victor<u>y</u> Conditions</legend>
         <div id="panel-vc">
             <textarea name="VICTORY_CONDITIONS" type="text" class="param"></textarea>
             <div class="footer">
@@ -138,6 +138,7 @@
 <script src="{{url_for('static',filename='jinja/jinja.js')}}"></script>
 <script src="{{url_for('static',filename='growl/jquery.growl.js')}}"></script>
 <script src="{{url_for('static',filename='popmenu/jquery.popmenu-1.0.0.min.js')}}"></script>
+<script src="{{url_for('static',filename='hotkey/jquery.hotkey.js')}}"></script>
 <script src="{{url_for('static',filename='download/download.min.js')}}"></script>
 <script src="{{url_for('static',filename='jszip/jszip.min.js')}}"></script>
 <script>

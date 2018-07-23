@@ -188,6 +188,9 @@ $(document).ready( function () {
         edit_template( $(this).attr("data-id") ) ;
     } ) ;
 
+    // initialize hotkeys
+    init_hotkeys() ;
+
     // add some dummy links for the test suite to edit templates
     if ( getUrlParam( "edit_template_links" ) ) {
         $("input[type='button'].generate").each( function() {
@@ -201,6 +204,38 @@ $(document).ready( function () {
         } ) ;
     }
 } ) ;
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function init_hotkeys()
+{
+    // initialize hotkeys
+    jQuery.hotkeys.options.filterInputAcceptingElements = false ;
+    jQuery.hotkeys.options.filterContentEditable = false ;
+    jQuery.hotkeys.options.filterTextInputs = false ;
+
+    function set_focus_to( tab, $ctrl ) {
+        var curr_tab = $("#tabs .ui-tabs-active a").attr( "href" ) ;
+        if ( curr_tab !== tab )
+            $("#tabs .ui-tabs-nav a[href='"+tab+"']").trigger( "click" ) ;
+        $ctrl.focus() ;
+    }
+    $(document).bind( "keydown", "alt+c", function() {
+        set_focus_to( "#tabs-scenario", $("input[name='SCENARIO_NAME']") ) ;
+    } ) ;
+    $(document).bind( "keydown", "alt+p", function() {
+        set_focus_to( "#tabs-scenario", $("select[name='PLAYER_1']") ) ;
+    } ) ;
+    $(document).bind( "keydown", "alt+y", function() {
+        set_focus_to( "#tabs-scenario", $("textarea[name='VICTORY_CONDITIONS']") ) ;
+    } ) ;
+    $(document).bind( "keydown", "alt+1", function() {
+        set_focus_to( "#tabs-ob1", $("textarea[name='OB_SETUP_1']") ) ;
+    } ) ;
+    $(document).bind( "keydown", "alt+2", function() {
+        set_focus_to( "#tabs-ob2", $("textarea[name='OB_SETUP_2']") ) ;
+    } ) ;
+}
 
 // --------------------------------------------------------------------
 
