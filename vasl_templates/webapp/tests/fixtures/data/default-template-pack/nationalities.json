@@ -1,0 +1,43 @@
+{
+
+"german": {
+  "display_name": "German",
+  "ob_colors": [ "OBCOL:german", "OBCOL2:german" ]
+},
+
+"russian": {
+  "display_name": "Russian",
+  "ob_colors": [ "OBCOL:russian", "OBCOL2:russian" ]
+},
+
+"american": {
+  "display_name": "American",
+  "ob_colors": [ "OBCOL:american", "OBCOL2:american" ]
+},
+
+"british": {
+  "display_name": "British",
+  "ob_colors": [ "OBCOL:british", "OBCOL2:british" ]
+},
+
+"french": {
+  "display_name": "French",
+  "ob_colors": [ "OBCOL:french", "OBCOL2:french" ]
+},
+
+"italian": {
+  "display_name": "Italian",
+  "ob_colors": [ "OBCOL:italian", "OBCOL2:italian" ]
+},
+
+"finnish": {
+  "display_name": "Finnish",
+  "ob_colors": [ "OBCOL:finns", "OBCOL2:finns" ]
+},
+
+"japanese": {
+  "display_name": "Japanese",
+  "ob_colors": [ "OBCOL:japanese", "OBCOL2:japanese" ]
+}
+
+}

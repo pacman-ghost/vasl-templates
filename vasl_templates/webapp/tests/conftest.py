@@ -30,6 +30,10 @@ def webapp():
             return url.replace( "localhost/", "localhost:{}/".format(FLASK_WEBAPP_PORT) )
     app.url_for = make_webapp_url
 
+    # configure the webapp to use our test data
+    # NOTE: Can't seem to change constants.DATA_DIR (probably some pytest funkiness :-/)
+    app.config["DATA_DIR"] = os.path.join( os.path.split(__file__)[0], "fixtures/data" )
+
     # start the webapp server (in a background thread)
     logging.disable( logging.CRITICAL )
     thread = threading.Thread(

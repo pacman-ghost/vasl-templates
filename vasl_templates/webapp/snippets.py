@@ -26,7 +26,10 @@ def get_template_pack():
     # initialize
     # NOTE: We always start with the default nationalities data. Unlike template files,
     # user-defined template packs can add to it, or modify existing entries, but not replace it.
-    base_dir = os.path.join( DATA_DIR, "default-template-pack/" )
+    base_dir = os.path.join(
+        app.config.get( "DATA_DIR", DATA_DIR ),
+        "default-template-pack/"
+    )
     data = { "templates": {} }
     fname = os.path.join( base_dir, "nationalities.json" )
     with open(fname,"r") as fp:

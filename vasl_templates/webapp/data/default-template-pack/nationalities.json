@@ -2,42 +2,42 @@
 
 "german": {
   "display_name": "German",
-  "ob_colors": [ "OBCOL:german", "OBCOL2:german" ]
+  "ob_colors": [ "d3edfc", "91cdf5" ]
 },
 
 "russian": {
   "display_name": "Russian",
-  "ob_colors": [ "OBCOL:russian", "OBCOL2:russian" ]
+  "ob_colors": [ "eabe51", "d68d1a" ]
 },
 
 "american": {
   "display_name": "American",
-  "ob_colors": [ "OBCOL:american", "OBCOL2:american" ]
+  "ob_colors": [ "e5f700", "cdf000" ]
 },
 
 "british": {
   "display_name": "British",
-  "ob_colors": [ "OBCOL:british", "OBCOL2:british" ]
+  "ob_colors": [ "f6edda", "e5cea0" ]
 },
 
 "french": {
   "display_name": "French",
-  "ob_colors": [ "OBCOL:french", "OBCOL2:french" ]
+  "ob_colors": [ "a2ddff", "41a5ff" ]
 },
 
 "italian": {
   "display_name": "Italian",
-  "ob_colors": [ "OBCOL:italian", "OBCOL2:italian" ]
+  "ob_colors": [ "dde0e2", "a6adb2" ]
 },
 
 "finnish": {
   "display_name": "Finnish",
-  "ob_colors": [ "OBCOL:finns", "OBCOL2:finns" ]
+  "ob_colors": [ "edefef", "ced3d3" ]
 },
 
 "japanese": {
   "display_name": "Japanese",
-  "ob_colors": [ "OBCOL:japanese", "OBCOL2:japanese" ]
+  "ob_colors": [ "fff200", "ffdb00" ]
 }
 
 }

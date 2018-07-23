@@ -1,2 +1,24 @@
-{% for ssr in SSR %}(*) [{{ssr}}]
-{% endfor %}{%if SSR_WIDTH%}width = [{{SSR_WIDTH}}]{%endif%}
+<html>
+
+<table style="
+  {%if SSR_WIDTH%} width: {{SSR_WIDTH}} ; {%endif%}
+">
+
+<tr>
+<td style="
+  background: #f0f0f0 ;
+  border-bottom: 1px solid #c0c0c0 ;
+">
+    <b>Scenario Special Rules</b>
+
+<tr>
+<td>
+<ul style="margin:0 0 0 10px;">
+{% for ssr in SSR %}
+    <li> {{ssr}}
+{% endfor %}
+</ul>
+
+</table>
+
+</html>

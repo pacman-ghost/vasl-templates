@@ -1,1 +1,63 @@
-PF: range=[{{PF_RANGE}}] ; check=[{{PF_CHECK_DR}}]{%if PF_CHECK_DRM%} (drm=[{{PF_CHECK_DRM}}]){%endif%} ; col=[{{OB_COLOR}}]/[{{OB_COLOR_2}}]
+<html>
+
+<head>
+<style>
+td { margin: 0 ; padding: 0 ; }
+td.c { text-align: center ; }
+td.r { text-align: right ; }
+</style>
+</head>
+
+<table>
+
+<tr>
+<td colspan="3" style="
+  background: #{{OB_COLOR}} ;
+  border-bottom: 1px solid #{{OB_COLOR_2}} ;
+  padding: 2px 5px ;
+  font-weight: bold ;
+">
+    Panzerfaust
+
+<tr>
+
+<td rowspan="2" style="padding:0 3px;">
+    <div style="margin-bottom:5px;">
+        range: {{PF_RANGE}} {%if PF_RANGE == 1%} hex {%else%} hexes {%endif%}
+    </div>
+    PF check: dr &le; {{PF_CHECK_DR}} (&#9651;)
+    <table style="margin-left:10px;">
+        <tr>
+            <td style="width:20px;"> +1 <td> HS/crew
+        <tr>
+            <td> +2 <td> SMC
+        <tr>
+            <td> +1 <td> CX
+        <tr>
+            <td> +1 <td> non-AFV target
+    </table>
+    original 6 = pinned
+    
+<td valign="top" style="padding:0 3px;">
+    <table>
+    <tr>
+        <td> <b>Range</b> <td> <b>TH#</b>
+    <tr>
+        <td class="c"> 0 <td class="c"> 10
+    <tr>
+        <td class="c"> 1 <td class="c"> 8
+    <tr>
+        <td class="c"> 2 <td class="c"> 6
+    <tr>
+        <td class="c"> 3 <td class="c"> 4
+    </table>
+
+<tr>
+
+<td style="padding:0 3px;text-align:right;">
+    <b>TK#:</b> 31 <br>
+    16-3
+    
+</table>
+
+</html>

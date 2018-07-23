@@ -1,1 +1,22 @@
-VC: [{{VICTORY_CONDITIONS}}]{%if VICTORY_CONDITIONS_WIDTH%} ; width=[{{VICTORY_CONDITIONS_WIDTH}}]{%endif%}
+<html>
+
+<table style="
+  {%if VICTORY_CONDITIONS_WIDTH%} width: {{VICTORY_CONDITIONS_WIDTH}} ; {%endif%}
+">
+
+<tr>
+<td style="
+  background: #f0f0f0 ;
+  border-bottom: 1px solid #c0c0c0 ;
+  padding: 2px 5px ;
+  font-weight: bold ;
+">
+        Victory Conditions
+
+<tr>
+<td style="padding:0 3px;">
+    {{VICTORY_CONDITIONS}}
+
+</table>
+
+</html>

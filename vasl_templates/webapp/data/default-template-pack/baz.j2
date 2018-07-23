@@ -1,1 +1,79 @@
-BAZ: {%if BAZ_TYPE%}'{{BAZ_TYPE}} ; range=[{{BAZ_RANGE}}] ; X#=[{{BAZ_BREAKDOWN}}] ; TK#=[{{BAZ_TOKILL}}]{%if BAZ_WP%} ; WP#=[{{BAZ_WP}}]{%endif%} ; col=[{{OB_COLOR}}]/[{{OB_COLOR_2}}]{%else%}none{%endif%}
+<html>
+
+<head>
+<style>
+td { margin: 0 ; padding: 0 ; }
+td.c { text-align: center ; }
+td.r { text-align: right ; }
+</style>
+</head>
+
+<table>
+
+<tr>
+<td colspan="2" style="
+  background: #{{OB_COLOR}} ;
+  border-bottom: 1px solid #{{OB_COLOR_2}} ;
+  padding: 2px 5px ;
+  font-weight: bold ;
+">
+    Bazooka {%if BAZ_TYPE%} ('{{BAZ_TYPE}}) {%endif%}
+
+<tr>
+
+<td style="padding:0 3px;">
+    <table>
+    <tr>
+        <td> <b>Range</b> <td> <b>TH#</b>
+{%if BAZ_TYPE == 45 %}
+    <tr>
+        <td class="c"> 0 <td class="c"> 11
+    <tr>
+        <td class="c"> 1 <td class="c"> 10
+    <tr>
+        <td class="c"> 2 <td class="c"> 9
+    <tr>
+        <td class="c"> 3 <td class="c"> 8
+    <tr>
+        <td class="c"> 4 <td class="c"> 6
+    <tr>
+        <td class="c"> 5 <td class="c"> 4
+{%else%}
+    <tr>
+        <td class="c"> 0 <td class="c"> 11
+    <tr>
+        <td class="c"> 1 <td class="c"> 9
+    <tr>
+        <td class="c"> 2 <td class="c"> 8
+    <tr>
+        <td class="c"> 3 <td class="c"> 7
+    <tr>
+        <td class="c"> 4 <td class="c"> 4
+{%endif%}
+    </table>
+
+<td valign="top" style="padding:0 3px;">
+    <table>
+{%if BAZ_BREAKDOWN%}
+        <tr>
+            <td> <b>X#:</b>
+            <td class="r"> {{BAZ_BREAKDOWN}}
+{%endif%}
+{%if BAZ_WP%}
+        <tr>
+            <td> <b>WP#:</b>
+            <td class="r"> {{BAZ_WP}}
+{%endif%}
+{%if BAZ_TOKILL%}
+        <tr>
+            <td> <b>TK#:</b>
+            <td class="r"> {{BAZ_TOKILL}}
+{%endif%}
+{%if BAZ_RANGE%}
+        <tr>
+            <td colspan="2" class="r"> 8-{{BAZ_RANGE}}
+{%endif%}
+    </table>
+    
+</table>
+</html>
