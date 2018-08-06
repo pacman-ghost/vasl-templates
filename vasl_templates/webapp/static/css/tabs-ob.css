@@ -1,10 +1,12 @@
+/* -------------------------------------------------------------------- */
+
 .panel-obsetup {
     height: 100% ;
     display: grid ; display: -ms-grid ;
     grid-template-rows: 1fr 2.5em ; -ms-grid-rows: 1fr 2.5em ;
     grid-template-columns: 1fr ; -ms-grid-columns: 1fr ;
 }
-/* FUDGE! IE hackamathon follows (nb: <label> doesn't work, we use <div> for labels instead :-/) */
+/* FUDGE! IE hackamathon follows... */
 .panel-obsetup .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
 
 .panel-obsetup textarea { width: 100% ; height: 100% ; resize: none ; }
@@ -12,3 +14,41 @@
 .panel-obsetup div.snippet-control { float: left ; margin: 0.25em 0.25em 0 0 ; }
 .panel-obsetup .footer .r { display: block-inline ; float: right ; }
 .panel-obsetup .footer .r div.snippet-control { float: none ; margin-right: 0 ; }
+
+/* -------------------------------------------------------------------- */
+
+.panel-vehicles {
+    height: 100% ;
+    display: grid ; display: -ms-grid ;
+    grid-template-rows: 1fr 2em ; -ms-grid-rows: 1fr 2em ;
+    grid-template-columns: 1fr ; -ms-grid-columns: 1fr ;
+}
+/* FUDGE! IE hackamathon follows... */
+.panel-vehicles .content { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
+.panel-vehicles .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
+
+.panel-vehicles .footer { text-align: right ; font-size: 75% ; }
+.panel-vehicles .footer .l { float: left ; }
+.vehicle-trash { margin-left: 5px ; height: 2em ;  }
+
+.vehicle-hint { width:100% ; height: calc(100% - 1.5em) ; font-size: 80% ; font-style: italic ; }
+.vehicle-hint p { margin-bottom: 1em ; }
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.panel-ordnance {
+    height: 100% ;
+    display: grid ; display: -ms-grid ;
+    grid-template-rows: 1fr 2em ; -ms-grid-rows: 1fr 2em ;
+    grid-template-columns: 1fr ; -ms-grid-columns: 1fr ;
+}
+/* FUDGE! IE hackamathon follows... */
+.panel-ordnance .content { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
+.panel-ordnance .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
+
+.panel-ordnance .footer { text-align: right ; font-size: 75% ; }
+.panel-ordnance .footer .l { float: left ; }
+.ordnance-trash { margin-left: 5px ; height: 2em ;  }
+
+.ordnance-hint { width:100% ; height: calc(100% - 1.5em) ; font-size: 80% ; font-style: italic ; }
+.ordnance-hint p { margin-bottom: 1em ; }

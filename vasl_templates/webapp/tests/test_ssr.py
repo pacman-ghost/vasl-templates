@@ -4,7 +4,8 @@ import html
 
 from selenium.webdriver.common.action_chains import ActionChains
 
-from vasl_templates.webapp.tests.utils import get_clipboard, dismiss_notifications, find_child, find_children
+from vasl_templates.webapp.tests.utils import find_child, find_children
+from vasl_templates.webapp.tests.utils import get_clipboard, dismiss_notifications, click_dialog_button
 
 # ---------------------------------------------------------------------
 
@@ -83,8 +84,4 @@ def edit_ssr( webdriver, ssr_no, val ):
     textarea = find_child( "#edit-ssr textarea" )
     textarea.clear()
     textarea.send_keys( val )
-    btn = next(
-        elem for elem in find_children(".ui-dialog.edit-ssr button")
-        if elem.text == "OK"
-    )
-    btn.click()
+    click_dialog_button( "OK" )

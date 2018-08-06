@@ -71,7 +71,7 @@
         <div id="panel-ssr">
             <div class="content">
                 <div id="ssr-hint"> <p>Click on the "+" below to add a new SSR, double-click on an SSR to edit it. <p>To re-order the SSR's, use the mouse to drag them around. <p>Ctrl-click on an SSR to delete it, or drag it into the trashcan below. </div>
-                <ul id="ssr-sortable" style="display:none;"></ul>
+                <ul id="ssr-sortable" class="sortable" style="display:none;"></ul>
             </div>
             <div class="footer">
                 <div class="l">
@@ -107,11 +107,37 @@
         </div>
     </fieldset>
     <fieldset class="r"> <legend>Vehicles</legend>
-        <div id="panel-obvehicles1">
+        <div id="panel-vehicles_1" class="panel-vehicles">
+            <div class="content">
+                <div id="vehicle-hint_1" class="vehicle-hint"> <p>Click on the "+" below to add a new Vehicle. <p>To re-order the Vehicles, use the mouse to drag them around. <p>Ctrl-click on an Vehicle to delete it, or drag it into the trashcan below. </div>
+                <ul id="vehicle-sortable_1" class="sortable" style="display:none;"></ul>
+            </div>
+            <div class="footer">
+                <div class="l">
+                    <input type="button" id="add-vehicle_1" value="+">
+                    <img id="vehicle-trash_1" class="vehicle-trash" src="{{url_for('static',filename='images/trash.png')}}">
+                </div>
+                <label for="VEHICLES_WIDTH_1">Width:</label>
+                <input type="text" class="param" name="VEHICLES_WIDTH_1" size="5">
+                <input type="button" class="generate" data-id="vehicles_1" value="Snippet">
+            </div>
         </div>
     </fieldset>
     <fieldset class="bl"> <legend>Ordnance</legend>
-        <div id="panel-obordnance1">
+        <div id="panel-ordnance_1" class="panel-ordnance">
+            <div class="content">
+                <div id="ordnance-hint_1" class="ordnance-hint"> <p>Click on the "+" below to add a new Gun. <p>To re-order the Gun's, use the mouse to drag them around. <p>Ctrl-click on an Gun to delete it, or drag it into the trashcan below. </div>
+                <ul id="ordnance-sortable_1" class="sortable" style="display:none;"></ul>
+            </div>
+            <div class="footer">
+                <div class="l">
+                    <input type="button" id="add-ordnance_1" value="+">
+                    <img id="ordnance-trash_1" class="ordnance-trash" src="{{url_for('static',filename='images/trash.png')}}">
+                </div>
+                <label for="ORDNANCE_WIDTH_1">Width:</label>
+                <input type="text" class="param" name="ORDNANCE_WIDTH_1" size="5">
+                <input type="button" class="generate" data-id="ordnance_1" value="Snippet">
+            </div>
         </div>
     </fieldset>
 </div>
@@ -128,6 +154,10 @@
 
 <div id="edit-template" style="display:none;"> <textarea></textarea> </div>
 <div id="edit-ssr" style="display:none;"> <b>Enter the SSR content:</b> <textarea></textarea> </div>
+<div id="select-vo" style="display:none;">
+    <div class="header"> <b>Filter by:</b> <input type="text" size=10> </div>
+    <select size=2></select> </div>
+</div>
 <div id="ask" style="display:none;"></div>
 
 </div>
@@ -144,10 +174,13 @@
 <script>
 gImagesBaseUrl = "{{url_for('static',filename='images')}}" ;
 gGetTemplatePackUrl = "{{url_for('get_template_pack')}}" ;
+gVehicleListingsUrl = "{{url_for('get_vehicle_listings')}}" ;
+gOrdnanceListingsUrl = "{{url_for('get_ordnance_listings')}}" ;
 </script>
 <script src="{{url_for('static',filename='main.js')}}"></script>
 <script src="{{url_for('static',filename='snippets.js')}}"></script>
 <script src="{{url_for('static',filename='ssr.js')}}"></script>
+<script src="{{url_for('static',filename='vehicles_ordnance.js')}}"></script>
 <script src="{{url_for('static',filename='utils.js')}}"></script>
 
 </html>

@@ -23,44 +23,12 @@ function generate_snippet( $btn )
     storeMsgForTestSuite( "_last-warning_", "" ) ;
     storeMsgForTestSuite( "_last-error_", "" ) ;
 
-    // unload the template parameters
-    var template_id = $btn.data( "id" ) ;
-    var params = unload_params() ;
-
-    // set player-specific parameters
-    if ( template_id === "ob_setup_1" ) {
-        template_id = "ob_setup" ;
-        params.OB_SETUP = params.OB_SETUP_1 ;
-        delete params.OB_SETUP_1 ;
-        params.OB_SETUP_WIDTH = params.OB_SETUP_WIDTH_1 ;
-        delete params.OB_SETUP_WIDTH_1 ;
-    }
-    else if ( template_id === "ob_setup_2" ) {
-        template_id = "ob_setup" ;
-        params.OB_SETUP = params.OB_SETUP_2 ;
-        delete params.OB_SETUP_2 ;
-        params.OB_SETUP_WIDTH = params.OB_SETUP_WIDTH_2 ;
-        delete params.OB_SETUP_WIDTH_2 ;
-    }
-    var nationalities = gTemplatePack.nationalities ;
-    var curr_tab = $("#tabs .ui-tabs-active a").attr( "href" ) ;
-    if ( curr_tab === "#tabs-ob1" ) {
-        params.OB_COLOR = nationalities[params.PLAYER_1].ob_colors[0] ;
-        params.OB_COLOR_2 = nationalities[params.PLAYER_1].ob_colors[1] ;
-    } if ( curr_tab === "#tabs-ob2" ) {
-        params.OB_COLOR = nationalities[params.PLAYER_2].ob_colors[0] ;
-        params.OB_COLOR_2 = nationalities[params.PLAYER_2].ob_colors[1] ;
-    }
-
-    // include the player display names
-    params.PLAYER_1_NAME = nationalities[params.PLAYER_1].display_name ;
-    params.PLAYER_2_NAME = nationalities[params.PLAYER_2].display_name ;
-
     // extract the scenario date components
+    var params = {} ;
     var scenario_date = $("input[name='SCENARIO_DATE']").datepicker( "getDate" ) ;
-    var postfix ;
     if ( scenario_date ) {
         params.SCENARIO_DAY_OF_MONTH = scenario_date.getDate() ;
+        var postfix ;
         if ( params.SCENARIO_DAY_OF_MONTH in _DAY_OF_MONTH_POSTFIXES )
             postfix = _DAY_OF_MONTH_POSTFIXES[ params.SCENARIO_DAY_OF_MONTH ] ;
         else
@@ -70,6 +38,59 @@ function generate_snippet( $btn )
         params.SCENARIO_MONTH_NAME = _MONTH_NAMES[scenario_date.getMonth()] ;
         params.SCENARIO_YEAR = scenario_date.getFullYear() ;
     }
+
+    // unload the template parameters
+    var template_id = $btn.data( "id" ) ;
+    unload_params( params, true ) ;
+
+    // set player-specific parameters
+    // NOTE: We used to delete the player-specific parameters (e.g. OB_SETUP_1/2)
+    // and just return a generic player-independent one (e.g. OB_SETUP), but now,
+    // we just leave them in place, in case a user-defined template wants them both.
+    if ( template_id === "ob_setup_1" ) {
+        template_id = "ob_setup" ;
+        params.OB_SETUP = params.OB_SETUP_1 ;
+        params.OB_SETUP_WIDTH = params.OB_SETUP_WIDTH_1 ;
+    } else if ( template_id === "ob_setup_2" ) {
+        template_id = "ob_setup" ;
+        params.OB_SETUP = params.OB_SETUP_2 ;
+        params.OB_SETUP_WIDTH = params.OB_SETUP_WIDTH_2 ;
+    }
+    var nationalities = gTemplatePack.nationalities ;
+    var curr_tab = $("#tabs .ui-tabs-active a").attr( "href" ) ;
+    if ( curr_tab === "#tabs-ob1" ) {
+        params.PLAYER_NAME = nationalities[params.PLAYER_1].display_name ;
+        params.OB_COLOR = nationalities[params.PLAYER_1].ob_colors[0] ;
+        params.OB_COLOR_2 = nationalities[params.PLAYER_1].ob_colors[1] ;
+    } else if ( curr_tab === "#tabs-ob2" ) {
+        params.PLAYER_NAME = nationalities[params.PLAYER_2].display_name ;
+        params.OB_COLOR = nationalities[params.PLAYER_2].ob_colors[0] ;
+        params.OB_COLOR_2 = nationalities[params.PLAYER_2].ob_colors[1] ;
+    }
+
+    // set player-specific parameters
+    if ( template_id == "vehicles_1" ) {
+        template_id = "vehicles" ;
+        params.VEHICLES = params.VEHICLES_1 ;
+        params.VEHICLES_WIDTH = params.VEHICLES_WIDTH_1 ;
+    } else if ( template_id == "vehicles_2" ) {
+        template_id = "vehicles" ;
+        params.VEHICLES = params.VEHICLES_2 ;
+        params.VEHICLES_WIDTH = params.VEHICLES_WIDTH_2 ;
+    }
+    if ( template_id == "ordnance_1" ) {
+        template_id = "ordnance" ;
+        params.ORDNANCE = params.ORDNANCE_1 ;
+        params.ORDNANCE_WIDTH = params.ORDNANCE_WIDTH_1 ;
+    } else if ( template_id == "ordnance_2" ) {
+        template_id = "ordnance" ;
+        params.ORDNANCE = params.ORDNANCE_2 ;
+        params.ORDNANCE_WIDTH = params.ORDNANCE_WIDTH_2 ;
+    }
+
+    // include the player display names
+    params.PLAYER_1_NAME = nationalities[params.PLAYER_1].display_name ;
+    params.PLAYER_2_NAME = nationalities[params.PLAYER_2].display_name ;
 
     // generate PF parameters
     if ( params.SCENARIO_YEAR < 1944 || (params.SCENARIO_YEAR == 1944 && params.SCENARIO_MONTH < 6) )
@@ -115,13 +136,8 @@ function generate_snippet( $btn )
             if ( ! (param_id in params && params[param_id].length > 0) )
                 missing_params.push( _MANDATORY_PARAMS[template_id][param_id] ) ;
         }
-        if ( missing_params.length > 0 ) {
-            var buf = [ "Missing parameters:<ul>" ] ;
-            for ( var i=0 ; i < missing_params.length ; ++i )
-                buf.push( "<li> <span class='pre'>" + escapeHTML(missing_params[i]) + "</span>" ) ;
-            buf.push( "</ul>" ) ;
-            showWarningMsg( buf.join("") ) ;
-        }
+        if ( missing_params.length > 0 )
+            showWarningMsg( makeBulletListMsg( "Missing parameters:", missing_params, li_class="pre" ) ) ;
     }
 
     // check for date-specific parameters
@@ -163,7 +179,12 @@ function generate_snippet( $btn )
         // template parameter would have to be piped through the "safe" filter :-/ We never render
         // any of the generated HTML, so any risk exists only when the user pastes the HTML snippet
         // into a VASL scenario, which uses an ancient HTML engine (with probably no Javascript)...
-        val = func( params, {"autoEscape":false} ) ;
+        val = func( params, {
+            autoEscape: false,
+            filters: {
+                join: function(val,sep) { return val.join(sep) ; }
+            } ,
+        } ) ;
         val = val.trim() ;
     }
     catch( ex ) {
@@ -182,10 +203,9 @@ function generate_snippet( $btn )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function unload_params()
+function unload_params( params, check_date_capabilities )
 {
     // collect all the template parameters
-    var params = {} ;
     add_param = function($elem) { params[ $elem.attr("name") ] = $elem.val() ; } ;
     $("input[type='text'].param").each( function() { add_param($(this)) ; } ) ;
     $("textarea.param").each( function() { add_param($(this)) ; } ) ;
@@ -197,7 +217,156 @@ function unload_params()
         params.SSR.push( $(this).text() ) ;
     } ) ;
 
+    // collect the vehicles/ordnance
+    function get_vo( vo_type, player_id, paramName )
+    {
+        var objs = [] ;
+        $("#"+vo_type+"-sortable_"+player_id+" li").each( function() {
+            var entry = find_vo( $(this).data("vo-key") ) ;
+            var obj = {
+                name: entry.name,
+                note_number: entry.note_number,
+                notes: entry.notes
+            } ;
+            if ( entry.no_radio )
+                obj.no_radio = entry.no_radio ;
+            var capabilities = make_capabilities( entry, params.SCENARIO_YEAR, params.SCENARIO_MONTH, check_date_capabilities ) ;
+            if ( capabilities )
+                obj.capabilities = capabilities ;
+            var crew_survival = make_crew_survival( entry ) ;
+            if ( crew_survival )
+                obj.crew_survival = crew_survival ;
+            objs.push( obj ) ;
+        } ) ;
+        if ( objs.length > 0 )
+            params[paramName] = objs ;
+    }
+    get_vo( "vehicle", 1, "VEHICLES_1" ) ;
+    get_vo( "vehicle", 2, "VEHICLES_2" ) ;
+    get_vo( "ordnance", 1, "ORDNANCE_1" ) ;
+    get_vo( "ordnance", 2, "ORDNANCE_2" ) ;
+
     return params ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function make_capabilities( entry, scenario_year, scenario_month, check_date_capabilities )
+{
+    var capabilities = [] ;
+
+    // extract the static capabilities
+    var i ;
+    if ( "capabilities" in entry ) {
+        for ( i=0 ; i < entry.capabilities.length ; ++i )
+            capabilities.push( entry.capabilities[i] ) ;
+    }
+
+    // extract the variable capabilities
+    if ( "capabilities2" in entry ) {
+        var indeterminate_caps=[], unexpected_caps=[], invalid_caps=[] ;
+        for ( var key in entry.capabilities2 ) {
+            if ( entry.capabilities2[key] instanceof Array ) {
+                if ( key == "LF" )
+                    capabilities.push( "LF [" + entry.capabilities2[key].join(", ") + "]" ) ;
+                else {
+                    if ( ! scenario_year )
+                        indeterminate_caps.push( key ) ;
+                    if ( $.inArray( key, ["HE","A","D","sD","sN","WP"] ) === -1 ) {
+                        unexpected_caps.push( key ) ;
+                        continue ;
+                    }
+                    var cap = select_capability_by_date( entry.capabilities2[key], scenario_year, scenario_month ) ;
+                    if ( cap == "<invalid>" ) {
+                        invalid_caps.push( entry.name + ": " + key + " " + entry.capabilities2[key] ) ;
+                        continue ;
+                    }
+                    if ( cap !== null )
+                        capabilities.push( key + cap ) ;
+                }
+            }
+            else {
+                capabilities.push( key + entry.capabilities2[key] ) ;
+            }
+        }
+        // check if there were any capabilities not set
+        if ( check_date_capabilities && indeterminate_caps.length > 0 ) {
+            showErrorMsg( makeBulletListMsg(
+                "Can't determine capabilities without a scenario year:",
+                indeterminate_caps
+            ) ) ;
+        }
+        // check if there were any unexpected capabilities
+        if ( unexpected_caps.length > 0 ) {
+            showErrorMsg( makeBulletListMsg(
+                "Internal error: unexpected date-based capabilities:",
+                unexpected_caps
+            ) ) ;
+        }
+        // check if there were any invalid capabilities
+        if ( invalid_caps.length > 0 ) {
+            showErrorMsg( makeBulletListMsg(
+                "Internal error: invalid date-based capabilities:",
+                invalid_caps
+            ) ) ;
+        }
+    }
+
+    // extract any other capabilities
+    if ( "capabilities_other" in entry ) {
+        for ( i=0 ; i < entry.capabilities_other.length ; ++i )
+            capabilities.push( entry.capabilities_other[i] ) ;
+    }
+
+    return capabilities.length > 0 ? capabilities : null ;
+}
+
+function select_capability_by_date( capabilities, scenario_year, scenario_month )
+{
+    var MONTH_NAMES = { F: 2, J: 6, } ;
+
+    var val = null ;
+    for ( var i=0 ; i < capabilities.length ; ++i ) {
+        if ( capabilities[i] == "\u2020" )
+            continue ;
+        // remove any trailing "+" (why is it even there?)
+        var cap = capabilities[i][1].toString() ;
+        if ( cap.substring( cap.length-1 ) == "+" )
+            cap = cap.substring( 0, cap.length-1 ) ;
+        // parse the month/year the capability becomes available
+        var month = MONTH_NAMES[ cap.substring(0,1) ] ;
+        if ( month )
+            cap = cap.substring( 1 ) ;
+        if ( ! /^\d$/.test( cap ) )
+            return "<invalid>" ;
+        cap = parseInt( cap ) ;
+        // check if the capabilitity is available
+        if ( scenario_year > 1940 + cap )
+            val = capabilities[i][0] ;
+        else if ( scenario_year == 1940 + cap ) {
+            if( !month || scenario_month >= month )
+                val = capabilities[i][0] ;
+        }
+    }
+    return val ;
+}
+
+function make_crew_survival( entry )
+{
+    // check if the vehicle has a crew survival field
+    var crew_survival = null ;
+    if ( "CS#" in entry )
+        crew_survival = "CS " + entry["CS#"] ;
+    else if ( "cs#" in entry )
+        crew_survival = "cs " + entry["cs#"] ;
+    if ( crew_survival === null )
+        return null ;
+
+    // check if the vehicle is subject to brew up
+    if ( crew_survival.substring(crew_survival.length-7) == ":brewup" )
+        crew_survival = crew_survival.substring(0,crew_survival.length-7) + " <small><i>(brew up)</i></small>" ;
+
+    return crew_survival ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -216,6 +385,10 @@ function get_template( template_id )
 function edit_template( template_id )
 {
     // get the specified template
+    if ( template_id.substring(0,9) == "ordnance_" )
+        template_id = "ordnance" ;
+    else if ( template_id.substring(0,9) == "vehicles_" )
+        template_id = "vehicles" ;
     var template = get_template( template_id ) ;
     if ( template === null )
         return ;
@@ -284,19 +457,40 @@ function on_load_scenario_file_selected()
 
 function do_load_scenario( params )
 {
-    // load the scenario parameters
+    // reset the scenario
     on_new_scenario( false ) ;
+
+    // load the scenario parameters
     var params_loaded = {} ;
+    var unknown_vo = [] ;
     var set_param = function( $elem, key ) { $elem.val(params[key]) ; params_loaded[key]=true ; return $elem ; } ;
+    // FUDGE! We must set the players first, since changing these will reset the OB tabs.
+    if ( "PLAYER_1" in params )
+        set_param( $("select[name='PLAYER_1']"), "PLAYER_1" ).trigger( "change" ) ;
+    if ( "PLAYER_2" in params )
+        set_param( $("select[name='PLAYER_2']"), "PLAYER_2" ).trigger( "change" ) ;
+    var i ;
     for ( var key in params ) {
         if ( key === "SSR" ) {
-            for ( var i=0 ; i < params[key].length ; ++i ) {
+            for ( i=0 ; i < params[key].length ; ++i ) {
                 var $ssr = $( "<li></li>" ) ;
                 $ssr.text( params[key][i] ) ;
                 $("#ssr-sortable").append( $ssr ) ;
                 init_ssr( $ssr ) ;
             }
             update_ssr_hint() ;
+            params_loaded[key] = true ;
+            continue ;
+        }
+        if ( key === "VEHICLES_1" || key === "ORDNANCE_1" || key === "VEHICLES_2" || key === "ORDNANCE_2" ) {
+            var player_id = key.substring( key.length-1 ) ;
+            var nat = params[ "PLAYER_" + player_id ] ;
+            var vo_type = key.substring(0,9) === "VEHICLES_" ? "vehicle" : "ordnance" ;
+            for ( i=0 ; i < params[key].length ; ++i ) {
+                if ( ! do_add_vo( nat, vo_type, player_id, params[key][i] ) )
+                    unknown_vo.push( params[key][i] ) ;
+            }
+            update_vo_hint( vo_type, player_id ) ;
             params_loaded[key] = true ;
             continue ;
         }
@@ -308,7 +502,8 @@ function do_load_scenario( params )
             set_param( $(this), key ) ;
         } ) ;
         $elem = $("select[name='"+key+"'].param").each( function() {
-            set_param( $(this), key ).trigger( "change" ) ;
+            if ( key !== "PLAYER_1" && key !== "PLAYER_2" )
+                set_param( $(this), key ).trigger( "change" ) ;
         } ) ;
     }
 
@@ -316,10 +511,21 @@ function do_load_scenario( params )
     var buf = [] ;
     for ( key in params ) {
         if ( ! (key in params_loaded) )
-            buf.push( "<li> <span class='pre'>" + escapeHTML(key) + " = <span class='pre'>'" + escapeHTML(params[key]) + "</span>'" ) ;
+            buf.push( key + " = " + params[key] ) ;
     }
-    if ( buf.length > 0 )
-        showWarningMsg( "Unknown keys in the scenario file:<ul>" + buf.join("") + "</ul>" ) ;
+    if ( buf.length > 0 ) {
+        showWarningMsg( makeBulletListMsg(
+            "Unknown keys in the scenario file:",
+            buf, li_class="pre"
+        ) ) ;
+    }
+
+    // report any unknown vehicles/ordnance
+    if ( unknown_vo.length > 0 ) {
+        showWarningMsg( makeBulletListMsg(
+            "Unknown vehicles/ordnance:", unknown_vo
+        ) ) ;
+    }
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -327,7 +533,20 @@ function do_load_scenario( params )
 function on_save_scenario()
 {
     // unload the template parameters
-    var params = unload_params() ;
+    function extract_vo_names( key ) { // nb: we only need to save the vehicle/ordnance name
+        if ( !(key in params) )
+            return ;
+        var names = [] ;
+        for ( var i=0 ; i < params[key].length ; ++i )
+            names.push( params[key][i].name ) ;
+        params[key] = names ;
+    }
+    var params = {};
+    unload_params( params, false ) ;
+    extract_vo_names( "VEHICLES_1" ) ;
+    extract_vo_names( "ORDNANCE_1" ) ;
+    extract_vo_names( "VEHICLES_2" ) ;
+    extract_vo_names( "ORDNANCE_2" ) ;
     var data = JSON.stringify( params ) ;
 
     // FOR TESTING PORPOISES! We can't control a file download from Selenium (since
@@ -367,10 +586,16 @@ function on_new_scenario( verbose )
     $("select[name='PLAYER_2_SAN']").val( 2 ) ;
 
     // reset all the template parameters
-    $("#ssr-sortable li").each( function() {
-        $(this).remove() ;
-    } ) ;
+    $("#ssr-sortable li").each( function() { $(this).remove() ; } ) ;
     update_ssr_hint() ;
+
+    // reset all the template parameters
+    delete_all_vo( "vehicle", 1 ) ;
+    delete_all_vo( "ordnance", 1 ) ;
+    delete_all_vo( "vehicle", 2 ) ;
+    delete_all_vo( "ordnance", 2 ) ;
+
+    // provide some feedback to the user
     if ( verbose )
         showInfoMsg( "The scenario was reset." ) ;
 }
@@ -483,10 +708,11 @@ function do_load_template_pack( fname, data )
             for ( i=0 ; i < unknown_template_ids.length ; ++i )
                 buf.push( escapeHTML(unknown_template_ids[i]) + "<br>" ) ;
             buf.push( "</div>" ) ;
-            buf.push( "Must be one of:<div class='pre'><ul>" ) ;
+            var buf2 = [] ;
             for ( i=0 ; i < gValidTemplateIds.length ; ++i )
-                buf.push( "<li>" + escapeHTML(gValidTemplateIds[i]) + ".j2" ) ;
-            buf.push( "</ul></div>" ) ;
+                buf2.push( gValidTemplateIds[i] + ".j2" ) ;
+            buf.push( makeBulletListMsg( "Must be one of:<div class='pre'>", buf2 ) ) ;
+            buf.push( "</div>" ) ;
             showErrorMsg( buf.join("") ) ;
             ok = false ;
         }

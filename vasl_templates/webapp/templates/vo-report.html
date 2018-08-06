@@ -1,0 +1,98 @@
+<!doctype html> <!-- NOTE: For testing porpoises only! -->
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<title> {{VO_TYPE}} listings: {{NATIONALITY}} </title>
+<style>
+table { border-collapse: collapse ; }
+th { text-align: left ; padding: 0.2em 0.5em ; background: #eee ; border: 1px solid #ccc ; }
+td { padding: 0.2em 0.5em ; }
+.val { padding: 0.1em 0.25em ; background: #eee ; }
+</style>
+</head>
+
+<body>
+<div id="results" style="display:none;"></div>
+</body>
+
+<script src="{{url_for('static',filename='jquery/jquery-3.3.1.min.js')}}"></script>
+<script src="{{url_for('static',filename='snippets.js')}}"></script>
+<script src="{{url_for('static',filename='utils.js')}}"></script>
+
+<script>
+$(document).ready( function () {
+    // get the vehicle listings
+    var url ;
+    if ( "{{VO_TYPE}}" == "vehicle" )
+        url = "{{url_for( 'get_vehicle_listings', report=1 )}}"
+    else
+        url = "{{url_for( 'get_ordnance_listings', report=1 )}}" ;
+    $.getJSON( url, function(data) {
+        load_vo_listings( data ) ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        alert( "Can't get the {{VO_TYPE}} listings:\n\n" + errorMsg ) ;
+    } ) ;
+} ) ;
+
+function load_vo_listings( objs )
+{
+    // initialize
+    var nat = "{{NATIONALITY}}" ;
+    var year = {{YEAR}} ;
+    var $results = $("#results") ;
+
+    // check if there are any vehicles/ordnance for the specified nationality
+    if ( ! (nat in objs ) ) {
+        $results.text( "No listings for nationality: " ) ; + nat
+        return ;
+    }
+
+    // load the vehicles/ordnance
+    var buf = [] ;
+    buf.push( "<table>" ) ;
+    buf.push( "<tr>", "<th>Name" ) ;
+    if ( "{{VO_TYPE}}" === "vehicle" ) {
+        buf.push( "<th>Radio" ) ;
+        buf.push( "<th>Crew survival" ) ;
+    }
+    buf.push( "<th>Capabilities", "<th colspan='2'>Notes" ) ;
+    for ( var i=0 ; i < objs[nat].length ; ++i ) {
+        var obj = objs[nat][i] ;
+        buf.push( "<tr>" ) ;
+        buf.push( "<td>", fmtval(obj.name) ) ;
+        if ( "{{VO_TYPE}}" === "vehicle" ) {
+            buf.push( "<td>", fmtval(obj.no_radio) ) ;
+            buf.push( "<td>", fmtval(make_crew_survival(obj)) ) ;
+        }
+        var capabilities = make_capabilities( obj, year, true ) ;
+        buf.push( "<td>", listval(capabilities) ) ;
+        buf.push( "<td>", "<span class='val'>" + fmtval(obj.note_number) + "</span>" ) ;
+        buf.push( "<td>", listval(obj.notes) ) ;
+    }
+    buf.push( "</table>" ) ;
+    $results.html( buf.join("") ).show() ;
+}
+
+function fmtval( val )
+{
+    // return the formatted value
+    if ( ! val )
+        return "<small><em>n/a</em></small>" ;
+    return val ;
+}
+
+function listval( vals )
+{
+    // return the formatted list of values
+    if ( ! vals )
+        return "<small><em>n/a</em></small>" ;
+    var buf = [] ;
+    for ( var i=0 ; i < vals.length ; ++i )
+        buf.push( "<span class='val'>" + vals[i] + "</span>" ) ;
+    return buf.join( " " ) ;
+}
+
+</script>
+
+</html>

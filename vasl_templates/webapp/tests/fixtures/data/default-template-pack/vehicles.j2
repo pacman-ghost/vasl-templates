@@ -1,0 +1,5 @@
+[{{PLAYER_NAME}}] ; width={{VEHICLES_WIDTH}}{%for veh in VEHICLES %}
+[*] {{veh.name}}: #={{veh.note_number}}{%if veh.notes%}
+- notes:{%for n in veh.notes%} "{{n}}"{%endfor%}{%endif%}{%if veh.crew_survival%}
+- {{veh.crew_survival}}{%endif%}{%if veh.capabilities%}
+- capabilities:{%for c in veh.capabilities%} "{{c}}"{%endfor%}{%endif%}{%endfor%}

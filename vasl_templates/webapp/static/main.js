@@ -1,6 +1,7 @@
 var gTemplatePack = {} ;
 var gDefaultNationalities = {} ;
 var gValidTemplateIds = [] ;
+var gVehicleOrdnanceListings = {} ;
 
 var _NATIONALITY_SPECIFIC_BUTTONS = {
     "russian": [ "mol", "mol-p" ],
@@ -81,7 +82,6 @@ $(document).ready( function () {
 
     // initialize
     $("#ssr-sortable").sortable( { connectWith: "#ssr-trash", cursor: "move" } ) ;
-    init_ssr( $("#ssr-sortable li") ) ;
     $("#add-ssr").click( add_ssr ) ;
     $("#ssr-trash").sortable( {
         receive: function( evt, ui ) { ui.item.remove() ; update_ssr_hint() ; }
@@ -92,6 +92,45 @@ $(document).ready( function () {
             evt.preventDefault() ;
         }
     } ) ;
+
+    // initialize vehicle controls (1)
+    $("#vehicle-sortable_1").sortable( { connectWith: "#vehicle-trash_1", cursor: "move" } ) ;
+    $("#add-vehicle_1").click( function() { add_vo( "vehicle", 1 ) ; } ) ;
+    $("#vehicle-trash_1").sortable( {
+        receive: function( evt, ui ) { ui.item.remove() ; update_vo_hint("vehicle",1) ; }
+    } ) ;
+    // initialize vehicle controls (2)
+    $("#vehicle-sortable_2").sortable( { connectWith: "#vehicle-trash_2", cursor: "move" } ) ;
+    $("#add-vehicle_2").click( function() { add_vo( "vehicle", 2 ) ; } ) ;
+    $("#vehicle-trash_2").sortable( {
+        receive: function( evt, ui ) { ui.item.remove() ; update_vo_hint("vehicle",2) ; }
+    } ) ;
+
+    // initialize ordnance controls (1)
+    $("#ordnance-sortable_1").sortable( { connectWith: "#ordnance-trash_1", cursor: "move" } ) ;
+    $("#add-ordnance_1").click( function() { add_vo( "ordnance", 1 ) ; } ) ;
+    $("#ordnance-trash_1").sortable( {
+        receive: function( evt, ui ) { ui.item.remove() ; update_vo_hint("ordnance",1) ; }
+    } ) ;
+    // initialize ordnance controls (2)
+    $("#ordnance-sortable_2").sortable( { connectWith: "#ordnance-trash_2", cursor: "move" } ) ;
+    $("#add-ordnance_2").click( function() { add_vo( "ordnance", 2 ) ; } ) ;
+    $("#ordnance-trash_2").sortable( {
+        receive: function( evt, ui ) { ui.item.remove() ; update_vo_hint("ordnance",2) ; }
+    } ) ;
+
+    // handle ENTER and double-clicks in the "select vehicle/ordnance" dialog
+    function auto_select_vo( evt ) {
+        if ( $("#select-vo select").val() ) {
+            $(".ui-dialog.select-vo button:contains('OK')").click() ;
+            evt.preventDefault() ;
+        }
+    }
+    $("#select-vo").keydown( function(evt) {
+        if ( evt.keyCode == 13 )
+            auto_select_vo( evt ) ;
+    } ) ;
+    $("#select-vo").dblclick( function(evt) { auto_select_vo(evt) ; } ) ;
 
     // load the ELR's and SAN's
     var buf = [] ;
@@ -110,6 +149,18 @@ $(document).ready( function () {
     // add handlers for player changes
     $("select[name='PLAYER_1']").change( function() { on_player_change($(this)) ; } ) ;
     $("select[name='PLAYER_2']").change( function() { on_player_change($(this)) ; } ) ;
+
+    // get the vehicle/ordnance listings
+    $.getJSON( gVehicleListingsUrl, function(data) {
+        gVehicleOrdnanceListings.vehicle = data ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        showErrorMsg( "Can't get the vehicle listings:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+    } ) ;
+    $.getJSON( gOrdnanceListingsUrl, function(data) {
+        gVehicleOrdnanceListings.ordnance = data ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        showErrorMsg( "Can't get the ordnance listings:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+    } ) ;
 
     // get the template pack
     $.getJSON( gGetTemplatePackUrl, function(data) {
@@ -157,7 +208,15 @@ $(document).ready( function () {
     // replace all the "generate" buttons with "generate/edit" button/droplist's
     $("input[type='button'].generate").each( function() {
         var template_id = $(this).attr( "data-id" ) ;
-        var template_id2 = (template_id.substring(0,9) === "ob_setup_") ? "ob_setup" : template_id ;
+        var template_id2 ;
+        if ( template_id.substring(0,9) === "ob_setup_" )
+            template_id2 = "ob_setup" ;
+        else if ( template_id.substring(0,9) == "vehicles_" )
+            template_id2 = "vehicles" ;
+        else if ( template_id.substring(0,9) == "ordnance_" )
+            template_id2 = "ordnance" ;
+        else
+            template_id2 = template_id ;
         var buf = [ "<div class='snippet-control' data-id='" + template_id + "'>",
             $(this).prop( "outerHTML" ),
             "<select data-id='" + template_id2 + "'>",
@@ -197,6 +256,10 @@ $(document).ready( function () {
            var template_id = $(this).attr( "data-id" ) ;
             if ( template_id.substring(0,9) === "ob_setup_" )
                 template_id = "ob_setup" ;
+            else if ( template_id.substring(0,9) === "vehicles_" )
+                template_id = "vehicles" ;
+            else if ( template_id.substring(0,9) === "ordnance_" )
+                template_id = "ordnance" ;
             $( "<a href='#' class='edit-template-link' data-id='" + template_id + "'" +
                " onclick='edit_template(\"" + template_id + "\")'" +
                "></a>"
@@ -288,4 +351,12 @@ function on_player_change( $select )
             $elem.css( "display", nat == player_nat ? "block" : "none" ) ;
         }
     }
+
+    // reset the OB params
+    $("textarea[name='OB_SETUP_"+player_id+"']").val( "" ) ;
+    $("input[name='OB_SETUP_WIDTH_"+player_id+"']").val( "" ) ;
+    delete_all_vo( "vehicle", player_id ) ;
+    $("input[name='VEHICLES_WIDTH_"+player_id+"']").val( "" ) ;
+    delete_all_vo( "ordnance", player_id ) ;
+    $("input[name='ORDNANCE_WIDTH_"+player_id+"']").val( "" ) ;
 }

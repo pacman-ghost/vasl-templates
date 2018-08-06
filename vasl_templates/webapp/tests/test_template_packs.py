@@ -7,6 +7,7 @@ import base64
 
 from selenium.webdriver.support.ui import Select
 
+from vasl_templates.webapp import snippets
 from vasl_templates.webapp.tests.utils import select_menu_option, get_clipboard
 from vasl_templates.webapp.tests.utils import get_stored_msg, set_stored_msg, dismiss_notifications, find_child
 from vasl_templates.webapp.tests.utils import for_each_template
@@ -88,13 +89,12 @@ def test_zip_files( webapp, webdriver ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def test_new_default_template_pack( webapp, webdriver ):
+def test_new_default_template_pack( webapp, webdriver, monkeypatch ):
     """Test changing the default template pack."""
 
     # configure a new default template pack
     dname = os.path.join( os.path.split(__file__)[0], "fixtures/template-packs/new-default/" )
-    from vasl_templates.webapp import snippets
-    snippets.default_template_pack = dname
+    monkeypatch.setattr( snippets, "default_template_pack", dname )
 
     # initialize
     webdriver.get( webapp.url_for( "main" ) )

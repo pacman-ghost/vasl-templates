@@ -27,17 +27,25 @@ def test_scenario_persistence( webapp, webdriver ):
         "scenario": {
             "SCENARIO_NAME": "my test scenario", "SCENARIO_LOCATION": "right here", "SCENARIO_DATE": "12/31/1945",
             "SCENARIO_WIDTH": "101",
-            "PLAYER_1": "british", "PLAYER_1_ELR": "1", "PLAYER_1_SAN": "2",
-            "PLAYER_2": "french", "PLAYER_2_ELR": "3", "PLAYER_2_SAN": "4",
+            "PLAYER_1": "russian", "PLAYER_1_ELR": "1", "PLAYER_1_SAN": "2",
+            "PLAYER_2": "german", "PLAYER_2_ELR": "3", "PLAYER_2_SAN": "4",
             "VICTORY_CONDITIONS": "just do it!", "VICTORY_CONDITIONS_WIDTH": "102",
             "SSR": [ "This is an SSR.", "This is another SSR." ],
             "SSR_WIDTH": "103",
         },
         "ob1": {
             "OB_SETUP_1": "Player 1's OB", "OB_SETUP_WIDTH_1": "201",
+            "VEHICLES_1": [ "a russian vehicle", "another russian vehicle" ],
+            "VEHICLES_WIDTH_1": "202",
+            "ORDNANCE_1": [ "a russian ordnance", "another russian ordnance" ],
+            "ORDNANCE_WIDTH_1": "203",
         },
         "ob2": {
             "OB_SETUP_2": "Player 2's OB", "OB_SETUP_WIDTH_2": "301",
+            "VEHICLES_2": [ "a german vehicle" ],
+            "VEHICLES_WIDTH_2": "302",
+            "ORDNANCE_2": [ "a german ordnance" ],
+            "ORDNANCE_WIDTH_2": "303",
         },
     }
     load_scenario_fields( scenario_params )
@@ -69,6 +77,8 @@ def test_scenario_persistence( webapp, webdriver ):
         for field,val in scenario_params[tab_id].items():
             if field == "SSR":
                 continue # nb: this requires special handling, we do it below
+            if field in ("VEHICLES_1","ORDNANCE_1","VEHICLES_2","ORDNANCE_2"):
+                continue # nb: this requires special handling, we do it below
             elem = next( c for c in ( \
                 find_child( "{}[name='{}']".format(elem_type,field) ) \
                 for elem_type in ["input","textarea","select"]
@@ -79,6 +89,10 @@ def test_scenario_persistence( webapp, webdriver ):
                 assert elem.get_attribute("value") == val
     ssrs = _get_ssrs()
     assert ssrs == scenario_params["scenario"]["SSR"]
+    assert _get_vo("vehicle",1) == scenario_params["ob1"]["VEHICLES_1"]
+    assert _get_vo("ordnance",1) == scenario_params["ob1"]["ORDNANCE_1"]
+    assert _get_vo("vehicle",2) == scenario_params["ob2"]["VEHICLES_2"]
+    assert _get_vo("ordnance",2) == scenario_params["ob2"]["ORDNANCE_2"]
 
 # ---------------------------------------------------------------------
 
@@ -108,6 +122,28 @@ def test_loading_ssrs( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+def test_unknown_vo( webapp, webdriver ):
+    """Test detection of unknown vehicles/ordnance."""
+
+    # initialize
+    webdriver.get( webapp.url_for( "main", scenario_persistence=1, store_msgs=1 ) )
+    _ = _save_scenario() # nb: force the "scenario-persistence" element to be created
+
+    # load a scenario that has unknown vehicles/ordnance
+    scenario_params = {
+        "VEHICLES_1": [ "unknown vehicle 1a", "unknown vehicle 1b" ],
+        "ORDNANCE_1":  [ "unknown ordnance 1a", "unknown ordnance 1b" ],
+        "VEHICLES_2": [ "unknown vehicle 2" ],
+        "ORDNANCE_2":  [ "unknown ordnance 2" ],
+    }
+    _load_scenario( scenario_params )
+    last_warning = get_stored_msg( "_last-warning_" )
+    assert last_warning.startswith( "Unknown vehicles/ordnance:" )
+    for vals in scenario_params.values():
+        assert all( v in last_warning for v in vals )
+
+# ---------------------------------------------------------------------
+
 def _load_scenario( scenario ):
     """Load a scenario into the UI."""
     set_stored_msg( "scenario_persistence", json.dumps(scenario) )
@@ -123,3 +159,11 @@ def _get_ssrs():
     """Get the SSR's from the UI."""
     select_tab( "scenario" )
     return [ c.text for c in find_children("#ssr-sortable li") ]
+
+def _get_vo( vo_type, player_id ):
+    """Get the vehicles/ordnance from the UI."""
+    select_tab( "ob{}".format( player_id ) )
+    return [
+        c.text
+        for c in find_children( "#{}-sortable_{} li".format( vo_type, player_id ) )
+    ]

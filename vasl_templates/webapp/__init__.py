@@ -41,6 +41,7 @@ if os.path.isfile( _fname ):
 
 # load the application
 import vasl_templates.webapp.main #pylint: disable=cyclic-import
+import vasl_templates.webapp.vehicles_ordnance #pylint: disable=cyclic-import
 import vasl_templates.webapp.snippets #pylint: disable=cyclic-import
 
 # initialize the application

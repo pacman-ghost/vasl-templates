@@ -1,0 +1,175 @@
+[
+
+{ "name": "5cm leGrW",
+  "capabilities_other": [ "5PP" ],
+  "note_number": "1",
+  "notes": [ "N" ]
+},
+{ "name": "8cm GrW 34",
+  "capabilities": [ "NT", "QSU", "IR" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "2\u2020",
+  "notes": [ "N" ]
+},
+{ "name": "10cm NbW 35",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "s": 10 },
+  "note_number": "3",
+  "notes": [ "O" ]
+},
+{ "name": "12cm GrW 42",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "4\u2020"
+},
+{ "name": "2.8cm sPzB 41",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities_other": [ "uses APCR TK Table\u2020" ],
+  "note_number": "5\u2020",
+  "notes": [ "A\u2020", "N", "P" ]
+},
+{ "name": "3.7cm PaK 35/36",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "A": [ [4,1], [5,2], [4,3], [3,4] ], "H": "6[9]\u2020" },
+  "note_number": "6",
+  "notes": [ "B\u2020", "N", "P" ]
+},
+{ "name": "4.2cm lePaK 41",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities_other": [ "uses APCR TK Table\u2020" ],
+  "note_number": "7",
+  "notes": [ "A\u2020", "N" ]
+},
+{ "name": "5cm PaK 38",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "A": [ [5,1], [6,2], [5,3], [4,4] ] },
+  "note_number": "8\u2020",
+  "notes": [ "N" ]
+},
+{ "name": "7.5cm PaK 97/38",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "H": 6, "s": 7 },
+  "note_number": "9",
+  "notes": [ "N" ]
+},
+{ "name": "7.5cm PaK 40",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "A": [ [5,2], [4,3], [3,4] ], "s": 7 },
+  "note_number": "10\u2020",
+  "notes": [ "N" ]
+},
+{ "name": "7.62cm PaK 36r",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "A": [ [5,2], [4,3], [3,4] ], "s": 6 },
+  "note_number": "11\u2020",
+  "notes": [ "N" ]
+},
+{ "name": "8.8cm PaK 43",
+  "capabilities": [ "T" ],
+  "capabilities2": { "LF": [ "88\u2020", "1 ROF", "B11", "<b>M4</b>", "-1" ] },
+  "note_number": "12",
+  "notes": [ "C\u2020" ]
+},
+{ "name": "8.8cm PaK 43/41",
+  "capabilities": [ "NT" ],
+  "note_number": "13"
+},
+{ "name": "12.8cm K 81/1",
+  "capabilities": [ "NT", "NM" ],
+  "note_number": "14"
+},
+{ "name": "7.5cm leIG 18",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "H": 7 },
+  "note_number": "15",
+  "notes": [ "N", "O" ]
+},
+{ "name": "15cm sIG 33",
+  "capabilities": [ "NT" ],
+  "capabilities2": { "H": 7, "s": 8 },
+  "note_number": "16",
+  "notes": [ "N" ]
+},
+{ "name": "7.5cm LG 40",
+  "capabilities": [ "T", "QSU" ],
+  "capabilities2": { "H": 6 },
+  "note_number": "17",
+  "notes": [ "N" ]
+},
+{ "name": "10.5cm LG 42",
+  "capabilities": [ "T", "QSU" ],
+  "capabilities2": { "H": 6, "s": 6 },
+  "note_number": "18\u2020",
+  "notes": [ "N" ]
+},
+{ "name": "7.5cm leFK 16nA",
+  "capabilities": [ "NT", "QSU", "h-d" ],
+  "capabilities2": { "H": 5, "s": 8 },
+  "note_number": "19"
+},
+{ "name": "10.5cm leFH 18",
+  "capabilities": [ "NT" ],
+  "capabilities2": { "H": 6, "s": 8 },
+  "note_number": "20",
+  "notes": [ "N" ]
+},
+{ "name": "s 10cm K 18",
+  "capabilities": [ "NT", "NM" ],
+  "capabilities2": { "H": 6, "s": 8 },
+  "note_number": "21",
+  "notes": [ "N" ]
+},
+{ "name": "15cm sFH 18",
+  "capabilities": [ "NT", "NM" ],
+  "capabilities2": { "H": 6, "s": 8 },
+  "note_number": "22",
+  "notes": [ "N" ]
+},
+{ "name": "15cm K 18",
+  "capabilities": [ "NT", "RFNM" ],
+  "capabilities2": { "AP": 6 },
+  "note_number": "23",
+  "notes": [ "N" ]
+},
+{ "name": "17cm K 18",
+  "capabilities": [ "NT", "RFNM", "no IF" ],
+  "capabilities2": { "AP": 6 },
+  "note_number": "24",
+  "notes": [ "N" ]
+},
+{ "name": "2cm FlaK 30",
+  "capabilities": [ "T" ],
+  "capabilities2": { "LF": [ "20\u2020", "2 ROF", "B10", "NT" ] },
+  "note_number": "25",
+  "notes": [ "C\u2020", "N" ]
+},
+{ "name": "2cm FlaK 38",
+  "capabilities": [ "T" ],
+  "capabilities2": { "LF": [ "20\u2020", "2 ROF", "B11", "NT" ] },
+  "note_number": "26",
+  "notes": [ "C\u2020", "N" ]
+},
+{ "name": "2cm FlaKvierling 38",
+  "capabilities": [ "T" ],
+  "capabilities_other": [ "4TK DR\u2020" ],
+  "note_number": "27\u2020",
+  "notes": [ "N" ]
+},
+{ "name": "3.7cm FlaK 36 o. 37",
+  "capabilities": [ "T" ],
+  "capabilities2": { "H": "5[9]\u2020" },
+  "note_number": "28",
+  "notes": [ "B\u2020", "N" ]
+},
+{ "name": "3.7cm FlaK 43",
+  "capabilities": [ "T" ],
+  "note_number": "29"
+},
+{ "name": "8.8cm FlaK 18 o. 36",
+  "capabilities": [ "T" ],
+  "capabilities2": { "A": [ [5,2], [4,3], [3,4] ], "LF": [ "88L\u2020", "1 ROF", "B11" ] },
+  "note_number": "30",
+  "notes": [ "C\u2020", "N" ]
+}
+
+]

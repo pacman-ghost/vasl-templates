@@ -33,6 +33,50 @@ function copyToClipboard( val )
 
 // --------------------------------------------------------------------
 
+// Connect a text box to a select box, and filter the available options.
+jQuery.fn.filterByText = function( $textbox ) {
+
+    function compressSpaces( val ) { return val.replace( /\s/g, "" ).trim() ; }
+
+    return this.each( function() {
+
+        // initialize
+        var $select = $(this) ;
+        var $options = [] ;
+        $select.find( "option" ).each( function() {
+            $options.push( { value: $(this).val(), text: $(this).text() } ) ;
+        } ) ;
+        $select.data( "options", $options ) ;
+
+        $textbox.bind( "input", function() {
+            // prepare the value we will filter on
+            var val = $(this).val() ;
+            var adjustCase ;
+            if ( val !== val.toLowerCase() )
+                adjustCase = function(val) { return val ; } ; // nb: mixed-case => case-sensitive filtering
+            else
+                adjustCase = function(val) { return val.toLowerCase() ; } ;
+            val = compressSpaces( adjustCase( val ) ) ;
+            // filter the options
+            var $options = $select.empty().scrollTop(0).data( "options" ) ;
+            $.each( $options, function(i) {
+                var $opt = $options[i] ;
+                var optVal = compressSpaces( adjustCase( $opt.text ) ) ;
+                if ( optVal.indexOf( val ) !== -1 ) {
+                    $select.append(
+                        $("<option>").text( $opt.text ).val( $opt.value )
+                    ) ;
+                }
+            } ) ;
+            // auto-select if there's only one option
+            if ( $select.children().length === 1 )
+                $select.children().get(0).selected = true ;
+        } ) ;
+    } ) ;
+} ;
+
+// --------------------------------------------------------------------
+
 function ask( title, msg, args )
 {
     // ask a question
@@ -120,6 +164,23 @@ function storeMsgForTestSuite( id, msg )
         $("body").append( $elem ) ;
     }
     $elem.html( msg ) ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function makeBulletListMsg( caption, items, li_class )
+{
+    // generate a message
+    var buf = [] ;
+    for ( i=0 ; i < items.length ; ++i ) {
+        buf.push( "<li" ) ;
+        if ( li_class )
+            buf.push( " class='" + li_class + "'" ) ;
+        buf.push( ">" ) ;
+        buf.push( escapeHTML(items[i]) ) ;
+        buf.push( "</li>" ) ;
+    }
+    return caption + "<ul>" + buf.join("") + "</ul>" ;
 }
 
 // --------------------------------------------------------------------

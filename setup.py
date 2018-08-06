@@ -22,6 +22,7 @@ setup(
     extras_require = {
         "dev": [
             "pytest==3.6.0",
+            "tabulate==0.8.2",
             "selenium==3.12.0",
             "pylint==1.9.2",
             "pytest-pylint==0.9.0",

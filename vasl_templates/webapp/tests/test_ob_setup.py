@@ -26,10 +26,10 @@ def test_ob_setup( webapp, webdriver ):
     textarea2.send_keys( "setup <b>there</b>." )
     btn2 = find_child( "input[type='button'][data-id='ob_setup_2']" )
     btn2.click()
-    assert get_clipboard() == "[setup <b>there</b>.] (col=[OBCOL:russian/OBCOL2:russian])"
+    assert get_clipboard() == "[Russian] [setup <b>there</b>.] (col=[OBCOL:russian/OBCOL2:russian])"
     select_tab( "ob1" )
     btn1.click()
-    assert get_clipboard() == "[setup <i>here</i>.] (col=[OBCOL:german/OBCOL2:german])"
+    assert get_clipboard() == "[German] [setup <i>here</i>.] (col=[OBCOL:german/OBCOL2:german])"
 
     # change the player nationalities and generate the OB SETUP snippets again
     select_tab( "scenario" )
@@ -43,22 +43,22 @@ def test_ob_setup( webapp, webdriver ):
     sel.select_by_value( "french" )
     select_tab( "ob1" )
     btn1.click()
-    assert get_clipboard() == "[setup <i>here</i>.] (col=[OBCOL:british/OBCOL2:british])"
+    assert get_clipboard() == "[British] [] (col=[OBCOL:british/OBCOL2:british])"
     select_tab( "ob2" )
     btn2.click()
-    assert get_clipboard() == "[setup <b>there</b>.] (col=[OBCOL:french/OBCOL2:french])"
+    assert get_clipboard() == "[French] [] (col=[OBCOL:french/OBCOL2:french])"
 
     # set the snippet widths and generate the snippets again
     select_tab( "ob1" )
     elem = find_child( "input[name='OB_SETUP_WIDTH_1']" )
     elem.send_keys( "100px" )
     btn1.click()
-    assert get_clipboard() == "[setup <i>here</i>.] (col=[OBCOL:british/OBCOL2:british]) (width=[100px])"
+    assert get_clipboard() == "[British] [] (col=[OBCOL:british/OBCOL2:british]) (width=[100px])"
     select_tab( "ob2" )
     elem = find_child( "input[name='OB_SETUP_WIDTH_2']" )
     elem.send_keys( "200px" )
     btn2.click()
-    assert get_clipboard() == "[setup <b>there</b>.] (col=[OBCOL:french/OBCOL2:french]) (width=[200px])"
+    assert get_clipboard() == "[French] [] (col=[OBCOL:french/OBCOL2:french]) (width=[200px])"
 
 # ---------------------------------------------------------------------
 

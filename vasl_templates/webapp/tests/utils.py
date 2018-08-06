@@ -13,8 +13,8 @@ from selenium.common.exceptions import NoSuchElementException, StaleElementRefer
 # standard templates
 _STD_TEMPLATES = {
     "scenario": [ "scenario", "players", "victory_conditions", "ssr" ],
-    "ob1": [ "ob_setup_1" ],
-    "ob2": [ "ob_setup_2" ],
+    "ob1": [ "ob_setup_1", "vehicles_1", "ordnance_1" ],
+    "ob2": [ "ob_setup_2", "vehicles_2", "ordnance_2" ],
 }
 
 # nationality-specific templates
@@ -45,9 +45,16 @@ def for_each_template( func ):
     for tab_id,template_ids in _STD_TEMPLATES.items():
         select_tab( tab_id )
         for template_id in template_ids:
-            template_id2 = "ob_setup" if template_id.startswith("ob_setup_") else template_id
+            if template_id.startswith( "ob_setup_" ):
+                template_id2 = "ob_setup"
+            elif template_id.startswith( "vehicles_" ):
+                template_id2 = "vehicles"
+            elif template_id.startswith( "ordnance_" ):
+                template_id2 = "ordnance"
+            else:
+                template_id2 = template_id
             func( template_id2, template_id )
-            if template_id != "ob_setup_2":
+            if template_id not in ("ob_setup_2","vehicles_2","ordnance_2"):
                 templates_to_test.remove( template_id2 )
 
     # test the nationality-specific templates
@@ -92,6 +99,15 @@ def set_template_params( params ):
             from vasl_templates.webapp.tests.test_ssr import add_ssr #pylint: disable=cyclic-import
             for ssr in val:
                 add_ssr( _webdriver, ssr )
+            continue
+
+        # check for vehicles/ordnance (these require special handling)
+        if key in ("VEHICLES_1","ORDNANCE_1","VEHICLES_2","ORDNANCE_2"):
+            # add them in (nb: we don't consider any existing vehicles/ordnance)
+            vo_type = "vehicle" if key.startswith("VEHICLES_") else "ordnance"
+            from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo #pylint: disable=cyclic-import
+            for vo_name in val:
+                add_vo( vo_type, int(key[-1]), vo_name )
             continue
 
         # locate the next parameter
@@ -167,6 +183,16 @@ def dismiss_notifications():
             time.sleep( 0.25 )
         except StaleElementReferenceException:
             pass # nb: the notification had already auto-closed
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def click_dialog_button( caption ):
+    """Click a dialog button."""
+    btn = next(
+        elem for elem in find_children(".ui-dialog button")
+        if elem.text == caption
+    )
+    btn.click()
 
 # ---------------------------------------------------------------------
 

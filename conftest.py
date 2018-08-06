@@ -5,6 +5,7 @@ import threading
 import logging
 import tempfile
 import urllib.request
+from urllib.error import URLError
 import pytest
 
 from flask import url_for
@@ -14,6 +15,17 @@ app.testing = True
 from vasl_templates.webapp.tests import utils
 
 FLASK_WEBAPP_PORT = 5001
+
+# ---------------------------------------------------------------------
+
+def pytest_addoption( parser ):
+    """Configure pytest options."""
+    # add an option to control checking of vehicle/ordnance reports
+    # NOTE: This file needs to be in the project root for this to work :-/
+    parser.addoption(
+        "--vo-reports", action="store_true", dest="check_vo_reports", default=False,
+        help="Check the vehicle/ordnance reports."
+)
 
 # ---------------------------------------------------------------------
 
@@ -32,7 +44,7 @@ def webapp():
 
     # configure the webapp to use our test data
     # NOTE: Can't seem to change constants.DATA_DIR (probably some pytest funkiness :-/)
-    app.config["DATA_DIR"] = os.path.join( os.path.split(__file__)[0], "fixtures/data" )
+    app.config["DATA_DIR"] = os.path.join( os.path.split(__file__)[0], "vasl_templates/webapp/tests/fixtures/data" )
 
     # start the webapp server (in a background thread)
     logging.disable( logging.CRITICAL )
@@ -40,6 +52,21 @@ def webapp():
         target = lambda: app.run( host="0.0.0.0", port=FLASK_WEBAPP_PORT, use_reloader=False )
     )
     thread.start()
+
+    # wait for the server to start up
+    def is_ready():
+        """Try to connect to the webapp server."""
+        try:
+            resp = urllib.request.urlopen( app.url_for("ping") ).read()
+            assert resp == b"pong"
+            return True
+        except URLError:
+            return False
+        except Exception as ex: #pylint: disable=broad-except
+            assert False, "Unexpected exception: {}".format(ex)
+    utils.wait_for( 5, is_ready )
+
+    # return the server to the caller
     yield app
 
     # shutdown the webapp server

@@ -1,0 +1,26 @@
+[
+
+{ "name": "a russian vehicle",
+  "capabilities": [ "NM" ],
+  "capabilities2": { "s": 1, "sN": 2 },
+  "capabilities_other": [ "twerking" ],
+  "CS#": 3,
+  "note_number": "1",
+  "notes": [ "X", "Y\u2020" ]
+},
+{ "name": "another russian vehicle",
+  "capabilities": [ "RFNM" ],
+  "cs#": 4,
+  "note_number": "2"
+},
+{ "name": "name only"
+},
+
+{ "name": "Churchill III(b)",
+  "CS#": 7,
+  "capabilities2": { "D": [ [6,"J4"], [7,5], "\u2020" ], "HE": [ [7,"F3"], [8,"4+"], "\u2020" ], "sD": [ [6,"4+"] ], "sM": "8\u2020" },
+  "note_number": "53\u2020",
+  "notes": [ "N", "LL" ]
+}
+
+]

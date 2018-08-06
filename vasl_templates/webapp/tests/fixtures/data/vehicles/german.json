@@ -1,0 +1,19 @@
+[
+
+{ "name": "a german vehicle",
+  "capabilities": [ "QSU", "IR" ],
+  "capabilities2": { "A": 1, "H": 2 },
+  "capabilities_other": [ "can do other stuff" ],
+  "CS#": 5,
+  "note_number": "1",
+  "notes": [ "A", "B\u2020" ]
+},
+{ "name": "another german vehicle",
+  "capabilities": [ "QSU" ],
+  "cs#": "4:brewup",
+  "note_number": "2"
+},
+{ "name": "name only"
+}
+
+]

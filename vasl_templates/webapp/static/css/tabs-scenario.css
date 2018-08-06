@@ -70,15 +70,6 @@
 #panel-ssr .content { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
 #panel-ssr .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
 
-#panel-ssr #ssr-sortable { width:100% ; height: calc(100% - 1.5em) ; font-size: 80% ; }
-#panel-ssr #ssr-sortable { list-style-type: none ; margin: 0 ; padding: 0 ; }
-#panel-ssr #ssr-sortable li {
-    margin-bottom: 2px ; padding: 5px ;
-    border: 1px dotted #333 ; background: #eee ;
-}
-#panel-ssr #ssr-sortable li.highlighted { background: #48c8ff ; }
-#panel-ssr #ssr-sortable li:hover { cursor: pointer ; }
-
 #panel-ssr .footer { text-align: right ; font-size: 75% ; }
 #panel-ssr .footer .l { float: left ; }
 #panel-ssr #ssr-trash { margin-left: 5px ; height: 2em ;  }

@@ -1,0 +1,42 @@
+<html>
+
+<head>
+<style>
+td { margin: 0 ; padding: 0 ; }
+.note { font-size: 90% ; font-style: italic ; color: #808080 ; }
+</style>
+</head>
+
+<table style="
+  {%if VEHICLES_WIDTH%} width: {{VEHICLES_WIDTH}} ; {%endif%}
+">
+
+<tr>
+<td colspan="2" style="
+  background: #{{OB_COLOR}} ;
+  border-bottom: 1px solid #{{OB_COLOR_2}} ;
+  padding: 2px 5px ;
+  font-weight: bold ;
+">
+    {{PLAYER_NAME}} Vehicles
+
+{%for veh in VEHICLES%}
+<tr style="border-bottom:1px dotted #e0e0e0;">
+<td valign="top" style="padding:2px 5px;">
+    <b> {{veh.name}} </b>
+    <div class="note">
+        {%if veh.notes%}
+            {{veh.note_number}}, {{veh.notes | join(", ")}}
+        {%else%}
+            {{veh.note_number}}
+        {%endif%}
+    </div>
+<td valign="top" style="padding:2px 5px;">
+    {% if veh.no_radio %} <div> {{veh.no_radio}} </div> {%endif%}
+    {%for cap in veh.capabilities%} <div> {{cap}} </div> {%endfor%}
+    {%if veh.crew_survival%} <div> {{veh.crew_survival}} </div> {%endif%}
+{%endfor%}
+
+</table>
+
+</html>

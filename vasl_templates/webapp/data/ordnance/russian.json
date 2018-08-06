@@ -1,0 +1,139 @@
+[
+
+{ "name": "50mm RM obr. 40",
+  "capabilities_other": [ "4PP" ],
+  "note_number": "1"
+},
+{ "name": "37mm PM-39",
+  "capabilities_other": [ "1PP", "Air Bursts & Acq. NA" ],
+  "note_number": "1.1",
+  "notes": [ "A" ]
+},
+{ "name": "82mm BM obr. 37",
+  "capabilities": [ "NT", "QSU", "IR" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "2\u2020"
+},
+{ "name": "107mm GVPM obr. 38",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "3",
+  "notes": [ "A" ]
+},
+{ "name": "120mm PM obr. 38",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "4"
+},
+{ "name": "160mm PM obr. 43",
+  "capabilities": [ "NT", "no IF" ],
+  "note_number": "5"
+},
+{ "name": "37mm PTP obr. 30",
+  "capabilities": [ "NT", "QSU" ],
+  "note_number": "6"
+},
+{ "name": "45mm PTP obr. 32",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "A": [ [4,2], [5,3], [6,4], [7,5] ] },
+  "note_number": "7"
+},
+{ "name": "45mm PTP obr. 42",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "A": [ [4,2], [5,3], [6,4], [7,5] ] },
+  "note_number": "8"
+},
+{ "name": "57mm PTP obr. 43",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "A": [ [4,3], [5,4], [6,5] ] },
+  "note_number": "9\u2020"
+},
+{ "name": "100mm PTP obr. 44",
+  "capabilities": [ "NT" ],
+  "note_number": "10"
+},
+{ "name": "37mm PP obr. 15R",
+  "capabilities": [ "NT", "QSU", "h-d" ],
+  "note_number": "11"
+},
+{ "name": "76.2mm PP obr. 27",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "H": 6, "s": 8 },
+  "note_number": "12",
+  "notes": [ "A" ]
+},
+{ "name": "76.2mm P obr. 00/02P",
+  "capabilities": [ "NT", "QSU", "h-d" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "13"
+},
+{ "name": "76.2mm P obr. 02/30",
+  "capabilities": [ "NT", "QSU", "h-d" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "14"
+},
+{ "name": "76.2mm P obr. 39",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "A": [ [4,2], [5,3], [6,4], [7,5] ], "s": 8 },
+  "note_number": "15\u2020"
+},
+{ "name": "76.2mm P obr. 36",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "A": [ [4,2] ], "s": 8 },
+  "note_number": "16\u2020"
+},
+{ "name": "85mm P obr. 44",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "A": [ [5,4], [6,5] ], "s": 8 },
+  "note_number": "17"
+},
+{ "name": "107mm P obr. 10/30",
+  "capabilities": [ "NT", "h-d" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "18"
+},
+{ "name": "122mm G obr. 10/30",
+  "capabilities": [ "NT", "h-d" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "19"
+},
+{ "name": "122mm G obr. 38",
+  "capabilities": [ "NT" ],
+  "capabilities2": { "H": 6, "s": 8 },
+  "note_number": "20"
+},
+{ "name": "122mm P obr. 31",
+  "capabilities": [ "NT" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "21"
+},
+{ "name": "152mm G obr. 38",
+  "capabilities": [ "NT" ],
+  "note_number": "22"
+},
+{ "name": "152mm GP obr. 37",
+  "capabilities": [ "NT" ],
+  "note_number": "23"
+},
+{ "name": "203mm B-4 obr. 1931",
+  "capabilities": [ "NT", "RFNM", "no IF" ],
+  "note_number": "23.1"
+},
+{ "name": "25mm ZP obr. 40",
+  "capabilities": [ "T" ],
+  "note_number": "24"
+},
+{ "name": "37mm ZP obr. 39",
+  "capabilities": [ "T" ],
+  "note_number": "25\u2020"
+},
+{ "name": "76.2mm ZP obr. 38",
+  "capabilities": [ "T" ],
+  "note_number": "26\u2020"
+},
+{ "name": "85mm ZP obr. 39",
+  "capabilities": [ "T" ],
+  "note_number": "27"
+}
+
+]

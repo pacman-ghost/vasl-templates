@@ -13,6 +13,13 @@ def main():
 
 # ---------------------------------------------------------------------
 
+@app.route( "/ping" )
+def ping():
+    """Let the caller know we're alive."""
+    return "pong"
+
+# ---------------------------------------------------------------------
+
 @app.route( "/shutdown" )
 def shutdown():
     """Shutdown the webapp (for testing porpoises)."""
