@@ -141,7 +141,8 @@ def test_snippets( webapp, webdriver ):
             '[German] ; width=',
             '[*] a german {}: #=1'.format( vo_type ),
             '- notes: "A" "B†"',
-            '- capabilities: "QSU" "IR" "A1" "H2" "can do other stuff"'
+            '- capabilities: "QSU" "IR" "A1" "H2" "can do other stuff"',
+            '- raw capabilities: "QSU" "IR" "A1" "H2" "can do other stuff"'
         ]
         if vo_type == "vehicle":
             expected.insert( 3, "- CS 5" )
@@ -156,7 +157,8 @@ def test_snippets( webapp, webdriver ):
         expected = [
             '[German] ; width=',
             '[*] another german {}: #=2'.format( vo_type ),
-            '- capabilities: "QSU"'
+            '- capabilities: "QSU"',
+            '- raw capabilities: "QSU"'
         ]
         if vo_type == "vehicle":
             expected.insert( 2, '- cs 4 <small><i>(brew up)</i></small>' )
@@ -196,8 +198,7 @@ def test_variable_capabilities( webapp, webdriver ):
         submit = find_child( "input.generate[data-id='vehicles_2']" )
         submit.click()
         buf = get_clipboard()
-        mo = re.search( r"capabilities: (.*)$", buf )
-        print( mo.group(1) )
+        mo = re.search( r"^- capabilities: (.*)$", buf, re.MULTILINE )
         assert mo.group(1) == expected
 
     do_test( 1, 1940, '"sM8\u2020"' )

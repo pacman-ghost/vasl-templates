@@ -3,8 +3,9 @@
 import os
 import io
 import shutil
-import tabulate
+import re
 
+import tabulate
 import pytest
 
 from vasl_templates.webapp.tests.utils import find_child, find_children, wait_for
@@ -33,16 +34,29 @@ def test_vo_reports( webapp, webdriver ):
         for vo_type in ["vehicles","ordnance"]:
             for year in range(1940,1945+1):
 
-                # generate the next report
+                # get the next report
                 buf = io.StringIO()
                 results = get_vo_report( webapp, webdriver, nat, vo_type, year )
+
+                # FUDGE! The "capabilities" and "notes" columns span 2 columns each,
+                # so we add dummy header columns to stop tabulate from getting confused :-/
+                assert results[0][-1] == "Notes"
+                results[0].insert( len(results[0])-1, "#" )
+                assert results[0][-3] == "Capabilities"
+                results[0].insert( len(results[0])-2, "(effective)" )
+
+                # fix up date-based capabilities
+                assert results[0][-4] == "Capabilities"
+                for i in range(1,len(results)):
+                    results[i][-4] = re.sub(
+                        r"<sup>(.*?)</sup>",
+                        lambda mo: "[{}]".format( mo.group(1) ),
+                        results[i][-4]
+                    )
+
+                # output the report
                 print( "=== {}/{}/{} ===".format( vo_type, nat, year ), file=buf )
                 print( "", file=buf )
-                # FUDGE! The last "notes" column spans 2 columns, so we add a dummy header
-                # to stop tabulate from getting confused :-/
-                assert results[0][-1] == "Notes"
-                results[0][-1] = "#"
-                results[0].append( "Notes" )
                 print(
                     tabulate.tabulate( results, headers="firstrow" ),
                     file = buf

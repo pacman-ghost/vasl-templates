@@ -1,124 +1,124 @@
 === vehicles/german/1944 ===
 
-Name                    Radio    Crew survival                         Capabilities    #      Notes
-----------------------  -------  ------------------------------------  --------------  -----  ---------------------------------
-PzKpfw IB               n/a      CS 2                                  sD6             1†     N
-PzKpfw IIA              n/a      CS 3                                  sD6             2      n/a
-PzKpfw IIF              n/a      CS 3                                  sD7             3      N
-PzKpfw II(Fl)           n/a      CS 2 <small><i>(brew up)</i></small>  sD7†            4†     n/a
-PzKpfw IIL              n/a      CS 4                                  sD7             5      n/a
-PzKpfw 35t              n/a      CS 4                                  sD5             6†     n/a
-PzKpfw 38(t)A           n/a      CS 4                                  A5 sD6          7†     E
-PzKpfw 38(t)E           n/a      CS 4                                  A5 sD7          8†     E
-Aufklaerer 38(t)        n/a      CS 5                                  n/a             9      A† E
-FT-17 730m(f)           n/a      CS 2                                  n/a             9.1†   a c f
-FT-17 730(f)            n/a      CS 2                                  AP9             9.1†   a c f
-38H 735(f)              n/a      CS 3                                  AP10            9.2    a b† f
-35-S 739(f)             n/a      CS 4                                  n/a             9.3    a b†<sup>2</sup> d†<sup>1</sup> f
-PzKpfw IIID             n/a      CS 5                                  sD6             10†    n/a
-PzKpfw IIIF             n/a      CS 5                                  A4 sD7          11†    n/a
-PzKpfw IIIG             n/a      CS 5                                  A4 sD7          12     N
-PzKpfw IIIH             n/a      CS 6                                  A4 sD7          13†    N
-PzKpfw IIIJ             n/a      CS 6                                  A6 sD7          14†    N S
-PzKpfw IIIL             n/a      CS 5                                  A6 sD7          15†    B† N S
-PzKpfw IIIN             n/a      CS 5                                  H9 s9 sD7       16     B† N S
-PzKpfw III(Fl)          n/a      CS 3                                  sD7             17     n/a
-PzKpfw IVA              n/a      CS 5                                  AP7 s9 sD6      18†    n/a
-PzKpfw IVC              n/a      CS 5                                  AP7 s9 sD6      19†    n/a
-PzKpfw IVD              n/a      CS 5                                  AP7 H6 s9 sD7   20     N R†
-PzKpfw IVE              n/a      CS 6                                  AP7 H6 s9 sD7   21     N R†
-PzKpfw IVF<sub>1</sub>  n/a      CS 6                                  AP7 H6 s9 sD7   22     N R†
-PzKpfw IVF<sub>2</sub>  n/a      CS 6                                  A5 s8 sD6       23†    N S
-PzKpfw IVH              n/a      CS 6                                  A5 s8 sD5       24†    B† S
-PzKpfw IVJ              n/a      CS 6                                  A3 s8 sN9       25     S
-PzKpfw VD               n/a      CS 5 <small><i>(brew up)</i></small>  sD5             26     F†
-PzKpfw VG               n/a      CS 6                                  sN7             27†    H†
-PzKpfw M15/42(i)        n/a      CS 4                                  n/a             28     I
-PzKpfw P26/40(i)        n/a      CS 4                                  s8              29     I
-PzKpfw VIE              n/a      CS 6                                  A6 M7† sD7      30†    K N
-PzKpfw VIE (L)          n/a      CS 6                                  A4 sN7          31     K
-PzKpfw VIB              n/a      CS 6                                  sN9             32†    K
-StuG IIIB               n/a      CS 4                                  AP7 H6 s9 sD7   33†    n/a
-StuG IIIG               n/a      CS 4                                  A6 s8 sD7       34†    N P† S
-StuG IIIG (L)           n/a      CS 4                                  A4 s8 sN9       35     O† Q† S
-StuH 42                 n/a      CS 4                                  H9 s9 sD7       36†    N P† S
-StuH 42 (L)             n/a      CS 4                                  H9 s9 sN9       35     O† Q† S
-StuPz IV                n/a      CS 6                                  H7 s9           37†    S
-Sturmtiger              n/a      CS 5                                  sN9             37.1†  K
-PzJg Tiger              n/a      CS 7                                  n/a             38     n/a
-StuG 75/18(i)           n/a      CS 3                                  H7 s9           39     I P†
-StuG 75/34(i)           n/a      CS 3                                  s9              40     I P†
-StuG 105/25(i)          n/a      CS 3                                  H7 s9           41     I P†
-StuG 75/46(i)           n/a      CS 3                                  s9              42     I P†
-PzJg I                  n/a      CS 3                                  A5 HE7          43     N
-PzJg 35R(f)             n/a      CS 3                                  A5 HE7          44     a
-Pz 35R 731(f)           n/a      CS 2                                  n/a             44.1†  a
-Marder I                n/a      CS 4 <small><i>(brew up)</i></small>  A6 HE7 s7       45†    a
-GSW 39H(f) Pak          n/a      CS 3                                  A4 HE9          45.1   a e
-Marder II               n/a      CS 4 <small><i>(brew up)</i></small>  A6 HE7 s7       46     M† N
-Marder III(t)H          n/a      CS 4 <small><i>(brew up)</i></small>  A6 HE7 s7 sD6   47     E G N
-Marder III(t)M          n/a      CS 4 <small><i>(brew up)</i></small>  A5 HE7 s7 sD5   48     E
-PzJg III/IV             n/a      CS 5                                  HE7             49     M†
-JgdPz 38(t)             n/a      CS 4                                  A4 HE7          50     E O†
-JgdPz 38(t) (Fl)        n/a      CS 4                                  n/a             51     E O†
-JgdPz IV                n/a      CS 4                                  A4 HE7 s7 sN7   52     S
-JgdPz IV (L)            n/a      CS 4                                  A4 HE7 s7 sN8   52     S
-StuIG 33B               n/a      CS 5                                  H7 s9           53†    n/a
-JgdPz IV/70             n/a      CS 4                                  HE7 sN9         54†    S
-JgdPz V                 n/a      CS 6                                  HE7 sN9         55     H
-JgdPz VI                n/a      CS 7                                  HE7 sN9         56     n/a
-SPW 250/1               n/a      CS 4                                  n/a             57     N
-SPW 250/sMG             n/a      CS 4†                                 n/a             58†    J† N
-SPW 250/7               n/a      CS 4 <small><i>(brew up)</i></small>  IR s8           59     J† N
-SPW 250/8               n/a      CS 4 <small><i>(brew up)</i></small>  H6 s8           60     Q†
-SPW 250/9               n/a      CS 4                                  n/a             61†    A†
-SPW 250/10              n/a      CS 4                                  A4              62     J† N
-SPW 251/1               n/a      CS 5                                  n/a             63     C† N
-SPW 251/sMG             n/a      CS 5†                                 n/a             58†    C† J† N
-SPW 251/2               n/a      CS 4 <small><i>(brew up)</i></small>  IR s8           59     C† J† N
-SPW 251/9               n/a      CS 4 <small><i>(brew up)</i></small>  H6 s9           64     C† N Q†
-SPW 251/10              n/a      CS 4                                  A4              65     C† J† N
-SPW 251/16              n/a      CS 4 <small><i>(brew up)</i></small>  n/a             66†    n/a
-SPW 251/21              n/a      CS 4                                  n/a             66.1†  n/a
-SPW 251/22              n/a      CS 4 <small><i>(brew up)</i></small>  HE7 s7          67     J†
-SPW S307(f)             n/a      CS 4                                  A4 HE9          67.1   a e
-mSPW S307(f)            n/a      CS 4                                  IR s5           67.2   a e
-Kfz 13                  n/a      CS 2                                  n/a             68†    n/a
-PSW 221                 n/a      CS 2                                  sD6             69†    A† N
-PSW 222                 n/a      CS 3                                  sD6             70†    A† N
-PSW 222 (L)             n/a      CS 3                                  sD6             70†    A† N
-PSW 231 (6 rad)         n/a      CS 4                                  n/a             71†    n/a
-PSW 231 (8 rad)         n/a      CS 4                                  sD6             72†    N
-PSW 232 (8 rad)         n/a      CS 4                                  sD6             72     N
-PSW 233                 n/a      CS 5                                  H8 s9 sD7       73     N
-PSW 234/1               n/a      CS 5                                  n/a             74     A†
-PSW 234/2               n/a      CS 4                                  A5 sD7          75     n/a
-PSW 234/3               n/a      CS 5                                  H8 s9           76     Q†
-PSW 234/4               n/a      CS 5 <small><i>(brew up)</i></small>  HE7 s7          77†    n/a
-sIG IB                  n/a      CS 4 <small><i>(brew up)</i></small>  H6 s9           78     G
-sIG II                  n/a      CS 4 <small><i>(brew up)</i></small>  H6 s9           79     N
-sIG 38(t)M              n/a      CS 4 <small><i>(brew up)</i></small>  H6 s9           80     E N
-PzA II                  n/a      CS 4                                  H5 s8           81     M†
-PzA LrS(f)              n/a      CS 4                                  H4 s8           82     a N
-GSW 39H(f)              n/a      CS 4                                  H4 s7           82.1   a e
-PzA III/IV              n/a      CS 6                                  H5 s8           83     n/a
-FlaKPz 38(t)            n/a      CS 4                                  n/a             84     A† E
-37 FlaK/Pz IV           n/a      CS 5                                  n/a             85†    A†
-(Moebelwagen)           n/a      CS 6                                  n/a             85†    A†
-FlaKPz IV/20            n/a      CS 6                                  n/a             86     A†
-FlaKPz IV/37            n/a      CS 6                                  n/a             87     A†
-SdKfz 10/4              n/a      CS 5                                  n/a             88     A† D† N
-SdKfz 10/5              n/a      CS 4                                  n/a             88.1†  A†<sup>2</sup> D†<sup>1</sup>
-SdKfz 6/2               n/a      CS 5                                  n/a             89     A† D† N
-SdKfz 7/1               n/a      CS 4                                  n/a             90     A† D† N
-Kfz 4                   n/a      CS 3                                  n/a             91†    N
-2cm FlaK LKW            n/a      CS 5                                  n/a             92     A†
-3.7cm FlaK LKW          n/a      CS 5                                  n/a             92     A†
-Goliath                 n/a      n/a                                   n/a             93†    L†
-Kfz 1                   n/a      cs 2†                                 n/a             94†    L† N
-Kfz 1/20                n/a      cs 2                                  n/a             95†    L†
-Opel 6700 (Blitz)       n/a      cs 6                                  n/a             96     N
-Buessing-NAG 4500       n/a      cs 7                                  n/a             96     N
-SdKfz 2                 n/a      cs 2                                  n/a             97†    L† N
-SdKfz 7                 n/a      cs 6                                  n/a             98     N
-SdKfz 11                n/a      cs 5                                  n/a             99     N
+Name                    Radio    Crew survival                         Capabilities         (effective)    #      Notes
+----------------------  -------  ------------------------------------  -------------------  -------------  -----  ---------------------------------
+PzKpfw IB               n/a      CS 2                                  sD6                  sD6            1†     N
+PzKpfw IIA              n/a      CS 3                                  sD6                  sD6            2      n/a
+PzKpfw IIF              n/a      CS 3                                  sD7                  sD7            3      N
+PzKpfw II(Fl)           n/a      CS 2 <small><i>(brew up)</i></small>  sD7†                 sD7†           4†     n/a
+PzKpfw IIL              n/a      CS 4                                  sD7                  sD7            5      n/a
+PzKpfw 35t              n/a      CS 4                                  sD5                  sD5            6†     n/a
+PzKpfw 38(t)A           n/a      CS 4                                  A4[1]5[2] sD6        A5 sD6         7†     E
+PzKpfw 38(t)E           n/a      CS 4                                  A4[1]5[2] sD7        A5 sD7         8†     E
+Aufklaerer 38(t)        n/a      CS 5                                  n/a                  n/a            9      A† E
+FT-17 730m(f)           n/a      CS 2                                  n/a                  n/a            9.1†   a c f
+FT-17 730(f)            n/a      CS 2                                  AP9                  AP9            9.1†   a c f
+38H 735(f)              n/a      CS 3                                  AP10                 AP10           9.2    a b† f
+35-S 739(f)             n/a      CS 4                                  n/a                  n/a            9.3    a b†<sup>2</sup> d†<sup>1</sup> f
+PzKpfw IIID             n/a      CS 5                                  sD6                  sD6            10†    n/a
+PzKpfw IIIF             n/a      CS 5                                  A4[1] sD7            A4 sD7         11†    n/a
+PzKpfw IIIG             n/a      CS 5                                  A4[1] sD7            A4 sD7         12     N
+PzKpfw IIIH             n/a      CS 6                                  A4[1] sD7            A4 sD7         13†    N
+PzKpfw IIIJ             n/a      CS 6                                  A6[2] sD7            A6 sD7         14†    N S
+PzKpfw IIIL             n/a      CS 5                                  A6[2] sD7            A6 sD7         15†    B† N S
+PzKpfw IIIN             n/a      CS 5                                  H9 s9 sD7            H9 s9 sD7      16     B† N S
+PzKpfw III(Fl)          n/a      CS 3                                  sD7                  sD7            17     n/a
+PzKpfw IVA              n/a      CS 5                                  AP7 s9 sD6           AP7 s9 sD6     18†    n/a
+PzKpfw IVC              n/a      CS 5                                  AP7 s9 sD6           AP7 s9 sD6     19†    n/a
+PzKpfw IVD              n/a      CS 5                                  AP7 H6 s9 sD7        AP7 H6 s9 sD7  20     N R†
+PzKpfw IVE              n/a      CS 6                                  AP7 H6 s9 sD7        AP7 H6 s9 sD7  21     N R†
+PzKpfw IVF<sub>1</sub>  n/a      CS 6                                  AP7 H6 s9 sD7        AP7 H6 s9 sD7  22     N R†
+PzKpfw IVF<sub>2</sub>  n/a      CS 6                                  A5[2] s8 sD6         A5 s8 sD6      23†    N S
+PzKpfw IVH              n/a      CS 6                                  A5[2] s8 sD5         A5 s8 sD5      24†    B† S
+PzKpfw IVJ              n/a      CS 6                                  A3[4] s8 sN9         A3 s8 sN9      25     S
+PzKpfw VD               n/a      CS 5 <small><i>(brew up)</i></small>  sD5                  sD5            26     F†
+PzKpfw VG               n/a      CS 6                                  sN7[4]               sN7            27†    H†
+PzKpfw M15/42(i)        n/a      CS 4                                  n/a                  n/a            28     I
+PzKpfw P26/40(i)        n/a      CS 4                                  s8                   s8             29     I
+PzKpfw VIE              n/a      CS 6                                  A6[2] M7† sD7        A6 M7† sD7     30†    K N
+PzKpfw VIE (L)          n/a      CS 6                                  A4[4] sN7[4]         A4 sN7         31     K
+PzKpfw VIB              n/a      CS 6                                  sN9                  sN9            32†    K
+StuG IIIB               n/a      CS 4                                  AP7 H6 s9 sD7        AP7 H6 s9 sD7  33†    n/a
+StuG IIIG               n/a      CS 4                                  A6[2] s8 sD7         A6 s8 sD7      34†    N P† S
+StuG IIIG (L)           n/a      CS 4                                  A4[4] s8 sN9         A4 s8 sN9      35     O† Q† S
+StuH 42                 n/a      CS 4                                  H9 s9 sD7            H9 s9 sD7      36†    N P† S
+StuH 42 (L)             n/a      CS 4                                  H9 s9 sN9            H9 s9 sN9      35     O† Q† S
+StuPz IV                n/a      CS 6                                  H7 s9                H7 s9          37†    S
+Sturmtiger              n/a      CS 5                                  sN9                  sN9            37.1†  K
+PzJg Tiger              n/a      CS 7                                  n/a                  n/a            38     n/a
+StuG 75/18(i)           n/a      CS 3                                  H7 s9                H7 s9          39     I P†
+StuG 75/34(i)           n/a      CS 3                                  s9                   s9             40     I P†
+StuG 105/25(i)          n/a      CS 3                                  H7 s9                H7 s9          41     I P†
+StuG 75/46(i)           n/a      CS 3                                  s9                   s9             42     I P†
+PzJg I                  n/a      CS 3                                  A5[1] HE7            A5 HE7         43     N
+PzJg 35R(f)             n/a      CS 3                                  A5[1] HE7            A5 HE7         44     a
+Pz 35R 731(f)           n/a      CS 2                                  n/a                  n/a            44.1†  a
+Marder I                n/a      CS 4 <small><i>(brew up)</i></small>  A6[2] HE7 s7         A6 HE7 s7      45†    a
+GSW 39H(f) Pak          n/a      CS 3                                  A4[4] HE9            A4 HE9         45.1   a e
+Marder II               n/a      CS 4 <small><i>(brew up)</i></small>  A6[2] HE7 s7         A6 HE7 s7      46     M† N
+Marder III(t)H          n/a      CS 4 <small><i>(brew up)</i></small>  A6[2] HE7 s7 sD6     A6 HE7 s7 sD6  47     E G N
+Marder III(t)M          n/a      CS 4 <small><i>(brew up)</i></small>  A5[3] HE7 s7 sD5     A5 HE7 s7 sD5  48     E
+PzJg III/IV             n/a      CS 5                                  HE7                  HE7            49     M†
+JgdPz 38(t)             n/a      CS 4                                  A4[4] HE7            A4 HE7         50     E O†
+JgdPz 38(t) (Fl)        n/a      CS 4                                  n/a                  n/a            51     E O†
+JgdPz IV                n/a      CS 4                                  A4[4] HE7 s7 sN7[4]  A4 HE7 s7 sN7  52     S
+JgdPz IV (L)            n/a      CS 4                                  A4[4] HE7 s7 sN8[4]  A4 HE7 s7 sN8  52     S
+StuIG 33B               n/a      CS 5                                  H7 s9                H7 s9          53†    n/a
+JgdPz IV/70             n/a      CS 4                                  HE7 sN9              HE7 sN9        54†    S
+JgdPz V                 n/a      CS 6                                  HE7 sN9              HE7 sN9        55     H
+JgdPz VI                n/a      CS 7                                  HE7 sN9              HE7 sN9        56     n/a
+SPW 250/1               n/a      CS 4                                  n/a                  n/a            57     N
+SPW 250/sMG             n/a      CS 4†                                 n/a                  n/a            58†    J† N
+SPW 250/7               n/a      CS 4 <small><i>(brew up)</i></small>  IR s8                IR s8          59     J† N
+SPW 250/8               n/a      CS 4 <small><i>(brew up)</i></small>  H6 s8                H6 s8          60     Q†
+SPW 250/9               n/a      CS 4                                  n/a                  n/a            61†    A†
+SPW 250/10              n/a      CS 4                                  A4[1]                A4             62     J† N
+SPW 251/1               n/a      CS 5                                  n/a                  n/a            63     C† N
+SPW 251/sMG             n/a      CS 5†                                 n/a                  n/a            58†    C† J† N
+SPW 251/2               n/a      CS 4 <small><i>(brew up)</i></small>  IR s8                IR s8          59     C† J† N
+SPW 251/9               n/a      CS 4 <small><i>(brew up)</i></small>  H6 s9                H6 s9          64     C† N Q†
+SPW 251/10              n/a      CS 4                                  A4[1]                A4             65     C† J† N
+SPW 251/16              n/a      CS 4 <small><i>(brew up)</i></small>  n/a                  n/a            66†    n/a
+SPW 251/21              n/a      CS 4                                  n/a                  n/a            66.1†  n/a
+SPW 251/22              n/a      CS 4 <small><i>(brew up)</i></small>  HE7 s7               HE7 s7         67     J†
+SPW S307(f)             n/a      CS 4                                  A4[4] HE9            A4 HE9         67.1   a e
+mSPW S307(f)            n/a      CS 4                                  IR s5                IR s5          67.2   a e
+Kfz 13                  n/a      CS 2                                  n/a                  n/a            68†    n/a
+PSW 221                 n/a      CS 2                                  sD6                  sD6            69†    A† N
+PSW 222                 n/a      CS 3                                  sD6                  sD6            70†    A† N
+PSW 222 (L)             n/a      CS 3                                  sD6                  sD6            70†    A† N
+PSW 231 (6 rad)         n/a      CS 4                                  n/a                  n/a            71†    n/a
+PSW 231 (8 rad)         n/a      CS 4                                  sD6                  sD6            72†    N
+PSW 232 (8 rad)         n/a      CS 4                                  sD6                  sD6            72     N
+PSW 233                 n/a      CS 5                                  H8 s9 sD7            H8 s9 sD7      73     N
+PSW 234/1               n/a      CS 5                                  n/a                  n/a            74     A†
+PSW 234/2               n/a      CS 4                                  A5[3] sD7            A5 sD7         75     n/a
+PSW 234/3               n/a      CS 5                                  H8 s9                H8 s9          76     Q†
+PSW 234/4               n/a      CS 5 <small><i>(brew up)</i></small>  HE7 s7               HE7 s7         77†    n/a
+sIG IB                  n/a      CS 4 <small><i>(brew up)</i></small>  H6 s9                H6 s9          78     G
+sIG II                  n/a      CS 4 <small><i>(brew up)</i></small>  H6 s9                H6 s9          79     N
+sIG 38(t)M              n/a      CS 4 <small><i>(brew up)</i></small>  H6 s9                H6 s9          80     E N
+PzA II                  n/a      CS 4                                  H5 s8                H5 s8          81     M†
+PzA LrS(f)              n/a      CS 4                                  H4 s8                H4 s8          82     a N
+GSW 39H(f)              n/a      CS 4                                  H4 s7                H4 s7          82.1   a e
+PzA III/IV              n/a      CS 6                                  H5 s8                H5 s8          83     n/a
+FlaKPz 38(t)            n/a      CS 4                                  n/a                  n/a            84     A† E
+37 FlaK/Pz IV           n/a      CS 5                                  n/a                  n/a            85†    A†
+(Moebelwagen)           n/a      CS 6                                  n/a                  n/a            85†    A†
+FlaKPz IV/20            n/a      CS 6                                  n/a                  n/a            86     A†
+FlaKPz IV/37            n/a      CS 6                                  n/a                  n/a            87     A†
+SdKfz 10/4              n/a      CS 5                                  n/a                  n/a            88     A† D† N
+SdKfz 10/5              n/a      CS 4                                  n/a                  n/a            88.1†  A†<sup>2</sup> D†<sup>1</sup>
+SdKfz 6/2               n/a      CS 5                                  n/a                  n/a            89     A† D† N
+SdKfz 7/1               n/a      CS 4                                  n/a                  n/a            90     A† D† N
+Kfz 4                   n/a      CS 3                                  n/a                  n/a            91†    N
+2cm FlaK LKW            n/a      CS 5                                  n/a                  n/a            92     A†
+3.7cm FlaK LKW          n/a      CS 5                                  n/a                  n/a            92     A†
+Goliath                 n/a      n/a                                   n/a                  n/a            93†    L†
+Kfz 1                   n/a      cs 2†                                 n/a                  n/a            94†    L† N
+Kfz 1/20                n/a      cs 2                                  n/a                  n/a            95†    L†
+Opel 6700 (Blitz)       n/a      cs 6                                  n/a                  n/a            96     N
+Buessing-NAG 4500       n/a      cs 7                                  n/a                  n/a            96     N
+SdKfz 2                 n/a      cs 2                                  n/a                  n/a            97†    L† N
+SdKfz 7                 n/a      cs 6                                  n/a                  n/a            98     N
+SdKfz 11                n/a      cs 5                                  n/a                  n/a            99     N

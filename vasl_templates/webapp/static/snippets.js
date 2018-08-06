@@ -230,9 +230,19 @@ function unload_params( params, check_date_capabilities )
             } ;
             if ( entry.no_radio )
                 obj.no_radio = entry.no_radio ;
-            var capabilities = make_capabilities( entry, params.SCENARIO_YEAR, params.SCENARIO_MONTH, check_date_capabilities ) ;
+            // NOTE: It would be nice to have a Jinja2 filter that inserted the raw capabilities or selected
+            // the correct one for the scenario date e.g.
+            //   {% for c in veh.capabilities %} {{c|selcap}} {%endif%}}
+            // but the problem is that if a capability is not available, we want nothing to appear,
+            // but by the time the filter gets called, it's too late :-( Instead, we provide a "raw_capabilities"
+            // parameter that people can use in their templates - ugly, but probably not something that will
+            // get a lot of use :-/
+            var capabilities = make_capabilities( entry, params.SCENARIO_YEAR, params.SCENARIO_MONTH, check_date_capabilities, false ) ;
             if ( capabilities )
                 obj.capabilities = capabilities ;
+            capabilities = make_capabilities( entry, params.SCENARIO_YEAR, params.SCENARIO_MONTH, check_date_capabilities, true ) ;
+            if ( capabilities )
+                obj.raw_capabilities = capabilities ;
             var crew_survival = make_crew_survival( entry ) ;
             if ( crew_survival )
                 obj.crew_survival = crew_survival ;
@@ -251,7 +261,7 @@ function unload_params( params, check_date_capabilities )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function make_capabilities( entry, scenario_year, scenario_month, check_date_capabilities )
+function make_capabilities( entry, scenario_year, scenario_month, check_date_capabilities, raw )
 {
     var capabilities = [] ;
 
@@ -266,32 +276,42 @@ function make_capabilities( entry, scenario_year, scenario_month, check_date_cap
     if ( "capabilities2" in entry ) {
         var indeterminate_caps=[], unexpected_caps=[], invalid_caps=[] ;
         for ( var key in entry.capabilities2 ) {
-            if ( entry.capabilities2[key] instanceof Array ) {
-                if ( key == "LF" )
-                    capabilities.push( "LF [" + entry.capabilities2[key].join(", ") + "]" ) ;
-                else {
-                    if ( ! scenario_year )
-                        indeterminate_caps.push( key ) ;
-                    if ( $.inArray( key, ["HE","A","D","sD","sN","WP"] ) === -1 ) {
-                        unexpected_caps.push( key ) ;
-                        continue ;
-                    }
-                    var cap = select_capability_by_date( entry.capabilities2[key], scenario_year, scenario_month ) ;
-                    if ( cap == "<invalid>" ) {
-                        invalid_caps.push( entry.name + ": " + key + " " + entry.capabilities2[key] ) ;
-                        continue ;
-                    }
-                    if ( cap !== null )
-                        capabilities.push( key + cap ) ;
-                }
+            // check if the capability is dependent on the scenario date
+            if ( !( entry.capabilities2[key] instanceof Array ) ) {
+                capabilities.push( key + entry.capabilities2[key] ) ;
+                continue ;
+            }
+            // check for LF
+            if ( key == "LF" ) {
+                capabilities.push( "LF [" + entry.capabilities2[key].join(", ") + "]" ) ;
+                continue ;
+            }
+            if ( $.inArray( key, ["HE","A","D","sD","sN","WP"] ) === -1 ) {
+                unexpected_caps.push( key ) ;
+                continue ;
+            }
+            // check if we should return the raw capability, or select the one for the scenario date
+            if ( ! scenario_year ) {
+                indeterminate_caps.push( key ) ;
+                raw = true ;
+            }
+            if ( raw ) {
+                capabilities.push( make_raw_capability( key, entry.capabilities2[key] ) ) ;
             }
             else {
-                capabilities.push( key + entry.capabilities2[key] ) ;
+                var cap = select_capability_by_date( entry.capabilities2[key], scenario_year, scenario_month ) ;
+                if ( ! cap )
+                    continue ;
+                if ( cap == "<invalid>" ) {
+                    invalid_caps.push( entry.name + ": " + key + " " + entry.capabilities2[key] ) ;
+                    continue ;
+                }
+                capabilities.push( key + cap ) ;
             }
         }
         // check if there were any capabilities not set
         if ( check_date_capabilities && indeterminate_caps.length > 0 ) {
-            showErrorMsg( makeBulletListMsg(
+            showWarningMsg( makeBulletListMsg(
                 "Can't determine capabilities without a scenario year:",
                 indeterminate_caps
             ) ) ;
@@ -319,6 +339,15 @@ function make_capabilities( entry, scenario_year, scenario_month, check_date_cap
     }
 
     return capabilities.length > 0 ? capabilities : null ;
+}
+
+function make_raw_capability( name, capability )
+{
+    // generate the raw capability string
+    var buf = [ name ] ;
+    for ( var i=0 ; i < capability.length ; ++i )
+        buf.push( escapeHTML(capability[i][0]), "<sup>"+escapeHTML(capability[i][1])+"</sup>" ) ;
+    return buf.join( "" ) ;
 }
 
 function select_capability_by_date( capabilities, scenario_year, scenario_month )
