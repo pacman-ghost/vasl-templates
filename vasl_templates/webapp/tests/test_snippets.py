@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import set_template_params, get_clipboard
 from vasl_templates.webapp.tests.utils import get_stored_msg, dismiss_notifications, find_child
-from vasl_templates.webapp.tests.utils import for_each_template
+from vasl_templates.webapp.tests.utils import for_each_template, wait_for
 
 # ---------------------------------------------------------------------
 
@@ -173,5 +173,7 @@ def test_edit_templates( webapp, webdriver ):
         dismiss_notifications()
         elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
         elem.click()
-        assert get_clipboard() == "EDITED TEMPLATE: {}".format( orig_template_id )
+        wait_for( 2, # FUDGE! Work-around a weird timing problem on Linux :shrug:
+            lambda: get_clipboard() == "EDITED TEMPLATE: {}".format( orig_template_id )
+        )
     for_each_template( test_template )
