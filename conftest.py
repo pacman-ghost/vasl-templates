@@ -29,7 +29,7 @@ def pytest_addoption( parser ):
 
 # ---------------------------------------------------------------------
 
-@pytest.fixture
+@pytest.fixture( scope="session" )
 def webapp():
     """Launch the webapp."""
 
@@ -75,7 +75,7 @@ def webapp():
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-@pytest.fixture
+@pytest.fixture( scope="session" )
 def test_client():
     """Return a test client that can be used to connect to the webapp."""
     logging.disable( logging.CRITICAL )
@@ -83,7 +83,7 @@ def test_client():
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-@pytest.fixture
+@pytest.fixture( scope="session" )
 def webdriver():
     """Return a webdriver that can be used to control a browser.
 
