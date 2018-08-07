@@ -20,8 +20,16 @@ FLASK_WEBAPP_PORT = 5001
 
 def pytest_addoption( parser ):
     """Configure pytest options."""
-    # add an option to control checking of vehicle/ordnance reports
+
     # NOTE: This file needs to be in the project root for this to work :-/
+
+    # add an option to control which webdriver to use
+    parser.addoption(
+        "--webdriver", action="store", dest="webdriver", default="firefox",
+        help="Webdriver to use."
+    )
+
+    # add an option to control checking of vehicle/ordnance reports
     parser.addoption(
         "--vo-reports", action="store_true", dest="check_vo_reports", default=False,
         help="Check the vehicle/ordnance reports."
@@ -84,7 +92,7 @@ def test_client():
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 @pytest.fixture( scope="session" )
-def webdriver():
+def webdriver( request ):
     """Return a webdriver that can be used to control a browser.
 
     It would be nice to be able to drive the embedded browser in the wrapper
@@ -94,10 +102,16 @@ def webdriver():
     """
 
     # initialize
+    driver = request.config.getoption( "--webdriver" )
     from selenium import webdriver as wb
-    driver = wb.Firefox(
-        log_path = os.path.join( tempfile.gettempdir(), "geckodriver.log" )
-    )
+    if driver == "firefox":
+        driver = wb.Firefox(
+            log_path = os.path.join( tempfile.gettempdir(), "geckodriver.log" )
+        )
+    elif driver == "chrome":
+        driver = wb.Chrome()
+    else:
+        assert False, "Unknown webdriver: {}".format( driver )
 
     # return the webdriver to the caller
     utils._webdriver = driver #pylint: disable=protected-access
