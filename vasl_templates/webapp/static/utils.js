@@ -77,6 +77,23 @@ jQuery.fn.filterByText = function( $textbox ) {
 
 // --------------------------------------------------------------------
 
+function enable_ctrl_enter( $dlg, btn_text )
+{
+    // allow Ctrl-Enter to dismiss a dialog
+    var dismiss_dialog = function( evt ) {
+        if ( evt.keyCode == 13 && evt.ctrlKey ) {
+            // locate the OK button (nb: we assume the dialog was created with a class the same as its ID)
+            var id = $(this).parent().prop( "id" ) ;
+            $( ".ui-dialog" + "."+id + " button:contains('"+btn_text+"')" ).click() ;
+            evt.preventDefault() ;
+        }
+    } ;
+    $dlg.find("input[type='text']").keydown( dismiss_dialog ) ;
+    $dlg.find("textarea").keydown( dismiss_dialog ) ;
+}
+
+// --------------------------------------------------------------------
+
 function ask( title, msg, args )
 {
     // ask a question

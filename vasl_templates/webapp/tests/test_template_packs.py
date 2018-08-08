@@ -8,9 +8,10 @@ import base64
 from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp import snippets
-from vasl_templates.webapp.tests.utils import select_menu_option, get_clipboard
-from vasl_templates.webapp.tests.utils import get_stored_msg, set_stored_msg, dismiss_notifications, find_child
-from vasl_templates.webapp.tests.utils import for_each_template
+from vasl_templates.webapp.tests.test_ob_setup import add_ob_setup
+from vasl_templates.webapp.tests.utils import select_tab, select_menu_option, dismiss_notifications
+from vasl_templates.webapp.tests.utils import get_clipboard, get_stored_msg, set_stored_msg
+from vasl_templates.webapp.tests.utils import for_each_template, find_child, find_children
 
 # ---------------------------------------------------------------------
 
@@ -25,7 +26,13 @@ def test_individual_files( webapp, webdriver ):
         """Test uploading a customized version of the template."""
         # make sure generating a snippet returns something
         dismiss_notifications()
-        elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
+        if template_id == "ob_setup":
+            select_tab( "ob1" )
+            add_ob_setup( webdriver, 1, "test ob setup" )
+            elems = find_children( "#ob_setup-sortable_1 li input[type='button']" )
+            elem = elems[0]
+        else:
+            elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
         elem.click()
         assert get_clipboard() != ""
         # upload a new template
@@ -36,7 +43,6 @@ def test_individual_files( webapp, webdriver ):
         select_menu_option( "template_pack" )
         # make sure generating a snippet returns the new version
         dismiss_notifications()
-        elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
         elem.click()
         assert get_clipboard() == "UPLOADED TEMPLATE"
     for_each_template( test_template )
@@ -71,7 +77,7 @@ def test_zip_files( webapp, webdriver ):
     assert get_stored_msg("_last-error_") is None
 
     # check that the uploaded templates are being used
-    _check_snippets(
+    _check_snippets( webdriver,
         lambda tid: "Customized {}.".format( tid.upper() )
     )
 
@@ -100,7 +106,7 @@ def test_new_default_template_pack( webapp, webdriver, monkeypatch ):
     webdriver.get( webapp.url_for( "main" ) )
 
     # check that the new templates are being used
-    _check_snippets(
+    _check_snippets( webdriver,
         lambda tid: "New default {}.".format( tid.upper() )
     )
 
@@ -111,6 +117,7 @@ def test_nationality_data( webapp, webdriver ):
 
     # initialize
     webdriver.get( webapp.url_for( "main", store_msgs=1, template_pack_persistence=1 ) )
+    select_tab( "scenario" )
 
     # select the British as player 1
     sel = Select(
@@ -142,13 +149,19 @@ def test_nationality_data( webapp, webdriver ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def _check_snippets( func ):
+def _check_snippets( webdriver, func ):
     """Check that snippets are being generated as expected."""
 
     def test_template( template_id, orig_template_id ):
         """Test each template."""
         dismiss_notifications()
-        elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
+        if template_id == "ob_setup":
+            select_tab( "ob1" )
+            add_ob_setup( webdriver, 1, "test ob setup" )
+            elems = find_children( "#ob_setup-sortable_1 li input[type='button']" )
+            elem = elems[0]
+        else:
+            elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
         elem.click()
         assert get_clipboard() == func( template_id )
     for_each_template( test_template )

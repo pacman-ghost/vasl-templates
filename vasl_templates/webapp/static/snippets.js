@@ -16,7 +16,7 @@ var _DAY_OF_MONTH_POSTFIXES = { // nb: we assume English :-/
 
 // --------------------------------------------------------------------
 
-function generate_snippet( $btn )
+function generate_snippet( $btn, extra_params )
 {
     // initialize
     storeMsgForTestSuite( "_last-info_", "" ) ;
@@ -44,18 +44,6 @@ function generate_snippet( $btn )
     unload_params( params, true ) ;
 
     // set player-specific parameters
-    // NOTE: We used to delete the player-specific parameters (e.g. OB_SETUP_1/2)
-    // and just return a generic player-independent one (e.g. OB_SETUP), but now,
-    // we just leave them in place, in case a user-defined template wants them both.
-    if ( template_id === "ob_setup_1" ) {
-        template_id = "ob_setup" ;
-        params.OB_SETUP = params.OB_SETUP_1 ;
-        params.OB_SETUP_WIDTH = params.OB_SETUP_WIDTH_1 ;
-    } else if ( template_id === "ob_setup_2" ) {
-        template_id = "ob_setup" ;
-        params.OB_SETUP = params.OB_SETUP_2 ;
-        params.OB_SETUP_WIDTH = params.OB_SETUP_WIDTH_2 ;
-    }
     var nationalities = gTemplatePack.nationalities ;
     var curr_tab = $("#tabs .ui-tabs-active a").attr( "href" ) ;
     if ( curr_tab === "#tabs-ob1" ) {
@@ -153,6 +141,10 @@ function generate_snippet( $btn )
         if ( params.SCENARIO_DATE === "" || params.SCENARIO_YEAR < 1944 )
             showWarningMsg( "ATMM are only available from 1944." ) ;
     }
+
+    // add in any extra parameters
+    if ( extra_params )
+        $.extend( true, params, extra_params ) ;
 
     // check that the players have different nationalities
     if ( params.PLAYER_1 === params.PLAYER_2 )
@@ -511,8 +503,16 @@ function do_load_scenario( params )
             params_loaded[key] = true ;
             continue ;
         }
+        var player_id ;
+        if ( key === "OB_SETUP_1" || key === "OB_SETUP_2" ) {
+            player_id = key.substring( key.length-1 ) ;
+            var $sortable = $( "#ob_setup-sortable_" + player_id ) ;
+            for ( i=0 ; i < params[key].length ; ++i )
+                do_add_ob_setup( $sortable, params[key][i] ) ;
+            params_loaded[key] = true ;
+        }
         if ( key === "VEHICLES_1" || key === "ORDNANCE_1" || key === "VEHICLES_2" || key === "ORDNANCE_2" ) {
-            var player_id = key.substring( key.length-1 ) ;
+            player_id = key.substring( key.length-1 ) ;
             var nat = params[ "PLAYER_" + player_id ] ;
             var vo_type = key.substring(0,9) === "VEHICLES_" ? "vehicle" : "ordnance" ;
             for ( i=0 ; i < params[key].length ; ++i ) {
@@ -562,6 +562,13 @@ function do_load_scenario( params )
 function on_save_scenario()
 {
     // unload the template parameters
+    function unload_ob_setups( $sortable ) {
+        var entries = [] ;
+        $sortable.children("li").each( function() {
+            entries.push( $(this).data( "sortable-data" ) ) ;
+        } ) ;
+        return entries ;
+    }
     function extract_vo_names( key ) { // nb: we only need to save the vehicle/ordnance name
         if ( !(key in params) )
             return ;
@@ -570,8 +577,10 @@ function on_save_scenario()
             names.push( params[key][i].name ) ;
         params[key] = names ;
     }
-    var params = {};
+    var params = {} ;
     unload_params( params, false ) ;
+    params.OB_SETUP_1 = unload_ob_setups( $("#ob_setup-sortable_1") ) ;
+    params.OB_SETUP_2 = unload_ob_setups( $("#ob_setup-sortable_2") ) ;
     extract_vo_names( "VEHICLES_1" ) ;
     extract_vo_names( "ORDNANCE_1" ) ;
     extract_vo_names( "VEHICLES_2" ) ;
@@ -619,10 +628,11 @@ function on_new_scenario( verbose )
     update_ssr_hint() ;
 
     // reset all the template parameters
-    delete_all_vo( "vehicle", 1 ) ;
-    delete_all_vo( "ordnance", 1 ) ;
-    delete_all_vo( "vehicle", 2 ) ;
-    delete_all_vo( "ordnance", 2 ) ;
+    for ( var i=1 ; i <= 2 ; ++i ) {
+        delete_all_sortable_entries( $("#ob_setup-sortable_"+i) ) ;
+        delete_all_vo( "vehicle", i ) ;
+        delete_all_vo( "ordnance", i ) ;
+    }
 
     // provide some feedback to the user
     if ( verbose )

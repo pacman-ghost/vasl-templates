@@ -4,7 +4,7 @@ import html
 
 from selenium.webdriver.common.action_chains import ActionChains
 
-from vasl_templates.webapp.tests.utils import find_child, find_children
+from vasl_templates.webapp.tests.utils import select_tab, find_child, find_children
 from vasl_templates.webapp.tests.utils import get_clipboard, dismiss_notifications, click_dialog_button
 
 # ---------------------------------------------------------------------
@@ -14,6 +14,7 @@ def test_ssr( webapp, webdriver ):
 
     # initialize
     webdriver.get( webapp.url_for( "main" ) )
+    select_tab( "scenario" )
 
     # initialize
     expected = []

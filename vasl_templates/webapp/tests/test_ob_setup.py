@@ -3,8 +3,10 @@
 import types
 
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.action_chains import ActionChains
 
-from vasl_templates.webapp.tests.utils import select_tab, get_nationalities, get_clipboard, get_stored_msg, find_child
+from vasl_templates.webapp.tests.utils import get_nationalities, get_clipboard, get_stored_msg
+from vasl_templates.webapp.tests.utils import select_tab, find_child, find_children, click_dialog_button
 
 # ---------------------------------------------------------------------
 
@@ -15,50 +17,43 @@ def test_ob_setup( webapp, webdriver ):
     webdriver.get( webapp.url_for( "main" ) )
 
     # generate OB SETUP snippets for both players
-    select_tab( "ob1" )
-    textarea1 = find_child( "textarea[name='OB_SETUP_1']" )
-    textarea1.clear()
-    textarea1.send_keys( "setup <i>here</i>." )
-    btn1 = find_child( "input[type='button'][data-id='ob_setup_1']" )
-    select_tab( "ob2" )
-    textarea2 = find_child( "textarea[name='OB_SETUP_2']" )
-    textarea2.clear()
-    textarea2.send_keys( "setup <b>there</b>." )
-    btn2 = find_child( "input[type='button'][data-id='ob_setup_2']" )
-    btn2.click()
-    assert get_clipboard() == "[Russian] [setup <b>there</b>.] (col=[OBCOL:russian/OBCOL2:russian])"
-    select_tab( "ob1" )
-    btn1.click()
-    assert get_clipboard() == "[German] [setup <i>here</i>.] (col=[OBCOL:german/OBCOL2:german])"
+    def check_snippet( player_id, entry_no, expected ):
+        """Generate the snippet for an OB setup."""
+        select_tab( "ob{}".format( player_id ) )
+        elems = find_children( "#ob_setup-sortable_{} li input[type='button']".format( player_id ) )
+        elems[entry_no].click()
+        assert get_clipboard() == expected
+    add_ob_setup( webdriver, 1, "ob setup #1" )
+    add_ob_setup( webdriver, 1, "ob setup #2", "2px" )
+    add_ob_setup( webdriver, 2, "ob <i>setup</i> #3", "3px" )
+    check_snippet( 1, 0, "[German] [ob setup #1] (col=[OBCOL:german/OBCOL2:german])" )
+    check_snippet( 1, 1, "[German] [ob setup #2] (col=[OBCOL:german/OBCOL2:german]) (width=[2px])" )
+    check_snippet( 2, 0, "[Russian] [ob <i>setup</i> #3] (col=[OBCOL:russian/OBCOL2:russian]) (width=[3px])" )
 
-    # change the player nationalities and generate the OB SETUP snippets again
-    select_tab( "scenario" )
-    sel = Select(
-        find_child( "select[name='PLAYER_1']" )
-    )
-    sel.select_by_value( "british" )
-    sel = Select(
-        find_child( "select[name='PLAYER_2']" )
-    )
-    sel.select_by_value( "french" )
-    select_tab( "ob1" )
-    btn1.click()
-    assert get_clipboard() == "[British] [] (col=[OBCOL:british/OBCOL2:british])"
-    select_tab( "ob2" )
-    btn2.click()
-    assert get_clipboard() == "[French] [] (col=[OBCOL:french/OBCOL2:french])"
+    # make some changes and check the snippets again
+    edit_ob_setup( webdriver, 2, 0, "updated ob setup #3", "" )
+    edit_ob_setup( webdriver, 1, 1, "<i>updated ob setup #2</i>", "200px" )
+    edit_ob_setup( webdriver, 1, 0, None, "100px" )
+    check_snippet( 2, 0, "[Russian] [updated ob setup #3] (col=[OBCOL:russian/OBCOL2:russian])" )
+    check_snippet( 1, 1, "[German] [<i>updated ob setup #2</i>] (col=[OBCOL:german/OBCOL2:german]) (width=[200px])" )
+    check_snippet( 1, 0, "[German] [ob setup #1] (col=[OBCOL:german/OBCOL2:german]) (width=[100px])" )
 
-    # set the snippet widths and generate the snippets again
+    # delete an OB setup by dragging it into the trash
+    def count_entries( player_id ):
+        """Count the number of OB setup's."""
+        elems = find_children( "#ob_setup-sortable_{} li".format( player_id ) )
+        return len(elems)
     select_tab( "ob1" )
-    elem = find_child( "input[name='OB_SETUP_WIDTH_1']" )
-    elem.send_keys( "100px" )
-    btn1.click()
-    assert get_clipboard() == "[British] [] (col=[OBCOL:british/OBCOL2:british]) (width=[100px])"
-    select_tab( "ob2" )
-    elem = find_child( "input[name='OB_SETUP_WIDTH_2']" )
-    elem.send_keys( "200px" )
-    btn2.click()
-    assert get_clipboard() == "[French] [] (col=[OBCOL:french/OBCOL2:french]) (width=[200px])"
+    assert count_entries(1) == 2
+    elem = find_child( "#ob_setup-sortable_1 li[2]" )
+    trash = find_child( "#ob_setup-trash_1" )
+    ActionChains(webdriver).drag_and_drop( elem, trash ).perform()
+    assert count_entries(1) == 1
+
+    # delete an OB setup by emptying its caption
+    edit_ob_setup( webdriver, 1, 0, "", None )
+    click_dialog_button( "OK" ) # nb: confirm the deletion
+    assert count_entries(1) == 0
 
 # ---------------------------------------------------------------------
 
@@ -169,3 +164,35 @@ def test_nationality_specific( webapp, webdriver ):
             else:
                 # it should be hidden for all other nationalities
                 assert not elem.is_displayed()
+
+# ---------------------------------------------------------------------
+
+def add_ob_setup( webdriver, player_id, caption, width=None ):
+    """Add a new OB setup."""
+    select_tab( "ob{}".format( player_id ) )
+    elem = find_child( "#ob_setup-add_{}".format( player_id ) )
+    elem.click()
+    edit_ob_setup( webdriver, player_id, None, caption, width )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def edit_ob_setup( webdriver, player_id, entry_no, caption, width ):
+    """Edit an OB setup."""
+
+    # locate the requested entry and start editing it
+    if entry_no is not None:
+        select_tab( "ob{}".format( player_id ) )
+        elems = find_children( "#ob_setup-sortable_{} li".format( player_id ) )
+        elem = elems[ entry_no ]
+        ActionChains(webdriver).double_click( elem ).perform()
+
+    # edit the OB setup
+    if caption is not None:
+        elem = find_child( "#edit-ob_setup textarea" )
+        elem.clear()
+        elem.send_keys( caption )
+    if width is not None:
+        elem = find_child( "#edit-ob_setup input[type='text']" )
+        elem.clear()
+        elem.send_keys( width )
+    click_dialog_button( "OK" )

@@ -88,25 +88,36 @@
 
 <div id="tabs-ob1">
     <fieldset class="tl"> <legend>OB setup</legend>
-        <div id="panel-obsetup1" class="panel-obsetup">
-            <textarea name="OB_SETUP_1" type="text" class="param"></textarea>
+        <div id="panel-ob_setup1" class="panel-ob_setup">
+            <div class="content">
+                <div id="ob_setup-hint_1" class="ob_setup-hint"> <p>Click on the "+" below to add a new setup note. <p>To re-order the setup notes, use the mouse to drag them around. <p>Ctrl-click on a setup note to delete it, or drag it into the trashcan below. </div>
+                <ul id="ob_setup-sortable_1" class="sortable" style="display:none;"></ul>
+            </div>
             <div class="footer">
-                <input type="button" class="generate" data-id="mol" value="MOL">
-                <input type="button" class="generate" data-id="mol-p" value="MOL-P">
-                <input type="button" class="generate" data-id="pf" value="PF">
-                <input type="button" class="generate" data-id="psk" value="PSK">
-                <input type="button" class="generate" data-id="atmm" value="ATMM">
-                <input type="button" class="generate" data-id="baz" value="BAZ">
-                <input type="button" class="generate" data-id="piat" value="PIAT">
-                <div class="r">
-                    <label for="OB_SETUP_WIDTH_1">Width:</label>
-                    <input type="text" class="param" name="OB_SETUP_WIDTH_1" size="5">
-                    <input type="button" class="generate" data-id="ob_setup_1" value="Snippet">
+                <div class="l">
+                    <input type="button" id="ob_setup-add_1" value="+">
+                    <img id="ob_setup-trash_1" class="ob_setup-trash" src="{{url_for('static',filename='images/trash.png')}}">
                 </div>
+                <input type="button" data-id="ob_setup" value="EDIT TEMPLATE">
             </div>
         </div>
     </fieldset>
-    <fieldset class="r"> <legend>Vehicles</legend>
+    <fieldset class="bl"> <legend>Notes</legend>
+        <div id="panel-ob_notes1" class="panel-ob_notes">
+            <div class="content">
+            </div>
+            <div class="footer">
+               <input type="button" class="generate" data-id="mol" value="MOL">
+               <input type="button" class="generate" data-id="mol-p" value="MOL-P">
+               <input type="button" class="generate" data-id="pf" value="PF">
+               <input type="button" class="generate" data-id="psk" value="PSK">
+               <input type="button" class="generate" data-id="atmm" value="ATMM">
+               <input type="button" class="generate" data-id="baz" value="BAZ">
+               <input type="button" class="generate" data-id="piat" value="PIAT">
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="tr"> <legend>Vehicles</legend>
         <div id="panel-vehicles_1" class="panel-vehicles">
             <div class="content">
                 <div id="vehicle-hint_1" class="vehicle-hint"> <p>Click on the "+" below to add a new Vehicle. <p>To re-order the Vehicles, use the mouse to drag them around. <p>Ctrl-click on an Vehicle to delete it, or drag it into the trashcan below. </div>
@@ -123,7 +134,7 @@
             </div>
         </div>
     </fieldset>
-    <fieldset class="bl"> <legend>Ordnance</legend>
+    <fieldset class="br"> <legend>Ordnance</legend>
         <div id="panel-ordnance_1" class="panel-ordnance">
             <div class="content">
                 <div id="ordnance-hint_1" class="ordnance-hint"> <p>Click on the "+" below to add a new Gun. <p>To re-order the Gun's, use the mouse to drag them around. <p>Ctrl-click on an Gun to delete it, or drag it into the trashcan below. </div>
@@ -154,8 +165,12 @@
 
 <div id="edit-template" style="display:none;"> <textarea></textarea> </div>
 <div id="edit-ssr" style="display:none;"> <b>Enter the SSR content:</b> <textarea></textarea> </div>
+<div id="edit-ob_setup" style="display:none;">
+    <textarea></textarea>
+    <label>Width:</label> <input type="text" size="5">
+</div>
 <div id="select-vo" style="display:none;">
-    <div class="header"> <b>Filter by:</b> <input type="text" size=10> </div>
+    <div class="header"> <b>Filter by:</b> <input type="text" size="10"> </div>
     <select size=2></select> </div>
 </div>
 <div id="ask" style="display:none;"></div>
@@ -180,7 +195,9 @@ gOrdnanceListingsUrl = "{{url_for('get_ordnance_listings')}}" ;
 <script src="{{url_for('static',filename='main.js')}}"></script>
 <script src="{{url_for('static',filename='snippets.js')}}"></script>
 <script src="{{url_for('static',filename='ssr.js')}}"></script>
+<script src="{{url_for('static',filename='ob_setup.js')}}"></script>
 <script src="{{url_for('static',filename='vehicles_ordnance.js')}}"></script>
+<script src="{{url_for('static',filename='sortable.js')}}"></script>
 <script src="{{url_for('static',filename='utils.js')}}"></script>
 
 </html>

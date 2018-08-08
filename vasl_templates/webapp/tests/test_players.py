@@ -2,7 +2,7 @@
 
 from selenium.webdriver.support.ui import Select
 
-from vasl_templates.webapp.tests.utils import get_nationalities, find_child
+from vasl_templates.webapp.tests.utils import get_nationalities, select_tab, find_child
 
 # ---------------------------------------------------------------------
 
@@ -20,6 +20,7 @@ def test_player_change( webapp, webdriver ):
 
     # initialize
     webdriver.get( webapp.url_for( "main" ) )
+    select_tab( "scenario" )
     nationalities = get_nationalities( webapp )
 
     # make sure that the UI was updated correctly for the initial players

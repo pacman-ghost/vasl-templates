@@ -86,12 +86,24 @@ $(document).ready( function () {
     $("#ssr-trash").sortable( {
         receive: function( evt, ui ) { ui.item.remove() ; update_ssr_hint() ; }
     } ) ;
-    $("#edit-ssr textarea").keydown( function(evt) {
-        if ( evt.keyCode == 13 && evt.ctrlKey ) {
-            $(".ui-dialog.edit-ssr button:contains('OK')").click() ;
-            evt.preventDefault() ;
-        }
+    enable_ctrl_enter( $("#edit-ssr"), "OK" ) ;
+
+    // initialize OB setup controls
+    init_sortable( $("#ob_setup-sortable_1"),
+        function() { add_ob_setup(1) ; },
+        edit_ob_setup
+    ) ;
+    $("#panel-ob_setup1 input[type='button'][data-id='ob_setup']").click( function() {
+        edit_template( "ob_setup" ) ;
     } ) ;
+    init_sortable( $("#ob_setup-sortable_2"),
+        function() { add_ob_setup(2) ; },
+        edit_ob_setup
+    ) ;
+    $("#panel-ob_setup2 input[type='button'][data-id='ob_setup']").click( function() {
+        edit_template( "ob_setup" ) ;
+    } ) ;
+    enable_ctrl_enter( $("#edit-ob_setup"), "OK" ) ;
 
     // initialize vehicle controls (1)
     $("#vehicle-sortable_1").sortable( { connectWith: "#vehicle-trash_1", cursor: "move" } ) ;
@@ -241,11 +253,12 @@ $(document).ready( function () {
 
     // handle requests to generate/edit HTML snippets
     $("input[type='button'].generate").click( function() {
-        generate_snippet( $(this) ) ;
+        generate_snippet( $(this), null ) ;
     } ) ;
     $("div.snippet-control select").on( "selectmenuselect", function() {
         edit_template( $(this).attr("data-id") ) ;
     } ) ;
+    enable_ctrl_enter( $("#edit-template"), "Close" ) ;
 
     // initialize hotkeys
     init_hotkeys() ;
@@ -347,7 +360,7 @@ function on_player_change( $select )
     for ( var nat in _NATIONALITY_SPECIFIC_BUTTONS ) {
         for ( var i=0 ; i < _NATIONALITY_SPECIFIC_BUTTONS[nat].length ; ++i ) {
             var button_id = _NATIONALITY_SPECIFIC_BUTTONS[nat][i] ;
-            $elem = $( "#panel-obsetup" + player_id + " div.snippet-control[data-id='" + button_id + "']" ) ;
+            $elem = $( "#panel-ob_notes" + player_id + " div.snippet-control[data-id='" + button_id + "']" ) ;
             $elem.css( "display", nat == player_nat ? "block" : "none" ) ;
         }
     }

@@ -1,19 +1,37 @@
 /* -------------------------------------------------------------------- */
 
-.panel-obsetup {
+.panel-ob_setup {
     height: 100% ;
     display: grid ; display: -ms-grid ;
-    grid-template-rows: 1fr 2.5em ; -ms-grid-rows: 1fr 2.5em ;
+    grid-template-rows: 1fr 2em ; -ms-grid-rows: 1fr 2em ;
     grid-template-columns: 1fr ; -ms-grid-columns: 1fr ;
 }
 /* FUDGE! IE hackamathon follows... */
-.panel-obsetup .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
+.panel-ob_setup .content { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
+.panel-ob_setup .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
 
-.panel-obsetup textarea { width: 100% ; height: 100% ; resize: none ; }
-.panel-obsetup .footer { font-size: 75% ; }
-.panel-obsetup div.snippet-control { float: left ; margin: 0.25em 0.25em 0 0 ; }
-.panel-obsetup .footer .r { display: block-inline ; float: right ; }
-.panel-obsetup .footer .r div.snippet-control { float: none ; margin-right: 0 ; }
+.panel-ob_setup ul.sortable li input[type="button"] { float: right ; }
+.panel-ob_setup .footer { text-align: right ; font-size: 75% ; }
+.panel-ob_setup .footer .l { float: left ; }
+.ob_setup-trash { margin-left: 5px ; height: 2em ;  }
+
+.ob_setup-hint { width:100% ; height: calc(100% - 1.5em) ; font-size: 80% ; font-style: italic ; }
+.ob_setup-hint p { margin-bottom: 1em ; }
+
+/* -------------------------------------------------------------------- */
+
+.panel-ob_notes {
+    height: 100% ;
+    display: grid ; display: -ms-grid ;
+    grid-template-rows: 1fr 2em ; -ms-grid-rows: 1fr 2em ;
+    grid-template-columns: 1fr ; -ms-grid-columns: 1fr ;
+}
+/* FUDGE! IE hackamathon follows... */
+.panel-ob_notes .content { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
+.panel-ob_notes .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
+
+.panel-ob_notes .footer { font-size: 75% ; }
+.panel-ob_notes div.snippet-control { float: left ; margin: 0.25em 0.25em 0 0 ; }
 
 /* -------------------------------------------------------------------- */
 

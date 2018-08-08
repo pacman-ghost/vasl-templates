@@ -2,7 +2,7 @@
 
 from selenium.webdriver.common.keys import Keys
 
-from vasl_templates.webapp.tests.utils import set_template_params, get_clipboard
+from vasl_templates.webapp.tests.utils import select_tab, set_template_params, get_clipboard
 from vasl_templates.webapp.tests.utils import get_stored_msg, dismiss_notifications, find_child
 from vasl_templates.webapp.tests.utils import for_each_template, wait_for
 
@@ -13,6 +13,7 @@ def test_scenario_snippets( webapp, webdriver ):
 
     # initialize
     webdriver.get( webapp.url_for( "main", store_msgs=1 ) )
+    select_tab( "scenario" )
 
     # generate a SCENARIO snippet
     _test_snippet( webdriver, "scenario", {
@@ -62,6 +63,7 @@ def test_vc_snippets( webapp, webdriver ):
 
     # initialize
     webdriver.get( webapp.url_for( "main", store_msgs=1 ) )
+    select_tab( "scenario" )
 
     # generate a VC snippet
     _test_snippet( webdriver, "victory_conditions", {
@@ -95,6 +97,7 @@ def test_players_snippets( webapp, webdriver ):
 
     # initialize
     webdriver.get( webapp.url_for( "main", store_msgs=1 ) )
+    select_tab( "scenario" )
 
     # generate a PLAYERS snippet
     _test_snippet( webdriver, "players", {
@@ -160,15 +163,20 @@ def test_edit_templates( webapp, webdriver ):
     webdriver.get( webapp.url_for( "main", edit_template_links=1 ) )
 
     # try uploading a customized version of each template
+    def edit_template( template_id ):
+        """Edit a template."""
+        elem = find_child( "#edit-template textarea" )
+        elem.clear()
+        elem.send_keys( "EDITED TEMPLATE: {}".format( template_id ) )
+        elem.send_keys( Keys.ESCAPE )
     def test_template( template_id, orig_template_id ):
         """Test editing a template."""
+        if template_id == "ob_setup":
+            return # nb: this requires special handling (done below)
         # edit the template
         elem = find_child( "a.edit-template-link[data-id='{}']".format( template_id ) )
         webdriver.execute_script( "$(arguments[0]).click();", elem )
-        elem = find_child( "#edit-template textarea" )
-        elem.clear()
-        elem.send_keys( "EDITED TEMPLATE: {}".format( orig_template_id ) )
-        elem.send_keys( Keys.ESCAPE )
+        edit_template( orig_template_id )
         # check that the new template is being used
         dismiss_notifications()
         elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
@@ -177,3 +185,17 @@ def test_edit_templates( webapp, webdriver ):
             lambda: get_clipboard() == "EDITED TEMPLATE: {}".format( orig_template_id )
         )
     for_each_template( test_template )
+
+    # customize the OB SETUP template
+    select_tab( "ob2" )
+    elem = find_child( "#tabs-ob2 input[type='button'][data-id='ob_setup']" )
+    elem.click()
+    edit_template( "ob_setup" )
+
+    # check that the new template is being used
+    from vasl_templates.webapp.tests.test_ob_setup import add_ob_setup
+    for player_id in range(1,2+1):
+        add_ob_setup( webdriver, player_id, "ob setup (ignored)" )
+        elem = find_child( "#ob_setup-sortable_{} li input[type='button']".format( player_id ) )
+        elem.click()
+        assert get_clipboard() == "EDITED TEMPLATE: ob_setup"

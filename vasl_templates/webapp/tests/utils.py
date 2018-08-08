@@ -43,8 +43,8 @@ def for_each_template( func ):
 
     # test the standard templates
     for tab_id,template_ids in _STD_TEMPLATES.items():
-        select_tab( tab_id )
         for template_id in template_ids:
+            select_tab( tab_id )
             if template_id.startswith( "ob_setup_" ):
                 template_id2 = "ob_setup"
             elif template_id.startswith( "vehicles_" ):
@@ -99,6 +99,15 @@ def set_template_params( params ):
             from vasl_templates.webapp.tests.test_ssr import add_ssr #pylint: disable=cyclic-import
             for ssr in val:
                 add_ssr( _webdriver, ssr )
+            continue
+
+        # check for OB set up (these require special handling)
+        if key in ("OB_SETUP_1","OB_SETUP_2"):
+            # add them in (nb: we don't consider any existing OB setup's)
+            from vasl_templates.webapp.tests.test_ob_setup import add_ob_setup #pylint: disable=cyclic-import
+            player_id = int( key[-1] )
+            for entry in val:
+                add_ob_setup( _webdriver, player_id, entry.get("caption",""), entry.get("width","") )
             continue
 
         # check for vehicles/ordnance (these require special handling)
