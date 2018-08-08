@@ -65,9 +65,9 @@ def _do_test_ob_entries( webapp, webdriver, ob_type ):
         return len(elems)
     select_tab( "ob1" )
     assert count_entries(1) == 2
-    elem = find_child( "#{}-sortable_1 li[2]".format( ob_type ) )
+    elems = find_children( "#{}-sortable_1 li".format( ob_type ) )
     trash = find_child( "#{}-trash_1".format( ob_type ) )
-    ActionChains(webdriver).drag_and_drop( elem, trash ).perform()
+    ActionChains(webdriver).drag_and_drop( elems[1], trash ).perform()
     assert count_entries(1) == 1
 
     # delete an OB setup/note by emptying its caption
@@ -214,6 +214,7 @@ def edit_ob_setup( webdriver, player_id, entry_no, caption, width ):
 
 def _do_edit_ob_entry( webdriver, player_id, ob_type, entry_no, caption, width ):
     """Edit an OB setup/note."""
+
     # locate the requested entry and start editing it
     if entry_no is not None:
         select_tab( "ob{}".format( player_id ) )

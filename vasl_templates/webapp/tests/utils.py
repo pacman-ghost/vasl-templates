@@ -12,7 +12,7 @@ from selenium.common.exceptions import NoSuchElementException, StaleElementRefer
 
 # standard templates
 _STD_TEMPLATES = {
-    "scenario": [ "scenario", "players", "victory_conditions", "ssr" ],
+    "scenario": [ "scenario", "players", "victory_conditions", "scenario_notes", "ssr" ],
     "ob1": [ "ob_setup_1", "ob_note_1", "vehicles_1", "ordnance_1" ],
     "ob2": [ "ob_setup_2", "ob_note_2", "vehicles_2", "ordnance_2" ],
 }
@@ -29,7 +29,7 @@ _webdriver = None
 
 # ---------------------------------------------------------------------
 
-def for_each_template( func ):
+def for_each_template( func ): #pylint: disable=too-many-branches
     """Test each template."""
 
     # generate a list of all the templates we need to test
@@ -45,7 +45,9 @@ def for_each_template( func ):
     for tab_id,template_ids in _STD_TEMPLATES.items():
         for template_id in template_ids:
             select_tab( tab_id )
-            if template_id.startswith( "ob_setup_" ):
+            if template_id == "scenario_notes":
+                template_id2 = "scenario_note"
+            elif template_id.startswith( "ob_setup_" ):
                 template_id2 = "ob_setup"
             elif template_id.startswith( "ob_note_" ):
                 template_id2 = "ob_note"
@@ -94,6 +96,14 @@ def set_template_params( params ): #pylint: disable=too-many-branches
     """Set template parameters."""
 
     for key,val in params.items():
+
+        # check for scenario notes (these require special handling)
+        if key == "SCENARIO_NOTES":
+            # add them in (nb: we don't consider any existing scenario notes)
+            from vasl_templates.webapp.tests.test_snippets import _add_scenario_note #pylint: disable=cyclic-import
+            for entry in val:
+                _add_scenario_note( _webdriver, entry.get("caption",""), entry.get("width","") )
+            continue
 
         # check for SSR's (these require special handling)
         if key == "SSR":

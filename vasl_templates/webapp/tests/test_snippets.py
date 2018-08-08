@@ -1,11 +1,12 @@
 """ Test HTML snippet generation. """
 
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 
 from vasl_templates.webapp.tests.test_ob import add_ob_setup, add_ob_note
 from vasl_templates.webapp.tests.utils import select_tab, set_template_params, get_clipboard
-from vasl_templates.webapp.tests.utils import get_stored_msg, dismiss_notifications, find_child
-from vasl_templates.webapp.tests.utils import for_each_template, wait_for
+from vasl_templates.webapp.tests.utils import get_stored_msg, dismiss_notifications, find_child, find_children
+from vasl_templates.webapp.tests.utils import for_each_template, wait_for, click_dialog_button
 
 # ---------------------------------------------------------------------
 
@@ -93,6 +94,68 @@ def test_vc_snippets( webapp, webdriver ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+def test_scenario_notes_snippets( webapp, webdriver ):
+    """Test HTML snippet generation."""
+
+    # initialize
+    webdriver.get( webapp.url_for( "main", store_msgs=1 ) )
+    select_tab( "scenario" )
+
+    # add some scenario notes and check their snippets
+    def check_snippet( entry_no, expected ):
+        """Check the snippet for a scenario note."""
+        elems = find_children( "#scenario_notes-sortable li input[type='button']" )
+        elems[entry_no].click()
+        assert get_clipboard() == expected
+    _add_scenario_note( webdriver, "scenario <i>note</i> #1", None )
+    _add_scenario_note( webdriver, "scenario note #2", "100px" )
+    check_snippet( 0, "[scenario <i>note</i> #1]" )
+    check_snippet( 1, "[scenario note #2] (width=[100px])" )
+
+    # delete a scenario note by dragging it into the trash
+    def count_entries():
+        """Count the number of scenario notes."""
+        elems = find_children( "#scenario_notes-sortable li" )
+        return len(elems)
+    assert count_entries() == 2
+    elems = find_children( "#scenario_notes-sortable li" )
+    trash = find_child( "#scenario_notes-trash" )
+    ActionChains(webdriver).drag_and_drop( elems[0], trash ).perform()
+    assert count_entries() == 1
+
+    # delete scenario note by emptying its caption
+    _edit_scenario_note( webdriver, 0, "", None )
+    click_dialog_button( "OK" ) # nb: confirm the deletion
+    assert count_entries() == 0
+
+def _add_scenario_note( webdriver, caption, width ): #FIXME! move to utils
+    """Add a new scenario note."""
+    elem = find_child( "#scenario_notes-add" )
+    elem.click()
+    _edit_scenario_note( webdriver, None, caption, width )
+
+def _edit_scenario_note( webdriver, entry_no, caption, width ): #FIXME! move to utils
+    """Edit a scenario note."""
+
+    # locate the requested entry and start editing it
+    if entry_no is not None:
+        elems = find_children( "#scenario_notes-sortable li" )
+        elem = elems[ entry_no ]
+        ActionChains(webdriver).double_click( elem ).perform()
+
+    # edit the scenario note
+    if caption is not None:
+        elem = find_child( "#edit-simple_note textarea" )
+        elem.clear()
+        elem.send_keys( caption )
+    if width is not None:
+        elem = find_child( "#edit-simple_note input[type='text']" )
+        elem.clear()
+        elem.send_keys( width )
+    click_dialog_button( "OK" )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 def test_players_snippets( webapp, webdriver ):
     """Test HTML snippet generation."""
 
@@ -172,7 +235,7 @@ def test_edit_templates( webapp, webdriver ):
         elem.send_keys( Keys.ESCAPE )
     def test_template( template_id, orig_template_id ):
         """Test editing a template."""
-        if template_id in("ob_setup","ob_note"):
+        if template_id in("scenario_note","ob_setup","ob_note"):
             return # nb: these require special handling (done below)
         # edit the template
         elem = find_child( "a.edit-template-link[data-id='{}']".format( template_id ) )
@@ -186,6 +249,18 @@ def test_edit_templates( webapp, webdriver ):
             lambda: get_clipboard() == "EDITED TEMPLATE: {}".format( orig_template_id )
         )
     for_each_template( test_template )
+
+    # customize the SCENARIO NOTE template
+    select_tab( "scenario" )
+    elem = find_child( "input[type='button'][data-id='scenario_note']" )
+    elem.click()
+    edit_template( "scenario_note" )
+
+    # check that the new template is being used
+    _add_scenario_note( webdriver, "scenario note (ignored)", None )
+    elem = find_child( "#scenario_notes-sortable li input[type='button']" )
+    elem.click()
+    assert get_clipboard() == "EDITED TEMPLATE: scenario_note"
 
     # customize the OB SETUP template
     select_tab( "ob1" )

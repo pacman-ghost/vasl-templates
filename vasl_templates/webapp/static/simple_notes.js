@@ -4,6 +4,10 @@
 
 // --------------------------------------------------------------------
 
+function add_scenario_note() { _do_edit_simple_note( $("#scenario_notes-sortable"), null ) ; }
+function do_add_scenario_note( $sortable, data ) { _do_add_simple_note($sortable,data) ; }
+function edit_scenario_note( $sortable, $entry ) { _do_edit_simple_note( $sortable, $entry ) ; }
+
 function add_ob_setup( player_id ) { _do_edit_simple_note( $("#ob_setups-sortable_"+player_id), null ) ; }
 function do_add_ob_setup( $sortable, data ) { _do_add_simple_note($sortable,data) ; }
 function edit_ob_setup( $sortable, $entry ) { _do_edit_simple_note( $sortable, $entry ) ; }
@@ -97,10 +101,16 @@ function _make_simple_note( note_type, caption )
     // add a handler for the snippet button
     $content.children("input[type='button']").click( function() {
         var data = $(this).parent().parent().data( "sortable-data" ) ;
-        var prefix = (note_type === "ob_setups") ? "OB_SETUP" : "OB_NOTE" ;
+        var key ;
+        if ( note_type === "scenario_notes" )
+            key = "SCENARIO_NOTE" ;
+        else if ( note_type === "ob_setups" )
+            key = "OB_SETUP" ;
+        else if ( note_type == "ob_notes" )
+            key = "OB_NOTE" ;
         var extra_params = {} ;
-        extra_params[prefix] = data.caption ;
-        extra_params[prefix+"_WIDTH"] = data.width ;
+        extra_params[key] = data.caption ;
+        extra_params[key+"_WIDTH"] = data.width ;
         generate_snippet( $(this), extra_params ) ;
     } ) ;
 
@@ -113,6 +123,6 @@ function _get_note_type_for_sortable( $sortable )
 {
     // figure out what type of note the sortable has
     var id = $sortable.prop( "id" ) ;
-    var match = /^(ob_(setups|notes))-sortable_\d$/.exec( id ) ;
+    var match = /^((scenario_notes|ob_setups|ob_notes))-sortable(_\d)?$/.exec( id ) ;
     return match[1] ;
 }

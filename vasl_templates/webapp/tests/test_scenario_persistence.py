@@ -30,6 +30,7 @@ def test_scenario_persistence( webapp, webdriver ):
             "PLAYER_1": "russian", "PLAYER_1_ELR": "1", "PLAYER_1_SAN": "2",
             "PLAYER_2": "german", "PLAYER_2_ELR": "3", "PLAYER_2_SAN": "4",
             "VICTORY_CONDITIONS": "just do it!", "VICTORY_CONDITIONS_WIDTH": "102",
+            "SCENARIO_NOTES": [ { "caption": "note #1", "width": "" }, { "caption": "note #2", "width": "100px" } ],
             "SSR": [ "This is an SSR.", "This is another SSR." ],
             "SSR_WIDTH": "103",
         },
@@ -83,6 +84,8 @@ def test_scenario_persistence( webapp, webdriver ):
     for tab_id in scenario_params:
         select_tab( tab_id )
         for field,val in scenario_params[tab_id].items():
+            if field == "SCENARIO_NOTES":
+                continue # nb: this requires special handling, we do it below
             if field == "SSR":
                 continue # nb: this requires special handling, we do it below
             if field in ("OB_SETUPS_1","OB_SETUPS_2"):
@@ -99,6 +102,9 @@ def test_scenario_persistence( webapp, webdriver ):
                 assert Select(elem).first_selected_option.get_attribute("value") == val
             else:
                 assert elem.get_attribute("value") == val
+    select_tab( "scenario" )
+    scenario_notes = [ c.text for c in find_children("#scenario_notes-sortable li") ]
+    assert scenario_notes == [ sn["caption"] for sn in scenario_params["scenario"]["SCENARIO_NOTES"] ]
     ssrs = _get_ssrs()
     assert ssrs == scenario_params["scenario"]["SSR"]
     assert _get_ob_entries("ob_setups",1) == [ obs["caption"] for obs in scenario_params["ob1"]["OB_SETUPS_1"] ]

@@ -26,7 +26,13 @@ def test_individual_files( webapp, webdriver ):
         """Test uploading a customized version of the template."""
         # make sure generating a snippet returns something
         dismiss_notifications()
-        if template_id in ("ob_setup","ob_note"):
+        if template_id == "scenario_note":
+            from vasl_templates.webapp.tests.test_snippets import _add_scenario_note
+            select_tab( "scenario" )
+            _add_scenario_note( webdriver, "test scenario note", None )
+            elems = find_children( "#scenario_notes-sortable li input[type='button']" )
+            elem = elems[0]
+        elif template_id in ("ob_setup","ob_note"):
             select_tab( "ob1" )
             func = getattr( test_ob, "add_"+template_id )
             func( webdriver, 1, "test {}".format(template_id), None )
@@ -156,7 +162,14 @@ def _check_snippets( webdriver, expected ):
     def test_template( template_id, orig_template_id ):
         """Test each template."""
         dismiss_notifications()
-        if template_id in ("ob_setup","ob_note"):
+        # FIXME! this code is duplicated above
+        if template_id == "scenario_note":
+            from vasl_templates.webapp.tests.test_snippets import _add_scenario_note
+            select_tab( "scenario" )
+            _add_scenario_note( webdriver, "test scenario note", None )
+            elems = find_children( "#scenario_notes-sortable li input[type='button']" )
+            elem = elems[0]
+        elif template_id in ("ob_setup","ob_note"):
             select_tab( "ob1" )
             func = getattr( test_ob, "add_"+template_id )
             func( webdriver, 1, "test {}".format(template_id), None )

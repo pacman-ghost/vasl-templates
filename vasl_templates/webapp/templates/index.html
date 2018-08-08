@@ -67,6 +67,21 @@
             </div>
         </div>
     </fieldset>
+    <fieldset class="bl"> <legend>Notes</legend>
+        <div id="panel-scenario_notes">
+            <div class="content">
+                <div id="scenario_notes-hint"> <p>Click on the "+" below to add a new scenario note. <p>To re-order the scenario notes, use the mouse to drag them around. <p>Ctrl-click on a scenario note to delete it, or drag it into the trashcan below. </div>
+                <ul id="scenario_notes-sortable" class="sortable" style="display:none;"></ul>
+            </div>
+            <div class="footer">
+                <div class="l">
+                    <input type="button" id="scenario_notes-add" value="+">
+                    <img id="scenario_notes-trash" src="{{url_for('static',filename='images/trash.png')}}">
+                </div>
+                <input type="button" data-id="scenario_note" value="EDIT">
+            </div>
+        </div>
+    </fieldset>
     <fieldset class="br"> <legend>SSR's</legend>
         <div id="panel-ssr">
             <div class="content">

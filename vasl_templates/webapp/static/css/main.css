@@ -30,14 +30,11 @@ body { height: 100% ; }
     grid-template-rows: 16em 1fr ; -ms-grid-rows: 14em 1fr ;
     grid-template-columns: 28em 1fr ; -ms-grid-columns: 28em 1fr ;
 }
-
-#tabs-scenario fieldset.tr {
-    -ms-grid-row: 1 ; -ms-grid-column: 2 ;
-}
-#tabs-scenario fieldset.br {
-    grid-column-start: 2 ;
-    -ms-grid-row: 2 ; -ms-grid-column: 2 ;
-}
+/* FUDGE! IE hackamathon follows... */
+#tabs-scenario fieldset.tl { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
+#tabs-scenario fieldset.tr { -ms-grid-row: 1 ; -ms-grid-column: 2 ; }
+#tabs-scenario fieldset.bl { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
+#tabs-scenario fieldset.br { -ms-grid-row: 2 ; -ms-grid-column: 2 ; }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 

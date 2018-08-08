@@ -504,6 +504,13 @@ function do_load_scenario( params )
             continue ;
         }
         var player_id, $sortable ;
+        if ( key === "SCENARIO_NOTES" ) {
+            $sortable = $( "#scenario_notes-sortable" ) ;
+            for ( i=0 ; i < params[key].length ; ++i )
+                do_add_scenario_note( $sortable, params[key][i] ) ;
+            params_loaded[key] = true ;
+            continue ;
+        }
         if ( key === "OB_SETUPS_1" || key === "OB_SETUPS_2" ) {
             player_id = key.substring( key.length-1 ) ;
             $sortable = $( "#ob_setups-sortable_" + player_id ) ;
@@ -571,7 +578,7 @@ function do_load_scenario( params )
 function on_save_scenario()
 {
     // unload the template parameters
-    function unload_ob_entries( $sortable ) {
+    function unload_sortable_entries( $sortable ) {
         var entries = [] ;
         $sortable.children("li").each( function() {
             entries.push( $(this).data( "sortable-data" ) ) ;
@@ -588,10 +595,11 @@ function on_save_scenario()
     }
     var params = {} ;
     unload_params( params, false ) ;
-    params.OB_SETUPS_1 = unload_ob_entries( $("#ob_setups-sortable_1") ) ;
-    params.OB_SETUPS_2 = unload_ob_entries( $("#ob_setups-sortable_2") ) ;
-    params.OB_NOTES_1 = unload_ob_entries( $("#ob_notes-sortable_1") ) ;
-    params.OB_NOTES_2 = unload_ob_entries( $("#ob_notes-sortable_2") ) ;
+    params.SCENARIO_NOTES = unload_sortable_entries( $("#scenario_notes-sortable") ) ;
+    params.OB_SETUPS_1 = unload_sortable_entries( $("#ob_setups-sortable_1") ) ;
+    params.OB_SETUPS_2 = unload_sortable_entries( $("#ob_setups-sortable_2") ) ;
+    params.OB_NOTES_1 = unload_sortable_entries( $("#ob_notes-sortable_1") ) ;
+    params.OB_NOTES_2 = unload_sortable_entries( $("#ob_notes-sortable_2") ) ;
     extract_vo_names( "VEHICLES_1" ) ;
     extract_vo_names( "ORDNANCE_1" ) ;
     extract_vo_names( "VEHICLES_2" ) ;
@@ -639,6 +647,7 @@ function on_new_scenario( verbose )
     update_ssr_hint() ;
 
     // reset all the template parameters
+    delete_all_sortable_entries( $("#scenario_notes-sortable") ) ;
     for ( var i=1 ; i <= 2 ; ++i ) {
         delete_all_sortable_entries( $("#ob_setups-sortable_"+i) ) ;
         delete_all_sortable_entries( $("#ob_notes-sortable_"+i) ) ;

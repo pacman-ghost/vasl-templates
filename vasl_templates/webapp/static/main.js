@@ -88,6 +88,15 @@ $(document).ready( function () {
     } ) ;
     enable_ctrl_enter( $("#edit-ssr"), "OK" ) ;
 
+    // initialize the scenario notes
+    init_sortable( $("#scenario_notes-sortable"),
+        function() { add_scenario_note() ; },
+        edit_scenario_note
+    ) ;
+    $("#panel-scenario_notes input[type='button'][data-id='scenario_note']").click( function() {
+        edit_template( "scenario_note" ) ;
+    } ) ;
+
     // initialize the OB setups
     init_sortable( $("#ob_setups-sortable_1"),
         function() { add_ob_setup(1) ; },
