@@ -8,7 +8,7 @@ import base64
 from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp import snippets
-from vasl_templates.webapp.tests.test_ob_setup import add_ob_setup
+from vasl_templates.webapp.tests import test_ob
 from vasl_templates.webapp.tests.utils import select_tab, select_menu_option, dismiss_notifications
 from vasl_templates.webapp.tests.utils import get_clipboard, get_stored_msg, set_stored_msg
 from vasl_templates.webapp.tests.utils import for_each_template, find_child, find_children
@@ -26,10 +26,11 @@ def test_individual_files( webapp, webdriver ):
         """Test uploading a customized version of the template."""
         # make sure generating a snippet returns something
         dismiss_notifications()
-        if template_id == "ob_setup":
+        if template_id in ("ob_setup","ob_note"):
             select_tab( "ob1" )
-            add_ob_setup( webdriver, 1, "test ob setup" )
-            elems = find_children( "#ob_setup-sortable_1 li input[type='button']" )
+            func = getattr( test_ob, "add_"+template_id )
+            func( webdriver, 1, "test {}".format(template_id), None )
+            elems = find_children( "#{}s-sortable_1 li input[type='button']".format( template_id ) )
             elem = elems[0]
         else:
             elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
@@ -149,21 +150,22 @@ def test_nationality_data( webapp, webdriver ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def _check_snippets( webdriver, func ):
+def _check_snippets( webdriver, expected ):
     """Check that snippets are being generated as expected."""
 
     def test_template( template_id, orig_template_id ):
         """Test each template."""
         dismiss_notifications()
-        if template_id == "ob_setup":
+        if template_id in ("ob_setup","ob_note"):
             select_tab( "ob1" )
-            add_ob_setup( webdriver, 1, "test ob setup" )
-            elems = find_children( "#ob_setup-sortable_1 li input[type='button']" )
+            func = getattr( test_ob, "add_"+template_id )
+            func( webdriver, 1, "test {}".format(template_id), None )
+            elems = find_children( "#{}s-sortable_1 li input[type='button']".format( template_id ) )
             elem = elems[0]
         else:
             elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
         elem.click()
-        assert get_clipboard() == func( template_id )
+        assert get_clipboard() == expected( template_id )
     for_each_template( test_template )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

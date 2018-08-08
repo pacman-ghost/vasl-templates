@@ -1,5 +1,6 @@
 """ Test generating OB SETUP snippets. """
 
+import re
 import types
 
 from selenium.webdriver.support.ui import Select
@@ -10,48 +11,67 @@ from vasl_templates.webapp.tests.utils import select_tab, find_child, find_child
 
 # ---------------------------------------------------------------------
 
+# NOTE: Handling of OB setups and OB notes is identical (the only difference
+# is in the template files, where OB setups have a colored header).
+
 def test_ob_setup( webapp, webdriver ):
-    """Test generating OB SETUP snippets."""
+    """Test generating OB setup snippets."""
+    _do_test_ob_entries( webapp, webdriver, "ob_setups" )
+
+def test_ob_notes( webapp, webdriver ):
+    """Test generating OB note snippets."""
+    _do_test_ob_entries( webapp, webdriver, "ob_notes" )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def _do_test_ob_entries( webapp, webdriver, ob_type ):
+    """Test generating OB setup/notes."""
 
     # initialize
     webdriver.get( webapp.url_for( "main" ) )
+    colors = {
+        "german": "col=[OBCOL:german/OBCOL2:german]", #.format( ob_type ) ,
+        "russian": "col=[OBCOL:russian/OBCOL2:russian]" #.format( ob_type )
+    }
 
-    # generate OB SETUP snippets for both players
+    # generate OB setup/note snippets for both players
     def check_snippet( player_id, entry_no, expected ):
-        """Generate the snippet for an OB setup."""
+        """Generate the snippet for an OB setup/note."""
         select_tab( "ob{}".format( player_id ) )
-        elems = find_children( "#ob_setup-sortable_{} li input[type='button']".format( player_id ) )
+        elems = find_children( "#{}-sortable_{} li input[type='button']".format( ob_type, player_id ) )
         elems[entry_no].click()
+        if ob_type == "ob_notes":
+            expected = re.sub( r" \(col=.*?\)", "", expected )
         assert get_clipboard() == expected
-    add_ob_setup( webdriver, 1, "ob setup #1" )
-    add_ob_setup( webdriver, 1, "ob setup #2", "2px" )
-    add_ob_setup( webdriver, 2, "ob <i>setup</i> #3", "3px" )
-    check_snippet( 1, 0, "[German] [ob setup #1] (col=[OBCOL:german/OBCOL2:german])" )
-    check_snippet( 1, 1, "[German] [ob setup #2] (col=[OBCOL:german/OBCOL2:german]) (width=[2px])" )
-    check_snippet( 2, 0, "[Russian] [ob <i>setup</i> #3] (col=[OBCOL:russian/OBCOL2:russian]) (width=[3px])" )
+    _do_add_ob_entry( webdriver, 1, ob_type, "{} #1".format(ob_type), None )
+    _do_add_ob_entry( webdriver, 1, ob_type, "{} #2".format(ob_type), "2px" )
+    _do_add_ob_entry( webdriver, 2, ob_type, "<i>{}</i> #3".format(ob_type), "3px" )
+    check_snippet( 1, 0, "[German] [{} #1] ({})".format( ob_type, colors["german"] ) )
+    check_snippet( 1, 1, "[German] [{} #2] ({}) (width=[2px])".format( ob_type, colors["german"] ) )
+    check_snippet( 2, 0, "[Russian] [<i>{}</i> #3] ({}) (width=[3px])".format( ob_type, colors["russian"] ) )
 
     # make some changes and check the snippets again
-    edit_ob_setup( webdriver, 2, 0, "updated ob setup #3", "" )
-    edit_ob_setup( webdriver, 1, 1, "<i>updated ob setup #2</i>", "200px" )
-    edit_ob_setup( webdriver, 1, 0, None, "100px" )
-    check_snippet( 2, 0, "[Russian] [updated ob setup #3] (col=[OBCOL:russian/OBCOL2:russian])" )
-    check_snippet( 1, 1, "[German] [<i>updated ob setup #2</i>] (col=[OBCOL:german/OBCOL2:german]) (width=[200px])" )
-    check_snippet( 1, 0, "[German] [ob setup #1] (col=[OBCOL:german/OBCOL2:german]) (width=[100px])" )
+    _do_edit_ob_entry( webdriver, 2, ob_type, 0, "updated {} #3".format(ob_type), "" )
+    _do_edit_ob_entry( webdriver, 1, ob_type, 1, "<i>updated {} #2</i>".format(ob_type), "200px" )
+    _do_edit_ob_entry( webdriver, 1, ob_type, 0, None, "100px" )
+    check_snippet( 2, 0, "[Russian] [updated {} #3] ({})".format( ob_type, colors["russian"] ) )
+    check_snippet( 1, 1, "[German] [<i>updated {} #2</i>] ({}) (width=[200px])".format( ob_type, colors["german"] ) )
+    check_snippet( 1, 0, "[German] [{} #1] ({}) (width=[100px])".format( ob_type, colors["german"] ) )
 
-    # delete an OB setup by dragging it into the trash
+    # delete an OB setup/note by dragging it into the trash
     def count_entries( player_id ):
-        """Count the number of OB setup's."""
-        elems = find_children( "#ob_setup-sortable_{} li".format( player_id ) )
+        """Count the number of OB setup/notes."""
+        elems = find_children( "#{}-sortable_{} li".format( ob_type, player_id ) )
         return len(elems)
     select_tab( "ob1" )
     assert count_entries(1) == 2
-    elem = find_child( "#ob_setup-sortable_1 li[2]" )
-    trash = find_child( "#ob_setup-trash_1" )
+    elem = find_child( "#{}-sortable_1 li[2]".format( ob_type ) )
+    trash = find_child( "#{}-trash_1".format( ob_type ) )
     ActionChains(webdriver).drag_and_drop( elem, trash ).perform()
     assert count_entries(1) == 1
 
-    # delete an OB setup by emptying its caption
-    edit_ob_setup( webdriver, 1, 0, "", None )
+    # delete an OB setup/note by emptying its caption
+    _do_edit_ob_entry( webdriver, 1, ob_type, 0, "", None )
     click_dialog_button( "OK" ) # nb: confirm the deletion
     assert count_entries(1) == 0
 
@@ -167,32 +187,47 @@ def test_nationality_specific( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-def add_ob_setup( webdriver, player_id, caption, width=None ):
+def add_ob_setup( webdriver, player_id, caption, width ):
     """Add a new OB setup."""
-    select_tab( "ob{}".format( player_id ) )
-    elem = find_child( "#ob_setup-add_{}".format( player_id ) )
-    elem.click()
-    edit_ob_setup( webdriver, player_id, None, caption, width )
+    _do_add_ob_entry( webdriver, player_id, "ob_setups", caption, width )
+
+def add_ob_note( webdriver, player_id, caption, width ):
+    """Add a new OB note."""
+    _do_add_ob_entry( webdriver, player_id, "ob_notes", caption, width )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+def _do_add_ob_entry( webdriver, player_id, ob_type, caption, width ):
+    """Add a new OB setup/note."""
+    select_tab( "ob{}".format( player_id ) )
+    elem = find_child( "#{}-add_{}".format( ob_type, player_id ) )
+    elem.click()
+    _do_edit_ob_entry( webdriver, player_id, ob_type, None, caption, width )
+
+# ---------------------------------------------------------------------
+
 def edit_ob_setup( webdriver, player_id, entry_no, caption, width ):
     """Edit an OB setup."""
+    _do_edit_ob_entry( webdriver, player_id, "ob_setups", entry_no, caption, width )
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def _do_edit_ob_entry( webdriver, player_id, ob_type, entry_no, caption, width ):
+    """Edit an OB setup/note."""
     # locate the requested entry and start editing it
     if entry_no is not None:
         select_tab( "ob{}".format( player_id ) )
-        elems = find_children( "#ob_setup-sortable_{} li".format( player_id ) )
+        elems = find_children( "#{}-sortable_{} li".format( ob_type, player_id ) )
         elem = elems[ entry_no ]
         ActionChains(webdriver).double_click( elem ).perform()
 
-    # edit the OB setup
+    # edit the OB setup/note
     if caption is not None:
-        elem = find_child( "#edit-ob_setup textarea" )
+        elem = find_child( "#edit-simple_note textarea" )
         elem.clear()
         elem.send_keys( caption )
     if width is not None:
-        elem = find_child( "#edit-ob_setup input[type='text']" )
+        elem = find_child( "#edit-simple_note input[type='text']" )
         elem.clear()
         elem.send_keys( width )
     click_dialog_button( "OK" )

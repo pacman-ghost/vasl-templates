@@ -34,14 +34,22 @@ def test_scenario_persistence( webapp, webdriver ):
             "SSR_WIDTH": "103",
         },
         "ob1": {
-            "OB_SETUP_1": [ { "caption": "ob setup 1a", "width": "" }, { "caption": "ob setup 1b", "width": "200px" } ],
+            "OB_SETUPS_1": [
+                { "caption": "ob setup 1a", "width": "" },
+                { "caption": "ob setup 1b", "width": "200px" }
+            ],
+            "OB_NOTES_1": [
+                { "caption": "ob note 1a", "width": "10em" },
+                { "caption": "ob note 1b", "width": "" }
+            ],
             "VEHICLES_1": [ "a russian vehicle", "another russian vehicle" ],
             "VEHICLES_WIDTH_1": "202",
             "ORDNANCE_1": [ "a russian ordnance", "another russian ordnance" ],
             "ORDNANCE_WIDTH_1": "203",
         },
         "ob2": {
-            "OB_SETUP_2": [ { "caption": "ob setup 2", "width": "" } ],
+            "OB_SETUPS_2": [ { "caption": "ob setup 2", "width": "" } ],
+            "OB_NOTES_2": [ { "caption": "ob note 2", "width": "" } ],
             "VEHICLES_2": [ "a german vehicle" ],
             "VEHICLES_WIDTH_2": "302",
             "ORDNANCE_2": [ "a german ordnance" ],
@@ -77,7 +85,9 @@ def test_scenario_persistence( webapp, webdriver ):
         for field,val in scenario_params[tab_id].items():
             if field == "SSR":
                 continue # nb: this requires special handling, we do it below
-            if field in ("OB_SETUP_1","OB_SETUP_2"):
+            if field in ("OB_SETUPS_1","OB_SETUPS_2"):
+                continue # nb: this requires special handling, we do it below
+            if field in ("OB_NOTES_1","OB_NOTES_2"):
                 continue # nb: this requires special handling, we do it below
             if field in ("VEHICLES_1","ORDNANCE_1","VEHICLES_2","ORDNANCE_2"):
                 continue # nb: this requires special handling, we do it below
@@ -91,8 +101,10 @@ def test_scenario_persistence( webapp, webdriver ):
                 assert elem.get_attribute("value") == val
     ssrs = _get_ssrs()
     assert ssrs == scenario_params["scenario"]["SSR"]
-    assert _get_ob_setups(1) == [ obs["caption"] for obs in scenario_params["ob1"]["OB_SETUP_1"] ]
-    assert _get_ob_setups(2) == [ obs["caption"] for obs in scenario_params["ob2"]["OB_SETUP_2"] ]
+    assert _get_ob_entries("ob_setups",1) == [ obs["caption"] for obs in scenario_params["ob1"]["OB_SETUPS_1"] ]
+    assert _get_ob_entries("ob_setups",2) == [ obs["caption"] for obs in scenario_params["ob2"]["OB_SETUPS_2"] ]
+    assert _get_ob_entries("ob_notes",1) == [ obs["caption"] for obs in scenario_params["ob1"]["OB_NOTES_1"] ]
+    assert _get_ob_entries("ob_notes",2) == [ obs["caption"] for obs in scenario_params["ob2"]["OB_NOTES_2"] ]
     assert _get_vo("vehicle",1) == scenario_params["ob1"]["VEHICLES_1"]
     assert _get_vo("ordnance",1) == scenario_params["ob1"]["ORDNANCE_1"]
     assert _get_vo("vehicle",2) == scenario_params["ob2"]["VEHICLES_2"]
@@ -164,12 +176,12 @@ def _get_ssrs():
     select_tab( "scenario" )
     return [ c.text for c in find_children("#ssr-sortable li") ]
 
-def _get_ob_setups( player_id ):
-    """Get the OB setup's from the UI."""
+def _get_ob_entries( ob_type, player_id ):
+    """Get the OB setup/notes from the UI."""
     select_tab( "ob{}".format( player_id ) )
     return [
         c.text
-        for c in find_children( "#ob_setup-sortable_{} li".format( player_id ) )
+        for c in find_children( "#{}-sortable_{} li".format( ob_type, player_id ) )
     ]
 
 def _get_vo( vo_type, player_id ):

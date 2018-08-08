@@ -503,13 +503,22 @@ function do_load_scenario( params )
             params_loaded[key] = true ;
             continue ;
         }
-        var player_id ;
-        if ( key === "OB_SETUP_1" || key === "OB_SETUP_2" ) {
+        var player_id, $sortable ;
+        if ( key === "OB_SETUPS_1" || key === "OB_SETUPS_2" ) {
             player_id = key.substring( key.length-1 ) ;
-            var $sortable = $( "#ob_setup-sortable_" + player_id ) ;
+            $sortable = $( "#ob_setups-sortable_" + player_id ) ;
             for ( i=0 ; i < params[key].length ; ++i )
                 do_add_ob_setup( $sortable, params[key][i] ) ;
             params_loaded[key] = true ;
+            continue ;
+        }
+        if ( key === "OB_NOTES_1" || key === "OB_NOTES_2" ) {
+            player_id = key.substring( key.length-1 ) ;
+            $sortable = $( "#ob_notes-sortable_" + player_id ) ;
+            for ( i=0 ; i < params[key].length ; ++i )
+                do_add_ob_note( $sortable, params[key][i] ) ;
+            params_loaded[key] = true ;
+            continue ;
         }
         if ( key === "VEHICLES_1" || key === "ORDNANCE_1" || key === "VEHICLES_2" || key === "ORDNANCE_2" ) {
             player_id = key.substring( key.length-1 ) ;
@@ -562,7 +571,7 @@ function do_load_scenario( params )
 function on_save_scenario()
 {
     // unload the template parameters
-    function unload_ob_setups( $sortable ) {
+    function unload_ob_entries( $sortable ) {
         var entries = [] ;
         $sortable.children("li").each( function() {
             entries.push( $(this).data( "sortable-data" ) ) ;
@@ -579,8 +588,10 @@ function on_save_scenario()
     }
     var params = {} ;
     unload_params( params, false ) ;
-    params.OB_SETUP_1 = unload_ob_setups( $("#ob_setup-sortable_1") ) ;
-    params.OB_SETUP_2 = unload_ob_setups( $("#ob_setup-sortable_2") ) ;
+    params.OB_SETUPS_1 = unload_ob_entries( $("#ob_setups-sortable_1") ) ;
+    params.OB_SETUPS_2 = unload_ob_entries( $("#ob_setups-sortable_2") ) ;
+    params.OB_NOTES_1 = unload_ob_entries( $("#ob_notes-sortable_1") ) ;
+    params.OB_NOTES_2 = unload_ob_entries( $("#ob_notes-sortable_2") ) ;
     extract_vo_names( "VEHICLES_1" ) ;
     extract_vo_names( "ORDNANCE_1" ) ;
     extract_vo_names( "VEHICLES_2" ) ;
@@ -629,7 +640,8 @@ function on_new_scenario( verbose )
 
     // reset all the template parameters
     for ( var i=1 ; i <= 2 ; ++i ) {
-        delete_all_sortable_entries( $("#ob_setup-sortable_"+i) ) ;
+        delete_all_sortable_entries( $("#ob_setups-sortable_"+i) ) ;
+        delete_all_sortable_entries( $("#ob_notes-sortable_"+i) ) ;
         delete_all_vo( "vehicle", i ) ;
         delete_all_vo( "ordnance", i ) ;
     }

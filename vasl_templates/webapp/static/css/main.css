@@ -111,11 +111,11 @@ input[type="text"] { margin-bottom: 0.25em ; }
 .ui-dialog.edit-ssr textarea { resize: none ; width: calc(100% - 4px) ; height: calc(100% - 1.25em) ; }
 .ui-dialog.edit-ssr button { margin: 0 0 0 5px ; padding: 0.1em 0.2em ; }
 
-.ui-dialog.edit-ob_setup .ui-dialog-titlebar { display: none ; }
-.ui-dialog.edit-ob_setup .ui-dialog-buttonpane { border: none ; padding: 0 ; font-size: 75% ; }
-#edit-ob_setup { padding: 2px ; }
-.ui-dialog.edit-ob_setup textarea { resize: none ; width: calc(100% - 4px) ; height: calc(100% - 3em) ; }
-.ui-dialog.edit-ob_setup button { margin: 0 0 0 5px ; padding: 0.1em 0.2em ; }
+.ui-dialog.edit-simple_note .ui-dialog-titlebar { display: none ; }
+.ui-dialog.edit-simple_note .ui-dialog-buttonpane { border: none ; padding: 0 ; font-size: 75% ; }
+#edit-simple_note { padding: 2px ; }
+.ui-dialog.edit-simple_note textarea { resize: none ; width: calc(100% - 4px) ; height: calc(100% - 3em) ; }
+.ui-dialog.edit-simple_note button { margin: 0 0 0 5px ; padding: 0.1em 0.2em ; }
 
 #select-vo { overflow: hidden ; }
 #select-vo .header { height: 2em ; }

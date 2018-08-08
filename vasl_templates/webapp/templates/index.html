@@ -88,32 +88,39 @@
 
 <div id="tabs-ob1">
     <fieldset class="tl"> <legend>OB setup</legend>
-        <div id="panel-ob_setup1" class="panel-ob_setup">
+        <div id="panel-ob_setups1" class="panel-ob_setups">
             <div class="content">
-                <div id="ob_setup-hint_1" class="ob_setup-hint"> <p>Click on the "+" below to add a new setup note. <p>To re-order the setup notes, use the mouse to drag them around. <p>Ctrl-click on a setup note to delete it, or drag it into the trashcan below. </div>
-                <ul id="ob_setup-sortable_1" class="sortable" style="display:none;"></ul>
+                <div id="ob_setups-hint_1" class="ob_setups-hint"> <p>Click on the "+" below to add a new setup note. <p>To re-order the setup notes, use the mouse to drag them around. <p>Ctrl-click on a setup note to delete it, or drag it into the trashcan below. </div>
+                <ul id="ob_setups-sortable_1" class="sortable" style="display:none;"></ul>
             </div>
             <div class="footer">
                 <div class="l">
-                    <input type="button" id="ob_setup-add_1" value="+">
-                    <img id="ob_setup-trash_1" class="ob_setup-trash" src="{{url_for('static',filename='images/trash.png')}}">
+                    <input type="button" id="ob_setups-add_1" value="+">
+                    <img id="ob_setups-trash_1" class="ob_setups-trash" src="{{url_for('static',filename='images/trash.png')}}">
                 </div>
-                <input type="button" data-id="ob_setup" value="EDIT TEMPLATE">
+                <input type="button" data-id="ob_setup" value="EDIT">
             </div>
         </div>
     </fieldset>
     <fieldset class="bl"> <legend>Notes</legend>
         <div id="panel-ob_notes1" class="panel-ob_notes">
             <div class="content">
+                <div id="ob_notes-hint_1" class="ob_notes-hint"> <p>Click on the "+" below to add a new setup note. <p>To re-order the setup notes, use the mouse to drag them around. <p>Ctrl-click on a setup note to delete it, or drag it into the trashcan below. </div>
+                <ul id="ob_notes-sortable_1" class="sortable" style="display:none;"></ul>
             </div>
             <div class="footer">
-               <input type="button" class="generate" data-id="mol" value="MOL">
-               <input type="button" class="generate" data-id="mol-p" value="MOL-P">
-               <input type="button" class="generate" data-id="pf" value="PF">
-               <input type="button" class="generate" data-id="psk" value="PSK">
-               <input type="button" class="generate" data-id="atmm" value="ATMM">
-               <input type="button" class="generate" data-id="baz" value="BAZ">
-               <input type="button" class="generate" data-id="piat" value="PIAT">
+                <div class="l">
+                    <input type="button" id="ob_notes-add_1" value="+">
+                    <img id="ob_notes-trash_1" class="ob_notes-trash" src="{{url_for('static',filename='images/trash.png')}}">
+                </div>
+                <input type="button" data-id="ob_note" value="EDIT">
+                <input type="button" class="generate" data-id="mol" value="MOL">
+                <input type="button" class="generate" data-id="mol-p" value="MOL-P">
+                <input type="button" class="generate" data-id="pf" value="PF">
+                <input type="button" class="generate" data-id="psk" value="PSK">
+                <input type="button" class="generate" data-id="atmm" value="ATMM">
+                <input type="button" class="generate" data-id="baz" value="BAZ">
+                <input type="button" class="generate" data-id="piat" value="PIAT">
             </div>
         </div>
     </fieldset>
@@ -165,7 +172,7 @@
 
 <div id="edit-template" style="display:none;"> <textarea></textarea> </div>
 <div id="edit-ssr" style="display:none;"> <b>Enter the SSR content:</b> <textarea></textarea> </div>
-<div id="edit-ob_setup" style="display:none;">
+<div id="edit-simple_note" style="display:none;">
     <textarea></textarea>
     <label>Width:</label> <input type="text" size="5">
 </div>
@@ -195,7 +202,7 @@ gOrdnanceListingsUrl = "{{url_for('get_ordnance_listings')}}" ;
 <script src="{{url_for('static',filename='main.js')}}"></script>
 <script src="{{url_for('static',filename='snippets.js')}}"></script>
 <script src="{{url_for('static',filename='ssr.js')}}"></script>
-<script src="{{url_for('static',filename='ob_setup.js')}}"></script>
+<script src="{{url_for('static',filename='simple_notes.js')}}"></script>
 <script src="{{url_for('static',filename='vehicles_ordnance.js')}}"></script>
 <script src="{{url_for('static',filename='sortable.js')}}"></script>
 <script src="{{url_for('static',filename='utils.js')}}"></script>

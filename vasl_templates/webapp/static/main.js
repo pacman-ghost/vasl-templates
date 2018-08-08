@@ -88,22 +88,37 @@ $(document).ready( function () {
     } ) ;
     enable_ctrl_enter( $("#edit-ssr"), "OK" ) ;
 
-    // initialize OB setup controls
-    init_sortable( $("#ob_setup-sortable_1"),
+    // initialize the OB setups
+    init_sortable( $("#ob_setups-sortable_1"),
         function() { add_ob_setup(1) ; },
         edit_ob_setup
     ) ;
-    $("#panel-ob_setup1 input[type='button'][data-id='ob_setup']").click( function() {
+    $("#panel-ob_setups1 input[type='button'][data-id='ob_setup']").click( function() {
         edit_template( "ob_setup" ) ;
     } ) ;
-    init_sortable( $("#ob_setup-sortable_2"),
+    init_sortable( $("#ob_setups-sortable_2"),
         function() { add_ob_setup(2) ; },
         edit_ob_setup
     ) ;
-    $("#panel-ob_setup2 input[type='button'][data-id='ob_setup']").click( function() {
+    $("#panel-ob_setups2 input[type='button'][data-id='ob_setup']").click( function() {
         edit_template( "ob_setup" ) ;
     } ) ;
-    enable_ctrl_enter( $("#edit-ob_setup"), "OK" ) ;
+
+    // initialize the OB notes
+    init_sortable( $("#ob_notes-sortable_1"),
+        function() { add_ob_note(1) ; },
+        edit_ob_note
+    ) ;
+    $("#panel-ob_notes1 input[type='button'][data-id='ob_note']").click( function() {
+        edit_template( "ob_note" ) ;
+    } ) ;
+    init_sortable( $("#ob_notes-sortable_2"),
+        function() { add_ob_note(2) ; },
+        edit_ob_note
+    ) ;
+    $("#panel-ob_notes2 input[type='button'][data-id='ob_note']").click( function() {
+        edit_template( "ob_note" ) ;
+    } ) ;
 
     // initialize vehicle controls (1)
     $("#vehicle-sortable_1").sortable( { connectWith: "#vehicle-trash_1", cursor: "move" } ) ;
@@ -259,6 +274,9 @@ $(document).ready( function () {
         edit_template( $(this).attr("data-id") ) ;
     } ) ;
     enable_ctrl_enter( $("#edit-template"), "Close" ) ;
+
+    // enable Ctrl-Enter when editing simple notes
+    enable_ctrl_enter( $("#edit-simple_note"), "OK" ) ;
 
     // initialize hotkeys
     init_hotkeys() ;

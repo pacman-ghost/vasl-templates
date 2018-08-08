@@ -13,8 +13,8 @@ from selenium.common.exceptions import NoSuchElementException, StaleElementRefer
 # standard templates
 _STD_TEMPLATES = {
     "scenario": [ "scenario", "players", "victory_conditions", "ssr" ],
-    "ob1": [ "ob_setup_1", "vehicles_1", "ordnance_1" ],
-    "ob2": [ "ob_setup_2", "vehicles_2", "ordnance_2" ],
+    "ob1": [ "ob_setup_1", "ob_note_1", "vehicles_1", "ordnance_1" ],
+    "ob2": [ "ob_setup_2", "ob_note_2", "vehicles_2", "ordnance_2" ],
 }
 
 # nationality-specific templates
@@ -47,6 +47,8 @@ def for_each_template( func ):
             select_tab( tab_id )
             if template_id.startswith( "ob_setup_" ):
                 template_id2 = "ob_setup"
+            elif template_id.startswith( "ob_note_" ):
+                template_id2 = "ob_note"
             elif template_id.startswith( "vehicles_" ):
                 template_id2 = "vehicles"
             elif template_id.startswith( "ordnance_" ):
@@ -54,7 +56,7 @@ def for_each_template( func ):
             else:
                 template_id2 = template_id
             func( template_id2, template_id )
-            if template_id not in ("ob_setup_2","vehicles_2","ordnance_2"):
+            if template_id not in ("ob_setup_2","ob_note_2","vehicles_2","ordnance_2"):
                 templates_to_test.remove( template_id2 )
 
     # test the nationality-specific templates
@@ -88,7 +90,7 @@ def select_menu_option( menu_id ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def set_template_params( params ):
+def set_template_params( params ): #pylint: disable=too-many-branches
     """Set template parameters."""
 
     for key,val in params.items():
@@ -101,13 +103,22 @@ def set_template_params( params ):
                 add_ssr( _webdriver, ssr )
             continue
 
-        # check for OB set up (these require special handling)
-        if key in ("OB_SETUP_1","OB_SETUP_2"):
+        # check for OB setups (these require special handling)
+        if key in ("OB_SETUPS_1","OB_SETUPS_2"):
             # add them in (nb: we don't consider any existing OB setup's)
-            from vasl_templates.webapp.tests.test_ob_setup import add_ob_setup #pylint: disable=cyclic-import
+            from vasl_templates.webapp.tests.test_ob import add_ob_setup #pylint: disable=cyclic-import
             player_id = int( key[-1] )
             for entry in val:
                 add_ob_setup( _webdriver, player_id, entry.get("caption",""), entry.get("width","") )
+            continue
+
+        # check for OB notes (these require special handling)
+        if key in ("OB_NOTES_1","OB_NOTES_2"):
+            from vasl_templates.webapp.tests.test_ob import add_ob_note #pylint: disable=cyclic-import
+            # add them in (nb: we don't consider any existing OB notes)
+            player_id = int( key[-1] )
+            for entry in val:
+                add_ob_note( _webdriver, player_id, entry.get("caption",""), entry.get("width","") )
             continue
 
         # check for vehicles/ordnance (these require special handling)
