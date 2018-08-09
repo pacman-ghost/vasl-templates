@@ -1,12 +1,12 @@
 """ Test HTML snippet generation. """
 
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
 
-from vasl_templates.webapp.tests.test_ob import add_ob_setup, add_ob_note
 from vasl_templates.webapp.tests.utils import select_tab, set_template_params, get_clipboard
-from vasl_templates.webapp.tests.utils import get_stored_msg, dismiss_notifications, find_child, find_children
-from vasl_templates.webapp.tests.utils import for_each_template, wait_for, click_dialog_button
+from vasl_templates.webapp.tests.utils import \
+    get_stored_msg, dismiss_notifications, find_child, \
+    for_each_template, wait_for, add_simple_note, edit_simple_note, \
+    get_sortable_entry_count, generate_sortable_entry_snippet, drag_sortable_entry_to_trash
 
 # ---------------------------------------------------------------------
 
@@ -16,9 +16,10 @@ def test_scenario_snippets( webapp, webdriver ):
     # initialize
     webdriver.get( webapp.url_for( "main", store_msgs=1 ) )
     select_tab( "scenario" )
+    btn = find_child( "input.generate[data-id='scenario']" )
 
     # generate a SCENARIO snippet
-    _test_snippet( webdriver, "scenario", {
+    _test_snippet( btn, {
         "SCENARIO_NAME": "my <i>cool</i> scenario",
         "SCENARIO_LOCATION": "right <u>here</u>",
         "SCENARIO_DATE": "01/02/1942",
@@ -28,7 +29,7 @@ def test_scenario_snippets( webapp, webdriver ):
     )
 
     # generate a SCENARIO snippet with some fields missing
-    _test_snippet( webdriver, "scenario", {
+    _test_snippet( btn, {
         "SCENARIO_NAME": "my scenario",
         "SCENARIO_LOCATION": None,
         "SCENARIO_DATE": None,
@@ -38,7 +39,7 @@ def test_scenario_snippets( webapp, webdriver ):
     )
 
     # generate a SCENARIO snippet with all fields missing
-    _test_snippet( webdriver, "scenario", {
+    _test_snippet( btn, {
         "SCENARIO_NAME": None,
         "SCENARIO_LOCATION": None,
         "SCENARIO_DATE": None,
@@ -48,7 +49,7 @@ def test_scenario_snippets( webapp, webdriver ):
     )
 
     # generate a SCENARIO snippet with a snippet width
-    _test_snippet( webdriver, "scenario", {
+    _test_snippet( btn, {
         "SCENARIO_NAME": "test",
         "SCENARIO_LOCATION": "here",
         "SCENARIO_DATE": "01/02/1942",
@@ -58,7 +59,7 @@ def test_scenario_snippets( webapp, webdriver ):
         None
     )
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# ---------------------------------------------------------------------
 
 def test_vc_snippets( webapp, webdriver ):
     """Test HTML snippet generation."""
@@ -66,9 +67,10 @@ def test_vc_snippets( webapp, webdriver ):
     # initialize
     webdriver.get( webapp.url_for( "main", store_msgs=1 ) )
     select_tab( "scenario" )
+    btn = find_child( "input.generate[data-id='victory_conditions']" )
 
     # generate a VC snippet
-    _test_snippet( webdriver, "victory_conditions", {
+    _test_snippet( btn, {
         "VICTORY_CONDITIONS": "Kill 'Em <i>All</i>!",
     },
         "VC: [Kill 'Em <i>All</i>!]",
@@ -76,7 +78,7 @@ def test_vc_snippets( webapp, webdriver ):
     )
 
     # generate an empty VC snippet
-    _test_snippet( webdriver, "victory_conditions", {
+    _test_snippet( btn, {
         "VICTORY_CONDITIONS": "",
     },
         "VC: []",
@@ -84,7 +86,7 @@ def test_vc_snippets( webapp, webdriver ):
     )
 
     # generate a VC snippet with a width
-    _test_snippet( webdriver, "victory_conditions", {
+    _test_snippet( btn, {
         "VICTORY_CONDITIONS": "Kill 'Em All!",
         "VICTORY_CONDITIONS_WIDTH": "100px",
     },
@@ -92,7 +94,7 @@ def test_vc_snippets( webapp, webdriver ):
         None
     )
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# ---------------------------------------------------------------------
 
 def test_scenario_notes_snippets( webapp, webdriver ):
     """Test HTML snippet generation."""
@@ -102,59 +104,22 @@ def test_scenario_notes_snippets( webapp, webdriver ):
     select_tab( "scenario" )
 
     # add some scenario notes and check their snippets
-    def check_snippet( entry_no, expected ):
-        """Check the snippet for a scenario note."""
-        elems = find_children( "#scenario_notes-sortable li input[type='button']" )
-        elems[entry_no].click()
-        assert get_clipboard() == expected
-    _add_scenario_note( webdriver, "scenario <i>note</i> #1", None )
-    _add_scenario_note( webdriver, "scenario note #2", "100px" )
-    check_snippet( 0, "[scenario <i>note</i> #1]" )
-    check_snippet( 1, "[scenario note #2] (width=[100px])" )
+    sortable = find_child( "#scenario_notes-sortable" )
+    add_simple_note( sortable, "scenario <i>note</i> #1", None )
+    add_simple_note( sortable, "scenario note #2", "100px" )
+    assert generate_sortable_entry_snippet( sortable, 0 ) == "[scenario <i>note</i> #1]"
+    assert generate_sortable_entry_snippet( sortable, 1 ) == "[scenario note #2] (width=[100px])"
 
     # delete a scenario note by dragging it into the trash
-    def count_entries():
-        """Count the number of scenario notes."""
-        elems = find_children( "#scenario_notes-sortable li" )
-        return len(elems)
-    assert count_entries() == 2
-    elems = find_children( "#scenario_notes-sortable li" )
-    trash = find_child( "#scenario_notes-trash" )
-    ActionChains(webdriver).drag_and_drop( elems[0], trash ).perform()
-    assert count_entries() == 1
+    assert get_sortable_entry_count( sortable ) == 2
+    drag_sortable_entry_to_trash( sortable, 0 )
+    assert get_sortable_entry_count( sortable ) == 1
 
     # delete scenario note by emptying its caption
-    _edit_scenario_note( webdriver, 0, "", None )
-    click_dialog_button( "OK" ) # nb: confirm the deletion
-    assert count_entries() == 0
+    edit_simple_note( sortable, 0, "", None )
+    assert get_sortable_entry_count( sortable ) == 0
 
-def _add_scenario_note( webdriver, caption, width ): #FIXME! move to utils
-    """Add a new scenario note."""
-    elem = find_child( "#scenario_notes-add" )
-    elem.click()
-    _edit_scenario_note( webdriver, None, caption, width )
-
-def _edit_scenario_note( webdriver, entry_no, caption, width ): #FIXME! move to utils
-    """Edit a scenario note."""
-
-    # locate the requested entry and start editing it
-    if entry_no is not None:
-        elems = find_children( "#scenario_notes-sortable li" )
-        elem = elems[ entry_no ]
-        ActionChains(webdriver).double_click( elem ).perform()
-
-    # edit the scenario note
-    if caption is not None:
-        elem = find_child( "#edit-simple_note textarea" )
-        elem.clear()
-        elem.send_keys( caption )
-    if width is not None:
-        elem = find_child( "#edit-simple_note input[type='text']" )
-        elem.clear()
-        elem.send_keys( width )
-    click_dialog_button( "OK" )
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# ---------------------------------------------------------------------
 
 def test_players_snippets( webapp, webdriver ):
     """Test HTML snippet generation."""
@@ -162,9 +127,10 @@ def test_players_snippets( webapp, webdriver ):
     # initialize
     webdriver.get( webapp.url_for( "main", store_msgs=1 ) )
     select_tab( "scenario" )
+    btn = find_child( "input.generate[data-id='players']" )
 
     # generate a PLAYERS snippet
-    _test_snippet( webdriver, "players", {
+    _test_snippet( btn, {
         "PLAYER_1": "french",
         "PLAYER_1_ELR": "1",
         "PLAYER_1_SAN": "2",
@@ -177,46 +143,12 @@ def test_players_snippets( webapp, webdriver ):
     )
 
     # generate a PLAYERS snippet with both players the same nationality
-    _test_snippet( webdriver, "players", {
+    _test_snippet( btn, {
         "PLAYER_1": "british",
         },
         "player1=[british:British] ; ELR=[1] ; SAN=[2] | player2=[british:British] ; ELR=[3] ; SAN=[4]",
         [ "Both players have the same nationality!" ],
     )
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-def _test_snippet( webdriver, template_id, params, expected, expected2 ): #pylint: disable=unused-argument
-    """Do a single test."""
-
-    # set the template parameters
-    set_template_params( params )
-
-    # generate the snippet
-    submit = find_child( "input.generate[data-id='{}']".format(template_id) )
-    submit.click()
-    snippet = get_clipboard()
-    lines = [ l.strip() for l in snippet.split("\n") ]
-    snippet = " | ".join( l for l in lines if l )
-    assert snippet == expected
-
-    # check warnings for mandatory parameters
-    last_warning = get_stored_msg( "_last-warning_" ) or ""
-    if isinstance( expected2, list):
-        # check for mandatory parameters
-        param_names = [ "scenario name", "scenario location", "scenario date" ]
-        for pname in param_names:
-            if pname in expected2:
-                assert pname in last_warning
-            else:
-                assert pname not in last_warning
-    elif isinstance(expected2, str):
-        # check for a specific error message
-        assert expected2 == last_warning
-    else:
-        # make sure there was no warning message
-        assert expected2 is None
-        assert not last_warning
 
 # ---------------------------------------------------------------------
 
@@ -225,6 +157,14 @@ def test_edit_templates( webapp, webdriver ):
 
     # initialize
     webdriver.get( webapp.url_for( "main", edit_template_links=1 ) )
+    ob_setups = {
+        1: find_child( "#ob_setups-sortable_1" ),
+        2: find_child( "#ob_setups-sortable_2" )
+    }
+    ob_notes = {
+        1: find_child( "#ob_notes-sortable_1" ),
+        2: find_child( "#ob_notes-sortable_2" )
+    }
 
     # try uploading a customized version of each template
     def edit_template( template_id ):
@@ -257,8 +197,9 @@ def test_edit_templates( webapp, webdriver ):
     edit_template( "scenario_note" )
 
     # check that the new template is being used
-    _add_scenario_note( webdriver, "scenario note (ignored)", None )
-    elem = find_child( "#scenario_notes-sortable li input[type='button']" )
+    sortable = find_child( "#scenario_notes-sortable" )
+    add_simple_note( sortable, "scenario note (ignored)", None )
+    elem = find_child( "li input[type='button']", sortable )
     elem.click()
     assert get_clipboard() == "EDITED TEMPLATE: scenario_note"
 
@@ -270,8 +211,10 @@ def test_edit_templates( webapp, webdriver ):
 
     # check that the new template is being used
     for player_id in range(1,2+1):
-        add_ob_setup( webdriver, player_id, "ob setup (ignored)", None )
-        elem = find_child( "#ob_setups-sortable_{} li input[type='button']".format( player_id ) )
+        select_tab( "ob{}".format( player_id ) )
+        sortable = ob_setups[ player_id ]
+        add_simple_note( sortable, "ob setup (ignored)", None )
+        elem = find_child( "li input[type='button']", sortable )
         elem.click()
         assert get_clipboard() == "EDITED TEMPLATE: ob_setup"
 
@@ -283,7 +226,40 @@ def test_edit_templates( webapp, webdriver ):
 
     # check that the new template is being used
     for player_id in range(1,2+1):
-        add_ob_note( webdriver, player_id, "ob note (ignored)", None )
-        elem = find_child( "#ob_notes-sortable_{} li input[type='button']".format( player_id ) )
+        select_tab( "ob{}".format( player_id ) )
+        sortable = ob_notes[ player_id ]
+        add_simple_note( sortable, "ob note (ignored)", None )
+        elem = find_child( "li input[type='button']", sortable )
         elem.click()
         assert get_clipboard() == "EDITED TEMPLATE: ob_note"
+
+# ---------------------------------------------------------------------
+
+def _test_snippet( btn, params, expected, expected2 ):
+    """Do a single test."""
+
+    # set the template parameters and generate the snippet
+    set_template_params( params )
+    btn.click()
+    snippet = get_clipboard()
+    lines = [ l.strip() for l in snippet.split("\n") ]
+    snippet = " | ".join( l for l in lines if l )
+    assert snippet == expected
+
+    # check warnings for mandatory parameters
+    last_warning = get_stored_msg( "_last-warning_" ) or ""
+    if isinstance( expected2, list):
+        # check for mandatory parameters
+        param_names = [ "scenario name", "scenario location", "scenario date" ]
+        for pname in param_names:
+            if pname in expected2:
+                assert pname in last_warning
+            else:
+                assert pname not in last_warning
+    elif isinstance(expected2, str):
+        # check for a specific error message
+        assert expected2 == last_warning
+    else:
+        # make sure there was no warning message
+        assert expected2 is None
+        assert not last_warning

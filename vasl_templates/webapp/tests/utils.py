@@ -4,10 +4,12 @@ import os
 import urllib.request
 import json
 import time
+import re
 
 from PyQt5.QtWidgets import QApplication
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 
 # standard templates
@@ -45,28 +47,27 @@ def for_each_template( func ): #pylint: disable=too-many-branches
     for tab_id,template_ids in _STD_TEMPLATES.items():
         for template_id in template_ids:
             select_tab( tab_id )
+            orig_template_id = template_id
             if template_id == "scenario_notes":
-                template_id2 = "scenario_note"
+                template_id = "scenario_note"
             elif template_id.startswith( "ob_setup_" ):
-                template_id2 = "ob_setup"
+                template_id = "ob_setup"
             elif template_id.startswith( "ob_note_" ):
-                template_id2 = "ob_note"
+                template_id = "ob_note"
             elif template_id.startswith( "vehicles_" ):
-                template_id2 = "vehicles"
+                template_id = "vehicles"
             elif template_id.startswith( "ordnance_" ):
-                template_id2 = "ordnance"
-            else:
-                template_id2 = template_id
-            func( template_id2, template_id )
-            if template_id not in ("ob_setup_2","ob_note_2","vehicles_2","ordnance_2"):
-                templates_to_test.remove( template_id2 )
+                template_id = "ordnance"
+            func( template_id, orig_template_id )
+            if orig_template_id not in ("ob_setup_2","ob_note_2","vehicles_2","ordnance_2"):
+                templates_to_test.remove( template_id )
 
     # test the nationality-specific templates
     # NOTE: The buttons are the same on the OB1 and OB2 tabs, so we only test for player 1.
+    player1_sel = Select( find_child( "select[name='PLAYER_1']" ) )
     for nat,template_ids in _NAT_TEMPLATES.items():
         select_tab( "scenario" )
-        sel = Select( find_child( "select[name='PLAYER_1']" ) )
-        sel.select_by_value( nat )
+        player1_sel.select_by_value( nat )
         select_tab( "ob1" )
         for template_id in template_ids:
             func( template_id, template_id )
@@ -95,14 +96,17 @@ def select_menu_option( menu_id ):
 def set_template_params( params ): #pylint: disable=too-many-branches
     """Set template parameters."""
 
+    def add_sortable_entries( sortable, entries ):
+        """Add simple notes to a sortable."""
+        for entry in entries:
+            add_simple_note( sortable, entry.get("caption",""), entry.get("width","") )
+
     for key,val in params.items():
 
         # check for scenario notes (these require special handling)
         if key == "SCENARIO_NOTES":
             # add them in (nb: we don't consider any existing scenario notes)
-            from vasl_templates.webapp.tests.test_snippets import _add_scenario_note #pylint: disable=cyclic-import
-            for entry in val:
-                _add_scenario_note( _webdriver, entry.get("caption",""), entry.get("width","") )
+            add_sortable_entries( find_child("#scenario_notes-sortable"), val )
             continue
 
         # check for SSR's (these require special handling)
@@ -113,22 +117,12 @@ def set_template_params( params ): #pylint: disable=too-many-branches
                 add_ssr( _webdriver, ssr )
             continue
 
-        # check for OB setups (these require special handling)
-        if key in ("OB_SETUPS_1","OB_SETUPS_2"):
-            # add them in (nb: we don't consider any existing OB setup's)
-            from vasl_templates.webapp.tests.test_ob import add_ob_setup #pylint: disable=cyclic-import
-            player_id = int( key[-1] )
-            for entry in val:
-                add_ob_setup( _webdriver, player_id, entry.get("caption",""), entry.get("width","") )
-            continue
-
-        # check for OB notes (these require special handling)
-        if key in ("OB_NOTES_1","OB_NOTES_2"):
-            from vasl_templates.webapp.tests.test_ob import add_ob_note #pylint: disable=cyclic-import
-            # add them in (nb: we don't consider any existing OB notes)
-            player_id = int( key[-1] )
-            for entry in val:
-                add_ob_note( _webdriver, player_id, entry.get("caption",""), entry.get("width","") )
+        # check for OB setups/notes (these require special handling)
+        if key in ("OB_SETUPS_1","OB_SETUPS_2","OB_NOTES_1","OB_NOTES_2"):
+            # add them in (nb: we don't consider any existing OB setup/note's)
+            mo = re.search( r"^(.*)_(\d)$", key )
+            sortable = find_child( "#{}-sortable_{}".format( mo.group(1).lower(), mo.group(2) ) )
+            add_sortable_entries( sortable, val )
             continue
 
         # check for vehicles/ordnance (these require special handling)
@@ -168,6 +162,70 @@ def get_nationalities( webapp ):
 
 # ---------------------------------------------------------------------
 
+def add_simple_note( sortable, caption, width ):
+    """Add a new simple note to a sortable."""
+    edit_simple_note( sortable, None, caption, width )
+
+def edit_simple_note( sortable, entry_no, caption, width ):
+    """Edit a simple note in a sortable."""
+
+    # figure out if we're creating a new entry, or editing an existing one
+    if entry_no is None:
+        # create a new entry
+        add_button = find_sortable_helper( sortable, "add" )
+        add_button.click()
+    else:
+        # edit an existing entry
+        elems = find_children( "li", sortable )
+        ActionChains(_webdriver).double_click( elems[entry_no] ).perform()
+
+    # edit the note
+    if caption is not None:
+        elem = find_child( "#edit-simple_note textarea" )
+        elem.clear()
+        elem.send_keys( caption )
+    if width is not None:
+        elem = find_child( "#edit-simple_note input[type='text']" )
+        elem.clear()
+        elem.send_keys( width )
+    click_dialog_button( "OK" )
+    if caption == "":
+        # an empty caption will delete the entry - confirm the deletion
+        click_dialog_button( "OK" )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def get_sortable_entry_text( sortable ):
+    """Get the text for each entry in a sortable."""
+    return [ c.text for c in find_children("li", sortable) ]
+
+def get_sortable_entry_count( sortable ):
+    """Return the number of entries in a sortable."""
+    return len( find_children( "li", sortable ) )
+
+def generate_sortable_entry_snippet( sortable, entry_no ):
+    """Generate the snippet for a sortable entry."""
+    elems = find_children( "li input[type='button']", sortable )
+    elems[entry_no].click()
+    return get_clipboard()
+
+def drag_sortable_entry_to_trash( sortable, entry_no ):
+    """Draw a sortable entry to the trash."""
+    trash = find_sortable_helper( sortable, "trash" )
+    elems = find_children( "li", sortable )
+    ActionChains(_webdriver).drag_and_drop( elems[entry_no], trash ).perform()
+
+def find_sortable_helper( sortable, tag ):
+    """Find a sortable's helper element."""
+    sortable_id = sortable.get_attribute( "id" )
+    mo = re.search( r"^(.+)-sortable(_\d)?$", sortable_id )
+    helper_id = "#{}-{}".format( mo.group(1), tag )
+    if mo.group(2):
+        helper_id += mo.group(2)
+    return find_child( helper_id )
+
+# ---------------------------------------------------------------------
+
 def get_stored_msg( msg_id ):
     """Get a message stored for us by the front-end."""
     elem = find_child( "#"+msg_id )
@@ -189,6 +247,7 @@ def set_stored_msg( msg_id, val ):
 def find_child( sel, parent=None ):
     """Find a single child element."""
     try:
+        # NOTE: I tried caching these results, but it didn't help the tests run any faster :-(
         return (parent if parent else _webdriver).find_element_by_css_selector( sel )
     except NoSuchElementException:
         return None

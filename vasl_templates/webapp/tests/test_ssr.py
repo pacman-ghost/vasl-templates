@@ -4,8 +4,8 @@ import html
 
 from selenium.webdriver.common.action_chains import ActionChains
 
-from vasl_templates.webapp.tests.utils import select_tab, find_child, find_children
-from vasl_templates.webapp.tests.utils import get_clipboard, dismiss_notifications, click_dialog_button
+from vasl_templates.webapp.tests.utils import \
+    select_tab, find_child, find_children, get_clipboard, dismiss_notifications, click_dialog_button
 
 # ---------------------------------------------------------------------
 
@@ -18,6 +18,7 @@ def test_ssr( webapp, webdriver ):
 
     # initialize
     expected = []
+    generate_snippet_btn = find_child( "input[type='button'][data-id='ssr']" )
     def _add_ssr( val ):
         expected.append( val )
         add_ssr( webdriver, val )
@@ -28,8 +29,7 @@ def test_ssr( webapp, webdriver ):
         check_snippet()
     def check_snippet( width=None ):
         """Check the generated SSR snippet."""
-        btn = find_child( "input[type='button'][data-id='ssr']" )
-        btn.click()
+        generate_snippet_btn.click()
         val = "\n".join( "(*) [{}]".format(e) for e in expected )
         if width:
             val += "\nwidth = [{}]".format( width )
@@ -77,7 +77,8 @@ def edit_ssr( webdriver, ssr_no, val ):
 
     # locate the requested SSR and start editing it
     if ssr_no is not None:
-        elems = find_children( "#ssr-sortable li" )
+        sortable = find_child( "#ssr-sortable" )
+        elems = find_children( "li", sortable )
         elem = elems[ ssr_no ]
         ActionChains(webdriver).double_click( elem ).perform()
 

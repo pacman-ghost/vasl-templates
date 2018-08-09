@@ -75,7 +75,7 @@ def test_vo_reports( webapp, webdriver ):
                 fname = os.path.join( check_dir, fname )
                 assert open(fname,"r",encoding="utf-8").read() == report
 
-# ---------------------------------------------------------------------
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def get_vo_report( webapp, webdriver, nat, vo_type, year ):
     """Get a vehicle/ordnance report.

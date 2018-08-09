@@ -8,10 +8,9 @@ import base64
 from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp import snippets
-from vasl_templates.webapp.tests import test_ob
-from vasl_templates.webapp.tests.utils import select_tab, select_menu_option, dismiss_notifications
-from vasl_templates.webapp.tests.utils import get_clipboard, get_stored_msg, set_stored_msg
-from vasl_templates.webapp.tests.utils import for_each_template, find_child, find_children
+from vasl_templates.webapp.tests.utils import \
+    select_tab, select_menu_option, dismiss_notifications, get_clipboard, \
+    get_stored_msg, set_stored_msg, add_simple_note, for_each_template, find_child, find_children
 
 # ---------------------------------------------------------------------
 
@@ -26,22 +25,8 @@ def test_individual_files( webapp, webdriver ):
         """Test uploading a customized version of the template."""
         # make sure generating a snippet returns something
         dismiss_notifications()
-        if template_id == "scenario_note":
-            from vasl_templates.webapp.tests.test_snippets import _add_scenario_note
-            select_tab( "scenario" )
-            _add_scenario_note( webdriver, "test scenario note", None )
-            elems = find_children( "#scenario_notes-sortable li input[type='button']" )
-            elem = elems[0]
-        elif template_id in ("ob_setup","ob_note"):
-            select_tab( "ob1" )
-            func = getattr( test_ob, "add_"+template_id )
-            func( webdriver, 1, "test {}".format(template_id), None )
-            elems = find_children( "#{}s-sortable_1 li input[type='button']".format( template_id ) )
-            elem = elems[0]
-        else:
-            elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
-        elem.click()
-        assert get_clipboard() != ""
+        elem, clipboard = _generate_snippet( template_id, orig_template_id )
+        assert clipboard != ""
         # upload a new template
         fname = template_id + ".j2"
         set_stored_msg( "template_pack_persistence",
@@ -84,9 +69,7 @@ def test_zip_files( webapp, webdriver ):
     assert get_stored_msg("_last-error_") is None
 
     # check that the uploaded templates are being used
-    _check_snippets( webdriver,
-        lambda tid: "Customized {}.".format( tid.upper() )
-    )
+    _check_snippets( lambda tid: "Customized {}.".format( tid.upper() ) )
 
     # upload only part of template pack
     _upload_template_pack( zip_data[ : int(len(zip_data)/2) ] )
@@ -100,7 +83,7 @@ def test_zip_files( webapp, webdriver ):
     # "open file" dialog has finished, but before we read the file data (i.e. we don't execute
     # that bit of code since we're using the "template_pack_persistence" hack).
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# ---------------------------------------------------------------------
 
 def test_new_default_template_pack( webapp, webdriver, monkeypatch ):
     """Test changing the default template pack."""
@@ -113,11 +96,9 @@ def test_new_default_template_pack( webapp, webdriver, monkeypatch ):
     webdriver.get( webapp.url_for( "main" ) )
 
     # check that the new templates are being used
-    _check_snippets( webdriver,
-        lambda tid: "New default {}.".format( tid.upper() )
-    )
+    _check_snippets( lambda tid: "New default {}.".format( tid.upper() ) )
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# ---------------------------------------------------------------------
 
 def test_nationality_data( webapp, webdriver ):
     """Test a template pack with nationality data."""
@@ -127,15 +108,12 @@ def test_nationality_data( webapp, webdriver ):
     select_tab( "scenario" )
 
     # select the British as player 1
-    sel = Select(
-        find_child( "select[name='PLAYER_1']" )
-    )
-    sel.select_by_value( "british" )
-    elem = find_child( "a[href='#tabs-ob1']" )
-    assert elem.text.strip() == "British OB"
-    sel = Select( find_child( "select[name='PLAYER_1']" ) )
-    assert sel.first_selected_option.text == "British"
-    players = [ o.text for o in sel.options ]
+    player1_sel = Select( find_child( "select[name='PLAYER_1']" ) )
+    player1_sel.select_by_value( "british" )
+    tab_ob1 = find_child( "a[href='#tabs-ob1']" )
+    assert tab_ob1.text.strip() == "British OB"
+    assert player1_sel.first_selected_option.text == "British"
+    players = [ o.text for o in player1_sel.options ]
 
     # upload a template pack that contains nationality data
     zip_data = _make_zip_from_files( "with-nationality-data" )
@@ -143,45 +121,16 @@ def test_nationality_data( webapp, webdriver ):
     assert get_stored_msg("_last-error_") is None
 
     # check that the UI was updated correctly
-    elem = find_child( "a[href='#tabs-ob1']" )
-    assert elem.text.strip() == "Poms! OB"
-    elem = find_child( "select[name='PLAYER_1']" )
-    assert Select(elem).first_selected_option.text == "Poms!"
+    assert tab_ob1.text.strip() == "Poms! OB"
+    assert player1_sel.first_selected_option.text == "Poms!"
 
     # check that there is a new Korean player
-    players2 = [ o.text for o in sel.options ]
+    players2 = [ o.text for o in player1_sel.options ]
     players2.remove( "Korean" )
     players2 = [ "British" if o == "Poms!" else o for o in players2 ]
     assert players2 == players
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-def _check_snippets( webdriver, expected ):
-    """Check that snippets are being generated as expected."""
-
-    def test_template( template_id, orig_template_id ):
-        """Test each template."""
-        dismiss_notifications()
-        # FIXME! this code is duplicated above
-        if template_id == "scenario_note":
-            from vasl_templates.webapp.tests.test_snippets import _add_scenario_note
-            select_tab( "scenario" )
-            _add_scenario_note( webdriver, "test scenario note", None )
-            elems = find_children( "#scenario_notes-sortable li input[type='button']" )
-            elem = elems[0]
-        elif template_id in ("ob_setup","ob_note"):
-            select_tab( "ob1" )
-            func = getattr( test_ob, "add_"+template_id )
-            func( webdriver, 1, "test {}".format(template_id), None )
-            elems = find_children( "#{}s-sortable_1 li input[type='button']".format( template_id ) )
-            elem = elems[0]
-        else:
-            elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
-        elem.click()
-        assert get_clipboard() == expected( template_id )
-    for_each_template( test_template )
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# ---------------------------------------------------------------------
 
 def _make_zip( files ):
     """Generate a ZIP file."""
@@ -204,6 +153,44 @@ def _make_zip_from_files( dname ):
             with open( fname, "r" ) as fp:
                 files[fname2] = fp.read()
     return _make_zip( files )
+
+# ---------------------------------------------------------------------
+
+def _check_snippets( expected ):
+    """Check that snippets are being generated as expected."""
+
+    def test_template( template_id, orig_template_id ):
+        """Test each template."""
+        dismiss_notifications()
+        _, clipboard = _generate_snippet( template_id, orig_template_id )
+        assert clipboard == expected( template_id )
+    for_each_template( test_template )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def _generate_snippet( template_id, orig_template_id ):
+    """Generate a snippet for the specified template."""
+
+    if template_id == "scenario_note":
+        # create a scenario note and generate a snippet for it
+        sortable = find_child( "#scenario_notes-sortable" )
+        add_simple_note( sortable, "test scenario note", None )
+        elems = find_children( "li input[type='button']", sortable )
+        elem = elems[0]
+    elif template_id in ("ob_setup","ob_note"):
+        # create a OB setup/note and generate a snippet for it
+        select_tab( "ob1" )
+        sortable = find_child( "#{}s-sortable_1".format( template_id ) )
+        add_simple_note( sortable, "test {}".format(template_id), None )
+        elems = find_children( "#{}s-sortable_1 li input[type='button']".format( template_id ) )
+        elem = elems[0]
+    else:
+        # generate a snippet for the specified template
+        elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
+    elem.click()
+    return elem, get_clipboard()
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def _upload_template_pack( zip_data ):
     """Upload a template pack."""

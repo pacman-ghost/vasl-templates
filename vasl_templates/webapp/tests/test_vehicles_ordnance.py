@@ -5,8 +5,9 @@ import re
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.action_chains import ActionChains
 
-from vasl_templates.webapp.tests.utils import select_tab, set_template_params, find_child, find_children
-from vasl_templates.webapp.tests.utils import get_clipboard, click_dialog_button, dismiss_notifications
+from vasl_templates.webapp.tests.utils import \
+    select_tab, set_template_params, find_child, find_children, \
+    get_clipboard, click_dialog_button, dismiss_notifications
 
 # ---------------------------------------------------------------------
 
@@ -189,18 +190,18 @@ def test_variable_capabilities( webapp, webdriver ):
     # add a vehicle
     add_vo( "vehicle", 2, "Churchill III(b)" )
 
+    # change the scenario date and check the generated snippet
+    vehicles2 = find_child( "input.generate[data-id='vehicles_2']" )
     def do_test( month, year, expected ):
         """Set the date and check the vehicle snippet."""
         dismiss_notifications()
         select_tab( "scenario" )
         set_template_params( { "SCENARIO_DATE": "{:02d}/01/{}".format(month,year) } )
         select_tab( "ob2" )
-        submit = find_child( "input.generate[data-id='vehicles_2']" )
-        submit.click()
+        vehicles2.click()
         buf = get_clipboard()
         mo = re.search( r"^- capabilities: (.*)$", buf, re.MULTILINE )
         assert mo.group(1) == expected
-
     do_test( 1, 1940, '"sM8\u2020"' )
     do_test( 1, 1943, '"sM8\u2020"' )
     do_test( 2, 1943, '"HE7" "sM8\u2020"' )

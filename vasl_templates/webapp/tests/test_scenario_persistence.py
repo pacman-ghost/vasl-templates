@@ -4,23 +4,17 @@ import json
 
 from selenium.webdriver.support.ui import Select
 
-from vasl_templates.webapp.tests.utils import set_template_params, select_tab, select_menu_option
-from vasl_templates.webapp.tests.utils import get_stored_msg, set_stored_msg, find_child, find_children
+from vasl_templates.webapp.tests.utils import \
+    set_template_params, select_tab, select_menu_option, get_sortable_entry_text, \
+    get_stored_msg, set_stored_msg, find_child, find_children
 
 # ---------------------------------------------------------------------
 
-def test_scenario_persistence( webapp, webdriver ):
+def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-locals
     """Test loading/saving scenarios."""
 
     # initialize
     webdriver.get( webapp.url_for( "main", scenario_persistence=1 ) )
-
-    # initialize
-    def load_scenario_fields( fields ):
-        """Load the scenario fields."""
-        for tab_id in fields:
-            select_tab( tab_id )
-            set_template_params( fields[tab_id] )
 
     # load the scenario fields
     scenario_params = {
@@ -57,7 +51,9 @@ def test_scenario_persistence( webapp, webdriver ):
             "ORDNANCE_WIDTH_2": "303",
         },
     }
-    load_scenario_fields( scenario_params )
+    for tab_id,fields in scenario_params.items():
+        select_tab( tab_id )
+        set_template_params( fields )
 
     # save the scenario and check the results
     saved_scenario = _save_scenario()
@@ -66,10 +62,8 @@ def test_scenario_persistence( webapp, webdriver ):
     }
     assert saved_scenario == expected
 
-    # reset the scenario
+    # reset the scenario and check the save results
     select_menu_option( "new_scenario" )
-
-    # check the save results
     data = _save_scenario()
     data2 = { k: v for k,v in data.items() if v }
     assert data2 == {
@@ -77,27 +71,29 @@ def test_scenario_persistence( webapp, webdriver ):
         "PLAYER_2": "russian", "PLAYER_2_ELR": "5", "PLAYER_2_SAN": "2",
     }
 
-    # load a scenario
-    _load_scenario( saved_scenario )
+    # initialize
+    ssrs = find_child( "#ssr-sortable" )
+    ob_setups1, ob_notes1 = find_child("#ob_setups-sortable_1"), find_child("#ob_notes-sortable_1")
+    ob_setups2, ob_notes2 = find_child("#ob_setups-sortable_2"), find_child("#ob_notes-sortable_2")
+    vehicles1, ordnance1 = find_child("#vehicle-sortable_1"), find_child("#ordnance-sortable_1")
+    vehicles2, ordnance2 = find_child("#vehicle-sortable_2"), find_child("#ordnance-sortable_2")
+    elems = {
+        c.get_attribute("name"): c
+        for elem_type in ("input","textarea","select") for c in find_children(elem_type)
+    }
 
-    # make sure the scenario was loaded into the UI correctly
+    # load a scenario and make sure it was loaded into the UI correctly
+    _load_scenario( saved_scenario )
     for tab_id in scenario_params:
         select_tab( tab_id )
         for field,val in scenario_params[tab_id].items():
-            if field == "SCENARIO_NOTES":
-                continue # nb: this requires special handling, we do it below
-            if field == "SSR":
-                continue # nb: this requires special handling, we do it below
-            if field in ("OB_SETUPS_1","OB_SETUPS_2"):
-                continue # nb: this requires special handling, we do it below
-            if field in ("OB_NOTES_1","OB_NOTES_2"):
-                continue # nb: this requires special handling, we do it below
+            if field in ("SCENARIO_NOTES","SSR"):
+                continue # nb: these require special handling, we do it below
+            if field in ("OB_SETUPS_1","OB_SETUPS_2","OB_NOTES_1","OB_NOTES_2"):
+                continue # nb: these require special handling, we do it below
             if field in ("VEHICLES_1","ORDNANCE_1","VEHICLES_2","ORDNANCE_2"):
-                continue # nb: this requires special handling, we do it below
-            elem = next( c for c in ( \
-                find_child( "{}[name='{}']".format(elem_type,field) ) \
-                for elem_type in ["input","textarea","select"]
-            ) if c )
+                continue # nb: these require special handling, we do it below
+            elem = elems[ field ]
             if elem.tag_name == "select":
                 assert Select(elem).first_selected_option.get_attribute("value") == val
             else:
@@ -105,16 +101,17 @@ def test_scenario_persistence( webapp, webdriver ):
     select_tab( "scenario" )
     scenario_notes = [ c.text for c in find_children("#scenario_notes-sortable li") ]
     assert scenario_notes == [ sn["caption"] for sn in scenario_params["scenario"]["SCENARIO_NOTES"] ]
-    ssrs = _get_ssrs()
-    assert ssrs == scenario_params["scenario"]["SSR"]
-    assert _get_ob_entries("ob_setups",1) == [ obs["caption"] for obs in scenario_params["ob1"]["OB_SETUPS_1"] ]
-    assert _get_ob_entries("ob_setups",2) == [ obs["caption"] for obs in scenario_params["ob2"]["OB_SETUPS_2"] ]
-    assert _get_ob_entries("ob_notes",1) == [ obs["caption"] for obs in scenario_params["ob1"]["OB_NOTES_1"] ]
-    assert _get_ob_entries("ob_notes",2) == [ obs["caption"] for obs in scenario_params["ob2"]["OB_NOTES_2"] ]
-    assert _get_vo("vehicle",1) == scenario_params["ob1"]["VEHICLES_1"]
-    assert _get_vo("ordnance",1) == scenario_params["ob1"]["ORDNANCE_1"]
-    assert _get_vo("vehicle",2) == scenario_params["ob2"]["VEHICLES_2"]
-    assert _get_vo("ordnance",2) == scenario_params["ob2"]["ORDNANCE_2"]
+    assert get_sortable_entry_text(ssrs) == scenario_params["scenario"]["SSR"]
+    select_tab( "ob1" )
+    assert get_sortable_entry_text(ob_setups1) == [ obs["caption"] for obs in scenario_params["ob1"]["OB_SETUPS_1"] ]
+    assert get_sortable_entry_text(ob_notes1) == [ obs["caption"] for obs in scenario_params["ob1"]["OB_NOTES_1"] ]
+    assert get_sortable_entry_text(vehicles1) == scenario_params["ob1"]["VEHICLES_1"]
+    assert get_sortable_entry_text(ordnance1) == scenario_params["ob1"]["ORDNANCE_1"]
+    select_tab( "ob2" )
+    assert get_sortable_entry_text(ob_setups2) == [ obs["caption"] for obs in scenario_params["ob2"]["OB_SETUPS_2"] ]
+    assert get_sortable_entry_text(ob_notes2) == [ obs["caption"] for obs in scenario_params["ob2"]["OB_NOTES_2"] ]
+    assert get_sortable_entry_text(vehicles2) == scenario_params["ob2"]["VEHICLES_2"]
+    assert get_sortable_entry_text(ordnance2) == scenario_params["ob2"]["ORDNANCE_2"]
 
 # ---------------------------------------------------------------------
 
@@ -126,9 +123,10 @@ def test_loading_ssrs( webapp, webdriver ):
     _ = _save_scenario() # nb: force the "scenario-persistence" element to be created
 
     # initialize
+    sortable = find_child( "#ssr-sortable" )
     def do_test( ssrs ): # pylint: disable=missing-docstring
         _load_scenario( { "SSR": ssrs } )
-        assert _get_ssrs() == ssrs
+        assert get_sortable_entry_text(sortable) == ssrs
 
     # load a scenario that has SSR's into a UI with no SSR's
     do_test( [ "ssr 1", "ssr 2" ] )
@@ -176,24 +174,3 @@ def _save_scenario():
     select_menu_option( "save_scenario" )
     data = get_stored_msg( "scenario_persistence" )
     return json.loads( data )
-
-def _get_ssrs():
-    """Get the SSR's from the UI."""
-    select_tab( "scenario" )
-    return [ c.text for c in find_children("#ssr-sortable li") ]
-
-def _get_ob_entries( ob_type, player_id ):
-    """Get the OB setup/notes from the UI."""
-    select_tab( "ob{}".format( player_id ) )
-    return [
-        c.text
-        for c in find_children( "#{}-sortable_{} li".format( ob_type, player_id ) )
-    ]
-
-def _get_vo( vo_type, player_id ):
-    """Get the vehicles/ordnance from the UI."""
-    select_tab( "ob{}".format( player_id ) )
-    return [
-        c.text
-        for c in find_children( "#{}-sortable_{} li".format( vo_type, player_id ) )
-    ]
