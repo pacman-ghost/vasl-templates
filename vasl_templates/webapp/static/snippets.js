@@ -205,9 +205,9 @@ function unload_params( params, check_date_capabilities )
 
     // collect the SSR's
     params.SSR = [] ;
-    $("#ssr-sortable li").each( function() {
-        params.SSR.push( $(this).text() ) ;
-    } ) ;
+    var data = get_sortable_entry_data( $("#ssr-sortable") ) ;
+    for ( var i=0 ; i < data.length ; ++i )
+        params.SSR.push( data[i].caption ) ;
 
     // collect the vehicles/ordnance
     function get_vo( vo_type, player_id, paramName )
@@ -492,18 +492,14 @@ function do_load_scenario( params )
         set_param( $("select[name='PLAYER_2']"), "PLAYER_2" ).trigger( "change" ) ;
     var i ;
     for ( var key in params ) {
+        var player_id, $sortable ;
         if ( key === "SSR" ) {
-            for ( i=0 ; i < params[key].length ; ++i ) {
-                var $ssr = $( "<li></li>" ) ;
-                $ssr.text( params[key][i] ) ;
-                $("#ssr-sortable").append( $ssr ) ;
-                init_ssr( $ssr ) ;
-            }
-            update_ssr_hint() ;
+            $sortable = $( "#ssr-sortable" ) ;
+            for ( i=0 ; i < params[key].length ; ++i )
+                do_add_scenario_note( $sortable, { caption: params[key][i] } ) ;
             params_loaded[key] = true ;
             continue ;
         }
-        var player_id, $sortable ;
         if ( key === "SCENARIO_NOTES" ) {
             $sortable = $( "#scenario_notes-sortable" ) ;
             for ( i=0 ; i < params[key].length ; ++i )
@@ -578,13 +574,6 @@ function do_load_scenario( params )
 function on_save_scenario()
 {
     // unload the template parameters
-    function unload_sortable_entries( $sortable ) {
-        var entries = [] ;
-        $sortable.children("li").each( function() {
-            entries.push( $(this).data( "sortable-data" ) ) ;
-        } ) ;
-        return entries ;
-    }
     function extract_vo_names( key ) { // nb: we only need to save the vehicle/ordnance name
         if ( !(key in params) )
             return ;
@@ -595,11 +584,11 @@ function on_save_scenario()
     }
     var params = {} ;
     unload_params( params, false ) ;
-    params.SCENARIO_NOTES = unload_sortable_entries( $("#scenario_notes-sortable") ) ;
-    params.OB_SETUPS_1 = unload_sortable_entries( $("#ob_setups-sortable_1") ) ;
-    params.OB_SETUPS_2 = unload_sortable_entries( $("#ob_setups-sortable_2") ) ;
-    params.OB_NOTES_1 = unload_sortable_entries( $("#ob_notes-sortable_1") ) ;
-    params.OB_NOTES_2 = unload_sortable_entries( $("#ob_notes-sortable_2") ) ;
+    params.SCENARIO_NOTES = get_sortable_entry_data( $("#scenario_notes-sortable") ) ;
+    params.OB_SETUPS_1 = get_sortable_entry_data( $("#ob_setups-sortable_1") ) ;
+    params.OB_SETUPS_2 = get_sortable_entry_data( $("#ob_setups-sortable_2") ) ;
+    params.OB_NOTES_1 = get_sortable_entry_data( $("#ob_notes-sortable_1") ) ;
+    params.OB_NOTES_2 = get_sortable_entry_data( $("#ob_notes-sortable_2") ) ;
     extract_vo_names( "VEHICLES_1" ) ;
     extract_vo_names( "ORDNANCE_1" ) ;
     extract_vo_names( "VEHICLES_2" ) ;
@@ -643,11 +632,8 @@ function on_new_scenario( verbose )
     $("select[name='PLAYER_2_SAN']").val( 2 ) ;
 
     // reset all the template parameters
-    $("#ssr-sortable li").each( function() { $(this).remove() ; } ) ;
-    update_ssr_hint() ;
-
-    // reset all the template parameters
     delete_all_sortable_entries( $("#scenario_notes-sortable") ) ;
+    delete_all_sortable_entries( $("#ssr-sortable") ) ;
     for ( var i=1 ; i <= 2 ; ++i ) {
         delete_all_sortable_entries( $("#ob_setups-sortable_"+i) ) ;
         delete_all_sortable_entries( $("#ob_notes-sortable_"+i) ) ;

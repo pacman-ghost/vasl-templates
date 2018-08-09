@@ -90,7 +90,7 @@
             </div>
             <div class="footer">
                 <div class="l">
-                    <input type="button" id="add-ssr" value="+">
+                    <input type="button" id="ssr-add" value="+">
                     <img id="ssr-trash" src="{{url_for('static',filename='images/trash.png')}}">
                 </div>
                 <label for="SSR_WIDTH">Width:</label>
@@ -186,10 +186,9 @@
 </div>
 
 <div id="edit-template" style="display:none;"> <textarea></textarea> </div>
-<div id="edit-ssr" style="display:none;"> <b>Enter the SSR content:</b> <textarea></textarea> </div>
 <div id="edit-simple_note" style="display:none;">
     <textarea></textarea>
-    <label>Width:</label> <input type="text" size="5">
+    <label for="width">Width:</label> <input name="width" type="text" size="5">
 </div>
 <div id="select-vo" style="display:none;">
     <div class="header"> <b>Filter by:</b> <input type="text" size="10"> </div>
@@ -216,7 +215,6 @@ gOrdnanceListingsUrl = "{{url_for('get_ordnance_listings')}}" ;
 </script>
 <script src="{{url_for('static',filename='main.js')}}"></script>
 <script src="{{url_for('static',filename='snippets.js')}}"></script>
-<script src="{{url_for('static',filename='ssr.js')}}"></script>
 <script src="{{url_for('static',filename='simple_notes.js')}}"></script>
 <script src="{{url_for('static',filename='vehicles_ordnance.js')}}"></script>
 <script src="{{url_for('static',filename='sortable.js')}}"></script>

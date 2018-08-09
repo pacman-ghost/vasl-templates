@@ -101,6 +101,18 @@ function delete_all_sortable_entries( $sortable )
 
 // --------------------------------------------------------------------
 
+function get_sortable_entry_data( $sortable )
+{
+    // get the data associated with each sortable entry
+    var entry_data = [] ;
+    $sortable.children("li").each( function() {
+        entry_data.push( $(this).data( "sortable-data" ) ) ;
+    } ) ;
+    return entry_data ;
+}
+
+// --------------------------------------------------------------------
+
 function _find_sortable_helper( $sortable, type )
 {
     // find a support element for the specified sortable

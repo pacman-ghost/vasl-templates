@@ -112,9 +112,9 @@ def set_template_params( params ): #pylint: disable=too-many-branches
         # check for SSR's (these require special handling)
         if key == "SSR":
             # add them in (nb: we don't consider any existing SSR's)
-            from vasl_templates.webapp.tests.test_ssr import add_ssr #pylint: disable=cyclic-import
+            sortable = find_child( "#ssr-sortable" )
             for ssr in val:
-                add_ssr( _webdriver, ssr )
+                add_simple_note( sortable, ssr, None )
             continue
 
         # check for OB setups/notes (these require special handling)

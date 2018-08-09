@@ -2,10 +2,9 @@
 
 import html
 
-from selenium.webdriver.common.action_chains import ActionChains
-
 from vasl_templates.webapp.tests.utils import \
-    select_tab, find_child, find_children, get_clipboard, dismiss_notifications, click_dialog_button
+    select_tab, find_child, get_clipboard, dismiss_notifications, \
+    add_simple_note, edit_simple_note, drag_sortable_entry_to_trash, get_sortable_entry_count
 
 # ---------------------------------------------------------------------
 
@@ -15,17 +14,20 @@ def test_ssr( webapp, webdriver ):
     # initialize
     webdriver.get( webapp.url_for( "main" ) )
     select_tab( "scenario" )
+    sortable = find_child( "#ssr-sortable" )
 
     # initialize
     expected = []
     generate_snippet_btn = find_child( "input[type='button'][data-id='ssr']" )
-    def _add_ssr( val ):
+    def add_ssr( val ):
+        """Add a new SSR."""
         expected.append( val )
-        add_ssr( webdriver, val )
+        add_simple_note( sortable, val, None )
         check_snippet()
-    def _edit_ssr( ssr_no, val ):
+    def edit_ssr( ssr_no, val ):
+        """Edit an existing SSR."""
         expected[ssr_no] = val
-        edit_ssr( webdriver, ssr_no, val )
+        edit_simple_note( sortable, ssr_no, val, None )
         check_snippet()
     def check_snippet( width=None ):
         """Check the generated SSR snippet."""
@@ -37,23 +39,21 @@ def test_ssr( webapp, webdriver ):
         dismiss_notifications()
 
     # add an SSR and generate the SSR snippet
-    _add_ssr( "This is my first SSR." )
+    add_ssr( "This is my first SSR." )
 
     # add an SSR that contains HTML
-    _add_ssr( "This snippet contains <b>bold</b> and <i>italic</i> text." )
+    add_ssr( "This snippet contains <b>bold</b> and <i>italic</i> text." )
 
     # add a multi-line SSR
-    _add_ssr( "line 1\nline 2\nline 3" )
+    add_ssr( "line 1\nline 2\nline 3" )
 
     # edit one of the SSR's
-    _edit_ssr( 1, "This SSR was <i>modified</i>." )
+    edit_ssr( 1, "This SSR was <i>modified</i>." )
 
     # delete one of the SSR's
-    elems = find_children( "#ssr-sortable li" )
-    assert len(elems) == 3
-    elem = elems[1]
-    trash = find_child( "#ssr-trash" )
-    ActionChains(webdriver).drag_and_drop( elem, trash ).perform()
+    assert get_sortable_entry_count(sortable) == 3
+    drag_sortable_entry_to_trash( sortable, 1 )
+    assert get_sortable_entry_count(sortable) == 2
     del expected[1]
     check_snippet()
 
@@ -61,29 +61,3 @@ def test_ssr( webapp, webdriver ):
     elem = find_child( "input[name='SSR_WIDTH']" )
     elem.send_keys( "300px" )
     check_snippet( "300px" )
-
-# ---------------------------------------------------------------------
-
-def add_ssr( webdriver, val ):
-    """Add a new SSR."""
-    elem = find_child( "#add-ssr" )
-    elem.click()
-    edit_ssr( webdriver, None, val )
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-def edit_ssr( webdriver, ssr_no, val ):
-    """Edit an SSR's content."""
-
-    # locate the requested SSR and start editing it
-    if ssr_no is not None:
-        sortable = find_child( "#ssr-sortable" )
-        elems = find_children( "li", sortable )
-        elem = elems[ ssr_no ]
-        ActionChains(webdriver).double_click( elem ).perform()
-
-    # edit the SSR
-    textarea = find_child( "#edit-ssr textarea" )
-    textarea.clear()
-    textarea.send_keys( val )
-    click_dialog_button( "OK" )

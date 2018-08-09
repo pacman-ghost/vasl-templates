@@ -81,12 +81,13 @@ $(document).ready( function () {
     } ) ;
 
     // initialize
-    $("#ssr-sortable").sortable( { connectWith: "#ssr-trash", cursor: "move" } ) ;
-    $("#add-ssr").click( add_ssr ) ;
-    $("#ssr-trash").sortable( {
-        receive: function( evt, ui ) { ui.item.remove() ; update_ssr_hint() ; }
+    init_sortable( $("#ssr-sortable"),
+        function() { add_ssr() ; },
+        edit_ssr
+    ) ;
+    $("#panel-ssr input[type='button'][data-id='ssr']").click( function() {
+        edit_template( "ssr" ) ;
     } ) ;
-    enable_ctrl_enter( $("#edit-ssr"), "OK" ) ;
 
     // initialize the scenario notes
     init_sortable( $("#scenario_notes-sortable"),

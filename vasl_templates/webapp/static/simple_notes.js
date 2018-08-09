@@ -8,6 +8,10 @@ function add_scenario_note() { _do_edit_simple_note( $("#scenario_notes-sortable
 function do_add_scenario_note( $sortable, data ) { _do_add_simple_note($sortable,data) ; }
 function edit_scenario_note( $sortable, $entry ) { _do_edit_simple_note( $sortable, $entry ) ; }
 
+function add_ssr() { _do_edit_simple_note( $("#ssr-sortable"), null ) ; }
+function do_add_ssr( $sortable, data ) { _do_add_simple_note($sortable,data) ; }
+function edit_ssr( $sortable, $entry ) { _do_edit_simple_note( $sortable, $entry ) ; }
+
 function add_ob_setup( player_id ) { _do_edit_simple_note( $("#ob_setups-sortable_"+player_id), null ) ; }
 function do_add_ob_setup( $sortable, data ) { _do_add_simple_note($sortable,data) ; }
 function edit_ob_setup( $sortable, $entry ) { _do_edit_simple_note( $sortable, $entry ) ; }
@@ -25,7 +29,7 @@ function _do_edit_simple_note( $sortable, $entry )
     var note_type0 = note_type.substring( 0, note_type.length-1 ) ; // plural -> singular :-/
 
     // let the user edit the note
-    var $caption, $width ;
+    var $caption, $width, $width_label ;
     $("#edit-simple_note").dialog( {
         dialogClass: "edit-simple_note",
         modal: true,
@@ -33,7 +37,8 @@ function _do_edit_simple_note( $sortable, $entry )
         minHeight: 150,
         open: function() {
             $caption = $(this).children( "textarea" ) ;
-            $width = $(this).children( "input[type='text']" ) ;
+            $width = $(this).children( "input[name='width']" ) ;
+            $width_label = $(this).children( "label[for='width']" ) ;
             if ( $entry ) {
                 var data = $entry.data( "sortable-data" ) ;
                 $caption.val( data.caption ) ;
@@ -43,7 +48,18 @@ function _do_edit_simple_note( $sortable, $entry )
                 $caption.val( "" ) ;
                 $width.val( "" ) ;
             }
+            if ( note_type === "ssr" ) {
+                // NOTE: Individual SSR's don't have a width, there is one setting for them all.
+                $width.hide() ;
+                $width_label.hide() ;
+                $caption.css( "height", "100%" ) ;
+            }
             $(this).height( $(this).height() ) ; // fudge: force the textarea to resize
+        },
+        close: function() {
+            $width.show() ;
+            $width_label.show() ;
+            $caption.css( "height", "calc(100% - 3em)" ) ;
         },
         buttons: {
             OK: function() {
@@ -88,14 +104,12 @@ function _do_add_simple_note( $sortable, data )
 function _make_simple_note( note_type, caption )
 {
     // generate the sortable entry
-    var note_type0 = note_type.substring( 0, note_type.length-1 ) ;
-    var buf = [] ;
-    buf.push(
-        "<div>",
-        "<input type='button' data-id='" + note_type0 + "' value='Snippet'>",
-        caption,
-        "</div>"
-    ) ;
+    var buf = [ "<div>" ] ;
+    if ( note_type !== "ssr" ) {
+        var note_type0 = note_type.substring( 0, note_type.length-1 ) ;
+        buf.push( "<input type='button' data-id='" + note_type0 + "' value='Snippet'>" ) ;
+    }
+    buf.push( caption, "</div>" ) ;
     var $content = $( buf.join("") ) ;
 
     // add a handler for the snippet button
@@ -123,6 +137,6 @@ function _get_note_type_for_sortable( $sortable )
 {
     // figure out what type of note the sortable has
     var id = $sortable.prop( "id" ) ;
-    var match = /^((scenario_notes|ob_setups|ob_notes))-sortable(_\d)?$/.exec( id ) ;
+    var match = /^((scenario_notes|ssr|ob_setups|ob_notes))-sortable(_\d)?$/.exec( id ) ;
     return match[1] ;
 }
