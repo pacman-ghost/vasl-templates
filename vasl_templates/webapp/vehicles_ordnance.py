@@ -55,6 +55,7 @@ def get_vo_report( nat, vo_type, year ):
         abort( 404 )
     return render_template( "vo-report.html",
         NATIONALITY = nat,
-        VO_TYPE = "vehicle" if vo_type == "vehicles" else vo_type,
+        VO_TYPE = vo_type,
+        VO_TYPE0 = vo_type[:-1] if vo_type.endswith("s") else vo_type,
         YEAR = year
     )

@@ -128,8 +128,8 @@ def set_template_params( params ): #pylint: disable=too-many-branches
         # check for vehicles/ordnance (these require special handling)
         if key in ("VEHICLES_1","ORDNANCE_1","VEHICLES_2","ORDNANCE_2"):
             # add them in (nb: we don't consider any existing vehicles/ordnance)
-            vo_type = "vehicle" if key.startswith("VEHICLES_") else "ordnance"
             from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo #pylint: disable=cyclic-import
+            vo_type = key[:key.index("_")].lower()
             for vo_name in val:
                 add_vo( vo_type, int(key[-1]), vo_name )
             continue

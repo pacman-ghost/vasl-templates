@@ -42,9 +42,12 @@ function init_sortable_entry( $entry )
 {
     // initialize the sortable entry
     var $sortable = $entry.parent() ;
-    $entry.dblclick( function() {
-        $sortable.data("on_edit")( $sortable, $entry ) ;
-    } ) ;
+    var on_edit = $sortable.data( "on_edit" ) ;
+    if ( on_edit ) {
+        $entry.dblclick( function() {
+            on_edit( $sortable, $entry ) ;
+        } ) ;
+    }
     $entry.click( function( evt ) {
         if ( evt.ctrlKey )
             delete_sortable_entry( $(this) ) ;

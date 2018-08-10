@@ -210,11 +210,11 @@ function unload_params( params, check_date_capabilities )
         params.SSR.push( data[i].caption ) ;
 
     // collect the vehicles/ordnance
-    function get_vo( vo_type, player_id, paramName )
-    {
+    function get_vo( vo_type, player_id, key ) {
+        var $sortable = $( "#" + vo_type + "-sortable_" + player_id ) ;
         var objs = [] ;
-        $("#"+vo_type+"-sortable_"+player_id+" li").each( function() {
-            var entry = find_vo( $(this).data("vo-key") ) ;
+        $sortable.children( "li" ).each( function() {
+            var entry = $(this).data( "sortable-data" ).vo_entry ;
             var obj = {
                 name: entry.name,
                 note_number: entry.note_number,
@@ -241,10 +241,10 @@ function unload_params( params, check_date_capabilities )
             objs.push( obj ) ;
         } ) ;
         if ( objs.length > 0 )
-            params[paramName] = objs ;
+            params[key] = objs ;
     }
-    get_vo( "vehicle", 1, "VEHICLES_1" ) ;
-    get_vo( "vehicle", 2, "VEHICLES_2" ) ;
+    get_vo( "vehicles", 1, "VEHICLES_1" ) ;
+    get_vo( "vehicles", 2, "VEHICLES_2" ) ;
     get_vo( "ordnance", 1, "ORDNANCE_1" ) ;
     get_vo( "ordnance", 2, "ORDNANCE_2" ) ;
 
@@ -526,12 +526,14 @@ function do_load_scenario( params )
         if ( key === "VEHICLES_1" || key === "ORDNANCE_1" || key === "VEHICLES_2" || key === "ORDNANCE_2" ) {
             player_id = key.substring( key.length-1 ) ;
             var nat = params[ "PLAYER_" + player_id ] ;
-            var vo_type = key.substring(0,9) === "VEHICLES_" ? "vehicle" : "ordnance" ;
+            var vo_type = (key.substring(0,9) === "VEHICLES_") ? "vehicles" : "ordnance" ;
             for ( i=0 ; i < params[key].length ; ++i ) {
-                if ( ! do_add_vo( nat, vo_type, player_id, params[key][i] ) )
+                var entry = find_vo( vo_type, nat, params[key][i] ) ;
+                if ( entry )
+                    do_add_vo( vo_type, player_id, entry ) ;
+                else
                     unknown_vo.push( params[key][i] ) ;
             }
-            update_vo_hint( vo_type, player_id ) ;
             params_loaded[key] = true ;
             continue ;
         }
@@ -635,10 +637,10 @@ function on_new_scenario( verbose )
     delete_all_sortable_entries( $("#scenario_notes-sortable") ) ;
     delete_all_sortable_entries( $("#ssr-sortable") ) ;
     for ( var i=1 ; i <= 2 ; ++i ) {
-        delete_all_sortable_entries( $("#ob_setups-sortable_"+i) ) ;
-        delete_all_sortable_entries( $("#ob_notes-sortable_"+i) ) ;
-        delete_all_vo( "vehicle", i ) ;
-        delete_all_vo( "ordnance", i ) ;
+        delete_all_sortable_entries( $( "#ob_setups-sortable_" + i ) ) ;
+        delete_all_sortable_entries( $( "#ob_notes-sortable_" + i ) ) ;
+        delete_all_sortable_entries( $( "#vehicles-sortable_" + i ) ) ;
+        delete_all_sortable_entries( $( "#ordnance-sortable_" + i ) ) ;
     }
 
     // provide some feedback to the user

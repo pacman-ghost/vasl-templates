@@ -105,7 +105,7 @@ function _make_simple_note( note_type, caption )
 {
     // generate the sortable entry
     var buf = [ "<div>" ] ;
-    if ( note_type !== "ssr" ) {
+    if ( ["scenario_notes","ob_setups","ob_notes"].indexOf( note_type ) !== -1 ) {
         var note_type0 = note_type.substring( 0, note_type.length-1 ) ;
         buf.push( "<input type='button' data-id='" + note_type0 + "' value='Snippet'>" ) ;
     }
@@ -137,6 +137,6 @@ function _get_note_type_for_sortable( $sortable )
 {
     // figure out what type of note the sortable has
     var id = $sortable.prop( "id" ) ;
-    var match = /^((scenario_notes|ssr|ob_setups|ob_notes))-sortable(_\d)?$/.exec( id ) ;
+    var match = /^((scenario_notes|ssr|vehicles|ob_setups|ob_notes))-sortable(_\d)?$/.exec( id ) ;
     return match[1] ;
 }

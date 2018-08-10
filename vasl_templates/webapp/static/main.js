@@ -85,9 +85,6 @@ $(document).ready( function () {
         function() { add_ssr() ; },
         edit_ssr
     ) ;
-    $("#panel-ssr input[type='button'][data-id='ssr']").click( function() {
-        edit_template( "ssr" ) ;
-    } ) ;
 
     // initialize the scenario notes
     init_sortable( $("#scenario_notes-sortable"),
@@ -130,31 +127,25 @@ $(document).ready( function () {
         edit_template( "ob_note" ) ;
     } ) ;
 
-    // initialize vehicle controls (1)
-    $("#vehicle-sortable_1").sortable( { connectWith: "#vehicle-trash_1", cursor: "move" } ) ;
-    $("#add-vehicle_1").click( function() { add_vo( "vehicle", 1 ) ; } ) ;
-    $("#vehicle-trash_1").sortable( {
-        receive: function( evt, ui ) { ui.item.remove() ; update_vo_hint("vehicle",1) ; }
-    } ) ;
-    // initialize vehicle controls (2)
-    $("#vehicle-sortable_2").sortable( { connectWith: "#vehicle-trash_2", cursor: "move" } ) ;
-    $("#add-vehicle_2").click( function() { add_vo( "vehicle", 2 ) ; } ) ;
-    $("#vehicle-trash_2").sortable( {
-        receive: function( evt, ui ) { ui.item.remove() ; update_vo_hint("vehicle",2) ; }
-    } ) ;
+    // initialize the OB vehicles
+    init_sortable( $("#vehicles-sortable_1"),
+        function() { add_vo( "vehicles", 1 ) ; },
+        null
+    ) ;
+    init_sortable( $("#vehicles-sortable_2"),
+        function() { add_vo( "vehicles", 2 ) ; },
+        null
+    ) ;
 
-    // initialize ordnance controls (1)
-    $("#ordnance-sortable_1").sortable( { connectWith: "#ordnance-trash_1", cursor: "move" } ) ;
-    $("#add-ordnance_1").click( function() { add_vo( "ordnance", 1 ) ; } ) ;
-    $("#ordnance-trash_1").sortable( {
-        receive: function( evt, ui ) { ui.item.remove() ; update_vo_hint("ordnance",1) ; }
-    } ) ;
-    // initialize ordnance controls (2)
-    $("#ordnance-sortable_2").sortable( { connectWith: "#ordnance-trash_2", cursor: "move" } ) ;
-    $("#add-ordnance_2").click( function() { add_vo( "ordnance", 2 ) ; } ) ;
-    $("#ordnance-trash_2").sortable( {
-        receive: function( evt, ui ) { ui.item.remove() ; update_vo_hint("ordnance",2) ; }
-    } ) ;
+    // initialize the OB ordnance
+    init_sortable( $("#ordnance-sortable_1"),
+        function() { add_vo( "ordnance", 1 ) ; },
+        null
+    ) ;
+    init_sortable( $("#ordnance-sortable_2"),
+        function() { add_vo( "ordnance", 2 ) ; },
+        null
+    ) ;
 
     // handle ENTER and double-clicks in the "select vehicle/ordnance" dialog
     function auto_select_vo( evt ) {
@@ -189,7 +180,7 @@ $(document).ready( function () {
 
     // get the vehicle/ordnance listings
     $.getJSON( gVehicleListingsUrl, function(data) {
-        gVehicleOrdnanceListings.vehicle = data ;
+        gVehicleOrdnanceListings.vehicles = data ;
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the vehicle listings:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
     } ) ;
@@ -396,8 +387,8 @@ function on_player_change( $select )
     // reset the OB params
     $("textarea[name='OB_SETUP_"+player_id+"']").val( "" ) ;
     $("input[name='OB_SETUP_WIDTH_"+player_id+"']").val( "" ) ;
-    delete_all_vo( "vehicle", player_id ) ;
+    delete_all_sortable_entries( $( "#vehicles-sortable_" + player_id ) ) ;
     $("input[name='VEHICLES_WIDTH_"+player_id+"']").val( "" ) ;
-    delete_all_vo( "ordnance", player_id ) ;
+    delete_all_sortable_entries( $( "#ordnance-sortable_" + player_id ) ) ;
     $("input[name='ORDNANCE_WIDTH_"+player_id+"']").val( "" ) ;
 }

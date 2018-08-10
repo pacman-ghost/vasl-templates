@@ -75,8 +75,8 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-lo
     ssrs = find_child( "#ssr-sortable" )
     ob_setups1, ob_notes1 = find_child("#ob_setups-sortable_1"), find_child("#ob_notes-sortable_1")
     ob_setups2, ob_notes2 = find_child("#ob_setups-sortable_2"), find_child("#ob_notes-sortable_2")
-    vehicles1, ordnance1 = find_child("#vehicle-sortable_1"), find_child("#ordnance-sortable_1")
-    vehicles2, ordnance2 = find_child("#vehicle-sortable_2"), find_child("#ordnance-sortable_2")
+    vehicles1, ordnance1 = find_child("#vehicles-sortable_1"), find_child("#ordnance-sortable_1")
+    vehicles2, ordnance2 = find_child("#vehicles-sortable_2"), find_child("#ordnance-sortable_2")
     elems = {
         c.get_attribute("name"): c
         for elem_type in ("input","textarea","select") for c in find_children(elem_type)
@@ -123,6 +123,7 @@ def test_loading_ssrs( webapp, webdriver ):
     _ = _save_scenario() # nb: force the "scenario-persistence" element to be created
 
     # initialize
+    select_tab( "scenario" )
     sortable = find_child( "#ssr-sortable" )
     def do_test( ssrs ): # pylint: disable=missing-docstring
         _load_scenario( { "SSR": ssrs } )
@@ -151,15 +152,19 @@ def test_unknown_vo( webapp, webdriver ):
 
     # load a scenario that has unknown vehicles/ordnance
     scenario_params = {
+        "PLAYER_1": "german",
         "VEHICLES_1": [ "unknown vehicle 1a", "unknown vehicle 1b" ],
         "ORDNANCE_1":  [ "unknown ordnance 1a", "unknown ordnance 1b" ],
+        "PLAYER_2": "russian",
         "VEHICLES_2": [ "unknown vehicle 2" ],
         "ORDNANCE_2":  [ "unknown ordnance 2" ],
     }
     _load_scenario( scenario_params )
     last_warning = get_stored_msg( "_last-warning_" )
     assert last_warning.startswith( "Unknown vehicles/ordnance:" )
-    for vals in scenario_params.values():
+    for key,vals in scenario_params.items():
+        if not key.startswith( ("VEHICLES_","ORDNANCE_") ):
+            continue
         assert all( v in last_warning for v in vals )
 
 # ---------------------------------------------------------------------

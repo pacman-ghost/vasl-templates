@@ -142,13 +142,13 @@
     <fieldset class="tr"> <legend>Vehicles</legend>
         <div id="panel-vehicles_1" class="panel-vehicles">
             <div class="content">
-                <div id="vehicle-hint_1" class="vehicle-hint"> <p>Click on the "+" below to add a new Vehicle. <p>To re-order the Vehicles, use the mouse to drag them around. <p>Ctrl-click on an Vehicle to delete it, or drag it into the trashcan below. </div>
-                <ul id="vehicle-sortable_1" class="sortable" style="display:none;"></ul>
+                <div id="vehicles-hint_1" class="vehicles-hint"> <p>Click on the "+" below to add a new Vehicle. <p>To re-order the Vehicles, use the mouse to drag them around. <p>Ctrl-click on an Vehicle to delete it, or drag it into the trashcan below. </div>
+                <ul id="vehicles-sortable_1" class="sortable" style="display:none;"></ul>
             </div>
             <div class="footer">
                 <div class="l">
-                    <input type="button" id="add-vehicle_1" value="+">
-                    <img id="vehicle-trash_1" class="vehicle-trash" src="{{url_for('static',filename='images/trash.png')}}">
+                    <input type="button" id="vehicles-add_1" value="+">
+                    <img id="vehicles-trash_1" class="vehicles-trash" src="{{url_for('static',filename='images/trash.png')}}">
                 </div>
                 <label for="VEHICLES_WIDTH_1">Width:</label>
                 <input type="text" class="param" name="VEHICLES_WIDTH_1" size="5">
@@ -164,7 +164,7 @@
             </div>
             <div class="footer">
                 <div class="l">
-                    <input type="button" id="add-ordnance_1" value="+">
+                    <input type="button" id="ordnance-add_1" value="+">
                     <img id="ordnance-trash_1" class="ordnance-trash" src="{{url_for('static',filename='images/trash.png')}}">
                 </div>
                 <label for="ORDNANCE_WIDTH_1">Width:</label>
@@ -216,7 +216,7 @@ gOrdnanceListingsUrl = "{{url_for('get_ordnance_listings')}}" ;
 <script src="{{url_for('static',filename='main.js')}}"></script>
 <script src="{{url_for('static',filename='snippets.js')}}"></script>
 <script src="{{url_for('static',filename='simple_notes.js')}}"></script>
-<script src="{{url_for('static',filename='vehicles_ordnance.js')}}"></script>
+<script src="{{url_for('static',filename='vo.js')}}"></script>
 <script src="{{url_for('static',filename='sortable.js')}}"></script>
 <script src="{{url_for('static',filename='utils.js')}}"></script>
 
