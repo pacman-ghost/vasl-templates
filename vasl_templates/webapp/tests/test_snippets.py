@@ -5,7 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from vasl_templates.webapp.tests.utils import select_tab, set_template_params, get_clipboard
 from vasl_templates.webapp.tests.utils import \
     get_stored_msg, dismiss_notifications, find_child, \
-    for_each_template, wait_for, add_simple_note, edit_simple_note, \
+    for_each_template, add_simple_note, edit_simple_note, \
     get_sortable_entry_count, generate_sortable_entry_snippet, drag_sortable_entry_to_trash
 
 # ---------------------------------------------------------------------
@@ -185,9 +185,8 @@ def test_edit_templates( webapp, webdriver ):
         dismiss_notifications()
         elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
         elem.click()
-        wait_for( 5, # FUDGE! Work-around a weird timing problem on Linux :shrug:
-            lambda: get_clipboard() == "EDITED TEMPLATE: {}".format( orig_template_id )
-        )
+        _ = get_clipboard() # FUDGE! Work-around a weird intermittent failure on Linux :shrug:
+        assert get_clipboard() == "EDITED TEMPLATE: {}".format( orig_template_id )
     for_each_template( test_template )
 
     # customize the SCENARIO NOTE template
