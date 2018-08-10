@@ -34,8 +34,9 @@ function copyToClipboard( val )
 // --------------------------------------------------------------------
 
 // Connect a text box to a select box, and filter the available options.
-jQuery.fn.filterByText = function( $textbox ) {
-
+( function( $ ) {
+$.fn.filterByText = function( $textbox )
+{
     function compressSpaces( val ) { return val.replace( /\s/g, "" ).trim() ; }
 
     return this.each( function() {
@@ -74,6 +75,7 @@ jQuery.fn.filterByText = function( $textbox ) {
         } ) ;
     } ) ;
 } ;
+} ) ( jQuery ) ;
 
 // --------------------------------------------------------------------
 

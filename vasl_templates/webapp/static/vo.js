@@ -4,9 +4,9 @@
 function add_vo( vo_type, player_id )
 {
     // get the vehicles/ordnance already added
-    var $sortable = $( "#" + vo_type + "-sortable_" + player_id ) ;
+    var $sortable2 = $( "#" + vo_type + "-sortable_" + player_id ) ;
     var vo_present = [];
-    $sortable.children("li").each( function() {
+    $sortable2.children("li").each( function() {
         vo_present.push( $(this).text() ) ;
     } );
 
@@ -56,11 +56,11 @@ function add_vo( vo_type, player_id )
 function do_add_vo( vo_type, player_id, entry )
 {
     // add the specified vehicle/ordnance
-    var $sortable = $( "#" + vo_type + "-sortable_" + player_id ) ;
-    add_sortable( $sortable,
-        $( "<div>" + entry.name + "</div>" ),
-        { caption: entry.name, vo_entry: entry }
-    ) ;
+    var $sortable2 = $( "#" + vo_type + "-sortable_" + player_id ) ;
+    $sortable2.sortable2( "add", {
+        content: $( "<div>" + entry.name + "</div>" ),
+        data: { caption: entry.name, vo_entry: entry }
+    } ) ;
 }
 
 // --------------------------------------------------------------------

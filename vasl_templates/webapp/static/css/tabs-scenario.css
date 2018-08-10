@@ -70,14 +70,8 @@
 #panel-scenario_notes .content { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
 #panel-scenario_notes .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
 
-#panel-scenario_notes ul.sortable li input[type="button"] { float: right ; }
-
 #panel-scenario_notes .footer { text-align: right ; font-size: 75% ; }
 #panel-scenario_notes .footer .l { float: left ; }
-#panel-scenario_notes #scenario_notes-trash { margin-left: 5px ; height: 2em ;  }
-
-#scenario_notes-hint { width:100% ; height: calc(100% - 1.5em) ; font-size: 80% ; font-style: italic ; }
-#scenario_notes-hint p { margin-bottom: 1em ; }
 
 /* -------------------------------------------------------------------- */
 
@@ -92,7 +86,3 @@
 
 #panel-ssr .footer { text-align: right ; font-size: 75% ; }
 #panel-ssr .footer .l { float: left ; }
-#panel-ssr #ssr-trash { margin-left: 5px ; height: 2em ;  }
-
-#ssr-hint { width:100% ; height: calc(100% - 1.5em) ; font-size: 80% ; font-style: italic ; }
-#ssr-hint p { margin-bottom: 1em ; }

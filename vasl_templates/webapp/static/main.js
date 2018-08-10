@@ -14,7 +14,7 @@ var _NATIONALITY_SPECIFIC_BUTTONS = {
 
 $(document).ready( function () {
 
-    // initialize
+    // initialize the menu
     var $menu = $("#menu input") ;
     $menu.popmenu( {
         new_scenario: { label: "New scenario", action: on_new_scenario },
@@ -66,86 +66,80 @@ $(document).ready( function () {
     fixupOB2( $ob2 ) ;
     $("#tabs-ob2").html( $ob2.html() ) ;
 
-    // initialize
+    // initialize the tabs
     $("#tabs").tabs( {
         heightStyle: "fill",
     } ).show() ;
     var navHeight = $("#tabs .ui-tabs-nav").height() ;
     $("input[name='SCENARIO_NAME']").focus().focus() ;
 
-    // initialize
+    // initialize the scenario date picker
     $("input[name='SCENARIO_DATE']").datepicker( {
         showAnim: "slideDown",
         changeMonth: true, changeYear: true,
         defaultDate: "01/01/1940",
     } ) ;
 
-    // initialize
-    init_sortable( $("#ssr-sortable"),
-        function() { add_ssr() ; },
-        edit_ssr
-    ) ;
+    // initialize the SSR's
+    $("#ssr-sortable").sortable2( "init", {
+        add: add_ssr, edit: edit_ssr
+    } ) ;
 
     // initialize the scenario notes
-    init_sortable( $("#scenario_notes-sortable"),
-        function() { add_scenario_note() ; },
-        edit_scenario_note
-    ) ;
+    $("#scenario_notes-sortable").sortable2( "init", {
+        add: add_scenario_note, edit: edit_scenario_note,
+    } ) ;
     $("#panel-scenario_notes input[type='button'][data-id='scenario_note']").click( function() {
         edit_template( "scenario_note" ) ;
     } ) ;
 
     // initialize the OB setups
-    init_sortable( $("#ob_setups-sortable_1"),
-        function() { add_ob_setup(1) ; },
-        edit_ob_setup
-    ) ;
+    $("#ob_setups-sortable_1").sortable2( "init", {
+        add: function() { add_ob_setup(1) ; },
+        edit: edit_ob_setup
+    } ) ;
     $("#panel-ob_setups1 input[type='button'][data-id='ob_setup']").click( function() {
         edit_template( "ob_setup" ) ;
     } ) ;
-    init_sortable( $("#ob_setups-sortable_2"),
-        function() { add_ob_setup(2) ; },
-        edit_ob_setup
-    ) ;
+    $("#ob_setups-sortable_2").sortable2( "init", {
+        add: function() { add_ob_setup(2) ; },
+        edit: edit_ob_setup
+    } ) ;
     $("#panel-ob_setups2 input[type='button'][data-id='ob_setup']").click( function() {
         edit_template( "ob_setup" ) ;
     } ) ;
 
     // initialize the OB notes
-    init_sortable( $("#ob_notes-sortable_1"),
-        function() { add_ob_note(1) ; },
-        edit_ob_note
-    ) ;
+    $("#ob_notes-sortable_1").sortable2( "init", {
+        add: function() { add_ob_note(1) ; },
+        edit: edit_ob_note
+    } ) ;
     $("#panel-ob_notes1 input[type='button'][data-id='ob_note']").click( function() {
         edit_template( "ob_note" ) ;
     } ) ;
-    init_sortable( $("#ob_notes-sortable_2"),
-        function() { add_ob_note(2) ; },
-        edit_ob_note
-    ) ;
+    $("#ob_notes-sortable_2").sortable2( "init", {
+        add: function() { add_ob_note(2) ; },
+        edit: edit_ob_note
+    } ) ;
     $("#panel-ob_notes2 input[type='button'][data-id='ob_note']").click( function() {
         edit_template( "ob_note" ) ;
     } ) ;
 
     // initialize the OB vehicles
-    init_sortable( $("#vehicles-sortable_1"),
-        function() { add_vo( "vehicles", 1 ) ; },
-        null
-    ) ;
-    init_sortable( $("#vehicles-sortable_2"),
-        function() { add_vo( "vehicles", 2 ) ; },
-        null
-    ) ;
+    $("#vehicles-sortable_1").sortable2( "init", {
+        add: function() { add_vo( "vehicles", 1 ) ; },
+    } ) ;
+    $("#vehicles-sortable_2").sortable2( "init", {
+        add: function() { add_vo( "vehicles", 2 ) ; },
+    } ) ;
 
     // initialize the OB ordnance
-    init_sortable( $("#ordnance-sortable_1"),
-        function() { add_vo( "ordnance", 1 ) ; },
-        null
-    ) ;
-    init_sortable( $("#ordnance-sortable_2"),
-        function() { add_vo( "ordnance", 2 ) ; },
-        null
-    ) ;
+    $("#ordnance-sortable_1").sortable2( "init", {
+        add: function() { add_vo( "ordnance", 1 ) ; },
+    } ) ;
+    $("#ordnance-sortable_2").sortable2( "init", {
+        add: function() { add_vo( "ordnance", 2 ) ; },
+    } ) ;
 
     // handle ENTER and double-clicks in the "select vehicle/ordnance" dialog
     function auto_select_vo( evt ) {
@@ -387,8 +381,8 @@ function on_player_change( $select )
     // reset the OB params
     $("textarea[name='OB_SETUP_"+player_id+"']").val( "" ) ;
     $("input[name='OB_SETUP_WIDTH_"+player_id+"']").val( "" ) ;
-    delete_all_sortable_entries( $( "#vehicles-sortable_" + player_id ) ) ;
+    $( "#vehicles-sortable_" + player_id ).sortable2( "delete-all" ) ;
     $("input[name='VEHICLES_WIDTH_"+player_id+"']").val( "" ) ;
-    delete_all_sortable_entries( $( "#ordnance-sortable_" + player_id ) ) ;
+    $( "#ordnance-sortable_" + player_id ).sortable2( "delete-all" ) ;
     $("input[name='ORDNANCE_WIDTH_"+player_id+"']").val( "" ) ;
 }

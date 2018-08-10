@@ -9,11 +9,14 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='growl/jquery.growl.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='popmenu/jquery.popmenu.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/main.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/sortable.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/tabs-scenario.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/tabs-ob.css')}}" />
 </head>
 
 <body>
+
+<!-- ----------------------------------------------------------------- -->
 
 <div id="menu" style="display:none;">
     <input type="button" value="actions">
@@ -21,6 +24,8 @@
     <input id="load-template-pack" type="file" accept=".zip,.j2" style="display:none;">
     <textarea id="template_pack_persistence" style="display:none;"></textarea>
 </div>
+
+<!-- ----------------------------------------------------------------- -->
 
 <div id="tabs">
 
@@ -31,7 +36,10 @@
     <li> <a href="#tabs-other">Other</a>
 </ul>
 
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
 <div id="tabs-scenario">
+
     <fieldset class="tl"> <legend>S<u>c</u>enario</legend>
         <div id="panel-scenario">
             <div class="label" data-labelfor="SCENARIO_NAME">Name:</div> <input name="SCENARIO_NAME" type="text" class="param">
@@ -57,6 +65,7 @@
             <div class="footer"> <input type="button" class="generate" data-id="players" value="Snippet"> </div>
         </div>
     </fieldset>
+
     <fieldset class="tr"> <legend>Victor<u>y</u> Conditions</legend>
         <div id="panel-vc">
             <textarea name="VICTORY_CONDITIONS" type="text" class="param"></textarea>
@@ -67,31 +76,33 @@
             </div>
         </div>
     </fieldset>
+
     <fieldset class="bl"> <legend>Notes</legend>
         <div id="panel-scenario_notes">
             <div class="content">
-                <div id="scenario_notes-hint"> <p>Click on the "+" below to add a new scenario note. <p>To re-order the scenario notes, use the mouse to drag them around. <p>Ctrl-click on a scenario note to delete it, or drag it into the trashcan below. </div>
+                <div id="scenario_notes-hint" class="sortable-hint"> <p>Click on the "+" below to add a new scenario note. <p>To re-order the scenario notes, use the mouse to drag them around. <p>Ctrl-click on a scenario note to delete it, or drag it into the trashcan below. </div>
                 <ul id="scenario_notes-sortable" class="sortable" style="display:none;"></ul>
             </div>
             <div class="footer">
                 <div class="l">
                     <input type="button" id="scenario_notes-add" value="+">
-                    <img id="scenario_notes-trash" src="{{url_for('static',filename='images/trash.png')}}">
+                    <img id="scenario_notes-trash" class="sortable-trash">
                 </div>
                 <input type="button" data-id="scenario_note" value="EDIT">
             </div>
         </div>
     </fieldset>
+
     <fieldset class="br"> <legend>SSR's</legend>
         <div id="panel-ssr">
             <div class="content">
-                <div id="ssr-hint"> <p>Click on the "+" below to add a new SSR, double-click on an SSR to edit it. <p>To re-order the SSR's, use the mouse to drag them around. <p>Ctrl-click on an SSR to delete it, or drag it into the trashcan below. </div>
+                <div id="ssr-hint" class="sortable-hint"> <p>Click on the "+" below to add a new SSR, double-click on an SSR to edit it. <p>To re-order the SSR's, use the mouse to drag them around. <p>Ctrl-click on an SSR to delete it, or drag it into the trashcan below. </div>
                 <ul id="ssr-sortable" class="sortable" style="display:none;"></ul>
             </div>
             <div class="footer">
                 <div class="l">
                     <input type="button" id="ssr-add" value="+">
-                    <img id="ssr-trash" src="{{url_for('static',filename='images/trash.png')}}">
+                    <img id="ssr-trash" class="sortable-trash">
                 </div>
                 <label for="SSR_WIDTH">Width:</label>
                 <input type="text" class="param" name="SSR_WIDTH" size="5">
@@ -99,34 +110,39 @@
             </div>
         </div>
     </fieldset>
+
 </div>
 
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
 <div id="tabs-ob1">
+
     <fieldset class="tl"> <legend>OB setup</legend>
         <div id="panel-ob_setups1" class="panel-ob_setups">
             <div class="content">
-                <div id="ob_setups-hint_1" class="ob_setups-hint"> <p>Click on the "+" below to add a new setup note. <p>To re-order the setup notes, use the mouse to drag them around. <p>Ctrl-click on a setup note to delete it, or drag it into the trashcan below. </div>
+                <div id="ob_setups-hint_1" class="sortable-hint"> <p>Click on the "+" below to add a new setup note. <p>To re-order the setup notes, use the mouse to drag them around. <p>Ctrl-click on a setup note to delete it, or drag it into the trashcan below. </div>
                 <ul id="ob_setups-sortable_1" class="sortable" style="display:none;"></ul>
             </div>
             <div class="footer">
                 <div class="l">
                     <input type="button" id="ob_setups-add_1" value="+">
-                    <img id="ob_setups-trash_1" class="ob_setups-trash" src="{{url_for('static',filename='images/trash.png')}}">
+                    <img id="ob_setups-trash_1" class="sortable-trash">
                 </div>
                 <input type="button" data-id="ob_setup" value="EDIT">
             </div>
         </div>
     </fieldset>
+
     <fieldset class="bl"> <legend>Notes</legend>
         <div id="panel-ob_notes1" class="panel-ob_notes">
             <div class="content">
-                <div id="ob_notes-hint_1" class="ob_notes-hint"> <p>Click on the "+" below to add a new setup note. <p>To re-order the setup notes, use the mouse to drag them around. <p>Ctrl-click on a setup note to delete it, or drag it into the trashcan below. </div>
+                <div id="ob_notes-hint_1" class="sortable-hint"> <p>Click on the "+" below to add a new setup note. <p>To re-order the setup notes, use the mouse to drag them around. <p>Ctrl-click on a setup note to delete it, or drag it into the trashcan below. </div>
                 <ul id="ob_notes-sortable_1" class="sortable" style="display:none;"></ul>
             </div>
             <div class="footer">
                 <div class="l">
                     <input type="button" id="ob_notes-add_1" value="+">
-                    <img id="ob_notes-trash_1" class="ob_notes-trash" src="{{url_for('static',filename='images/trash.png')}}">
+                    <img id="ob_notes-trash_1" class="sortable-trash">
                 </div>
                 <input type="button" data-id="ob_note" value="EDIT">
                 <input type="button" class="generate" data-id="mol" value="MOL">
@@ -139,16 +155,17 @@
             </div>
         </div>
     </fieldset>
+
     <fieldset class="tr"> <legend>Vehicles</legend>
         <div id="panel-vehicles_1" class="panel-vehicles">
             <div class="content">
-                <div id="vehicles-hint_1" class="vehicles-hint"> <p>Click on the "+" below to add a new Vehicle. <p>To re-order the Vehicles, use the mouse to drag them around. <p>Ctrl-click on an Vehicle to delete it, or drag it into the trashcan below. </div>
+                <div id="vehicles-hint_1" class="sortable-hint"> <p>Click on the "+" below to add a new Vehicle. <p>To re-order the Vehicles, use the mouse to drag them around. <p>Ctrl-click on an Vehicle to delete it, or drag it into the trashcan below. </div>
                 <ul id="vehicles-sortable_1" class="sortable" style="display:none;"></ul>
             </div>
             <div class="footer">
                 <div class="l">
                     <input type="button" id="vehicles-add_1" value="+">
-                    <img id="vehicles-trash_1" class="vehicles-trash" src="{{url_for('static',filename='images/trash.png')}}">
+                    <img id="vehicles-trash_1" class="sortable-trash">
                 </div>
                 <label for="VEHICLES_WIDTH_1">Width:</label>
                 <input type="text" class="param" name="VEHICLES_WIDTH_1" size="5">
@@ -156,16 +173,17 @@
             </div>
         </div>
     </fieldset>
+
     <fieldset class="br"> <legend>Ordnance</legend>
         <div id="panel-ordnance_1" class="panel-ordnance">
             <div class="content">
-                <div id="ordnance-hint_1" class="ordnance-hint"> <p>Click on the "+" below to add a new Gun. <p>To re-order the Gun's, use the mouse to drag them around. <p>Ctrl-click on an Gun to delete it, or drag it into the trashcan below. </div>
+                <div id="ordnance-hint_1" class="sortable-hint"> <p>Click on the "+" below to add a new Gun. <p>To re-order the Gun's, use the mouse to drag them around. <p>Ctrl-click on an Gun to delete it, or drag it into the trashcan below. </div>
                 <ul id="ordnance-sortable_1" class="sortable" style="display:none;"></ul>
             </div>
             <div class="footer">
                 <div class="l">
                     <input type="button" id="ordnance-add_1" value="+">
-                    <img id="ordnance-trash_1" class="ordnance-trash" src="{{url_for('static',filename='images/trash.png')}}">
+                    <img id="ordnance-trash_1" class="sortable-trash">
                 </div>
                 <label for="ORDNANCE_WIDTH_1">Width:</label>
                 <input type="text" class="param" name="ORDNANCE_WIDTH_1" size="5">
@@ -173,10 +191,15 @@
             </div>
         </div>
     </fieldset>
+
 </div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 <div id="tabs-ob2"> <!-- nb: this will be created dynamically from the OB1 tab -->
 </div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 <div id="tabs-other">
     <div id="panel-other">
@@ -185,18 +208,28 @@
     </div>
 </div>
 
-<div id="edit-template" style="display:none;"> <textarea></textarea> </div>
+</div>
+
+<!-- ----------------------------------------------------------------- -->
+
+<div id="edit-template" style="display:none;">
+    <textarea></textarea>
+</div>
+
 <div id="edit-simple_note" style="display:none;">
     <textarea></textarea>
     <label for="width">Width:</label> <input name="width" type="text" size="5">
 </div>
+
 <div id="select-vo" style="display:none;">
     <div class="header"> <b>Filter by:</b> <input type="text" size="10"> </div>
     <select size=2></select> </div>
 </div>
+
 <div id="ask" style="display:none;"></div>
 
-</div>
+<!-- ----------------------------------------------------------------- -->
+
 </body>
 
 <script src="{{url_for('static',filename='jquery/jquery-3.3.1.min.js')}}"></script>

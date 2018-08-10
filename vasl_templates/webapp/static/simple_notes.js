@@ -5,27 +5,27 @@
 // --------------------------------------------------------------------
 
 function add_scenario_note() { _do_edit_simple_note( $("#scenario_notes-sortable"), null ) ; }
-function do_add_scenario_note( $sortable, data ) { _do_add_simple_note($sortable,data) ; }
-function edit_scenario_note( $sortable, $entry ) { _do_edit_simple_note( $sortable, $entry ) ; }
+function do_add_scenario_note( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
+function edit_scenario_note( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry ) ; }
 
 function add_ssr() { _do_edit_simple_note( $("#ssr-sortable"), null ) ; }
-function do_add_ssr( $sortable, data ) { _do_add_simple_note($sortable,data) ; }
-function edit_ssr( $sortable, $entry ) { _do_edit_simple_note( $sortable, $entry ) ; }
+function do_add_ssr( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
+function edit_ssr( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry ) ; }
 
 function add_ob_setup( player_id ) { _do_edit_simple_note( $("#ob_setups-sortable_"+player_id), null ) ; }
-function do_add_ob_setup( $sortable, data ) { _do_add_simple_note($sortable,data) ; }
-function edit_ob_setup( $sortable, $entry ) { _do_edit_simple_note( $sortable, $entry ) ; }
+function do_add_ob_setup( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
+function edit_ob_setup( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry ) ; }
 
 function add_ob_note( player_id ) { _do_edit_simple_note( $("#ob_notes-sortable_"+player_id), null ) ; }
-function do_add_ob_note( $sortable, data ) { _do_add_simple_note($sortable,data) ; }
-function edit_ob_note( $sortable, $entry ) { _do_edit_simple_note( $sortable, $entry ) ; }
+function do_add_ob_note( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
+function edit_ob_note( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry ) ; }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function _do_edit_simple_note( $sortable, $entry )
+function _do_edit_simple_note( $sortable2, $entry )
 {
     // figure out what we're editing
-    var note_type = _get_note_type_for_sortable( $sortable ) ;
+    var note_type = _get_note_type_for_sortable( $sortable2 ) ;
     var note_type0 = note_type.substring( 0, note_type.length-1 ) ; // plural -> singular :-/
 
     // let the user edit the note
@@ -40,7 +40,7 @@ function _do_edit_simple_note( $sortable, $entry )
             $width = $(this).children( "input[name='width']" ) ;
             $width_label = $(this).children( "label[for='width']" ) ;
             if ( $entry ) {
-                var data = $entry.data( "sortable-data" ) ;
+                var data = $entry.data( "sortable2-data" ) ;
                 $caption.val( data.caption ) ;
                 $width.val( data.width ) ;
             }
@@ -68,10 +68,10 @@ function _do_edit_simple_note( $sortable, $entry )
                 if ( $entry ) {
                     // update the existing note
                     if ( caption === "" )
-                        delete_sortable_entry( $entry ) ;
+                        $sortable2.sortable2( "delete", { entry: $entry } ) ;
                     else {
-                        $entry.data("sortable-data").caption = caption ;
-                        $entry.data("sortable-data").width = width ;
+                        $entry.data("sortable2-data").caption = caption ;
+                        $entry.data("sortable2-data").width = width ;
                         $entry.empty().append( _make_simple_note( note_type, caption ) ) ;
                     }
                 }
@@ -79,7 +79,7 @@ function _do_edit_simple_note( $sortable, $entry )
                     // create a new note
                     if ( caption !== "" ) {
                         data = { caption: caption, width: width } ;
-                        _do_add_simple_note( $sortable, data ) ;
+                        _do_add_simple_note( $sortable2, data ) ;
                     }
                 }
                 $(this).dialog( "close" ) ;
@@ -91,12 +91,14 @@ function _do_edit_simple_note( $sortable, $entry )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function _do_add_simple_note( $sortable, data )
+function _do_add_simple_note( $sortable2, data )
 {
-    // add a new sortable entry
-    var note_type = _get_note_type_for_sortable( $sortable ) ;
-    var $entry = _make_simple_note( note_type, data.caption ) ;
-    add_sortable( $sortable, $entry , data ) ;
+    // add a new sortable2 entry
+    var note_type = _get_note_type_for_sortable( $sortable2 ) ;
+    $sortable2.sortable2( "add", {
+        content: _make_simple_note( note_type, data.caption ),
+        data: data,
+    } ) ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -114,7 +116,7 @@ function _make_simple_note( note_type, caption )
 
     // add a handler for the snippet button
     $content.children("input[type='button']").click( function() {
-        var data = $(this).parent().parent().data( "sortable-data" ) ;
+        var data = $(this).parent().parent().data( "sortable2-data" ) ;
         var key ;
         if ( note_type === "scenario_notes" )
             key = "SCENARIO_NOTE" ;
@@ -133,10 +135,10 @@ function _make_simple_note( note_type, caption )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function _get_note_type_for_sortable( $sortable )
+function _get_note_type_for_sortable( $sortable2 )
 {
     // figure out what type of note the sortable has
-    var id = $sortable.prop( "id" ) ;
+    var id = $sortable2.prop( "id" ) ;
     var match = /^((scenario_notes|ssr|vehicles|ob_setups|ob_notes))-sortable(_\d)?$/.exec( id ) ;
     return match[1] ;
 }

@@ -84,15 +84,6 @@ input[type="text"] { margin-bottom: 0.25em ; }
 
 /* -------------------------------------------------------------------- */
 
-.sortable { font-size: 80% ; }
-.sortable { list-style-type: none ; margin: 0 ; padding: 0 ; }
-.sortable li {
-    margin-bottom: 2px ; padding: 5px ;
-    border: 1px dotted #333 ; background: #eee ;
-}
-.sortable li.highlighted { background: #48c8ff ; }
-.sortable li:hover { cursor: pointer ; }
-
 .ui-dialog-titlebar { padding: 0.2em 0.5em 0.2em 0.5em !important ; }
 .ui-dialog-titlebar-close { margin-top: -10px !important ; }
 

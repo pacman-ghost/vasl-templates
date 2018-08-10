@@ -1,0 +1,15 @@
+.sortable { font-size: 80% ; }
+.sortable { list-style-type: none ; margin: 0 ; padding: 0 ; }
+.sortable li {
+    margin-bottom: 2px ; padding: 5px ;
+    border: 1px dotted #333 ; background: #eee ;
+}
+.sortable li.highlighted { background: #48c8ff ; }
+.sortable li:hover { cursor: pointer ; }
+
+.sortable li input[type="button"] { float: right ; }
+
+.sortable-hint { width:100% ; height: calc(100% - 1.5em) ; font-size: 80% ; font-style: italic ; }
+.sortable-hint p { margin-bottom: 1em ; }
+
+.sortable-trash { margin-left: 5px ; height: 2em ;  }
