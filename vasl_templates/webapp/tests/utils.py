@@ -205,7 +205,7 @@ def get_sortable_entry_count( sortable ):
 
 def generate_sortable_entry_snippet( sortable, entry_no ):
     """Generate the snippet for a sortable entry."""
-    elems = find_children( "li input[type='button']", sortable )
+    elems = find_children( "li img.snippet", sortable )
     elems[entry_no].click()
     return get_clipboard()
 

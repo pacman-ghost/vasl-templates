@@ -18,7 +18,7 @@ def test_ssr( webapp, webdriver ):
 
     # initialize
     expected = []
-    generate_snippet_btn = find_child( "input[type='button'][data-id='ssr']" )
+    generate_snippet_btn = find_child( "button[data-id='ssr']" )
     def add_ssr( val ):
         """Add a new SSR."""
         expected.append( val )

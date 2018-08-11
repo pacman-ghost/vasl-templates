@@ -16,7 +16,7 @@ def test_scenario_snippets( webapp, webdriver ):
     # initialize
     webdriver.get( webapp.url_for( "main", store_msgs=1 ) )
     select_tab( "scenario" )
-    btn = find_child( "input.generate[data-id='scenario']" )
+    btn = find_child( "button.generate[data-id='scenario']" )
 
     # generate a SCENARIO snippet
     _test_snippet( btn, {
@@ -67,7 +67,7 @@ def test_vc_snippets( webapp, webdriver ):
     # initialize
     webdriver.get( webapp.url_for( "main", store_msgs=1 ) )
     select_tab( "scenario" )
-    btn = find_child( "input.generate[data-id='victory_conditions']" )
+    btn = find_child( "button.generate[data-id='victory_conditions']" )
 
     # generate a VC snippet
     _test_snippet( btn, {
@@ -127,7 +127,7 @@ def test_players_snippets( webapp, webdriver ):
     # initialize
     webdriver.get( webapp.url_for( "main", store_msgs=1 ) )
     select_tab( "scenario" )
-    btn = find_child( "input.generate[data-id='players']" )
+    btn = find_child( "button.generate[data-id='players']" )
 
     # generate a PLAYERS snippet
     _test_snippet( btn, {
@@ -183,7 +183,7 @@ def test_edit_templates( webapp, webdriver ):
         edit_template( orig_template_id )
         # check that the new template is being used
         dismiss_notifications()
-        elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
+        elem = find_child( "button.generate[data-id='{}']".format( orig_template_id ) )
         elem.click()
         _ = get_clipboard() # FUDGE! Work-around a weird intermittent failure on Linux :shrug:
         assert get_clipboard() == "EDITED TEMPLATE: {}".format( orig_template_id )
@@ -191,20 +191,20 @@ def test_edit_templates( webapp, webdriver ):
 
     # customize the SCENARIO NOTE template
     select_tab( "scenario" )
-    elem = find_child( "input[type='button'][data-id='scenario_note']" )
+    elem = find_child( "button[data-id='scenario_note']" )
     elem.click()
     edit_template( "scenario_note" )
 
     # check that the new template is being used
     sortable = find_child( "#scenario_notes-sortable" )
     add_simple_note( sortable, "scenario note (ignored)", None )
-    elem = find_child( "li input[type='button']", sortable )
+    elem = find_child( "li img.snippet", sortable )
     elem.click()
     assert get_clipboard() == "EDITED TEMPLATE: scenario_note"
 
     # customize the OB SETUP template
     select_tab( "ob1" )
-    elem = find_child( "#tabs-ob1 input[type='button'][data-id='ob_setup']" )
+    elem = find_child( "#tabs-ob1 button[data-id='ob_setup']" )
     elem.click()
     edit_template( "ob_setup" )
 
@@ -213,13 +213,13 @@ def test_edit_templates( webapp, webdriver ):
         select_tab( "ob{}".format( player_id ) )
         sortable = ob_setups[ player_id ]
         add_simple_note( sortable, "ob setup (ignored)", None )
-        elem = find_child( "li input[type='button']", sortable )
+        elem = find_child( "li img.snippet", sortable )
         elem.click()
         assert get_clipboard() == "EDITED TEMPLATE: ob_setup"
 
     # customize the OB NOTE template
     select_tab( "ob2" )
-    elem = find_child( "#tabs-ob2 input[type='button'][data-id='ob_note']" )
+    elem = find_child( "#tabs-ob2 button[data-id='ob_note']" )
     elem.click()
     edit_template( "ob_note" )
 
@@ -228,7 +228,7 @@ def test_edit_templates( webapp, webdriver ):
         select_tab( "ob{}".format( player_id ) )
         sortable = ob_notes[ player_id ]
         add_simple_note( sortable, "ob note (ignored)", None )
-        elem = find_child( "li input[type='button']", sortable )
+        elem = find_child( "li img.snippet", sortable )
         elem.click()
         assert get_clipboard() == "EDITED TEMPLATE: ob_note"
 

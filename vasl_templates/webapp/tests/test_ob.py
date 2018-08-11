@@ -42,7 +42,7 @@ def _do_test_ob_entries( webapp, webdriver, ob_type ):
     # check that snippets are generated correctly
     def check_snippet( sortable, entry_no, expected ):
         """Generate the snippet for an OB setup/note."""
-        elems = find_children( "li input[type='button']", sortable )
+        elems = find_children( "li img.snippet", sortable )
         elems[entry_no].click()
         if ob_type == "ob_notes":
             expected = re.sub( r" \(col=.*?\)", "", expected )
@@ -105,7 +105,7 @@ def test_nationality_specific( webapp, webdriver ):
     # initialize
     def check_pf_snippets():
         """Check that the PF snippets are generated correctly."""
-        pf_btn = find_child( "input[type='button'][data-id='pf']" )
+        pf_btn = find_child( "button[data-id='pf']" )
         def do_test( date, expected, warning ): #pylint: disable=missing-docstring
             # test snippet generation
             set_scenario_date( date )
@@ -130,7 +130,7 @@ def test_nationality_specific( webapp, webdriver ):
     # initialize
     def check_baz_snippets():
         """Check that the BAZ snippets are generated correctly."""
-        baz_btn = find_child( "input[type='button'][data-id='baz']" )
+        baz_btn = find_child( "button[data-id='baz']" )
         def do_test( date, expected ): #pylint: disable=missing-docstring
             # test snippet generation
             set_scenario_date( date )
@@ -166,7 +166,7 @@ def test_nationality_specific( webapp, webdriver ):
         "piat": [ "british", "piat template ; col=[OBCOL:british]/[OBCOL2:british]" ],
     }
     btn_elems = {
-        btn: find_child( "input[type='button'][data-id='{}']".format( btn ) )
+        btn: find_child( "button[data-id='{}']".format( btn ) )
         for btn in nationality_specific_buttons
     }
 

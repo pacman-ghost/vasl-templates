@@ -109,13 +109,20 @@ function _make_simple_note( note_type, caption )
     var buf = [ "<div>" ] ;
     if ( ["scenario_notes","ob_setups","ob_notes"].indexOf( note_type ) !== -1 ) {
         var note_type0 = note_type.substring( 0, note_type.length-1 ) ;
-        buf.push( "<input type='button' data-id='" + note_type0 + "' value='Snippet'>" ) ;
+        buf.push(
+            "<img src='" + gImagesBaseUrl + "/snippet.png" + "'",
+            " class='snippet' data-id='" + note_type0 + "' title='Generate a snippet.'>"
+        ) ;
     }
     buf.push( caption, "</div>" ) ;
     var $content = $( buf.join("") ) ;
+    $content.children( "img" ).hover(
+        function() { $(this).attr( "src", gImagesBaseUrl + "/snippet-hot.png" ) ; },
+        function() { $(this).attr( "src", gImagesBaseUrl + "/snippet.png" ) ; }
+    ) ;
 
     // add a handler for the snippet button
-    $content.children("input[type='button']").click( function() {
+    $content.children("img.snippet").click( function() {
         var data = $(this).parent().parent().data( "sortable2-data" ) ;
         var key ;
         if ( note_type === "scenario_notes" )

@@ -7,7 +7,7 @@
 .sortable li.highlighted { background: #48c8ff ; }
 .sortable li:hover { cursor: pointer ; }
 
-.sortable li input[type="button"] { float: right ; }
+.sortable li img.snippet { height: 1.25em ; margin: -2px -2px ; padding-left: 1em ; float: right ; }
 
 .sortable-hint { width:100% ; height: calc(100% - 1.5em) ; font-size: 80% ; font-style: italic ; }
 .sortable-hint p { margin-bottom: 1em ; }

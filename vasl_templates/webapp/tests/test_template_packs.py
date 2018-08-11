@@ -175,18 +175,18 @@ def _generate_snippet( template_id, orig_template_id ):
         # create a scenario note and generate a snippet for it
         sortable = find_child( "#scenario_notes-sortable" )
         add_simple_note( sortable, "test scenario note", None )
-        elems = find_children( "li input[type='button']", sortable )
+        elems = find_children( "li img.snippet", sortable )
         elem = elems[0]
     elif template_id in ("ob_setup","ob_note"):
         # create a OB setup/note and generate a snippet for it
         select_tab( "ob1" )
         sortable = find_child( "#{}s-sortable_1".format( template_id ) )
         add_simple_note( sortable, "test {}".format(template_id), None )
-        elems = find_children( "#{}s-sortable_1 li input[type='button']".format( template_id ) )
+        elems = find_children( "#{}s-sortable_1 li img.snippet".format( template_id ) )
         elem = elems[0]
     else:
         # generate a snippet for the specified template
-        elem = find_child( "input.generate[data-id='{}']".format( orig_template_id ) )
+        elem = find_child( "button.generate[data-id='{}']".format( orig_template_id ) )
     elem.click()
     return elem, get_clipboard()
 

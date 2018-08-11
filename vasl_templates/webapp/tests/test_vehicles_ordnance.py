@@ -65,7 +65,7 @@ def test_crud( webapp, webdriver ):
         # check the snippet
         select_tab( "ob{}".format( player_id ) )
         dismiss_notifications()
-        btn = find_child( "input[type='button'][data-id='{}_{}']".format( vo_type, player_id ) )
+        btn = find_child( "button[data-id='{}_{}']".format( vo_type, player_id ) )
         btn.click()
         buf = get_clipboard()
         names = [
@@ -135,7 +135,7 @@ def test_snippets( webapp, webdriver ):
         # test a full example
         add_vo( vo_type, 1, "a german {}".format(vo_type) )
         dismiss_notifications()
-        btn = find_child( "input[type='button'][data-id='{}_1']".format( vo_type ) )
+        btn = find_child( "button[data-id='{}_1']".format( vo_type ) )
         btn.click()
         expected = [
             '[German] ; width=',
@@ -152,7 +152,7 @@ def test_snippets( webapp, webdriver ):
         # test a partial example
         add_vo( vo_type, 1, "another german {}".format(vo_type) )
         dismiss_notifications()
-        btn = find_child( "input[type='button'][data-id='{}_1']".format( vo_type ) )
+        btn = find_child( "button[data-id='{}_1']".format( vo_type ) )
         btn.click()
         expected = [
             '[German] ; width=',
@@ -168,7 +168,7 @@ def test_snippets( webapp, webdriver ):
         # test a minimal example
         add_vo( vo_type, 1, "name only" )
         dismiss_notifications()
-        btn = find_child( "input[type='button'][data-id='{}_1']".format( vo_type ) )
+        btn = find_child( "button[data-id='{}_1']".format( vo_type ) )
         btn.click()
         assert get_clipboard() == \
 '''[German] ; width=
@@ -190,7 +190,7 @@ def test_variable_capabilities( webapp, webdriver ):
     add_vo( "vehicles", 2, "Churchill III(b)" )
 
     # change the scenario date and check the generated snippet
-    vehicles2 = find_child( "input.generate[data-id='vehicles_2']" )
+    vehicles2 = find_child( "button.generate[data-id='vehicles_2']" )
     def do_test( month, year, expected ):
         """Set the date and check the vehicle snippet."""
         dismiss_notifications()

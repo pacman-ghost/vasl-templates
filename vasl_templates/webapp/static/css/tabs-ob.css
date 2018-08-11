@@ -3,7 +3,7 @@
 .panel-ob_setups {
     height: 100% ;
     display: grid ; display: -ms-grid ;
-    grid-template-rows: 1fr 2em ; -ms-grid-rows: 1fr 2em ;
+    grid-template-rows: 1fr 40px ; -ms-grid-rows: 1fr 40px ;
     grid-template-columns: 1fr ; -ms-grid-columns: 1fr ;
 }
 /* FUDGE! IE hackamathon follows... */
@@ -18,7 +18,7 @@
 .panel-ob_notes {
     height: 100% ;
     display: grid ; display: -ms-grid ;
-    grid-template-rows: 1fr 2em ; -ms-grid-rows: 1fr 2em ;
+    grid-template-rows: 1fr 40px ; -ms-grid-rows: 1fr 40px ;
     grid-template-columns: 1fr ; -ms-grid-columns: 1fr ;
 }
 /* FUDGE! IE hackamathon follows... */
@@ -27,15 +27,16 @@
 
 .panel-ob_notes .footer { font-size: 75% ; }
 .panel-ob_notes .footer .l { float: left ; }
-.panel-ob_notes .footer input[type="button"][data-id="ob_note"] { float: right ; }
-.panel-ob_notes div.snippet-control { float: right ; margin: 0.25em 0.25em 0 0 ; }
+.panel-ob_notes .footer button[data-id="ob_note"] { float: right ; }
+.panel-ob_notes div.snippet-control { float: right ; margin-right: 0.25em ; }
+.panel-ob_notes button.edit-template { margin-left: 1em ; }
 
 /* -------------------------------------------------------------------- */
 
 .panel-vehicles {
     height: 100% ;
     display: grid ; display: -ms-grid ;
-    grid-template-rows: 1fr 2em ; -ms-grid-rows: 1fr 2em ;
+    grid-template-rows: 1fr 40px ; -ms-grid-rows: 1fr 40px ;
     grid-template-columns: 1fr ; -ms-grid-columns: 1fr ;
 }
 /* FUDGE! IE hackamathon follows... */
@@ -50,7 +51,7 @@
 .panel-ordnance {
     height: 100% ;
     display: grid ; display: -ms-grid ;
-    grid-template-rows: 1fr 2em ; -ms-grid-rows: 1fr 2em ;
+    grid-template-rows: 1fr 40px ; -ms-grid-rows: 1fr 40px ;
     grid-template-columns: 1fr ; -ms-grid-columns: 1fr ;
 }
 /* FUDGE! IE hackamathon follows... */

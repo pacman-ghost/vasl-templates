@@ -89,24 +89,15 @@ $(document).ready( function () {
     $("#scenario_notes-sortable").sortable2( "init", {
         add: add_scenario_note, edit: edit_scenario_note,
     } ) ;
-    $("#panel-scenario_notes input[type='button'][data-id='scenario_note']").click( function() {
-        edit_template( "scenario_note" ) ;
-    } ) ;
 
     // initialize the OB setups
     $("#ob_setups-sortable_1").sortable2( "init", {
         add: function() { add_ob_setup(1) ; },
         edit: edit_ob_setup
     } ) ;
-    $("#panel-ob_setups1 input[type='button'][data-id='ob_setup']").click( function() {
-        edit_template( "ob_setup" ) ;
-    } ) ;
     $("#ob_setups-sortable_2").sortable2( "init", {
         add: function() { add_ob_setup(2) ; },
         edit: edit_ob_setup
-    } ) ;
-    $("#panel-ob_setups2 input[type='button'][data-id='ob_setup']").click( function() {
-        edit_template( "ob_setup" ) ;
     } ) ;
 
     // initialize the OB notes
@@ -114,15 +105,9 @@ $(document).ready( function () {
         add: function() { add_ob_note(1) ; },
         edit: edit_ob_note
     } ) ;
-    $("#panel-ob_notes1 input[type='button'][data-id='ob_note']").click( function() {
-        edit_template( "ob_note" ) ;
-    } ) ;
     $("#ob_notes-sortable_2").sortable2( "init", {
         add: function() { add_ob_note(2) ; },
         edit: edit_ob_note
-    } ) ;
-    $("#panel-ob_notes2 input[type='button'][data-id='ob_note']").click( function() {
-        edit_template( "ob_note" ) ;
     } ) ;
 
     // initialize the OB vehicles
@@ -228,7 +213,7 @@ $(document).ready( function () {
     $(window).trigger( "resize" ) ;
 
     // replace all the "generate" buttons with "generate/edit" button/droplist's
-    $("input[type='button'].generate").each( function() {
+    $("button.generate").each( function() {
         var template_id = $(this).attr( "data-id" ) ;
         var template_id2 ;
         if ( template_id.substring(0,9) === "ob_setup_" )
@@ -242,11 +227,14 @@ $(document).ready( function () {
         var buf = [ "<div class='snippet-control' data-id='" + template_id + "'>",
             $(this).prop( "outerHTML" ),
             "<select data-id='" + template_id2 + "'>",
-            "<option value='edit' class='edit-template'>Edit</option>",
+            "<option value='edit' class='edit-template' title='Edit the template that will generate this snippet.'>Edit</option>",
             "</select>",
             "</div>"
         ] ;
         var $newElem = $( buf.join("") ) ;
+        $newElem.find( "button" ).prepend(
+            $( "<img src='" + gImagesBaseUrl + "/snippet.png'>" )
+        ) ;
         $newElem.controlgroup() ;
         $newElem.children("select").each( function() {
             $(this).selectmenu( {
@@ -262,13 +250,20 @@ $(document).ready( function () {
     } ) ;
 
     // handle requests to generate/edit HTML snippets
-    $("input[type='button'].generate").click( function() {
+    $("button.generate").click( function() {
         generate_snippet( $(this), null ) ;
-    } ) ;
+    } ).attr( "title", "Generate a snippet." ) ;
     $("div.snippet-control select").on( "selectmenuselect", function() {
         edit_template( $(this).attr("data-id") ) ;
     } ) ;
     enable_ctrl_enter( $("#edit-template"), "Close" ) ;
+
+    // handle requests to edit the templates
+    $("button.edit-template").click( function() {
+        edit_template( $(this).data( "id" ) ) ;
+    } ).html( "<div><img src='" + gImagesBaseUrl + "/edit-template.png'>Edit</div>" )
+    .attr( "title", "Edit the template." )
+    .addClass( "ui-button" ) ;
 
     // enable Ctrl-Enter when editing simple notes
     enable_ctrl_enter( $("#edit-simple_note"), "OK" ) ;
@@ -278,7 +273,7 @@ $(document).ready( function () {
 
     // add some dummy links for the test suite to edit templates
     if ( getUrlParam( "edit_template_links" ) ) {
-        $("input[type='button'].generate").each( function() {
+        $("button.generate").each( function() {
            var template_id = $(this).attr( "data-id" ) ;
             if ( template_id.substring(0,9) === "ob_setup_" )
                 template_id = "ob_setup" ;
