@@ -20,9 +20,6 @@ body { height: 100% ; }
 
 #tabs .ui-tabs-nav li img { position: relative ; top: 2px ; height: 1em ; }
 
-.snippet-control-menu-item { font-size: 75% ; }
-.ui-selectmenu-icon.ui-icon { margin-top: -8px; }
-
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #tabs-scenario {
@@ -83,6 +80,15 @@ fieldset legend { padding: 0 0.2em 0 0.2em ; font-style: italic ; font-weight: b
 input[type="text"] { margin-bottom: 0.25em ; }
 
 /* -------------------------------------------------------------------- */
+
+/* FUDGE! Fix vertical alignment between labels and their input boxes :-/ */
+div.label { border: 1px dotted transparent ; }
+
+.snippet-control { margin-top: -1px ; }
+.snippet-control input[type="button"] { padding: 2px 5px ; }
+.snippet-control .ui-selectmenu-button { padding: 2px 10px ; }
+.snippet-control-menu-item { font-size: 75% ; }
+.ui-selectmenu-icon.ui-icon { margin-top: -8px; }
 
 .ui-dialog-titlebar { padding: 0.2em 0.5em 0.2em 0.5em !important ; }
 .ui-dialog-titlebar-close { margin-top: -10px !important ; }
