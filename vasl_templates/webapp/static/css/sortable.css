@@ -1,3 +1,6 @@
+button.sortable-add { vertical-align: top ; height: 26px ; padding: 2px 5px ; }
+img.sortable-add { height: 15px ; }
+
 .sortable { font-size: 80% ; }
 .sortable { list-style-type: none ; margin: 0 ; padding: 0 ; }
 .sortable li {
@@ -12,4 +15,4 @@
 .sortable-hint { width:100% ; height: calc(100% - 1.5em) ; font-size: 80% ; font-style: italic ; }
 .sortable-hint p { margin-bottom: 1em ; }
 
-.sortable-trash { margin-left: 5px ; height: 2em ;  }
+.sortable-trash { margin-left: 5px ; height: 24px ;  }

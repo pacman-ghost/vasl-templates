@@ -9,6 +9,9 @@ $.fn.sortable2 = function( action, args )
         "init": function( $sortable2 ) {
             // initialize the sortable2 and support elements
             $sortable2.data( "on_edit", args.edit ) ;
+            var $add_btn = find_helper( $sortable2, "add" ) ;
+            $add_btn.prepend( $( "<div><img src='" + gImagesBaseUrl + "/sortable-add.png' class='sortable-add'> Add</div>" ) )
+                .addClass( "ui-button" ) ;
             var $add = find_helper( $sortable2, "add" ) ;
             $add.click( args.add ) ;
             // handle dragging entries to the trash

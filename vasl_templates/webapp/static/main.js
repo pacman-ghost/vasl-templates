@@ -262,8 +262,8 @@ $(document).ready( function () {
     $("button.edit-template").click( function() {
         edit_template( $(this).data( "id" ) ) ;
     } ).html( "<div><img src='" + gImagesBaseUrl + "/edit-template.png'>Edit</div>" )
-    .attr( "title", "Edit the template." )
-    .addClass( "ui-button" ) ;
+        .attr( "title", "Edit the template." )
+        .addClass( "ui-button" ) ;
 
     // enable Ctrl-Enter when editing simple notes
     enable_ctrl_enter( $("#edit-simple_note"), "OK" ) ;
