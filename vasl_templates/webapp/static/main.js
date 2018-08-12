@@ -78,6 +78,7 @@ $(document).ready( function () {
         showAnim: "slideDown",
         changeMonth: true, changeYear: true,
         defaultDate: "01/01/1940",
+        onClose: on_scenario_date_change,
     } ) ;
 
     // initialize the SSR's
@@ -282,6 +283,9 @@ $(document).ready( function () {
 
     // initialize hotkeys
     init_hotkeys() ;
+
+    // update the UI
+    on_scenario_date_change() ;
 
     // add some dummy links for the test suite to edit templates
     if ( getUrlParam( "edit_template_links" ) ) {

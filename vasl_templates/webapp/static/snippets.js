@@ -129,18 +129,12 @@ function generate_snippet( $btn, extra_params )
     }
 
     // check for date-specific parameters
-    if ( template_id === "pf" ) {
-        if ( params.SCENARIO_DATE === "" || params.SCENARIO_YEAR <= 1942 || (params.SCENARIO_YEAR == 1943 && params.SCENARIO_MONTH <= 9) )
-            showWarningMsg( "PF are only available after September 1943." ) ;
-    }
-    if ( template_id === "baz" ) {
-        if ( params.SCENARIO_DATE === "" || params.SCENARIO_YEAR <= 1941 || (params.SCENARIO_YEAR == 1942 && params.SCENARIO_MONTH < 11) )
-            showWarningMsg( "BAZ are only available from November 1942." ) ;
-    }
-    if ( template_id === "atmm" ) {
-        if ( params.SCENARIO_DATE === "" || params.SCENARIO_YEAR < 1944 )
-            showWarningMsg( "ATMM are only available from 1944." ) ;
-    }
+    if ( template_id === "pf" && ! is_pf_available() )
+        showWarningMsg( "PF are only available after September 1943." ) ;
+    if ( template_id === "baz" && ! is_baz_available() )
+        showWarningMsg( "BAZ are only available from November 1942." ) ;
+    if ( template_id === "atmm" && ! is_atmm_available() )
+        showWarningMsg( "ATMM are only available from 1944." ) ;
 
     // add in any extra parameters
     if ( extra_params )
@@ -808,4 +802,43 @@ function do_load_template_pack( fname, data )
         install_new_template_pack( "The template file was loaded." ) ;
     }
 
+}
+
+// --------------------------------------------------------------------
+
+function _is_scenario_after( month, year ) {
+    // check if the scenario is after the specified month/year
+    var scenario_date = $("input[name='SCENARIO_DATE']").datepicker( "getDate" ) ;
+    if ( ! scenario_date )
+        return false ;
+    if ( scenario_date.getFullYear() > year )
+        return true ;
+    if ( scenario_date.getFullYear() < year )
+        return false ;
+    return (scenario_date.getMonth() >= month) ;
+}
+
+function is_pf_available() { return _is_scenario_after( 9, 1943 ) ; }
+function is_baz_available() { return _is_scenario_after( 10, 1942 ) ; }
+function is_atmm_available() { return _is_scenario_after( 0, 1944 ) ; }
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function on_scenario_date_change()
+{
+    // update the UI
+    // NOTE: We update the visual appearance of the buttons to indicate whether
+    // the support weapons are available, but leave the buttons active since
+    // the date restrictions are not strict, and the SW are sometimes available
+    // (by SSR) even outside the normal time.
+    function update_ui( id, is_available ) {
+        var $btn = $( "button.generate[data-id='" + id + "']" ) ;
+        $btn.css( "color", is_available?"#000":"#aaa" ) ;
+        $btn.children( "img" ).each( function() {
+            $(this).attr( "src", gImagesBaseUrl + (is_available?"/snippet.png":"/snippet-disabled.png") ) ;
+        } ) ;
+    }
+    update_ui( "pf", is_pf_available() ) ;
+    update_ui( "baz", is_baz_available() ) ;
+    update_ui( "atmm", is_atmm_available() ) ;
 }

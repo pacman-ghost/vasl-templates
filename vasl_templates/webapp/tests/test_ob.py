@@ -115,10 +115,13 @@ def test_nationality_specific( webapp, webdriver ):
             assert get_clipboard() == expected
             # check if a warning was issued
             last_warning = get_stored_msg( "_last-warning_" ) or ""
+            image_url = find_child( "img", pf_btn ).get_attribute( "src" )
             if warning:
                 assert last_warning.startswith( "PF are only available" )
+                assert "snippet-disabled.png" in image_url
             else:
                 assert last_warning == ""
+                assert "snippet.png" in image_url
         do_test( (1942,1), "PF: range=[1] ; check=[2] (drm=[+1]) ; col=[OBCOL:german]/[OBCOL2:german]", True )
         do_test( (1943,9), "PF: range=[1] ; check=[2] (drm=[+1]) ; col=[OBCOL:german]/[OBCOL2:german]", True )
         do_test( (1943,10), "PF: range=[1] ; check=[3] ; col=[OBCOL:german]/[OBCOL2:german]", False )
@@ -140,10 +143,13 @@ def test_nationality_specific( webapp, webdriver ):
             assert get_clipboard() == expected
             # check if a warning was issued
             last_warning = get_stored_msg( "_last-warning_" ) or ""
+            image_url = find_child( "img", baz_btn ).get_attribute( "src" )
             if expected == "BAZ: none":
                 assert last_warning.startswith( "BAZ are only available" )
+                assert "snippet-disabled.png" in image_url
             else:
                 assert last_warning == ""
+                assert "snippet.png" in image_url
         do_test( (1941,1), "BAZ: none" )
         do_test( (1942,10), "BAZ: none" )
         do_test( (1942,11), "BAZ: '43 ; range=[4] ; X#=[10] ; TK#=[13] ; col=[OBCOL:american]/[OBCOL2:american]" )
@@ -157,12 +163,36 @@ def test_nationality_specific( webapp, webdriver ):
         )
 
     # initialize
+    def check_atmm_snippets():
+        """Check that the ATMM snippets are generated correctly."""
+        atmm_btn = find_child( "button[data-id='atmm']" )
+        def do_test( date, available ): #pylint: disable=missing-docstring
+            # test snippet generation
+            set_scenario_date( date )
+            select_tab( "ob1" )
+            atmm_btn.click()
+            assert get_clipboard() == "Kaboom!!! ; col=[OBCOL:german]/[OBCOL2:german]"
+            # check if a warning was issued
+            last_warning = get_stored_msg( "_last-warning_" ) or ""
+            image_url = find_child( "img", atmm_btn ).get_attribute( "src" )
+            if not available:
+                assert last_warning.startswith( "ATMM are only available" )
+                assert "snippet-disabled.png" in image_url
+            else:
+                assert last_warning == ""
+                assert "snippet.png" in image_url
+        do_test( (1943,12), False )
+        do_test( (1944,1), True )
+        do_test( (1944,12), True )
+        do_test( (1945,1), True )
+
+    # initialize
     nationality_specific_buttons = {
         "mol": [ "russian", "Burn, baby, burn! ; col=[OBCOL:russian]/[OBCOL2:russian]" ],
         "mol-p": [ "russian", "mol-p template ; col=[OBCOL:russian]/[OBCOL2:russian]" ],
         "pf": [ "german", check_pf_snippets ],
         "psk": [ "german", "====> whoosh! ; col=[OBCOL:german]/[OBCOL2:german]" ],
-        "atmm": [ "german", "Kaboom!!! ; col=[OBCOL:german]/[OBCOL2:german]" ],
+        "atmm": [ "german", check_atmm_snippets ],
         "baz": [ "american", check_baz_snippets ],
         "piat": [ "british", "piat template ; col=[OBCOL:british]/[OBCOL2:british]" ],
     }
