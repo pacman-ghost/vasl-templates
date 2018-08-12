@@ -88,7 +88,7 @@ def _do_test_ob_entries( webapp, webdriver, ob_type ):
 
 # ---------------------------------------------------------------------
 
-def test_nationality_specific( webapp, webdriver ):
+def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-locals
     """Check that nationality-specific buttons are shown/hidden correctly."""
 
     # initialize
@@ -103,95 +103,82 @@ def test_nationality_specific( webapp, webdriver ):
         scenario_date.clear()
         scenario_date.send_keys( "{:02}/01/{:04}".format( date[1], date[0] ) )
 
+    def do_check_snippets( btn, date, expected, warning ):
+        """Check that snippets are being generated correctly."""
+        # test snippet generation
+        set_scenario_date( date )
+        select_tab( "ob1" )
+        btn.click()
+        assert get_clipboard() == expected
+        # check if a warning was issued
+        last_warning = get_stored_msg( "_last-warning_" ) or ""
+        image_url = find_child( "img", btn ).get_attribute( "src" )
+        if warning:
+            assert "are only available" in last_warning
+            assert "snippet-disabled.png" in image_url
+        else:
+            assert last_warning == ""
+            assert "snippet.png" in image_url
+
     # initialize
     def check_pf_snippets():
         """Check that the PF snippets are generated correctly."""
-        pf_btn = find_child( "button[data-id='pf']" )
-        def do_test( date, expected, warning ): #pylint: disable=missing-docstring
-            # test snippet generation
-            set_scenario_date( date )
-            select_tab( "ob1" )
-            pf_btn.click()
-            assert get_clipboard() == expected
-            # check if a warning was issued
-            last_warning = get_stored_msg( "_last-warning_" ) or ""
-            image_url = find_child( "img", pf_btn ).get_attribute( "src" )
-            if warning:
-                assert last_warning.startswith( "PF are only available" )
-                assert "snippet-disabled.png" in image_url
-            else:
-                assert last_warning == ""
-                assert "snippet.png" in image_url
-        do_test( (1942,1), "PF: range=[1] ; check=[2] (drm=[+1]) ; col=[OBCOL:german]/[OBCOL2:german]", True )
-        do_test( (1943,9), "PF: range=[1] ; check=[2] (drm=[+1]) ; col=[OBCOL:german]/[OBCOL2:german]", True )
-        do_test( (1943,10), "PF: range=[1] ; check=[3] ; col=[OBCOL:german]/[OBCOL2:german]", False )
-        do_test( (1944,5), "PF: range=[1] ; check=[3] ; col=[OBCOL:german]/[OBCOL2:german]", False )
-        do_test( (1944,6), "PF: range=[2] ; check=[3] ; col=[OBCOL:german]/[OBCOL2:german]", False )
-        do_test( (1944,12), "PF: range=[2] ; check=[3] ; col=[OBCOL:german]/[OBCOL2:german]", False )
-        do_test( (1945,1), "PF: range=[3] ; check=[4] (drm=[-1]) ; col=[OBCOL:german]/[OBCOL2:german]", False )
-        do_test( (1946,1), "PF: range=[3] ; check=[4] (drm=[-1]) ; col=[OBCOL:german]/[OBCOL2:german]", False )
+        btn = find_child( "button[data-id='pf']" )
+        col = "[OBCOL:german]/[OBCOL2:german]"
+        do_check_snippets( btn, (1942,1), "PF: range=[1] ; check=[2] (drm=[+1]) ; col={}".format(col), True )
+        do_check_snippets( btn, (1943,9), "PF: range=[1] ; check=[2] (drm=[+1]) ; col={}".format(col), True )
+        do_check_snippets( btn, (1943,10), "PF: range=[1] ; check=[3] ; col={}".format(col), False )
+        do_check_snippets( btn, (1944,5), "PF: range=[1] ; check=[3] ; col={}".format(col), False )
+        do_check_snippets( btn, (1944,6), "PF: range=[2] ; check=[3] ; col={}".format(col), False )
+        do_check_snippets( btn, (1944,12), "PF: range=[2] ; check=[3] ; col={}".format(col), False )
+        do_check_snippets( btn, (1945,1), "PF: range=[3] ; check=[4] (drm=[-1]) ; col={}".format(col), False )
+        do_check_snippets( btn, (1946,1), "PF: range=[3] ; check=[4] (drm=[-1]) ; col={}".format(col), False )
+
+    # initialize
+    def check_psk_snippets():
+        """Check that the PSK snippets are generated correctly."""
+        btn = find_child( "button[data-id='psk']" )
+        expected = "====> whoosh! ; col=[OBCOL:german]/[OBCOL2:german]"
+        do_check_snippets( btn, (1942,1), expected, True )
+        do_check_snippets( btn, (1943,9), expected, True )
+        do_check_snippets( btn, (1943,10), expected, False )
+        do_check_snippets( btn, (1944,1), expected, False )
 
     # initialize
     def check_baz_snippets():
         """Check that the BAZ snippets are generated correctly."""
-        baz_btn = find_child( "button[data-id='baz']" )
-        def do_test( date, expected ): #pylint: disable=missing-docstring
-            # test snippet generation
-            set_scenario_date( date )
-            select_tab( "ob1" )
-            baz_btn.click()
-            assert get_clipboard() == expected
-            # check if a warning was issued
-            last_warning = get_stored_msg( "_last-warning_" ) or ""
-            image_url = find_child( "img", baz_btn ).get_attribute( "src" )
-            if expected == "BAZ: none":
-                assert last_warning.startswith( "BAZ are only available" )
-                assert "snippet-disabled.png" in image_url
-            else:
-                assert last_warning == ""
-                assert "snippet.png" in image_url
-        do_test( (1941,1), "BAZ: none" )
-        do_test( (1942,10), "BAZ: none" )
-        do_test( (1942,11), "BAZ: '43 ; range=[4] ; X#=[10] ; TK#=[13] ; col=[OBCOL:american]/[OBCOL2:american]" )
-        do_test( (1943,1), "BAZ: '43 ; range=[4] ; X#=[10] ; TK#=[13] ; col=[OBCOL:american]/[OBCOL2:american]" )
-        do_test( (1944,1), "BAZ: '44 ; range=[4] ; X#=[11] ; TK#=[16] ; col=[OBCOL:american]/[OBCOL2:american]" )
-        do_test( (1945,1),
-            "BAZ: '45 ; range=[5] ; X#=[11] ; TK#=[16] ; WP#=[6] ; col=[OBCOL:american]/[OBCOL2:american]"
+        btn = find_child( "button[data-id='baz']" )
+        do_check_snippets( btn, (1941,1), "BAZ: none", True )
+        do_check_snippets( btn, (1942,10), "BAZ: none", True )
+        col = "[OBCOL:american]/[OBCOL2:american]"
+        do_check_snippets( btn, (1942,11), "BAZ: '43 ; range=[4] ; X#=[10] ; TK#=[13] ; col={}".format(col), False )
+        do_check_snippets( btn, (1943,1), "BAZ: '43 ; range=[4] ; X#=[10] ; TK#=[13] ; col={}".format(col), False )
+        do_check_snippets( btn, (1944,1), "BAZ: '44 ; range=[4] ; X#=[11] ; TK#=[16] ; col={}".format(col), False )
+        do_check_snippets( btn, (1945,1),
+            "BAZ: '45 ; range=[5] ; X#=[11] ; TK#=[16] ; WP#=[6] ; col={}".format(col),
+            False
         )
-        do_test( (1946,1),
-            "BAZ: '45 ; range=[5] ; X#=[11] ; TK#=[16] ; WP#=[6] ; col=[OBCOL:american]/[OBCOL2:american]"
+        do_check_snippets( btn, (1946,1),
+            "BAZ: '45 ; range=[5] ; X#=[11] ; TK#=[16] ; WP#=[6] ; col={}".format(col),
+            False
         )
 
     # initialize
     def check_atmm_snippets():
         """Check that the ATMM snippets are generated correctly."""
-        atmm_btn = find_child( "button[data-id='atmm']" )
-        def do_test( date, available ): #pylint: disable=missing-docstring
-            # test snippet generation
-            set_scenario_date( date )
-            select_tab( "ob1" )
-            atmm_btn.click()
-            assert get_clipboard() == "Kaboom!!! ; col=[OBCOL:german]/[OBCOL2:german]"
-            # check if a warning was issued
-            last_warning = get_stored_msg( "_last-warning_" ) or ""
-            image_url = find_child( "img", atmm_btn ).get_attribute( "src" )
-            if not available:
-                assert last_warning.startswith( "ATMM are only available" )
-                assert "snippet-disabled.png" in image_url
-            else:
-                assert last_warning == ""
-                assert "snippet.png" in image_url
-        do_test( (1943,12), False )
-        do_test( (1944,1), True )
-        do_test( (1944,12), True )
-        do_test( (1945,1), True )
+        btn = find_child( "button[data-id='atmm']" )
+        expected = "Kaboom!!! ; col=[OBCOL:german]/[OBCOL2:german]"
+        do_check_snippets( btn, (1943,12), expected, True )
+        do_check_snippets( btn, (1944,1), expected, False )
+        do_check_snippets( btn, (1944,12), expected, False )
+        do_check_snippets( btn, (1945,1), expected, False )
 
     # initialize
     nationality_specific_buttons = {
         "mol": [ "russian", "Burn, baby, burn! ; col=[OBCOL:russian]/[OBCOL2:russian]" ],
         "mol-p": [ "russian", "mol-p template ; col=[OBCOL:russian]/[OBCOL2:russian]" ],
         "pf": [ "german", check_pf_snippets ],
-        "psk": [ "german", "====> whoosh! ; col=[OBCOL:german]/[OBCOL2:german]" ],
+        "psk": [ "german", check_psk_snippets ],
         "atmm": [ "german", check_atmm_snippets ],
         "baz": [ "american", check_baz_snippets ],
         "piat": [ "british", "piat template ; col=[OBCOL:british]/[OBCOL2:british]" ],

@@ -131,6 +131,8 @@ function generate_snippet( $btn, extra_params )
     // check for date-specific parameters
     if ( template_id === "pf" && ! is_pf_available() )
         showWarningMsg( "PF are only available after September 1943." ) ;
+    if ( template_id === "psk" && ! is_psk_available() )
+        showWarningMsg( "PSK are only available after September 1943." ) ;
     if ( template_id === "baz" && ! is_baz_available() )
         showWarningMsg( "BAZ are only available from November 1942." ) ;
     if ( template_id === "atmm" && ! is_atmm_available() )
@@ -819,6 +821,7 @@ function _is_scenario_after( month, year ) {
 }
 
 function is_pf_available() { return _is_scenario_after( 9, 1943 ) ; }
+function is_psk_available() { return _is_scenario_after( 9, 1943 ) ; }
 function is_baz_available() { return _is_scenario_after( 10, 1942 ) ; }
 function is_atmm_available() { return _is_scenario_after( 0, 1944 ) ; }
 
@@ -839,6 +842,7 @@ function on_scenario_date_change()
         } ) ;
     }
     update_ui( "pf", is_pf_available() ) ;
+    update_ui( "psk", is_psk_available() ) ;
     update_ui( "baz", is_baz_available() ) ;
     update_ui( "atmm", is_atmm_available() ) ;
 }
