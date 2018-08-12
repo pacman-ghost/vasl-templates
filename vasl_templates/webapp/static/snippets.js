@@ -645,6 +645,7 @@ function on_new_scenario( verbose )
     }
 
     // provide some feedback to the user
+    $("#tabs").tabs( "option", "active", 0 ) ;
     if ( verbose )
         showInfoMsg( "The scenario was reset." ) ;
 }
