@@ -32,7 +32,7 @@ function add_vo( vo_type, player_id )
         title: "Add " + SORTABLE_DISPLAY_NAMES[vo_type][0],
         dialogClass: "select-vo",
         modal: true,
-        minWidth: 200,
+        minWidth: 300,
         minHeight: 300,
         open: function() {
             $("#select-vo input[type='text']").val( "" ) ;
