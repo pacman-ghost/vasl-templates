@@ -98,21 +98,14 @@ button.edit-template img { height: 18px ; vertical-align: middle ; }
 .ui-dialog-titlebar-close { margin-top: -10px !important ; }
 
 .ui-dialog.edit-template .ui-dialog-buttonpane { border: none ; padding: 0 ; font-size: 75% ; }
-#edit-template { padding: 2px ; }
+#edit-template { overflow: hidden ; padding: 2px ; }
 .ui-dialog.edit-template textarea { resize: none ; width: calc(100% - 4px) ; height: 100% ; }
 .ui-dialog.edit-template textarea { font-family: "Courier New" ; font-size: 80% ; }
 .ui-dialog.edit-template button { margin: 0 0 0 5px ; padding: 0.1em 0.2em ; }
 
-.ui-dialog.edit-ssr .ui-dialog-titlebar { display: none ; }
-.ui-dialog.edit-ssr .ui-dialog-buttonpane { border: none ; padding: 0 ; font-size: 75% ; }
-#edit-ssr { padding: 2px ; }
-.ui-dialog.edit-ssr textarea { resize: none ; width: calc(100% - 4px) ; height: calc(100% - 1.25em) ; }
-.ui-dialog.edit-ssr button { margin: 0 0 0 5px ; padding: 0.1em 0.2em ; }
-
-.ui-dialog.edit-simple_note .ui-dialog-titlebar { display: none ; }
 .ui-dialog.edit-simple_note .ui-dialog-buttonpane { border: none ; padding: 0 ; font-size: 75% ; }
-#edit-simple_note { padding: 2px ; }
-.ui-dialog.edit-simple_note textarea { resize: none ; width: calc(100% - 4px) ; height: calc(100% - 3em) ; }
+#edit-simple_note { overflow: hidden ; padding: 2px ; }
+.ui-dialog.edit-simple_note textarea { resize: none ; width: calc(100% - 4px) ; height: 100% ; }
 .ui-dialog.edit-simple_note button { margin: 0 0 0 5px ; padding: 0.1em 0.2em ; }
 
 #select-vo { overflow: hidden ; }

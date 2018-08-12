@@ -185,7 +185,7 @@ def edit_simple_note( sortable, entry_no, caption, width ):
         elem.clear()
         elem.send_keys( caption )
     if width is not None:
-        elem = find_child( "#edit-simple_note input[type='text']" )
+        elem = find_child( ".ui-dialog-buttonpane input[name='width']" )
         elem.clear()
         elem.send_keys( width )
     click_dialog_button( "OK" )

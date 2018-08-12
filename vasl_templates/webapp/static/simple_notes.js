@@ -29,37 +29,33 @@ function _do_edit_simple_note( $sortable2, $entry )
     var note_type0 = note_type.substring( 0, note_type.length-1 ) ; // plural -> singular :-/
 
     // let the user edit the note
-    var $caption, $width, $width_label ;
+    var $caption, $width ;
     $("#edit-simple_note").dialog( {
         dialogClass: "edit-simple_note",
+        title: ($entry ? "Edit " : "Add ") + SORTABLE_DISPLAY_NAMES[note_type][0],
         modal: true,
         minWidth: 400,
         minHeight: 150,
         open: function() {
+            // initialize
             $caption = $(this).children( "textarea" ) ;
-            $width = $(this).children( "input[name='width']" ) ;
-            $width_label = $(this).children( "label[for='width']" ) ;
-            if ( $entry ) {
-                var data = $entry.data( "sortable2-data" ) ;
-                $caption.val( data.caption ) ;
-                $width.val( data.width ) ;
+            var $btn_pane = $(".ui-dialog-buttonpane") ;
+            $width = $btn_pane.children( "input[name='width']" ) ;
+            if ( $width.length === 0 ) {
+                // create the width controls
+                $btn_pane.prepend( $("<label for='width'>Width:</label>&nbsp;<input name='width' size='5'>") ) ;
+                $width = $btn_pane.children( "input[name='width']" ) ;
             }
-            else {
-                $caption.val( "" ) ;
-                $width.val( "" ) ;
-            }
-            if ( note_type === "ssr" ) {
-                // NOTE: Individual SSR's don't have a width, there is one setting for them all.
-                $width.hide() ;
-                $width_label.hide() ;
-                $caption.css( "height", "100%" ) ;
-            }
+            // show/hide the width controls (nb: SSR's have a separate width setting that affects all of them)
+            var show = (note_type !== "ssr") ;
+            $btn_pane.children( "label[for='width']" ).css( "display", show?"inline":"none" ) ;
+            $width.css( "display", show?"inline":"none" ) ;
+            // load the dialog
+            var data = $entry ? $entry.data("sortable2-data") : null ;
+            $caption.val( data ? data.caption : "" ) ;
+            $width.val( data ? data.width : "" ) ;
             $(this).height( $(this).height() ) ; // fudge: force the textarea to resize
-        },
-        close: function() {
-            $width.show() ;
-            $width_label.show() ;
-            $caption.css( "height", "calc(100% - 3em)" ) ;
+            $width.keydown( function(evt) { auto_dismiss_dialog( evt, "OK" ) ; } ) ;
         },
         buttons: {
             OK: function() {

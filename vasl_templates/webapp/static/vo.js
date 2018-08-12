@@ -29,7 +29,7 @@ function add_vo( vo_type, player_id )
 
     // let the user select a vehicle/ordnance
     $("#select-vo").dialog( {
-        title: "Add " + vo_type,
+        title: "Add " + SORTABLE_DISPLAY_NAMES[vo_type][0],
         dialogClass: "select-vo",
         modal: true,
         minWidth: 200,

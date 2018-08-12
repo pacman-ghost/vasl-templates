@@ -428,7 +428,6 @@ function edit_template( template_id )
         minWidth: 400, minHeight: 200,
         open: function() {
             $(this).height( $(this).height() ) ; // fudge: force the textarea to resize
-            $("#edit-template").css( "overflow", "hidden" ) ;
             $("#edit-template textarea").change( on_template_change ) ;
         },
         close: function() {

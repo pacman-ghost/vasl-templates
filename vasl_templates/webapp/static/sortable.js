@@ -1,3 +1,11 @@
+SORTABLE_DISPLAY_NAMES = {
+    scenario_notes: [ "scenario note", "scenario notes", "a" ],
+    ssr: [ "SSR", "SSR's", "a" ],
+    ob_setups: [ "OB setup note", "OB setup notes", "an" ],
+    ob_notes: [ "OB setup note", "OB setup notes", "an" ],
+    vehicles: [ "vehicle", "vehicles", "a" ],
+    ordnance: [ "ordnance", "ordnance", "an" ],
+} ;
 
 // --------------------------------------------------------------------
 
@@ -7,16 +15,22 @@ $.fn.sortable2 = function( action, args )
     var actions = {
 
         "init": function( $sortable2 ) {
+            // get the display name
+            var id = $sortable2.prop( "id" ) ;
+            var pos = id.indexOf( "-sortable" ) ;
+            var display_name = SORTABLE_DISPLAY_NAMES[id.substring(0,pos)] ;
             // initialize the sortable2 and support elements
             $sortable2.data( "on_edit", args.edit ) ;
             var $add_btn = find_helper( $sortable2, "add" ) ;
             $add_btn.prepend( $( "<div><img src='" + gImagesBaseUrl + "/sortable-add.png' class='sortable-add'> Add</div>" ) )
                 .addClass( "ui-button" ) ;
             var $add = find_helper( $sortable2, "add" ) ;
-            $add.click( args.add ) ;
+            $add.prop( "title", "Add a new " + display_name[0] )
+                .click( args.add ) ;
             // handle dragging entries to the trash
             var $trash = find_helper( $sortable2, "trash" ) ;
-            $trash.prop( "src", gImagesBaseUrl + "/trash.png" ) ;
+            $trash.prop( "src", gImagesBaseUrl + "/trash.png" )
+                .prop( "title", "Drag " + display_name[2] + " " + display_name[0] + " here to delete it." ) ;
             $sortable2.sortable( { connectWith: $trash, cursor: "move" } ) ;
             $trash.sortable( {
                 receive: function( evt, ui ) {
