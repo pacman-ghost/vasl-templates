@@ -2,7 +2,8 @@
 
 from selenium.webdriver.support.ui import Select
 
-from vasl_templates.webapp.tests.utils import get_nationalities, select_tab, find_child
+from vasl_templates.webapp.tests.utils import get_nationalities, select_tab, find_child, \
+    select_droplist_val
 
 # ---------------------------------------------------------------------
 
@@ -29,9 +30,9 @@ def test_player_change( webapp, webdriver ):
         assert ob_tabs[player_no].text.strip() == expected
 
     # change player 1
-    player_sel[1].select_by_value( "finnish" )
+    select_droplist_val( player_sel[1], "finnish" )
     assert ob_tabs[1].text.strip() == "{} OB".format( nationalities["finnish"]["display_name"] )
 
     # change player 2
-    player_sel[2].select_by_value( "japanese" )
+    select_droplist_val( player_sel[2], "japanese" )
     assert ob_tabs[2].text.strip() == "{} OB".format( nationalities["japanese"]["display_name"] )

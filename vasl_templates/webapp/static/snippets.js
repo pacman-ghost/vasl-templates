@@ -625,21 +625,23 @@ function on_new_scenario( verbose )
     $("textarea.param").each( function() { $(this).val("") ; } ) ;
 
     // reset all the template parameters
-    on_player_change( $("select[name='PLAYER_1']").val( "german" ) ) ;
-    $("select[name='PLAYER_1_ELR']").val( 5 ) ;
-    $("select[name='PLAYER_1_SAN']").val( 2 ) ;
-    on_player_change( $("select[name='PLAYER_2']").val( "russian" ) ) ;
-    $("select[name='PLAYER_2_ELR']").val( 5 ) ;
-    $("select[name='PLAYER_2_SAN']").val( 2 ) ;
+    $("select[name='PLAYER_1']").val( "german" ).selectmenu( "refresh" ) ;
+    $("select[name='PLAYER_2']").val( "russian" ).selectmenu( "refresh" ) ;
+    var player_id ;
+    for ( player_id=1 ; player_id <= 2 ; ++player_id ) {
+        on_player_change( $( "select[name='PLAYER_" + player_id + "']" ) ) ;
+        $("select[name='PLAYER_" + player_id + "_ELR']").val( 5 ).selectmenu( "refresh" ) ;
+        $("select[name='PLAYER_" + player_id + "_SAN']").val( 2 ).selectmenu( "refresh" ) ;
+    }
 
     // reset all the template parameters
     $("#scenario_notes-sortable").sortable2( "delete-all" ) ;
     $("#ssr-sortable").sortable2( "delete-all" ) ;
-    for ( var i=1 ; i <= 2 ; ++i ) {
-        $( "#ob_setups-sortable_" + i ).sortable2( "delete-all" ) ;
-        $( "#ob_notes-sortable_" + i ).sortable2( "delete-all" ) ;
-        $( "#vehicles-sortable_" + i ).sortable2( "delete-all" ) ;
-        $( "#ordnance-sortable_" + i ).sortable2( "delete-all" ) ;
+    for ( player_id=1 ; player_id <= 2 ; ++player_id ) {
+        $( "#ob_setups-sortable_" + player_id ).sortable2( "delete-all" ) ;
+        $( "#ob_notes-sortable_" + player_id ).sortable2( "delete-all" ) ;
+        $( "#vehicles-sortable_" + player_id ).sortable2( "delete-all" ) ;
+        $( "#ordnance-sortable_" + player_id ).sortable2( "delete-all" ) ;
     }
 
     // provide some feedback to the user

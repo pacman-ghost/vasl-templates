@@ -139,23 +139,35 @@ $(document).ready( function () {
     } ) ;
     $("#select-vo").dblclick( function(evt) { auto_select_vo(evt) ; } ) ;
 
+    // add player change handlers
+    $("select[name='PLAYER_1']").selectmenu( {
+        select: function() { on_player_change( $(this) ) ; },
+    } ) ;
+    $("select[name='PLAYER_2']").selectmenu( {
+        select: function() { on_player_change( $(this) ) ; },
+    } ) ;
+
     // load the ELR's and SAN's
     var buf = [] ;
     for ( var i=0 ; i <= 5 ; ++i ) // nb: A19.1: ELR is 0-5
         buf.push( "<option value='" + i + "'>" + i + "</option>" ) ;
     buf = buf.join( "" ) ;
-    $("select[name='PLAYER_1_ELR']").html( buf ) ;
-    $("select[name='PLAYER_2_ELR']").html( buf ) ;
+    for ( var player_id=1 ; player_id <= 2 ; ++player_id ) {
+        $( "select[name='PLAYER_" + player_id + "_ELR']" ).html( buf ).selectmenu( {
+            classes: { "ui-selectmenu-button": "player" + player_id + "_elr" },
+            width: "3em"
+        } ) ;
+    }
     buf = [ "<option></option>" ] ; // nb: allow scenarios that have no SAN
     for ( i=2 ; i <= 7 ; ++i ) // nb: A14.1: SAN is 2-7
         buf.push( "<option value='" + i + "'>" + i + "</option>" ) ;
     buf = buf.join( "" ) ;
-    $("select[name='PLAYER_1_SAN']").html( buf ) ;
-    $("select[name='PLAYER_2_SAN']").html( buf ) ;
-
-    // add handlers for player changes
-    $("select[name='PLAYER_1']").change( function() { on_player_change($(this)) ; } ) ;
-    $("select[name='PLAYER_2']").change( function() { on_player_change($(this)) ; } ) ;
+    for ( player_id=1 ; player_id <= 2 ; ++player_id ) {
+        $( "select[name='PLAYER_" + player_id + "_SAN']" ).html( buf ).selectmenu( {
+            classes: { "ui-selectmenu-button": "player" + player_id + "_san" },
+            width: "3em"
+        } ) ;
+    }
 
     // get the vehicle/ordnance listings
     $.getJSON( gVehicleListingsUrl, function(data) {
@@ -329,21 +341,27 @@ function install_template_pack( data )
     gTemplatePack = data ;
 
     // update the player droplists
-    var curSel1 = $("select[name='PLAYER_1']").val() ;
-    var curSel2 = $("select[name='PLAYER_2']").val() ;
+    var curSel = {
+        1: $("select[name='PLAYER_1']").val(),
+        2: $("select[name='PLAYER_2']").val()
+    } ;
     var buf = [] ;
     var nationalities = gTemplatePack.nationalities ;
     for ( var id in nationalities )
         buf.push( "<option value='" + id + "'>" + nationalities[id].display_name + "</option>" ) ;
     buf = buf.join( "" ) ;
-    $("select[name='PLAYER_1']").html( buf ).val( curSel1 ) ;
-    $("select[name='PLAYER_2']").html( buf ).val( curSel2 ) ;
+    for ( var player_id=1 ; player_id <= 2 ; ++player_id ) {
+        var $sel = $( "select[name='PLAYER_" + player_id + "']" ) ;
+        $sel.html( buf ).selectmenu( {
+            classes: { "ui-selectmenu-button": "player" + player_id },
+        } ) ;
+        if ( curSel[player_id] )
+            $sel.val( curSel[player_id] ).selectmenu( "refresh" ) ;
+    }
 
-    // update the OB tabs
-    if ( curSel1 )
-        on_player_change( $("select[name='PLAYER_1']") ) ;
-    if ( curSel2 )
-        on_player_change( $("select[name='PLAYER_2']") ) ;
+    // update the OB tab headers
+    update_ob_tab_header( 1 ) ;
+    update_ob_tab_header( 2 ) ;
 }
 
 // --------------------------------------------------------------------
@@ -355,20 +373,13 @@ function on_player_change( $select )
     var player_id = name.substring( name.length-1 ) ;
 
     // update the tab label
-    var player_nat = $select.find( "option:selected" ).val() ;
-    var $elem = $("#tabs .ui-tabs-nav a[href='#tabs-ob" + player_id + "']") ;
-    var image_url = gImagesBaseUrl + "/flags/" + player_nat + ".png" ;
-    var nationalities = gTemplatePack.nationalities ;
-    $elem.html(
-        "<img src='" + image_url + "'>&nbsp;" +
-        "<span>" + escapeHTML(nationalities[player_nat].display_name) + " OB</span>"
-    ) ;
+    var player_nat = update_ob_tab_header( player_id ) ;
 
     // show/hide the nationality-specific buttons
     for ( var nat in _NATIONALITY_SPECIFIC_BUTTONS ) {
         for ( var i=0 ; i < _NATIONALITY_SPECIFIC_BUTTONS[nat].length ; ++i ) {
             var button_id = _NATIONALITY_SPECIFIC_BUTTONS[nat][i] ;
-            $elem = $( "#panel-ob_notes" + player_id + " div.snippet-control[data-id='" + button_id + "']" ) ;
+            var $elem = $( "#panel-ob_notes" + player_id + " div.snippet-control[data-id='" + button_id + "']" ) ;
             $elem.css( "display", nat == player_nat ? "block" : "none" ) ;
         }
     }
@@ -380,4 +391,22 @@ function on_player_change( $select )
     $("input[name='VEHICLES_WIDTH_"+player_id+"']").val( "" ) ;
     $( "#ordnance-sortable_" + player_id ).sortable2( "delete-all" ) ;
     $("input[name='ORDNANCE_WIDTH_"+player_id+"']").val( "" ) ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function update_ob_tab_header( player_id )
+{
+    // update the OB tab header for the specified player
+    var $sel = $( "select[name='PLAYER_" + player_id + "']" ) ;
+    var player_nat = $sel.find( "option:selected" ).val() ;
+    var display_name = gTemplatePack.nationalities[ player_nat ].display_name ;
+    var image_url = gImagesBaseUrl + "/flags/" + player_nat + ".png" ;
+    var $elem = $("#tabs .ui-tabs-nav a[href='#tabs-ob" + player_id + "']") ;
+    $elem.html(
+        "<img src='" + image_url + "'>&nbsp;" +
+        "<span>" + escapeHTML(display_name) + " OB</span>"
+    ) ;
+
+    return player_nat ;
 }

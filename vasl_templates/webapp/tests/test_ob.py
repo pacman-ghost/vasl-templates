@@ -7,7 +7,8 @@ from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp.tests.utils import \
     get_nationalities, get_clipboard, get_stored_msg, select_tab, find_child, find_children, \
-    add_simple_note, edit_simple_note, get_sortable_entry_count, drag_sortable_entry_to_trash
+    add_simple_note, edit_simple_note, get_sortable_entry_count, drag_sortable_entry_to_trash, \
+    select_droplist_val
 
 # ---------------------------------------------------------------------
 
@@ -176,7 +177,7 @@ def test_nationality_specific( webapp, webdriver ):
 
         # change the nationality for player 1
         select_tab( "scenario" )
-        player1_sel.select_by_value( nat )
+        select_droplist_val( player1_sel, nat )
 
         # check the nationality-specific buttons
         select_tab( "ob1" )

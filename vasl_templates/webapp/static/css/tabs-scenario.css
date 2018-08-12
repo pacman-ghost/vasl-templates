@@ -26,13 +26,13 @@
 #panel-players div[data-labelfor="ELR"] { -ms-grid-row: 1 ; -ms-grid-column: 3 ; }
 #panel-players div[data-labelfor="SAN"] { -ms-grid-row: 1 ; -ms-grid-column: 4 ; }
 #panel-players div[data-labelfor="PLAYER_1"] { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
-#panel-players select[name="PLAYER_1"] { -ms-grid-row: 2 ; -ms-grid-column: 2 ; }
-#panel-players select[name="PLAYER_1_ELR"] { -ms-grid-row: 2 ; -ms-grid-column: 3 ; }
-#panel-players select[name="PLAYER_1_SAN"] { -ms-grid-row: 2 ; -ms-grid-column: 4 ; }
+#panel-players .ui-selectmenu-button.player1 { -ms-grid-row: 2 ; -ms-grid-column: 2 ; }
+#panel-players .ui-selectmenu-button.player1_elr { -ms-grid-row: 2 ; -ms-grid-column: 3 ; }
+#panel-players .ui-selectmenu-button.player1_san { -ms-grid-row: 2 ; -ms-grid-column: 4 ; }
 #panel-players div[data-labelfor="PLAYER_2"] { -ms-grid-row: 3 ; -ms-grid-column: 1 ; }
-#panel-players select[name="PLAYER_2"] { -ms-grid-row: 3 ; -ms-grid-column: 2 ; }
-#panel-players select[name="PLAYER_2_ELR"] { -ms-grid-row: 3 ; -ms-grid-column: 3 ; }
-#panel-players select[name="PLAYER_2_SAN"] { -ms-grid-row: 3 ; -ms-grid-column: 4 ; }
+#panel-players .ui-selectmenu-button.player2 { -ms-grid-row: 3 ; -ms-grid-column: 2 ; }
+#panel-players .ui-selectmenu-button.player2_elr { -ms-grid-row: 3 ; -ms-grid-column: 3 ; }
+#panel-players .ui-selectmenu-button.player2_san { -ms-grid-row: 3 ; -ms-grid-column: 4 ; }
 #panel-players .footer { -ms-grid-row: 4 ; -ms-grid-column: 1 ; -ms-grid-column-span: 4 ; }
 
 #panel-players div[data-labelfor="ELR"] { margin-left: 0.25em ; }

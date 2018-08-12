@@ -10,7 +10,8 @@ from selenium.webdriver.support.ui import Select
 from vasl_templates.webapp import snippets
 from vasl_templates.webapp.tests.utils import \
     select_tab, select_menu_option, dismiss_notifications, get_clipboard, \
-    get_stored_msg, set_stored_msg, add_simple_note, for_each_template, find_child, find_children
+    get_stored_msg, set_stored_msg, add_simple_note, for_each_template, find_child, find_children, \
+    select_droplist_val, get_droplist_vals
 
 # ---------------------------------------------------------------------
 
@@ -109,11 +110,15 @@ def test_nationality_data( webapp, webdriver ):
 
     # select the British as player 1
     player1_sel = Select( find_child( "select[name='PLAYER_1']" ) )
-    player1_sel.select_by_value( "british" )
+    select_droplist_val( player1_sel, "british" )
+
     tab_ob1 = find_child( "a[href='#tabs-ob1']" )
     assert tab_ob1.text.strip() == "British OB"
-    assert player1_sel.first_selected_option.text == "British"
-    players = [ o.text for o in player1_sel.options ]
+    # FUDGE!  player1_sel.first_selected_option.text doesn't contain the right value
+    # if we're using jQuery selectmenu's :-/
+    assert player1_sel.first_selected_option.get_attribute( "value" ) == "british"
+    droplist_vals = get_droplist_vals( player1_sel )
+    assert droplist_vals["british"] == "British"
 
     # upload a template pack that contains nationality data
     zip_data = _make_zip_from_files( "with-nationality-data" )
@@ -122,13 +127,17 @@ def test_nationality_data( webapp, webdriver ):
 
     # check that the UI was updated correctly
     assert tab_ob1.text.strip() == "Poms! OB"
-    assert player1_sel.first_selected_option.text == "Poms!"
+    assert player1_sel.first_selected_option.get_attribute( "value" ) == "british"
+    droplist_vals2 = get_droplist_vals( player1_sel )
+    assert droplist_vals2["british"] == "Poms!"
 
     # check that there is a new Korean player
-    players2 = [ o.text for o in player1_sel.options ]
-    players2.remove( "Korean" )
-    players2 = [ "British" if o == "Poms!" else o for o in players2 ]
-    assert players2 == players
+    del droplist_vals2["korean"]
+    droplist_vals2 = {
+        k: "British" if v == "Poms!" else v
+        for k,v in droplist_vals2.items()
+    }
+    assert droplist_vals2 == droplist_vals
 
 # ---------------------------------------------------------------------
 

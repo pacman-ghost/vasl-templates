@@ -67,7 +67,7 @@ def for_each_template( func ): #pylint: disable=too-many-branches
     player1_sel = Select( find_child( "select[name='PLAYER_1']" ) )
     for nat,template_ids in _NAT_TEMPLATES.items():
         select_tab( "scenario" )
-        player1_sel.select_by_value( nat )
+        select_droplist_val( player1_sel, nat )
         select_tab( "ob1" )
         for template_id in template_ids:
             func( template_id, template_id )
@@ -142,7 +142,7 @@ def set_template_params( params ): #pylint: disable=too-many-branches
 
         # set the parameter value
         if elem.tag_name == "select":
-            Select(elem).select_by_value( val )
+            select_droplist_val( Select(elem), val )
         else:
             elem.clear()
             if val:
@@ -258,6 +258,31 @@ def find_children( sel, parent=None ):
         return (parent if parent else _webdriver).find_elements_by_css_selector( sel )
     except NoSuchElementException:
         return None
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def select_droplist_val( sel, val ):
+    """Select a droplist option by value."""
+
+    # get the options from the original <select>
+    sel_id = sel._el.get_attribute( "id" ) #pylint: disable=protected-access
+    options = get_droplist_vals( sel )
+
+    # open the jQuery droplist
+    elem = find_child( "#{}-button .ui-selectmenu-icon".format( sel_id ) )
+    elem.click()
+
+    # select the requested option (nb: clicking on the child option doesn't work :shrug:)
+    elem = find_child( "#{}-button".format( sel_id ) )
+    elem.send_keys( options[val] )
+    elem.send_keys( Keys.RETURN )
+
+def get_droplist_vals( sel ):
+    """Get the value/text for each option in a droplist."""
+    return {
+        opt.get_attribute("value"): opt.get_attribute("text")
+        for opt in sel.options
+    }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
