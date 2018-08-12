@@ -1,5 +1,5 @@
-button.sortable-add { vertical-align: top ; height: 26px ; padding: 2px 5px ; }
-img.sortable-add { height: 15px ; }
+button.sortable-add { vertical-align: top ; height: 30px ; padding: 4px 10px ; }
+img.sortable-add { vertical-align: middle ; height: 15px ; margin-right: 0.25em ; }
 
 .sortable { font-size: 80% ; }
 .sortable { list-style-type: none ; margin: 0 ; padding: 0 ; }
@@ -15,4 +15,4 @@ img.sortable-add { height: 15px ; }
 .sortable-hint { width:100% ; height: calc(100% - 1.5em) ; font-size: 80% ; font-style: italic ; }
 .sortable-hint p { margin-bottom: 1em ; }
 
-.sortable-trash { margin-left: 5px ; height: 24px ;  }
+.sortable-trash { margin: 3px 5px ; height: 24px ;  }
