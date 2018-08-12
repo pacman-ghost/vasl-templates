@@ -21,7 +21,8 @@ function add_vo( vo_type, player_id )
     for ( var i=0 ; i < entries.length ; ++i ) {
         if ( vo_present.indexOf( entries[i].name ) !== -1 )
             continue ;
-        buf.push( "<option value='" + i + "'>" + escapeHTML(entries[i].name) + "</option>" ) ;
+        // TODO: It'd be nice to be able to use HTML in the option text (e.g. PzKpfw IVF 1/2)
+        buf.push( "<option value='" + i + "'>" + entries[i].name + "</option>" ) ;
     }
     var $listbox = $( "#select-vo select" ) ;
     $listbox.html( buf.join("") ) ;
