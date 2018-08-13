@@ -12,11 +12,11 @@ function add_ssr() { _do_edit_simple_note( $("#ssr-sortable"), null, null ) ; }
 function do_add_ssr( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
 function edit_ssr( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry, null ) ; }
 
-function add_ob_setup( player_id ) { _do_edit_simple_note( $("#ob_setups-sortable_"+player_id), null, gDefaultScenario._OB_SETUP_WIDTH ) ; }
+function add_ob_setup( player_no ) { _do_edit_simple_note( $("#ob_setups-sortable_"+player_no), null, gDefaultScenario._OB_SETUP_WIDTH ) ; }
 function do_add_ob_setup( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
 function edit_ob_setup( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry, null ) ; }
 
-function add_ob_note( player_id ) { _do_edit_simple_note( $("#ob_notes-sortable_"+player_id), null, gDefaultScenario._OB_NOTE_WIDTH ) ; }
+function add_ob_note( player_no ) { _do_edit_simple_note( $("#ob_notes-sortable_"+player_no), null, gDefaultScenario._OB_NOTE_WIDTH ) ; }
 function do_add_ob_note( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
 function edit_ob_note( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry, null ) ; }
 

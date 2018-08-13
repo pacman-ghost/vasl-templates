@@ -209,9 +209,9 @@ def test_edit_templates( webapp, webdriver ):
     edit_template( "ob_setup" )
 
     # check that the new template is being used
-    for player_id in range(1,2+1):
-        select_tab( "ob{}".format( player_id ) )
-        sortable = ob_setups[ player_id ]
+    for player_no in range(1,2+1):
+        select_tab( "ob{}".format( player_no ) )
+        sortable = ob_setups[ player_no ]
         add_simple_note( sortable, "ob setup (ignored)", None )
         elem = find_child( "li img.snippet", sortable )
         elem.click()
@@ -224,9 +224,9 @@ def test_edit_templates( webapp, webdriver ):
     edit_template( "ob_note" )
 
     # check that the new template is being used
-    for player_id in range(1,2+1):
-        select_tab( "ob{}".format( player_id ) )
-        sortable = ob_notes[ player_id ]
+    for player_no in range(1,2+1):
+        select_tab( "ob{}".format( player_no ) )
+        sortable = ob_notes[ player_no ]
         add_simple_note( sortable, "ob note (ignored)", None )
         elem = find_child( "li img.snippet", sortable )
         elem.click()

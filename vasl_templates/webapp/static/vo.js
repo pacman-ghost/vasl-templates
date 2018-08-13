@@ -1,17 +1,17 @@
 
 // --------------------------------------------------------------------
 
-function add_vo( vo_type, player_id )
+function add_vo( vo_type, player_no )
 {
     // get the vehicles/ordnance already added
-    var $sortable2 = $( "#" + vo_type + "-sortable_" + player_id ) ;
+    var $sortable2 = $( "#" + vo_type + "-sortable_" + player_no ) ;
     var vo_present = [];
     $sortable2.children("li").each( function() {
         vo_present.push( $(this).text() ) ;
     } );
 
     // load the available vehicles/ordnance
-    var nat = $( "select[name='PLAYER_" + player_id + "']" ).val() ;
+    var nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
     var entries = gVehicleOrdnanceListings[vo_type][nat] ;
     if ( entries === undefined ) {
         showErrorMsg( "There are no " + gTemplatePack.nationalities[nat].display_name + " " + vo_type + " listings." ) ;
@@ -44,7 +44,7 @@ function add_vo( vo_type, player_id )
             OK: function() {
                 // add the new vehicle/ordnance
                 var val = $listbox.val() ;
-                do_add_vo( vo_type, player_id, entries[val] ) ;
+                do_add_vo( vo_type, player_no, entries[val] ) ;
                 $(this).dialog( "close" ) ;
             },
             Cancel: function() { $(this).dialog( "close" ) ; },
@@ -54,10 +54,10 @@ function add_vo( vo_type, player_id )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function do_add_vo( vo_type, player_id, entry )
+function do_add_vo( vo_type, player_no, entry )
 {
     // add the specified vehicle/ordnance
-    var $sortable2 = $( "#" + vo_type + "-sortable_" + player_id ) ;
+    var $sortable2 = $( "#" + vo_type + "-sortable_" + player_no ) ;
     $sortable2.sortable2( "add", {
         content: $( "<div>" + entry.name + "</div>" ),
         data: { caption: entry.name, vo_entry: entry }

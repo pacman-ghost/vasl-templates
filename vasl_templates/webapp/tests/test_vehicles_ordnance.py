@@ -27,54 +27,54 @@ def test_crud( webapp, webdriver ):
         ("vehicles",2): None, ("ordnance",2): None
     }
 
-    def _add_vo( vo_type, player_id, name ):
+    def _add_vo( vo_type, player_no, name ):
         """Add a vehicle/ordnance."""
         # check the hint
-        select_tab( "ob{}".format( player_id ) )
-        _check_hint( vo_type, player_id )
+        select_tab( "ob{}".format( player_no ) )
+        _check_hint( vo_type, player_no )
         # add the vehicle/ordnance
-        add_vo( vo_type, player_id, name )
-        _expected[ (vo_type,player_id) ].append( name )
+        add_vo( vo_type, player_no, name )
+        _expected[ (vo_type,player_no) ].append( name )
         # check the snippet and hint
-        _check_snippet( vo_type, player_id )
-        _check_hint( vo_type, player_id )
+        _check_snippet( vo_type, player_no )
+        _check_hint( vo_type, player_no )
 
-    def _delete_vo( vo_type, player_id, name, webdriver ):
+    def _delete_vo( vo_type, player_no, name, webdriver ):
         """Delete a vehicle/ordnance."""
         # check the hint
-        select_tab( "ob{}".format( player_id ) )
-        _check_hint( vo_type, player_id )
+        select_tab( "ob{}".format( player_no ) )
+        _check_hint( vo_type, player_no )
         # delete the vehicle/ordnance
-        delete_vo( vo_type, player_id, name, webdriver )
-        _expected[ (vo_type,player_id) ].remove( name )
+        delete_vo( vo_type, player_no, name, webdriver )
+        _expected[ (vo_type,player_no) ].remove( name )
         # check the snippet and hint
-        _check_snippet( vo_type, player_id )
-        _check_hint( vo_type, player_id )
+        _check_snippet( vo_type, player_no )
+        _check_hint( vo_type, player_no )
 
-    def _set_width( vo_type, player_id, width ):
+    def _set_width( vo_type, player_no, width ):
         """Set the snippet width."""
-        select_tab( "ob{}".format( player_id ) )
-        elem = find_child( "input[name='{}_WIDTH_{}']".format( vo_type.upper(), player_id ) )
+        select_tab( "ob{}".format( player_no ) )
+        elem = find_child( "input[name='{}_WIDTH_{}']".format( vo_type.upper(), player_no ) )
         elem.clear()
         if width is not None:
             elem.send_keys( str(width) )
-        _width[ (vo_type,player_id) ] = width
+        _width[ (vo_type,player_no) ] = width
 
-    def _check_snippet( vo_type, player_id ):
+    def _check_snippet( vo_type, player_no ):
         """Check the generated vehicle/ordnance snippet."""
         # check the snippet
-        select_tab( "ob{}".format( player_id ) )
+        select_tab( "ob{}".format( player_no ) )
         dismiss_notifications()
-        btn = find_child( "button[data-id='{}_{}']".format( vo_type, player_id ) )
+        btn = find_child( "button[data-id='{}_{}']".format( vo_type, player_no ) )
         btn.click()
         buf = get_clipboard()
         names = [
             mo.group(1)
             for mo in re.finditer( r"^\[\*\] (.*):" , buf, re.MULTILINE )
         ]
-        assert names == _expected[ (vo_type,player_id) ]
+        assert names == _expected[ (vo_type,player_no) ]
         # check the snippet width
-        expected = _width[ (vo_type,player_id) ]
+        expected = _width[ (vo_type,player_no) ]
         mo = re.search(
             r"width={}$".format( expected if expected else "" ),
             buf,
@@ -82,10 +82,10 @@ def test_crud( webapp, webdriver ):
         )
         assert mo
 
-    def _check_hint( vo_type, player_id ):
+    def _check_hint( vo_type, player_no ):
         """Check the hint visibility."""
-        hint = find_child( "#{}-hint_{}".format( vo_type, player_id ) )
-        expected = "none" if _expected[(vo_type,player_id)] else "block"
+        hint = find_child( "#{}-hint_{}".format( vo_type, player_no ) )
+        expected = "none" if _expected[(vo_type,player_no)] else "block"
         assert hint.value_of_css_property("display") == expected
 
     def do_test( vo_type ):
@@ -216,12 +216,12 @@ def test_variable_capabilities( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-def add_vo( vo_type, player_id, name ):
+def add_vo( vo_type, player_no, name ):
     """Add a vehicle/ordnance."""
 
     # add the vehicle/ordnance
-    select_tab( "ob{}".format( player_id ) )
-    elem = find_child( "#{}-add_{}".format( vo_type, player_id ) )
+    select_tab( "ob{}".format( player_no ) )
+    elem = find_child( "#{}-add_{}".format( vo_type, player_no ) )
     elem.click()
     sel = Select( find_child( "#select-vo select" ) )
     sel.select_by_visible_text( name[:-1] if name.endswith("s") else name )
@@ -229,16 +229,16 @@ def add_vo( vo_type, player_id, name ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def delete_vo( vo_type, player_id, name, webdriver ):
+def delete_vo( vo_type, player_no, name, webdriver ):
     """Delete a vehicle/ordnance."""
 
     # delete the vehicle/ordnance
-    select_tab( "ob{}".format( player_id ) )
+    select_tab( "ob{}".format( player_no ) )
     elems = [
-        c for c in find_children( "#{}-sortable_{} li".format( vo_type, player_id ) )
+        c for c in find_children( "#{}-sortable_{} li".format( vo_type, player_no ) )
         if c.text == name
     ]
     assert len(elems) == 1
     elem = elems[0]
-    trash = find_child( "#{}-trash_{}".format( vo_type, player_id ) )
+    trash = find_child( "#{}-trash_{}".format( vo_type, player_no ) )
     ActionChains(webdriver).drag_and_drop( elem, trash ).perform()

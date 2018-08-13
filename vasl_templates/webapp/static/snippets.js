@@ -208,8 +208,8 @@ function unload_params( params, check_date_capabilities )
         params.SSR.push( data[i].caption ) ;
 
     // collect the vehicles/ordnance
-    function get_vo( vo_type, player_id, key ) {
-        var $sortable2 = $( "#" + vo_type + "-sortable_" + player_id ) ;
+    function get_vo( vo_type, player_no, key ) {
+        var $sortable2 = $( "#" + vo_type + "-sortable_" + player_no ) ;
         var objs = [] ;
         $sortable2.children( "li" ).each( function() {
             var entry = $(this).data( "sortable2-data" ).vo_entry ;
@@ -499,7 +499,7 @@ function do_load_scenario( params )
     }
     var i ;
     for ( var key in params ) {
-        var player_id, $sortable2 ;
+        var player_no, $sortable2 ;
         if ( key === "SSR" ) {
             $sortable2 = $( "#ssr-sortable" ) ;
             for ( i=0 ; i < params[key].length ; ++i )
@@ -515,29 +515,29 @@ function do_load_scenario( params )
             continue ;
         }
         if ( key === "OB_SETUPS_1" || key === "OB_SETUPS_2" ) {
-            player_id = key.substring( key.length-1 ) ;
-            $sortable2 = $( "#ob_setups-sortable_" + player_id ) ;
+            player_no = key.substring( key.length-1 ) ;
+            $sortable2 = $( "#ob_setups-sortable_" + player_no ) ;
             for ( i=0 ; i < params[key].length ; ++i )
                 do_add_ob_setup( $sortable2, params[key][i] ) ;
             params_loaded[key] = true ;
             continue ;
         }
         if ( key === "OB_NOTES_1" || key === "OB_NOTES_2" ) {
-            player_id = key.substring( key.length-1 ) ;
-            $sortable2 = $( "#ob_notes-sortable_" + player_id ) ;
+            player_no = key.substring( key.length-1 ) ;
+            $sortable2 = $( "#ob_notes-sortable_" + player_no ) ;
             for ( i=0 ; i < params[key].length ; ++i )
                 do_add_ob_note( $sortable2, params[key][i] ) ;
             params_loaded[key] = true ;
             continue ;
         }
         if ( key === "VEHICLES_1" || key === "ORDNANCE_1" || key === "VEHICLES_2" || key === "ORDNANCE_2" ) {
-            player_id = key.substring( key.length-1 ) ;
-            var nat = params[ "PLAYER_" + player_id ] ;
+            player_no = key.substring( key.length-1 ) ;
+            var nat = params[ "PLAYER_" + player_no ] ;
             var vo_type = (key.substring(0,9) === "VEHICLES_") ? "vehicles" : "ordnance" ;
             for ( i=0 ; i < params[key].length ; ++i ) {
                 var entry = find_vo( vo_type, nat, params[key][i] ) ;
                 if ( entry )
-                    do_add_vo( vo_type, player_id, entry ) ;
+                    do_add_vo( vo_type, player_no, entry ) ;
                 else
                     unknown_vo.push( params[key][i] ) ;
             }
@@ -659,21 +659,21 @@ function reset_scenario()
 
     // reset all the template parameters
     // nb: there's no way to reset the player droplist's
-    var player_id ;
-    for ( player_id=1 ; player_id <= 2 ; ++player_id ) {
-        on_player_change( $( "select[name='PLAYER_" + player_id + "']" ) ) ;
-        $("select[name='PLAYER_" + player_id + "_ELR']").val( 0 ).selectmenu( "refresh" ) ;
-        $("select[name='PLAYER_" + player_id + "_SAN']").val( "" ).selectmenu( "refresh" ) ;
+    var player_no ;
+    for ( player_no=1 ; player_no <= 2 ; ++player_no ) {
+        on_player_change( $( "select[name='PLAYER_" + player_no + "']" ) ) ;
+        $("select[name='PLAYER_" + player_no + "_ELR']").val( 0 ).selectmenu( "refresh" ) ;
+        $("select[name='PLAYER_" + player_no + "_SAN']").val( "" ).selectmenu( "refresh" ) ;
     }
 
     // reset all the template parameters
     $("#scenario_notes-sortable").sortable2( "delete-all" ) ;
     $("#ssr-sortable").sortable2( "delete-all" ) ;
-    for ( player_id=1 ; player_id <= 2 ; ++player_id ) {
-        $( "#ob_setups-sortable_" + player_id ).sortable2( "delete-all" ) ;
-        $( "#ob_notes-sortable_" + player_id ).sortable2( "delete-all" ) ;
-        $( "#vehicles-sortable_" + player_id ).sortable2( "delete-all" ) ;
-        $( "#ordnance-sortable_" + player_id ).sortable2( "delete-all" ) ;
+    for ( player_no=1 ; player_no <= 2 ; ++player_no ) {
+        $( "#ob_setups-sortable_" + player_no ).sortable2( "delete-all" ) ;
+        $( "#ob_notes-sortable_" + player_no ).sortable2( "delete-all" ) ;
+        $( "#vehicles-sortable_" + player_no ).sortable2( "delete-all" ) ;
+        $( "#ordnance-sortable_" + player_no ).sortable2( "delete-all" ) ;
     }
 }
 

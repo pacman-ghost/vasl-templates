@@ -153,9 +153,9 @@ $(document).ready( function () {
     for ( var i=0 ; i <= 5 ; ++i ) // nb: A19.1: ELR is 0-5
         buf.push( "<option value='" + i + "'>" + i + "</option>" ) ;
     buf = buf.join( "" ) ;
-    for ( var player_id=1 ; player_id <= 2 ; ++player_id ) {
-        $( "select[name='PLAYER_" + player_id + "_ELR']" ).html( buf ).selectmenu( {
-            classes: { "ui-selectmenu-button": "player" + player_id + "_elr" },
+    for ( var player_no=1 ; player_no <= 2 ; ++player_no ) {
+        $( "select[name='PLAYER_" + player_no + "_ELR']" ).html( buf ).selectmenu( {
+            classes: { "ui-selectmenu-button": "player" + player_no + "_elr" },
             width: "3em"
         } ) ;
     }
@@ -163,9 +163,9 @@ $(document).ready( function () {
     for ( i=2 ; i <= 7 ; ++i ) // nb: A14.1: SAN is 2-7
         buf.push( "<option value='" + i + "'>" + i + "</option>" ) ;
     buf = buf.join( "" ) ;
-    for ( player_id=1 ; player_id <= 2 ; ++player_id ) {
-        $( "select[name='PLAYER_" + player_id + "_SAN']" ).html( buf ).selectmenu( {
-            classes: { "ui-selectmenu-button": "player" + player_id + "_san" },
+    for ( player_no=1 ; player_no <= 2 ; ++player_no ) {
+        $( "select[name='PLAYER_" + player_no + "_SAN']" ).html( buf ).selectmenu( {
+            classes: { "ui-selectmenu-button": "player" + player_no + "_san" },
             width: "3em"
         } ) ;
     }
@@ -371,13 +371,13 @@ function install_template_pack( data )
     for ( var id in nationalities )
         buf.push( "<option value='" + id + "'>" + nationalities[id].display_name + "</option>" ) ;
     buf = buf.join( "" ) ;
-    for ( var player_id=1 ; player_id <= 2 ; ++player_id ) {
-        var $sel = $( "select[name='PLAYER_" + player_id + "']" ) ;
+    for ( var player_no=1 ; player_no <= 2 ; ++player_no ) {
+        var $sel = $( "select[name='PLAYER_" + player_no + "']" ) ;
         $sel.html( buf ).selectmenu( {
-            classes: { "ui-selectmenu-button": "player" + player_id },
+            classes: { "ui-selectmenu-button": "player" + player_no },
         } ) ;
-        if ( curSel[player_id] )
-            $sel.val( curSel[player_id] ).selectmenu( "refresh" ) ;
+        if ( curSel[player_no] )
+            $sel.val( curSel[player_no] ).selectmenu( "refresh" ) ;
     }
 
     // update the OB tab headers
@@ -394,39 +394,39 @@ function on_player_change( $select )
 {
     // figure out which player was changed
     var name = $select.attr( "name" ) ;
-    var player_id = name.substring( name.length-1 ) ;
+    var player_no = name.substring( name.length-1 ) ;
 
     // update the tab label
-    var player_nat = update_ob_tab_header( player_id ) ;
+    var player_nat = update_ob_tab_header( player_no ) ;
 
     // show/hide the nationality-specific buttons
     for ( var nat in _NATIONALITY_SPECIFIC_BUTTONS ) {
         for ( var i=0 ; i < _NATIONALITY_SPECIFIC_BUTTONS[nat].length ; ++i ) {
             var button_id = _NATIONALITY_SPECIFIC_BUTTONS[nat][i] ;
-            var $elem = $( "#panel-ob_notes" + player_id + " div.snippet-control[data-id='" + button_id + "']" ) ;
+            var $elem = $( "#panel-ob_notes" + player_no + " div.snippet-control[data-id='" + button_id + "']" ) ;
             $elem.css( "display", nat == player_nat ? "block" : "none" ) ;
         }
     }
 
     // reset the OB params
-    $("textarea[name='OB_SETUP_"+player_id+"']").val( "" ) ;
-    $("input[name='OB_SETUP_WIDTH_"+player_id+"']").val( "" ) ;
-    $( "#vehicles-sortable_" + player_id ).sortable2( "delete-all" ) ;
-    $("input[name='VEHICLES_WIDTH_"+player_id+"']").val( "" ) ;
-    $( "#ordnance-sortable_" + player_id ).sortable2( "delete-all" ) ;
-    $("input[name='ORDNANCE_WIDTH_"+player_id+"']").val( "" ) ;
+    $("textarea[name='OB_SETUP_"+player_no+"']").val( "" ) ;
+    $("input[name='OB_SETUP_WIDTH_"+player_no+"']").val( "" ) ;
+    $( "#vehicles-sortable_" + player_no ).sortable2( "delete-all" ) ;
+    $("input[name='VEHICLES_WIDTH_"+player_no+"']").val( "" ) ;
+    $( "#ordnance-sortable_" + player_no ).sortable2( "delete-all" ) ;
+    $("input[name='ORDNANCE_WIDTH_"+player_no+"']").val( "" ) ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function update_ob_tab_header( player_id )
+function update_ob_tab_header( player_no )
 {
     // update the OB tab header for the specified player
-    var $sel = $( "select[name='PLAYER_" + player_id + "']" ) ;
+    var $sel = $( "select[name='PLAYER_" + player_no + "']" ) ;
     var player_nat = $sel.find( "option:selected" ).val() ;
     var display_name = gTemplatePack.nationalities[ player_nat ].display_name ;
     var image_url = gImagesBaseUrl + "/flags/" + player_nat + ".png" ;
-    var $elem = $("#tabs .ui-tabs-nav a[href='#tabs-ob" + player_id + "']") ;
+    var $elem = $("#tabs .ui-tabs-nav a[href='#tabs-ob" + player_no + "']") ;
     $elem.html(
         "<img src='" + image_url + "'>&nbsp;" +
         "<span>" + escapeHTML(display_name) + " OB</span>"
