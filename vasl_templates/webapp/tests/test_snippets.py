@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import select_tab, set_template_params, get_clipboard
 from vasl_templates.webapp.tests.utils import \
-    get_stored_msg, dismiss_notifications, find_child, \
+    wait_for_page_ready, get_stored_msg, dismiss_notifications, find_child, \
     for_each_template, add_simple_note, edit_simple_note, \
     get_sortable_entry_count, generate_sortable_entry_snippet, drag_sortable_entry_to_trash
 
@@ -157,6 +157,7 @@ def test_edit_templates( webapp, webdriver ):
 
     # initialize
     webdriver.get( webapp.url_for( "main", edit_template_links=1 ) )
+    wait_for_page_ready()
     ob_setups = {
         1: find_child( "#ob_setups-sortable_1" ),
         2: find_child( "#ob_setups-sortable_2" )
@@ -185,7 +186,6 @@ def test_edit_templates( webapp, webdriver ):
         dismiss_notifications()
         elem = find_child( "button.generate[data-id='{}']".format( orig_template_id ) )
         elem.click()
-        _ = get_clipboard() # FUDGE! Work-around a weird intermittent failure on Linux :shrug:
         assert get_clipboard() == "EDITED TEMPLATE: {}".format( orig_template_id )
     for_each_template( test_template )
 

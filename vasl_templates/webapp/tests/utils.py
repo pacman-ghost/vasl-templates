@@ -31,6 +31,12 @@ _webdriver = None
 
 # ---------------------------------------------------------------------
 
+def wait_for_page_ready():
+    """Wait for the page to become ready."""
+    wait_for( 5, lambda: find_child("#_page-loaded_") is not None )
+
+# ---------------------------------------------------------------------
+
 def for_each_template( func ): #pylint: disable=too-many-branches
     """Test each template."""
 

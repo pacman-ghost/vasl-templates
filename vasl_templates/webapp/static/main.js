@@ -173,11 +173,13 @@ $(document).ready( function () {
     // get the vehicle/ordnance listings
     $.getJSON( gVehicleListingsUrl, function(data) {
         gVehicleOrdnanceListings.vehicles = data ;
+        update_page_load_status( "vehicles" ) ;
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the vehicle listings:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
     } ) ;
     $.getJSON( gOrdnanceListingsUrl, function(data) {
         gVehicleOrdnanceListings.ordnance = data ;
+        update_page_load_status( "ordnance" ) ;
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the ordnance listings:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
     } ) ;
@@ -198,6 +200,7 @@ $(document).ready( function () {
         // NOTE: If we are loading a user-defined template pack, then what we think
         // is the set of valid template ID's will depend on what's in it :-/
         gValidTemplateIds = Object.keys( data.templates ) ;
+        update_page_load_status( "template-pack" ) ;
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the template pack:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
     } ) ;
@@ -303,7 +306,24 @@ $(document).ready( function () {
             ).appendTo( "body" ) ;
         } ) ;
     }
+
+    // flag that we've finished initialization
+    update_page_load_status( "main" ) ;
 } ) ;
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+gPageLoadStatus = [ "main", "vehicles", "ordnance", "template-pack", "default-scenario" ] ;
+
+function update_page_load_status( id )
+{
+    // track the page load progress
+    gPageLoadStatus.splice( gPageLoadStatus.indexOf(id), 1 ) ;
+    if ( gPageLoadStatus.length === 0 ) {
+        // notify the test suite that the page has finished loading
+        $("body").append( $("<div id='_page-loaded_'></div>") ) ;
+    }
+}
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -364,8 +384,11 @@ function install_template_pack( data )
     }
 
     // update the OB tab headers
-    update_ob_tab_header( 1 ) ;
-    update_ob_tab_header( 2 ) ;
+    // NOTE: We don't do this while the page is initially loading, it will be done when the default scenario loaded.
+    if ( gPageLoadStatus.indexOf( "template-pack" ) === -1 ) {
+        update_ob_tab_header( 1 ) ;
+        update_ob_tab_header( 2 ) ;
+    }
 }
 
 // --------------------------------------------------------------------

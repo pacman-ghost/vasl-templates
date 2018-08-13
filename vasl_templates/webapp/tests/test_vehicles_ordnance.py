@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.action_chains import ActionChains
 
 from vasl_templates.webapp.tests.utils import \
-    select_tab, set_template_params, find_child, find_children, \
+    wait_for_page_ready, select_tab, set_template_params, find_child, find_children, \
     get_clipboard, click_dialog_button, dismiss_notifications
 
 # ---------------------------------------------------------------------
@@ -128,6 +128,7 @@ def test_snippets( webapp, webdriver ):
 
     # initialize
     webdriver.get( webapp.url_for( "main" ) )
+    wait_for_page_ready()
 
     def do_test( vo_type ):
         """Run the test."""

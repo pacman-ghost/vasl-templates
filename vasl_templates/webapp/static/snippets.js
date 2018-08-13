@@ -635,6 +635,7 @@ function on_new_scenario( verbose )
         $.getJSON( gGetDefaultScenarioUrl, function(data) {
             gDefaultScenario = data ;
             do_load_scenario( data ) ;
+            update_page_load_status( "default-scenario" ) ;
         } ).fail( function( xhr, status, errorMsg ) {
             showErrorMsg( "Can't get the default scenario:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
             return ;
