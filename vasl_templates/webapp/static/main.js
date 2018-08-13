@@ -297,7 +297,7 @@ $(document).ready( function () {
                 template_id = "vehicles" ;
             else if ( template_id.substring(0,9) === "ordnance_" )
                 template_id = "ordnance" ;
-            $( "<a href='#' class='edit-template-link' data-id='" + template_id + "'" +
+            $( "<a href='#' class='_edit-template-link_' data-id='" + template_id + "'" +
                " onclick='edit_template(\"" + template_id + "\")'" +
                "></a>"
             ).appendTo( "body" ) ;

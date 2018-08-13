@@ -446,7 +446,7 @@ function on_load_scenario()
     // FOR TESTING PORPOISES! We can't control a file upload from Selenium (since
     // the browser will use native controls), so we store the result in a <div>).
     if ( getUrlParam( "scenario_persistence" ) ) {
-        var $elem = $( "#scenario_persistence" ) ; // nb: must have already been created
+        var $elem = $( "#_scenario_persistence_" ) ; // nb: must have already been created
         do_load_scenario( JSON.parse( $elem.val() ) ) ;
         return ;
     }
@@ -610,11 +610,11 @@ function on_save_scenario()
     // FOR TESTING PORPOISES! We can't control a file download from Selenium (since
     // the browser will use native controls), so we store the result in a <div>).
     if ( getUrlParam( "scenario_persistence" ) ) {
-        var $elem = $( "#scenario_persistence" ) ;
+        var $elem = $( "#_scenario_persistence_" ) ;
         if ( $elem.length === 0 ) {
             // NOTE: The <div> we store the message in must be visible, otherwise
             // Selenium doesn't return any text for it :-/
-            $elem = $( "<textarea id='scenario_persistence' style='z-index-999;'></textarea>" ) ;
+            $elem = $( "<textarea id='_scenario_persistence_' style='z-index-999;'></textarea>" ) ;
             $("body").append( $elem ) ;
         }
         $elem.val( data ) ;
@@ -684,7 +684,7 @@ function on_template_pack()
     // FOR TESTING PORPOISES! We can't control a file upload from Selenium (since
     // the browser will use native controls), so we store the result in a <div>).
     if ( getUrlParam( "template_pack_persistence" ) ) {
-        var data = $( "#template_pack_persistence" ).val() ; // nb: must have already been created
+        var data = $( "#_template_pack_persistence_" ).val() ; // nb: must have already been created
         var pos = data.indexOf( "|" ) ;
         var fname = data.substring( 0, pos ).trim() ;
         data = data.substring( pos+1 ).trim() ;

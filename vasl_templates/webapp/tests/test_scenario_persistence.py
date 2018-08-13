@@ -182,11 +182,11 @@ def test_unknown_vo( webapp, webdriver ):
 
 def _load_scenario( scenario ):
     """Load a scenario into the UI."""
-    set_stored_msg( "scenario_persistence", json.dumps(scenario) )
+    set_stored_msg( "_scenario_persistence_", json.dumps(scenario) )
     select_menu_option( "load_scenario" )
 
 def _save_scenario():
     """Save the scenario."""
     select_menu_option( "save_scenario" )
-    data = get_stored_msg( "scenario_persistence" )
+    data = get_stored_msg( "_scenario_persistence_" )
     return json.loads( data )

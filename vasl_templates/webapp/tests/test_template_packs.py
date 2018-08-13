@@ -30,7 +30,7 @@ def test_individual_files( webapp, webdriver ):
         assert clipboard != ""
         # upload a new template
         fname = template_id + ".j2"
-        set_stored_msg( "template_pack_persistence",
+        set_stored_msg( "_template_pack_persistence_",
             "{} | {}".format( fname, "UPLOADED TEMPLATE" )
         )
         select_menu_option( "template_pack" )
@@ -41,7 +41,7 @@ def test_individual_files( webapp, webdriver ):
     for_each_template( test_template )
 
     # try uploading a template with an incorrect filename extension
-    set_stored_msg( "template_pack_persistence",
+    set_stored_msg( "_template_pack_persistence_",
         "filename.xyz | UPLOADED TEMPLATE"
     )
     select_menu_option( "template_pack" )
@@ -49,7 +49,7 @@ def test_individual_files( webapp, webdriver ):
     assert "Invalid template extension" in last_error_msg
 
     # try uploading a template with an unknown filename
-    set_stored_msg( "template_pack_persistence",
+    set_stored_msg( "_template_pack_persistence_",
         "unknown.j2 | UPLOADED TEMPLATE"
     )
     select_menu_option( "template_pack" )
@@ -203,7 +203,7 @@ def _generate_snippet( template_id, orig_template_id ):
 
 def _upload_template_pack( zip_data ):
     """Upload a template pack."""
-    set_stored_msg( "template_pack_persistence",
+    set_stored_msg( "_template_pack_persistence_",
         "{} | {}".format( "test.zip", base64.b64encode(zip_data).decode("ascii") )
     )
     select_menu_option( "template_pack" )

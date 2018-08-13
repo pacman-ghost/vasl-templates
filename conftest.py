@@ -23,17 +23,29 @@ def pytest_addoption( parser ):
 
     # NOTE: This file needs to be in the project root for this to work :-/
 
-    # add an option to control which webdriver to use
+    # add test options
     parser.addoption(
         "--webdriver", action="store", dest="webdriver", default="firefox",
         help="Webdriver to use."
     )
+    parser.addoption(
+        "--headless", action="store_true", dest="headless", default=False,
+        help="Run the tests headless."
+    )
+    parser.addoption(
+        "--window-size", action="store", dest="window_size", default="1000x700",
+        help="Browser window size."
+    )
 
-    # add an option to control checking of vehicle/ordnance reports
+    # add test options
+    parser.addoption(
+        "--no-clipboard", action="store_true", dest="no_clipboard", default=False,
+        help="Don't use the clipboard to get snippets."
+    )
     parser.addoption(
         "--vo-reports", action="store_true", dest="check_vo_reports", default=False,
         help="Check the vehicle/ordnance reports."
-)
+    )
 
 # ---------------------------------------------------------------------
 
@@ -46,6 +58,13 @@ def webapp():
     def make_webapp_url( endpoint, **kwargs ):
         """Generate a webapp URL."""
         with app.test_request_context():
+            if pytest.config.option.headless: #pylint: disable=no-member
+                # headless browsers have no clipboard support :-/
+                pytest.config.option.no_clipboard = True #pylint: disable=no-member
+            if pytest.config.option.no_clipboard: #pylint: disable=no-member
+                # NOTE: It's not a bad idea to bypass the clipboard, even when running in a browser,
+                # to avoid problems if something else uses the clipboard while the tests are running.
+                kwargs["store_clipboard"] = 1
             url = url_for( endpoint, _external=True, **kwargs )
             return url.replace( "localhost/", "localhost:{}/".format(FLASK_WEBAPP_PORT) )
     app.url_for = make_webapp_url
@@ -105,13 +124,22 @@ def webdriver( request ):
     driver = request.config.getoption( "--webdriver" )
     from selenium import webdriver as wb
     if driver == "firefox":
+        options = wb.FirefoxOptions()
+        options.set_headless( headless = pytest.config.option.headless ) #pylint: disable=no-member
         driver = wb.Firefox(
+            firefox_options = options,
             log_path = os.path.join( tempfile.gettempdir(), "geckodriver.log" )
         )
     elif driver == "chrome":
-        driver = wb.Chrome()
+        options = wb.ChromeOptions()
+        options.set_headless( headless = pytest.config.option.headless ) #pylint: disable=no-member
+        driver = wb.Chrome( chrome_options=options )
     else:
         assert False, "Unknown webdriver: {}".format( driver )
+
+    # set the browser size
+    words = pytest.config.option.window_size.split( "x" ) #pylint: disable=no-member
+    driver.set_window_size( int(words[0]), int(words[1]) )
 
     # return the webdriver to the caller
     utils._webdriver = driver #pylint: disable=protected-access

@@ -6,6 +6,7 @@ import json
 import time
 import re
 
+import pytest
 from PyQt5.QtWidgets import QApplication
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
@@ -316,11 +317,18 @@ def click_dialog_button( caption ):
 
 # ---------------------------------------------------------------------
 
+_pyqt_app = None
+
 def get_clipboard() :
     """Get the contents of the clipboard."""
-    app = QApplication( [] ) #pylint: disable=unused-variable
-    clipboard = QApplication.clipboard()
-    return clipboard.text()
+    if pytest.config.option.no_clipboard: #pylint: disable=no-member
+        return get_stored_msg( "_clipboard_" )
+    else:
+        global _pyqt_app
+        if _pyqt_app is None:
+            _pyqt_app = QApplication( [] )
+        clipboard = QApplication.clipboard()
+        return clipboard.text()
 
 def wait_for( timeout, func ):
     """Wait for a condition to become true."""

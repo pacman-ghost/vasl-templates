@@ -179,7 +179,7 @@ def test_edit_templates( webapp, webdriver ):
         if template_id in("scenario_note","ob_setup","ob_note"):
             return # nb: these require special handling (done below)
         # edit the template
-        elem = find_child( "a.edit-template-link[data-id='{}']".format( template_id ) )
+        elem = find_child( "a._edit-template-link_[data-id='{}']".format( template_id ) )
         webdriver.execute_script( "$(arguments[0]).click();", elem )
         edit_template( orig_template_id )
         # check that the new template is being used
