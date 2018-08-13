@@ -120,6 +120,9 @@ function ask( title, msg, args )
     $dlg.dialog( {
         modal: true,
         title: title,
+        open: function() {
+            $(".ui-dialog button:contains(Cancel)").focus();
+        },
         buttons: {
             OK: function() {
                 $(this).dialog( "close" ) ;
