@@ -17,7 +17,7 @@ $(document).ready( function () {
     // initialize the menu
     var $menu = $("#menu input") ;
     $menu.popmenu( {
-        new_scenario: { label: "New scenario", action: on_new_scenario },
+        new_scenario: { label: "New scenario", action: function() { on_new_scenario(true) ; } },
         load_scenario: { label: "Load scenario", action: on_load_scenario },
         save_scenario: { label: "Save scenario", action: on_save_scenario },
         separator: { type: "separator" },
@@ -159,7 +159,7 @@ $(document).ready( function () {
             width: "3em"
         } ) ;
     }
-    buf = [ "<option></option>" ] ; // nb: allow scenarios that have no SAN
+    buf = [ "<option value=''></option>" ] ; // nb: allow scenarios that have no SAN
     for ( i=2 ; i <= 7 ; ++i ) // nb: A14.1: SAN is 2-7
         buf.push( "<option value='" + i + "'>" + i + "</option>" ) ;
     buf = buf.join( "" ) ;

@@ -5,7 +5,7 @@ import json
 from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp.tests.utils import \
-    set_template_params, select_tab, select_menu_option, get_sortable_entry_text, \
+    get_nationalities, set_template_params, select_tab, select_menu_option, get_sortable_entry_text, \
     get_stored_msg, set_stored_msg, find_child, find_children
 
 # ---------------------------------------------------------------------
@@ -15,6 +15,14 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-lo
 
     # initialize
     webdriver.get( webapp.url_for( "main", scenario_persistence=1 ) )
+    nationalities = get_nationalities( webapp )
+
+    def check_ob_tabs( *args ):
+        """Check that the OB tabs have been set correctly."""
+        for player_no in [1,2]:
+            elem = find_child( "#tabs .ui-tabs-nav a[href='#tabs-ob{}']".format( player_no ) )
+            nat = args[  player_no-1 ]
+            assert elem.text.strip() == "{} OB".format( nationalities[nat]["display_name"] )
 
     # load the scenario fields
     scenario_params = {
@@ -54,6 +62,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-lo
     for tab_id,fields in scenario_params.items():
         select_tab( tab_id )
         set_template_params( fields )
+    check_ob_tabs( "russian", "german" )
 
     # save the scenario and check the results
     saved_scenario = _save_scenario()
@@ -64,6 +73,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-lo
 
     # reset the scenario and check the save results
     select_menu_option( "new_scenario" )
+    check_ob_tabs( "german", "russian" )
     data = _save_scenario()
     data2 = { k: v for k,v in data.items() if v }
     assert data2 == {
@@ -84,6 +94,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-lo
 
     # load a scenario and make sure it was loaded into the UI correctly
     _load_scenario( saved_scenario )
+    check_ob_tabs( "russian", "german" )
     for tab_id in scenario_params:
         select_tab( tab_id )
         for field,val in scenario_params[tab_id].items():

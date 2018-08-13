@@ -14,6 +14,8 @@ var _DAY_OF_MONTH_POSTFIXES = { // nb: we assume English :-/
     11: "th", 12: "th", 13: "th"
 } ;
 
+var gDefaultScenario = null ;
+
 // --------------------------------------------------------------------
 
 function generate_snippet( $btn, extra_params )
@@ -474,17 +476,27 @@ function on_load_scenario_file_selected()
 function do_load_scenario( params )
 {
     // reset the scenario
-    on_new_scenario( false ) ;
+    reset_scenario() ;
 
     // load the scenario parameters
     var params_loaded = {} ;
     var unknown_vo = [] ;
-    var set_param = function( $elem, key ) { $elem.val(params[key]) ; params_loaded[key]=true ; return $elem ; } ;
+    var set_param = function( $elem, key ) {
+        $elem.val( params[key] ) ;
+        if ( $elem[0].nodeName.toLowerCase() === "select" )
+            $elem.selectmenu( "refresh" ) ;
+        params_loaded[key] = true ;
+        return $elem ;
+    } ;
     // FUDGE! We must set the players first, since changing these will reset the OB tabs.
-    if ( "PLAYER_1" in params )
-        set_param( $("select[name='PLAYER_1']"), "PLAYER_1" ).trigger( "change" ) ;
-    if ( "PLAYER_2" in params )
-        set_param( $("select[name='PLAYER_2']"), "PLAYER_2" ).trigger( "change" ) ;
+    if ( "PLAYER_1" in params ) {
+        set_param( $("select[name='PLAYER_1']"), "PLAYER_1" ) ;
+        on_player_change( $("select[name='PLAYER_1']") ) ;
+    }
+    if ( "PLAYER_2" in params ) {
+        set_param( $("select[name='PLAYER_2']"), "PLAYER_2" ) ;
+        on_player_change( $("select[name='PLAYER_2']") ) ;
+    }
     var i ;
     for ( var key in params ) {
         var player_id, $sortable2 ;
@@ -548,7 +560,7 @@ function do_load_scenario( params )
     // look for unrecognized keys
     var buf = [] ;
     for ( key in params ) {
-        if ( ! (key in params_loaded) )
+        if ( !(key in params_loaded) && key.substring(0,1) !== "_" )
             buf.push( key + " = " + params[key] ) ;
     }
     if ( buf.length > 0 ) {
@@ -616,18 +628,38 @@ function on_new_scenario( verbose )
 {
     // FIXME! confirm this operation if the scenario is dirty
 
+    // load the default scenario
+    if ( gDefaultScenario )
+        do_load_scenario( gDefaultScenario ) ;
+    else {
+        $.getJSON( gGetDefaultScenarioUrl, function(data) {
+            gDefaultScenario = data ;
+            do_load_scenario( data ) ;
+        } ).fail( function( xhr, status, errorMsg ) {
+            showErrorMsg( "Can't get the default scenario:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+            return ;
+        } ) ;
+    }
+
+    // provide some feedback to the user
+    $("#tabs").tabs( "option", "active", 0 ) ;
+    if ( verbose )
+        showInfoMsg( "The scenario was reset." ) ;
+}
+
+function reset_scenario()
+{
     // reset all the template parameters
     $("input[type='text'].param").each( function() { $(this).val("") ; } ) ;
     $("textarea.param").each( function() { $(this).val("") ; } ) ;
 
     // reset all the template parameters
-    $("select[name='PLAYER_1']").val( "german" ).selectmenu( "refresh" ) ;
-    $("select[name='PLAYER_2']").val( "russian" ).selectmenu( "refresh" ) ;
+    // nb: there's no way to reset the player droplist's
     var player_id ;
     for ( player_id=1 ; player_id <= 2 ; ++player_id ) {
         on_player_change( $( "select[name='PLAYER_" + player_id + "']" ) ) ;
-        $("select[name='PLAYER_" + player_id + "_ELR']").val( 5 ).selectmenu( "refresh" ) ;
-        $("select[name='PLAYER_" + player_id + "_SAN']").val( 2 ).selectmenu( "refresh" ) ;
+        $("select[name='PLAYER_" + player_id + "_ELR']").val( 0 ).selectmenu( "refresh" ) ;
+        $("select[name='PLAYER_" + player_id + "_SAN']").val( "" ).selectmenu( "refresh" ) ;
     }
 
     // reset all the template parameters
@@ -639,11 +671,6 @@ function on_new_scenario( verbose )
         $( "#vehicles-sortable_" + player_id ).sortable2( "delete-all" ) ;
         $( "#ordnance-sortable_" + player_id ).sortable2( "delete-all" ) ;
     }
-
-    // provide some feedback to the user
-    $("#tabs").tabs( "option", "active", 0 ) ;
-    if ( verbose )
-        showInfoMsg( "The scenario was reset." ) ;
 }
 
 // --------------------------------------------------------------------

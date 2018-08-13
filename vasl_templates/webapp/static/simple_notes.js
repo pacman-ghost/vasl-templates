@@ -4,25 +4,25 @@
 
 // --------------------------------------------------------------------
 
-function add_scenario_note() { _do_edit_simple_note( $("#scenario_notes-sortable"), null ) ; }
+function add_scenario_note() { _do_edit_simple_note( $("#scenario_notes-sortable"), null, gDefaultScenario._SCENARIO_NOTE_WIDTH ) ; }
 function do_add_scenario_note( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
-function edit_scenario_note( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry ) ; }
+function edit_scenario_note( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry, null ) ; }
 
-function add_ssr() { _do_edit_simple_note( $("#ssr-sortable"), null ) ; }
+function add_ssr() { _do_edit_simple_note( $("#ssr-sortable"), null, null ) ; }
 function do_add_ssr( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
-function edit_ssr( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry ) ; }
+function edit_ssr( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry, null ) ; }
 
-function add_ob_setup( player_id ) { _do_edit_simple_note( $("#ob_setups-sortable_"+player_id), null ) ; }
+function add_ob_setup( player_id ) { _do_edit_simple_note( $("#ob_setups-sortable_"+player_id), null, gDefaultScenario._OB_SETUP_WIDTH ) ; }
 function do_add_ob_setup( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
-function edit_ob_setup( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry ) ; }
+function edit_ob_setup( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry, null ) ; }
 
-function add_ob_note( player_id ) { _do_edit_simple_note( $("#ob_notes-sortable_"+player_id), null ) ; }
+function add_ob_note( player_id ) { _do_edit_simple_note( $("#ob_notes-sortable_"+player_id), null, gDefaultScenario._OB_NOTE_WIDTH ) ; }
 function do_add_ob_note( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
-function edit_ob_note( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry ) ; }
+function edit_ob_note( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry, null ) ; }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function _do_edit_simple_note( $sortable2, $entry )
+function _do_edit_simple_note( $sortable2, $entry, default_width )
 {
     // figure out what we're editing
     var note_type = _get_note_type_for_sortable( $sortable2 ) ;
@@ -53,7 +53,7 @@ function _do_edit_simple_note( $sortable2, $entry )
             // load the dialog
             var data = $entry ? $entry.data("sortable2-data") : null ;
             $caption.val( data ? data.caption : "" ) ;
-            $width.val( data ? data.width : "" ) ;
+            $width.val( data ? data.width : default_width ) ;
             $(this).height( $(this).height() ) ; // fudge: force the textarea to resize
             $width.keydown( function(evt) { auto_dismiss_dialog( evt, "OK" ) ; } ) ;
         },
