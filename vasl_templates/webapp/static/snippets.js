@@ -576,6 +576,9 @@ function do_load_scenario( params )
             "Unknown vehicles/ordnance:", unknown_vo
         ) ) ;
     }
+
+    // update the UI
+    on_scenario_date_change() ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

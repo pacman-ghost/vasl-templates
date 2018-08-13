@@ -287,9 +287,6 @@ $(document).ready( function () {
     // initialize hotkeys
     init_hotkeys() ;
 
-    // update the UI
-    on_scenario_date_change() ;
-
     // add some dummy links for the test suite to edit templates
     if ( getUrlParam( "edit_template_links" ) ) {
         $("button.generate").each( function() {
