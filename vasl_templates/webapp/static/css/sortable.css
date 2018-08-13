@@ -12,7 +12,8 @@ img.sortable-add { vertical-align: middle ; height: 15px ; margin-right: 0.25em 
 
 .sortable li img.snippet { height: 1.25em ; margin: -2px -2px ; padding-left: 1em ; float: right ; }
 
-.sortable-hint { width:100% ; height: calc(100% - 1.5em) ; font-size: 80% ; font-style: italic ; }
-.sortable-hint p { margin-bottom: 1em ; }
+.sortable-hint { width:100% ; height: calc(100% - 1.5em) ; color: #666 ; }
+.sortable-hint .instructions { margin: 1em 0 0 1em ; font-size: 80% ; font-style: italic ; color: #888 ; }
+.sortable-hint .instructions li { margin-top: 0.5em ; }
 
 .sortable-trash { margin: 3px 5px ; height: 24px ;  }

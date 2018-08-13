@@ -7,6 +7,15 @@ SORTABLE_DISPLAY_NAMES = {
     ordnance: [ "ordnance", "ordnance", "an" ],
 } ;
 
+SORTABLE_HINTS = {
+    scenario_notes: "Add miscellaneous scenario notes here.",
+    ssr: "Add scenario SSR's here.",
+    ob_setups: "Add setup notes for the player's OB here.",
+    ob_notes: "Add miscellaneous setup notes here.",
+    vehicles: "Add vehicles in the player's OB here.",
+    ordnance: "Add ordnance in the player's OB here.",
+} ;
+
 // --------------------------------------------------------------------
 
 ( function( $ ) {
@@ -16,9 +25,7 @@ $.fn.sortable2 = function( action, args )
 
         "init": function( $sortable2 ) {
             // get the display name
-            var id = $sortable2.prop( "id" ) ;
-            var pos = id.indexOf( "-sortable" ) ;
-            var display_name = SORTABLE_DISPLAY_NAMES[id.substring(0,pos)] ;
+            var display_name = SORTABLE_DISPLAY_NAMES[ get_sortable2_type($sortable2) ] ;
             // initialize the sortable2 and support elements
             $sortable2.data( "on_edit", args.edit ) ;
             var $add_btn = find_helper( $sortable2, "add" ) ;
@@ -112,6 +119,17 @@ $.fn.sortable2 = function( action, args )
         var $hint = find_helper( $sortable2, "hint" ) ;
         if ( $sortable2.children("li").length === 0 ) {
             $sortable2.hide() ;
+            var display_name = SORTABLE_DISPLAY_NAMES[ get_sortable2_type($sortable2) ] ;
+            var img = "<img src='" + gImagesBaseUrl + "/sortable-add.png' style='height:1em;'>" ;
+            var buf = [
+                SORTABLE_HINTS[ get_sortable2_type($sortable2) ],
+                "<ul class='instructions'>",
+                "<li>Click on the " + img + " below to add a new " + display_name[0] + ".",
+                "<li>To re-order the " + display_name[1] + ", use the mouse to drag them around.",
+                "<li>Ctrl-click on " + display_name[2] + " " + display_name[0] + " to delete it, or drag it into the trashcan below.",
+                "</ul>",
+            ] ;
+            $hint.html( buf.join("") ) ;
             $hint.show() ;
         } else {
             $sortable2.show() ;
@@ -122,8 +140,15 @@ $.fn.sortable2 = function( action, args )
     function find_helper( $sortable2, type ) {
         // find a helper element for the sortable2
         var id = $sortable2.prop( "id" ) ;
-        var pos = id.indexOf( "sortable" ) ;
-        return $( "#" + id.substring(0,pos) + type+ id.substring(pos+8) ) ;
+        var pos = id.indexOf( "-sortable" ) ;
+        return $( "#" + get_sortable2_type($sortable2) + "-" + type + id.substring(pos+9) ) ;
+    }
+
+    function get_sortable2_type( $sortable2 ) {
+        // get the sortable2 type
+        var id = $sortable2.prop( "id" ) ;
+        var pos = id.indexOf( "-sortable" ) ;
+        return id.substring( 0, pos ) ;
     }
 
     // execute the specified action
