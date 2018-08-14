@@ -10,7 +10,8 @@ from selenium.webdriver.support.ui import Select
 from vasl_templates.webapp import snippets
 from vasl_templates.webapp.tests.utils import \
     select_tab, select_menu_option, get_clipboard, get_stored_msg, set_stored_msg, set_stored_msg_marker,\
-    add_simple_note, for_each_template, find_child, find_children, select_droplist_val, get_droplist_vals
+    add_simple_note, for_each_template, find_child, find_children, wait_for, \
+    select_droplist_val, get_droplist_vals
 
 # ---------------------------------------------------------------------
 
@@ -27,33 +28,19 @@ def test_individual_files( webapp, webdriver ):
         elem, clipboard = _generate_snippet( template_id, orig_template_id )
         assert clipboard != ""
         # upload a new template
-        fname = template_id + ".j2"
-        set_stored_msg( "_template_pack_persistence_",
-            "{} | {}".format( fname, "UPLOADED TEMPLATE" )
-        )
-        select_menu_option( "template_pack" )
+        _ = _upload_template_pack_file( template_id+".j2", "UPLOADED TEMPLATE", False )
         # make sure generating a snippet returns the new version
         elem.click()
         assert get_clipboard() == "UPLOADED TEMPLATE"
     for_each_template( test_template )
 
     # try uploading a template with an incorrect filename extension
-    set_stored_msg( "_template_pack_persistence_",
-        "filename.xyz | UPLOADED TEMPLATE"
-    )
-    _ = set_stored_msg_marker( "_last-error_" )
-    select_menu_option( "template_pack" )
-    last_error_msg = get_stored_msg( "_last-error_" )
-    assert "Invalid template extension" in last_error_msg
+    _ = _upload_template_pack_file( "filename.xyz", "UPLOADED TEMPLATE", True )
+    assert "Invalid template extension" in get_stored_msg( "_last-error_" )
 
     # try uploading a template with an unknown filename
-    set_stored_msg( "_template_pack_persistence_",
-        "unknown.j2 | UPLOADED TEMPLATE"
-    )
-    _ = set_stored_msg_marker( "_last-error_" )
-    select_menu_option( "template_pack" )
-    last_error_msg = get_stored_msg( "_last-error_" )
-    assert "Invalid template filename" in last_error_msg
+    _ = _upload_template_pack_file( "unknown.j2", "UPLOADED TEMPLATE", True )
+    assert "Invalid template filename" in get_stored_msg( "_last-error_" )
 
 # ---------------------------------------------------------------------
 
@@ -65,21 +52,21 @@ def test_zip_files( webapp, webdriver ):
 
     # upload a template pack that contains a full set of templates
     zip_data = _make_zip_from_files( "full" )
-    marker = set_stored_msg_marker( "_last-error_" )
-    _upload_template_pack( zip_data )
+    _, marker = _upload_template_pack_zip( zip_data, False )
     assert get_stored_msg( "_last-error_" ) == marker
 
     # check that the uploaded templates are being used
     _check_snippets( lambda tid: "Customized {}.".format( tid.upper() ) )
 
     # upload only part of template pack
-    _ = set_stored_msg_marker( "_last-error_" )
-    _upload_template_pack( zip_data[ : int(len(zip_data)/2) ] )
+    _ = _upload_template_pack_zip(
+        zip_data[ : int(len(zip_data)/2) ],
+        True
+    )
     assert get_stored_msg( "_last-error_" ).startswith( "Can't unpack the ZIP:" )
 
     # try uploading an empty template pack
-    _ = set_stored_msg_marker( "_last-error_" )
-    _upload_template_pack( b"" )
+    _ = _upload_template_pack_zip( b"", True )
     assert get_stored_msg( "_last-error_" ).startswith( "Can't unpack the ZIP:" )
 
     # NOTE: We can't test the limit on template pack size, since it happens after the browser's
@@ -124,8 +111,7 @@ def test_nationality_data( webapp, webdriver ):
 
     # upload a template pack that contains nationality data
     zip_data = _make_zip_from_files( "with-nationality-data" )
-    marker = set_stored_msg_marker( "_last-error_" )
-    _upload_template_pack( zip_data )
+    _, marker = _upload_template_pack_zip( zip_data, False )
     assert get_stored_msg( "_last-error_" ) == marker
 
     # check that the UI was updated correctly
@@ -203,9 +189,37 @@ def _generate_snippet( template_id, orig_template_id ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def _upload_template_pack( zip_data ):
-    """Upload a template pack."""
-    set_stored_msg( "_template_pack_persistence_",
-        "{} | {}".format( "test.zip", base64.b64encode(zip_data).decode("ascii") )
+def _upload_template_pack_zip( zip_data, error_expected ):
+    """Upload a template pack ZIP."""
+    return _do_upload_template_pack(
+        "{} | {}".format(
+            "test.zip",
+            base64.b64encode( zip_data ).decode( "ascii" )
+        ),
+        error_expected
     )
+
+def _upload_template_pack_file( fname, data, error_expected ):
+    """Upload a template pack file."""
+    return _do_upload_template_pack(
+        "{} | {}".format( fname, data ),
+        error_expected
+    )
+
+def _do_upload_template_pack( data, error_expected ):
+    """Upload a template pack."""
+
+    # upload the template pack
+    set_stored_msg( "_template-pack-persistence_", data )
+    info_marker = set_stored_msg_marker( "_last-info_" )
+    error_marker = set_stored_msg_marker( "_last-error_" )
     select_menu_option( "template_pack" )
+
+    # wait for the front-end to finish
+    if error_expected:
+        func = lambda: get_stored_msg("_last-error_") != error_marker
+    else:
+        func = lambda: "was loaded" in get_stored_msg("_last-info_")
+    wait_for( 2, func )
+
+    return info_marker, error_marker

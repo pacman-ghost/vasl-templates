@@ -679,7 +679,7 @@ function on_template_pack()
     // FOR TESTING PORPOISES! We can't control a file upload from Selenium (since
     // the browser will use native controls), so we store the result in a <div>).
     if ( getUrlParam( "template_pack_persistence" ) ) {
-        var data = $( "#_template_pack_persistence_" ).val() ; // nb: must have already been created
+        var data = $( "#_template-pack-persistence_" ).val() ;
         var pos = data.indexOf( "|" ) ;
         var fname = data.substring( 0, pos ).trim() ;
         data = data.substring( pos+1 ).trim() ;
