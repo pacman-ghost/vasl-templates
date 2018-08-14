@@ -255,3 +255,23 @@ function isIE()
         return true ;
     return false ;
 }
+
+// --------------------------------------------------------------------
+
+( function( scope ) {
+    // create a new stylesheet to hold our CSS rules
+    var style = document.createElement( "style" ) ;
+    document.head.appendChild( style ) ;
+    var stylesheet = style.sheet ;
+    scope.dynamic_css = function( sel, prop, val ) {
+        // add the rule
+        try {
+            stylesheet.insertRule(
+                sel + " {" + prop + ":" + val + "}",
+                stylesheet.cssRules.length
+            ) ;
+        } catch( ex ) {
+            console.log( "Couldn't add CSS style:", sel, prop, val ) ;
+        }
+    } ;
+} ) ( window ) ;

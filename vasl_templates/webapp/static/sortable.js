@@ -95,6 +95,22 @@ $.fn.sortable2 = function( action, args )
             if ( evt.ctrlKey )
                 delete_entry( $sortable2, $(this) ) ;
         } ) ;
+
+        // style the entry
+        // NOTE: Colors aren't going to work when we're using the test template pack!
+        function add_colors( player_no ) {
+            var player_nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
+            var colors = gTemplatePack.nationalities[ player_nat ].ob_colors ;
+            $entry.css( {
+                "background": "#"+colors[0],
+                "border-bottom": "1px solid #"+colors[1],
+                "border-right": "1px solid #"+colors[1],
+            } ) ;
+        }
+        if ( $.contains( $("#tabs-ob1")[0], $sortable2[0] ) )
+            add_colors( 1 ) ;
+        else if ( $.contains( $("#tabs-ob2")[0], $sortable2[0] ) )
+            add_colors( 2 ) ;
     }
 
     function delete_entry( $sortable2, $entry )

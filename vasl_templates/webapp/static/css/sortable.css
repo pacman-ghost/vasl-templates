@@ -5,7 +5,7 @@ img.sortable-add { vertical-align: middle ; height: 15px ; margin-right: 0.25em 
 .sortable { list-style-type: none ; margin: 0 ; padding: 0 ; }
 .sortable li {
     margin-bottom: 2px ; padding: 5px ;
-    border: 1px dotted #333 ; background: #eee ;
+    background: #f0f0f0 ; border-bottom: 1px solid #c0c0c0 ; border-right: 1px solid #c0c0c0 ;
 }
 .sortable li.highlighted { background: #48c8ff ; }
 .sortable li:hover { cursor: pointer ; }

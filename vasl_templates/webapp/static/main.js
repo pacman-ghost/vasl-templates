@@ -69,9 +69,10 @@ $(document).ready( function () {
     // initialize the tabs
     $("#tabs").tabs( {
         heightStyle: "fill",
+        activate: on_tab_activate,
     } ).show() ;
     var navHeight = $("#tabs .ui-tabs-nav").height() ;
-    $("input[name='SCENARIO_NAME']").focus().focus() ;
+    $("#tabs .ui-tabs-nav a").click( function() { $(this).blur() ; } ) ;
 
     // initialize the scenario date picker
     $("input[name='SCENARIO_DATE']").datepicker( {
@@ -306,6 +307,7 @@ $(document).ready( function () {
 
     // flag that we've finished initialization
     update_page_load_status( "main" ) ;
+    $("input[name='SCENARIO_NAME']").focus().focus() ;
 } ) ;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -422,15 +424,47 @@ function on_player_change( $select )
 function update_ob_tab_header( player_no )
 {
     // update the OB tab header for the specified player
-    var $sel = $( "select[name='PLAYER_" + player_no + "']" ) ;
-    var player_nat = $sel.find( "option:selected" ).val() ;
+    var player_nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
     var display_name = gTemplatePack.nationalities[ player_nat ].display_name ;
     var image_url = gImagesBaseUrl + "/flags/" + player_nat + ".png" ;
-    var $elem = $("#tabs .ui-tabs-nav a[href='#tabs-ob" + player_no + "']") ;
+    var $elem = $( "#tabs .ui-tabs-nav a[href='#tabs-ob" + player_no + "']" ) ;
     $elem.html(
         "<img src='" + image_url + "'>&nbsp;" +
         "<span>" + escapeHTML(display_name) + " OB</span>"
     ) ;
 
     return player_nat ;
+}
+
+// --------------------------------------------------------------------
+
+function on_tab_activate( evt, ui )
+{
+    function set_colors( tab_id, bgd, border ) {
+        var $elem = $("#tabs .ui-tabs-tab[aria-controls='" + tab_id + "']" ) ;
+        $elem.css( {
+            background: bgd,
+            border: "1px solid "+border,
+            "border-bottom": "none",
+        } ) ;
+        $("#"+tab_id).css( "border", "1px solid "+border ) ;
+    }
+
+    // style the tab being de-activated
+    var tab_id = ui.oldPanel.prop( "id" ) ;
+    set_colors( tab_id, "#f6f6f6", "#c5c5c5" ) ;
+
+    // set the tab being activated
+    function set_colors_for_player( tab_id, player_no ) {
+        var player_nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
+        var colors = gTemplatePack.nationalities[ player_nat ].ob_colors ;
+        set_colors( tab_id, "#"+colors[0], "#"+colors[1] ) ;
+    }
+    tab_id = ui.newPanel.prop( "id" ) ;
+    if ( tab_id === "tabs-ob1" )
+        set_colors_for_player( tab_id, 1 ) ;
+    else if ( tab_id === "tabs-ob2" )
+        set_colors_for_player( tab_id, 2 ) ;
+    else
+        set_colors( tab_id, "#ddd", "#ccc" ) ;
 }

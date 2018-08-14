@@ -578,6 +578,7 @@ function do_load_scenario( params )
     }
 
     // update the UI
+    $("#tabs").tabs( "option", "active", 0 ) ;
     on_scenario_date_change() ;
 }
 
@@ -646,7 +647,6 @@ function on_new_scenario( verbose )
     }
 
     // provide some feedback to the user
-    $("#tabs").tabs( "option", "active", 0 ) ;
     if ( verbose )
         showInfoMsg( "The scenario was reset." ) ;
 }

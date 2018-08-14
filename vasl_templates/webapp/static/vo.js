@@ -60,7 +60,7 @@ function do_add_vo( vo_type, player_no, entry )
     var $sortable2 = $( "#" + vo_type + "-sortable_" + player_no ) ;
     $sortable2.sortable2( "add", {
         content: $( "<div>" + entry.name + "</div>" ),
-        data: { caption: entry.name, vo_entry: entry }
+        data: { caption: entry.name, vo_entry: entry },
     } ) ;
 }
 
