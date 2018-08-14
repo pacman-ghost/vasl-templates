@@ -5,13 +5,6 @@ function copyToClipboard( val )
 {
     if ( getUrlParam( "store_clipboard" ) ) {
         // store the value where the tests can retrieve it
-        var $elem = $("#_clipboard_") ;
-        if ( $elem.length === 0 ) {
-            // NOTE: The <div> we store the message in must be visible, otherwise
-            // Selenium doesn't return any text for it :-/
-            $elem = $( "<textarea id='_clipboard_' style='z-index-999;'></textarea>" ) ;
-            $("body").append( $elem ) ;
-        }
         $("#_clipboard_").text( val ) ;
         return ;
     }
