@@ -9,9 +9,8 @@ from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp import snippets
 from vasl_templates.webapp.tests.utils import \
-    select_tab, select_menu_option, dismiss_notifications, get_clipboard, \
-    get_stored_msg, set_stored_msg, add_simple_note, for_each_template, find_child, find_children, \
-    select_droplist_val, get_droplist_vals
+    select_tab, select_menu_option, get_clipboard, get_stored_msg, set_stored_msg, set_stored_msg_marker,\
+    add_simple_note, for_each_template, find_child, find_children, select_droplist_val, get_droplist_vals
 
 # ---------------------------------------------------------------------
 
@@ -19,13 +18,12 @@ def test_individual_files( webapp, webdriver ):
     """Test loading individual template files."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main", store_msgs=1, template_pack_persistence=1 ) )
+    webdriver.get( webapp.url_for( "main", template_pack_persistence=1 ) )
 
     # try uploading a customized version of each template
     def test_template( template_id, orig_template_id ):
         """Test uploading a customized version of the template."""
         # make sure generating a snippet returns something
-        dismiss_notifications()
         elem, clipboard = _generate_snippet( template_id, orig_template_id )
         assert clipboard != ""
         # upload a new template
@@ -35,7 +33,6 @@ def test_individual_files( webapp, webdriver ):
         )
         select_menu_option( "template_pack" )
         # make sure generating a snippet returns the new version
-        dismiss_notifications()
         elem.click()
         assert get_clipboard() == "UPLOADED TEMPLATE"
     for_each_template( test_template )
@@ -44,16 +41,18 @@ def test_individual_files( webapp, webdriver ):
     set_stored_msg( "_template_pack_persistence_",
         "filename.xyz | UPLOADED TEMPLATE"
     )
+    _ = set_stored_msg_marker( "_last-error_" )
     select_menu_option( "template_pack" )
-    last_error_msg = get_stored_msg("_last-error_" )
+    last_error_msg = get_stored_msg( "_last-error_" )
     assert "Invalid template extension" in last_error_msg
 
     # try uploading a template with an unknown filename
     set_stored_msg( "_template_pack_persistence_",
         "unknown.j2 | UPLOADED TEMPLATE"
     )
+    _ = set_stored_msg_marker( "_last-error_" )
     select_menu_option( "template_pack" )
-    last_error_msg = get_stored_msg("_last-error_" )
+    last_error_msg = get_stored_msg( "_last-error_" )
     assert "Invalid template filename" in last_error_msg
 
 # ---------------------------------------------------------------------
@@ -62,23 +61,26 @@ def test_zip_files( webapp, webdriver ):
     """Test loading ZIP'ed template packs."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main", store_msgs=1, template_pack_persistence=1 ) )
+    webdriver.get( webapp.url_for( "main", template_pack_persistence=1 ) )
 
     # upload a template pack that contains a full set of templates
     zip_data = _make_zip_from_files( "full" )
+    marker = set_stored_msg_marker( "_last-error_" )
     _upload_template_pack( zip_data )
-    assert get_stored_msg("_last-error_") is None
+    assert get_stored_msg( "_last-error_" ) == marker
 
     # check that the uploaded templates are being used
     _check_snippets( lambda tid: "Customized {}.".format( tid.upper() ) )
 
     # upload only part of template pack
+    _ = set_stored_msg_marker( "_last-error_" )
     _upload_template_pack( zip_data[ : int(len(zip_data)/2) ] )
-    assert get_stored_msg("_last-error_").startswith( "Can't unpack the ZIP:" )
+    assert get_stored_msg( "_last-error_" ).startswith( "Can't unpack the ZIP:" )
 
     # try uploading an empty template pack
+    _ = set_stored_msg_marker( "_last-error_" )
     _upload_template_pack( b"" )
-    assert get_stored_msg("_last-error_").startswith( "Can't unpack the ZIP:" )
+    assert get_stored_msg( "_last-error_" ).startswith( "Can't unpack the ZIP:" )
 
     # NOTE: We can't test the limit on template pack size, since it happens after the browser's
     # "open file" dialog has finished, but before we read the file data (i.e. we don't execute
@@ -105,7 +107,7 @@ def test_nationality_data( webapp, webdriver ):
     """Test a template pack with nationality data."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main", store_msgs=1, template_pack_persistence=1 ) )
+    webdriver.get( webapp.url_for( "main", template_pack_persistence=1 ) )
     select_tab( "scenario" )
 
     # select the British as player 1
@@ -122,8 +124,9 @@ def test_nationality_data( webapp, webdriver ):
 
     # upload a template pack that contains nationality data
     zip_data = _make_zip_from_files( "with-nationality-data" )
+    marker = set_stored_msg_marker( "_last-error_" )
     _upload_template_pack( zip_data )
-    assert get_stored_msg("_last-error_") is None
+    assert get_stored_msg( "_last-error_" ) == marker
 
     # check that the UI was updated correctly
     assert tab_ob1.text.strip() == "Poms! OB"
@@ -170,7 +173,6 @@ def _check_snippets( expected ):
 
     def test_template( template_id, orig_template_id ):
         """Test each template."""
-        dismiss_notifications()
         _, clipboard = _generate_snippet( template_id, orig_template_id )
         assert clipboard == expected( template_id )
     for_each_template( test_template )

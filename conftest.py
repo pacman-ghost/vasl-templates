@@ -58,9 +58,15 @@ def webapp():
     def make_webapp_url( endpoint, **kwargs ):
         """Generate a webapp URL."""
         with app.test_request_context():
+            # NOTE: When we perform actions at high speed, the notification balloons can build up
+            # very quickly, causing problems by obscuring other elements and making them non-clickable :-/
+            # We used to explicitly dismiss them, but it's simpler to just always disable them.
+            kwargs["store_msgs"] = 1
+            # check if the tests are being run headless
             if pytest.config.option.headless: #pylint: disable=no-member
-                # headless browsers have no clipboard support :-/
+                # yup - there is no clipboard support :-/
                 pytest.config.option.no_clipboard = True #pylint: disable=no-member
+            # check if we should disable using the clipboard for snippets
             if pytest.config.option.no_clipboard: #pylint: disable=no-member
                 # NOTE: It's not a bad idea to bypass the clipboard, even when running in a browser,
                 # to avoid problems if something else uses the clipboard while the tests are running.

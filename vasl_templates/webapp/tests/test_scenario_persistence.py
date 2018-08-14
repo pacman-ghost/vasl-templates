@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp.tests.utils import \
     get_nationalities, set_template_params, select_tab, select_menu_option, get_sortable_entry_text, \
-    get_stored_msg, set_stored_msg, find_child, find_children
+    get_stored_msg, set_stored_msg, set_stored_msg_marker, find_child, find_children
 
 # ---------------------------------------------------------------------
 
@@ -158,7 +158,7 @@ def test_unknown_vo( webapp, webdriver ):
     """Test detection of unknown vehicles/ordnance."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main", scenario_persistence=1, store_msgs=1 ) )
+    webdriver.get( webapp.url_for( "main", scenario_persistence=1 ) )
     _ = _save_scenario() # nb: force the "scenario-persistence" element to be created
 
     # load a scenario that has unknown vehicles/ordnance
@@ -170,6 +170,7 @@ def test_unknown_vo( webapp, webdriver ):
         "VEHICLES_2": [ "unknown vehicle 2" ],
         "ORDNANCE_2":  [ "unknown ordnance 2" ],
     }
+    _ = set_stored_msg_marker( "_last-warning_" )
     _load_scenario( scenario_params )
     last_warning = get_stored_msg( "_last-warning_" )
     assert last_warning.startswith( "Unknown vehicles/ordnance:" )

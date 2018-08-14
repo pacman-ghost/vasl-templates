@@ -5,6 +5,7 @@ import urllib.request
 import json
 import time
 import re
+import uuid
 
 import pytest
 from PyQt5.QtWidgets import QApplication
@@ -233,21 +234,23 @@ def find_sortable_helper( sortable, tag ):
 
 # ---------------------------------------------------------------------
 
-def get_stored_msg( msg_id ):
+def get_stored_msg( msg_type ):
     """Get a message stored for us by the front-end."""
-    elem = find_child( "#"+msg_id )
-    if not elem:
-        return None
-    if elem.tag_name == "div":
-        return elem.text
+    elem = find_child( "#" + msg_type )
     assert elem.tag_name == "textarea"
     return elem.get_attribute( "value" )
 
-def set_stored_msg( msg_id, val ):
+def set_stored_msg( msg_type, val ):
     """Set a message for the front-end."""
-    elem = find_child( "#"+msg_id )
+    elem = find_child( "#" + msg_type )
     assert elem.tag_name == "textarea"
     _webdriver.execute_script( "arguments[0].value = arguments[1]", elem, val )
+
+def set_stored_msg_marker( msg_type ):
+    """Store marker text in the message buffer (so we can tell if the front-end changes it)."""
+    marker = "marker:{}:{}".format( msg_type, uuid.uuid4() )
+    set_stored_msg( msg_type, marker )
+    return marker
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -295,6 +298,7 @@ def get_droplist_vals( sel ):
 
 def dismiss_notifications():
     """Dismiss all notifications."""
+    assert False, "Shouldn't need to call this function." # nb: notifications have been disabled during tests
     while True:
         elem = find_child( ".growl-close" )
         if not elem:

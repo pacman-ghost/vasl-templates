@@ -7,7 +7,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 from vasl_templates.webapp.tests.utils import \
     wait_for_page_ready, select_tab, set_template_params, find_child, find_children, \
-    get_clipboard, click_dialog_button, dismiss_notifications
+    get_clipboard, click_dialog_button
 
 # ---------------------------------------------------------------------
 
@@ -64,7 +64,6 @@ def test_crud( webapp, webdriver ):
         """Check the generated vehicle/ordnance snippet."""
         # check the snippet
         select_tab( "ob{}".format( player_no ) )
-        dismiss_notifications()
         btn = find_child( "button[data-id='{}_{}']".format( vo_type, player_no ) )
         btn.click()
         buf = get_clipboard()
@@ -135,7 +134,6 @@ def test_snippets( webapp, webdriver ):
         vo_type0 = vo_type[:-1] if vo_type.endswith("s") else vo_type
         # test a full example
         add_vo( vo_type, 1, "a german {}".format(vo_type) )
-        dismiss_notifications()
         btn = find_child( "button[data-id='{}_1']".format( vo_type ) )
         btn.click()
         expected = [
@@ -152,7 +150,6 @@ def test_snippets( webapp, webdriver ):
 
         # test a partial example
         add_vo( vo_type, 1, "another german {}".format(vo_type) )
-        dismiss_notifications()
         btn = find_child( "button[data-id='{}_1']".format( vo_type ) )
         btn.click()
         expected = [
@@ -168,7 +165,6 @@ def test_snippets( webapp, webdriver ):
 
         # test a minimal example
         add_vo( vo_type, 1, "name only" )
-        dismiss_notifications()
         btn = find_child( "button[data-id='{}_1']".format( vo_type ) )
         btn.click()
         assert get_clipboard() == \
@@ -194,7 +190,6 @@ def test_variable_capabilities( webapp, webdriver ):
     vehicles2 = find_child( "button.generate[data-id='vehicles_2']" )
     def do_test( month, year, expected ):
         """Set the date and check the vehicle snippet."""
-        dismiss_notifications()
         select_tab( "scenario" )
         set_template_params( { "SCENARIO_DATE": "{:02d}/01/{}".format(month,year) } )
         select_tab( "ob2" )

@@ -2,9 +2,9 @@
 
 from selenium.webdriver.common.keys import Keys
 
-from vasl_templates.webapp.tests.utils import select_tab, set_template_params, get_clipboard
 from vasl_templates.webapp.tests.utils import \
-    wait_for_page_ready, get_stored_msg, dismiss_notifications, find_child, \
+    select_tab, set_template_params, get_clipboard, \
+    wait_for_page_ready, get_stored_msg, set_stored_msg_marker, find_child, \
     for_each_template, add_simple_note, edit_simple_note, \
     get_sortable_entry_count, generate_sortable_entry_snippet, drag_sortable_entry_to_trash
 
@@ -14,7 +14,7 @@ def test_scenario_snippets( webapp, webdriver ):
     """Test HTML snippet generation."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main", store_msgs=1 ) )
+    webdriver.get( webapp.url_for( "main" ) )
     select_tab( "scenario" )
     btn = find_child( "button.generate[data-id='scenario']" )
 
@@ -65,7 +65,7 @@ def test_vc_snippets( webapp, webdriver ):
     """Test HTML snippet generation."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main", store_msgs=1 ) )
+    webdriver.get( webapp.url_for( "main" ) )
     select_tab( "scenario" )
     btn = find_child( "button.generate[data-id='victory_conditions']" )
 
@@ -100,7 +100,7 @@ def test_scenario_notes_snippets( webapp, webdriver ):
     """Test HTML snippet generation."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main", store_msgs=1 ) )
+    webdriver.get( webapp.url_for( "main" ) )
     select_tab( "scenario" )
 
     # add some scenario notes and check their snippets
@@ -125,7 +125,7 @@ def test_players_snippets( webapp, webdriver ):
     """Test HTML snippet generation."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main", store_msgs=1 ) )
+    webdriver.get( webapp.url_for( "main" ) )
     select_tab( "scenario" )
     btn = find_child( "button.generate[data-id='players']" )
 
@@ -183,7 +183,6 @@ def test_edit_templates( webapp, webdriver ):
         webdriver.execute_script( "$(arguments[0]).click();", elem )
         edit_template( orig_template_id )
         # check that the new template is being used
-        dismiss_notifications()
         elem = find_child( "button.generate[data-id='{}']".format( orig_template_id ) )
         elem.click()
         assert get_clipboard() == "EDITED TEMPLATE: {}".format( orig_template_id )
@@ -239,6 +238,7 @@ def _test_snippet( btn, params, expected, expected2 ):
 
     # set the template parameters and generate the snippet
     set_template_params( params )
+    marker = set_stored_msg_marker( "_last-warning_" )
     btn.click()
     snippet = get_clipboard()
     lines = [ l.strip() for l in snippet.split("\n") ]
@@ -246,7 +246,7 @@ def _test_snippet( btn, params, expected, expected2 ):
     assert snippet == expected
 
     # check warnings for mandatory parameters
-    last_warning = get_stored_msg( "_last-warning_" ) or ""
+    last_warning = get_stored_msg( "_last-warning_" )
     if isinstance( expected2, list):
         # check for mandatory parameters
         param_names = [ "scenario name", "scenario location", "scenario date" ]
@@ -261,4 +261,4 @@ def _test_snippet( btn, params, expected, expected2 ):
     else:
         # make sure there was no warning message
         assert expected2 is None
-        assert not last_warning
+        assert last_warning == marker

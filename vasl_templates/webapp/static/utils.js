@@ -146,62 +146,26 @@ function ask( title, msg, args )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function showInfoMsg( msg )
+function showInfoMsg( msg ) { doShowNotificationMsg( "info", msg ) ; }
+function showWarningMsg( msg ) { doShowNotificationMsg( "warning", msg ) ; }
+function showErrorMsg( msg ) { doShowNotificationMsg( "error", msg ) ; }
+
+function doShowNotificationMsg( msg_type, msg )
 {
-    // show the informational message
-    $.growl( {
-        style: "notice",
-        title: null,
-        message: msg,
-        location: "br",
-    } ) ;
-    storeMsgForTestSuite( "_last-info_", msg ) ;
-}
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-function showWarningMsg( msg )
-{
-    // show the warning message
-    $.growl( {
-        style: "warning",
-        title: null,
-        message: msg,
-        location: "br",
-    } ) ;
-    storeMsgForTestSuite( "_last-warning_", msg ) ;
-}
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-function showErrorMsg( msg )
-{
-    // show the error message
-    $.growl( {
-        style: "error",
-        title: null,
-        message: msg,
-        location: "br",
-        fixed: true,
-    } ) ;
-    storeMsgForTestSuite( "_last-error_", msg ) ;
-}
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-function storeMsgForTestSuite( id, msg )
-{
-    // store a message for the test suite
-    if ( ! getUrlParam( "store_msgs" ) )
+    if ( getUrlParam( "store_msgs" ) ) {
+        // store the message for the test suite
+        $( "#_last-" + msg_type + "_" ).val( msg ) ;
         return ;
-    var $elem = $( "#"+id ) ;
-    if ( $elem.length === 0 ) {
-        // NOTE: The <div> we store the message in must be visible, otherwise
-        // Selenium doesn't return any text for it :-/
-        $elem = $( "<div id='" + id + "' style='z-index-999;'></div>" ) ;
-        $("body").append( $elem ) ;
     }
-    $elem.html( msg ) ;
+
+    // show the notification message
+    $.growl( {
+        style: (msg_type === "info") ? "notice" : msg_type,
+        title: null,
+        message: msg,
+        location: "br",
+        fixed: (msg_type == "error"),
+    } ) ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

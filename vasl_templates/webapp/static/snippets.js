@@ -20,11 +20,6 @@ var gDefaultScenario = null ;
 
 function generate_snippet( $btn, extra_params )
 {
-    // initialize
-    storeMsgForTestSuite( "_last-info_", "" ) ;
-    storeMsgForTestSuite( "_last-warning_", "" ) ;
-    storeMsgForTestSuite( "_last-error_", "" ) ;
-
     // extract the scenario date components
     var params = {} ;
     var scenario_date = $("input[name='SCENARIO_DATE']").datepicker( "getDate" ) ;

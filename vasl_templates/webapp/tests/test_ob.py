@@ -6,7 +6,7 @@ import types
 from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp.tests.utils import \
-    get_nationalities, get_clipboard, get_stored_msg, select_tab, find_child, find_children, \
+    get_nationalities, get_clipboard, get_stored_msg, set_stored_msg_marker, select_tab, find_child, find_children, \
     add_simple_note, edit_simple_note, get_sortable_entry_count, drag_sortable_entry_to_trash, \
     select_droplist_val
 
@@ -92,7 +92,7 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
     """Check that nationality-specific buttons are shown/hidden correctly."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main", store_msgs=1 ) )
+    webdriver.get( webapp.url_for( "main" ) )
     nationalities = get_nationalities( webapp )
 
     # initialize
@@ -108,16 +108,17 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
         # test snippet generation
         set_scenario_date( date )
         select_tab( "ob1" )
+        marker = set_stored_msg_marker( "_last-warning_" )
         btn.click()
         assert get_clipboard() == expected
         # check if a warning was issued
-        last_warning = get_stored_msg( "_last-warning_" ) or ""
+        last_warning = get_stored_msg( "_last-warning_" )
         image_url = find_child( "img", btn ).get_attribute( "src" )
         if warning:
             assert "are only available" in last_warning
             assert "snippet-disabled.png" in image_url
         else:
-            assert last_warning == ""
+            assert last_warning == marker
             assert "snippet.png" in image_url
 
     # initialize
