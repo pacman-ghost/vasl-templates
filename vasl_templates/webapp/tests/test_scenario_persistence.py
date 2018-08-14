@@ -5,8 +5,8 @@ import json
 from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp.tests.utils import \
-    get_nationalities, set_template_params, select_tab, select_menu_option, get_sortable_entry_text, \
-    get_stored_msg, set_stored_msg, set_stored_msg_marker, find_child, find_children, wait_for
+    init_webapp, get_nationalities, set_template_params, select_tab, select_menu_option, \
+    get_sortable_entry_text, get_stored_msg, set_stored_msg, set_stored_msg_marker, find_child, find_children, wait_for
 
 # ---------------------------------------------------------------------
 
@@ -14,7 +14,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     """Test loading/saving scenarios."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main", scenario_persistence=1 ) )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
     nationalities = get_nationalities( webapp )
 
     def check_ob_tabs( *args ):
@@ -132,7 +132,7 @@ def test_loading_ssrs( webapp, webdriver ):
     """Test loading SSR's."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main", scenario_persistence=1 ) )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # initialize
     select_tab( "scenario" )
@@ -159,7 +159,7 @@ def test_unknown_vo( webapp, webdriver ):
     """Test detection of unknown vehicles/ordnance."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main", scenario_persistence=1 ) )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load a scenario that has unknown vehicles/ordnance
     scenario_params = {

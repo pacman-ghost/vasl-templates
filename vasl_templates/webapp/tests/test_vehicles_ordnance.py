@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.action_chains import ActionChains
 
 from vasl_templates.webapp.tests.utils import \
-    wait_for_page_ready, select_tab, set_template_params, find_child, find_children, \
+    init_webapp, select_tab, set_template_params, find_child, find_children, \
     get_clipboard, click_dialog_button
 
 # ---------------------------------------------------------------------
@@ -15,7 +15,7 @@ def test_crud( webapp, webdriver ):
     """Test basic create/read/update/delete of vehicles/ordnance."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main" ) )
+    init_webapp( webapp, webdriver )
 
     # initialize
     _expected = {
@@ -126,8 +126,7 @@ def test_snippets( webapp, webdriver ):
     """Test vehicle/ordnance snippet generation in detail."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main" ) )
-    wait_for_page_ready()
+    init_webapp( webapp, webdriver )
 
     def do_test( vo_type ):
         """Run the test."""
@@ -181,7 +180,7 @@ def test_variable_capabilities( webapp, webdriver ):
     """Test date-based variable capabilities."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main" ) )
+    init_webapp( webapp, webdriver )
 
     # add a vehicle
     add_vo( "vehicles", 2, "Churchill III(b)" )

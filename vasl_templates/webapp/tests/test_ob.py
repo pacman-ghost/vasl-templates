@@ -8,7 +8,7 @@ from selenium.webdriver.support.ui import Select
 from vasl_templates.webapp.tests.utils import \
     get_nationalities, get_clipboard, get_stored_msg, set_stored_msg_marker, select_tab, find_child, find_children, \
     add_simple_note, edit_simple_note, get_sortable_entry_count, drag_sortable_entry_to_trash, \
-    select_droplist_val
+    select_droplist_val, init_webapp
 
 # ---------------------------------------------------------------------
 
@@ -29,7 +29,7 @@ def _do_test_ob_entries( webapp, webdriver, ob_type ):
     """Test generating OB setup/notes."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main" ) )
+    init_webapp( webapp, webdriver )
     sortable1 = find_child( "#{}-sortable_1".format( ob_type ) )
     sortable2 = find_child( "#{}-sortable_2".format( ob_type ) )
 
@@ -92,7 +92,7 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
     """Check that nationality-specific buttons are shown/hidden correctly."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main" ) )
+    init_webapp( webapp, webdriver )
     nationalities = get_nationalities( webapp )
 
     # initialize

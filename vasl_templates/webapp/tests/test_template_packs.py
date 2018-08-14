@@ -11,7 +11,7 @@ from vasl_templates.webapp import snippets
 from vasl_templates.webapp.tests.utils import \
     select_tab, select_menu_option, get_clipboard, get_stored_msg, set_stored_msg, set_stored_msg_marker,\
     add_simple_note, for_each_template, find_child, find_children, wait_for, \
-    select_droplist_val, get_droplist_vals
+    select_droplist_val, get_droplist_vals, init_webapp
 
 # ---------------------------------------------------------------------
 
@@ -19,7 +19,7 @@ def test_individual_files( webapp, webdriver ):
     """Test loading individual template files."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main", template_pack_persistence=1 ) )
+    init_webapp( webapp, webdriver, template_pack_persistence=1 )
 
     # try uploading a customized version of each template
     def test_template( template_id, orig_template_id ):
@@ -48,7 +48,7 @@ def test_zip_files( webapp, webdriver ):
     """Test loading ZIP'ed template packs."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main", template_pack_persistence=1 ) )
+    init_webapp( webapp, webdriver, template_pack_persistence=1 )
 
     # upload a template pack that contains a full set of templates
     zip_data = _make_zip_from_files( "full" )
@@ -83,7 +83,7 @@ def test_new_default_template_pack( webapp, webdriver, monkeypatch ):
     monkeypatch.setattr( snippets, "default_template_pack", dname )
 
     # initialize
-    webdriver.get( webapp.url_for( "main" ) )
+    init_webapp( webapp, webdriver )
 
     # check that the new templates are being used
     _check_snippets( lambda tid: "New default {}.".format( tid.upper() ) )
@@ -94,7 +94,7 @@ def test_nationality_data( webapp, webdriver ):
     """Test a template pack with nationality data."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main", template_pack_persistence=1 ) )
+    init_webapp( webapp, webdriver, template_pack_persistence=1 )
     select_tab( "scenario" )
 
     # select the British as player 1

@@ -5,7 +5,8 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp import main
-from vasl_templates.webapp.tests.utils import select_tab, find_child, get_sortable_entry_text, wait_for
+from vasl_templates.webapp.tests.utils import select_tab, find_child, get_sortable_entry_text, \
+    wait_for, init_webapp
 
 # ---------------------------------------------------------------------
 
@@ -17,7 +18,7 @@ def test_default_scenario( webapp, webdriver, monkeypatch ):
     monkeypatch.setattr( main, "default_scenario", fname )
 
     # initialize
-    webdriver.get( webapp.url_for( "main" ) )
+    init_webapp( webapp, webdriver )
 
     # wait for the scenario to load
     elem = find_child( "input[name='SCENARIO_NAME']" )

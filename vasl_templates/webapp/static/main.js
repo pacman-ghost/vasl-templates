@@ -291,7 +291,7 @@ $(document).ready( function () {
     // add some dummy links for the test suite to edit templates
     if ( getUrlParam( "edit_template_links" ) ) {
         $("button.generate").each( function() {
-           var template_id = $(this).attr( "data-id" ) ;
+            var template_id = $(this).attr( "data-id" ) ;
             if ( template_id.substring(0,9) === "ob_setup_" )
                 template_id = "ob_setup" ;
             else if ( template_id.substring(0,9) === "vehicles_" )

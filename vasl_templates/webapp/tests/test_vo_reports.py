@@ -86,7 +86,9 @@ def get_vo_report( webapp, webdriver, nat, vo_type, year ):
     """
 
     # initialize
-    webdriver.get( webapp.url_for( "get_vo_report", nat=nat, vo_type=vo_type, year=year ) )
+    webdriver.get(
+        webapp.url_for( "get_vo_report", nat=nat, vo_type=vo_type, year=year )
+    )
     wait_for( 5, lambda: find_child("#results").is_displayed() )
 
     # unload the results

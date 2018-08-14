@@ -3,8 +3,8 @@
 from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import \
-    select_tab, set_template_params, get_clipboard, \
-    wait_for_page_ready, get_stored_msg, set_stored_msg_marker, find_child, \
+    init_webapp, select_tab, set_template_params, get_clipboard, \
+    get_stored_msg, set_stored_msg_marker, find_child, \
     for_each_template, add_simple_note, edit_simple_note, \
     get_sortable_entry_count, generate_sortable_entry_snippet, drag_sortable_entry_to_trash
 
@@ -14,7 +14,7 @@ def test_scenario_snippets( webapp, webdriver ):
     """Test HTML snippet generation."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main" ) )
+    init_webapp( webapp, webdriver )
     select_tab( "scenario" )
     btn = find_child( "button.generate[data-id='scenario']" )
 
@@ -65,7 +65,7 @@ def test_vc_snippets( webapp, webdriver ):
     """Test HTML snippet generation."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main" ) )
+    init_webapp( webapp, webdriver )
     select_tab( "scenario" )
     btn = find_child( "button.generate[data-id='victory_conditions']" )
 
@@ -100,7 +100,7 @@ def test_scenario_notes_snippets( webapp, webdriver ):
     """Test HTML snippet generation."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main" ) )
+    init_webapp( webapp, webdriver )
     select_tab( "scenario" )
 
     # add some scenario notes and check their snippets
@@ -125,7 +125,7 @@ def test_players_snippets( webapp, webdriver ):
     """Test HTML snippet generation."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main" ) )
+    init_webapp( webapp, webdriver )
     select_tab( "scenario" )
     btn = find_child( "button.generate[data-id='players']" )
 
@@ -156,8 +156,7 @@ def test_edit_templates( webapp, webdriver ):
     """Test editing templates."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main", edit_template_links=1 ) )
-    wait_for_page_ready()
+    init_webapp( webapp, webdriver, edit_template_links=1 )
     ob_setups = {
         1: find_child( "#ob_setups-sortable_1" ),
         2: find_child( "#ob_setups-sortable_2" )

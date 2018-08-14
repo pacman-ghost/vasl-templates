@@ -33,8 +33,9 @@ _webdriver = None
 
 # ---------------------------------------------------------------------
 
-def wait_for_page_ready():
-    """Wait for the page to become ready."""
+def init_webapp( webapp, webdriver, **options ):
+    """Initialize the webapp."""
+    webdriver.get( webapp.url_for( "main", **options ) )
     wait_for( 5, lambda: find_child("#_page-loaded_") is not None )
 
 # ---------------------------------------------------------------------

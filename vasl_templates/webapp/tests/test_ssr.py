@@ -3,7 +3,7 @@
 import html
 
 from vasl_templates.webapp.tests.utils import \
-    select_tab, find_child, get_clipboard, \
+    init_webapp, select_tab, find_child, get_clipboard, \
     add_simple_note, edit_simple_note, drag_sortable_entry_to_trash, get_sortable_entry_count
 
 # ---------------------------------------------------------------------
@@ -12,7 +12,7 @@ def test_ssr( webapp, webdriver ):
     """Test generating SSR snippets."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main" ) )
+    init_webapp( webapp, webdriver )
     select_tab( "scenario" )
     sortable = find_child( "#ssr-sortable" )
 

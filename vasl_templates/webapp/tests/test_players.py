@@ -3,7 +3,7 @@
 from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp.tests.utils import get_nationalities, select_tab, find_child, \
-    select_droplist_val
+    select_droplist_val, init_webapp
 
 # ---------------------------------------------------------------------
 
@@ -11,7 +11,7 @@ def test_player_change( webapp, webdriver ):
     """Test changing players."""
 
     # initialize
-    webdriver.get( webapp.url_for( "main" ) )
+    init_webapp( webapp, webdriver )
     select_tab( "scenario" )
     nationalities = get_nationalities( webapp )
     player_sel = {
