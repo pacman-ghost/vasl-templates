@@ -441,8 +441,9 @@ function on_load_scenario()
     // FOR TESTING PORPOISES! We can't control a file upload from Selenium (since
     // the browser will use native controls), so we store the result in a <div>).
     if ( getUrlParam( "scenario_persistence" ) ) {
-        var $elem = $( "#_scenario_persistence_" ) ; // nb: must have already been created
+        var $elem = $( "#_scenario-persistence_" ) ;
         do_load_scenario( JSON.parse( $elem.val() ) ) ;
+        showInfoMsg( "The scenario was loaded." ) ; // nb: the tests are looking for this
         return ;
     }
 
@@ -606,14 +607,7 @@ function on_save_scenario()
     // FOR TESTING PORPOISES! We can't control a file download from Selenium (since
     // the browser will use native controls), so we store the result in a <div>).
     if ( getUrlParam( "scenario_persistence" ) ) {
-        var $elem = $( "#_scenario_persistence_" ) ;
-        if ( $elem.length === 0 ) {
-            // NOTE: The <div> we store the message in must be visible, otherwise
-            // Selenium doesn't return any text for it :-/
-            $elem = $( "<textarea id='_scenario_persistence_' style='z-index-999;'></textarea>" ) ;
-            $("body").append( $elem ) ;
-        }
-        $elem.val( data ) ;
+        $("#_scenario-persistence_").val( data ) ;
         return ;
     }
 

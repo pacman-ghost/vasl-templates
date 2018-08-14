@@ -24,12 +24,6 @@
     <input id="load-template-pack" type="file" accept=".zip,.j2" style="display:none;">
 </div>
 
-<!-- these are for the test suite -->
-<textarea id="_last-info_" style="display:none;"></textarea>
-<textarea id="_last-warning_" style="display:none;"></textarea>
-<textarea id="_last-error_" style="display:none;"></textarea>
-<textarea id="_template-pack-persistence_" style="display:none;"></textarea>
-
 <!-- ----------------------------------------------------------------- -->
 
 <div id="tabs">
@@ -247,5 +241,12 @@ gOrdnanceListingsUrl = "{{url_for('get_ordnance_listings')}}" ;
 <script src="{{url_for('static',filename='vo.js')}}"></script>
 <script src="{{url_for('static',filename='sortable.js')}}"></script>
 <script src="{{url_for('static',filename='utils.js')}}"></script>
+
+<!-- these are for the test suite -->
+<textarea id="_last-info_" style="display:none;"></textarea>
+<textarea id="_last-warning_" style="display:none;"></textarea>
+<textarea id="_last-error_" style="display:none;"></textarea>
+<textarea id="_template-pack-persistence_" style="display:none;"></textarea>
+<textarea id="_scenario-persistence_" style="display:none;"></textarea>
 
 </html>

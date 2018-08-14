@@ -6,11 +6,11 @@ from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp.tests.utils import \
     get_nationalities, set_template_params, select_tab, select_menu_option, get_sortable_entry_text, \
-    get_stored_msg, set_stored_msg, set_stored_msg_marker, find_child, find_children
+    get_stored_msg, set_stored_msg, set_stored_msg_marker, find_child, find_children, wait_for
 
 # ---------------------------------------------------------------------
 
-def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-locals
+def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-statements,too-many-locals
     """Test loading/saving scenarios."""
 
     # initialize
@@ -72,7 +72,9 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-lo
     assert saved_scenario == expected
 
     # reset the scenario and check the save results
+    _ = set_stored_msg_marker( "_last-info_" )
     select_menu_option( "new_scenario" )
+    wait_for( 2, lambda: get_stored_msg("_last-info_") == "The scenario was reset." )
     check_ob_tabs( "german", "russian" )
     data = _save_scenario()
     data2 = { k: v for k,v in data.items() if v }
@@ -131,7 +133,6 @@ def test_loading_ssrs( webapp, webdriver ):
 
     # initialize
     webdriver.get( webapp.url_for( "main", scenario_persistence=1 ) )
-    _ = _save_scenario() # nb: force the "scenario-persistence" element to be created
 
     # initialize
     select_tab( "scenario" )
@@ -159,7 +160,6 @@ def test_unknown_vo( webapp, webdriver ):
 
     # initialize
     webdriver.get( webapp.url_for( "main", scenario_persistence=1 ) )
-    _ = _save_scenario() # nb: force the "scenario-persistence" element to be created
 
     # load a scenario that has unknown vehicles/ordnance
     scenario_params = {
@@ -183,11 +183,15 @@ def test_unknown_vo( webapp, webdriver ):
 
 def _load_scenario( scenario ):
     """Load a scenario into the UI."""
-    set_stored_msg( "_scenario_persistence_", json.dumps(scenario) )
+    set_stored_msg( "_scenario-persistence_", json.dumps(scenario) )
+    _ = set_stored_msg_marker( "_last-info_" )
     select_menu_option( "load_scenario" )
+    wait_for( 2, lambda: get_stored_msg("_last-info_") == "The scenario was loaded." )
 
 def _save_scenario():
     """Save the scenario."""
+    marker = set_stored_msg_marker( "_scenario-persistence_" )
     select_menu_option( "save_scenario" )
-    data = get_stored_msg( "_scenario_persistence_" )
+    wait_for( 2, lambda: get_stored_msg("_scenario-persistence_") != marker )
+    data = get_stored_msg( "_scenario-persistence_" )
     return json.loads( data )
