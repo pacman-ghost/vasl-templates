@@ -50,6 +50,14 @@ function _do_edit_simple_note( $sortable2, $entry, default_width )
             var show = (note_type !== "ssr") ;
             $btn_pane.children( "label[for='width']" ).css( "display", show?"inline":"none" ) ;
             $width.css( "display", show?"inline":"none" ) ;
+            // set the titlebar color
+            var colors = get_player_colors_for_element( $sortable2 ) ;
+            if ( ! colors )
+                colors = [ "d0d0d0", "ca0a0a0" ] ;
+            $(".ui-dialog-titlebar").css( {
+                background: "#"+colors[0],
+                border: "1px solid #"+colors[1]
+            } ) ;
             // load the dialog
             var data = $entry ? $entry.data("sortable2-data") : null ;
             $caption.val( data ? data.caption : "" ) ;

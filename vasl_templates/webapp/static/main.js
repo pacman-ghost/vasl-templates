@@ -456,8 +456,7 @@ function on_tab_activate( evt, ui )
 
     // set the tab being activated
     function set_colors_for_player( tab_id, player_no ) {
-        var player_nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
-        var colors = gTemplatePack.nationalities[ player_nat ].ob_colors ;
+        var colors = get_player_colors( player_no ) ;
         set_colors( tab_id, "#"+colors[0], "#"+colors[1] ) ;
     }
     tab_id = ui.newPanel.prop( "id" ) ;

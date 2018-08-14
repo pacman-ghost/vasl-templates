@@ -43,14 +43,17 @@ function generate_snippet( $btn, extra_params )
     // set player-specific parameters
     var nationalities = gTemplatePack.nationalities ;
     var curr_tab = $("#tabs .ui-tabs-active a").attr( "href" ) ;
+    var colors ;
     if ( curr_tab === "#tabs-ob1" ) {
         params.PLAYER_NAME = nationalities[params.PLAYER_1].display_name ;
-        params.OB_COLOR = nationalities[params.PLAYER_1].ob_colors[0] ;
-        params.OB_COLOR_2 = nationalities[params.PLAYER_1].ob_colors[1] ;
+        colors = get_player_colors( 1 ) ;
+        params.OB_COLOR = colors[0] ;
+        params.OB_COLOR_2 = colors[1] ;
     } else if ( curr_tab === "#tabs-ob2" ) {
         params.PLAYER_NAME = nationalities[params.PLAYER_2].display_name ;
-        params.OB_COLOR = nationalities[params.PLAYER_2].ob_colors[0] ;
-        params.OB_COLOR_2 = nationalities[params.PLAYER_2].ob_colors[1] ;
+        colors = get_player_colors( 2 ) ;
+        params.OB_COLOR = colors[0] ;
+        params.OB_COLOR_2 = colors[1] ;
     }
 
     // set player-specific parameters

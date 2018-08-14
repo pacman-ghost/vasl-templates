@@ -36,9 +36,16 @@ function add_vo( vo_type, player_no )
         minWidth: 300,
         minHeight: 300,
         open: function() {
+            // initialize
             $("#select-vo input[type='text']").val( "" ) ;
             $(this).height( $(this).height() ) ; // fudge: force the select to resize
             $("#select-vo select").filterByText( $("#select-vo input[type='text']") ) ;
+            // set the titlebar color
+            var colors = get_player_colors_for_element( $sortable2 ) ;
+            $(".ui-dialog-titlebar").css( {
+                background: "#"+colors[0],
+                border: "1px solid #"+colors[1],
+            } ) ;
         },
         buttons: {
             OK: function() {

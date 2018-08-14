@@ -1,4 +1,21 @@
 
+function get_player_colors( player_no )
+{
+    // get the colors for the specified player
+    var player_nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
+    return gTemplatePack.nationalities[ player_nat ].ob_colors ;
+}
+
+function get_player_colors_for_element( $elem )
+{
+    // get the player colors (if any) for the specified element
+    if ( $.contains( $("#tabs-ob1")[0], $elem[0] ) )
+        return get_player_colors( 1 ) ;
+    else if ( $.contains( $("#tabs-ob2")[0], $elem[0] ) )
+        return get_player_colors( 2 ) ;
+    return null ;
+}
+
 // --------------------------------------------------------------------
 
 function copyToClipboard( val )

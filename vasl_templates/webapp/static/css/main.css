@@ -111,6 +111,7 @@ button.edit-template img { height: 18px ; vertical-align: middle ; margin-right:
 .ui-dialog-titlebar-close { margin-top: -10px !important ; }
 
 #edit-template { overflow: hidden ; padding: 2px ; }
+.ui-dialog.edit-template .ui-dialog-titlebar { background: #f8d868 ; }
 .ui-dialog.edit-template textarea { resize: none ; width: calc(100% - 4px) ; height: 100% ; }
 .ui-dialog.edit-template textarea { font-family: "Courier New" ; font-size: 80% ; }
 .ui-dialog.edit-template .ui-dialog-buttonpane { border: none ; padding: 0 ; font-size: 75% ; }
