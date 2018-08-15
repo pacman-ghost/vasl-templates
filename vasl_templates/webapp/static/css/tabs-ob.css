@@ -1,65 +1,23 @@
 /* -------------------------------------------------------------------- */
 
-.panel-ob_setups {
-    height: 100% ;
-    display: grid ; display: -ms-grid ;
-    grid-template-rows: 1fr 40px ; -ms-grid-rows: 1fr 40px ;
-    grid-template-columns: 1fr ; -ms-grid-columns: 1fr ;
-}
-/* FUDGE! IE hackamathon follows... */
-.panel-ob_setups .content { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
-.panel-ob_setups .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
-
-.panel-ob_setups .footer { text-align: right ; font-size: 75% ; }
-.panel-ob_setups .footer .l { float: left ; }
+.panel-ob_setups { height: 100% ;  display: flex ; flex-direction: column ; }
+.panel-ob_setups .content { flex-grow: 1 ; }
+.panel-ob_setups .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
 
 /* -------------------------------------------------------------------- */
 
-.panel-ob_notes {
-    height: 100% ;
-    display: grid ; display: -ms-grid ;
-    grid-template-rows: 1fr 40px ; -ms-grid-rows: 1fr 40px ;
-    grid-template-columns: 1fr ; -ms-grid-columns: 1fr ;
-}
-/* FUDGE! IE hackamathon follows... */
-.panel-ob_notes .content { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
-.panel-ob_notes .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
-
-.panel-ob_notes .footer { font-size: 75% ; }
-.panel-ob_notes .footer .l { float: left ; }
-.panel-ob_notes .footer button[data-id="ob_note"] { float: right ; }
-.panel-ob_notes div.snippet-control { float: right ; margin-right: 0.5em ; }
-.panel-ob_notes button.edit-template { margin-left: 1em ; }
-
-.panel-ob_notes div.snippet-control button.generate { height: 30px ; padding: 2px 5px ; }
-.panel-ob_notes div.snippet-control .ui-selectmenu-button-closed { height: 30px ; }
+.panel-ob_notes { height: 100% ;  display: flex ; flex-direction: column ; }
+.panel-ob_notes .content { flex-grow: 1 ; }
+.panel-ob_notes .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
 
 /* -------------------------------------------------------------------- */
 
-.panel-vehicles {
-    height: 100% ;
-    display: grid ; display: -ms-grid ;
-    grid-template-rows: 1fr 40px ; -ms-grid-rows: 1fr 40px ;
-    grid-template-columns: 1fr ; -ms-grid-columns: 1fr ;
-}
-/* FUDGE! IE hackamathon follows... */
-.panel-vehicles .content { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
-.panel-vehicles .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
+.panel-vehicles { height: 100% ;  display: flex ; flex-direction: column ; }
+.panel-vehicles .content { flex-grow: 1 ; }
+.panel-vehicles .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
 
-.panel-vehicles .footer { text-align: right ; font-size: 75% ; }
-.panel-vehicles .footer .l { float: left ; }
+/* -------------------------------------------------------------------- */
 
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
-.panel-ordnance {
-    height: 100% ;
-    display: grid ; display: -ms-grid ;
-    grid-template-rows: 1fr 40px ; -ms-grid-rows: 1fr 40px ;
-    grid-template-columns: 1fr ; -ms-grid-columns: 1fr ;
-}
-/* FUDGE! IE hackamathon follows... */
-.panel-ordnance .content { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
-.panel-ordnance .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
-
-.panel-ordnance .footer { text-align: right ; font-size: 75% ; }
-.panel-ordnance .footer .l { float: left ; }
+.panel-ordnance { height: 100% ;  display: flex ; flex-direction: column ; }
+.panel-ordnance .content { flex-grow: 1 ; }
+.panel-ordnance .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }

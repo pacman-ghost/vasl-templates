@@ -38,39 +38,48 @@
 
 <div id="tabs-scenario">
 
+<div class="left">
+
     <fieldset class="tl"> <legend>S<u>c</u>enario</legend>
         <div id="panel-scenario">
-            <div class="label" data-labelfor="SCENARIO_NAME">Name:</div> <input name="SCENARIO_NAME" type="text" class="param">
-            <div class="label" data-labelfor="SCENARIO_LOCATION">Location:</div> <input name="SCENARIO_LOCATION" type="text" class="param">
-            <div class="label" data-labelfor="SCENARIO_DATE">Date:</div>
-            <div class="last_row">
-                <input name="SCENARIO_DATE" type="text" size="10" class="param">
-                <div class="r">
-                    <label for="SCENARIO_WIDTH">Width:</label>
-                    <input type="text" class="param" name="SCENARIO_WIDTH" size="5">
-                    <button class="generate" data-id="scenario">Snippet</button>
-                </div>
+            <div class='row'>
+                <label for="SCENARIO_NAME">Name:</label>
+                <input name="SCENARIO_NAME" type="text" class="param">
             </div>
-        </div>
-        <div id="panel-players">
-            <div></div> <div></div> <div class="label" data-labelfor="ELR">ELR</div> <div class="label" data-labelfor="SAN">SAN</div>
-            <div class="label" data-labelfor="PLAYER_1"><u>P</u>layer 1:</div> <select name="PLAYER_1" class="param"></select>
-            <select name="PLAYER_1_ELR" class="param"></select>
-            <select name="PLAYER_1_SAN" class="param"></select>
-            <div class="label" data-labelfor="PLAYER_2">Player 2:</div> <select name="PLAYER_2" class="param"></select>
-            <select name="PLAYER_2_ELR" class="param"></select>
-            <select name="PLAYER_2_SAN" class="param"></select>
-            <div class="footer"> <button class="generate" data-id="players">Snippet</button> </div>
-        </div>
-    </fieldset>
-
-    <fieldset class="tr"> <legend>Victor<u>y</u> Conditions</legend>
-        <div id="panel-vc">
-            <textarea name="VICTORY_CONDITIONS" type="text" class="param"></textarea>
-            <div class="footer">
-                <label for="VICTORY_CONDITIONS_WIDTH">Width:</label>
-                <input type="text" class="param" name="VICTORY_CONDITIONS_WIDTH" size="5">
-                <button class="generate" data-id="victory_conditions">Snippet</button>
+            <div class='row'>
+                <label for="SCENARIO_LOCATION">Location:</label>
+                <input name="SCENARIO_LOCATION" type="text" class="param">
+            </div>
+            <div class='row'>
+                <label for="SCENARIO_DATE">Date:</label>
+                <input name="SCENARIO_DATE" type="text" size="10" class="param">
+                <span class="spacer"></span>
+                <span class="small">
+                    Width: <input type="text" class="param" name="SCENARIO_WIDTH" size="5">
+                    <button class="generate" data-id="scenario">Snippet</button>
+                </span>
+            </div>
+            <div class='row'>
+                <label></label>
+                <span style='width:7em'></span>
+                <label class="header">ELR</label>
+                <label class="header">SAN</label>
+            </div>
+            <div class='row'>
+                <label for="PLAYER_1"><u>P</u>layer 1:</label>
+                <select name="PLAYER_1" class="param"></select>
+                <select name="PLAYER_1_ELR" class="param"></select>
+                <select name="PLAYER_1_SAN" class="param"></select>
+            </div>
+            <div class='row'>
+                <label for="PLAYER_2">Player 2:</label>
+                <select name="PLAYER_2" class="param"></select>
+                <select name="PLAYER_2_ELR" class="param"></select>
+                <select name="PLAYER_2_SAN" class="param"></select>
+                <span class="spacer"></span>
+                <span class="small">
+                    <button class="generate" data-id="players">Snippet</button>
+                </span>
             </div>
         </div>
     </fieldset>
@@ -82,11 +91,28 @@
                 <ul id="scenario_notes-sortable" class="sortable" style="display:none;"></ul>
             </div>
             <div class="footer">
-                <div class="l">
-                    <button id="scenario_notes-add" class="sortable-add"></button>
-                    <img id="scenario_notes-trash" class="sortable-trash">
-                </div>
+                <button id="scenario_notes-add" class="sortable-add"></button>
+                <img id="scenario_notes-trash" class="sortable-trash">
+                <span class="spacer"></span>
                 <button class="edit-template" data-id="scenario_note"></button>
+            </div>
+        </div>
+    </fieldset>
+
+</div>
+
+<div class="right">
+
+    <fieldset class="tr"> <legend>Victor<u>y</u> Conditions</legend>
+        <div id="panel-vc">
+            <textarea name="VICTORY_CONDITIONS" type="text" class="param"></textarea>
+            <div class="footer">
+                <span class="spacer"></span>
+                <span class="small">
+                    <label for="VICTORY_CONDITIONS_WIDTH">Width:</label>
+                    <input type="text" class="param" name="VICTORY_CONDITIONS_WIDTH" size="5">
+                    <button class="generate" data-id="victory_conditions">Snippet</button>
+                </span>
             </div>
         </div>
     </fieldset>
@@ -98,22 +124,27 @@
                 <ul id="ssr-sortable" class="sortable" style="display:none;"></ul>
             </div>
             <div class="footer">
-                <div class="l">
-                    <button id="ssr-add" class="sortable-add"></button>
-                    <img id="ssr-trash" class="sortable-trash">
-                </div>
-                <label for="SSR_WIDTH">Width:</label>
-                <input type="text" class="param" name="SSR_WIDTH" size="5">
-                <button class="generate" data-id="ssr">Snippet</button>
+                <button id="ssr-add" class="sortable-add"></button>
+                <img id="ssr-trash" class="sortable-trash">
+                <span class="spacer"></span>
+                <span class="small">
+                    <label for="SSR_WIDTH">Width:</label>
+                    <input type="text" class="param" name="SSR_WIDTH" size="5">
+                    <button class="generate" data-id="ssr">Snippet</button>
+                </span>
             </div>
         </div>
     </fieldset>
 
 </div>
 
+</div>
+
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-<div id="tabs-ob1">
+<div id="tabs-ob1" class="tabs-ob">
+
+<div class="left">
 
     <fieldset class="tl"> <legend>OB setup</legend>
         <div id="panel-ob_setups1" class="panel-ob_setups">
@@ -122,10 +153,9 @@
                 <ul id="ob_setups-sortable_1" class="sortable" style="display:none;"></ul>
             </div>
             <div class="footer">
-                <div class="l">
-                    <button id="ob_setups-add_1" class="sortable-add"></button>
-                    <img id="ob_setups-trash_1" class="sortable-trash">
-                </div>
+                <button id="ob_setups-add_1" class="sortable-add"></button>
+                <img id="ob_setups-trash_1" class="sortable-trash">
+                <span class="spacer"></span>
                 <button class="edit-template" data-id="ob_setup"></button>
             </div>
         </div>
@@ -138,21 +168,26 @@
                 <ul id="ob_notes-sortable_1" class="sortable" style="display:none;"></ul>
             </div>
             <div class="footer">
-                <div class="l">
-                    <button id="ob_notes-add_1" class="sortable-add"></button>
-                    <img id="ob_notes-trash_1" class="sortable-trash">
-                </div>
-                <button class="edit-template" data-id="ob_note"></button>
-                <button class="generate" data-id="mol">MOL</button>
-                <button class="generate" data-id="mol-p">MOL-P</button>
-                <button class="generate" data-id="pf">PF</button>
-                <button class="generate" data-id="psk">PSK</button>
-                <button class="generate" data-id="atmm">ATMM</button>
-                <button class="generate" data-id="baz">BAZ</button>
-                <button class="generate" data-id="piat">PIAT</button>
+                <button id="ob_notes-add_1" class="sortable-add"></button>
+                <img id="ob_notes-trash_1" class="sortable-trash">
+                <span class="spacer"></span>
+                <span class="small">
+                    <button class="generate" data-id="pf">PF</button>
+                    <button class="generate" data-id="atmm">ATMM</button>
+                    <button class="generate" data-id="psk">PSK</button>
+                    <button class="generate" data-id="mol">MOL</button>
+                    <button class="generate" data-id="mol-p">MOL-P</button>
+                    <button class="generate" data-id="baz">BAZ</button>
+                    <button class="generate" data-id="piat">PIAT</button>
+                    <button class="edit-template" data-id="ob_note"></button>
+                </span>
             </div>
         </div>
     </fieldset>
+
+</div>
+
+<div class="right">
 
     <fieldset class="tr"> <legend>Vehicles</legend>
         <div id="panel-vehicles_1" class="panel-vehicles">
@@ -161,13 +196,14 @@
                 <ul id="vehicles-sortable_1" class="sortable" style="display:none;"></ul>
             </div>
             <div class="footer">
-                <div class="l">
-                    <button id="vehicles-add_1" class="sortable-add"></button>
-                    <img id="vehicles-trash_1" class="sortable-trash">
-                </div>
-                <label for="VEHICLES_WIDTH_1">Width:</label>
-                <input type="text" class="param" name="VEHICLES_WIDTH_1" size="5">
-                <button class="generate" data-id="vehicles_1">Snippet</button>
+                <button id="vehicles-add_1" class="sortable-add"></button>
+                <img id="vehicles-trash_1" class="sortable-trash">
+                <span class="spacer"></span>
+                <span class="small">
+                    <label for="VEHICLES_WIDTH_1">Width:</label>
+                    <input type="text" class="param" name="VEHICLES_WIDTH_1" size="5">
+                    <button class="generate" data-id="vehicles_1">Snippet</button>
+                </span>
             </div>
         </div>
     </fieldset>
@@ -179,16 +215,19 @@
                 <ul id="ordnance-sortable_1" class="sortable" style="display:none;"></ul>
             </div>
             <div class="footer">
-                <div class="l">
-                    <button id="ordnance-add_1" class="sortable-add"></button>
-                    <img id="ordnance-trash_1" class="sortable-trash">
-                </div>
-                <label for="ORDNANCE_WIDTH_1">Width:</label>
-                <input type="text" class="param" name="ORDNANCE_WIDTH_1" size="5">
-                <button class="generate" data-id="ordnance_1">Snippet</button>
+                <button id="ordnance-add_1" class="sortable-add"></button>
+                <img id="ordnance-trash_1" class="sortable-trash">
+                <span class="spacer"></span>
+                <span class="small">
+                    <label for="ORDNANCE_WIDTH_1">Width:</label>
+                    <input type="text" class="param" name="ORDNANCE_WIDTH_1" size="5">
+                    <button class="generate" data-id="ordnance_1">Snippet</button>
+                </span>
             </div>
         </div>
     </fieldset>
+
+</div>
 
 </div>
 

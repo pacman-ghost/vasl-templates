@@ -25,7 +25,6 @@ body { height: 100% ; }
 #tabs .ui-tabs-tab.ui-state-active a { color: #444 ; }
 #tabs .ui-tabs-nav li img { position: relative ; top: 2px ; height: 1em ; }
 #tabs .ui-tabs-panel { background: #f6f6f6 ; }
-fieldset { background: #ffffff ; }
 
 /* nb: these are managed in the code but we define them here for the initial load */
 #tabs .ui-tabs-tab.ui-state-active { background: #ddd ; border-color: #ccc ; }
@@ -33,67 +32,41 @@ fieldset { background: #ffffff ; }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#tabs-scenario {
-    display: grid ; display: -ms-grid ;
-    grid-template-rows: 16em 1fr ; -ms-grid-rows: 14em 1fr ;
-    grid-template-columns: 28em 1fr ; -ms-grid-columns: 28em 1fr ;
-}
-/* FUDGE! IE hackamathon follows... */
-#tabs-scenario fieldset.tl { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
-#tabs-scenario fieldset.tr { -ms-grid-row: 1 ; -ms-grid-column: 2 ; }
-#tabs-scenario fieldset.bl { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
-#tabs-scenario fieldset.br { -ms-grid-row: 2 ; -ms-grid-column: 2 ; }
+#tabs-scenario { display: flex ; }
+#tabs-scenario .left { width: 28em ; min-width: 28em ; }
+#tabs-scenario .right { flex-grow: 1 ; min-width: 23em ; }
+
+#tabs-scenario .left { display: flex ; flex-direction: column ; }
+#tabs-scenario .tl { flex-basis: content ; }
+#tabs-scenario .bl { height: 100% ; flex-grow: 1 ; }
+
+#tabs-scenario .right { display: flex ; flex-direction: column ; }
+#tabs-scenario .tr { height: 100% ; flex-grow: 1 ; }
+#tabs-scenario .br { height: 100% ; flex-grow: 1 ; }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#tabs-ob1, #tabs-ob2 {
-    display: grid ; display: -ms-grid ;
-    grid-template-rows: 1fr 1fr ; -ms-grid-rows: 1fr 1fr ;
-    grid-template-columns: 1fr 1fr ; -ms-grid-columns: 1fr 1fr ;
-}
+.ui-tabs-panel.tabs-ob { display: flex ; }
+.ui-tabs-panel.tabs-ob .left { flex-grow: 1 ; min-width: 32em ; }
+.ui-tabs-panel.tabs-ob .right { width: 25em ; min-width: 25em ; }
 
-#tabs-ob1 fieldset.tl, #tabs-ob2 fieldset.tl {
-    grid-row-start: 1 ; -ms-grid-row: 1 ;
-    grid-column-start: 1 ; -ms-grid-column: 1 ;
-}
-#tabs-ob1 fieldset.bl, #tabs-ob2 fieldset.bl {
-    grid-row-start: 2 ; -ms-grid-row: 2 ;
-    grid-column-start: 1 ; -ms-grid-column: 1 ;
-}
-#tabs-ob1 fieldset.tr, #tabs-ob2 fieldset.tr {
-    grid-row-start: 1 ; -ms-grid-row: 1 ;
-    grid-column-start: 2 ; -ms-grid-column: 2 ;
-}
-#tabs-ob1 fieldset.br, #tabs-ob2 fieldset.br {
-    grid-row-start: 2 ; -ms-grid-row: 2 ;
-    grid-column-start: 2 ; -ms-grid-column: 2 ;
-}
+.ui-tabs-panel.tabs-ob .left { display: flex ; flex-direction: column ; }
+.ui-tabs-panel.tabs-ob .tl { height: 100% ; flex-grow: 1 }
+.ui-tabs-panel.tabs-ob .bl { height: 100% ; flex-grow: 1 }
+
+.ui-tabs-panel.tabs-ob .right { display: flex ; flex-direction: column ; }
+.ui-tabs-panel.tabs-ob .tr { height: 100% ; flex-grow: 1 }
+.ui-tabs-panel.tabs-ob .br { height: 100% ; flex-grow: 1 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#tabs-other {
-    display: grid ; display: -ms-grid ;
-    grid-template-rows: 1fr ; -ms-grid-rows: 1fr ;
-    grid-template-columns: 1fr ; -ms-grid-columns: 1fr ;
-}
-
-#panel-other {
-    height: 100% ;
-}
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
-fieldset { height: calc(100% - 30px) ; margin: 0 5px 5px 5px ; padding: 10px ; }
-#tabs-other fieldset { border: none ; }
+fieldset { margin: 0 5px 5px 5px ; padding: 10px ; background: #ffffff ; }
 fieldset legend { padding: 0 0.2em 0 0.2em ; font-style: italic ; font-weight: bold ; }
 
-.label { font-weight: bold ; }
-input[type="text"] { margin-bottom: 0.25em ; }
+.small { font-size: 80% ; }
+.spacer { flex-grow: 1 ; }
 
 /* -------------------------------------------------------------------- */
-
-/* FUDGE! Fix vertical alignment between labels and their input boxes :-/ */
-div.label { border: 1px dotted transparent ; }
 
 .ui-selectmenu-button { padding: 2px 5px ; }
 

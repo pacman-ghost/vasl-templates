@@ -54,7 +54,7 @@ $(document).ready( function () {
         if ( val && val.substring(val.length-1) === "1" )
             $elem.attr( attrName, val.substring(0,val.length-1)+"2" ) ;
     } ;
-    var fixupOB2 = function( $elem ) {
+    function fixupOB2( $elem ) {
         adjustAttr( $elem, "id" ) ;
         adjustAttr( $elem, "name" ) ;
         adjustAttr( $elem, "data-id" ) ;
@@ -62,9 +62,9 @@ $(document).ready( function () {
         $elem.children().each( function() {
             fixupOB2( $(this) ) ;
         } ) ;
-    } ;
+    }
     fixupOB2( $ob2 ) ;
-    $("#tabs-ob2").html( $ob2.html() ) ;
+    $("#tabs-ob2").html( $ob2.html() ).addClass( "tabs-ob" ) ;
 
     // initialize the tabs
     $("#tabs").tabs( {
@@ -143,9 +143,11 @@ $(document).ready( function () {
 
     // add player change handlers
     $("select[name='PLAYER_1']").selectmenu( {
+        width: "7em",
         select: function() { on_player_change( $(this) ) ; },
     } ) ;
     $("select[name='PLAYER_2']").selectmenu( {
+        width: "7em",
         select: function() { on_player_change( $(this) ) ; },
     } ) ;
 
@@ -416,7 +418,7 @@ function on_player_change( $select )
         for ( var i=0 ; i < _NATIONALITY_SPECIFIC_BUTTONS[nat].length ; ++i ) {
             var button_id = _NATIONALITY_SPECIFIC_BUTTONS[nat][i] ;
             var $elem = $( "#panel-ob_notes" + player_no + " div.snippet-control[data-id='" + button_id + "']" ) ;
-            $elem.css( "display", nat == player_nat ? "block" : "none" ) ;
+            $elem.css( "display", nat == player_nat ? "inline-block" : "none" ) ;
         }
     }
 

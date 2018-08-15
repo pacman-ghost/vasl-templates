@@ -1,87 +1,30 @@
 /* -------------------------------------------------------------------- */
 
-#panel-scenario {
-    display: grid ; display: -ms-grid ;
-    grid-template-columns: 5em 1fr ; -ms-grid-columns: 5em 1fr ;
-}
-/* FUDGE! IE hackamathon follows (nb: <label> doesn't work, we use <div> for labels instead :-/) */
-#panel-scenario div[data-labelfor="SCENARIO_NAME"] { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
-#panel-scenario input[name="SCENARIO_NAME"] { -ms-grid-row: 1 ; -ms-grid-column: 2 ; }
-#panel-scenario div[data-labelfor="SCENARIO_LOCATION"] { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
-#panel-scenario input[name="SCENARIO_LOCATION"] { -ms-grid-row: 2 ; -ms-grid-column: 2 ; }
-#panel-scenario div[data-labelfor="SCENARIO_DATE"] { -ms-grid-row: 3 ; -ms-grid-column: 1 ; }
-#panel-scenario div.last_row { -ms-grid-row: 3 ; -ms-grid-column: 2 ; }
+#panel-scenario { display: flex ; flex-direction: column ; }
 
-#panel-scenario .last_row .r { display: block-inline ; float: right ; font-size: 75% ; }
+#panel-scenario .row { display: flex ; align-items: center ; }
+#panel-scenario input { flex-grow: 1 ; }
+#panel-scenario input[name='SCENARIO_DATE'] { width: 6em ; flex-grow: 0 ; }
 
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
-#panel-players {
-    margin-top: 1em ;
-    display: grid ; display: -ms-grid ;
-    grid-template-columns: 5em 1fr 3em 3em ; -ms-grid-columns: 5em 1fr 3em 3em ;
-}
-#panel-players .footer { grid-column-start: 1 ; grid-column-end: 5 ; }
-/* FUDGE! IE hackamathon follows (nb: <label> doesn't work, we use <div> for labels instead :-/) */
-#panel-players div[data-labelfor="ELR"] { -ms-grid-row: 1 ; -ms-grid-column: 3 ; }
-#panel-players div[data-labelfor="SAN"] { -ms-grid-row: 1 ; -ms-grid-column: 4 ; }
-#panel-players div[data-labelfor="PLAYER_1"] { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
-#panel-players .ui-selectmenu-button.player1 { -ms-grid-row: 2 ; -ms-grid-column: 2 ; }
-#panel-players .ui-selectmenu-button.player1_elr { -ms-grid-row: 2 ; -ms-grid-column: 3 ; }
-#panel-players .ui-selectmenu-button.player1_san { -ms-grid-row: 2 ; -ms-grid-column: 4 ; }
-#panel-players div[data-labelfor="PLAYER_2"] { -ms-grid-row: 3 ; -ms-grid-column: 1 ; }
-#panel-players .ui-selectmenu-button.player2 { -ms-grid-row: 3 ; -ms-grid-column: 2 ; }
-#panel-players .ui-selectmenu-button.player2_elr { -ms-grid-row: 3 ; -ms-grid-column: 3 ; }
-#panel-players .ui-selectmenu-button.player2_san { -ms-grid-row: 3 ; -ms-grid-column: 4 ; }
-#panel-players .footer { -ms-grid-row: 4 ; -ms-grid-column: 1 ; -ms-grid-column-span: 4 ; }
-
-#panel-players div[data-labelfor="ELR"] { margin-left: 0.25em ; }
-#panel-players div[data-labelfor="SAN"] { margin-left: 0.25em ; }
-#panel-players select[name="PLAYER_1"] { margin-right: 0.5em ; }
-#panel-players select[name="PLAYER_2"] { margin-right: 0.5em ; }
-#panel-players select[name="PLAYER_1_ELR"] { margin-right: 0.25em ; }
-#panel-players select[name="PLAYER_2_ELR"] { margin-right: 0.25em ; }
-#panel-players input[data-id="players"] { margin-top: 0.25em ; }
-
-#panel-players .footer { margin-top: 0.25em ; font-size: 75% ; text-align: right ; }
+#panel-scenario label { font-weight: bold ; width: 5em ; }
+#panel-scenario label.header { font-weight: bold ; width: 3em ; text-align: center ; }
+#panel-scenario input { margin-bottom: 0.25em ; }
 
 /* -------------------------------------------------------------------- */
 
-#panel-vc {
-    height: 100% ;
-    display: grid ; display: -ms-grid ;
-    grid-template-rows: 1fr 40px ; -ms-grid-rows: 1fr 40px ;
-}
-/* FUDGE! IE hackamathon follows (nb: <label> doesn't work, we use <div> for labels instead :-/) */
-#panel-vc .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
-
-#panel-vc textarea { width: 100% ; margin-bottom: 0.5em ; resize: none ; }
-#panel-vc .footer { text-align: right ; font-size: 75% ; }
+#panel-vc { height: 100% ; display: flex ; flex-direction: column ; }
+#panel-vc textarea { width: 100% ; resize: none ; flex-grow: 1 ; }
+#panel-vc .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
 
 /* -------------------------------------------------------------------- */
 
-#panel-scenario_notes {
-    height: 100% ;
-    display: grid ; display: -ms-grid ;
-    grid-template-rows: 1fr 40px ; -ms-grid-rows: 1fr 40px ;
-}
-/* FUDGE! IE hackamathon follows (nb: <label> doesn't work, we use <div> for labels instead :-/) */
-#panel-scenario_notes .content { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
-#panel-scenario_notes .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
-
-#panel-scenario_notes .footer { text-align: right ; font-size: 75% ; }
-#panel-scenario_notes .footer .l { float: left ; }
+#panel-scenario_notes { height: 100% ;  display: flex ; flex-direction: column ; }
+#panel-scenario_notes .content { flex-grow: 1 ; }
+#panel-scenario_notes .footer { margin-top: 0.5em ; display: flex ; }
 
 /* -------------------------------------------------------------------- */
 
-#panel-ssr {
-    height: 100% ;
-    display: grid ; display: -ms-grid ;
-    grid-template-rows: 1fr 40px ; -ms-grid-rows: 1fr 40px ;
-}
-/* FUDGE! IE hackamathon follows (nb: <label> doesn't work, we use <div> for labels instead :-/) */
-#panel-ssr .content { -ms-grid-row: 1 ; -ms-grid-column: 1 ; }
-#panel-ssr .footer { -ms-grid-row: 2 ; -ms-grid-column: 1 ; }
+#panel-ssr { height: 100% ; display: flex ; flex-direction: column ; }
+#panel-ssr .content { flex-grow: 1 ; }
 
-#panel-ssr .footer { text-align: right ; font-size: 75% ; }
-#panel-ssr .footer .l { float: left ; }
+#panel-ssr .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
