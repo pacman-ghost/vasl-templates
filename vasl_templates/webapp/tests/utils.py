@@ -98,7 +98,10 @@ def select_menu_option( menu_id ):
     elem.click()
     elem = find_child( "a.PopMenu-Link[data-name='{}']".format( menu_id ) )
     elem.click()
-    wait_for( 5, lambda: find_child("#menu .PopMenu-Container") is None ) # nb: wait for the menu to go away
+    wait_for( 2, lambda: find_child("#menu .PopMenu-Container") is None ) # nb: wait for the menu to go away
+    if pytest.config.option.webdriver == "chrome": #pylint: disable=no-member
+        # FUDGE! Work-around weird "is not clickable" errors because the PopMenu is still around :-/
+        time.sleep( 0.25 )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
