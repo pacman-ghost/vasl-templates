@@ -73,6 +73,7 @@ $(document).ready( function () {
     } ).show() ;
     var navHeight = $("#tabs .ui-tabs-nav").height() ;
     $("#tabs .ui-tabs-nav a").click( function() { $(this).blur() ; } ) ;
+    adjust_footer_vspacers() ;
 
     // initialize the scenario date picker
     $("input[name='SCENARIO_DATE']").datepicker( {
@@ -478,4 +479,37 @@ function on_tab_activate( evt, ui )
         set_colors_for_player( tab_id, 2 ) ;
     else
         set_colors( tab_id, "#ddd", "#ccc" ) ;
+
+    // adjust the footer vspacer's
+    adjust_footer_vspacers() ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function adjust_footer_vspacers()
+{
+    // FUDGE! Different browsers have different ideas about how big 100% of a fieldset is :-/
+    // To work-around this, we compare where the bottom of each footer is, relative to
+    // its parent fieldset, and adjust a vertical spacer element to compensate. Sigh...
+    $("fieldset").each( function() {
+        // check if the next fieldset has a footer
+        $footer = $(this).find( ".footer" ) ;
+        if ( $footer.length === 0 )
+            return ;
+        // check if we've already adjusted this fieldset
+        if ( $(this).find( ".vspacer" ).length !== 0 )
+            return ;
+        // locate the bottom of the fieldset
+        var $fieldset = $(this) ;
+        var fieldset_bottom = $fieldset.position().top + $fieldset.height() ;
+        if ( fieldset_bottom < 0 )
+            return ;
+        // locate the bottom of the footer
+        var footer_bottom = $footer.position().top + $footer.height() ;
+        var delta = footer_bottom - fieldset_bottom ;
+        delta -= 4 ;
+        // add a vertical spacer after the footer (to push it up a bit)
+        $footer.after( "<div class='vspacer' style='height:" + Math.ceil(Math.max(0,delta)) + "px'></div>" ) ;
+    } ) ;
+
 }
