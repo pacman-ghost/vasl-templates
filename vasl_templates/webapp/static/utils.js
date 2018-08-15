@@ -128,6 +128,7 @@ function ask( title, msg, args )
     var $dlg = $("#ask") ;
     $dlg.html( msg ) ;
     $dlg.dialog( {
+        dialogClass: "ask",
         modal: true,
         title: title,
         open: function() {

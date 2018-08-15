@@ -15,6 +15,7 @@ var _DAY_OF_MONTH_POSTFIXES = { // nb: we assume English :-/
 } ;
 
 var gDefaultScenario = null ;
+var gLastSavedScenario = null ;
 
 // --------------------------------------------------------------------
 
@@ -38,7 +39,7 @@ function generate_snippet( $btn, extra_params )
 
     // unload the template parameters
     var template_id = $btn.data( "id" ) ;
-    unload_params( params, true ) ;
+    unload_snippet_params( params, true ) ;
 
     // set player-specific parameters
     var nationalities = gTemplatePack.nationalities ;
@@ -191,7 +192,7 @@ function generate_snippet( $btn, extra_params )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function unload_params( params, check_date_capabilities )
+function unload_snippet_params( params, check_date_capabilities )
 {
     // collect all the template parameters
     add_param = function($elem) { params[ $elem.attr("name") ] = $elem.val() ; } ;
@@ -439,19 +440,30 @@ function edit_template( template_id )
 
 function on_load_scenario()
 {
-    // FIXME! confirm this operation if the scenario is dirty
-
-    // FOR TESTING PORPOISES! We can't control a file upload from Selenium (since
-    // the browser will use native controls), so we store the result in a <div>).
-    if ( getUrlParam( "scenario_persistence" ) ) {
-        var $elem = $( "#_scenario-persistence_" ) ;
-        do_load_scenario( JSON.parse( $elem.val() ) ) ;
-        showInfoMsg( "The scenario was loaded." ) ; // nb: the tests are looking for this
-        return ;
+    // check if the scenario is dirty
+    if ( ! is_scenario_dirty() )
+        do_on_load_scenario() ;
+    else {
+        // yup - confirm the operation
+        ask( "Load scenario", "<p>This scenario has been changed.<p>Do you want load another scenario, and lose your changes?", {
+            ok: do_on_load_scenario,
+            cancel: function() {},
+        } ) ;
     }
 
-    // ask the user to upload the scenario file
-    $("#load-scenario").trigger( "click" ) ;
+    function do_on_load_scenario() {
+        // FOR TESTING PORPOISES! We can't control a file upload from Selenium (since
+        // the browser will use native controls), so we get the data from a <textarea>).
+        if ( getUrlParam( "scenario_persistence" ) ) {
+            var $elem = $( "#_scenario-persistence_" ) ;
+            do_load_scenario( JSON.parse( $elem.val() ) ) ;
+            showInfoMsg( "The scenario was loaded." ) ; // nb: the tests are looking for this
+            return ;
+        }
+
+        // ask the user to upload the scenario file
+        $("#load-scenario").trigger( "click" ) ;
+    }
 }
 
 function on_load_scenario_file_selected()
@@ -576,14 +588,37 @@ function do_load_scenario( params )
         ) ) ;
     }
 
+    // remember the state of this scenario
+    gLastSavedScenario = unload_params_for_save() ;
+
     // update the UI
     $("#tabs").tabs( "option", "active", 0 ) ;
     on_scenario_date_change() ;
 }
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// --------------------------------------------------------------------
 
 function on_save_scenario()
+{
+    // unload the template parameters
+    var params = unload_params_for_save() ;
+    var data = JSON.stringify( params ) ;
+
+    // remember this as the last saved scenario
+    gLastSavedScenario = params ;
+
+    // FOR TESTING PORPOISES! We can't control a file download from Selenium (since
+    // the browser will use native controls), so we store the result in a <textarea>).
+    if ( getUrlParam( "scenario_persistence" ) ) {
+        $("#_scenario-persistence_").val( data ) ;
+        return ;
+    }
+
+    // return the parameters to the user as a downloadable file
+    download( data, "scenario.json", "application/json" ) ;
+}
+
+function unload_params_for_save()
 {
     // unload the template parameters
     function extract_vo_names( key ) { // nb: we only need to save the vehicle/ordnance name
@@ -595,7 +630,7 @@ function on_save_scenario()
         params[key] = names ;
     }
     var params = {} ;
-    unload_params( params, false ) ;
+    unload_snippet_params( params, false ) ;
     params.SCENARIO_NOTES = $("#scenario_notes-sortable").sortable2( "get-entry-data" ) ;
     params.OB_SETUPS_1 = $("#ob_setups-sortable_1").sortable2( "get-entry-data" ) ;
     params.OB_SETUPS_2 = $("#ob_setups-sortable_2").sortable2( "get-entry-data" ) ;
@@ -605,42 +640,44 @@ function on_save_scenario()
     extract_vo_names( "ORDNANCE_1" ) ;
     extract_vo_names( "VEHICLES_2" ) ;
     extract_vo_names( "ORDNANCE_2" ) ;
-    var data = JSON.stringify( params ) ;
 
-    // FOR TESTING PORPOISES! We can't control a file download from Selenium (since
-    // the browser will use native controls), so we store the result in a <div>).
-    if ( getUrlParam( "scenario_persistence" ) ) {
-        $("#_scenario-persistence_").val( data ) ;
-        return ;
-    }
-
-    // return the parameters to the user as a downloadable file
-    download( data, "scenario.json", "application/json" ) ;
+    return params ;
 }
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// --------------------------------------------------------------------
 
 function on_new_scenario( verbose )
 {
-    // FIXME! confirm this operation if the scenario is dirty
-
-    // load the default scenario
-    if ( gDefaultScenario )
-        do_load_scenario( gDefaultScenario ) ;
+    // check if the scenario is dirty
+    if ( ! is_scenario_dirty() )
+        do_on_new_scenario() ;
     else {
-        $.getJSON( gGetDefaultScenarioUrl, function(data) {
-            gDefaultScenario = data ;
-            do_load_scenario( data ) ;
-            update_page_load_status( "default-scenario" ) ;
-        } ).fail( function( xhr, status, errorMsg ) {
-            showErrorMsg( "Can't get the default scenario:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
-            return ;
+        // yup - confirm the operation
+        ask( "New scenario", "<p>This scenario has been changed.<p>Do you want to reset it, and lose your changes?", {
+            ok: do_on_new_scenario,
+            cancel: function() {},
         } ) ;
     }
 
-    // provide some feedback to the user
-    if ( verbose )
-        showInfoMsg( "The scenario was reset." ) ;
+    function do_on_new_scenario() {
+        // load the default scenario
+        if ( gDefaultScenario )
+            do_load_scenario( gDefaultScenario ) ;
+        else {
+            $.getJSON( gGetDefaultScenarioUrl, function(data) {
+                gDefaultScenario = data ;
+                do_load_scenario( data ) ;
+                update_page_load_status( "default-scenario" ) ;
+            } ).fail( function( xhr, status, errorMsg ) {
+                showErrorMsg( "Can't get the default scenario:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+                return ;
+            } ) ;
+        }
+
+        // provide some feedback to the user
+        if ( verbose )
+            showInfoMsg( "The scenario was reset." ) ;
+    }
 }
 
 function reset_scenario()
@@ -667,6 +704,17 @@ function reset_scenario()
         $( "#vehicles-sortable_" + player_no ).sortable2( "delete-all" ) ;
         $( "#ordnance-sortable_" + player_no ).sortable2( "delete-all" ) ;
     }
+}
+
+// --------------------------------------------------------------------
+
+function is_scenario_dirty()
+{
+    // check if the scenario has been changed since it was loaded, or last saved
+    if ( gLastSavedScenario === null )
+        return false ;
+    var params = unload_params_for_save() ;
+    return (JSON.stringify(params) != JSON.stringify(gLastSavedScenario) ) ;
 }
 
 // --------------------------------------------------------------------

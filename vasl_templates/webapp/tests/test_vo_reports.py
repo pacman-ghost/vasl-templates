@@ -15,8 +15,8 @@ from vasl_templates.webapp.tests.utils import find_child, find_children, wait_fo
 # NOTE: Running these checks is fairly slow, and once done, don't provide a great deal of value
 # in the day-to-day development process, so we make them optional.
 @pytest.mark.skipif(
-    not pytest.config.option.check_vo_reports, #pylint: disable=no-member
-    reason = "--no-reports not specified"
+    pytest.config.option.short_tests, #pylint: disable=no-member
+    reason = "--short-tests specified"
 )
 def test_vo_reports( webapp, webdriver ):
     """Check the vehicle/ordnance reports."""

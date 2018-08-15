@@ -274,26 +274,37 @@ def find_children( sel, parent=None ):
 
 def select_droplist_val( sel, val ):
     """Select a droplist option by value."""
+    options = get_droplist_vals_index( sel )
+    _do_select_droplist( sel, options[val] )
 
-    # get the options from the original <select>
-    sel_id = sel._el.get_attribute( "id" ) #pylint: disable=protected-access
+def select_droplist_index( sel, index ):
+    """Select a droplist option by index."""
     options = get_droplist_vals( sel )
+    _do_select_droplist( sel, options[index][1] )
+
+def _do_select_droplist( sel, val ):
+    """Select a droplist option."""
 
     # open the jQuery droplist
+    sel_id = sel._el.get_attribute( "id" ) #pylint: disable=protected-access
     elem = find_child( "#{}-button .ui-selectmenu-icon".format( sel_id ) )
     elem.click()
 
     # select the requested option (nb: clicking on the child option doesn't work :shrug:)
     elem = find_child( "#{}-button".format( sel_id ) )
-    elem.send_keys( options[val] )
+    elem.send_keys( val )
     elem.send_keys( Keys.RETURN )
+
+def get_droplist_vals_index( sel ):
+    """Get the value/text for each option in a droplist."""
+    return { k: v for k,v in get_droplist_vals(sel) }
 
 def get_droplist_vals( sel ):
     """Get the value/text for each option in a droplist."""
-    return {
-        opt.get_attribute("value"): opt.get_attribute("text")
+    return [
+        ( opt.get_attribute("value"), opt.get_attribute("text") )
         for opt in sel.options
-    }
+    ]
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

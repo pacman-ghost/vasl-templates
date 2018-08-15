@@ -1,7 +1,7 @@
-var gTemplatePack = {} ;
-var gDefaultNationalities = {} ;
-var gValidTemplateIds = [] ;
-var gVehicleOrdnanceListings = {} ;
+gTemplatePack = {} ;
+gDefaultNationalities = {} ;
+gValidTemplateIds = [] ;
+gVehicleOrdnanceListings = {} ;
 
 var _NATIONALITY_SPECIFIC_BUTTONS = {
     "russian": [ "mol", "mol-p" ],
@@ -287,6 +287,16 @@ $(document).ready( function () {
 
     // initialize hotkeys
     init_hotkeys() ;
+
+    // check for a dirty scenario before leaving the page
+    if ( ! getUrlParam( "disable_close_window_check" ) ) {
+        window.addEventListener( "beforeunload", function(evt) {
+            if ( is_scenario_dirty() ) {
+                evt.returnValue = "This scenario has been changed. Do you want to leave the page, and lose your changes?" ;
+                return evt.returnValue ;
+            }
+        } ) ;
+    }
 
     // add some dummy links for the test suite to edit templates
     if ( getUrlParam( "edit_template_links" ) ) {

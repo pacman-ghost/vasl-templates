@@ -1,12 +1,35 @@
 """ Test loading/saving scenarios. """
 
 import json
+import itertools
 
 from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp.tests.utils import \
     init_webapp, get_nationalities, set_template_params, select_tab, select_menu_option, \
     get_sortable_entry_text, get_stored_msg, set_stored_msg, set_stored_msg_marker, find_child, find_children, wait_for
+
+# this table lists all parameters stored in a scenario
+ALL_SCENARIO_PARAMS = {
+    "scenario": [
+        "SCENARIO_NAME", "SCENARIO_LOCATION", "SCENARIO_DATE", "SCENARIO_WIDTH",
+        "PLAYER_1", "PLAYER_1_ELR", "PLAYER_1_SAN",
+        "PLAYER_2", "PLAYER_2_ELR", "PLAYER_2_SAN",
+        "VICTORY_CONDITIONS", "VICTORY_CONDITIONS_WIDTH",
+        "SCENARIO_NOTES",
+        "SSR", "SSR_WIDTH",
+    ],
+    "ob1": [
+        "OB_SETUPS_1", "OB_NOTES_1",
+        "VEHICLES_1", "VEHICLES_WIDTH_1",
+        "ORDNANCE_1", "ORDNANCE_WIDTH_1",
+    ],
+    "ob2": [
+        "OB_SETUPS_2", "OB_NOTES_2",
+        "VEHICLES_2", "VEHICLES_WIDTH_2",
+        "ORDNANCE_2", "ORDNANCE_WIDTH_2",
+    ],
+}
 
 # ---------------------------------------------------------------------
 
@@ -25,14 +48,19 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
             assert elem.text.strip() == "{} OB".format( nationalities[nat]["display_name"] )
 
     # load the scenario fields
-    scenario_params = {
+    SCENARIO_PARAMS = {
         "scenario": {
-            "SCENARIO_NAME": "my test scenario", "SCENARIO_LOCATION": "right here", "SCENARIO_DATE": "12/31/1945",
+            "SCENARIO_NAME": "my test scenario",
+            "SCENARIO_LOCATION": "right here",
+            "SCENARIO_DATE": "12/31/1945",
             "SCENARIO_WIDTH": "101",
             "PLAYER_1": "russian", "PLAYER_1_ELR": "1", "PLAYER_1_SAN": "2",
             "PLAYER_2": "german", "PLAYER_2_ELR": "3", "PLAYER_2_SAN": "4",
             "VICTORY_CONDITIONS": "just do it!", "VICTORY_CONDITIONS_WIDTH": "102",
-            "SCENARIO_NOTES": [ { "caption": "note #1", "width": "" }, { "caption": "note #2", "width": "100px" } ],
+            "SCENARIO_NOTES": [
+                { "caption": "note #1", "width": "" },
+                { "caption": "note #2", "width": "100px" }
+            ],
             "SSR": [ "This is an SSR.", "This is another SSR." ],
             "SSR_WIDTH": "103",
         },
@@ -59,19 +87,30 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
             "ORDNANCE_WIDTH_2": "303",
         },
     }
-    for tab_id,fields in scenario_params.items():
+    for tab_id,fields in SCENARIO_PARAMS.items():
         select_tab( tab_id )
         set_template_params( fields )
     check_ob_tabs( "russian", "german" )
 
+    # make sure that our test scenario includes everything
+    lhs = { k: set(v) for k,v in SCENARIO_PARAMS.items() }
+    rhs = { k: set(v) for k,v in ALL_SCENARIO_PARAMS.items() }
+    assert lhs == rhs
+
     # save the scenario and check the results
     saved_scenario = _save_scenario()
     expected = {
-        k.upper(): v for tab in scenario_params.values() for k,v in tab.items()
+        k.upper(): v for tab in SCENARIO_PARAMS.values() for k,v in tab.items()
     }
     assert saved_scenario == expected
 
+    # make sure that our list of scenario parameters is correct
+    lhs = set( saved_scenario.keys() )
+    rhs = set( itertools.chain( *ALL_SCENARIO_PARAMS.values() ) )
+    assert lhs == rhs
+
     # reset the scenario and check the save results
+    # nb: we just saved the scenario, so we shouldn't get asked to confirm the "new scenario" operation
     _ = set_stored_msg_marker( "_last-info_" )
     select_menu_option( "new_scenario" )
     wait_for( 2, lambda: get_stored_msg("_last-info_") == "The scenario was reset." )
@@ -95,11 +134,12 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     }
 
     # load a scenario and make sure it was loaded into the UI correctly
+    # nb: we just reset the scenario, so we shouldn't get asked to confirm the "load scenario" operation
     _load_scenario( saved_scenario )
     check_ob_tabs( "russian", "german" )
-    for tab_id in scenario_params:
+    for tab_id in SCENARIO_PARAMS:
         select_tab( tab_id )
-        for field,val in scenario_params[tab_id].items():
+        for field,val in SCENARIO_PARAMS[tab_id].items():
             if field in ("SCENARIO_NOTES","SSR"):
                 continue # nb: these require special handling, we do it below
             if field in ("OB_SETUPS_1","OB_SETUPS_2","OB_NOTES_1","OB_NOTES_2"):
@@ -113,18 +153,18 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
                 assert elem.get_attribute("value") == val
     select_tab( "scenario" )
     scenario_notes = [ c.text for c in find_children("#scenario_notes-sortable li") ]
-    assert scenario_notes == [ sn["caption"] for sn in scenario_params["scenario"]["SCENARIO_NOTES"] ]
-    assert get_sortable_entry_text(ssrs) == scenario_params["scenario"]["SSR"]
+    assert scenario_notes == [ sn["caption"] for sn in SCENARIO_PARAMS["scenario"]["SCENARIO_NOTES"] ]
+    assert get_sortable_entry_text(ssrs) == SCENARIO_PARAMS["scenario"]["SSR"]
     select_tab( "ob1" )
-    assert get_sortable_entry_text(ob_setups1) == [ obs["caption"] for obs in scenario_params["ob1"]["OB_SETUPS_1"] ]
-    assert get_sortable_entry_text(ob_notes1) == [ obs["caption"] for obs in scenario_params["ob1"]["OB_NOTES_1"] ]
-    assert get_sortable_entry_text(vehicles1) == scenario_params["ob1"]["VEHICLES_1"]
-    assert get_sortable_entry_text(ordnance1) == scenario_params["ob1"]["ORDNANCE_1"]
+    assert get_sortable_entry_text(ob_setups1) == [ obs["caption"] for obs in SCENARIO_PARAMS["ob1"]["OB_SETUPS_1"] ]
+    assert get_sortable_entry_text(ob_notes1) == [ obs["caption"] for obs in SCENARIO_PARAMS["ob1"]["OB_NOTES_1"] ]
+    assert get_sortable_entry_text(vehicles1) == SCENARIO_PARAMS["ob1"]["VEHICLES_1"]
+    assert get_sortable_entry_text(ordnance1) == SCENARIO_PARAMS["ob1"]["ORDNANCE_1"]
     select_tab( "ob2" )
-    assert get_sortable_entry_text(ob_setups2) == [ obs["caption"] for obs in scenario_params["ob2"]["OB_SETUPS_2"] ]
-    assert get_sortable_entry_text(ob_notes2) == [ obs["caption"] for obs in scenario_params["ob2"]["OB_NOTES_2"] ]
-    assert get_sortable_entry_text(vehicles2) == scenario_params["ob2"]["VEHICLES_2"]
-    assert get_sortable_entry_text(ordnance2) == scenario_params["ob2"]["ORDNANCE_2"]
+    assert get_sortable_entry_text(ob_setups2) == [ obs["caption"] for obs in SCENARIO_PARAMS["ob2"]["OB_SETUPS_2"] ]
+    assert get_sortable_entry_text(ob_notes2) == [ obs["caption"] for obs in SCENARIO_PARAMS["ob2"]["OB_NOTES_2"] ]
+    assert get_sortable_entry_text(vehicles2) == SCENARIO_PARAMS["ob2"]["VEHICLES_2"]
+    assert get_sortable_entry_text(ordnance2) == SCENARIO_PARAMS["ob2"]["ORDNANCE_2"]
 
 # ---------------------------------------------------------------------
 
@@ -135,6 +175,7 @@ def test_loading_ssrs( webapp, webdriver ):
     init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # initialize
+    # nb: we only load scenarios in this test, so we should never get asked to confirm the "load scenario" operation
     select_tab( "scenario" )
     sortable = find_child( "#ssr-sortable" )
     def do_test( ssrs ): # pylint: disable=missing-docstring
@@ -162,7 +203,7 @@ def test_unknown_vo( webapp, webdriver ):
     init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load a scenario that has unknown vehicles/ordnance
-    scenario_params = {
+    SCENARIO_PARAMS = {
         "PLAYER_1": "german",
         "VEHICLES_1": [ "unknown vehicle 1a", "unknown vehicle 1b" ],
         "ORDNANCE_1":  [ "unknown ordnance 1a", "unknown ordnance 1b" ],
@@ -171,10 +212,11 @@ def test_unknown_vo( webapp, webdriver ):
         "ORDNANCE_2":  [ "unknown ordnance 2" ],
     }
     _ = set_stored_msg_marker( "_last-warning_" )
-    _load_scenario( scenario_params )
+    # nb: we haven't made any changes, so we shouldn't get asked to confirm the "load scenario" operation
+    _load_scenario( SCENARIO_PARAMS )
     last_warning = get_stored_msg( "_last-warning_" )
     assert last_warning.startswith( "Unknown vehicles/ordnance:" )
-    for key,vals in scenario_params.items():
+    for key,vals in SCENARIO_PARAMS.items():
         if not key.startswith( ("VEHICLES_","ORDNANCE_") ):
             continue
         assert all( v in last_warning for v in vals )

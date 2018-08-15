@@ -39,12 +39,12 @@ def pytest_addoption( parser ):
 
     # add test options
     parser.addoption(
-        "--no-clipboard", action="store_true", dest="no_clipboard", default=False,
-        help="Don't use the clipboard to get snippets."
+        "--short-tests", action="store_true", dest="short_tests", default=False,
+        help="Run a shorter version of the test suite."
     )
     parser.addoption(
-        "--vo-reports", action="store_true", dest="check_vo_reports", default=False,
-        help="Check the vehicle/ordnance reports."
+        "--no-clipboard", action="store_true", dest="no_clipboard", default=False,
+        help="Don't use the clipboard to get snippets."
     )
 
 # ---------------------------------------------------------------------
@@ -62,6 +62,8 @@ def webapp():
             # very quickly, causing problems by obscuring other elements and making them non-clickable :-/
             # We used to explicitly dismiss them, but it's simpler to just always disable them.
             kwargs["store_msgs"] = 1
+            # stop the browser from checking for a dirty scenario when leaving the page
+            kwargs["disable_close_window_check"] = 1
             # check if the tests are being run headless
             if pytest.config.option.headless: #pylint: disable=no-member
                 # yup - there is no clipboard support :-/

@@ -11,7 +11,7 @@ from vasl_templates.webapp import snippets
 from vasl_templates.webapp.tests.utils import \
     select_tab, select_menu_option, get_clipboard, get_stored_msg, set_stored_msg, set_stored_msg_marker,\
     add_simple_note, for_each_template, find_child, find_children, wait_for, \
-    select_droplist_val, get_droplist_vals, init_webapp
+    select_droplist_val, get_droplist_vals_index, init_webapp
 
 # ---------------------------------------------------------------------
 
@@ -106,7 +106,7 @@ def test_nationality_data( webapp, webdriver ):
     # FUDGE!  player1_sel.first_selected_option.text doesn't contain the right value
     # if we're using jQuery selectmenu's :-/
     assert player1_sel.first_selected_option.get_attribute( "value" ) == "british"
-    droplist_vals = get_droplist_vals( player1_sel )
+    droplist_vals = get_droplist_vals_index( player1_sel )
     assert droplist_vals["british"] == "British"
 
     # upload a template pack that contains nationality data
@@ -117,7 +117,7 @@ def test_nationality_data( webapp, webdriver ):
     # check that the UI was updated correctly
     assert tab_ob1.text.strip() == "Poms! OB"
     assert player1_sel.first_selected_option.get_attribute( "value" ) == "british"
-    droplist_vals2 = get_droplist_vals( player1_sel )
+    droplist_vals2 = get_droplist_vals_index( player1_sel )
     assert droplist_vals2["british"] == "Poms!"
 
     # check that there is a new Korean player
