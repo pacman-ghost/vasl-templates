@@ -10,10 +10,11 @@
   border-bottom: 1px solid #c0c0c0 ;
   padding: 5px 10px 5px 10px ;
 ">
-    <span style="font-size:150%;font-weight:bold;">
-        {%if SCENARIO_NAME%} {{SCENARIO_NAME}} {%else%} Untitled scenario {%endif%}
-    </span>
-    {%if SCENARIO_LOCATION%} ({{SCENARIO_LOCATION}}) {%endif%}
+    <div style="font-size:115%;">
+        <b> {%if SCENARIO_NAME%} {{SCENARIO_NAME}} {%else%} Untitled scenario {%endif%} </b>
+        {%if SCENARIO_ID%} <small><i> ({{SCENARIO_ID}}) </i></small> {%endif%}
+    </div>
+    {%if SCENARIO_LOCATION%} {{SCENARIO_LOCATION}} {%endif%}
     {%if SCENARIO_DATE%}
         <small><i>({{SCENARIO_MONTH_NAME}} {{SCENARIO_DAY_OF_MONTH_POSTFIX}}, {{SCENARIO_YEAR}})</i></small>
     {%endif%}

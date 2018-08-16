@@ -12,7 +12,7 @@ from vasl_templates.webapp.tests.utils import \
 # this table lists all parameters stored in a scenario
 ALL_SCENARIO_PARAMS = {
     "scenario": [
-        "SCENARIO_NAME", "SCENARIO_LOCATION", "SCENARIO_DATE", "SCENARIO_WIDTH",
+        "SCENARIO_NAME", "SCENARIO_ID", "SCENARIO_LOCATION", "SCENARIO_DATE", "SCENARIO_WIDTH",
         "PLAYER_1", "PLAYER_1_ELR", "PLAYER_1_SAN",
         "PLAYER_2", "PLAYER_2_ELR", "PLAYER_2_SAN",
         "VICTORY_CONDITIONS", "VICTORY_CONDITIONS_WIDTH",
@@ -51,6 +51,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     SCENARIO_PARAMS = {
         "scenario": {
             "SCENARIO_NAME": "my test scenario",
+            "SCENARIO_ID": "xyz123",
             "SCENARIO_LOCATION": "right here",
             "SCENARIO_DATE": "12/31/1945",
             "SCENARIO_WIDTH": "101",

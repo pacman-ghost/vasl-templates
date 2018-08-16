@@ -1,4 +1,4 @@
-name = [{{SCENARIO_NAME}}]
+name = [{{SCENARIO_NAME}}]{%if SCENARIO_ID%} ({{SCENARIO_ID}}){%endif%}
 loc = [{{SCENARIO_LOCATION}}]
 date = [{{SCENARIO_DATE}}]{%if SCENARIO_DATE%} aka "{{SCENARIO_DAY_OF_MONTH}} {{SCENARIO_MONTH_NAME}}, {{SCENARIO_YEAR}}"{%endif%}
 {%if SCENARIO_WIDTH%}width = [{{SCENARIO_WIDTH}}]{%endif%}
