@@ -1,6 +1,7 @@
 """ Main application window. """
 
 import os
+import re
 
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFileDialog, QMessageBox
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage
@@ -10,6 +11,8 @@ from PyQt5.QtCore import QObject, QUrl, pyqtSlot
 
 from vasl_templates.webapp.config.constants import APP_NAME
 from vasl_templates.webapp import app as webapp
+
+_CONSOLE_SOURCE_REGEX = re.compile( r"^http://.+?/static/(.*)$" )
 
 # ---------------------------------------------------------------------
 
@@ -27,6 +30,17 @@ class WebChannelHandler( QObject ):
         self.window.setWindowTitle(
             "{} - {}".format( APP_NAME, val ) if val else APP_NAME
         )
+
+# ---------------------------------------------------------------------
+
+class AppWebPage( QWebEnginePage ):
+    """Main webapp page."""
+
+    def javaScriptConsoleMessage( self, level, msg, line_no, source_id ): #pylint: disable=unused-argument,no-self-use
+        """Log a Javascript console message."""
+        mo = _CONSOLE_SOURCE_REGEX.search( source_id )
+        source = mo.group(1) if mo else source_id
+        print( "{}:{} - {}".format( source, line_no, msg ) )
 
 # ---------------------------------------------------------------------
 
@@ -65,7 +79,7 @@ class MainWindow( QWidget ):
             # nb: we create an off-the-record profile to stop the view from using cached JS files :-/
             profile = QWebEngineProfile( None, self.view )
             profile.downloadRequested.connect( self.onDownloadRequested )
-            page = QWebEnginePage( profile, self.view )
+            page = AppWebPage( profile, self.view )
             self.view.setPage( page )
 
             # create a web channel to communicate with the front-end
