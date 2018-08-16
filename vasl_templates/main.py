@@ -40,8 +40,9 @@ class LoggerProxy:
 
 @click.command()
 @click.option( "--template-pack", help="Template pack to auto-load (ZIP file or directory)." )
+@click.option( "--remote-debugging", help="Chrome DevTools port number." )
 @click.option( "--debug", help="Debug config file." )
-def main( template_pack, debug ):
+def main( template_pack, remote_debugging, debug ):
     """Main entry point for the application."""
 
     # configure the default template pack
@@ -54,6 +55,11 @@ def main( template_pack, debug ):
             click.echo( "ERROR: The template pack must be a ZIP file, or a directory containing the template files." )
             return 1
         snippets.default_template_pack = template_pack
+
+    # configure remote debugging
+    if remote_debugging:
+        remote_debugging = remote_debugging.replace( "localhost", "127.0.0.1" )
+        os.environ["QTWEBENGINE_REMOTE_DEBUGGING"] = remote_debugging
 
     # install the debug config file
     if debug:
