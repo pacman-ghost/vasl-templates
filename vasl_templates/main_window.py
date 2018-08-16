@@ -4,11 +4,29 @@ import os
 
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFileDialog, QMessageBox
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage
+from PyQt5.QtWebChannel import QWebChannel
 from PyQt5.QtGui import QDesktopServices
-from PyQt5.QtCore import QUrl
+from PyQt5.QtCore import QObject, QUrl, pyqtSlot
 
 from vasl_templates.webapp.config.constants import APP_NAME
 from vasl_templates.webapp import app as webapp
+
+# ---------------------------------------------------------------------
+
+class WebChannelHandler( QObject ):
+    """Handle web channel requests."""
+
+    def __init__( self, window ):
+        # initialize
+        super().__init__()
+        self.window = window
+
+    @pyqtSlot( str )
+    def on_scenario_name_change( self, val ):
+        """Update the main window title to show the scenario name."""
+        self.window.setWindowTitle(
+            "{} - {}".format( APP_NAME, val ) if val else APP_NAME
+        )
 
 # ---------------------------------------------------------------------
 
@@ -38,19 +56,39 @@ class MainWindow( QWidget ):
         # that way. Sigh...
         layout = QVBoxLayout( self )
         if not webapp.config.get( "DISABLE_WEBENGINEVIEW" ):
-            # load the webapp
-            # NOTE: We create an off-the-record profile to stop the view from using cached JS files :-/
+
+            # initialize the web view
             self.view = QWebEngineView()
             layout.addWidget( self.view )
+
+            # initialize the web page
+            # nb: we create an off-the-record profile to stop the view from using cached JS files :-/
             profile = QWebEngineProfile( None, self.view )
             profile.downloadRequested.connect( self.onDownloadRequested )
             page = QWebEnginePage( profile, self.view )
             self.view.setPage( page )
+
+            # create a web channel to communicate with the front-end
+            web_channel = QWebChannel( page )
+            # FUDGE! We would like to register a WebChannelHandler instance as the handler, but this crashes PyQt :-/
+            # Instead, we register ourself as the handler, and delegate processing to a WebChannelHandler.
+            # The downside is that PyQt emits lots of warnings about our member variables not being properties :-/
+            self.web_channel_handler = WebChannelHandler( self )
+            web_channel.registerObject( "handler", self )
+            page.setWebChannel( web_channel )
+
+            # load the webapp
+            url += "?pyqt=1"
             self.view.load( QUrl(url) )
+
         else:
+
+            # show a minimal UI
             label = QLabel()
             label.setText( "Running the {} application.\n\nClose this window when you're done.".format( APP_NAME ) )
             layout.addWidget( label )
+
+            # open the webapp in an external browser
             QDesktopServices.openUrl( QUrl(url) )
 
     def closeEvent( self, evt ) :
@@ -106,3 +144,8 @@ class MainWindow( QWidget ):
         item.setPath( fname )
         item.accept()
         MainWindow._curr_scenario_fname = fname
+
+    @pyqtSlot( str )
+    def on_scenario_name_change( self, val ):
+        """Update the main window title to show the scenario name."""
+        self.web_channel_handler.on_scenario_name_change( val )

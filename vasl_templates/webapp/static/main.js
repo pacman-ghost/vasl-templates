@@ -3,6 +3,8 @@ gDefaultNationalities = {} ;
 gValidTemplateIds = [] ;
 gVehicleOrdnanceListings = {} ;
 
+gWebChannelHandler = null ;
+
 var _NATIONALITY_SPECIFIC_BUTTONS = {
     "russian": [ "mol", "mol-p" ],
     "german": [ "pf", "psk", "atmm" ],
@@ -13,6 +15,16 @@ var _NATIONALITY_SPECIFIC_BUTTONS = {
 // --------------------------------------------------------------------
 
 $(document).ready( function () {
+
+    // initialize the PyQt web channel
+    if ( getUrlParam( "pyqt" ) ) {
+        $.getScript( "qrc:///qtwebchannel/qwebchannel.js", function() {
+            // connect to the web channel
+            new QWebChannel( qt.webChannelTransport, function(channel) {
+                gWebChannelHandler = channel.objects.handler ;
+            } ) ;
+        } ) ;
+    }
 
     // initialize the menu
     var $menu = $("#menu input") ;
@@ -287,6 +299,11 @@ $(document).ready( function () {
 
     // enable Ctrl-Enter when editing simple notes
     enable_ctrl_enter( $("#edit-simple_note"), "OK" ) ;
+
+    // watch for changes to the scenario name
+    $("input[name='SCENARIO_NAME']").on( "input propertychange paste", function() {
+        on_scenario_name_change() ;
+    } ) ;
 
     // initialize hotkeys
     init_hotkeys() ;

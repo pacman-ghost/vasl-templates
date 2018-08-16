@@ -5,6 +5,7 @@ import itertools
 
 from selenium.webdriver.support.ui import Select
 
+from vasl_templates.webapp.config.constants import APP_NAME
 from vasl_templates.webapp.tests.utils import \
     init_webapp, get_nationalities, set_template_params, select_tab, select_menu_option, \
     get_sortable_entry_text, get_stored_msg, set_stored_msg, set_stored_msg_marker, find_child, find_children, wait_for
@@ -46,6 +47,14 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
             elem = find_child( "#tabs .ui-tabs-nav a[href='#tabs-ob{}']".format( player_no ) )
             nat = args[  player_no-1 ]
             assert elem.text.strip() == "{} OB".format( nationalities[nat]["display_name"] )
+
+    def check_window_title( expected ):
+        """Check the window title."""
+        if expected:
+            expected = "{} - {}".format( APP_NAME, expected )
+        else:
+            expected = APP_NAME
+        assert webdriver.title == expected
 
     # load the scenario fields
     SCENARIO_PARAMS = {
@@ -91,6 +100,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     for tab_id,fields in SCENARIO_PARAMS.items():
         select_tab( tab_id )
         set_template_params( fields )
+    check_window_title( "my test scenario" )
     check_ob_tabs( "russian", "german" )
 
     # make sure that our test scenario includes everything
@@ -115,6 +125,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     _ = set_stored_msg_marker( "_last-info_" )
     select_menu_option( "new_scenario" )
     wait_for( 2, lambda: get_stored_msg("_last-info_") == "The scenario was reset." )
+    check_window_title( "" )
     check_ob_tabs( "german", "russian" )
     data = _save_scenario()
     data2 = { k: v for k,v in data.items() if v }
@@ -137,6 +148,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     # load a scenario and make sure it was loaded into the UI correctly
     # nb: we just reset the scenario, so we shouldn't get asked to confirm the "load scenario" operation
     _load_scenario( saved_scenario )
+    check_window_title( "my test scenario" )
     check_ob_tabs( "russian", "german" )
     for tab_id in SCENARIO_PARAMS:
         select_tab( tab_id )

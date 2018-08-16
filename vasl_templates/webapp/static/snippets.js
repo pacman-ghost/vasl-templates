@@ -593,6 +593,7 @@ function do_load_scenario( params )
 
     // update the UI
     $("#tabs").tabs( "option", "active", 0 ) ;
+    on_scenario_name_change() ;
     on_scenario_date_change() ;
 }
 
@@ -920,4 +921,17 @@ function on_scenario_date_change()
     update_ui( "psk", is_psk_available() ) ;
     update_ui( "baz", is_baz_available() ) ;
     update_ui( "atmm", is_atmm_available() ) ;
+}
+
+// --------------------------------------------------------------------
+
+function on_scenario_name_change()
+{
+    // update the document title to include the scenario name
+    var val = $("input[name='SCENARIO_NAME']").val().trim() ;
+    document.title = (val.length > 0) ? gAppName+" - "+val : gAppName ;
+
+    // notify the PyQt wrapper application
+    if ( gWebChannelHandler )
+        gWebChannelHandler.on_scenario_name_change( val ) ;
 }
