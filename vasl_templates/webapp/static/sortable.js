@@ -23,29 +23,7 @@ $.fn.sortable2 = function( action, args )
 {
     var actions = {
 
-        "init": function( $sortable2 ) {
-            // get the display name
-            var display_name = SORTABLE_DISPLAY_NAMES[ get_sortable2_type($sortable2) ] ;
-            // initialize the sortable2 and support elements
-            $sortable2.data( "on_edit", args.edit ) ;
-            var $add_btn = find_helper( $sortable2, "add" ) ;
-            $add_btn.prepend( $( "<div><img src='" + gImagesBaseUrl + "/sortable-add.png' class='sortable-add'> Add</div>" ) )
-                .addClass( "ui-button" ) ;
-            var $add = find_helper( $sortable2, "add" ) ;
-            $add.prop( "title", "Add a new " + display_name[0] )
-                .click( args.add ) ;
-            // handle dragging entries to the trash
-            var $trash = find_helper( $sortable2, "trash" ) ;
-            $trash.prop( "src", gImagesBaseUrl + "/trash.png" )
-                .prop( "title", "Drag " + display_name[2] + " " + display_name[0] + " here to delete it." ) ;
-            $sortable2.sortable( { connectWith: $trash, cursor: "move" } ) ;
-            $trash.sortable( {
-                receive: function( evt, ui ) {
-                    ui.item.remove() ;
-                    update_hint( $sortable2 ) ;
-                }
-            } ) ;
-        },
+        "init": init_sortable2,
 
         "add": function( $sortable2 ) {
             // add a new entry to the sortable2
@@ -81,6 +59,42 @@ $.fn.sortable2 = function( action, args )
         },
 
     } ;
+
+    function init_sortable2( $sortable2 )
+    {
+        // get the display name
+        var display_name = SORTABLE_DISPLAY_NAMES[ get_sortable2_type($sortable2) ] ;
+
+        // initialize the sortable2 and support elements
+        $sortable2.data( "on_edit", args.edit ) ;
+        var $add_btn = find_helper( $sortable2, "add" ) ;
+        $add_btn.prepend( $( "<div><img src='" + gImagesBaseUrl + "/sortable-add.png' class='sortable-add'> Add</div>" ) )
+            .addClass( "ui-button" ) ;
+        var $add = find_helper( $sortable2, "add" ) ;
+        $add.prop( "title", "Add a new " + display_name[0] )
+            .click( args.add ) ;
+
+        // handle overflow when there are too many entries
+        // NOTE: We do this by setting the height of the entry list fairly low; if there are
+        // a lot of entries, they will render outside its box, but this triggers the v-scrollbar
+        // on the parent .content box. There seems to be an odd interaction with the main flexbox
+        // if there are 2 overflowing entry lists and the main browser v-scrollbar appears,
+        // but we can live with that, for now...
+        $sortable2.css( "height", "5em" ) ; // nb: also effectively acts as a min-height
+        $sortable2.parent().css( "overflow-y", "auto" ) ;
+
+        // handle dragging entries to the trash
+        var $trash = find_helper( $sortable2, "trash" ) ;
+        $trash.prop( "src", gImagesBaseUrl + "/trash.png" )
+            .prop( "title", "Drag " + display_name[2] + " " + display_name[0] + " here to delete it." ) ;
+        $sortable2.sortable( { connectWith: $trash, cursor: "move" } ) ;
+        $trash.sortable( {
+            receive: function( evt, ui ) {
+                ui.item.remove() ;
+                update_hint( $sortable2 ) ;
+            }
+        } ) ;
+    }
 
     function init_entry( $sortable2, $entry )
     {
