@@ -30,8 +30,9 @@ $.fn.sortable2 = function( action, args )
             var $entry = $( "<li></li>" ) ;
             $entry.append( args.content ) ;
             $entry.data( "sortable2-data", args.data ) ;
-            $sortable2.append( $entry ) ;
             init_entry( $sortable2, $entry ) ;
+            $sortable2.append( $entry ) ;
+            adjust_entry_heights( $sortable2 ) ;
             // update the hint
             update_hint( $sortable2 ) ;
         },
@@ -91,6 +92,7 @@ $.fn.sortable2 = function( action, args )
         $trash.sortable( {
             receive: function( evt, ui ) {
                 ui.item.remove() ;
+                adjust_entry_heights( $sortable2 ) ;
                 update_hint( $sortable2 ) ;
             }
         } ) ;
@@ -133,6 +135,7 @@ $.fn.sortable2 = function( action, args )
             "ok": function() {
                 // yup - make it so
                 $entry.remove() ;
+                adjust_entry_heights( $sortable2 ) ;
                 update_hint( $sortable2 ) ;
             },
             "close": function() { $entry.removeClass("highlighted") ; },
@@ -160,6 +163,22 @@ $.fn.sortable2 = function( action, args )
             $sortable2.show() ;
             $hint.hide() ;
         }
+    }
+
+    function adjust_entry_heights( $sortable2 ) {
+        // adjust the max height of each item based on how many items there are
+        var $entries = $sortable2.find( "li" ) ;
+        if ( $entries.length === 0 )
+            return ;
+        var available_height = $sortable2.parent().height() ;
+        var max_height = Math.max( available_height/$entries.length, 20 ) ;
+        $entries.each( function() {
+            $(this).css({ "max-height": Math.ceil(max_height)+"px", "overflow-y": "hidden" }) ;
+            // check for overflow
+            var entry_height = $(this).height() ;
+            var content_height = $(this).children("div").height() ;
+            // FIXME! We should show a visual cue that the entry is truncated.
+        } ) ;
     }
 
     function find_helper( $sortable2, type ) {
