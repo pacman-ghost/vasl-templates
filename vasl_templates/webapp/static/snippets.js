@@ -710,6 +710,10 @@ function reset_scenario()
 
 function is_scenario_dirty()
 {
+    // nb: confirming operations is insanely annoying during development :-/
+    if ( getUrlParam( "disable-dirty-scenario-check" ) )
+        return false ;
+
     // check if the scenario has been changed since it was loaded, or last saved
     if ( gLastSavedScenario === null )
         return false ;
