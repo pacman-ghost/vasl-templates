@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp.config.constants import APP_NAME
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, get_nationalities, set_template_params, select_tab, select_menu_option, \
+    init_webapp, get_nationalities, load_scenario_params, select_tab, select_menu_option, \
     get_sortable_entry_text, get_stored_msg, set_stored_msg, set_stored_msg_marker, find_child, find_children, wait_for
 
 # this table lists all parameters stored in a scenario
@@ -97,9 +97,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
             "ORDNANCE_WIDTH_2": "303",
         },
     }
-    for tab_id,fields in SCENARIO_PARAMS.items():
-        select_tab( tab_id )
-        set_template_params( fields )
+    load_scenario_params( SCENARIO_PARAMS )
     check_window_title( "my test scenario" )
     check_ob_tabs( "russian", "german" )
 

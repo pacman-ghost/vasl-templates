@@ -431,6 +431,8 @@ function install_template_pack( data )
 
 function on_player_change( $select )
 {
+    // FIXME! We should really ask the user to confirm this operation.
+
     // figure out which player was changed
     var name = $select.attr( "name" ) ;
     var player_no = name.substring( name.length-1 ) ;
@@ -448,8 +450,9 @@ function on_player_change( $select )
     }
 
     // reset the OB params
-    $("textarea[name='OB_SETUP_"+player_no+"']").val( "" ) ;
+    $( "#ob_setups-sortable_" + player_no ).sortable2( "delete-all" ) ;
     $("input[name='OB_SETUP_WIDTH_"+player_no+"']").val( "" ) ;
+    $( "#ob_notes-sortable_" + player_no ).sortable2( "delete-all" ) ;
     $( "#vehicles-sortable_" + player_no ).sortable2( "delete-all" ) ;
     $("input[name='VEHICLES_WIDTH_"+player_no+"']").val( "" ) ;
     $( "#ordnance-sortable_" + player_no ).sortable2( "delete-all" ) ;

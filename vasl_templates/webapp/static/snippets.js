@@ -741,12 +741,6 @@ function reset_scenario()
     // reset all the template parameters
     $("#scenario_notes-sortable").sortable2( "delete-all" ) ;
     $("#ssr-sortable").sortable2( "delete-all" ) ;
-    for ( player_no=1 ; player_no <= 2 ; ++player_no ) {
-        $( "#ob_setups-sortable_" + player_no ).sortable2( "delete-all" ) ;
-        $( "#ob_notes-sortable_" + player_no ).sortable2( "delete-all" ) ;
-        $( "#vehicles-sortable_" + player_no ).sortable2( "delete-all" ) ;
-        $( "#ordnance-sortable_" + player_no ).sortable2( "delete-all" ) ;
-    }
 }
 
 // --------------------------------------------------------------------

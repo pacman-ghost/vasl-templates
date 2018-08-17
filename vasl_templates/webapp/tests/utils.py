@@ -105,6 +105,12 @@ def select_menu_option( menu_id ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+def load_scenario_params( params ):
+    """Load a full set of template parameters."""
+    for tab_id,fields in params.items():
+        select_tab( tab_id )
+        set_template_params( fields )
+
 def set_template_params( params ): #pylint: disable=too-many-branches
     """Set template parameters."""
 
