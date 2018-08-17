@@ -77,6 +77,9 @@ def for_each_template( func ): #pylint: disable=too-many-branches
     for nat,template_ids in _NAT_TEMPLATES.items():
         select_tab( "scenario" )
         select_droplist_val( player1_sel, nat )
+        ask = find_child( "#ask" )
+        if ask and ask.is_displayed():
+            click_dialog_button( "OK" ) # nb: if the front-end is asking to confirm the player nationality change
         select_tab( "ob1" )
         for template_id in template_ids:
             func( template_id, template_id )

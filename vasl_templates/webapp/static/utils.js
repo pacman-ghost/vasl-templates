@@ -130,9 +130,17 @@ function ask( title, msg, args )
     $dlg.dialog( {
         dialogClass: "ask",
         modal: true,
+        closeOnEscape:false,
         title: title,
+        create: function() {
+            // we handle ESCAPE ourself, to make it the same as clicking Cancel, not just closing the dialog
+            $(this).closest( ".ui-dialog" ).keydown( function( evt ) {
+                if ( evt.keyCode == $.ui.keyCode.ESCAPE )
+                    $(".ui-dialog.ask button:contains(Cancel)").click() ;
+            } ) ;
+        },
         open: function() {
-            $(".ui-dialog button:contains(Cancel)").focus();
+            $(".ui-dialog.ask button:contains(Cancel)").focus();
         },
         buttons: {
             OK: function() {

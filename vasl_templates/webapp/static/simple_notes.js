@@ -39,7 +39,7 @@ function _do_edit_simple_note( $sortable2, $entry, default_width )
         open: function() {
             // initialize
             $caption = $(this).children( "textarea" ) ;
-            var $btn_pane = $(".ui-dialog-buttonpane") ;
+            var $btn_pane = $(".ui-dialog.edit-simple_note .ui-dialog-buttonpane") ;
             $width = $btn_pane.children( "input[name='width']" ) ;
             if ( $width.length === 0 ) {
                 // create the width controls
@@ -54,7 +54,7 @@ function _do_edit_simple_note( $sortable2, $entry, default_width )
             var colors = get_player_colors_for_element( $sortable2 ) ;
             if ( ! colors )
                 colors = [ "d0d0d0", "ca0a0a0" ] ;
-            $(".ui-dialog-titlebar").css( {
+            $(".ui-dialog.edit-simple_note .ui-dialog-titlebar").css( {
                 background: "#"+colors[0],
                 border: "1px solid #"+colors[1]
             } ) ;

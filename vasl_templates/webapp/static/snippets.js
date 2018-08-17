@@ -520,11 +520,11 @@ function do_load_scenario_data( params )
     // FUDGE! We must set the players first, since changing these will reset the OB tabs.
     if ( "PLAYER_1" in params ) {
         set_param( $("select[name='PLAYER_1']"), "PLAYER_1" ) ;
-        on_player_change( $("select[name='PLAYER_1']") ) ;
+        on_player_change( 1 ) ;
     }
     if ( "PLAYER_2" in params ) {
         set_param( $("select[name='PLAYER_2']"), "PLAYER_2" ) ;
-        on_player_change( $("select[name='PLAYER_2']") ) ;
+        on_player_change( 2 ) ;
     }
     var i ;
     for ( var key in params ) {
@@ -733,7 +733,7 @@ function reset_scenario()
     // nb: there's no way to reset the player droplist's
     var player_no ;
     for ( player_no=1 ; player_no <= 2 ; ++player_no ) {
-        on_player_change( $( "select[name='PLAYER_" + player_no + "']" ) ) ;
+        on_player_change( player_no ) ;
         $("select[name='PLAYER_" + player_no + "_ELR']").val( 0 ).selectmenu( "refresh" ) ;
         $("select[name='PLAYER_" + player_no + "_SAN']").val( "" ).selectmenu( "refresh" ) ;
     }

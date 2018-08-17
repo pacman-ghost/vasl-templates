@@ -10,7 +10,7 @@ from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.utils import \
     init_webapp, select_tab, select_menu_option, add_simple_note, select_droplist_val, select_droplist_index, \
     drag_sortable_entry_to_trash, get_sortable_entry_count, \
-    get_stored_msg, set_stored_msg_marker, find_child, find_children, wait_for
+    get_stored_msg, set_stored_msg_marker, find_child, wait_for, click_dialog_button
 
 # ---------------------------------------------------------------------
 
@@ -92,12 +92,6 @@ def test_dirty_scenario_checks( webapp, webdriver ):
         else:
             assert False
 
-    def cancel_confirmation():
-        """Cancel the confirmation dialog."""
-        btns = find_children( ".ui-dialog-buttonset button" )
-        btn = next( b for b in btns if b.text == "Cancel" )
-        btn.click()
-
     def do_test( tab_id, param ):
         """Test checking for a dirty scenario."""
 
@@ -111,8 +105,8 @@ def test_dirty_scenario_checks( webapp, webdriver ):
         elem = find_child( "#ask" )
         assert "This scenario has been changed" in elem.text
 
-        # cancel the confirmation requiest, make sure the change we made is still there
-        cancel_confirmation()
+        # cancel the confirmation request, make sure the change we made is still there
+        click_dialog_button( "Cancel" )
         select_tab( tab_id )
         check_field( param, state )
 
@@ -135,7 +129,7 @@ def test_dirty_scenario_checks( webapp, webdriver ):
         assert "This scenario has been changed" in elem.text
 
         # cancel the confirmation request, make sure the change we made is still there
-        cancel_confirmation()
+        click_dialog_button( "Cancel" )
         select_tab( tab_id )
         check_field( param, state )
 

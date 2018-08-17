@@ -158,11 +158,13 @@ $(document).ready( function () {
     // add player change handlers
     $("select[name='PLAYER_1']").selectmenu( {
         width: "7em",
-        select: function() { on_player_change( $(this) ) ; },
+        open: function() { $(this).data("prev-val",$(this).val()) ; },
+        select: function() { on_player_change_with_confirm( 1 ) ; },
     } ) ;
     $("select[name='PLAYER_2']").selectmenu( {
         width: "7em",
-        select: function() { on_player_change( $(this) ) ; },
+        open: function() { $(this).data("prev-val",$(this).val()) ; },
+        select: function() { on_player_change_with_confirm( 2 ) ; },
     } ) ;
 
     // load the ELR's and SAN's
@@ -429,14 +431,36 @@ function install_template_pack( data )
 
 // --------------------------------------------------------------------
 
-function on_player_change( $select )
+function on_player_change_with_confirm( player_no )
 {
-    // FIXME! We should really ask the user to confirm this operation.
+    // check if we need to do anything
+    var $select = $( "select[name='PLAYER_" + player_no + "']" ) ;
+    if ( $select.val() == $select.data("prev-val") )
+        return ;
 
-    // figure out which player was changed
-    var name = $select.attr( "name" ) ;
-    var player_no = name.substring( name.length-1 ) ;
+    // check if we should confirm this operation
+    var is_empty = true ;
+    $( "#tabs-ob" + player_no + " .sortable" ).each( function() {
+        if ( $(this).children( "li" ).length > 0 )
+            is_empty = false ;
+    } ) ;
+    if ( is_empty ) {
+        // nope - just do it
+        on_player_change( player_no ) ;
+    } else {
+        // yup - make it so
+        ask( "Change player nationality",
+            "<p>Do you want to change this player's nationality?<p>You will lose changes made to their OB.", {
+            ok: function() { on_player_change( player_no ) ; },
+            cancel: function() {
+                $select.val( $select.data("prev-val") ).selectmenu( "refresh" ) ;
+            },
+        } ) ;
+    }
+}
 
+function on_player_change( player_no )
+{
     // update the tab label
     var player_nat = update_ob_tab_header( player_no ) ;
 
