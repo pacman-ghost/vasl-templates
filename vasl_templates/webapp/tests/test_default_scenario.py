@@ -42,7 +42,7 @@ def test_default_scenario( webapp, webdriver, monkeypatch ):
     # check the scenario fields
     check_textbox( "SCENARIO_NAME", "default scenario name" )
     check_textbox( "SCENARIO_LOCATION", "default location" )
-    check_textbox( "SCENARIO_DATE", "01/01/2000" )
+    check_textbox( "SCENARIO_DATE", "12/25/2000" )
     check_textbox( "SCENARIO_WIDTH", "1px" )
 
     # check the player fields

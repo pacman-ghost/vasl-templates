@@ -2,6 +2,7 @@
 
 import json
 import itertools
+import re
 
 from selenium.webdriver.support.ui import Select
 
@@ -111,6 +112,8 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     expected = {
         k.upper(): v for tab in SCENARIO_PARAMS.values() for k,v in tab.items()
     }
+    mo = re.search( r"^(\d{2})/(\d{2})/(\d{4})$", expected["SCENARIO_DATE"] )
+    expected["SCENARIO_DATE"] = "{}-{}-{}".format( mo.group(3), mo.group(1), mo.group(2) ) # nb: convert from ISO-8601
     assert saved_scenario == expected
 
     # make sure that our list of scenario parameters is correct

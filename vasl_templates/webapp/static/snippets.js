@@ -511,7 +511,12 @@ function do_load_scenario_data( params )
     var params_loaded = {} ;
     var unknown_vo = [] ;
     var set_param = function( $elem, key ) {
-        $elem.val( params[key] ) ;
+        if ( key === "SCENARIO_DATE" ) {
+            var scenario_date = $.datepicker.parseDate( "yy-mm-dd", params[key] ) ;
+            $elem.datepicker( "setDate", scenario_date ) ;
+        }
+        else
+            $elem.val( params[key] ) ;
         if ( $elem[0].nodeName.toLowerCase() === "select" )
             $elem.selectmenu( "refresh" ) ;
         params_loaded[key] = true ;
@@ -678,6 +683,11 @@ function unload_params_for_save()
     extract_vo_names( "ORDNANCE_1" ) ;
     extract_vo_names( "VEHICLES_2" ) ;
     extract_vo_names( "ORDNANCE_2" ) ;
+
+    // save the scenario date in ISO-8601 format
+    var scenario_date = $("input[name='SCENARIO_DATE']").datepicker( "getDate" ) ;
+    if ( scenario_date )
+        params.SCENARIO_DATE = scenario_date.toISOString().substring( 0, 10 ) ;
 
     return params ;
 }
