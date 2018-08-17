@@ -16,6 +16,7 @@ var _DAY_OF_MONTH_POSTFIXES = { // nb: we assume English :-/
 
 var gDefaultScenario = null ;
 var gLastSavedScenario = null ;
+var gLastSavedScenarioFilename = null;
 
 // --------------------------------------------------------------------
 
@@ -456,7 +457,7 @@ function on_load_scenario()
         // the browser will use native controls), so we get the data from a <textarea>).
         if ( getUrlParam( "scenario_persistence" ) ) {
             var $elem = $( "#_scenario-persistence_" ) ;
-            do_load_scenario( $elem.val() ) ;
+            do_load_scenario( $elem.val(), null ) ;
             showInfoMsg( "The scenario was loaded." ) ; // nb: the tests are looking for this
             return ;
         }
@@ -466,7 +467,7 @@ function on_load_scenario()
             gWebChannelHandler.load_scenario( function( data ) {
                 if ( ! data )
                     return ;
-                do_load_scenario( data ) ;
+                do_load_scenario( data, null ) ;
             } ) ;
             return ;
         }
@@ -480,11 +481,14 @@ function on_load_scenario_file_selected()
 {
     // read the selected file
     var fileReader = new FileReader() ;
-    fileReader.onload = function() { do_load_scenario( fileReader.result ) ; } ;
-    fileReader.readAsText( $("#load-scenario").prop("files")[0] ) ;
+    var file = $("#load-scenario").prop( "files" )[0] ;
+    fileReader.onload = function() {
+        do_load_scenario( fileReader.result, file.name ) ;
+    } ;
+    fileReader.readAsText( file ) ;
 }
 
-function do_load_scenario( data )
+function do_load_scenario( data, fname )
 {
     // load the scenario
     try {
@@ -494,6 +498,7 @@ function do_load_scenario( data )
         return ;
     }
     do_load_scenario_data( data ) ;
+    gLastSavedScenarioFilename = fname ;
     showInfoMsg( "The scenario was loaded." ) ;
 }
 
@@ -639,7 +644,10 @@ function on_save_scenario()
     }
 
     // return the parameters to the user as a downloadable file
-    download( data, "scenario.json", "application/json" ) ;
+    download( data,
+        gLastSavedScenarioFilename ? gLastSavedScenarioFilename : "scenario.json",
+        "application/json"
+    ) ;
     // NOTE: We get no indication if the download was successful, so we can't show feedback :-/
     // Also, if the download didn't actually happen (e.g. because it was cancelled), then setting
     // the last saved scenario here is not quite the right thing to do, since subsequent checks
@@ -704,7 +712,8 @@ function on_new_scenario( verbose )
             } ) ;
         }
 
-        // notify the PyQt wrapper application
+        // flag that we have a new scenario
+        gLastSavedScenarioFilename = null ;
         if ( gWebChannelHandler )
             gWebChannelHandler.on_new_scenario() ;
 
@@ -782,7 +791,7 @@ function on_template_pack_file_selected()
 {
     // read the selected file
     var MAX_FILE_SIZE = 2 ; // nb: MB
-    var file = $("#load-template-pack").prop("files")[0] ;
+    var file = $("#load-template-pack").prop( "files" )[0] ;
     if ( file.size > 1024*1024*MAX_FILE_SIZE ) {
         showErrorMsg( "Template pack is too large (must be no larger than " + MAX_FILE_SIZE + "MB)." ) ;
         return ;
