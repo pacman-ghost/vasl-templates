@@ -171,7 +171,7 @@ $.fn.sortable2 = function( action, args )
         if ( $entries.length === 0 )
             return ;
         var available_height = $sortable2.parent().height() ;
-        var max_height = Math.max( available_height/$entries.length, 20 ) ;
+        var max_height = Math.max( available_height/$entries.length, 2*gEmSize ) ;
         $entries.each( function() {
             $(this).css({ "max-height": Math.ceil(max_height)+"px", "overflow-y": "hidden" }) ;
             // check for overflow

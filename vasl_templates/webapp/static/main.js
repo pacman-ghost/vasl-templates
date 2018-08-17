@@ -4,6 +4,7 @@ gValidTemplateIds = [] ;
 gVehicleOrdnanceListings = {} ;
 
 gWebChannelHandler = null ;
+gEmSize = null ;
 
 var _NATIONALITY_SPECIFIC_BUTTONS = {
     "russian": [ "mol", "mol-p" ],
@@ -317,6 +318,12 @@ $(document).ready( function () {
             }
         } ) ;
     }
+
+    // figure out how many pixels an em is
+    var $em = $( "<span>M</span>" ) ;
+    $("body").append( $em ) ;
+    gEmSize = $em.width() ;
+    $em.remove() ;
 
     // add some dummy links for the test suite to edit templates
     if ( getUrlParam( "edit_template_links" ) ) {
