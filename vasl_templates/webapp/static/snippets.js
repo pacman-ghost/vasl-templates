@@ -456,8 +456,18 @@ function on_load_scenario()
         // the browser will use native controls), so we get the data from a <textarea>).
         if ( getUrlParam( "scenario_persistence" ) ) {
             var $elem = $( "#_scenario-persistence_" ) ;
-            do_load_scenario( JSON.parse( $elem.val() ) ) ;
+            do_load_scenario( $elem.val() ) ;
             showInfoMsg( "The scenario was loaded." ) ; // nb: the tests are looking for this
+            return ;
+        }
+
+        // if we are running inside the PyQt wrapper, let it handle everything
+        if ( gWebChannelHandler ) {
+            gWebChannelHandler.load_scenario( function( data ) {
+                if ( ! data )
+                    return ;
+                do_load_scenario( data ) ;
+            } ) ;
             return ;
         }
 
@@ -470,21 +480,24 @@ function on_load_scenario_file_selected()
 {
     // read the selected file
     var fileReader = new FileReader() ;
-    fileReader.onload = function() {
-        var data ;
-        try {
-            data = JSON.parse( fileReader.result ) ;
-        } catch( ex ) {
-            showErrorMsg( "Can't load the scenario file:<div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
-            return ;
-        }
-        do_load_scenario( data ) ;
-        showInfoMsg( "The scenario was loaded." ) ;
-    } ;
+    fileReader.onload = function() { do_load_scenario( fileReader.result ) ; } ;
     fileReader.readAsText( $("#load-scenario").prop("files")[0] ) ;
 }
 
-function do_load_scenario( params )
+function do_load_scenario( data )
+{
+    // load the scenario
+    try {
+        data = JSON.parse( data ) ;
+    } catch( ex ) {
+        showErrorMsg( "Can't load the scenario file:<div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
+        return ;
+    }
+    do_load_scenario_data( data ) ;
+    showInfoMsg( "The scenario was loaded." ) ;
+}
+
+function do_load_scenario_data( params )
 {
     // reset the scenario
     reset_scenario() ;
@@ -605,18 +618,34 @@ function on_save_scenario()
     var params = unload_params_for_save() ;
     var data = JSON.stringify( params ) ;
 
-    // remember this as the last saved scenario
-    gLastSavedScenario = params ;
-
     // FOR TESTING PORPOISES! We can't control a file download from Selenium (since
-    // the browser will use native controls), so we store the result in a <textarea>).
+    // the browser will use native controls), so we store the result in a <textarea>
+    // and the test suite will collect it from there).
     if ( getUrlParam( "scenario_persistence" ) ) {
         $("#_scenario-persistence_").val( data ) ;
+        gLastSavedScenario = params ;
+        return ;
+    }
+
+    // if we are running inside the PyQt wrapper, let it handle everything
+    if ( gWebChannelHandler ) {
+        gWebChannelHandler.save_scenario( data, function( result ) {
+            if ( ! result )
+                return ;
+            gLastSavedScenario = params ;
+            showInfoMsg( "The scenario was saved." ) ;
+        } ) ;
         return ;
     }
 
     // return the parameters to the user as a downloadable file
     download( data, "scenario.json", "application/json" ) ;
+    // NOTE: We get no indication if the download was successful, so we can't show feedback :-/
+    // Also, if the download didn't actually happen (e.g. because it was cancelled), then setting
+    // the last saved scenario here is not quite the right thing to do, since subsequent checks
+    // for a dirty scenario will return the wrong result, since they assume that the scenario
+    // was saved properly here :-/
+    gLastSavedScenario = params ;
 }
 
 function unload_params_for_save()
@@ -663,17 +692,21 @@ function on_new_scenario( verbose )
     function do_on_new_scenario() {
         // load the default scenario
         if ( gDefaultScenario )
-            do_load_scenario( gDefaultScenario ) ;
+            do_load_scenario_data( gDefaultScenario ) ;
         else {
             $.getJSON( gGetDefaultScenarioUrl, function(data) {
                 gDefaultScenario = data ;
-                do_load_scenario( data ) ;
+                do_load_scenario_data( data ) ;
                 update_page_load_status( "default-scenario" ) ;
             } ).fail( function( xhr, status, errorMsg ) {
                 showErrorMsg( "Can't get the default scenario:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
                 return ;
             } ) ;
         }
+
+        // notify the PyQt wrapper application
+        if ( gWebChannelHandler )
+            gWebChannelHandler.on_new_scenario() ;
 
         // provide some feedback to the user
         if ( verbose )

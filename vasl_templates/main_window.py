@@ -1,40 +1,24 @@
 """ Main application window. """
 
-import os
 import re
 
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFileDialog, QMessageBox
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QMessageBox
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage
 from PyQt5.QtWebChannel import QWebChannel
 from PyQt5.QtGui import QDesktopServices
-from PyQt5.QtCore import QObject, QUrl, pyqtSlot
+from PyQt5.QtCore import QUrl, pyqtSlot
 
 from vasl_templates.webapp.config.constants import APP_NAME
 from vasl_templates.webapp import app as webapp
+from vasl_templates.web_channel import WebChannelHandler
+from vasl_templates.utils import log_exceptions
 
 _CONSOLE_SOURCE_REGEX = re.compile( r"^http://.+?/static/(.*)$" )
 
 # ---------------------------------------------------------------------
 
-class WebChannelHandler( QObject ):
-    """Handle web channel requests."""
-
-    def __init__( self, window ):
-        # initialize
-        super().__init__()
-        self.window = window
-
-    @pyqtSlot( str )
-    def on_scenario_name_change( self, val ):
-        """Update the main window title to show the scenario name."""
-        self.window.setWindowTitle(
-            "{} - {}".format( APP_NAME, val ) if val else APP_NAME
-        )
-
-# ---------------------------------------------------------------------
-
 class AppWebPage( QWebEnginePage ):
-    """Main webapp page."""
+    """Application web page."""
 
     def javaScriptConsoleMessage( self, level, msg, line_no, source_id ): #pylint: disable=unused-argument,no-self-use
         """Log a Javascript console message."""
@@ -47,19 +31,14 @@ class AppWebPage( QWebEnginePage ):
 class MainWindow( QWidget ):
     """Main application window."""
 
-    _main_window = None
-    _curr_scenario_fname = None
-
     def __init__( self, url ):
 
         # initialize
-        assert MainWindow._main_window is None
-        MainWindow._main_window = self
-        self.view = None
+        super().__init__()
+        self._view = None
         self._is_closing = False
 
         # initialize
-        super().__init__()
         self.setWindowTitle( APP_NAME )
 
         # initialize the layout
@@ -72,28 +51,27 @@ class MainWindow( QWidget ):
         if not webapp.config.get( "DISABLE_WEBENGINEVIEW" ):
 
             # initialize the web view
-            self.view = QWebEngineView()
-            layout.addWidget( self.view )
+            self._view = QWebEngineView()
+            layout.addWidget( self._view )
 
             # initialize the web page
             # nb: we create an off-the-record profile to stop the view from using cached JS files :-/
-            profile = QWebEngineProfile( None, self.view )
-            profile.downloadRequested.connect( self.onDownloadRequested )
-            page = AppWebPage( profile, self.view )
-            self.view.setPage( page )
+            profile = QWebEngineProfile( None, self._view )
+            page = AppWebPage( profile, self._view )
+            self._view.setPage( page )
 
             # create a web channel to communicate with the front-end
             web_channel = QWebChannel( page )
             # FUDGE! We would like to register a WebChannelHandler instance as the handler, but this crashes PyQt :-/
             # Instead, we register ourself as the handler, and delegate processing to a WebChannelHandler.
             # The downside is that PyQt emits lots of warnings about our member variables not being properties :-/
-            self.web_channel_handler = WebChannelHandler( self )
+            self._web_channel_handler = WebChannelHandler( self )
             web_channel.registerObject( "handler", self )
             page.setWebChannel( web_channel )
 
             # load the webapp
             url += "?pyqt=1"
-            self.view.load( QUrl(url) )
+            self._view.load( QUrl(url) )
 
         else:
 
@@ -109,7 +87,7 @@ class MainWindow( QWidget ):
         """Handle requests to close the window (i.e. exit the application)."""
 
         # check if we need to check for a dirty scenario
-        if self.view is None or self._is_closing:
+        if self._view is None or self._is_closing:
             return
 
         # check if the scenario is dirty
@@ -121,7 +99,7 @@ class MainWindow( QWidget ):
                 self.close()
                 return
             # yup - ask the user to confirm the close
-            rc = QMessageBox.question( self, "Close program",
+            rc = self.ask(
                 "This scenario has been changed\n\nDo you want to close the program, and lose your changes?",
                 QMessageBox.Yes | QMessageBox.No,
                 QMessageBox.No
@@ -130,36 +108,41 @@ class MainWindow( QWidget ):
                 # confirmed - close the window
                 self._is_closing = True
                 self.close()
-        self.view.page().runJavaScript( "is_scenario_dirty()", callback )
+        self._view.page().runJavaScript( "is_scenario_dirty()", callback )
         evt.ignore() # nb: we wait until the Javascript finishes to process the event
 
-    @staticmethod
-    def onDownloadRequested( item ):
-        """Handle download requests."""
+    def showInfoMsg( self, msg ):
+        """Show an informational message."""
+        QMessageBox.information( self , APP_NAME , msg )
 
-        # ask the user where to save the scenario
-        dlg = QFileDialog(
-            MainWindow._main_window, "Save scenario",
-            os.path.split(MainWindow._curr_scenario_fname)[0] if MainWindow._curr_scenario_fname else None,
-            "Scenario files (*.json);;All files(*)"
-        )
-        dlg.setDefaultSuffix( ".json" )
-        if MainWindow._curr_scenario_fname:
-            dlg.selectFile( os.path.split(MainWindow._curr_scenario_fname)[1] )
-        fname, _  = QFileDialog.getSaveFileName(
-            MainWindow._main_window, "Save scenario",
-            None,
-            "Scenario files (*.json);;All files(*)"
-        )
-        if not fname:
-            return
+    def showErrorMsg( self, msg ):
+        """Show an error message."""
+        QMessageBox.warning( self , APP_NAME , msg )
 
-        # accept the download request
-        item.setPath( fname )
-        item.accept()
-        MainWindow._curr_scenario_fname = fname
+    def ask( self, msg , buttons , default ) :
+        """Ask the user a question."""
+        return QMessageBox.question( self , APP_NAME , msg , buttons , default )
+
+    @pyqtSlot()
+    @log_exceptions( caption="SLOT EXCEPTION" )
+    def on_new_scenario( self):
+        """Called when the user wants to load a scenario."""
+        self._web_channel_handler.on_new_scenario()
+
+    @pyqtSlot( result=str )
+    @log_exceptions( caption="SLOT EXCEPTION" )
+    def load_scenario( self ):
+        """Called when the user wants to load a scenario."""
+        return self._web_channel_handler.load_scenario()
+
+    @pyqtSlot( str, result=bool )
+    @log_exceptions( caption="SLOT EXCEPTION" )
+    def save_scenario( self, data ):
+        """Called when the user wants to save a scenario."""
+        return self._web_channel_handler.save_scenario( data )
 
     @pyqtSlot( str )
+    @log_exceptions( caption="SLOT EXCEPTION" )
     def on_scenario_name_change( self, val ):
         """Update the main window title to show the scenario name."""
-        self.web_channel_handler.on_scenario_name_change( val )
+        self._web_channel_handler.on_scenario_name_change( val )
