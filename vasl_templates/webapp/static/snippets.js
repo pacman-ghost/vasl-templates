@@ -574,11 +574,12 @@ function do_load_scenario_data( params )
             var nat = params[ "PLAYER_" + player_no ] ;
             var vo_type = (key.substring(0,12) === "OB_VEHICLES_") ? "vehicles" : "ordnance" ;
             for ( i=0 ; i < params[key].length ; ++i ) {
-                var entry = find_vo( vo_type, nat, params[key][i] ) ;
+                var vo_name = params[key][i].name ;
+                var entry = find_vo( vo_type, nat, vo_name ) ;
                 if ( entry )
                     do_add_vo( vo_type, player_no, entry ) ;
                 else
-                    unknown_vo.push( params[key][i] ) ;
+                    unknown_vo.push( vo_name || "(not set)" ) ;
             }
             params_loaded[key] = true ;
             continue ;
@@ -683,7 +684,7 @@ function unload_params_for_save()
             return ;
         var names = [] ;
         for ( var i=0 ; i < params[key].length ; ++i )
-            names.push( params[key][i].name ) ;
+            names.push( { name: params[key][i].name } ) ;
         params[key] = names ;
     }
     var params = {} ;

@@ -110,10 +110,13 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     # save the scenario and check the results
     saved_scenario = _save_scenario()
     expected = {
-        k.upper(): v for tab in SCENARIO_PARAMS.values() for k,v in tab.items()
+        k: v for tab in SCENARIO_PARAMS.values() for k,v in tab.items()
     }
     mo = re.search( r"^(\d{2})/(\d{2})/(\d{4})$", expected["SCENARIO_DATE"] )
     expected["SCENARIO_DATE"] = "{}-{}-{}".format( mo.group(3), mo.group(1), mo.group(2) ) # nb: convert from ISO-8601
+    for key in expected:
+        if re.search( r"^OB_(VEHICLES|ORDNANCE)_\d$", key ):
+            expected[key] = [ { "name": name } for name in expected[key] ]
     assert saved_scenario == expected
 
     # make sure that our list of scenario parameters is correct
@@ -122,7 +125,6 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     assert lhs == rhs
 
     # reset the scenario and check the save results
-    # nb: we just saved the scenario, so we shouldn't get asked to confirm the "new scenario" operation
     _ = set_stored_msg_marker( "_last-info_" )
     select_menu_option( "new_scenario" )
     wait_for( 2, lambda: get_stored_msg("_last-info_") == "The scenario was reset." )
@@ -147,7 +149,6 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     }
 
     # load a scenario and make sure it was loaded into the UI correctly
-    # nb: we just reset the scenario, so we shouldn't get asked to confirm the "load scenario" operation
     _load_scenario( saved_scenario )
     check_window_title( "my test scenario" )
     check_ob_tabs( "russian", "german" )
@@ -189,7 +190,6 @@ def test_loading_ssrs( webapp, webdriver ):
     init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # initialize
-    # nb: we only load scenarios in this test, so we should never get asked to confirm the "load scenario" operation
     select_tab( "scenario" )
     sortable = find_child( "#ssr-sortable" )
     def do_test( ssrs ): # pylint: disable=missing-docstring
@@ -219,21 +219,26 @@ def test_unknown_vo( webapp, webdriver ):
     # load a scenario that has unknown vehicles/ordnance
     SCENARIO_PARAMS = {
         "PLAYER_1": "german",
-        "OB_VEHICLES_1": [ "unknown vehicle 1a", "unknown vehicle 1b" ],
-        "OB_ORDNANCE_1":  [ "unknown ordnance 1a", "unknown ordnance 1b" ],
+        "OB_VEHICLES_1": [
+            { "name": "unknown vehicle 1a" },
+            { "name": "unknown vehicle 1b" },
+        ],
+        "OB_ORDNANCE_1": [
+            { "name": "unknown ordnance 1a" },
+            { "name": "unknown ordnance 1b" },
+        ],
         "PLAYER_2": "russian",
-        "OB_VEHICLES_2": [ "unknown vehicle 2" ],
-        "OB_ORDNANCE_2":  [ "unknown ordnance 2" ],
+        "OB_VEHICLES_2": [ { "name": "unknown vehicle 2" } ],
+        "OB_ORDNANCE_2": [ { "name": "unknown ordnance 2" } ],
     }
     _ = set_stored_msg_marker( "_last-warning_" )
-    # nb: we haven't made any changes, so we shouldn't get asked to confirm the "load scenario" operation
     _load_scenario( SCENARIO_PARAMS )
     last_warning = get_stored_msg( "_last-warning_" )
     assert last_warning.startswith( "Unknown vehicles/ordnance:" )
     for key,vals in SCENARIO_PARAMS.items():
         if not key.startswith( ("OB_VEHICLES_","OB_ORDNANCE_") ):
             continue
-        assert all( v in last_warning for v in vals )
+        assert all( v["name"] in last_warning for v in vals )
 
 # ---------------------------------------------------------------------
 
