@@ -40,6 +40,7 @@ function load_vo_listings( objs )
     // initialize
     var nat = "{{NATIONALITY}}" ;
     var year = {{YEAR}} ;
+    var month = {{MONTH}} ;
     var $results = $("#results") ;
 
     // check if there are any vehicles/ordnance for the specified nationality
@@ -65,9 +66,9 @@ function load_vo_listings( objs )
             buf.push( "<td>", fmtval(obj.no_radio) ) ;
             buf.push( "<td>", fmtval(make_crew_survival(obj)) ) ;
         }
-        var capabilities = make_capabilities( obj, year, 1, true, true ) ;
+        var capabilities = make_capabilities( obj, year, month, true, true ) ;
         buf.push( "<td>", listval(capabilities) ) ;
-        var capabilities = make_capabilities( obj, year, 1, true, false ) ;
+        var capabilities = make_capabilities( obj, year, month, true, false ) ;
         buf.push( "<td>", listval(capabilities) ) ;
         buf.push( "<td>", "<span class='val'>" + fmtval(obj.note_number) + "</span>" ) ;
         buf.push( "<td>", listval(obj.notes) ) ;

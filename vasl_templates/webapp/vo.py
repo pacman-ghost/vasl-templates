@@ -46,8 +46,9 @@ def _do_get_listings( listings_type ):
 
 # ---------------------------------------------------------------------
 
-@app.route( "/<vo_type>/<nat>/<int:year>" )
-def get_vo_report( nat, vo_type, year ):
+@app.route( "/<vo_type>/<nat>/<int:year>", defaults={"month":1}  )
+@app.route( "/<vo_type>/<nat>/<int:year>/<int:month>" )
+def get_vo_report( nat, vo_type, year, month ):
     """Get a vehicle/ordnance report."""
 
     # generate the vehicle/ordnance report
@@ -57,5 +58,6 @@ def get_vo_report( nat, vo_type, year ):
         NATIONALITY = nat,
         VO_TYPE = vo_type,
         VO_TYPE0 = vo_type[:-1] if vo_type.endswith("s") else vo_type,
-        YEAR = year
+        YEAR = year,
+        MONTH = month
     )
