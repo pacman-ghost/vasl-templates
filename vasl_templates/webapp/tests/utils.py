@@ -361,6 +361,8 @@ def get_clipboard() :
 
 def wait_for( timeout, func ):
     """Wait for a condition to become true."""
+    if os.name == "nt":
+        timeout *= 2 # Selenium runs pretty slow on Windows :-/
     start_time = time.time()
     while True:
         if func():

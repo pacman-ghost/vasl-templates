@@ -142,8 +142,17 @@ def webdriver( request ):
         options = wb.ChromeOptions()
         options.set_headless( headless = pytest.config.option.headless ) #pylint: disable=no-member
         driver = wb.Chrome( chrome_options=options )
+    elif driver == "ie":
+        # NOTE: IE11 requires a registry key to be set:
+        #   https://github.com/SeleniumHQ/selenium/wiki/InternetExplorerDriver#required-configuration
+        options = wb.IeOptions()
+        if pytest.config.option.headless: #pylint: disable=no-member
+            raise RuntimeError( "IE WebDriver cannot be run headless." )
+        options.IntroduceInstabilityByIgnoringProtectedModeSettings = True
+        options.EnsureCleanSession = True
+        driver = wb.Ie( ie_options=options )
     else:
-        assert False, "Unknown webdriver: {}".format( driver )
+        raise RuntimeError( "Unknown webdriver: {}".format( driver ) )
 
     # set the browser size
     words = pytest.config.option.window_size.split( "x" ) #pylint: disable=no-member
