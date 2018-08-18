@@ -394,6 +394,9 @@ function init_hotkeys()
     $(document).bind( "keydown", "alt+y", function() {
         set_focus_to( "#tabs-scenario", $("textarea[name='VICTORY_CONDITIONS']") ) ;
     } ) ;
+    $(document).bind( "keydown", "alt+0", function() {
+        set_focus_to( "#tabs-scenario", $("input[name='SCENARIO_NAME']") ) ; // nb: for consistency with Alt-1 and Alt-2
+    } ) ;
     $(document).bind( "keydown", "alt+1", function() {
         set_focus_to( "#tabs-ob1", $("textarea[name='OB_SETUP_1']") ) ;
     } ) ;
