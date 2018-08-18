@@ -94,7 +94,7 @@ button.edit-template img { height: 18px ; vertical-align: middle ; margin-right:
 #edit-template { overflow: hidden ; padding: 2px ; }
 .ui-dialog.edit-template .ui-dialog-titlebar { background: #f8d868 ; }
 .ui-dialog.edit-template textarea { resize: none ; width: calc(100% - 4px) ; height: 100% ; }
-.ui-dialog.edit-template textarea { font-family: "Courier New" ; font-size: 80% ; }
+.ui-dialog.edit-template textarea { font-family: monospace ; font-size: 90% ; }
 .ui-dialog.edit-template .ui-dialog-buttonpane { border: none ; padding: 0 ; font-size: 75% ; }
 .ui-dialog.edit-template button { margin: 0 0 0 5px ; padding: 0.1em 0.2em ; }
 
@@ -113,6 +113,6 @@ button.edit-template img { height: 18px ; vertical-align: middle ; margin-right:
 
 .growl-title { display: none ; }
 .growl ul { margin-left: 1em ; }
-.growl .pre { font-family: "Courier New"; }
+.growl .pre { font-family: monospace ; }
 .growl div.pre { margin: 0 0 1em 1em ; font-size: 80% ; }
 .growl .pre ul { margin-left: 0 ; }
