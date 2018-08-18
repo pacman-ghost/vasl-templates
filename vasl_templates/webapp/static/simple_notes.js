@@ -36,8 +36,12 @@ function _do_edit_simple_note( $sortable2, $entry, default_width )
         modal: true,
         minWidth: 400,
         minHeight: 150,
+        create: function() {
+            init_dialog( $(this), "OK", true ) ;
+        },
         open: function() {
             // initialize
+            on_dialog_open( $(this) ) ;
             $caption = $(this).children( "textarea" ) ;
             var $btn_pane = $(".ui-dialog.edit-simple_note .ui-dialog-buttonpane") ;
             $width = $btn_pane.children( "input[name='width']" ) ;
@@ -50,6 +54,9 @@ function _do_edit_simple_note( $sortable2, $entry, default_width )
             var show = (note_type !== "ssr") ;
             $btn_pane.children( "label[for='width']" ).css( "display", show?"inline":"none" ) ;
             $width.css( "display", show?"inline":"none" ) ;
+            // enable auto-dismiss for the dialog
+            var $dlg = $(this) ;
+            $width.keydown( function(evt) { auto_dismiss_dialog( $dlg, evt, "OK" ) ; } ) ;
             // set the titlebar color
             var colors = get_player_colors_for_element( $sortable2 ) ;
             if ( ! colors )
@@ -60,10 +67,9 @@ function _do_edit_simple_note( $sortable2, $entry, default_width )
             } ) ;
             // load the dialog
             var data = $entry ? $entry.data("sortable2-data") : null ;
-            $caption.val( data ? data.caption : "" ) ;
+            $caption.val( data ? data.caption : "" ).focus() ;
             $width.val( data ? data.width : default_width ) ;
             $(this).height( $(this).height() ) ; // fudge: force the textarea to resize
-            $width.keydown( function(evt) { auto_dismiss_dialog( evt, "OK" ) ; } ) ;
         },
         buttons: {
             OK: function() {

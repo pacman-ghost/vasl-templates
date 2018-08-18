@@ -424,7 +424,11 @@ function edit_template( template_id )
         title: "Editing template: " + escapeHTML(template_id),
         modal: false,
         minWidth: 400, minHeight: 200,
+        create: function() {
+            init_dialog( $(this), "Close", true ) ;
+        },
         open: function() {
+            on_dialog_open( $(this) ) ;
             $(this).height( $(this).height() ) ; // fudge: force the textarea to resize
             $("#edit-template textarea").change( on_template_change ) ;
         },

@@ -294,7 +294,6 @@ $(document).ready( function () {
     $("div.snippet-control select").on( "selectmenuselect", function() {
         edit_template( $(this).attr("data-id") ) ;
     } ) ;
-    enable_ctrl_enter( $("#edit-template"), "Close" ) ;
 
     // handle requests to edit the templates
     $("button.edit-template").click( function() {
@@ -302,9 +301,6 @@ $(document).ready( function () {
     } ).html( "<div><img src='" + gImagesBaseUrl + "/edit-template.png'>Edit</div>" )
         .attr( "title", "Edit the template." )
         .addClass( "ui-button" ) ;
-
-    // enable Ctrl-Enter when editing simple notes
-    enable_ctrl_enter( $("#edit-simple_note"), "OK" ) ;
 
     // watch for changes to the scenario name
     $("input[name='SCENARIO_NAME']").on( "input propertychange paste", function() {

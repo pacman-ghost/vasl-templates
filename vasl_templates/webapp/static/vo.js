@@ -35,9 +35,13 @@ function add_vo( vo_type, player_no )
         modal: true,
         minWidth: 300,
         minHeight: 300,
+        create: function() {
+            init_dialog( $(this), "OK", false ) ;
+        },
         open: function() {
             // initialize
-            $("#select-vo input[type='text']").val( "" ) ;
+            on_dialog_open( $(this) ) ;
+            $("#select-vo input[type='text']").val( "" ).focus() ;
             $(this).height( $(this).height() ) ; // fudge: force the select to resize
             $("#select-vo select").filterByText( $("#select-vo input[type='text']") ) ;
             // set the titlebar color
@@ -51,6 +55,8 @@ function add_vo( vo_type, player_no )
             OK: function() {
                 // add the new vehicle/ordnance
                 var val = $listbox.val() ;
+                if ( ! val )
+                    return ;
                 do_add_vo( vo_type, player_no, entries[val] ) ;
                 $(this).dialog( "close" ) ;
             },

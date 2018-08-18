@@ -102,20 +102,41 @@ $.fn.filterByText = function( $textbox )
 
 // --------------------------------------------------------------------
 
-function enable_ctrl_enter( $dlg, btn_text )
+function init_dialog( $dlg, ok_button_text, auto_dismiss )
 {
-    // allow Ctrl-Enter to dismiss a dialog
-    $dlg.find("textarea").keydown( function(evt) {
-        auto_dismiss_dialog( evt, btn_text ) ;
-    } ) ;
+    // initialize the dialog
+    $dlg.data( "ok-button-text", ok_button_text ) ;
+
+    // allow Ctrl-Enter to dismiss the dialog
+    if ( auto_dismiss ) {
+        $dlg.find("input[type='text']").keydown( function(evt) {
+            auto_dismiss_dialog( $dlg, evt, ok_button_text ) ;
+        } ) ;
+        $dlg.find("textarea").keydown( function(evt) {
+            auto_dismiss_dialog( $dlg, evt, ok_button_text ) ;
+        } ) ;
+    }
 }
 
-function auto_dismiss_dialog( evt, btn_text )
+function on_dialog_open( $dlg )
+{
+    // initialize the dialog
+    var ok_button_text = $dlg.data( "ok-button-text" ) ;
+    $( ".ui-dialog-buttonpane button:contains(" + ok_button_text + ")" ).addClass( "ok" ) ;
+    $( ".ui-dialog-buttonpane button:contains(Cancel)" ).addClass( "cancel" ) ;
+
+    // set initial focus
+    var $cancel = $( ".ui-dialog-buttonpane button:contains(Cancel)" ) ;
+    $cancel.focus() ;
+}
+
+function auto_dismiss_dialog( $dlg, evt, btn_text )
 {
     // check if the user pressed Ctrl-Enter
     if ( evt.keyCode == 13 && evt.ctrlKey ) {
         // yup - locate the target button and click it
-        $( ".ui-dialog-buttonpane button:contains('"+btn_text+"')" ).click() ;
+        var $dlg2 = $( ".ui-dialog." + $dlg.dialog("option","dialogClass") ) ;
+        $( $dlg2.find( ".ui-dialog-buttonpane button:contains('" + btn_text + "')" ) ).click() ;
         evt.preventDefault() ;
     }
 }
@@ -133,6 +154,7 @@ function ask( title, msg, args )
         closeOnEscape:false,
         title: title,
         create: function() {
+            init_dialog( $(this), "OK", false ) ;
             // we handle ESCAPE ourself, to make it the same as clicking Cancel, not just closing the dialog
             $(this).closest( ".ui-dialog" ).keydown( function( evt ) {
                 if ( evt.keyCode == $.ui.keyCode.ESCAPE )
@@ -140,7 +162,7 @@ function ask( title, msg, args )
             } ) ;
         },
         open: function() {
-            $(".ui-dialog.ask button:contains(Cancel)").focus();
+            on_dialog_open( $(this) ) ;
         },
         buttons: {
             OK: function() {

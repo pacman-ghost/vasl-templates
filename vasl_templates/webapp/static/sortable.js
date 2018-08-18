@@ -131,7 +131,14 @@ $.fn.sortable2 = function( action, args )
         var caption = $entry.data( "sortable2-data" ).caption ;
         if ( ! caption )
             caption = $entry.html() ;
-        ask( "OK to delete?", escapeHTML(caption), {
+        var display_name = SORTABLE_DISPLAY_NAMES[ get_sortable2_type($sortable2) ] ;
+        var buf = [
+            "OK to delete this " + display_name[0] + "?",
+            "<div style='margin-top:1em;font-size:80%;font-style:italic;'>",
+            escapeHTML( caption ),
+            "</div>"
+        ] ;
+        ask( "Delete "+display_name[0], buf.join(""), {
             "ok": function() {
                 // yup - make it so
                 $entry.remove() ;
