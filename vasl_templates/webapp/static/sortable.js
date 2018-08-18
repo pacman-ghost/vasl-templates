@@ -88,7 +88,10 @@ $.fn.sortable2 = function( action, args )
         var $trash = find_helper( $sortable2, "trash" ) ;
         $trash.prop( "src", gImagesBaseUrl + "/trash.png" )
             .prop( "title", "Drag " + display_name[2] + " " + display_name[0] + " here to delete it." ) ;
-        $sortable2.sortable( { connectWith: $trash, cursor: "move" } ) ;
+        $sortable2.sortable( {
+            stop: function( evt, ui ) { set_entry_colors( ui.item, false ) ; },
+            connectWith: $trash, cursor: "move"
+        } ) ;
         $trash.sortable( {
             receive: function( evt, ui ) {
                 ui.item.remove() ;
@@ -114,20 +117,19 @@ $.fn.sortable2 = function( action, args )
 
         // style the entry
         // NOTE: Colors aren't going to work when we're using the test template pack!
-        var colors = get_player_colors_for_element( $sortable2 ) ;
-        if ( colors ) {
-            $entry.css( {
-                "background": "#"+colors[0],
-                "border-bottom": "1px solid #"+colors[1],
-                "border-right": "1px solid #"+colors[1],
-            } ) ;
-        }
+        var colors = get_player_colors_for_element($sortable2) || ["#f0f0f0","#c0c0c0"] ;
+        $entry.data( "colors", colors ) ;
+        set_entry_colors( $entry, false ) ;
+        $entry.on( {
+            "mouseenter": function() { set_entry_colors( $entry, true ) ; },
+            "mouseleave": function() { set_entry_colors( $entry, false ) ; }
+        } ) ;
     }
 
     function delete_entry( $sortable2, $entry )
     {
         // ask if it's OK to delete the entry
-        $entry.addClass( "highlighted" ) ;
+        set_entry_colors( $entry, true ) ;
         var caption = $entry.data( "sortable2-data" ).caption ;
         if ( ! caption )
             caption = $entry.html() ;
@@ -139,13 +141,13 @@ $.fn.sortable2 = function( action, args )
             "</div>"
         ] ;
         ask( "Delete "+display_name[0], buf.join(""), {
-            "ok": function() {
+            ok: function() {
                 // yup - make it so
                 $entry.remove() ;
                 adjust_entry_heights( $sortable2 ) ;
                 update_hint( $sortable2 ) ;
             },
-            "close": function() { $entry.removeClass("highlighted") ; },
+            close: function() { set_entry_colors( $entry, false ) ; },
         } ) ;
     }
 
@@ -185,6 +187,19 @@ $.fn.sortable2 = function( action, args )
             var entry_height = $(this).height() ;
             var content_height = $(this).children("div").height() ;
             // FIXME! We should show a visual cue that the entry is truncated.
+        } ) ;
+    }
+
+    function set_entry_colors( $entry, invert )
+    {
+        // set the entry colors
+        var colors = $entry.data( "colors" ) ;
+        if ( $entry.hasClass( "ui-sortable-helper" ) )
+            invert = true ; // nb: drag is in progress
+        $entry.css( {
+            "background": colors[invert?1:0],
+            "border-bottom": "1px solid "+colors[invert?0:1],
+            "border-right": "1px solid "+colors[invert?0:1],
         } ) ;
     }
 
