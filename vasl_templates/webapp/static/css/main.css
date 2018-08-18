@@ -65,7 +65,7 @@ body { height: 100% ; overflow: hidden ; }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-fieldset { margin: 0 5px 5px 5px ; padding: 10px ; background: #ffffff ; }
+fieldset { margin: 0 5px 5px 5px ; padding: 10px ; border: 1px solid #888 ; background: #ffffff ; border-radius: 0 10px 0 0 ; }
 fieldset legend { padding: 0 0.2em 0 0.2em ; font-style: italic ; font-weight: bold ; }
 
 .small { font-size: 80% ; }
