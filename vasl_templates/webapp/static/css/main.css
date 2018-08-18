@@ -11,6 +11,11 @@ body { height: 100% ; overflow: hidden ; }
 .PopMenu-Item a { padding: 5px 10px 5px 10px ; }
 .PopMenu-Icon { display: none ; }
 
+#watermark { position: absolute ; left: 8px ; right: 8px ; bottom: 6px ; height: 30% ; }
+#watermark { background: url("../images/watermark2.png") left bottom repeat-x ; background-size: auto 100% ; z-index: -999 ; }
+#watermark img { height: 100% ; }
+#tabs { opacity: 0.9 ; }
+
 /* -------------------------------------------------------------------- */
 
 #tabs {

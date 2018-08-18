@@ -27,6 +27,11 @@ $(document).ready( function () {
         } ) ;
     }
 
+    // initialize the watermark
+    $( "#watermark img" ).on( "load", function() {
+        $("#watermark").fadeIn( 5*1000 ) ;
+    } ).attr( "src", gImagesBaseUrl+"/watermark.png" ) ;
+
     // initialize the menu
     var $menu = $("#menu input") ;
     $menu.popmenu( {
