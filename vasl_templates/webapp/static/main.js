@@ -27,11 +27,6 @@ $(document).ready( function () {
         } ) ;
     }
 
-    // initialize the watermark
-    $( "#watermark img" ).on( "load", function() {
-        $("#watermark").fadeIn( 5*1000 ) ;
-    } ).attr( "src", gImagesBaseUrl+"/watermark.png" ) ;
-
     // initialize the menu
     var $menu = $("#menu input") ;
     $menu.popmenu( {
@@ -87,11 +82,11 @@ $(document).ready( function () {
     // initialize the tabs
     $("#tabs").tabs( {
         heightStyle: "fill",
+        disabled: [1, 2], // nb: we enable these when the page has finished loading
         activate: on_tab_activate,
     } ).show() ;
     var navHeight = $("#tabs .ui-tabs-nav").height() ;
     $("#tabs .ui-tabs-nav a").click( function() { $(this).blur() ; } ) ;
-    adjust_footer_vspacers() ;
 
     // initialize the scenario date picker
     $("input[name='SCENARIO_DATE']").datepicker( {
@@ -105,11 +100,14 @@ $(document).ready( function () {
     $("#ssr-sortable").sortable2( "init", {
         add: add_ssr, edit: edit_ssr
     } ) ;
+    $("fieldset[name='vc']").fadeIn( 2*1000 ) ;
+    $("fieldset[name='ssr']").fadeIn( 2*1000 ) ;
 
     // initialize the scenario notes
     $("#scenario_notes-sortable").sortable2( "init", {
         add: add_scenario_note, edit: edit_scenario_note,
     } ) ;
+    $("fieldset[name='scenario_notes']").fadeIn( 2*1000 ) ;
 
     // initialize the OB setups
     $("#ob_setups-sortable_1").sortable2( "init", {
@@ -362,8 +360,16 @@ function update_page_load_status( id )
 {
     // track the page load progress
     gPageLoadStatus.splice( gPageLoadStatus.indexOf(id), 1 ) ;
+    if ( id === "template-pack" )
+        $("fieldset[name='scenario']").fadeIn( 2*1000 ) ;
+
+    // check if the page has finished loading
     if ( gPageLoadStatus.length === 0 ) {
-        // notify the test suite that the page has finished loading
+        // yup - update the UI
+        $("#tabs").tabs({ disabled: [] }) ;
+        adjust_footer_vspacers() ;
+        $("#watermark").fadeIn( 5*1000 ) ;
+        // notify the test suite
         $("body").append( $("<div id='_page-loaded_'></div>") ) ;
     }
 }
@@ -473,7 +479,7 @@ function on_player_change( player_no )
     for ( var nat in _NATIONALITY_SPECIFIC_BUTTONS ) {
         for ( var i=0 ; i < _NATIONALITY_SPECIFIC_BUTTONS[nat].length ; ++i ) {
             var button_id = _NATIONALITY_SPECIFIC_BUTTONS[nat][i] ;
-            var $elem = $( "#panel-ob_notes" + player_no + " div.snippet-control[data-id='" + button_id + "']" ) ;
+            var $elem = $( "#panel-ob_notes_" + player_no + " div.snippet-control[data-id='" + button_id + "']" ) ;
             $elem.css( "display", nat == player_nat ? "inline-block" : "none" ) ;
         }
     }

@@ -28,10 +28,13 @@
 
 <div id="tabs">
 
+<img src="{{url_for('static',filename='images/flags/german.png')}}" style="display:none;">
+<img src="{{url_for('static',filename='images/flags/russian.png')}}" style="display:none;">
+
 <ul>
     <li> <a href="#tabs-scenario">Scenario</a>
-    <li> <a href="#tabs-ob1">Player 1 OB</a>
-    <li> <a href="#tabs-ob2">Player 2 OB</a>
+    <li> <a href="#tabs-ob1"><div style="width:7em;">&nbsp;</div></a>
+    <li> <a href="#tabs-ob2"><div style="width:7em;">&nbsp;</div></a>
 </ul>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -40,7 +43,7 @@
 
 <div class="left">
 
-    <fieldset class="tl"> <legend>S<u>c</u>enario</legend>
+    <fieldset name="scenario" class="tl" style="display:none;"> <legend>S<u>c</u>enario</legend>
         <div id="panel-scenario">
             <div class='row'>
                 <label for="SCENARIO_NAME">Name:</label>
@@ -85,7 +88,7 @@
         </div>
     </fieldset>
 
-    <fieldset class="bl"> <legend>Notes</legend>
+    <fieldset name="scenario_notes" class="bl" style="display:none;"> <legend>Notes</legend>
         <div id="panel-scenario_notes">
             <div class="content">
                 <div id="scenario_notes-hint" class="sortable-hint"></div>
@@ -104,7 +107,7 @@
 
 <div class="right">
 
-    <fieldset class="tr"> <legend>Victor<u>y</u> Conditions</legend>
+    <fieldset name="vc" class="tr" style="display:none;"> <legend>Victor<u>y</u> Conditions</legend>
         <div id="panel-vc">
             <textarea name="VICTORY_CONDITIONS" type="text" class="param"></textarea>
             <div class="footer">
@@ -118,7 +121,7 @@
         </div>
     </fieldset>
 
-    <fieldset class="br"> <legend>SSR's</legend>
+    <fieldset name="ssr" class="br" style="display:none;"> <legend>SSR's</legend>
         <div id="panel-ssr">
             <div class="content">
                 <div id="ssr-hint" class="sortable-hint"></div>
@@ -147,8 +150,8 @@
 
 <div class="left">
 
-    <fieldset class="tl"> <legend>OB setup</legend>
-        <div id="panel-ob_setups1" class="panel-ob_setups">
+    <fieldset name="ob_setups_1" class="tl"> <legend>OB setup</legend>
+        <div id="panel-ob_setups_1" class="panel-ob_setups">
             <div class="content">
                 <div id="ob_setups-hint_1" class="sortable-hint"></div>
                 <ul id="ob_setups-sortable_1" class="sortable" style="display:none;"></ul>
@@ -162,8 +165,8 @@
         </div>
     </fieldset>
 
-    <fieldset class="bl"> <legend>Notes</legend>
-        <div id="panel-ob_notes1" class="panel-ob_notes">
+    <fieldset name="ob_notes_1" class="bl"> <legend>Notes</legend>
+        <div id="panel-ob_notes_1" class="panel-ob_notes">
             <div class="content">
                 <div id="ob_notes-hint_1" class="sortable-hint"></div>
                 <ul id="ob_notes-sortable_1" class="sortable" style="display:none;"></ul>
@@ -190,7 +193,7 @@
 
 <div class="right">
 
-    <fieldset class="tr"> <legend>Vehicles</legend>
+    <fieldset name="ob_vehicles_1" class="tr"> <legend>Vehicles</legend>
         <div id="panel-ob_vehicles_1" class="panel-ob_vehicles">
             <div class="content">
                 <div id="ob_vehicles-hint_1" class="sortable-hint"></div>
@@ -209,7 +212,7 @@
         </div>
     </fieldset>
 
-    <fieldset class="br"> <legend>Ordnance</legend>
+    <fieldset name="ob_vehicles_1" class="br"> <legend>Ordnance</legend>
         <div id="panel-ob_ordnance_1" class="panel-ob_ordnance">
             <div class="content">
                 <div id="ob_ordnance-hint_1" class="sortable-hint"></div>
@@ -239,7 +242,9 @@
 
 </div>
 
-<div id="watermark" style="display:none;"> <img src=""> </div>
+<div id="watermark" style="display:none;">
+    <img src="{{url_for('static',filename='images/watermark.png')}}">
+</div>
 
 <!-- ----------------------------------------------------------------- -->
 
