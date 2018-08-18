@@ -2,6 +2,8 @@
 html { height: 100% ; }
 body { height: 100% ; overflow: hidden ; }
 
+ul, ol { margin: 0.5em 0 0 1.25em ; br}
+
 /* -------------------------------------------------------------------- */
 
 #menu { position: absolute ; top: 15px ; right: 15px ; z-index: 1 ; }
@@ -112,7 +114,5 @@ button.edit-template img { height: 18px ; vertical-align: middle ; margin-right:
 .ui-dialog.select-vo button { margin: 0 0 0 5px ; padding: 0.1em 0.2em ; }
 
 .growl-title { display: none ; }
-.growl ul { margin-left: 1em ; }
 .growl .pre { font-family: monospace ; }
 .growl div.pre { margin: 0 0 1em 1em ; font-size: 80% ; }
-.growl .pre ul { margin-left: 0 ; }

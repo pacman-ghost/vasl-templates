@@ -176,7 +176,7 @@ $.fn.sortable2 = function( action, args )
 
     function adjust_entry_heights( $sortable2 ) {
         // adjust the max height of each item based on how many items there are
-        var $entries = $sortable2.find( "li" ) ;
+        var $entries = $sortable2.children( "li" ) ;
         if ( $entries.length === 0 )
             return ;
         var available_height = $sortable2.parent().height() ;

@@ -8,6 +8,8 @@ img.sortable-add { vertical-align: middle ; height: 15px ; margin-right: 0.25em 
 .sortable li:hover { cursor: pointer ; }
 .sortable li.ui-sortable-helper { opacity: 0.8 ; }
 
+.sortable ul ul li { margin-top: -0.75em ; }
+.sortable ul ol li { margin-top: -0.75em ; }
 .sortable li img.snippet { height: 1.25em ; margin: -2px -2px ; padding-left: 1em ; float: right ; }
 
 .sortable-hint { width: 100% ; height: calc(100% - 1.5em) ; color: #666 ; }
