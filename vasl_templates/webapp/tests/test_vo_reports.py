@@ -5,19 +5,14 @@ import io
 import shutil
 import re
 
+import lxml.html
+import lxml.etree
 import tabulate
-import pytest
 
-from vasl_templates.webapp.tests.utils import find_child, find_children, wait_for
+from vasl_templates.webapp.tests.utils import find_child, wait_for
 
 # ---------------------------------------------------------------------
 
-# NOTE: Running these checks is fairly slow, and once done, don't provide a great deal of value
-# in the day-to-day development process, so we make them optional.
-@pytest.mark.skipif(
-    pytest.config.option.short_tests, #pylint: disable=no-member
-    reason = "--short-tests specified"
-)
 def test_vo_reports( webapp, webdriver ):
     """Check the vehicle/ordnance reports."""
 
@@ -89,22 +84,26 @@ def get_vo_report( webapp, webdriver, nat, vo_type, year ):
     webdriver.get(
         webapp.url_for( "get_vo_report", nat=nat, vo_type=vo_type, year=year )
     )
-    wait_for( 5, lambda: find_child("#results").is_displayed() )
+    wait_for( 2, lambda: find_child("#results").is_displayed() )
 
-    # unload the results
-    def getval( cell ):
-        """Get a table cell's value (cleaned up)."""
-        val = cell.get_attribute( "innerHTML" )
+    def tidy( cell ):
+        """Tidy up a cell value."""
+        val = lxml.etree.tostring( cell ).decode( "utf-8" ) #pylint: disable=c-extension-no-member
+        mo = re.search( r"^<(th|td).*?>(.*)</\1>$", val )
+        val = mo.group(2)
         if val == "<small><em>n/a</em></small>":
             return "n/a"
         val = val.replace( '<span class="val">', "" ).replace( "</span>", "" )
+        val = val.replace( "&#8224;", "\u2020" ).replace( "&#174;", "\u00ae" )
         return val
+
+    # unload the results
+    # NOTE: Getting each table cell via Selenium is insanely slow - we parse the HTML manually :-/
     results = []
-    elem = find_child( "#results" )
-    for row in find_children( "tr", elem ):
-        if not results:
-            results.append( [ getval(c) for c in find_children("th",row) ] )
-        else:
-            results.append( [ getval(c) for c in find_children("td",row) ] )
+    doc = lxml.html.fromstring( webdriver.page_source )
+    for row in doc.xpath( "//div[@id='results']//table//tr" ):
+        tag = "td" if results else "th"
+        cells = row.xpath( ".//{}".format( tag ) )
+        results.append( list( tidy(c) for c in cells ) )
 
     return results

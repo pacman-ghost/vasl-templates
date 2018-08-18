@@ -335,8 +335,11 @@ function make_raw_capability( name, capability )
 {
     // generate the raw capability string
     var buf = [ name ] ;
-    for ( var i=0 ; i < capability.length ; ++i )
-        buf.push( escapeHTML(capability[i][0]), "<sup>"+escapeHTML(capability[i][1])+"</sup>" ) ;
+    for ( var i=0 ; i < capability.length ; ++i ) {
+        buf.push( escapeHTML( capability[i][0] ) ) ;
+        if ( capability[i][1] )
+            buf.push( "<sup>", escapeHTML( capability[i][1] ), "</sup>" ) ;
+    }
     return buf.join( "" ) ;
 }
 
