@@ -127,18 +127,18 @@ $(document).ready( function () {
     } ) ;
 
     // initialize the OB vehicles
-    $("#vehicles-sortable_1").sortable2( "init", {
+    $("#ob_vehicles-sortable_1").sortable2( "init", {
         add: function() { add_vo( "vehicles", 1 ) ; },
     } ) ;
-    $("#vehicles-sortable_2").sortable2( "init", {
+    $("#ob_vehicles-sortable_2").sortable2( "init", {
         add: function() { add_vo( "vehicles", 2 ) ; },
     } ) ;
 
     // initialize the OB ordnance
-    $("#ordnance-sortable_1").sortable2( "init", {
+    $("#ob_ordnance-sortable_1").sortable2( "init", {
         add: function() { add_vo( "ordnance", 1 ) ; },
     } ) ;
-    $("#ordnance-sortable_2").sortable2( "init", {
+    $("#ob_ordnance-sortable_2").sortable2( "init", {
         add: function() { add_vo( "ordnance", 2 ) ; },
     } ) ;
 
@@ -192,13 +192,13 @@ $(document).ready( function () {
     // get the vehicle/ordnance listings
     $.getJSON( gVehicleListingsUrl, function(data) {
         gVehicleOrdnanceListings.vehicles = data ;
-        update_page_load_status( "vehicles" ) ;
+        update_page_load_status( "vehicle-listings" ) ;
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the vehicle listings:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
     } ) ;
     $.getJSON( gOrdnanceListingsUrl, function(data) {
         gVehicleOrdnanceListings.ordnance = data ;
-        update_page_load_status( "ordnance" ) ;
+        update_page_load_status( "ordnance-listings" ) ;
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the ordnance listings:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
     } ) ;
@@ -253,10 +253,10 @@ $(document).ready( function () {
         var template_id2 ;
         if ( template_id.substring(0,9) === "ob_setup_" )
             template_id2 = "ob_setup" ;
-        else if ( template_id.substring(0,9) == "vehicles_" )
-            template_id2 = "vehicles" ;
-        else if ( template_id.substring(0,9) == "ordnance_" )
-            template_id2 = "ordnance" ;
+        else if ( template_id.substring(0,12) == "ob_vehicles_" )
+            template_id2 = "ob_vehicles" ;
+        else if ( template_id.substring(0,12) == "ob_ordnance_" )
+            template_id2 = "ob_ordnance" ;
         else
             template_id2 = template_id ;
         var buf = [ "<div class='snippet-control' data-id='" + template_id + "'>",
@@ -333,10 +333,10 @@ $(document).ready( function () {
             var template_id = $(this).attr( "data-id" ) ;
             if ( template_id.substring(0,9) === "ob_setup_" )
                 template_id = "ob_setup" ;
-            else if ( template_id.substring(0,9) === "vehicles_" )
-                template_id = "vehicles" ;
-            else if ( template_id.substring(0,9) === "ordnance_" )
-                template_id = "ordnance" ;
+            else if ( template_id.substring(0,12) === "ob_vehicles_" )
+                template_id = "ob_vehicles" ;
+            else if ( template_id.substring(0,12) === "ob_ordnance_" )
+                template_id = "ob_ordnance" ;
             $( "<a href='#' class='_edit-template-link_' data-id='" + template_id + "'" +
                " onclick='edit_template(\"" + template_id + "\")'" +
                "></a>"
@@ -351,7 +351,7 @@ $(document).ready( function () {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-gPageLoadStatus = [ "main", "vehicles", "ordnance", "template-pack", "default-scenario" ] ;
+gPageLoadStatus = [ "main", "vehicle-listings", "ordnance-listings", "template-pack", "default-scenario" ] ;
 
 function update_page_load_status( id )
 {
@@ -477,10 +477,10 @@ function on_player_change( player_no )
     $( "#ob_setups-sortable_" + player_no ).sortable2( "delete-all" ) ;
     $("input[name='OB_SETUP_WIDTH_"+player_no+"']").val( "" ) ;
     $( "#ob_notes-sortable_" + player_no ).sortable2( "delete-all" ) ;
-    $( "#vehicles-sortable_" + player_no ).sortable2( "delete-all" ) ;
-    $("input[name='VEHICLES_WIDTH_"+player_no+"']").val( "" ) ;
-    $( "#ordnance-sortable_" + player_no ).sortable2( "delete-all" ) ;
-    $("input[name='ORDNANCE_WIDTH_"+player_no+"']").val( "" ) ;
+    $( "#ob_vehicles-sortable_" + player_no ).sortable2( "delete-all" ) ;
+    $("input[name='OB_VEHICLES_WIDTH_"+player_no+"']").val( "" ) ;
+    $( "#ob_ordnance-sortable_" + player_no ).sortable2( "delete-all" ) ;
+    $("input[name='OB_ORDNANCE_WIDTH_"+player_no+"']").val( "" ) ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -77,10 +77,10 @@ def test_default_scenario( webapp, webdriver, monkeypatch ):
     # nb: should check the snippet widths as well (not really important for a default scenario)
 
     # check the vehicles/ordnance (player 1)
-    assert get_sortable_entry_text( find_child( "#vehicles-sortable_1" ) ) == []
-    check_textbox( "VEHICLES_WIDTH_1", "110px" )
-    assert get_sortable_entry_text( find_child( "#ordnance-sortable_1" ) ) == []
-    check_textbox( "ORDNANCE_WIDTH_1", "120px" )
+    assert get_sortable_entry_text( find_child( "#ob_vehicles-sortable_1" ) ) == []
+    check_textbox( "OB_VEHICLES_WIDTH_1", "110px" )
+    assert get_sortable_entry_text( find_child( "#ob_ordnance-sortable_1" ) ) == []
+    check_textbox( "OB_ORDNANCE_WIDTH_1", "120px" )
 
     select_tab( "ob2" )
 
@@ -92,10 +92,10 @@ def test_default_scenario( webapp, webdriver, monkeypatch ):
     # nb: should check the snippet widths as well (not really important for a default scenario)
 
     # check the vehicles/ordnance (player 2)
-    assert get_sortable_entry_text( find_child( "#vehicles-sortable_2" ) ) == []
-    check_textbox( "VEHICLES_WIDTH_2", "210px" )
-    assert get_sortable_entry_text( find_child( "#ordnance-sortable_2" ) ) == []
-    check_textbox( "ORDNANCE_WIDTH_2", "211px" )
+    assert get_sortable_entry_text( find_child( "#ob_vehicles-sortable_2" ) ) == []
+    check_textbox( "OB_VEHICLES_WIDTH_2", "210px" )
+    assert get_sortable_entry_text( find_child( "#ob_ordnance-sortable_2" ) ) == []
+    check_textbox( "OB_ORDNANCE_WIDTH_2", "211px" )
 
     # check that the default OB setup/note width is being used
     elem = find_child( "#ob_setups-add_2" )

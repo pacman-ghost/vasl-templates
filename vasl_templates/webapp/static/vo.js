@@ -4,7 +4,7 @@
 function add_vo( vo_type, player_no )
 {
     // get the vehicles/ordnance already added
-    var $sortable2 = $( "#" + vo_type + "-sortable_" + player_no ) ;
+    var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
     var vo_present = [];
     $sortable2.children("li").each( function() {
         vo_present.push( $(this).text() ) ;
@@ -30,7 +30,7 @@ function add_vo( vo_type, player_no )
 
     // let the user select a vehicle/ordnance
     $("#select-vo").dialog( {
-        title: "Add " + SORTABLE_DISPLAY_NAMES[vo_type][0],
+        title: "Add " + SORTABLE_DISPLAY_NAMES["ob_"+vo_type][0],
         dialogClass: "select-vo",
         modal: true,
         minWidth: 300,
@@ -64,7 +64,7 @@ function add_vo( vo_type, player_no )
 function do_add_vo( vo_type, player_no, entry )
 {
     // add the specified vehicle/ordnance
-    var $sortable2 = $( "#" + vo_type + "-sortable_" + player_no ) ;
+    var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
     $sortable2.sortable2( "add", {
         content: $( "<div>" + entry.name + "</div>" ),
         data: { caption: entry.name, vo_entry: entry },

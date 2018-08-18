@@ -8,7 +8,7 @@ td { margin: 0 ; padding: 0 ; }
 </head>
 
 <table style="
-  {%if VEHICLES_WIDTH%} width: {{VEHICLES_WIDTH}} ; {%endif%}
+  {%if OB_ORDNANCE_WIDTH%} width: {{OB_ORDNANCE_WIDTH}} ; {%endif%}
 ">
 
 <tr>
@@ -18,23 +18,21 @@ td { margin: 0 ; padding: 0 ; }
   padding: 2px 5px ;
   font-weight: bold ;
 ">
-    {{PLAYER_NAME}} Vehicles
+    {{PLAYER_NAME}} Ordnance
 
-{%for veh in VEHICLES%}
+{%for ord in ORDNANCE%}
 <tr style="border-bottom:1px dotted #e0e0e0;">
 <td valign="top" style="padding:2px 5px;">
-    <b> {{veh.name}} </b>
+    <b> {{ord.name}} </b>
     <div class="note">
-        {%if veh.notes%}
-            {{veh.note_number}}, {{veh.notes | join(", ")}}
+        {%if ord.notes%}
+            {{ord.note_number}}, {{ord.notes | join(", ")}}
         {%else%}
-            {{veh.note_number}}
+            {{ord.note_number}}
         {%endif%}
     </div>
 <td valign="top" style="padding:2px 5px;">
-    {% if veh.no_radio %} <div> {{veh.no_radio}} </div> {%endif%}
-    {%for cap in veh.capabilities%} <div> {{cap}} </div> {%endfor%}
-    {%if veh.crew_survival%} <div> {{veh.crew_survival}} </div> {%endif%}
+    {%for cap in ord.capabilities%} <div> {{cap}} </div> {%endfor%}
 {%endfor%}
 
 </table>

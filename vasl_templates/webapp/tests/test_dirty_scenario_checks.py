@@ -30,10 +30,10 @@ def test_dirty_scenario_checks( webapp, webdriver ):
         "OB_NOTES_2": "#ob_notes-sortable_2",
     }
     VEHICLE_ORDNANCE = {
-        "VEHICLES_1": ( "#vehicles-sortable_1", 1, "a german vehicle" ),
-        "ORDNANCE_1": ( "#ordnance-sortable_1", 1, "a german ordnance" ),
-        "VEHICLES_2": ( "#vehicles-sortable_2", 2, "a russian vehicle" ),
-        "ORDNANCE_2": ( "#ordnance-sortable_2", 2, "a russian ordnance" ),
+        "OB_VEHICLES_1": ( "#ob_vehicles-sortable_1", 1, "a german vehicle" ),
+        "OB_ORDNANCE_1": ( "#ob_ordnance-sortable_1", 1, "a german ordnance" ),
+        "OB_VEHICLES_2": ( "#ob_vehicles-sortable_2", 2, "a russian vehicle" ),
+        "OB_ORDNANCE_2": ( "#ob_ordnance-sortable_2", 2, "a russian ordnance" ),
     }
 
     def change_field( param ):

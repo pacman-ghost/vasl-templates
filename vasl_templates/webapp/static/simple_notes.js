@@ -150,6 +150,6 @@ function _get_note_type_for_sortable( $sortable2 )
 {
     // figure out what type of note the sortable has
     var id = $sortable2.prop( "id" ) ;
-    var match = /^((scenario_notes|ssr|vehicles|ob_setups|ob_notes))-sortable(_\d)?$/.exec( id ) ;
+    var match = /^((scenario_notes|ssr|ob_vehicles|ob_ordnance|ob_setups|ob_notes))-sortable(_\d)?$/.exec( id ) ;
     return match[1] ;
 }

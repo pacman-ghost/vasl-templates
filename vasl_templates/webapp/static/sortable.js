@@ -3,8 +3,8 @@ SORTABLE_DISPLAY_NAMES = {
     ssr: [ "SSR", "SSR's", "a" ],
     ob_setups: [ "OB setup note", "OB setup notes", "an" ],
     ob_notes: [ "OB setup note", "OB setup notes", "an" ],
-    vehicles: [ "vehicle", "vehicles", "a" ],
-    ordnance: [ "ordnance", "ordnance", "an" ],
+    ob_vehicles: [ "vehicle", "vehicles", "a" ],
+    ob_ordnance: [ "ordnance", "ordnance", "an" ],
 } ;
 
 SORTABLE_HINTS = {
@@ -12,8 +12,8 @@ SORTABLE_HINTS = {
     ssr: "Add scenario SSR's here.",
     ob_setups: "Add setup notes for the player's OB here.",
     ob_notes: "Add miscellaneous setup notes here.",
-    vehicles: "Add vehicles in the player's OB here.",
-    ordnance: "Add ordnance in the player's OB here.",
+    ob_vehicles: "Add vehicles in the player's OB here.",
+    ob_ordnance: "Add ordnance in the player's OB here.",
 } ;
 
 // --------------------------------------------------------------------

@@ -17,8 +17,8 @@ from selenium.common.exceptions import NoSuchElementException, StaleElementRefer
 # standard templates
 _STD_TEMPLATES = {
     "scenario": [ "scenario", "players", "victory_conditions", "scenario_notes", "ssr" ],
-    "ob1": [ "ob_setup_1", "ob_note_1", "vehicles_1", "ordnance_1" ],
-    "ob2": [ "ob_setup_2", "ob_note_2", "vehicles_2", "ordnance_2" ],
+    "ob1": [ "ob_setup_1", "ob_note_1", "ob_vehicles_1", "ob_ordnance_1" ],
+    "ob2": [ "ob_setup_2", "ob_note_2", "ob_vehicles_2", "ob_ordnance_2" ],
 }
 
 # nationality-specific templates
@@ -63,12 +63,12 @@ def for_each_template( func ): #pylint: disable=too-many-branches
                 template_id = "ob_setup"
             elif template_id.startswith( "ob_note_" ):
                 template_id = "ob_note"
-            elif template_id.startswith( "vehicles_" ):
-                template_id = "vehicles"
-            elif template_id.startswith( "ordnance_" ):
-                template_id = "ordnance"
+            elif template_id.startswith( "ob_vehicles_" ):
+                template_id = "ob_vehicles"
+            elif template_id.startswith( "ob_ordnance_" ):
+                template_id = "ob_ordnance"
             func( template_id, orig_template_id )
-            if orig_template_id not in ("ob_setup_2","ob_note_2","vehicles_2","ordnance_2"):
+            if orig_template_id not in ("ob_setup_2","ob_note_2","ob_vehicles_2","ob_ordnance_2"):
                 templates_to_test.remove( template_id )
 
     # test the nationality-specific templates
@@ -147,10 +147,11 @@ def set_template_params( params ): #pylint: disable=too-many-branches
             continue
 
         # check for vehicles/ordnance (these require special handling)
-        if key in ("VEHICLES_1","ORDNANCE_1","VEHICLES_2","ORDNANCE_2"):
+        if key in ("OB_VEHICLES_1","OB_ORDNANCE_1","OB_VEHICLES_2","OB_ORDNANCE_2"):
             # add them in (nb: we don't consider any existing vehicles/ordnance)
             from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo #pylint: disable=cyclic-import
-            vo_type = key[:key.index("_")].lower()
+            mo = re.search( r"^OB_(VEHICLES|ORDNANCE)_\d$", key )
+            vo_type = mo.group(1).lower()
             for vo_name in val:
                 add_vo( vo_type, int(key[-1]), vo_name )
             continue

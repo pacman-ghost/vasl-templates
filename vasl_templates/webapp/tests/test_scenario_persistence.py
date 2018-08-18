@@ -23,13 +23,13 @@ ALL_SCENARIO_PARAMS = {
     ],
     "ob1": [
         "OB_SETUPS_1", "OB_NOTES_1",
-        "VEHICLES_1", "VEHICLES_WIDTH_1",
-        "ORDNANCE_1", "ORDNANCE_WIDTH_1",
+        "OB_VEHICLES_1", "OB_VEHICLES_WIDTH_1",
+        "OB_ORDNANCE_1", "OB_ORDNANCE_WIDTH_1",
     ],
     "ob2": [
         "OB_SETUPS_2", "OB_NOTES_2",
-        "VEHICLES_2", "VEHICLES_WIDTH_2",
-        "ORDNANCE_2", "ORDNANCE_WIDTH_2",
+        "OB_VEHICLES_2", "OB_VEHICLES_WIDTH_2",
+        "OB_ORDNANCE_2", "OB_ORDNANCE_WIDTH_2",
     ],
 }
 
@@ -84,18 +84,18 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
                 { "caption": "ob note 1a", "width": "10em" },
                 { "caption": "ob note 1b", "width": "" }
             ],
-            "VEHICLES_1": [ "a russian vehicle", "another russian vehicle" ],
-            "VEHICLES_WIDTH_1": "202",
-            "ORDNANCE_1": [ "a russian ordnance", "another russian ordnance" ],
-            "ORDNANCE_WIDTH_1": "203",
+            "OB_VEHICLES_1": [ "a russian vehicle", "another russian vehicle" ],
+            "OB_VEHICLES_WIDTH_1": "202",
+            "OB_ORDNANCE_1": [ "a russian ordnance", "another russian ordnance" ],
+            "OB_ORDNANCE_WIDTH_1": "203",
         },
         "ob2": {
             "OB_SETUPS_2": [ { "caption": "ob setup 2", "width": "" } ],
             "OB_NOTES_2": [ { "caption": "ob note 2", "width": "" } ],
-            "VEHICLES_2": [ "a german vehicle" ],
-            "VEHICLES_WIDTH_2": "302",
-            "ORDNANCE_2": [ "a german ordnance" ],
-            "ORDNANCE_WIDTH_2": "303",
+            "OB_VEHICLES_2": [ "a german vehicle" ],
+            "OB_VEHICLES_WIDTH_2": "302",
+            "OB_ORDNANCE_2": [ "a german ordnance" ],
+            "OB_ORDNANCE_WIDTH_2": "303",
         },
     }
     load_scenario_params( SCENARIO_PARAMS )
@@ -139,8 +139,8 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     ssrs = find_child( "#ssr-sortable" )
     ob_setups1, ob_notes1 = find_child("#ob_setups-sortable_1"), find_child("#ob_notes-sortable_1")
     ob_setups2, ob_notes2 = find_child("#ob_setups-sortable_2"), find_child("#ob_notes-sortable_2")
-    vehicles1, ordnance1 = find_child("#vehicles-sortable_1"), find_child("#ordnance-sortable_1")
-    vehicles2, ordnance2 = find_child("#vehicles-sortable_2"), find_child("#ordnance-sortable_2")
+    vehicles1, ordnance1 = find_child("#ob_vehicles-sortable_1"), find_child("#ob_ordnance-sortable_1")
+    vehicles2, ordnance2 = find_child("#ob_vehicles-sortable_2"), find_child("#ob_ordnance-sortable_2")
     elems = {
         c.get_attribute("name"): c
         for elem_type in ("input","textarea","select") for c in find_children(elem_type)
@@ -158,7 +158,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
                 continue # nb: these require special handling, we do it below
             if field in ("OB_SETUPS_1","OB_SETUPS_2","OB_NOTES_1","OB_NOTES_2"):
                 continue # nb: these require special handling, we do it below
-            if field in ("VEHICLES_1","ORDNANCE_1","VEHICLES_2","ORDNANCE_2"):
+            if field in ("OB_VEHICLES_1","OB_ORDNANCE_1","OB_VEHICLES_2","OB_ORDNANCE_2"):
                 continue # nb: these require special handling, we do it below
             elem = elems[ field ]
             if elem.tag_name == "select":
@@ -172,13 +172,13 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     select_tab( "ob1" )
     assert get_sortable_entry_text(ob_setups1) == [ obs["caption"] for obs in SCENARIO_PARAMS["ob1"]["OB_SETUPS_1"] ]
     assert get_sortable_entry_text(ob_notes1) == [ obs["caption"] for obs in SCENARIO_PARAMS["ob1"]["OB_NOTES_1"] ]
-    assert get_sortable_entry_text(vehicles1) == SCENARIO_PARAMS["ob1"]["VEHICLES_1"]
-    assert get_sortable_entry_text(ordnance1) == SCENARIO_PARAMS["ob1"]["ORDNANCE_1"]
+    assert get_sortable_entry_text(vehicles1) == SCENARIO_PARAMS["ob1"]["OB_VEHICLES_1"]
+    assert get_sortable_entry_text(ordnance1) == SCENARIO_PARAMS["ob1"]["OB_ORDNANCE_1"]
     select_tab( "ob2" )
     assert get_sortable_entry_text(ob_setups2) == [ obs["caption"] for obs in SCENARIO_PARAMS["ob2"]["OB_SETUPS_2"] ]
     assert get_sortable_entry_text(ob_notes2) == [ obs["caption"] for obs in SCENARIO_PARAMS["ob2"]["OB_NOTES_2"] ]
-    assert get_sortable_entry_text(vehicles2) == SCENARIO_PARAMS["ob2"]["VEHICLES_2"]
-    assert get_sortable_entry_text(ordnance2) == SCENARIO_PARAMS["ob2"]["ORDNANCE_2"]
+    assert get_sortable_entry_text(vehicles2) == SCENARIO_PARAMS["ob2"]["OB_VEHICLES_2"]
+    assert get_sortable_entry_text(ordnance2) == SCENARIO_PARAMS["ob2"]["OB_ORDNANCE_2"]
 
 # ---------------------------------------------------------------------
 
@@ -219,11 +219,11 @@ def test_unknown_vo( webapp, webdriver ):
     # load a scenario that has unknown vehicles/ordnance
     SCENARIO_PARAMS = {
         "PLAYER_1": "german",
-        "VEHICLES_1": [ "unknown vehicle 1a", "unknown vehicle 1b" ],
-        "ORDNANCE_1":  [ "unknown ordnance 1a", "unknown ordnance 1b" ],
+        "OB_VEHICLES_1": [ "unknown vehicle 1a", "unknown vehicle 1b" ],
+        "OB_ORDNANCE_1":  [ "unknown ordnance 1a", "unknown ordnance 1b" ],
         "PLAYER_2": "russian",
-        "VEHICLES_2": [ "unknown vehicle 2" ],
-        "ORDNANCE_2":  [ "unknown ordnance 2" ],
+        "OB_VEHICLES_2": [ "unknown vehicle 2" ],
+        "OB_ORDNANCE_2":  [ "unknown ordnance 2" ],
     }
     _ = set_stored_msg_marker( "_last-warning_" )
     # nb: we haven't made any changes, so we shouldn't get asked to confirm the "load scenario" operation
@@ -231,7 +231,7 @@ def test_unknown_vo( webapp, webdriver ):
     last_warning = get_stored_msg( "_last-warning_" )
     assert last_warning.startswith( "Unknown vehicles/ordnance:" )
     for key,vals in SCENARIO_PARAMS.items():
-        if not key.startswith( ("VEHICLES_","ORDNANCE_") ):
+        if not key.startswith( ("OB_VEHICLES_","OB_ORDNANCE_") ):
             continue
         assert all( v in last_warning for v in vals )
 

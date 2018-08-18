@@ -59,23 +59,23 @@ function generate_snippet( $btn, extra_params )
     }
 
     // set player-specific parameters
-    if ( template_id == "vehicles_1" ) {
-        template_id = "vehicles" ;
-        params.VEHICLES = params.VEHICLES_1 ;
-        params.VEHICLES_WIDTH = params.VEHICLES_WIDTH_1 ;
-    } else if ( template_id == "vehicles_2" ) {
-        template_id = "vehicles" ;
-        params.VEHICLES = params.VEHICLES_2 ;
-        params.VEHICLES_WIDTH = params.VEHICLES_WIDTH_2 ;
+    if ( template_id == "ob_vehicles_1" ) {
+        template_id = "ob_vehicles" ;
+        params.OB_VEHICLES = params.OB_VEHICLES_1 ;
+        params.OB_VEHICLES_WIDTH = params.OB_VEHICLES_WIDTH_1 ;
+    } else if ( template_id == "ob_vehicles_2" ) {
+        template_id = "ob_vehicles" ;
+        params.OB_VEHICLES = params.OB_VEHICLES_2 ;
+        params.OB_VEHICLES_WIDTH = params.OB_VEHICLES_WIDTH_2 ;
     }
-    if ( template_id == "ordnance_1" ) {
-        template_id = "ordnance" ;
-        params.ORDNANCE = params.ORDNANCE_1 ;
-        params.ORDNANCE_WIDTH = params.ORDNANCE_WIDTH_1 ;
-    } else if ( template_id == "ordnance_2" ) {
-        template_id = "ordnance" ;
-        params.ORDNANCE = params.ORDNANCE_2 ;
-        params.ORDNANCE_WIDTH = params.ORDNANCE_WIDTH_2 ;
+    if ( template_id == "ob_ordnance_1" ) {
+        template_id = "ob_ordnance" ;
+        params.OB_ORDNANCE = params.OB_ORDNANCE_1 ;
+        params.OB_ORDNANCE_WIDTH = params.OB_ORDNANCE_WIDTH_1 ;
+    } else if ( template_id == "ob_ordnance_2" ) {
+        template_id = "ob_ordnance" ;
+        params.OB_ORDNANCE = params.OB_ORDNANCE_2 ;
+        params.OB_ORDNANCE_WIDTH = params.OB_ORDNANCE_WIDTH_2 ;
     }
 
     // include the player display names
@@ -209,7 +209,7 @@ function unload_snippet_params( params, check_date_capabilities )
 
     // collect the vehicles/ordnance
     function get_vo( vo_type, player_no, key ) {
-        var $sortable2 = $( "#" + vo_type + "-sortable_" + player_no ) ;
+        var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
         var objs = [] ;
         $sortable2.children( "li" ).each( function() {
             var entry = $(this).data( "sortable2-data" ).vo_entry ;
@@ -241,10 +241,10 @@ function unload_snippet_params( params, check_date_capabilities )
         if ( objs.length > 0 )
             params[key] = objs ;
     }
-    get_vo( "vehicles", 1, "VEHICLES_1" ) ;
-    get_vo( "vehicles", 2, "VEHICLES_2" ) ;
-    get_vo( "ordnance", 1, "ORDNANCE_1" ) ;
-    get_vo( "ordnance", 2, "ORDNANCE_2" ) ;
+    get_vo( "vehicles", 1, "OB_VEHICLES_1" ) ;
+    get_vo( "vehicles", 2, "OB_VEHICLES_2" ) ;
+    get_vo( "ordnance", 1, "OB_ORDNANCE_1" ) ;
+    get_vo( "ordnance", 2, "OB_ORDNANCE_2" ) ;
 
     return params ;
 }
@@ -404,10 +404,10 @@ function get_template( template_id )
 function edit_template( template_id )
 {
     // get the specified template
-    if ( template_id.substring(0,9) == "ordnance_" )
-        template_id = "ordnance" ;
-    else if ( template_id.substring(0,9) == "vehicles_" )
-        template_id = "vehicles" ;
+    if ( template_id.substring(0,12) == "ob_ordnance_" )
+        template_id = "ob_ordnance" ;
+    else if ( template_id.substring(0,12) == "ob_vehicles_" )
+        template_id = "ob_vehicles" ;
     var template = get_template( template_id ) ;
     if ( template === null )
         return ;
@@ -509,11 +509,16 @@ function do_load_scenario_data( params )
 
     // load the scenario parameters
     var params_loaded = {} ;
+    var warnings = [] ;
     var unknown_vo = [] ;
     var set_param = function( $elem, key ) {
         if ( key === "SCENARIO_DATE" ) {
-            var scenario_date = $.datepicker.parseDate( "yy-mm-dd", params[key] ) ;
-            $elem.datepicker( "setDate", scenario_date ) ;
+            try {
+                var scenario_date = $.datepicker.parseDate( "yy-mm-dd", params[key] ) ;
+                $elem.datepicker( "setDate", scenario_date ) ;
+            } catch( ex ) {
+                warnings.push( "Invalid scenario date: " + escapeHTML( params[key] ) ) ;
+            }
         }
         else
             $elem.val( params[key] ) ;
@@ -564,10 +569,10 @@ function do_load_scenario_data( params )
             params_loaded[key] = true ;
             continue ;
         }
-        if ( key === "VEHICLES_1" || key === "ORDNANCE_1" || key === "VEHICLES_2" || key === "ORDNANCE_2" ) {
+        if ( key === "OB_VEHICLES_1" || key === "OB_ORDNANCE_1" || key === "OB_VEHICLES_2" || key === "OB_ORDNANCE_2" ) {
             player_no = key.substring( key.length-1 ) ;
             var nat = params[ "PLAYER_" + player_no ] ;
-            var vo_type = (key.substring(0,9) === "VEHICLES_") ? "vehicles" : "ordnance" ;
+            var vo_type = (key.substring(0,12) === "OB_VEHICLES_") ? "vehicles" : "ordnance" ;
             for ( i=0 ; i < params[key].length ; ++i ) {
                 var entry = find_vo( vo_type, nat, params[key][i] ) ;
                 if ( entry )
@@ -608,6 +613,15 @@ function do_load_scenario_data( params )
     if ( unknown_vo.length > 0 ) {
         showWarningMsg( makeBulletListMsg(
             "Unknown vehicles/ordnance:", unknown_vo
+        ) ) ;
+    }
+
+    // show any other warnings
+    if ( warnings.length == 1 )
+        showWarningMsg( warnings[0] ) ;
+    else if ( warnings.length > 1 ) {
+        showWarningMsg( makeBulletListMsg(
+            "", warnings
         ) ) ;
     }
 
@@ -679,10 +693,10 @@ function unload_params_for_save()
     params.OB_SETUPS_2 = $("#ob_setups-sortable_2").sortable2( "get-entry-data" ) ;
     params.OB_NOTES_1 = $("#ob_notes-sortable_1").sortable2( "get-entry-data" ) ;
     params.OB_NOTES_2 = $("#ob_notes-sortable_2").sortable2( "get-entry-data" ) ;
-    extract_vo_names( "VEHICLES_1" ) ;
-    extract_vo_names( "ORDNANCE_1" ) ;
-    extract_vo_names( "VEHICLES_2" ) ;
-    extract_vo_names( "ORDNANCE_2" ) ;
+    extract_vo_names( "OB_VEHICLES_1" ) ;
+    extract_vo_names( "OB_ORDNANCE_1" ) ;
+    extract_vo_names( "OB_VEHICLES_2" ) ;
+    extract_vo_names( "OB_ORDNANCE_2" ) ;
 
     // save the scenario date in ISO-8601 format
     var scenario_date = $("input[name='SCENARIO_DATE']").datepicker( "getDate" ) ;

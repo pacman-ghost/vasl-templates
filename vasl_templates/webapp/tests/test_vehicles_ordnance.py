@@ -54,7 +54,7 @@ def test_crud( webapp, webdriver ):
     def _set_width( vo_type, player_no, width ):
         """Set the snippet width."""
         select_tab( "ob{}".format( player_no ) )
-        elem = find_child( "input[name='{}_WIDTH_{}']".format( vo_type.upper(), player_no ) )
+        elem = find_child( "input[name='OB_{}_WIDTH_{}']".format( vo_type.upper(), player_no ) )
         elem.clear()
         if width is not None:
             elem.send_keys( str(width) )
@@ -64,7 +64,7 @@ def test_crud( webapp, webdriver ):
         """Check the generated vehicle/ordnance snippet."""
         # check the snippet
         select_tab( "ob{}".format( player_no ) )
-        btn = find_child( "button[data-id='{}_{}']".format( vo_type, player_no ) )
+        btn = find_child( "button[data-id='ob_{}_{}']".format( vo_type, player_no ) )
         btn.click()
         buf = get_clipboard()
         names = [
@@ -83,7 +83,7 @@ def test_crud( webapp, webdriver ):
 
     def _check_hint( vo_type, player_no ):
         """Check the hint visibility."""
-        hint = find_child( "#{}-hint_{}".format( vo_type, player_no ) )
+        hint = find_child( "#ob_{}-hint_{}".format( vo_type, player_no ) )
         expected = "none" if _expected[(vo_type,player_no)] else "block"
         assert hint.value_of_css_property("display") == expected
 
@@ -133,7 +133,7 @@ def test_snippets( webapp, webdriver ):
         vo_type0 = vo_type[:-1] if vo_type.endswith("s") else vo_type
         # test a full example
         add_vo( vo_type, 1, "a german {}".format(vo_type) )
-        btn = find_child( "button[data-id='{}_1']".format( vo_type ) )
+        btn = find_child( "button[data-id='ob_{}_1']".format( vo_type ) )
         btn.click()
         expected = [
             '[German] ; width=',
@@ -149,7 +149,7 @@ def test_snippets( webapp, webdriver ):
 
         # test a partial example
         add_vo( vo_type, 1, "another german {}".format(vo_type) )
-        btn = find_child( "button[data-id='{}_1']".format( vo_type ) )
+        btn = find_child( "button[data-id='ob_{}_1']".format( vo_type ) )
         btn.click()
         expected = [
             '[German] ; width=',
@@ -164,7 +164,7 @@ def test_snippets( webapp, webdriver ):
 
         # test a minimal example
         add_vo( vo_type, 1, "name only" )
-        btn = find_child( "button[data-id='{}_1']".format( vo_type ) )
+        btn = find_child( "button[data-id='ob_{}_1']".format( vo_type ) )
         btn.click()
         assert get_clipboard() == \
 '''[German] ; width=
@@ -186,7 +186,7 @@ def test_variable_capabilities( webapp, webdriver ):
     add_vo( "vehicles", 2, "Churchill III(b)" )
 
     # change the scenario date and check the generated snippet
-    vehicles2 = find_child( "button.generate[data-id='vehicles_2']" )
+    vehicles2 = find_child( "button.generate[data-id='ob_vehicles_2']" )
     def do_test( month, year, expected ):
         """Set the date and check the vehicle snippet."""
         select_tab( "scenario" )
@@ -215,7 +215,7 @@ def add_vo( vo_type, player_no, name ):
 
     # add the vehicle/ordnance
     select_tab( "ob{}".format( player_no ) )
-    elem = find_child( "#{}-add_{}".format( vo_type, player_no ) )
+    elem = find_child( "#ob_{}-add_{}".format( vo_type, player_no ) )
     elem.click()
     sel = Select( find_child( "#select-vo select" ) )
     sel.select_by_visible_text( name[:-1] if name.endswith("s") else name )
@@ -229,10 +229,10 @@ def delete_vo( vo_type, player_no, name, webdriver ):
     # delete the vehicle/ordnance
     select_tab( "ob{}".format( player_no ) )
     elems = [
-        c for c in find_children( "#{}-sortable_{} li".format( vo_type, player_no ) )
+        c for c in find_children( "#ob_{}-sortable_{} li".format( vo_type, player_no ) )
         if c.text == name
     ]
     assert len(elems) == 1
     elem = elems[0]
-    trash = find_child( "#{}-trash_{}".format( vo_type, player_no ) )
+    trash = find_child( "#ob_{}-trash_{}".format( vo_type, player_no ) )
     ActionChains(webdriver).drag_and_drop( elem, trash ).perform()

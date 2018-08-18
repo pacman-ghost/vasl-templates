@@ -12,12 +12,12 @@
 
 /* -------------------------------------------------------------------- */
 
-.panel-vehicles { height: 100% ;  display: flex ; flex-direction: column ; }
-.panel-vehicles .content { flex-grow: 1 ; }
-.panel-vehicles .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
+.panel-ob_vehicles { height: 100% ;  display: flex ; flex-direction: column ; }
+.panel-ob_vehicles .content { flex-grow: 1 ; }
+.panel-ob_vehicles .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
 
 /* -------------------------------------------------------------------- */
 
-.panel-ordnance { height: 100% ;  display: flex ; flex-direction: column ; }
-.panel-ordnance .content { flex-grow: 1 ; }
-.panel-ordnance .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
+.panel-ob_ordnance { height: 100% ;  display: flex ; flex-direction: column ; }
+.panel-ob_ordnance .content { flex-grow: 1 ; }
+.panel-ob_ordnance .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }

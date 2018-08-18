@@ -33,8 +33,8 @@ def test_player_change( webapp, webdriver ):
     # check that we can change the player nationalities without being asked to confirm
     # nb: the frontend ignores the vehicle/ordnance snippet widths when deciding if to ask for confirmation
     VO_WIDTHS = {
-        "ob1": { "VEHICLES_WIDTH_1": 123 },
-        "ob2": { "ORDNANCE_WIDTH_2": 456 },
+        "ob1": { "OB_VEHICLES_WIDTH_1": 123 },
+        "ob2": { "OB_ORDNANCE_WIDTH_2": 456 },
     }
     load_scenario_params( VO_WIDTHS )
     select_tab( "scenario" )
@@ -49,7 +49,7 @@ def test_player_change( webapp, webdriver ):
             "OB_SETUPS_1": [ { "caption": "an ob setup", "width": "" } ],
         },
         "ob2": {
-            "VEHICLES_2": [ "a german vehicle" ],
+            "OB_VEHICLES_2": [ "a german vehicle" ],
         },
     }
     load_scenario_params( SCENARIO_PARAMS )
@@ -58,7 +58,7 @@ def test_player_change( webapp, webdriver ):
         """Get the contents of the player's OB tab."""
         sortables = [
             find_child( "#{}-sortable_{}".format( key, player_no ) )
-            for key in ["ob_setups","ob_notes","vehicles","ordnance"]
+            for key in ["ob_setups","ob_notes","ob_vehicles","ob_ordnance"]
         ]
         return [ get_sortable_entry_count(s) for s in sortables ]
 

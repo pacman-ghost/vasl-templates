@@ -1,4 +1,4 @@
-[{{PLAYER_NAME}}] ; width={{VEHICLES_WIDTH}}{%for veh in VEHICLES %}
+[{{PLAYER_NAME}}] ; width={{OB_VEHICLES_WIDTH}}{%for veh in OB_VEHICLES %}
 [*] {{veh.name}}: #={{veh.note_number}}{%if veh.notes%}
 - notes:{%for n in veh.notes%} "{{n}}"{%endfor%}{%endif%}{%if veh.crew_survival%}
 - {{veh.crew_survival}}{%endif%}{%if veh.capabilities%}

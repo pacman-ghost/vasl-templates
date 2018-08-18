@@ -37,10 +37,10 @@
     { "caption": "default american OB note #1", "width": "103px" },
     { "caption": "default american OB note #2", "width": "104px" }
 ],
-"VEHICLES_1": [],
-"VEHICLES_WIDTH_1": "110px",
-"ORDNANCE_1": [],
-"ORDNANCE_WIDTH_1": "120px",
+"OB_VEHICLES_1": [],
+"OB_VEHICLES_WIDTH_1": "110px",
+"OB_ORDNANCE_1": [],
+"OB_ORDNANCE_WIDTH_1": "120px",
 
 "OB_SETUPS_2": [
     { "caption": "default japanese OB setup #1", "width": "201px" },
@@ -50,10 +50,10 @@
     { "caption": "default japanese OB note #1", "width": "203px" },
     { "caption": "default japanese OB note #2", "width": "204px" }
 ],
-"VEHICLES_2": [],
-"VEHICLES_WIDTH_2": "210px",
-"ORDNANCE_2": [],
-"ORDNANCE_WIDTH_2": "211px",
+"OB_VEHICLES_2": [],
+"OB_VEHICLES_WIDTH_2": "210px",
+"OB_ORDNANCE_2": [],
+"OB_ORDNANCE_WIDTH_2": "211px",
 
 "_OB_SETUP_WIDTH": "900px",
 "_OB_NOTE_WIDTH": "901px"
