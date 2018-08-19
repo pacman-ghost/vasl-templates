@@ -205,6 +205,7 @@ function doShowNotificationMsg( msg_type, msg )
         title: null,
         message: msg,
         location: "br",
+        duration: (msg_type == "warning") ? 15*1000 : 5*1000,
         fixed: (msg_type == "error"),
     } ) ;
 }
