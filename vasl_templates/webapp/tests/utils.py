@@ -350,14 +350,14 @@ _pyqt_app = None
 
 def get_clipboard() :
     """Get the contents of the clipboard."""
-    if pytest.config.option.no_clipboard: #pylint: disable=no-member
-        return get_stored_msg( "_clipboard_" )
-    else:
+    if pytest.config.option.use_clipboard: #pylint: disable=no-member
         global _pyqt_app
         if _pyqt_app is None:
             _pyqt_app = QApplication( [] )
         clipboard = QApplication.clipboard()
         return clipboard.text()
+    else:
+        return get_stored_msg( "_clipboard_" )
 
 def wait_for( timeout, func ):
     """Wait for a condition to become true."""

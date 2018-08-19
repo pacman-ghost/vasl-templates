@@ -42,9 +42,13 @@ def pytest_addoption( parser ):
         "--short-tests", action="store_true", dest="short_tests", default=False,
         help="Run a shorter version of the test suite."
     )
+    # NOTE: It's not good to have the code run differently to how it will normally,
+    # but using the clipboard to retrieve snippets causes more trouble than it's worth :-/
+    # since any kind of clipboard activity while the tests are running could cause them to fail
+    # (even when running in a VM, if it's configured to share the physical host's clipboard :wall:).
     parser.addoption(
-        "--no-clipboard", action="store_true", dest="no_clipboard", default=False,
-        help="Don't use the clipboard to get snippets."
+        "--use-clipboard", action="store_true", dest="use_clipboard", default=False,
+        help="Use the clipboard to get snippets."
     )
 
 # ---------------------------------------------------------------------
@@ -67,9 +71,9 @@ def webapp():
             # check if the tests are being run headless
             if pytest.config.option.headless: #pylint: disable=no-member
                 # yup - there is no clipboard support :-/
-                pytest.config.option.no_clipboard = True #pylint: disable=no-member
+                pytest.config.option.use_clipboard = False #pylint: disable=no-member
             # check if we should disable using the clipboard for snippets
-            if pytest.config.option.no_clipboard: #pylint: disable=no-member
+            if not pytest.config.option.use_clipboard: #pylint: disable=no-member
                 # NOTE: It's not a bad idea to bypass the clipboard, even when running in a browser,
                 # to avoid problems if something else uses the clipboard while the tests are running.
                 kwargs["store_clipboard"] = 1
