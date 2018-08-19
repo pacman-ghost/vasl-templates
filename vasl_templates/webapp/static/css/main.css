@@ -40,8 +40,8 @@ ul, ol { margin: 0.5em 0 0 1.25em ; br}
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #tabs-scenario { display: flex ; }
-#tabs-scenario .left { width: 28em ; min-width: 28em ; }
-#tabs-scenario .right { flex-grow: 1 ; min-width: 23em ; }
+#tabs-scenario .left { width: 32em ; min-width: 32em ; }
+#tabs-scenario .right { flex-grow: 1 ; min-width: 25em ; }
 
 #tabs-scenario .left { display: flex ; flex-direction: column ; }
 #tabs-scenario .tl { flex-basis: content ; }

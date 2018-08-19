@@ -10,7 +10,7 @@ import logging
 import urllib.request
 
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSettings, QDir
 import click
 
 from vasl_templates.main_window import MainWindow
@@ -61,6 +61,12 @@ def main( template_pack, remote_debugging, debug ):
         remote_debugging = remote_debugging.replace( "localhost", "127.0.0.1" )
         os.environ["QTWEBENGINE_REMOTE_DEBUGGING"] = remote_debugging
 
+    # load the application settings
+    fname = "vasl-templates.ini" if sys.platform == "win32" else ".vasl-templates.conf"
+    if not os.path.isfile( fname ) :
+        fname = os.path.join( QDir.homePath() , fname  )
+    settings = QSettings( fname , QSettings.IniFormat )
+
     # install the debug config file
     if debug:
         load_debug_config( debug )
@@ -99,7 +105,7 @@ def main( template_pack, remote_debugging, debug ):
     # run the application
     app = QApplication( sys.argv )
     url = "http://localhost:{}".format( port )
-    main_window = MainWindow( url )
+    main_window = MainWindow( settings, url )
     main_window.show()
     ret_code = app.exec_()
 

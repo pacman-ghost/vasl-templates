@@ -32,18 +32,27 @@ class AppWebPage( QWebEnginePage ):
 class MainWindow( QWidget ):
     """Main application window."""
 
-    def __init__( self, url ):
+    def __init__( self, settings, url ):
 
         # initialize
         super().__init__()
+        self.settings = settings
         self._view = None
         self._is_closing = False
 
-        # initialize
+        # initialize the main window
         self.setWindowTitle( APP_NAME )
         self.setWindowIcon( QIcon(
             os.path.join( os.path.split(__file__)[0], "webapp/static/images/snippet.png" )
         ) )
+        self.setMinimumSize( 800, 500 )
+
+        # restore the window geometry
+        val = self.settings.value( "MainWindow/geometry" )
+        if val :
+            self.restoreGeometry( val )
+        else :
+            self.resize( 1000, 600 )
 
         # initialize the layout
         # FUDGE! We offer the option to disable the QWebEngineView since getting it to run
@@ -94,13 +103,18 @@ class MainWindow( QWidget ):
         if self._view is None or self._is_closing:
             return
 
+        def close_window():
+            """Close the main window."""
+            self.settings.setValue( "MainWindow/geometry" , self.saveGeometry() )
+            self.close()
+
         # check if the scenario is dirty
         def callback( is_dirty ):
             """Callback for PyQt to return the result of running the Javascript."""
             if not is_dirty:
                 # nope - just close the window
                 self._is_closing = True
-                self.close()
+                close_window()
                 return
             # yup - ask the user to confirm the close
             rc = self.ask(
@@ -111,7 +125,7 @@ class MainWindow( QWidget ):
             if rc == QMessageBox.Yes:
                 # confirmed - close the window
                 self._is_closing = True
-                self.close()
+                close_window()
         self._view.page().runJavaScript( "is_scenario_dirty()", callback )
         evt.ignore() # nb: we wait until the Javascript finishes to process the event
 
