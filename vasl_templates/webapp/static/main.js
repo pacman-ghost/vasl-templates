@@ -39,9 +39,10 @@ $(document).ready( function () {
     // nb: we only show the popmenu on left click (not the normal right-click)
     $menu.off( "contextmenu" ) ;
     $menu.click( function() {
+        $(this).blur() ;
         var pos = $(this).offset() ;
         $(this).data( "PopMenu.contextmenu" ).data( "PopMenu.instance" ).show(
-            pos.left+$(this).width()+4, pos.top+$(this).height()+4, "fade", 200
+            pos.left+$(this).width(), pos.top+$(this).height()+2, "fade", 200
         ) ;
     } ) ;
     // nb: we dismiss the popmenu and any notifications on ESCAPE

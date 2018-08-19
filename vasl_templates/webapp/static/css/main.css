@@ -6,10 +6,10 @@ ul, ol { margin: 0.5em 0 0 1.25em ; br}
 
 /* -------------------------------------------------------------------- */
 
-#menu { position: absolute ; top: 15px ; right: 15px ; z-index: 1 ; }
-#menu { height: 30px ; }
+#menu { position: absolute ; top: 15px ; right: 8px ; z-index: 1 ; }
+#menu input[type='image'] { height: 30px ; }
 
-.PopMenu-Item { width: 11em }
+.PopMenu-Item { width: 11em ; }
 .PopMenu-Item a { padding: 5px 10px 5px 10px ; }
 .PopMenu-Icon { display: none ; }
 
