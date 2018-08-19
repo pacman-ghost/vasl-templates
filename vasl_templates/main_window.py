@@ -1,11 +1,12 @@
 """ Main application window. """
 
+import os
 import re
 
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QMessageBox
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage
 from PyQt5.QtWebChannel import QWebChannel
-from PyQt5.QtGui import QDesktopServices
+from PyQt5.QtGui import QDesktopServices, QIcon
 from PyQt5.QtCore import QUrl, pyqtSlot
 
 from vasl_templates.webapp.config.constants import APP_NAME
@@ -40,6 +41,9 @@ class MainWindow( QWidget ):
 
         # initialize
         self.setWindowTitle( APP_NAME )
+        self.setWindowIcon( QIcon(
+            os.path.join( os.path.split(__file__)[0], "webapp/static/images/snippet.png" )
+        ) )
 
         # initialize the layout
         # FUDGE! We offer the option to disable the QWebEngineView since getting it to run
