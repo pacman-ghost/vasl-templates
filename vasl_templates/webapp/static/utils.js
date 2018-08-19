@@ -1,4 +1,12 @@
 
+// --------------------------------------------------------------------
+
+function get_nationality_display_name( nat_id )
+{
+    // get the nationality's display name
+    return gTemplatePack.nationalities[ nat_id ].display_name ;
+}
+
 function get_player_colors( player_no )
 {
     // get the colors for the specified player

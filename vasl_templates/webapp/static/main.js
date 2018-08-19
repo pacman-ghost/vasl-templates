@@ -430,9 +430,8 @@ function install_template_pack( data )
         2: $("select[name='PLAYER_2']").val()
     } ;
     var buf = [] ;
-    var nationalities = gTemplatePack.nationalities ;
-    for ( var id in nationalities )
-        buf.push( "<option value='" + id + "'>" + nationalities[id].display_name + "</option>" ) ;
+    for ( var id in gTemplatePack.nationalities )
+        buf.push( "<option value='" + id + "'>" + get_nationality_display_name(id) + "</option>" ) ;
     buf = buf.join( "" ) ;
     for ( var player_no=1 ; player_no <= 2 ; ++player_no ) {
         var $sel = $( "select[name='PLAYER_" + player_no + "']" ) ;
@@ -511,7 +510,7 @@ function update_ob_tab_header( player_no )
 {
     // update the OB tab header for the specified player
     var player_nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
-    var display_name = gTemplatePack.nationalities[ player_nat ].display_name ;
+    var display_name = get_nationality_display_name( player_nat ) ;
     var image_url = gImagesBaseUrl + "/flags/" + player_nat + ".png" ;
     var $elem = $( "#tabs .ui-tabs-nav a[href='#tabs-ob" + player_no + "']" ) ;
     $elem.html(

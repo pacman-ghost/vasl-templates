@@ -8,7 +8,7 @@ from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp.config.constants import APP_NAME
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, get_nationalities, load_scenario_params, select_tab, select_menu_option, \
+    init_webapp, get_nationality_display_name, load_scenario_params, select_tab, select_menu_option, \
     get_sortable_entry_text, get_stored_msg, set_stored_msg, set_stored_msg_marker, find_child, find_children, wait_for
 
 # this table lists all parameters stored in a scenario
@@ -40,14 +40,13 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
 
     # initialize
     init_webapp( webapp, webdriver, scenario_persistence=1 )
-    nationalities = get_nationalities( webapp )
 
     def check_ob_tabs( *args ):
         """Check that the OB tabs have been set correctly."""
         for player_no in [1,2]:
             elem = find_child( "#tabs .ui-tabs-nav a[href='#tabs-ob{}']".format( player_no ) )
             nat = args[  player_no-1 ]
-            assert elem.text.strip() == "{} OB".format( nationalities[nat]["display_name"] )
+            assert elem.text.strip() == "{} OB".format( get_nationality_display_name(nat) )
 
     def check_window_title( expected ):
         """Check the window title."""

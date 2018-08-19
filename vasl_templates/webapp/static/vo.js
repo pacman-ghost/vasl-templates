@@ -14,7 +14,7 @@ function add_vo( vo_type, player_no )
     var nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
     var entries = gVehicleOrdnanceListings[vo_type][nat] ;
     if ( entries === undefined ) {
-        showErrorMsg( "There are no " + gTemplatePack.nationalities[nat].display_name + " " + vo_type + " listings." ) ;
+        showErrorMsg( "There are no " + get_nationality_display_name(nat) + " " + vo_type + " listings." ) ;
         return ;
     }
     var buf = [] ;

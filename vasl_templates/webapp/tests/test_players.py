@@ -2,7 +2,7 @@
 
 from selenium.webdriver.support.ui import Select
 
-from vasl_templates.webapp.tests.utils import get_nationalities, select_tab, find_child, \
+from vasl_templates.webapp.tests.utils import get_nationality_display_name, select_tab, find_child, \
     select_droplist_val, init_webapp, load_scenario_params, \
     wait_for, get_sortable_entry_count, click_dialog_button
 
@@ -14,7 +14,6 @@ def test_player_change( webapp, webdriver ):
     # initialize
     init_webapp( webapp, webdriver )
     select_tab( "scenario" )
-    nationalities = get_nationalities( webapp )
     player_sel = {
         1: Select( find_child( "select[name='PLAYER_1']" ) ),
         2: Select( find_child( "select[name='PLAYER_2']" ) )
@@ -27,7 +26,7 @@ def test_player_change( webapp, webdriver ):
     # make sure that the UI was updated correctly for the initial players
     for player_no in [1,2]:
         player_id = player_sel[player_no].first_selected_option.get_attribute( "value" )
-        expected = "{} OB".format( nationalities[player_id]["display_name"] )
+        expected = "{} OB".format( get_nationality_display_name(player_id) )
         assert ob_tabs[player_no].text.strip() == expected
 
     # check that we can change the player nationalities without being asked to confirm
@@ -39,9 +38,9 @@ def test_player_change( webapp, webdriver ):
     load_scenario_params( VO_WIDTHS )
     select_tab( "scenario" )
     select_droplist_val( player_sel[1], "russian" )
-    assert ob_tabs[1].text.strip() == "{} OB".format( nationalities["russian"]["display_name"] )
+    assert ob_tabs[1].text.strip() == "{} OB".format( get_nationality_display_name("russian") )
     select_droplist_val( player_sel[2], "german" )
-    assert ob_tabs[2].text.strip() == "{} OB".format( nationalities["german"]["display_name"] )
+    assert ob_tabs[2].text.strip() == "{} OB".format( get_nationality_display_name("german") )
 
     # load the OB tabs
     SCENARIO_PARAMS = {
@@ -72,7 +71,7 @@ def test_player_change( webapp, webdriver ):
         # cancel the confirmation request and make sure nothing changed
         click_dialog_button( "Cancel" )
         nat_id = "russian" if player_no == 1 else "german"
-        assert ob_tabs[player_no].text.strip() == "{} OB".format( nationalities[nat_id]["display_name"] )
+        assert ob_tabs[player_no].text.strip() == "{} OB".format( get_nationality_display_name(nat_id) )
         assert get_sortable_counts( player_no ) == \
             [1,0,0,0] if player_no == 1 else [0,0,1,0]
 
@@ -82,5 +81,5 @@ def test_player_change( webapp, webdriver ):
 
         # confirm the request and make sure the OB tab was cleared
         click_dialog_button( "OK" )
-        assert ob_tabs[player_no].text.strip() == "{} OB".format( nationalities["finnish"]["display_name"] )
+        assert ob_tabs[player_no].text.strip() == "{} OB".format( get_nationality_display_name("finnish") )
         assert get_sortable_counts( player_no ) == [0,0,0,0]

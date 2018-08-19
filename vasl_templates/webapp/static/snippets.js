@@ -43,16 +43,15 @@ function generate_snippet( $btn, extra_params )
     unload_snippet_params( params, true ) ;
 
     // set player-specific parameters
-    var nationalities = gTemplatePack.nationalities ;
     var curr_tab = $("#tabs .ui-tabs-active a").attr( "href" ) ;
     var colors ;
     if ( curr_tab === "#tabs-ob1" ) {
-        params.PLAYER_NAME = nationalities[params.PLAYER_1].display_name ;
+        params.PLAYER_NAME = get_nationality_display_name( params.PLAYER_1 ) ;
         colors = get_player_colors( 1 ) ;
         params.OB_COLOR = colors[0] ;
         params.OB_COLOR_2 = colors[1] ;
     } else if ( curr_tab === "#tabs-ob2" ) {
-        params.PLAYER_NAME = nationalities[params.PLAYER_2].display_name ;
+        params.PLAYER_NAME = get_nationality_display_name( params.PLAYER_2 ) ;
         colors = get_player_colors( 2 ) ;
         params.OB_COLOR = colors[0] ;
         params.OB_COLOR_2 = colors[1] ;
@@ -79,8 +78,8 @@ function generate_snippet( $btn, extra_params )
     }
 
     // include the player display names
-    params.PLAYER_1_NAME = nationalities[params.PLAYER_1].display_name ;
-    params.PLAYER_2_NAME = nationalities[params.PLAYER_2].display_name ;
+    params.PLAYER_1_NAME = get_nationality_display_name( params.PLAYER_1 ) ;
+    params.PLAYER_2_NAME = get_nationality_display_name( params.PLAYER_2 ) ;
 
     // generate PF parameters
     if ( params.SCENARIO_YEAR < 1944 || (params.SCENARIO_YEAR == 1944 && params.SCENARIO_MONTH < 6) )

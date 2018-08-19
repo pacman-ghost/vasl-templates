@@ -29,12 +29,16 @@ _NAT_TEMPLATES = {
     "british": [ "piat" ],
 }
 
+_webapp = None
 _webdriver = None
 
 # ---------------------------------------------------------------------
 
 def init_webapp( webapp, webdriver, **options ):
     """Initialize the webapp."""
+    global _webapp, _webdriver
+    _webapp = webapp
+    _webdriver = webdriver
     webdriver.get( webapp.url_for( "main", **options ) )
     wait_for( 5, lambda: find_child("#_page-loaded_") is not None )
 
@@ -175,6 +179,15 @@ def set_template_params( params ): #pylint: disable=too-many-branches
                     time.sleep( 0.25 )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+_nationalities = None
+
+def get_nationality_display_name( nat_id ):
+    """Get the nationality's display name."""
+    global _nationalities
+    if not _nationalities:
+        _nationalities = get_nationalities( _webapp )
+    return _nationalities[ nat_id ]["display_name"]
 
 def get_nationalities( webapp ):
     """Get the nationalities table."""

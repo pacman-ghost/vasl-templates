@@ -163,7 +163,6 @@ def webdriver( request ):
     driver.set_window_size( int(words[0]), int(words[1]) )
 
     # return the webdriver to the caller
-    utils._webdriver = driver #pylint: disable=protected-access
     yield driver
 
     # clean up
