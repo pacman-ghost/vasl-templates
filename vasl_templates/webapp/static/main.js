@@ -307,6 +307,15 @@ $(document).ready( function () {
         on_scenario_name_change() ;
     } ) ;
 
+    // adjust the layout on resize
+    $(window).resize( function() {
+        // update the max height of sortable2 entries
+        var tab_id = $("#tabs .ui-tabs-tab.ui-state-active").attr( "aria-controls" ) ;
+        $( "#"+tab_id ).find( ".sortable" ).each( function() {
+            $(this).sortable2( "adjust-entry-heights" ) ;
+        } ) ;
+    } ) ;
+
     // initialize hotkeys
     init_hotkeys() ;
 
@@ -521,7 +530,7 @@ function on_tab_activate( evt, ui )
             border: "1px solid "+border,
             "border-bottom": "none",
         } ) ;
-        $("#"+tab_id).css( "border", "1px solid "+border ) ;
+        $( "#"+tab_id ).css( "border", "1px solid "+border ) ;
     }
 
     // style the tab being de-activated
@@ -534,6 +543,7 @@ function on_tab_activate( evt, ui )
         set_colors( tab_id, colors[0], colors[1] ) ;
     }
     tab_id = ui.newPanel.prop( "id" ) ;
+    var $tab = $( "#"+tab_id ) ;
     if ( tab_id === "tabs-ob1" )
         set_colors_for_player( tab_id, 1 ) ;
     else if ( tab_id === "tabs-ob2" )
@@ -541,7 +551,10 @@ function on_tab_activate( evt, ui )
     else
         set_colors( tab_id, "#ddd", "#ccc" ) ;
 
-    // adjust the footer vspacer's
+    // adjust the layout
+    $tab.find( ".sortable" ).each( function() {
+        $(this).sortable2( "adjust-entry-heights" ) ;
+    } ) ;
     adjust_footer_vspacers() ;
 }
 

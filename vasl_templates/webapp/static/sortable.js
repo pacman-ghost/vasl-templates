@@ -50,6 +50,10 @@ $.fn.sortable2 = function( action, args )
             update_hint( $sortable2 ) ;
         },
 
+        "adjust-entry-heights": function( $sortable2 ) {
+            adjust_entry_heights( $sortable2 ) ;
+        },
+
         "get-entry-data": function( $sortable2 ) {
             // get the data associated with each sortable2 entry
             var entry_data = [] ;
@@ -179,6 +183,8 @@ $.fn.sortable2 = function( action, args )
         var $entries = $sortable2.children( "li" ) ;
         if ( $entries.length === 0 )
             return ;
+        // NOTE: We can't get height for sortable2's that are not visible (i.e. not in the active tab),
+        // we update the heights dynamically as tabs are selected, and the window is resized.
         var available_height = $sortable2.parent().height() ;
         var max_height = Math.max( available_height/$entries.length, 2*gEmSize ) ;
         $entries.each( function() {
@@ -194,6 +200,8 @@ $.fn.sortable2 = function( action, args )
     {
         // set the entry colors
         var colors = $entry.data( "colors" ) ;
+        if ( ! colors )
+            return ;
         if ( $entry.hasClass( "ui-sortable-helper" ) )
             invert = true ; // nb: drag is in progress
         $entry.css( {
