@@ -35,6 +35,8 @@ $(document).ready( function () {
         save_scenario: { label: "Save scenario", action: on_save_scenario },
         separator: { type: "separator" },
         template_pack: { label: "Load template pack", action: on_template_pack },
+        separator2: { type: "separator" },
+        show_help: { label: "Help", action: show_help },
     } ) ;
     // nb: we only show the popmenu on left click (not the normal right-click)
     $menu.off( "contextmenu" ) ;
@@ -588,4 +590,26 @@ function adjust_footer_vspacers()
         $footer.after( "<div class='vspacer' style='height:" + Math.ceil(Math.max(0,delta)) + "px'></div>" ) ;
     } ) ;
 
+}
+
+// --------------------------------------------------------------------
+
+function show_help()
+{
+    // check if we need to load the HELP tab
+    var $tab = $("#tabs-help") ;
+    if ( $tab.find( "iframe" ).length === 0 ) {
+        // yup - make it so
+        // NOTE: We show the help in an iframe so that we can use the same files elsewhere e.g. on the web site or Github.
+        var buf = [ "<iframe src='" + gHelpUrl + "?embedded=1'",
+            " style='width:100%;height:100%;border:none;'",
+            ">",
+            "</iframe>"
+        ] ;
+        $tab.append( buf.join("") ) ;
+        $("#tabs .ui-tabs-tab[aria-controls='tabs-help']").show() ;
+    }
+
+    // show the HELP tab
+    $("#tabs a[href='#tabs-help']").click() ;
 }

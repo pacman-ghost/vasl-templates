@@ -3,8 +3,7 @@
 import os
 import json
 
-from flask import request, render_template
-from flask import jsonify
+from flask import request, render_template, jsonify, redirect, url_for
 
 from vasl_templates.webapp import app
 from vasl_templates.webapp.config.constants import DATA_DIR
@@ -15,6 +14,16 @@ from vasl_templates.webapp.config.constants import DATA_DIR
 def main():
     """Return the main page."""
     return render_template( "index.html" )
+
+# ---------------------------------------------------------------------
+
+@app.route( "/help" )
+def show_help():
+    """Show the help page."""
+    url = url_for( "static", filename="help/index.html" )
+    if request.args.get( "embedded" ):
+        url += "?embedded=1"
+    return redirect( url, code=302 )
 
 # ---------------------------------------------------------------------
 

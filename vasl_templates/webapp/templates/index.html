@@ -35,6 +35,7 @@
     <li> <a href="#tabs-scenario"><img src="{{url_for('static',filename='images/scenario.png')}}">&nbsp;Scenario</a>
     <li> <a href="#tabs-ob1"><div style="width:7em;">&nbsp;</div></a>
     <li> <a href="#tabs-ob2"><div style="width:7em;">&nbsp;</div></a>
+    <li style="display:none;"> <a href="#tabs-help"><img src="{{url_for('static',filename='images/help.png')}}">&nbsp;Help</a>
 </ul>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -240,6 +241,13 @@
 <div id="tabs-ob2"> <!-- nb: this will be created dynamically from the OB1 tab -->
 </div>
 
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<div id="tabs-help">
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
 </div>
 
 <div id="watermark" style="display:none;">
@@ -282,6 +290,7 @@ gGetTemplatePackUrl = "{{url_for('get_template_pack')}}" ;
 gGetDefaultScenarioUrl = "{{url_for('get_default_scenario')}}" ;
 gVehicleListingsUrl = "{{url_for('get_vehicle_listings')}}" ;
 gOrdnanceListingsUrl = "{{url_for('get_ordnance_listings')}}" ;
+gHelpUrl = "{{url_for('show_help')}}" ;
 </script>
 <script src="{{url_for('static',filename='main.js')}}"></script>
 <script src="{{url_for('static',filename='snippets.js')}}"></script>
