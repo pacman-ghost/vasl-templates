@@ -2,10 +2,11 @@
 
 import os
 import configparser
-import json
 import logging
+import logging.config
 
 from flask import Flask
+import yaml
 
 from vasl_templates.webapp.config.constants import APP_NAME, BASE_DIR
 
@@ -34,10 +35,13 @@ if os.path.isfile( _fname ) :
     load_debug_config( _fname )
 
 # initialize logging
-_fname = os.path.join( config_dir, "logging.cfg" )
+_fname = os.path.join( config_dir, "logging.yaml" )
 if os.path.isfile( _fname ):
-    import logging.config
-    logging.config.dictConfig( json.load( open(_fname,"r") ) )
+    with open( _fname, "r" ) as fp:
+        logging.config.dictConfig( yaml.safe_load( fp ) )
+else:
+    # stop Flask from logging every request :-/
+    logging.getLogger( "werkzeug" ).setLevel( logging.WARNING )
 
 # load the application
 import vasl_templates.webapp.main #pylint: disable=cyclic-import
