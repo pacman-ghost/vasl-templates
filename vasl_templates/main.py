@@ -11,6 +11,7 @@ import urllib.request
 
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import Qt, QSettings, QDir
+import PyQt5.QtCore
 import click
 
 from vasl_templates.main_window import MainWindow
@@ -19,22 +20,21 @@ from vasl_templates.webapp import snippets, load_debug_config
 
 # ---------------------------------------------------------------------
 
-class LoggerProxy:
-    """Redirect messages to Python logging."""
-    def __init__( self, logger, level ):
-        self.logger = logger
-        self.level = level
-        self.closed = False
-    def write( self, msg ):
-        """Output a message."""
-        if isinstance(msg, bytes):
-            msg = msg.decode( "utf-8" )
-        msg = msg.rstrip()
-        if msg:
-            self.logger.log( self.level, msg )
-    def flush( self ):
-        """Flush the output stream."""
-        pass
+_QT_LOGGING_LEVELS = {
+    PyQt5.QtCore.QtCriticalMsg: logging.CRITICAL,
+    PyQt5.QtCore.QtFatalMsg: logging.ERROR,
+    PyQt5.QtCore.QtWarningMsg: logging.WARNING,
+    PyQt5.QtCore.QtInfoMsg: logging.INFO,
+    PyQt5.QtCore.QtDebugMsg: logging.DEBUG,
+}
+
+def qtMessageHandler( msg_type, context, msg ):# pylint: disable=unused-argument
+    """Handle PyQt logging messages."""
+    # FUDGE! PyQt issues a bunch of warning messages because we had to proxy WebChannel requests
+    # via the MainWindow object - we filter them out here.
+    if "has no notify signal and is not constant" in msg:
+        return
+    logging.getLogger().log( _QT_LOGGING_LEVELS[msg_type], "%s", msg )
 
 # ---------------------------------------------------------------------
 
@@ -64,17 +64,19 @@ def main( template_pack, remote_debugging, debug ):
     # load the application settings
     fname = "vasl-templates.ini" if sys.platform == "win32" else ".vasl-templates.conf"
     if not os.path.isfile( fname ) :
-        fname = os.path.join( QDir.homePath() , fname  )
-    settings = QSettings( fname , QSettings.IniFormat )
+        fname = os.path.join( QDir.homePath(), fname  )
+    settings = QSettings( fname, QSettings.IniFormat )
 
     # install the debug config file
     if debug:
         load_debug_config( debug )
 
-    # connect stdout/stderr to Python logging
-    # NOTE: Logging to the console causes crashes on Windows if we are frozen, so don't do that!
-    sys.stdout = LoggerProxy( logging, logging.INFO )
-    sys.stderr = LoggerProxy( logging, logging.WARNING )
+    # connect PyQt's logging to Python logging
+    PyQt5.QtCore.qInstallMessageHandler( qtMessageHandler )
+
+    # disable the Flask "do not use in a production environment" warning
+    import flask.cli
+    flask.cli.show_server_banner = lambda *args: None
 
     # start the webapp server
     port = webapp.config["FLASK_PORT_NO"]

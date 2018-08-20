@@ -44,9 +44,6 @@ import vasl_templates.webapp.main #pylint: disable=cyclic-import
 import vasl_templates.webapp.vo #pylint: disable=cyclic-import
 import vasl_templates.webapp.snippets #pylint: disable=cyclic-import
 
-# initialize the application
-logger = logging.getLogger( "startup" )
-
 # ---------------------------------------------------------------------
 
 @app.context_processor

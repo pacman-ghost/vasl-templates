@@ -77,7 +77,8 @@ class MainWindow( QWidget ):
             web_channel = QWebChannel( page )
             # FUDGE! We would like to register a WebChannelHandler instance as the handler, but this crashes PyQt :-/
             # Instead, we register ourself as the handler, and delegate processing to a WebChannelHandler.
-            # The downside is that PyQt emits lots of warnings about our member variables not being properties :-/
+            # The downside is that PyQt emits lots of warnings about our member variables not being properties,
+            # but we filter them out in qtMessageHandler() :-/
             self._web_channel_handler = WebChannelHandler( self )
             web_channel.registerObject( "handler", self )
             page.setWebChannel( web_channel )
