@@ -114,9 +114,14 @@ $.fn.sortable2 = function( action, args )
                 on_edit( $sortable2, $entry ) ;
             } ) ;
         }
-        $entry.click( function( evt ) { // ctrl-click => delete the entry
+        $entry.click( function( evt ) {
             if ( evt.ctrlKey )
-                delete_entry( $sortable2, $(this) ) ;
+                delete_entry( $sortable2, $(this) ) ; // ctrl-click => delete the entry
+            else if ( evt.shiftKey ) {
+                var $elem = $(this).find( "img.snippet" ) ;
+                if ( $elem.length !== 0 )
+                    $elem.click() ; // shift-click => generate snippet
+            }
         } ) ;
 
         // style the entry
