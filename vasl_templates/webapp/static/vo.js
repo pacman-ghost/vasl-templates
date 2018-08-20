@@ -37,6 +37,15 @@ function add_vo( vo_type, player_no )
         minHeight: 300,
         create: function() {
             init_dialog( $(this), "OK", false ) ;
+            // trap down arrow, set focus to the V/O list
+            $("#select-vo input[type='text']").keydown( function(evt) {
+                if ( evt.keyCode == 40 ) {
+                    if ( $listbox.find( ":selected" ).length === 0 )
+                        $listbox.find( "option:eq(0)" ).prop( "selected", true ) ;
+                    $listbox.focus() ;
+                    evt.preventDefault() ;
+                }
+            } ) ;
         },
         open: function() {
             // initialize
