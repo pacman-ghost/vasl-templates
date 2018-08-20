@@ -34,7 +34,7 @@ def qtMessageHandler( msg_type, context, msg ):# pylint: disable=unused-argument
     # via the MainWindow object - we filter them out here.
     if "has no notify signal and is not constant" in msg:
         return
-    logging.getLogger().log( _QT_LOGGING_LEVELS[msg_type], "%s", msg )
+    logging.getLogger( "qt" ).log( _QT_LOGGING_LEVELS[msg_type], "%s", msg )
 
 # ---------------------------------------------------------------------
 

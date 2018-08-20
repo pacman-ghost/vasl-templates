@@ -2,6 +2,7 @@
 
 import os
 import re
+import logging
 
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QMessageBox
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage
@@ -25,7 +26,8 @@ class AppWebPage( QWebEnginePage ):
         """Log a Javascript console message."""
         mo = _CONSOLE_SOURCE_REGEX.search( source_id )
         source = mo.group(1) if mo else source_id
-        print( "{}:{} - {}".format( source, line_no, msg ) )
+        logger = logging.getLogger( "javascript" )
+        logger.info( "%s:%d - %s", source, line_no, msg )
 
 # ---------------------------------------------------------------------
 
