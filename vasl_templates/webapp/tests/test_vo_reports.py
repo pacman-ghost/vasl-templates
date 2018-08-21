@@ -9,6 +9,7 @@ import lxml.html
 import lxml.etree
 import tabulate
 
+import vasl_templates.webapp.tests.utils as test_utils
 from vasl_templates.webapp.tests.utils import find_child, wait_for
 
 # ---------------------------------------------------------------------
@@ -17,6 +18,7 @@ def test_vo_reports( webapp, webdriver ):
     """Check the vehicle/ordnance reports."""
 
     # initialize
+    test_utils._webdriver = webdriver #pylint: disable=protected-access
     check_dir = os.path.join( os.path.split(__file__)[0], "fixtures/vo-reports/" )
     save_dir = None # nb: define this to save the generated reports
 
@@ -95,6 +97,7 @@ def get_vo_report( webapp, webdriver, nat, vo_type, year ):
             return "n/a"
         val = val.replace( '<span class="val">', "" ).replace( "</span>", "" )
         val = val.replace( "&#8224;", "\u2020" ).replace( "&#174;", "\u00ae" )
+        val = val.replace( "&#10003;", "yes" )
         return val
 
     # unload the results

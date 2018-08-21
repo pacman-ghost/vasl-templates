@@ -55,6 +55,7 @@ function load_vo_listings( objs )
     buf.push( "<tr>", "<th>Name" ) ;
     if ( "{{VO_TYPE}}" === "vehicles" ) {
         buf.push( "<th>Radio" ) ;
+        buf.push( "<th>IF" ) ;
         buf.push( "<th>Crew survival" ) ;
     }
     buf.push( "<th colspan='2'>Capabilities", "<th colspan='2'>Notes" ) ;
@@ -64,6 +65,7 @@ function load_vo_listings( objs )
         buf.push( "<td>", fmtval(obj.name) ) ;
         if ( "{{VO_TYPE}}" === "vehicles" ) {
             buf.push( "<td>", fmtval(obj.no_radio) ) ;
+            buf.push( "<td>", fmtval( obj.no_if ? "" : "&#10003;" ) ) ;
             buf.push( "<td>", fmtval(make_crew_survival(obj)) ) ;
         }
         var capabilities = make_capabilities( obj, year, month, true, true ) ;

@@ -1,89 +1,89 @@
 === vehicles/russian/1944 ===
 
-Name               Radio    Crew survival                         Capabilities                            (effective)    #      Notes
------------------  -------  ------------------------------------  --------------------------------------  -------------  -----  ---------------------
-T-37               ®        CS 2                                  n/a                                     n/a            1      H† M
-T-27               ®        CS 2                                  n/a                                     n/a            1.1†   M Q
-T-40               ®        CS 2                                  n/a                                     n/a            2†     H†
-T-50               ®        CS 4                                  A4[2]                                   A4             3      n/a
-T-60 M40           ®        CS 2                                  n/a                                     n/a            4      n/a
-T-60 M42           ®†       CS 2                                  n/a                                     n/a            4      C†
-T-70               ®†       CS 2                                  A4[2]                                   A4             5      C†
-T-26 M33           ®        CS 3                                  n/a                                     n/a            6      D I† M P
-T-26 M37/39        ®        CS 3                                  n/a                                     n/a            6      D M P
-T-26 M31           ®        CS 3                                  n/a                                     n/a            6.1†   M P
-T-26 M32           ®        CS 3                                  n/a                                     n/a            6.2†   M P
-OT-26              ®        CS 3 <small><i>(brew up)</i></small>  n/a                                     n/a            6.3†   M P
-ST-26 Bridgelayer  n/a      CS 3                                  n/a                                     n/a            6.4†   M
-OT-133             ®        CS 3                                  n/a                                     n/a            7†     M P
-BT-2A              ®        CS 3                                  n/a                                     n/a            7.1†   M
-BT-5 M34           ®        CS 3                                  n/a                                     n/a            8†     M P
-BT-7 M37           ®        CS 3                                  n/a                                     n/a            9      D I† M P
-BT-7A              n/a      CS 3                                  AP7 s9                                  AP7 s9         10     M P
-T-28 M34           ®        CS 5                                  s8                                      s8             11†    M
-T-28 M34(L)        ®        CS 5                                  s8                                      s8             11.1†  M
-T-28E M40          ®        CS 6                                  s8                                      s8             12†    M
-T-28E M40(L)       ®        CS 6                                  s8                                      s8             12.1†  M
-T-34 M40           ®        CS 5                                  n/a                                     n/a            13     M
-T-34 M41           ®†       CS 5                                  A4[2]                                   A4             14†    C† M
-OT-34              ®†       CS 4                                  A2[2] AP7                               A2 AP7         15†    C† M
-T-34 M43           n/a      CS 5                                  A4[2]                                   A4             16†    n/a
-T-43               ®†       CS 5                                  A4[2]                                   A4             17     C† M
-T-34/85            n/a      CS 6                                  A5[4] sD6†                              A5 sD6†        18†    J†
-M4/76(a)           n/a      CS 6                                  A3[4] s8 sM8                            A3 s8 sM8      19†    N
-T-44               n/a      CS 5                                  A6[5]                                   n/a            20     B† M
-T-35               ®        CS 8                                  s9                                      s9             21†    M
-SMK                n/a      CS 7                                  n/a                                     n/a            21.1   M T†
-T-100              n/a      CS 7                                  n/a                                     n/a            22.1   M T†
-KV-1 M39/40        n/a      CS 6                                  n/a                                     n/a            22†    M
-KV-1E              n/a      CS 6                                  n/a                                     n/a            23     D M
-KV-1 M41           n/a      CS 6                                  A4[2]                                   A4             23     D M
-KV-1 M42           n/a      CS 6                                  A4[2]                                   A4             23     D M
-KV-2               n/a      CS 7                                  AP9                                     AP9            24†    M
-KV-8               n/a      CS 6                                  A4[2] AP7                               A4 AP7         15†    D M
-KV-1S              n/a      CS 6                                  A4[2]                                   A4             25†    n/a
-KV-85              n/a      CS 5                                  A4[3]5[4]                               A5             26     B†
-IS-2               n/a      CS 6                                  n/a                                     n/a            27     B†
-IS-2m              n/a      CS 6                                  n/a                                     n/a            28     B† G†
-IS-3               n/a      CS 6                                  sD6†                                    sD6†           29     G† J†
-SU-76M             n/a      CS 4 <small><i>(brew up)</i></small>  A5[3]                                   A5             30†    n/a
-SU-76i(g)          n/a      CS 5                                  A5[3]                                   A5             31     K
-SU-122             n/a      CS 5                                  H9 s8                                   H9 s8          32     n/a
-SU-152             n/a      CS 6                                  n/a                                     n/a            33†    n/a
-ISU-122            n/a      CS 6                                  s8                                      s8             34     G†
-ISU-152            n/a      CS 6                                  n/a                                     n/a            34     G†
-SU-85              n/a      CS 5                                  A5[3] HE7 s7                            A5 HE7 s7      35     n/a
-SU-100             n/a      CS 5                                  HE7                                     HE7            36     n/a
-SU-57(a)           n/a      CS 4                                  A5[3] HE7                               A5 HE7         37     K
-BA-20              ®        CS 3                                  n/a                                     n/a            38     n/a
-BA-6               ®        CS 4                                  A4[2]                                   A4             39     n/a
-BA-64B             n/a      CS 2                                  n/a                                     n/a            40†    A†
-ZSU-37             n/a      CS 4                                  n/a                                     n/a            41†    A†
-SU-12              n/a      CS 4                                  AP7 s8                                  AP7 s8         42     F†
-GAZ-4M-AA          n/a      CS 4                                  n/a                                     n/a            43†    A†
-ZIS-42-AA          n/a      CS 4                                  n/a                                     n/a            44     A† F†
-LANO AT            ®        CS 5                                  A4[2+]                                  A4             44.1   n/a
-LANO AA            ®        CS 5                                  n/a                                     n/a            44.2†  A†<sup>1</sup>
-IAG-10-AA          n/a      CS 4                                  AP7                                     AP7            45     A† F†
-GAZ-67B            n/a      CS 2                                  n/a                                     n/a            46     L†
-Komsomolet         n/a      CS 2†                                 n/a                                     n/a            46.1†  n/a
-STZ-3              n/a      cs 4                                  n/a                                     n/a            46.2   n/a
-STZ-5              n/a      cs 7                                  n/a                                     n/a            46.3   n/a
-GAZ-MM             n/a      cs 6                                  n/a                                     n/a            47     n/a
-ZIS-5              n/a      cs 7                                  n/a                                     n/a            47     n/a
-IAG-6              n/a      cs 7                                  n/a                                     n/a            47     n/a
-NKL-6              n/a      CS 2†                                 n/a                                     n/a            47.1†  S†<sup>1</sup>
-NKL-16             n/a      cs 2                                  n/a                                     n/a            47.1†  S†<sup>1</sup>
-NKL-26             n/a      CS 2                                  n/a                                     n/a            47.2†  Q S†<sup>1</sup>
-RF-8-GAZ-98        n/a      CS 3                                  n/a                                     n/a            47.3†  S†<sup>1</sup>
-Stuart III(a)      n/a      CS 4                                  C6                                      C6             48     N O LL
-Lee(a)             n/a      CS 7                                  C4† s8†                                 C4† s8†        49†    B†<sup>1</sup> N O LL
-Sherman III(a)     n/a      CS 5 <small><i>(brew up)</i></small>  WP6[J4+]† s8                            s8             50†    N O R†<sup>1</sup> LL
-Sherman III(L)(a)  n/a      CS 6 <small><i>(brew up)</i></small>  WP7 s5 sM8                              WP7 s5 sM8     50.1   N O R† LL
-Matilda II(b)      n/a      CS 5                                  sD6                                     sD6            51†    M†<sup>1</sup> N LL
-Valentine V(b)     n/a      CS 4                                  sM8                                     sM8            52.1   N LL
-Valentine VIII(b)  n/a      CS 4                                  HE7 sD6                                 HE7 sD6        52.2   N LL
-Churchill III(b)   n/a      CS 7                                  D6[J4]7[5]† HE7[F3]8[4+]† sD6[4+] sM8†  HE8 sD6 sM8†   53†    N LL
-M3A1 Scout Car(a)  n/a      CS 4                                  n/a                                     n/a            54†    N LL
-Jeep GPA(a)        n/a      cs 2                                  n/a                                     n/a            59     H† L†<sup>1</sup>
-DUKW(a)            n/a      cs 7                                  n/a                                     n/a            60†    n/a
+Name               Radio    IF    Crew survival                         Capabilities                            (effective)    #      Notes
+-----------------  -------  ----  ------------------------------------  --------------------------------------  -------------  -----  ---------------------
+T-37               ®        yes   CS 2                                  n/a                                     n/a            1      H† M
+T-27               ®        yes   CS 2                                  n/a                                     n/a            1.1†   M Q
+T-40               ®        yes   CS 2                                  n/a                                     n/a            2†     H†
+T-50               ®        yes   CS 4                                  A4[2]                                   A4             3      n/a
+T-60 M40           ®        yes   CS 2                                  n/a                                     n/a            4      n/a
+T-60 M42           ®†       yes   CS 2                                  n/a                                     n/a            4      C†
+T-70               ®†       yes   CS 2                                  A4[2]                                   A4             5      C†
+T-26 M33           ®        yes   CS 3                                  n/a                                     n/a            6      D I† M P
+T-26 M37/39        ®        yes   CS 3                                  n/a                                     n/a            6      D M P
+T-26 M31           ®        yes   CS 3                                  n/a                                     n/a            6.1†   M P
+T-26 M32           ®        yes   CS 3                                  n/a                                     n/a            6.2†   M P
+OT-26              ®        yes   CS 3 <small><i>(brew up)</i></small>  n/a                                     n/a            6.3†   M P
+ST-26 Bridgelayer  n/a      yes   CS 3                                  n/a                                     n/a            6.4†   M
+OT-133             ®        yes   CS 3                                  n/a                                     n/a            7†     M P
+BT-2A              ®        yes   CS 3                                  n/a                                     n/a            7.1†   M
+BT-5 M34           ®        yes   CS 3                                  n/a                                     n/a            8†     M P
+BT-7 M37           ®        yes   CS 3                                  n/a                                     n/a            9      D I† M P
+BT-7A              n/a      yes   CS 3                                  AP7 s9                                  AP7 s9         10     M P
+T-28 M34           ®        yes   CS 5                                  s8                                      s8             11†    M
+T-28 M34(L)        ®        yes   CS 5                                  s8                                      s8             11.1†  M
+T-28E M40          ®        yes   CS 6                                  s8                                      s8             12†    M
+T-28E M40(L)       ®        yes   CS 6                                  s8                                      s8             12.1†  M
+T-34 M40           ®        yes   CS 5                                  n/a                                     n/a            13     M
+T-34 M41           ®†       yes   CS 5                                  A4[2]                                   A4             14†    C† M
+OT-34              ®†       n/a   CS 4                                  A2[2] AP7                               A2 AP7         15†    C† M
+T-34 M43           n/a      yes   CS 5                                  A4[2]                                   A4             16†    n/a
+T-43               ®†       yes   CS 5                                  A4[2]                                   A4             17     C† M
+T-34/85            n/a      yes   CS 6                                  A5[4] sD6†                              A5 sD6†        18†    J†
+M4/76(a)           n/a      yes   CS 6                                  A3[4] s8 sM8                            A3 s8 sM8      19†    N
+T-44               n/a      yes   CS 5                                  A6[5]                                   n/a            20     B† M
+T-35               ®        yes   CS 8                                  s9                                      s9             21†    M
+SMK                n/a      yes   CS 7                                  n/a                                     n/a            21.1   M T†
+T-100              n/a      yes   CS 7                                  n/a                                     n/a            22.1   M T†
+KV-1 M39/40        n/a      yes   CS 6                                  n/a                                     n/a            22†    M
+KV-1E              n/a      yes   CS 6                                  n/a                                     n/a            23     D M
+KV-1 M41           n/a      yes   CS 6                                  A4[2]                                   A4             23     D M
+KV-1 M42           n/a      yes   CS 6                                  A4[2]                                   A4             23     D M
+KV-2               n/a      n/a   CS 7                                  AP9                                     AP9            24†    M
+KV-8               n/a      yes   CS 6                                  A4[2] AP7                               A4 AP7         15†    D M
+KV-1S              n/a      yes   CS 6                                  A4[2]                                   A4             25†    n/a
+KV-85              n/a      yes   CS 5                                  A4[3]5[4]                               A5             26     B†
+IS-2               n/a      n/a   CS 6                                  n/a                                     n/a            27     B†
+IS-2m              n/a      n/a   CS 6                                  n/a                                     n/a            28     B† G†
+IS-3               n/a      n/a   CS 6                                  sD6†                                    sD6†           29     G† J†
+SU-76M             n/a      yes   CS 4 <small><i>(brew up)</i></small>  A5[3]                                   A5             30†    n/a
+SU-76i(g)          n/a      yes   CS 5                                  A5[3]                                   A5             31     K
+SU-122             n/a      n/a   CS 5                                  H9 s8                                   H9 s8          32     n/a
+SU-152             n/a      n/a   CS 6                                  n/a                                     n/a            33†    n/a
+ISU-122            n/a      n/a   CS 6                                  s8                                      s8             34     G†
+ISU-152            n/a      n/a   CS 6                                  n/a                                     n/a            34     G†
+SU-85              n/a      yes   CS 5                                  A5[3] HE7 s7                            A5 HE7 s7      35     n/a
+SU-100             n/a      yes   CS 5                                  HE7                                     HE7            36     n/a
+SU-57(a)           n/a      yes   CS 4                                  A5[3] HE7                               A5 HE7         37     K
+BA-20              ®        yes   CS 3                                  n/a                                     n/a            38     n/a
+BA-6               ®        yes   CS 4                                  A4[2]                                   A4             39     n/a
+BA-64B             n/a      yes   CS 2                                  n/a                                     n/a            40†    A†
+ZSU-37             n/a      yes   CS 4                                  n/a                                     n/a            41†    A†
+SU-12              n/a      yes   CS 4                                  AP7 s8                                  AP7 s8         42     F†
+GAZ-4M-AA          n/a      yes   CS 4                                  n/a                                     n/a            43†    A†
+ZIS-42-AA          n/a      yes   CS 4                                  n/a                                     n/a            44     A† F†
+LANO AT            ®        yes   CS 5                                  A4[2+]                                  A4             44.1   n/a
+LANO AA            ®        yes   CS 5                                  n/a                                     n/a            44.2†  A†<sup>1</sup>
+IAG-10-AA          n/a      yes   CS 4                                  AP7                                     AP7            45     A† F†
+GAZ-67B            n/a      yes   CS 2                                  n/a                                     n/a            46     L†
+Komsomolet         n/a      yes   CS 2†                                 n/a                                     n/a            46.1†  n/a
+STZ-3              n/a      yes   cs 4                                  n/a                                     n/a            46.2   n/a
+STZ-5              n/a      yes   cs 7                                  n/a                                     n/a            46.3   n/a
+GAZ-MM             n/a      yes   cs 6                                  n/a                                     n/a            47     n/a
+ZIS-5              n/a      yes   cs 7                                  n/a                                     n/a            47     n/a
+IAG-6              n/a      yes   cs 7                                  n/a                                     n/a            47     n/a
+NKL-6              n/a      yes   CS 2†                                 n/a                                     n/a            47.1†  S†<sup>1</sup>
+NKL-16             n/a      yes   cs 2                                  n/a                                     n/a            47.1†  S†<sup>1</sup>
+NKL-26             n/a      yes   CS 2                                  n/a                                     n/a            47.2†  Q S†<sup>1</sup>
+RF-8-GAZ-98        n/a      yes   CS 3                                  n/a                                     n/a            47.3†  S†<sup>1</sup>
+Stuart III(a)      n/a      yes   CS 4                                  C6                                      C6             48     N O LL
+Lee(a)             n/a      yes   CS 7                                  C4† s8†                                 C4† s8†        49†    B†<sup>1</sup> N O LL
+Sherman III(a)     n/a      yes   CS 5 <small><i>(brew up)</i></small>  WP6[J4+]† s8                            s8             50†    N O R†<sup>1</sup> LL
+Sherman III(L)(a)  n/a      yes   CS 6 <small><i>(brew up)</i></small>  WP7 s5 sM8                              WP7 s5 sM8     50.1   N O R† LL
+Matilda II(b)      n/a      yes   CS 5                                  sD6                                     sD6            51†    M†<sup>1</sup> N LL
+Valentine V(b)     n/a      yes   CS 4                                  sM8                                     sM8            52.1   N LL
+Valentine VIII(b)  n/a      yes   CS 4                                  HE7 sD6                                 HE7 sD6        52.2   N LL
+Churchill III(b)   n/a      yes   CS 7                                  D6[J4]7[5]† HE7[F3]8[4+]† sD6[4+] sM8†  HE8 sD6 sM8†   53†    N LL
+M3A1 Scout Car(a)  n/a      yes   CS 4                                  n/a                                     n/a            54†    N LL
+Jeep GPA(a)        n/a      yes   cs 2                                  n/a                                     n/a            59     H† L†<sup>1</sup>
+DUKW(a)            n/a      yes   cs 7                                  n/a                                     n/a            60†    n/a

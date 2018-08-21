@@ -33,6 +33,7 @@ td { margin: 0 ; padding: 0 ; }
     </div>
 <td valign="top" style="padding:2px 5px;">
     {% if veh.no_radio %} <div> {{veh.no_radio}} </div> {%endif%}
+    {% if veh.no_if %} <div> no IF </div> {%endif%}
     {%for cap in veh.capabilities%} <div> {{cap}} </div> {%endfor%}
     {%if veh.crew_survival%} <div> {{veh.crew_survival}} </div> {%endif%}
 {%endfor%}

@@ -219,6 +219,8 @@ function unload_snippet_params( params, check_date_capabilities )
             } ;
             if ( entry.no_radio )
                 obj.no_radio = entry.no_radio ;
+            if ( entry.no_if )
+                obj.no_if = entry.no_if ;
             // NOTE: It would be nice to have a Jinja2 filter that inserted the raw capabilities or selected
             // the correct one for the scenario date e.g.
             //   {% for c in veh.capabilities %} {{c|selcap}} {%endif%}}
