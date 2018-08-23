@@ -3,6 +3,22 @@
 
 $(document).ready( function() {
 
+    // catch clicks on links
+    // FUDGE! We have to do a bit of stuffing around to open links in an external window,
+    // so that things will work when we're inside the desktop app.
+    if ( ! getUrlParam( "pyqt" ) ) {
+        $( "a" ).each( function() {
+            $(this).click( function(evt) {
+                var url = $(this).attr( "href" ) ;
+                if ( url[0] !== "#" && url.substring(0,16) !== "http://localhost" && url.substring(0,16) !== "http://127.0.0.1" ) {
+                    window.open( url ) ;
+                    evt.preventDefault() ;
+                    return false ;
+                }
+            } ) ;
+        } ) ;
+    }
+
     // initialize image previews
     $( "img.preview" ).each( function() {
         // check if the image is floating and add a margin

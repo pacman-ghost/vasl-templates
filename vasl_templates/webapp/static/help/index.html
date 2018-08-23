@@ -33,24 +33,24 @@
 
 <h2> Installing on Windows </h2>
 
-<p> If you're using Windows, you should get the pre-built version from <a href="https://github.com/pacman-ghost/vasl-templates/releases" target="_blank">Github</a>, unpack it somewhere, then run <tt>vasl-templates.exe</tt>
-<p> If the program won't start because a DLL is missing from your computer, install the <a href="https://www.microsoft.com/en-in/download/details.aspx?id=48145" target="_blank">VC2015 runtime</a> (get the 32-bit version, <tt>vc_redist.x86.exe</tt>, even if you are running 64-bit Windows).
+<p> If you're using Windows, you should get the pre-built version from <a href="https://github.com/pacman-ghost/vasl-templates/releases">Github</a>, unpack it somewhere, then run <tt>vasl-templates.exe</tt>
+<p> If the program won't start because a DLL is missing from your computer, install the <a href="https://www.microsoft.com/en-in/download/details.aspx?id=48145">VC2015 runtime</a> (get the 32-bit version, <tt>vc_redist.x86.exe</tt>, even if you are running 64-bit Windows).
 <p> If you don't see anything in the main window, check the notes below about configuring OpenGL.
 
 <h2> Running from source </h2>
 
-<p> If you're on a Mac or Linux, you can run the program directly from the source code. Get a copy from <a href="https://github.com/pacman-ghost/vasl-templates" target="_blank">Github</a> in the usual way, by <tt>git clone</tt>'ing it, or downloading a ZIP and unpacking it somewhere.
+<p> If you're on a Mac or Linux, you can run the program directly from the source code. Get a copy from <a href="https://github.com/pacman-ghost/vasl-templates">Github</a> in the usual way, by <tt>git clone</tt>'ing it, or downloading a ZIP and unpacking it somewhere.
 
 <p> The web server was written and tested using Python 3.6, but it doesn't do anything particulaly funky, so any recent version of Python <em>should</em> work.
 
-<p> While not essential, it is <em>strongly</em> recommended that you set up a <a href="https://virtualenv.pypa.io/en/stable/" target="_blank">virtual environment</a> first. Then, install the requirements:
+<p> While not essential, it is <em>strongly</em> recommended that you set up a <a href="https://virtualenv.pypa.io/en/stable/">virtual environment</a> first. Then, install the requirements:
 <div class="code">
 pip install .
 </div>
 
 <h4> Running the desktop application </h4>
 
-<p> To run the program as a desktop application, you will need to install Qt 5.10.0. While your distro may have it as a package, I didn't have much luck on Fedora 27, and had to install it manually using their <a href="https://www.qt.io/download" target="_blank">installer</a>.
+<p> To run the program as a desktop application, you will need to install Qt 5.10.0. While your distro may have it as a package, I didn't have much luck on Fedora 27, and had to install it manually using their <a href="https://www.qt.io/download">installer</a>.
 <p> Then, just run the <tt>vasl-templates</tt> command.
 
 <h4> Running just the web server </h4>
@@ -71,7 +71,7 @@ OPENGL_TYPE = AA_UseSoftwareOpenGL
 </div>
 Other possible values are <tt>AA_UseDesktopOpenGL</tt> and <tt>AA_UseOpenGLES</tt>.
 
-<p> If you're on Windows, <a href="https://doc.qt.io/qt-5/windows-requirements.html" target="_blank">this page</a> might also help.
+<p> If you're on Windows, <a href="https://doc.qt.io/qt-5/windows-requirements.html">this page</a> might also help.
 
 <p> In the worst case, you can set up your <tt>debug.cfg</tt> file like this:
 <div class="code">
@@ -87,7 +87,7 @@ The program will then not attempt to create the embedded browser, and will just 
 <div id="helptabs-userguide">
 
 <p> <img src="images/hill-621.png" class="preview" style="width:20em;float:right;">
-<em>VASL Templates</em> makes it easier to set up <a href="http://vasl.info" target="_blank">VASL</a> scenarios, and we'll show how by walking through a setup of everyone's favorite scenario, <em>Hill 621</em>.
+<em>VASL Templates</em> makes it easier to set up <a href="http://vasl.info">VASL</a> scenarios, and we'll show how by walking through a setup of everyone's favorite scenario, <em>Hill 621</em>.
 <p> Click on the screenshot to the right to see the finished scenario, in all it's glory.
 
 <h2> Adding the scenario details </h2>
@@ -256,7 +256,7 @@ When you're writing a new template file, it would be painful to have to ZIP up a
 <div class="code">
 pip install --editable .[dev]
 </div>
-The tests use <a href="http://pytest.org" target="_blank">pytest</a> and Selenium WebDriver, so you will need <tt>geckodriver</tt> and <tt>chromedriver</tt> somewhere in your PATH. The driver to use can be specified via the <tt>--webdriver</tt> parameter, and you can also run the tests headless e.g
+The tests use <a href="http://pytest.org">pytest</a> and Selenium WebDriver, so you will need <tt>geckodriver</tt> and <tt>chromedriver</tt> somewhere in your PATH. The driver to use can be specified via the <tt>--webdriver</tt> parameter, and you can also run the tests headless e.g
 <div class="code">
 pytest --webdriver chrome --headless
 </div>
@@ -268,7 +268,7 @@ pytest --webdriver chrome --headless
 
 <p> Python code is checked using <tt>pylint</tt> (installed during the <tt>pip install</tt> above), which should be run from the root directory of the repo.
 
-<p> Javascript is checked using <a href="http://jshint.com" target="_blank"><tt>jshint</tt></a>, run using <a href="https://www.mozilla.org/rhino" target="_blank">Rhino</a>, both of which need to be installed manually. Then, set the <tt>JSHINT_RHINO</tt> environment variable to point to the script that will run <tt>jshint</tt> using Rhino e.g.
+<p> Javascript is checked using <a href="http://jshint.com"><tt>jshint</tt></a>, run using <a href="https://www.mozilla.org/rhino">Rhino</a>, both of which need to be installed manually. Then, set the <tt>JSHINT_RHINO</tt> environment variable to point to the script that will run <tt>jshint</tt> using Rhino e.g.
 <div class="code">
 export JSHINT_RHINO=~/bin/jshint-2.6.3/dist/jshint-rhino.js
 </div>

@@ -22,6 +22,13 @@ _CONSOLE_SOURCE_REGEX = re.compile( r"^http://.+?/static/(.*)$" )
 class AppWebPage( QWebEnginePage ):
     """Application web page."""
 
+    def acceptNavigationRequest( self, url, nav_type, is_mainframe ): #pylint: disable=no-self-use,unused-argument
+        """Called when a link is clicked."""
+        if url.host() in ("localhost","127.0.0.1"):
+            return True
+        QDesktopServices.openUrl( url )
+        return False
+
     def javaScriptConsoleMessage( self, level, msg, line_no, source_id ): #pylint: disable=unused-argument,no-self-use
         """Log a Javascript console message."""
         mo = _CONSOLE_SOURCE_REGEX.search( source_id )
