@@ -4,13 +4,297 @@
 <head>
 <meta charset="utf-8">
 <title> VASL Templates </title>
-<style>
-* { margin: 0 ; padding: 0 }
-</style>
+<link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="imageZoom/jquery.imageZoom.css" />
+<link rel="stylesheet" type="text/css" href="main.css" />
 </head>
 
 <body>
-This is the help page.
+
+<!-- ----------------------------------------------------------------- -->
+
+<div id="helptabs" style="display:none;">
+
+<ul>
+    <li> <a href="#helptabs-installation">Installation</a>
+    <li> <a href="#helptabs-userguide">User Guide</a>
+    <li> <a href="#helptabs-templatepacks">Template packs</a>
+    <li> <a href="#helptabs-fordevelopers">For developers</a>
+</ul>
+
+<div id="helptabs-content">
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<div id="helptabs-installation">
+
+<p> <em>VASL Templates</em> is a web application that runs in a browser, but since it hasn't been set up as a web site on the public internet, you will need to run the web server yourself.
+<p> As a convenience, a program is provided that bundles the web server together with an embedded browser, so that it runs as if it were a normal desktop application.
+
+<h2> Installing on Windows </h2>
+
+<p> If you're using Windows, you should get the pre-built version from <a href="https://github.com/pacman-ghost/vasl-templates/releases" target="_blank">Github</a>, unpack it somewhere, then run <tt>vasl-templates.exe</tt>
+<p> If the program won't start because a DLL is missing from your computer, install the <a href="https://www.microsoft.com/en-in/download/details.aspx?id=48145" target="_blank">VC2015 runtime</a> (get the 32-bit version, <tt>vc_redist.x86.exe</tt>, even if you are running 64-bit Windows).
+<p> If you don't see anything in the main window, check the notes below about configuring OpenGL.
+
+<h2> Running from source </h2>
+
+<p> If you're on a Mac or Linux, you can run the program directly from the source code. Get a copy from <a href="https://github.com/pacman-ghost/vasl-templates" target="_blank">Github</a> in the usual way, by <tt>git clone</tt>'ing it, or downloading a ZIP and unpacking it somewhere.
+
+<p> The web server was written and tested using Python 3.6, but it doesn't do anything particulaly funky, so any recent version of Python <em>should</em> work.
+
+<p> While not essential, it is <em>strongly</em> recommended that you set up a <a href="https://virtualenv.pypa.io/en/stable/" target="_blank">virtual environment</a> first. Then, install the requirements:
+<div class="code">
+pip install .
+</div>
+
+<h4> Running the desktop application </h4>
+
+<p> To run the program as a desktop application, you will need to install Qt 5.10.0. While your distro may have it as a package, I didn't have much luck on Fedora 27, and had to install it manually using their <a href="https://www.qt.io/download" target="_blank">installer</a>.
+<p> Then, just run the <tt>vasl-templates</tt> command.
+
+<h4> Running just the web server </h4>
+
+<p> The simpler option is to just run the web server:
+<div class="code">
+python vasl_templates/webapp/run_server.py
+</div>
+and then connect to it in a browser at <tt>http://localhost:5010</tt>.
+
+<h2> I'm having problems running the desktop application </h2>
+
+<p> The desktop application uses OpenGL for the embedded browser, so if you are getting error messages about OpenGL, or the main window is not displaying properly, you can try configuring OpenGL to work in a different way.
+<p> Create a file called <tt>debug.cfg</tt> in <tt>$/lib/vasl_templates/webapp/config/</tt> (the same directory that contains a file called <tt>app.cfg</tt>) that looks like this:
+<div class="code">
+[Debug]
+OPENGL_TYPE = AA_UseSoftwareOpenGL
+</div>
+Other possible values are <tt>AA_UseDesktopOpenGL</tt> and <tt>AA_UseOpenGLES</tt>.
+
+<p> If you're on Windows, <a href="https://doc.qt.io/qt-5/windows-requirements.html" target="_blank">this page</a> might also help.
+
+<p> In the worst case, you can set up your <tt>debug.cfg</tt> file like this:
+<div class="code">
+[Debug]
+DISABLE_WEBENGINEVIEW = 1
+</div>
+The program will then not attempt to create the embedded browser, and will just start the web server, which you can then connect to in an external browser at <tt>http://localhost:5010</tt>.
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<div id="helptabs-userguide">
+
+<p> <img src="images/hill-621.png" class="preview" style="width:20em;float:right;">
+<em>VASL Templates</em> makes it easier to set up <a href="http://vasl.info" target="_blank">VASL</a> scenarios, and we'll show how by walking through a setup of everyone's favorite scenario, <em>Hill 621</em>.
+<p> Click on the screenshot to the right to see the finished scenario, in all it's glory.
+
+<h2> Adding the scenario details </h2>
+
+<p> <img src="images/scenario.png" class="preview" style="width:20em;float:left;">
+First, we enter the basic details about the scenario.
+<p> Click on one of the <em>Snippet</em> buttons, and the program will generate an HTML snippet and put it into your clipboard, which you can then copy into a VASL label.
+<br clear="all">
+
+<p> <img src="images/draggable-overlays.png" class="preview" style="width:20em;float:right;">
+To create a label in VASL, open the <em>Draggable Overlays</em> window, and drag a label onto the main window.
+<p> Labels come in two parts, which are accessible via the right-click menu, or press Ctrl-L and Ctrl-2 to access each one. I always just use the first line, so I delete everything in line 2.
+<p> The thick black box indicates that the label is selected. If you click elsewhere on the main window, it goes away, and the label will remain in place even if you click on it, or try to drag it. To select it again, Shift-click somewhere in the box, and you will be able to move it around, or edit it. This can sometimes be difficult to find, since it's not visible on-screen, but it will be in the middle (vertically and horizontally) of the label.
+<br clear="all">
+
+<p> <img src="images/scenario-vasl.png" class="preview" style="width:20em;float:left;">
+Once you have a label in VASL, copy the HTML snippet generated above into it.
+<p> Repeat the process to add the ELR and SAN for both players, and you will now have two labels that you can position in the VASL scenario.
+
+<h2> Adding victory conditions and SSR's </h2>
+
+<p> <img src="images/vc.png" class="preview" style="width:20em;float:left;">
+Adding the scenario's victory conditions is straight-forward. We're generating <em>HTML</em> snippets, so we can type in things like <tt>&amp;ge;</tt> to get <tt>&ge;</tt> in the VASL label.
+<img src="images/vc-vasl.png" class="preview" style="display:block;width:15em;margin:0.5em 0 0 2em;">
+<p> &nbsp;
+<p> Note that we explicitly set a width for the snippet (240px), which caused the text to wrap onto a new line. You could also do this by manually inserting <tt>&lt;br&gt;</tt> tags where you want line-breaks.
+<br clear="all">
+
+<p> <img src="images/add-ssr.png" class="preview" style="width:15em;float:right;">
+To add SSR's, click on the green plus button in the SSR section and add the SSR text.
+<p> Click on the OK button when you're done, or press Ctrl-Enter.
+<p> If you want to go back and change the text of an SSR, just double-click on it.
+<br clear="all">
+
+<p> <img src="images/ssr.png" class="preview" style="width:25em;float:right;">
+Once they're all in, click on the <em>Snippet</em> button to get a nicely formatted bullet list.
+
+<h2> Adding each player's OB </h2>
+
+<p> <img src="images/ob_vehicles.png" class="preview" style="width:20em;float:right;">
+Adding each vehicle and ordnance for each player is just a matter of selecting them from a list, and the generated HTML snippet will produce a table of information for each one (see right). Very handy if you have a menagerie of armor and you're, say, looking for something that can fire Smoke.
+<p> The scenario date is taken into account when generating these tables e.g. APCR for the Pz IVH is A5<sup>2</sup>, but since the program knows the scenario is set in 1944, it just shows A5. Had the scenario been set in 1941, it wouldn't be shown at all.
+<br clear="all">
+
+<p> <img src="images/ob_setup.png" class="preview" style="width:15em;float:left;">
+We can also add ad-hoc notes describing where and how units should setup.
+<p> Click on the icon in each note to generate its snippet, or Shift-click on it.
+<br clear="all">
+
+<p> <img src="images/pf.png" class="preview" style="width:15em;float:right;">
+Finally, if special support weapons such as PF and BAZ are in play, snippets are available with information for them, and as with vehicles/ordnance, they are date-aware and update themselves accordingly.
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<div id="helptabs-templatepacks">
+
+<h2 style="margin-top:0;"> How template files work </h2>
+
+<p> The HTML snippets are generated from <em>template files</em>, which are simply text files that contain the HTML you want to insert into the VASL labels, but with placeholders for the scenario name, victory conditions, each player's OB, etc. The user enters these details into the program, and when they want to generate a snippet, all the placeholders are replaced in the template with the real values, thus producing an HTML snippet specific to that scenario.
+
+<p> The template files can be found in <tt>$/lib/vasl_templates/webapp/data/default-template-pack/</tt> (where <tt>$</tt> is where you've installed the program).
+
+<h2> Placeholders and template conditionals </h2>
+
+<p> <img src="images/ssr-template.png" class="preview" style="width:20em;float:right;">
+We'll take a look at the <tt>ssr.j2</tt> file, which is used to generate snippets for the SSR's.
+
+<p> Open the file in a text editor (if you're on Windows, you will probably need to right-click on the file and choose <em>Open with...</em>), and you'll see something like this:
+<div class="code">
+&lt;html&gt;
+
+&lt;table style="
+  {%if SSR_WIDTH%} width: {{SSR_WIDTH}} ; {%endif%}
+"&gt;
+
+&lt;tr&gt;
+&lt;td style="
+  background: #f0f0f0 ;
+  border-bottom: 1px solid #c0c0c0 ;
+"&gt;
+    &lt;b&gt;Scenario Special Rules&lt;/b&gt;
+
+&lt;tr&gt;
+&lt;td&gt;
+&lt;ul style="margin:0 0 0 10px;"&gt;
+{%for ssr in SSR%}
+    &lt;li&gt; {{ssr}}
+{%endfor%}
+&lt;/ul&gt;
+
+&lt;/table&gt;
+
+&lt;/html&gt;
+</div>
+
+<p> The template looks like normal HTML, but with some extra stuff. Things that look like <tt>{% ... %}</tt> are commands to the template processor. At the top of the file, we see this:
+<div class="code">
+&lt;table style="
+  {%if SSR_WIDTH%} width: {{SSR_WIDTH}} ; {%endif%}
+"&gt;
+</div>
+This is saying <em>if the user has specified SSR_WIDTH, then insert into the generated HTML snippet everything up to the next <tt>{%endif%}</tt></em>. In this case, that's the following:
+<div class="code">
+width: {{SSR_WIDTH}} ;
+</div>
+Things that look like <tt>{{...}}</tt> are the actual values entered by the user into the UI, in this case, the SSR width.
+
+<p> So, if the user has specified a width of, say <em>300px</em>, this is what will be inserted into the final HTML snippet:
+<div class="code">
+&lt;table style="width: 300px ;"&gt;
+</div>
+But if the user hasn't specified anything for this field, what's between the <tt>{%if ...%}</tt> and <tt>{%endif%}</tt> will be ignored, and we get this:
+<div class="code">
+&lt;table style=""&gt;
+</div>
+
+<h2> Looping over lists </h2>
+
+<p> There will often be multiple SSR's, and near the bottom of the file, we can see how these are handled:
+<div class="code">
+&lt;ul style="margin:0 0 0 10px;"&gt;
+{%for ssr in SSR%}
+    &lt;li&gt; {{ssr}}
+{%endfor%}
+&lt;/ul&gt;
+</div>
+This sets up an HTML list (<tt>&lt;ul&gt;</tt>) and repeats everything between the <tt>{%for ...%}</tt> and <tt>{%endfor%}</tt>, once for each entry in the <tt>SSR</tt> variable, which contains the SSR's entered by the user in the UI. Each time around, <tt>{{ssr}}</tt> will be updated to hold the next entry, which will be inserted into the generated HTML snippet as a <tt>&lt;li&gt;</tt> node.
+<p> <img src="images/ssr-template2.png" class="preview" style="width:20em;float:right;">
+If the user had entered the SSR's as shown in the screenshot, then we would get the following inserted into the generated HTML snippet:
+<div class="code">
+&lt;ul style="margin:0 0 0 10px;"&gt;
+    &lt;li&gt; This is an SSR.
+    &lt;li&gt; This is &lt;em&gt;also&lt;/em&gt; an SSR.
+    &lt;li&gt; And one more.
+&lt;/ul&gt;
+</div>
+Note that if they enter HTML into the SSR text, it will be inserted verbatim into the HTML snippet, thus allowing them to format the content.
+
+<h2> Template packs </h2>
+
+<p> If you want to customize how the HTML snippets are generated, you could just edit the files directly, but the down-side of doing this is that if you install a new version of the program, you will lose your changes.
+<p><img src="images/load-template-pack.png" class="preview" style="width:10em;float:right;">
+A better way is to create your own set of template files, ZIP them up and load it as a <em>template pack</em>.
+<p> If you're running the desktop program, you can specify the template pack to start with, so that you don't have to manually upload it each time i.e.
+<div class="code">
+vasl-template.exe --template-pack my-template-pack.zip
+</div>
+You can specify a ZIP file, or the directory containing the files (probably easier).
+
+<p> <img src="images/edit-template.png" class="preview" style="width:20em;float:left;">
+When you're writing a new template file, it would be painful to have to ZIP up and upload a new template pack every time you made a change, so you can edit templates directly within the program (see screenshot).
+<p> Changes you make are live i.e. they will take effect immediately, but note that there is no way to save your changes, so once you're happy with how the template is working, you need to copy it out and save it somewhere.
+<br clear="all">
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<div id="helptabs-fordevelopers">
+
+<h2 style="margin-top:0;"> Setting up </h2>
+
+<p> After cloning the repo, install the <em>developer</em> requirements:
+<div class="code">
+pip install --editable .[dev]
+</div>
+The tests use <a href="http://pytest.org" target="_blank">pytest</a> and Selenium WebDriver, so you will need <tt>geckodriver</tt> and <tt>chromedriver</tt> somewhere in your PATH. The driver to use can be specified via the <tt>--webdriver</tt> parameter, and you can also run the tests headless e.g
+<div class="code">
+pytest --webdriver chrome --headless
+</div>
+<p> Note that since <tt>pylint</tt> is run as part of these tests, this should be done from the root directory of the repo.
+
+<p> <small><em>NOTE: Internet Explorer is also supported as a WebDriver, but due to differences in the way it works, some tests are currently failing for this.</em></small>
+
+<h2> Code lint'ing </h2>
+
+<p> Python code is checked using <tt>pylint</tt> (installed during the <tt>pip install</tt> above), which should be run from the root directory of the repo.
+
+<p> Javascript is checked using <a href="http://jshint.com" target="_blank"><tt>jshint</tt></a>, run using <a href="https://www.mozilla.org/rhino" target="_blank">Rhino</a>, both of which need to be installed manually. Then, set the <tt>JSHINT_RHINO</tt> environment variable to point to the script that will run <tt>jshint</tt> using Rhino e.g.
+<div class="code">
+export JSHINT_RHINO=~/bin/jshint-2.6.3/dist/jshint-rhino.js
+</div>
+Note that both of these are run as part of a normal <tt>pytest</tt> run.
+
+<h2> Creating a pre-compiled package </h2>
+
+<p> It is possible to compile the desktop application down to a single binary. This is typically done for the benefit of Windows users, but also works for other platforms. From the root directory of the repo:
+<div class="code">
+python _freeze.py --output c:\temp\vasl-templates.zip
+</div>
+The script will compile the program, then package it all up with the necessary support files into a single archive file.
+
+</div>
+
+<!-- ----------------------------------------------------------------- -->
+
+</div> <!-- #helptabs-content -->
+</div> <!-- #helptabs -->
+
 </body>
+
+<script src="jquery/jquery-3.3.1.min.js"></script>
+<script src="jquery-ui/jquery-ui.min.js"></script>
+<script src="imageZoom/jquery.imageZoom.min.js"></script>
+<script src="main.js"></script>
+<script src="../utils.js"></script>
 
 </html>

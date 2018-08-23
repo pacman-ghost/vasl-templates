@@ -1,0 +1,24 @@
+* { margin: 0 ; padding: 0 }
+html { height: 100% ; }
+body { height: 100% ; overflow: hidden ; }
+
+h2 { margin-top: 1em ; clear: both ; }
+h4 { margin-top: 0.5em ; clear: both ; }
+p { margin-top: 0.5em ; }
+
+.code { white-space: pre ; font-family: monospace ; margin: 0 1em 1em 2em ; }
+
+/* -------------------------------------------------------------------- */
+
+#helptabs { width: 100% ; height: calc(100% - 50px) ; background: none ; border: none ; }
+#helptabs-content { height: 100% ; margin-top: 10px ; overflow: auto ; }
+
+#helptabs .ui-tabs-nav { font-size: 75% ; text-align: right ; padding-right: 15px ; }
+#helptabs .ui-tabs-nav { background: none ; border-width: 0 0 1px 0 ; }
+#helptabs .ui-tabs-nav li { float: none ; display: inline-block ; margin-bottom: -4px ; }
+#helptabs .ui-tabs-nav a { color: #888 ; }
+
+#helptabs .ui-tabs-active { background: #ddd ; border-color: #ccc ; }
+#helptabs .ui-tabs-active a { color: #444 ; }
+
+#helptabs .ui-tabs-panel { padding: 0.5em 1em 0.5em 1em ; }

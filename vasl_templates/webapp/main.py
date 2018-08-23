@@ -21,8 +21,12 @@ def main():
 def show_help():
     """Show the help page."""
     url = url_for( "static", filename="help/index.html" )
-    if request.args.get( "embedded" ):
-        url += "?embedded=1"
+    args = []
+    for arg in ("embedded","tab"):
+        if request.args.get( arg ):
+            args.append( "{}={}".format( arg, request.args[arg] ) )
+    if args:
+        url += "?{}".format( "&".join( args ) )
     return redirect( url, code=302 )
 
 # ---------------------------------------------------------------------

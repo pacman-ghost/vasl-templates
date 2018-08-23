@@ -67,6 +67,12 @@ ul, ol { margin: 0.5em 0 0 1.25em ; br}
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+#tabs-help.ui-tabs-panel { background: #fff ; }
+
+#tabs-help iframe { width: 100% ; height: 99% ; border: none ; }
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
 fieldset { margin: 0 5px 5px 5px ; padding: 10px ; border: 1px solid #888 ; background: #ffffff ; border-radius: 0 10px 0 0 ; }
 fieldset legend { padding: 0 0.2em 0 0.2em ; font-style: italic ; font-weight: bold ; }
 

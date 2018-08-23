@@ -244,11 +244,12 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 <div id="tabs-help">
+    <iframe></iframe>
 </div>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-</div>
+</div> <!-- #tabs -->
 
 <div id="watermark" style="display:none;">
     <img src="{{url_for('static',filename='images/watermark.png')}}">
@@ -285,6 +286,7 @@
 <script src="{{url_for('static',filename='jszip/jszip.min.js')}}"></script>
 <script>
 gAppName = "{{APP_NAME}}" ;
+gAppVersion = "{{APP_VERSION}}" ;
 gImagesBaseUrl = "{{url_for('static',filename='images')}}" ;
 gGetTemplatePackUrl = "{{url_for('get_template_pack')}}" ;
 gGetDefaultScenarioUrl = "{{url_for('get_default_scenario')}}" ;

@@ -8,7 +8,7 @@ import logging.config
 from flask import Flask
 import yaml
 
-from vasl_templates.webapp.config.constants import APP_NAME, BASE_DIR
+from vasl_templates.webapp.config.constants import APP_NAME, APP_VERSION, BASE_DIR
 
 # ---------------------------------------------------------------------
 
@@ -53,4 +53,7 @@ import vasl_templates.webapp.snippets #pylint: disable=cyclic-import
 @app.context_processor
 def inject_template_params():
     """Inject template parameters into Jinja2."""
-    return { "APP_NAME": APP_NAME }
+    return {
+        "APP_NAME": APP_NAME,
+        "APP_VERSION": APP_VERSION,
+    }

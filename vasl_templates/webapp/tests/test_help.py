@@ -24,7 +24,7 @@ def test_help( webapp, webdriver ):
     # show the help
     select_menu_option( "show_help" )
     webdriver.switch_to.frame( find_child( "#tabs-help iframe" ) )
-    assert "This is the help page." in webdriver.page_source
+    assert "everyone's favorite scenario" in webdriver.page_source
     webdriver.switch_to.default_content()
 
     # make sure that the HELP tab is now visible
