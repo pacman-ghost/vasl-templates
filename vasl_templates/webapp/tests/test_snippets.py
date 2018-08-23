@@ -59,6 +59,17 @@ def test_scenario_snippets( webapp, webdriver ):
         None
     )
 
+    # generate a SCENARIO snippet with non-English content and HTML special characters
+    _test_snippet( btn, {
+        "SCENARIO_NAME": "<foo> & <bar>",
+        "SCENARIO_LOCATION": "japan (\u65e5\u672c)",
+        "SCENARIO_DATE": "01/02/1942",
+        "SCENARIO_WIDTH": "",
+    },
+        'name = [<foo> & <bar>] | loc = [japan (\u65e5\u672c)] | date = [01/02/1942] aka "2 January, 1942"',
+        None
+    )
+
 # ---------------------------------------------------------------------
 
 def test_vc_snippets( webapp, webdriver ):
@@ -103,7 +114,6 @@ def test_scenario_notes_snippets( webapp, webdriver ):
     init_webapp( webapp, webdriver )
     select_tab( "scenario" )
 
-    # add some scenario notes and check their snippets
     sortable = find_child( "#scenario_notes-sortable" )
     add_simple_note( sortable, "scenario <i>note</i> #1", None )
     add_simple_note( sortable, "scenario note #2", "100px" )
@@ -118,6 +128,11 @@ def test_scenario_notes_snippets( webapp, webdriver ):
     # delete scenario note by emptying its caption
     edit_simple_note( sortable, 0, "", None )
     assert get_sortable_entry_count( sortable ) == 0
+
+    # add a scenario note with non-English content and HTML special characters
+    sortable = find_child( "#scenario_notes-sortable" )
+    add_simple_note( sortable, "japan <\u65e5\u672c>", None )
+    assert generate_sortable_entry_snippet( sortable, 0 ) == "[japan <\u65e5\u672c>]"
 
 # ---------------------------------------------------------------------
 
