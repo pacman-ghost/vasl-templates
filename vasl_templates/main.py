@@ -86,8 +86,17 @@ def main( template_pack, default_scenario, remote_debugging, debug ): #pylint: d
     import flask.cli
     flask.cli.show_server_banner = lambda *args: None
 
-    # start the webapp server
+    # see if we can connect to the webapp server
     port = webapp.config["FLASK_PORT_NO"]
+    url = "http://localhost:{}/ping".format( port )
+    try:
+        resp = urllib.request.urlopen( url ).read()
+    except: #pylint: disable=bare-except
+        resp = None
+    if resp:
+        raise RuntimeError( "The application is already running." )
+
+    # start the webapp server
     def webapp_thread():
         """Run the webapp server."""
         try:
