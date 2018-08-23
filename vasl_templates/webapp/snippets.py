@@ -53,6 +53,7 @@ def get_template_pack():
         # extract the template pack files from the specified ZIP file
         if not os.path.isfile( dname ):
             return jsonify( { "error": "Can't find template pack: {}".format(dname) } )
+        data["templates"] = {}
         with zipfile.ZipFile( dname, "r" ) as zip_file:
             for fname in zip_file.namelist():
                 if fname.endswith( "/" ):
@@ -61,8 +62,8 @@ def get_template_pack():
                 fname = os.path.split(fname)[1]
                 if fname.lower() == "nationalities.json":
                     data["nationalities"].update( json.loads( fdata ) )
-                else:
-                    data[os.path.splitext(fname)[0]] = fdata
+                    continue
+                data["templates"][ os.path.splitext(fname)[0] ] = fdata
 
     return jsonify( data )
 
@@ -79,6 +80,8 @@ def _do_get_template_pack( dname ):
             with open( os.path.join(root,fname), "r" ) as fp:
                 if fname.lower() == "nationalities.json":
                     nationalities = json.load( fp )
-                elif os.path.splitext(fname)[1] == ".j2":
-                    templates[os.path.splitext(fname)[0]] = fp.read()
+                    continue
+                words = os.path.splitext( fname )
+                if words[1] == ".j2":
+                    templates[words[0]] = fp.read()
     return nationalities, templates
