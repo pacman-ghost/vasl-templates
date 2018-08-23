@@ -4,6 +4,7 @@ _work_/
 *.pyc
 .pytest_cache/
 *.egg-info/
+GPUCache/
 
 *.swp
 *.swo
