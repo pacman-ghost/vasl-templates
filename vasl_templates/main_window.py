@@ -52,7 +52,7 @@ class MainWindow( QWidget ):
         # initialize the main window
         self.setWindowTitle( APP_NAME )
         self.setWindowIcon( QIcon(
-            os.path.join( os.path.split(__file__)[0], "webapp/static/images/snippet.png" )
+            os.path.join( os.path.split(__file__)[0], "webapp/static/images/app.ico" )
         ) )
 
         # set the window geometry
