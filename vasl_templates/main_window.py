@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QMessageBox
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage
 from PyQt5.QtWebChannel import QWebChannel
 from PyQt5.QtGui import QDesktopServices, QIcon
-from PyQt5.QtCore import QUrl, pyqtSlot
+from PyQt5.QtCore import Qt, QUrl, pyqtSlot
 
 from vasl_templates.webapp.config.constants import APP_NAME
 from vasl_templates.webapp import app as webapp
@@ -41,7 +41,7 @@ class AppWebPage( QWebEnginePage ):
 class MainWindow( QWidget ):
     """Main application window."""
 
-    def __init__( self, settings, url ):
+    def __init__( self, settings, url, disable_browser ):
 
         # initialize
         super().__init__()
@@ -54,14 +54,18 @@ class MainWindow( QWidget ):
         self.setWindowIcon( QIcon(
             os.path.join( os.path.split(__file__)[0], "webapp/static/images/snippet.png" )
         ) )
-        self.setMinimumSize( 800, 500 )
 
-        # restore the window geometry
-        val = self.settings.value( "MainWindow/geometry" )
-        if val :
-            self.restoreGeometry( val )
-        else :
-            self.resize( 1000, 600 )
+        # set the window geometry
+        if disable_browser:
+            self.setFixedSize( 300, 100 )
+        else:
+            # restore it from the previous session
+            val = self.settings.value( "MainWindow/geometry" )
+            if val :
+                self.restoreGeometry( val )
+            else :
+                self.resize( 1000, 600 )
+            self.setMinimumSize( 800, 500 )
 
         # initialize the layout
         # FUDGE! We offer the option to disable the QWebEngineView since getting it to run
@@ -70,7 +74,7 @@ class MainWindow( QWidget ):
         # and non-technical users can then open an external browser and connect to the webapp
         # that way. Sigh...
         layout = QVBoxLayout( self )
-        if not webapp.config.get( "DISABLE_WEBENGINEVIEW" ):
+        if not disable_browser:
 
             # initialize the web view
             self._view = QWebEngineView()
@@ -100,11 +104,15 @@ class MainWindow( QWidget ):
 
             # show a minimal UI
             label = QLabel()
-            label.setText( "Running the {} application.\n\nClose this window when you're done.".format( APP_NAME ) )
+            label.setTextFormat( Qt.RichText )
+            label.setText(
+                "Running the <em>{}</em> application. <br>" \
+                "Click <a href='{}'>here</a> to connect." \
+                "<p> Close this window when you're done.".format(
+                APP_NAME, url
+            ) )
+            label.setOpenExternalLinks( True )
             layout.addWidget( label )
-
-            # open the webapp in an external browser
-            QDesktopServices.openUrl( QUrl(url) )
 
     def closeEvent( self, evt ) :
         """Handle requests to close the window (i.e. exit the application)."""
@@ -115,7 +123,8 @@ class MainWindow( QWidget ):
 
         def close_window():
             """Close the main window."""
-            self.settings.setValue( "MainWindow/geometry" , self.saveGeometry() )
+            if self._view:
+                self.settings.setValue( "MainWindow/geometry" , self.saveGeometry() )
             self.close()
 
         # check if the scenario is dirty

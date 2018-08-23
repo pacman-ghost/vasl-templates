@@ -104,10 +104,13 @@ def main( template_pack, remote_debugging, debug ):
         opengl_type = getattr( Qt, opengl_type )
         QApplication.setAttribute( opengl_type )
 
+    # check if we should disable the embedded browser
+    disable_browser = webapp.config.get( "DISABLE_WEBENGINEVIEW" )
+
     # run the application
     app = QApplication( sys.argv )
     url = "http://localhost:{}".format( port )
-    main_window = MainWindow( settings, url )
+    main_window = MainWindow( settings, url, disable_browser )
     main_window.show()
     ret_code = app.exec_()
 
