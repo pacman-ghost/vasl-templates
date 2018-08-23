@@ -42,7 +42,7 @@ def qtMessageHandler( msg_type, context, msg ):# pylint: disable=unused-argument
 @click.option( "--template-pack", help="Template pack to auto-load (ZIP file or directory)." )
 @click.option( "--remote-debugging", help="Chrome DevTools port number." )
 @click.option( "--debug", help="Debug config file." )
-def main( template_pack, remote_debugging, debug ):
+def main( template_pack, remote_debugging, debug ): #pylint: disable=too-many-locals
     """Main entry point for the application."""
 
     # configure the default template pack

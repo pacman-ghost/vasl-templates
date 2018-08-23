@@ -11,7 +11,6 @@ from PyQt5.QtGui import QDesktopServices, QIcon
 from PyQt5.QtCore import Qt, QUrl, pyqtSlot
 
 from vasl_templates.webapp.config.constants import APP_NAME
-from vasl_templates.webapp import app as webapp
 from vasl_templates.web_channel import WebChannelHandler
 from vasl_templates.utils import log_exceptions
 
