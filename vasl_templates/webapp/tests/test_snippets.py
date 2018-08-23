@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import \
     init_webapp, select_tab, set_template_params, get_clipboard, \
-    get_stored_msg, set_stored_msg_marker, find_child, \
+    get_stored_msg, set_stored_msg_marker, find_child, wait_for, \
     for_each_template, add_simple_note, edit_simple_note, \
     get_sortable_entry_count, generate_sortable_entry_snippet, drag_sortable_entry_to_trash
 
@@ -184,7 +184,7 @@ def test_edit_templates( webapp, webdriver ):
         # check that the new template is being used
         elem = find_child( "button.generate[data-id='{}']".format( orig_template_id ) )
         elem.click()
-        assert get_clipboard() == "EDITED TEMPLATE: {}".format( orig_template_id )
+        wait_for( 2, lambda: get_clipboard() == "EDITED TEMPLATE: {}".format( orig_template_id ) )
     for_each_template( test_template )
 
     # customize the SCENARIO NOTE template

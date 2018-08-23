@@ -8,7 +8,7 @@ from selenium.webdriver.support.ui import Select
 from vasl_templates.webapp.tests.utils import \
     get_nationalities, get_clipboard, get_stored_msg, set_stored_msg_marker, select_tab, find_child, find_children, \
     add_simple_note, edit_simple_note, get_sortable_entry_count, drag_sortable_entry_to_trash, \
-    select_droplist_val, init_webapp
+    select_droplist_val, init_webapp, wait_for
 
 # ---------------------------------------------------------------------
 
@@ -113,13 +113,15 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
         assert get_clipboard() == expected
         # check if a warning was issued
         last_warning = get_stored_msg( "_last-warning_" )
-        image_url = find_child( "img", btn ).get_attribute( "src" )
         if warning:
             assert "are only available" in last_warning
-            assert "snippet-disabled.png" in image_url
+            expected_image_url = "snippet-disabled.png"
         else:
             assert last_warning == marker
-            assert "snippet.png" in image_url
+            expected_image_url = "snippet.png"
+        wait_for( 2,
+            lambda: expected_image_url in find_child( "img", btn ).get_attribute( "src" )
+        )
 
     # initialize
     def check_pf_snippets():
