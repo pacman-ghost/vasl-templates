@@ -16,7 +16,8 @@ import click
 
 from vasl_templates.main_window import MainWindow
 from vasl_templates.webapp import app as webapp
-from vasl_templates.webapp import snippets, load_debug_config
+from vasl_templates.webapp import load_debug_config
+from vasl_templates.webapp import main as webapp_main, snippets as webapp_snippets
 
 # ---------------------------------------------------------------------
 
@@ -40,9 +41,10 @@ def qtMessageHandler( msg_type, context, msg ):# pylint: disable=unused-argument
 
 @click.command()
 @click.option( "--template-pack", help="Template pack to auto-load (ZIP file or directory)." )
+@click.option( "--default-scenario", help="Default scenario settings." )
 @click.option( "--remote-debugging", help="Chrome DevTools port number." )
 @click.option( "--debug", help="Debug config file." )
-def main( template_pack, remote_debugging, debug ): #pylint: disable=too-many-locals
+def main( template_pack, default_scenario, remote_debugging, debug ): #pylint: disable=too-many-locals
     """Main entry point for the application."""
 
     # configure the default template pack
@@ -54,7 +56,13 @@ def main( template_pack, remote_debugging, debug ): #pylint: disable=too-many-lo
         if not rc:
             click.echo( "ERROR: The template pack must be a ZIP file, or a directory containing the template files." )
             return 1
-        snippets.default_template_pack = template_pack
+        webapp_snippets.default_template_pack = template_pack
+
+    # configure the default scenario
+    if default_scenario:
+        if not os.path.isfile( default_scenario ):
+            raise RuntimeError( "Can't find the default scenario file." )
+        webapp_main.default_scenario = default_scenario
 
     # configure remote debugging
     if remote_debugging:
