@@ -103,7 +103,7 @@ def select_menu_option( menu_id ):
     """Select a menu option."""
     elem = find_child( "#menu" )
     elem.click()
-    elem = find_child( "a.PopMenu-Link[data-name='{}']".format( menu_id ) )
+    elem = wait_for_elem( 2, "a.PopMenu-Link[data-name='{}']".format( menu_id ) )
     elem.click()
     wait_for( 2, lambda: find_child("#menu .PopMenu-Container") is None ) # nb: wait for the menu to go away
     if pytest.config.option.webdriver == "chrome": #pylint: disable=no-member
@@ -382,3 +382,28 @@ def wait_for( timeout, func ):
             break
         assert time.time() - start_time < timeout
         time.sleep( 0.1 )
+
+def wait_for_elem( timeout, elem_id, parent=None ):
+    """Wait for an element to appear ."""
+    args = { "elem": None }
+    def check_elem(): #pylint: disable=missing-docstring
+        args["elem"] = find_child( elem_id, parent )
+        return args["elem"] is not None
+    wait_for( timeout, check_elem )
+    return args["elem"]
+
+# ---------------------------------------------------------------------
+
+_IE_HTML_TAGS = [ "<i>" ]
+
+def adjust_html( val ):
+    """Adjust HTML content for IE."""
+    if pytest.config.option.webdriver != "ie": #pylint: disable=no-member
+        return val
+    # convert HTML tags to uppercase :-/
+    for tag in _IE_HTML_TAGS:
+        val = val.replace( tag, tag.upper() )
+        assert tag.startswith( "<" ) and tag.endswith( ">" )
+        close_tag = "</{}".format( tag[1:] )
+        val = val.replace( close_tag, close_tag.upper() )
+    return val

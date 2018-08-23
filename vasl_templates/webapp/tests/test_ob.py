@@ -8,7 +8,7 @@ from selenium.webdriver.support.ui import Select
 from vasl_templates.webapp.tests.utils import \
     get_nationalities, get_clipboard, get_stored_msg, set_stored_msg_marker, select_tab, find_child, find_children, \
     add_simple_note, edit_simple_note, get_sortable_entry_count, drag_sortable_entry_to_trash, \
-    select_droplist_val, init_webapp, wait_for
+    select_droplist_val, init_webapp, wait_for, adjust_html
 
 # ---------------------------------------------------------------------
 
@@ -47,7 +47,7 @@ def _do_test_ob_entries( webapp, webdriver, ob_type ):
         elems[entry_no].click()
         if ob_type == "ob_notes":
             expected = re.sub( r" \(col=.*?\)", "", expected )
-        assert get_clipboard() == expected
+        assert adjust_html( get_clipboard() ) == expected
     select_tab( "ob1" )
     check_snippet( sortable1, 0,
         "[German] [{} #1] (col=[OBCOL:german/OBCOL2:german])".format( ob_type )

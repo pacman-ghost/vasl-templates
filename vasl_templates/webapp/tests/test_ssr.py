@@ -3,7 +3,7 @@
 import html
 
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, select_tab, find_child, get_clipboard, \
+    init_webapp, select_tab, find_child, get_clipboard, adjust_html, \
     add_simple_note, edit_simple_note, drag_sortable_entry_to_trash, get_sortable_entry_count
 
 # ---------------------------------------------------------------------
@@ -35,7 +35,7 @@ def test_ssr( webapp, webdriver ):
         val = "\n".join( "(*) [{}]".format(e) for e in expected )
         if width:
             val += "\nwidth = [{}]".format( width )
-        assert html.unescape( get_clipboard() ) == val
+        assert html.unescape( adjust_html( get_clipboard() ) ) == val
 
     # add an SSR and generate the SSR snippet
     add_ssr( "This is my first SSR." )

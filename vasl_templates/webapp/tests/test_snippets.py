@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import \
     init_webapp, select_tab, set_template_params, get_clipboard, \
-    get_stored_msg, set_stored_msg_marker, find_child, wait_for, \
+    get_stored_msg, set_stored_msg_marker, find_child, wait_for, adjust_html, \
     for_each_template, add_simple_note, edit_simple_note, \
     get_sortable_entry_count, generate_sortable_entry_snippet, drag_sortable_entry_to_trash
 
@@ -117,7 +117,7 @@ def test_scenario_notes_snippets( webapp, webdriver ):
     sortable = find_child( "#scenario_notes-sortable" )
     add_simple_note( sortable, "scenario <i>note</i> #1", None )
     add_simple_note( sortable, "scenario note #2", "100px" )
-    assert generate_sortable_entry_snippet( sortable, 0 ) == "[scenario <i>note</i> #1]"
+    assert generate_sortable_entry_snippet( sortable, 0 ) == adjust_html( "[scenario <i>note</i> #1]" )
     assert generate_sortable_entry_snippet( sortable, 1 ) == "[scenario note #2] (width=[100px])"
 
     # delete a scenario note by dragging it into the trash
