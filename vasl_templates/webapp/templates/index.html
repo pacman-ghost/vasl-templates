@@ -20,6 +20,8 @@
     <div style="margin:1em;"> Javascript is disabled. Please enable it, then reload this page. </div>
 </noscript>
 
+<img id="loader" src="{{url_for('static',filename='images/loader.gif')}}" style="position:fixed;top:50%;left:50%;margin-top:-16px;margin-left:-16px;z-index:999;">
+
 <!-- ----------------------------------------------------------------- -->
 
 <div id="menu" style="display:none;">
@@ -45,7 +47,6 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 <div id="tabs-scenario">
-
 <div class="left">
 
     <fieldset name="scenario" class="tl" style="display:none;"> <legend>S<u>c</u>enario</legend>

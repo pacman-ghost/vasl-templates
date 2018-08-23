@@ -375,8 +375,9 @@ function update_page_load_status( id )
     if ( gPageLoadStatus.length === 0 ) {
         // yup - update the UI
         $("#tabs").tabs({ disabled: [] }) ;
+        $("#loader").fadeOut( 500 ) ;
         adjust_footer_vspacers() ;
-        // NOTE: The wtermark image appears briefly in IE when reloading the page, but not even
+        // NOTE: The watermark image appears briefly in IE when reloading the page, but not even
         // creating the watermark dynamically and removing it when the page unloads fixes it :-(
         $("#watermark").fadeIn( 5*1000 ) ;
         // notify the test suite

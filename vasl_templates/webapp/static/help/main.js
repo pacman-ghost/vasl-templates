@@ -38,7 +38,8 @@ $(document).ready( function() {
         $( "#helptabs li:eq(0)" ).remove() ;
         $( "#helptabs-installation" ).remove() ;
     }
-    $("#helptabs").tabs().show() ;
+    $("#loader").fadeOut( 500 ) ;
+    $("#helptabs").tabs().fadeIn( 500 ) ;
     $("#helptabs .ui-tabs-nav a").click( function() { $(this).blur() ; } ) ;
 
     // check if we should auto-select a tab
