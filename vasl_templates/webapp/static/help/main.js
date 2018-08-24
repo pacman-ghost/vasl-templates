@@ -33,9 +33,26 @@ $(document).ready( function() {
         $(this).wrap( "<a href='" + url + "'></a>" ).imageZoom( $ ) ;
     } ) ;
 
+    // load the license
+    if ( window.parent.location.protocol !== "file:" ) {
+        var url = window.parent.location.protocol + "//" + window.parent.location.hostname ;
+        if ( window.parent.location.port )
+            url += ":" + window.parent.location.port ;
+        url += "/license" ;
+        $.get( url, function(data) {
+            $( "#helptabs-license .content" ).text( data ) ;
+        } ).fail( function( xhr, status, errorMsg ) {
+            $( "#helptabs-license .content" ).text( "Couldn't get the license: " + errorMsg ) ;
+        } ) ;
+    } else {
+        $( "#helptabs li:contains('License')" ).hide() ;
+        $( "#helptabs-license" ).hide() ;
+    }
+
     // initialize the tabs
     if ( getUrlParam( "embedded" ) ) {
-        $( "#helptabs li:eq(0)" ).remove() ;
+        // update the UI
+        $( "#helptabs li:contains('Installation')" ).remove() ;
         $( "#helptabs-installation" ).remove() ;
     }
     $("#loader").fadeOut( 500 ) ;

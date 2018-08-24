@@ -32,6 +32,9 @@ setup(
         ],
     },
     include_package_data = True,
+    data_files = [
+        ( "vasl-templates", ["LICENSE.txt"] ),
+    ],
     entry_points = {
         "console_scripts": "vasl-templates = vasl_templates.main:main",
     }

@@ -3,7 +3,7 @@
 import os
 import json
 
-from flask import request, render_template, jsonify, redirect, url_for
+from flask import request, render_template, jsonify, send_file, redirect, url_for, abort
 
 from vasl_templates.webapp import app
 from vasl_templates.webapp.config.constants import DATA_DIR
@@ -28,6 +28,35 @@ def show_help():
     if args:
         url += "?{}".format( "&".join( args ) )
     return redirect( url, code=302 )
+
+# ---------------------------------------------------------------------
+
+@app.route( "/license" )
+def get_license():
+    """Get the license."""
+
+    # locate the license file
+    dname = os.path.split( __file__ )[0]
+    fname = os.path.join( dname, "../../LICENSE.txt" ) # nb: if we're running from source
+    if not os.path.isfile( fname ):
+        fname = os.path.join( dname, "../../../LICENSE.txt" ) # nb: if we're running as a compiled binary
+    if not os.path.isfile( fname ):
+        # FUDGE! If we've been pip install'ed walk up the directory tree, looking for the license file :-/
+        dname = os.path.split( fname )[0]
+        while True:
+            # go up a directory
+            prev_dname = dname
+            dname = os.path.split( dname )[0]
+            if dname == prev_dname:
+                break
+            # check if we can find the license file
+            fname = os.path.join( dname, "vasl-templates/LICENSE.txt" )
+            if os.path.isfile( fname ):
+                break
+    if not os.path.isfile( fname ):
+        abort( 404 )
+
+    return send_file( fname, "text/plain" )
 
 # ---------------------------------------------------------------------
 

@@ -22,3 +22,7 @@ p { margin-top: 0.5em ; }
 #helptabs .ui-tabs-active a { color: #444 ; }
 
 #helptabs .ui-tabs-panel { padding: 0.5em 1em 0.5em 1em ; }
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+#helptabs-license .content { white-space: pre ; font-family: monospace ; }
