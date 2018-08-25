@@ -10,6 +10,8 @@ Simply enter the scenario information into the UI, and the program will generate
 
 <img src="https://github.com/pacman-ghost/vasl-templates/raw/master/vasl_templates/webapp/static/help/images/ob_setup.png" width="200">
 
+You can find more examples of the program in action [here](https://github.com/pacman-ghost/vasl-templates/tree/master/examples/).
+
 ### Documentation
 
 * [User Guide](https://rawgit.com/pacman-ghost/vasl-templates/master/vasl_templates/webapp/static/help/index.html?tab=userguide)
