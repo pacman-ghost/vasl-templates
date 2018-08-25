@@ -21,11 +21,8 @@ def main():
 def show_help():
     """Show the help page."""
     url = url_for( "static", filename="help/index.html" )
-    args = []
-    for arg in ("embedded","tab","pyqt"):
-        if request.args.get( arg ):
-            args.append( "{}={}".format( arg, request.args[arg] ) )
-    if args:
+    if request.args:
+        args = [ "{}={}".format( arg, request.args[arg] ) for arg in request.args ]
         url += "?{}".format( "&".join( args ) )
     return redirect( url, code=302 )
 

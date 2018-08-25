@@ -602,26 +602,11 @@ function show_help()
     if ( ! $iframe.attr( "src" ) ) {
         // yup - make it so
         // NOTE: We show the help in an iframe so that we can use the same files elsewhere e.g. on the web site or Github.
-        var url = gHelpUrl + "?embedded=1&tab=userguide" ;
+        var url = gHelpUrl + "?version=" + gAppVersion + "&embedded=1&tab=userguide" ;
         if ( getUrlParam( "pyqt" ) )
             url += "&pyqt=1" ;
         $iframe.attr( "src", url ) ;
         $("#tabs .ui-tabs-tab[aria-controls='tabs-help']").show() ;
-        setTimeout( function() { // nb: give the iframe time to become visible
-            // insert the app name/version
-            var pos = $iframe.position() ;
-            var buf = [ "<div style='display:none;",
-                "font-size: 1.8em; color: #555;",
-                "position: absolute; top: " + Math.ceil(pos.top) + "px; left: " + Math.ceil(pos.left) + "px;",
-                "padding-left: 5px;",
-                "'>",
-                gAppName + " <small>(" + gAppVersion + ")</small>",
-                "</div>",
-            ] ;
-            var $elem = $( buf.join("") ) ;
-            $iframe.after( $elem ) ;
-            $elem.fadeIn( 500 ) ;
-        }, 200 ) ;
     }
 
     // show the HELP tab

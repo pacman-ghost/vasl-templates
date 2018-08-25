@@ -3,6 +3,13 @@
 
 $(document).ready( function() {
 
+    // set the application name
+    var $caption = $( "#app-name" ) ;
+    var version = getUrlParam( "version" ) ;
+    if ( version )
+        $caption.html( $caption.html() + " <small>(" + version + ")</small>" ) ;
+    $caption.fadeIn( 500 ) ;
+
     // catch clicks on links
     // FUDGE! We have to do a bit of stuffing around to open links in an external window,
     // so that things will work when we're inside the desktop app.
