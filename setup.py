@@ -9,6 +9,9 @@ from setuptools import setup, find_packages
 setup(
     name = "vasl_templates",
     version = "0.1",
+    description = "Create HTML snippets for use in VASL.",
+    license = "AGPLv3",
+    url = "https://github.com/pacman-ghost/vasl-templates",
     packages = find_packages(),
     install_requires = [
         # Python 3.6.5
