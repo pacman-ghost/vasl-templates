@@ -2,8 +2,8 @@
 html { height: 100% ; }
 body { height: 100% ; overflow: hidden ; }
 
-h2 { margin-top: 1em ; clear: both ; }
-h4 { margin-top: 0.5em ; clear: both ; }
+h2 { margin-top: 1em ; clear: both ; color: #666 ; }
+h4 { margin-top: 0.5em ; clear: both ; color: #666 ; }
 p { margin-top: 0.5em ; }
 
 .code { white-space: pre ; font-family: monospace ; margin: 0 1em 1em 2em ; }
