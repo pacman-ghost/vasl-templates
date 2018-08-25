@@ -41,7 +41,8 @@ $(document).ready( function() {
     } ) ;
 
     // load the license
-    if ( window.parent.location.protocol !== "file:" ) {
+    var is_github = ( window.parent.location.hostname === "github.com" || window.parent.location.hostname === "rawgit.com" ) ;
+    if ( window.parent.location.protocol !== "file:" && !is_github ) {
         var url = window.parent.location.protocol + "//" + window.parent.location.hostname ;
         if ( window.parent.location.port )
             url += ":" + window.parent.location.port ;
