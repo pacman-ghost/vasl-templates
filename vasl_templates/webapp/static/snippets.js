@@ -277,7 +277,7 @@ function make_capabilities( entry, scenario_year, scenario_month, check_date_cap
                 capabilities.push( "LF [" + entry.capabilities2[key].join(", ") + "]" ) ;
                 continue ;
             }
-            if ( $.inArray( key, ["HE","A","D","sD","sN","WP"] ) === -1 ) {
+            if ( $.inArray( key, ["HE","AP","A","D","C","s","sD","sN","WP"] ) === -1 ) {
                 unexpected_caps.push( key ) ;
                 continue ;
             }
@@ -337,25 +337,38 @@ function make_raw_capability( name, capability )
     // generate the raw capability string
     var buf = [ name ] ;
     for ( var i=0 ; i < capability.length ; ++i ) {
-        buf.push( escapeHTML( capability[i][0] ) ) ;
-        if ( capability[i][1] )
-            buf.push( "<sup>", escapeHTML( capability[i][1] ), "</sup>" ) ;
+        if ( typeof(capability[i]) === "string" )
+            buf.push( capability[i] ) ;
+        else {
+            buf.push( escapeHTML( capability[i][0] ) ) ;
+            if ( capability[i][1] )
+                buf.push( "<sup>", escapeHTML( capability[i][1] ), "</sup>" ) ;
+        }
     }
     return buf.join( "" ) ;
 }
 
 function select_capability_by_date( capabilities, scenario_year, scenario_month )
 {
-    var MONTH_NAMES = { F: 2, J: 6, } ;
+    var MONTH_NAMES = { F:2, J:6, A:8 } ;
 
     var val = null ;
+    var ref = has_ref( capabilities ) ;
     for ( var i=0 ; i < capabilities.length ; ++i ) {
-        if ( capabilities[i] == "\u2020" )
-            continue ;
-        // remove any trailing "+" (why is it even there?)
+
+        // check for a ETO/PTO-only flag
         var cap = capabilities[i][1].toString() ;
+        if ( cap.substring( cap.length-1 ) === "E" )
+            cap = cap.substring( 0, cap.length-1 ) ; // FIXME! handle this properly
+        if ( cap.substring( cap.length-1 ) === "P" )
+            cap = cap.substring( 0, cap.length-1 ) ; // FIXME! handle this properly
+        // remove any trailing "+" (FIXME! What does it even mean? Doesn't make sense :-/)
         if ( cap.substring( cap.length-1 ) == "+" )
             cap = cap.substring( 0, cap.length-1 ) ;
+        if ( ! cap ) {
+            val = capabilities[i][0] ; // nb: the capability is always available
+            break ;
+        }
         // parse the month/year the capability becomes available
         var month = MONTH_NAMES[ cap.substring(0,1) ] ;
         if ( month )
@@ -371,7 +384,19 @@ function select_capability_by_date( capabilities, scenario_year, scenario_month 
                 val = capabilities[i][0] ;
         }
     }
-    return val ;
+    if ( ! val )
+        return val ;
+    return ref ? val+ref : val ;
+}
+
+function has_ref( val )
+{
+    var last = val[ val.length-1 ] ;
+    if ( typeof(last) === "string" && last.match( /^\u2020(<sup>\d<\/sup>)?$/ ) ) {
+        val.pop() ;
+        return last ;
+    }
+    return null ;
 }
 
 function make_crew_survival( entry )

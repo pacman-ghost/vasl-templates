@@ -26,8 +26,18 @@ def test_vo_reports( webapp, webdriver ):
     if save_dir and os.path.isdir(save_dir):
         shutil.rmtree( save_dir )
 
+    def fixup_capabilities( col, caption ):
+        """Convert capability HTML to something a bit more readable."""
+        assert results[0][col] == caption
+        for i in range(1,len(results)):
+            results[i][col] = re.sub(
+                r"<sup>(.*?)</sup>",
+                lambda mo: "[{}]".format( mo.group(1) ),
+                results[i][col]
+            )
+
     # check each vehicle/ordnance report
-    for nat in ["german","russian"]:
+    for nat in ["german","russian","american"]:
         for vo_type in ["vehicles","ordnance"]:
             for year in range(1940,1945+1):
 
@@ -43,13 +53,9 @@ def test_vo_reports( webapp, webdriver ):
                 results[0].insert( len(results[0])-2, "(effective)" )
 
                 # fix up date-based capabilities
-                assert results[0][-4] == "Capabilities"
-                for i in range(1,len(results)):
-                    results[i][-4] = re.sub(
-                        r"<sup>(.*?)</sup>",
-                        lambda mo: "[{}]".format( mo.group(1) ),
-                        results[i][-4]
-                    )
+                fixup_capabilities( -4, "Capabilities" )
+                fixup_capabilities( -3, "(effective)" )
+                fixup_capabilities( -2, "#" )
 
                 # output the report
                 print( "=== {}/{}/{} ===".format( vo_type, nat, year ), file=buf )

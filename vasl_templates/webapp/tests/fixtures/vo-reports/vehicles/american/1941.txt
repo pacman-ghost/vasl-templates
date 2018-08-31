@@ -1,0 +1,4 @@
+=== vehicles/american/1941 ===
+
+Name    Radio    IF    Crew survival    Capabilities    (effective)    #    Notes
+------  -------  ----  ---------------  --------------  -------------  ---  -------

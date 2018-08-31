@@ -83,7 +83,7 @@ Sherman III(L)(a)  n/a      yes   CS 6 <small><i>(brew up)</i></small>  WP7 s5 s
 Matilda II(b)      n/a      yes   CS 5                                  sD6                                     sD6            51†    M†<sup>1</sup> N LL
 Valentine V(b)     n/a      yes   CS 4                                  sM8                                     sM8            52.1   N LL
 Valentine VIII(b)  n/a      yes   CS 4                                  HE7 sD6                                 HE7 sD6        52.2   N LL
-Churchill III(b)   n/a      yes   CS 7                                  D6[J4]7[5]† HE7[F3]8[4+]† sD6[4+] sM8†  HE8 sD6 sM8†   53†    N LL
+Churchill III(b)   n/a      yes   CS 7                                  D6[J4]7[5]† HE7[F3]8[4+]† sD6[4+] sM8†  HE8† sD6 sM8†  53†    N LL
 M3A1 Scout Car(a)  n/a      yes   CS 4                                  n/a                                     n/a            54†    N LL
 Jeep GPA(a)        n/a      yes   cs 2                                  n/a                                     n/a            59     H† L†<sup>1</sup>
 DUKW(a)            n/a      yes   cs 7                                  n/a                                     n/a            60†    n/a
