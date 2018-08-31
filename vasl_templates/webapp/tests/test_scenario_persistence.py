@@ -14,7 +14,9 @@ from vasl_templates.webapp.tests.utils import \
 # this table lists all parameters stored in a scenario
 ALL_SCENARIO_PARAMS = {
     "scenario": [
-        "SCENARIO_NAME", "SCENARIO_ID", "SCENARIO_LOCATION", "SCENARIO_DATE", "SCENARIO_WIDTH",
+        "SCENARIO_NAME", "SCENARIO_ID",
+        "SCENARIO_LOCATION", "SCENARIO_THEATER",
+        "SCENARIO_DATE", "SCENARIO_WIDTH",
         "PLAYER_1", "PLAYER_1_ELR", "PLAYER_1_SAN",
         "PLAYER_2", "PLAYER_2_ELR", "PLAYER_2_SAN",
         "VICTORY_CONDITIONS", "VICTORY_CONDITIONS_WIDTH",
@@ -62,6 +64,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
             "SCENARIO_NAME": "my test scenario",
             "SCENARIO_ID": "xyz123",
             "SCENARIO_LOCATION": "right here",
+            "SCENARIO_THEATER": "PTO",
             "SCENARIO_DATE": "12/31/1945",
             "SCENARIO_WIDTH": "101",
             "PLAYER_1": "russian", "PLAYER_1_ELR": "1", "PLAYER_1_SAN": "2",
@@ -132,6 +135,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     data = _save_scenario()
     data2 = { k: v for k,v in data.items() if v }
     assert data2 == {
+        "SCENARIO_THEATER": "ETO",
         "PLAYER_1": "german", "PLAYER_1_ELR": "5", "PLAYER_1_SAN": "2",
         "PLAYER_2": "russian", "PLAYER_2_ELR": "5", "PLAYER_2_SAN": "2",
     }

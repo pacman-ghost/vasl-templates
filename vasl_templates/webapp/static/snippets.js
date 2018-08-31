@@ -228,10 +228,20 @@ function unload_snippet_params( params, check_date_capabilities )
             // but by the time the filter gets called, it's too late :-( Instead, we provide a "raw_capabilities"
             // parameter that people can use in their templates - ugly, but probably not something that will
             // get a lot of use :-/
-            var capabilities = make_capabilities( entry, params.SCENARIO_YEAR, params.SCENARIO_MONTH, check_date_capabilities, false ) ;
+            var capabilities = make_capabilities(
+                entry,
+                params.SCENARIO_THEATER,
+                params.SCENARIO_YEAR, params.SCENARIO_MONTH, check_date_capabilities,
+                false
+            ) ;
             if ( capabilities )
                 obj.capabilities = capabilities ;
-            capabilities = make_capabilities( entry, params.SCENARIO_YEAR, params.SCENARIO_MONTH, check_date_capabilities, true ) ;
+            capabilities = make_capabilities(
+                entry,
+                params.SCENARIO_THEATER,
+                params.SCENARIO_YEAR, params.SCENARIO_MONTH, check_date_capabilities,
+                true
+            ) ;
             if ( capabilities )
                 obj.raw_capabilities = capabilities ;
             var crew_survival = make_crew_survival( entry ) ;
@@ -252,7 +262,7 @@ function unload_snippet_params( params, check_date_capabilities )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function make_capabilities( entry, scenario_year, scenario_month, check_date_capabilities, raw )
+function make_capabilities( entry, scenario_theater, scenario_year, scenario_month, check_date_capabilities, raw )
 {
     var capabilities = [] ;
 
@@ -523,6 +533,10 @@ function on_load_scenario_file_selected()
 
 function do_load_scenario( data, fname )
 {
+    // NOTE: We reset the scenario first, in case the loaded scenario is missing fields,
+    // so that those fields will be reset to their default values (instead of just staying unchanged).
+    do_on_new_scenario() ;
+
     // load the scenario
     try {
         data = JSON.parse( data ) ;
@@ -742,43 +756,45 @@ function unload_params_for_save()
 
 // --------------------------------------------------------------------
 
-function on_new_scenario( verbose )
+function on_new_scenario()
 {
     // check if the scenario is dirty
     if ( ! is_scenario_dirty() )
-        do_on_new_scenario() ;
+        do_on_new_scenario( true ) ;
     else {
         // yup - confirm the operation
         ask( "New scenario", "<p>This scenario has been changed.<p>Do you want to reset it, and lose your changes?", {
-            ok: do_on_new_scenario,
+            ok: function() { do_on_new_scenario( true ) ; },
             cancel: function() {},
         } ) ;
     }
+}
 
-    function do_on_new_scenario() {
-        // load the default scenario
-        if ( gDefaultScenario )
-            do_load_scenario_data( gDefaultScenario ) ;
-        else {
-            $.getJSON( gGetDefaultScenarioUrl, function(data) {
-                gDefaultScenario = data ;
-                do_load_scenario_data( data ) ;
-                update_page_load_status( "default-scenario" ) ;
-            } ).fail( function( xhr, status, errorMsg ) {
-                showErrorMsg( "Can't get the default scenario:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
-                return ;
-            } ) ;
-        }
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-        // flag that we have a new scenario
-        gLastSavedScenarioFilename = null ;
-        if ( gWebChannelHandler )
-            gWebChannelHandler.on_new_scenario() ;
-
-        // provide some feedback to the user
-        if ( verbose )
-            showInfoMsg( "The scenario was reset." ) ;
+function do_on_new_scenario( verbose ) {
+    // load the default scenario
+    if ( gDefaultScenario )
+        do_load_scenario_data( gDefaultScenario ) ;
+    else {
+        $.getJSON( gGetDefaultScenarioUrl, function(data) {
+            gDefaultScenario = data ;
+            do_load_scenario_data( data ) ;
+            update_page_load_status( "default-scenario" ) ;
+        } ).fail( function( xhr, status, errorMsg ) {
+            showErrorMsg( "Can't get the default scenario:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+            return ;
+        } ) ;
     }
+
+    // flag that we have a new scenario
+    gLastSavedScenarioFilename = null ;
+    if ( gWebChannelHandler )
+        gWebChannelHandler.on_new_scenario() ;
+
+    // provide some feedback to the user
+    if ( verbose )
+        showInfoMsg( "The scenario was reset." ) ;
 }
 
 function reset_scenario()

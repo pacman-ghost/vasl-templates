@@ -30,7 +30,7 @@ $(document).ready( function () {
     // initialize the menu
     var $menu = $("#menu input") ;
     $menu.popmenu( {
-        new_scenario: { label: "New scenario", action: function() { on_new_scenario(true) ; } },
+        new_scenario: { label: "New scenario", action: function() { on_new_scenario() ; } },
         load_scenario: { label: "Load scenario", action: on_load_scenario },
         save_scenario: { label: "Save scenario", action: on_save_scenario },
         separator: { type: "separator" },
@@ -90,6 +90,11 @@ $(document).ready( function () {
     } ).show() ;
     var navHeight = $("#tabs .ui-tabs-nav").height() ;
     $("#tabs .ui-tabs-nav a").click( function() { $(this).blur() ; } ) ;
+
+    // initialize the scenario theater
+    $( "select[name='SCENARIO_THEATER']" ).selectmenu( {
+        classes: { "ui-selectmenu-button": "scenario_theater" },
+    } ) ;
 
     // initialize the scenario date picker
     $("input[name='SCENARIO_DATE']").datepicker( {
@@ -220,7 +225,7 @@ $(document).ready( function () {
             }
         }
         install_template_pack( data ) ;
-        on_new_scenario( false ) ;
+        do_on_new_scenario() ;
         gDefaultNationalities = $.extend( true, {}, data.nationalities ) ;
         // NOTE: If we are loading a user-defined template pack, then what we think
         // is the set of valid template ID's will depend on what's in it :-/
