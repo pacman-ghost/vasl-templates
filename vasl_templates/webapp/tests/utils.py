@@ -110,6 +110,14 @@ def select_menu_option( menu_id ):
         # FUDGE! Work-around weird "is not clickable" errors because the PopMenu is still around :-/
         time.sleep( 0.25 )
 
+def new_scenario():
+    """Reset the scenario."""
+    select_menu_option( "new_scenario" )
+    # check if the webapp is asking for confirmation
+    if find_child( "#ask" ):
+        # yup - make it so
+        click_dialog_button( "OK" )
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def load_scenario_params( params ):
@@ -275,6 +283,8 @@ def set_stored_msg( msg_type, val ):
 
 def set_stored_msg_marker( msg_type ):
     """Store marker text in the message buffer (so we can tell if the front-end changes it)."""
+    # NOTE: Care should taken when using this function with "_clipboard_",
+    # since the tests might be using the real clipboard!
     marker = "marker:{}:{}".format( msg_type, uuid.uuid4() )
     set_stored_msg( msg_type, marker )
     return marker
@@ -316,10 +326,13 @@ def _do_select_droplist( sel, val ):
     elem = find_child( "#{}-button .ui-selectmenu-icon".format( sel_id ) )
     elem.click()
 
-    # select the requested option (nb: clicking on the child option doesn't work :shrug:)
-    elem = find_child( "#{}-button".format( sel_id ) )
-    elem.send_keys( val )
-    elem.send_keys( Keys.RETURN )
+    # select the requested option
+    elems = [
+        e for e in find_children( "#{}-menu.ui-menu .ui-menu-item-wrapper".format( sel_id ) )
+        if e.text == val
+    ]
+    assert len(elems) == 1
+    ActionChains(_webdriver).click( elems[0] ).perform()
 
 def get_droplist_vals_index( sel ):
     """Get the value/text for each option in a droplist."""
@@ -391,6 +404,20 @@ def wait_for_elem( timeout, elem_id, parent=None ):
         return args["elem"] is not None
     wait_for( timeout, check_elem )
     return args["elem"]
+
+def wait_for_clipboard( timeout, expected, contains=False ):
+    """Wait for the clipboard to hold an expected value."""
+    args = { "last-clipboard": "" }
+    def check_clipboard(): #pylint: disable=missing-docstring
+        args["last-clipboard"] = get_clipboard()
+        return expected in args["last-clipboard"] if contains else expected == args["last-clipboard"]
+    try:
+        wait_for( timeout, check_clipboard )
+    except AssertionError:
+        print( "Timed out waiting for the clipboard:" )
+        print( "- Expecting:", expected )
+        print( "- Got:", args["last-clipboard"] )
+        raise
 
 # ---------------------------------------------------------------------
 

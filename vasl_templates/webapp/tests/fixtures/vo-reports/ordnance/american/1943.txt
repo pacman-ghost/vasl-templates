@@ -16,7 +16,7 @@ M20 75mm Recoilless Rifle         5PP crewed†[1] H7 WP7               5PP crew
 M1A1 75mm Pack Howitzer           NT QSU C4[4+]†[1] H7 WP8            NT QSU H7 WP8                       12†     C†<sup>1</sup> F
 M1897A2 75mm Gun                  NT QSU WP8                          NT QSU WP8                          13      P
 M2A1 105mm Howitzer               NT C7[4+P]†[1] H6 WP8 s7            NT H6 WP8 s7                        14†     C†<sup>1</sup> N
-M3 105mm Howitzer                 NT C7[P]†[1] H7 WP8 s7              NT C7†[1] H7 WP8 s7                 15†     C†<sup>1</sup>
+M3 105mm Howitzer                 NT C7[P]†[1] H7 WP8 s7              NT H7 WP8 s7                        15†     C†<sup>1</sup>
 M1 4.5-in. Gun                    NT                                  NT                                  16†     <s>P</s>
 M1918 155mm Howitzer              NT WP8 s7[3+]                       NT WP8 s7                           17†     N
 M1 155mm Howitzer                 NT WP8 s7                           NT WP8 s7                           18†     N

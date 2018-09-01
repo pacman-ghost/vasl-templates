@@ -1,0 +1,17 @@
+[
+
+{ "name": "M2A1 105mm Howitzer",
+  "capabilities": [ "NT" ],
+  "capabilities2": { "H": 6, "s": 7, "WP": 8, "C": [ [7,"4+P"], "\u2020<sup>1</sup>" ] },
+  "note_number": "14\u2020",
+  "notes": [ "C\u2020<sup>1</sup>", "N" ]
+},
+
+{ "name": "M3 105mm Howitzer",
+  "capabilities": [ "NT" ],
+  "capabilities2": { "H": 7, "s": 7, "WP": 8, "C": [ [7,"P"], "\u2020<sup>1</sup>" ] },
+  "note_number": "15\u2020",
+  "notes": [ "C\u2020<sup>1</sup>" ]
+}
+
+]
