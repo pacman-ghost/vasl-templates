@@ -4,6 +4,9 @@ body { height: 100% ; overflow: hidden ; }
 
 ul, ol { margin: 0.5em 0 0 1.25em ; br}
 
+input[type="text"] { height: 1.25em ; border: 1px solid #c5c5c5 ; }
+label { height: 1.25em ; margin-top: -3px ; }
+
 /* -------------------------------------------------------------------- */
 
 #menu { position: absolute ; top: 15px ; right: 8px ; z-index: 1 ; }
