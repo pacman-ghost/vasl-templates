@@ -3,8 +3,8 @@
 from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, select_tab, set_template_params, get_clipboard, \
-    get_stored_msg, set_stored_msg_marker, find_child, wait_for, adjust_html, \
+    init_webapp, select_tab, set_template_params, wait_for_clipboard, \
+    get_stored_msg, set_stored_msg_marker, find_child, adjust_html, \
     for_each_template, add_simple_note, edit_simple_note, \
     get_sortable_entry_count, generate_sortable_entry_snippet, drag_sortable_entry_to_trash
 
@@ -199,7 +199,7 @@ def test_edit_templates( webapp, webdriver ):
         # check that the new template is being used
         elem = find_child( "button.generate[data-id='{}']".format( orig_template_id ) )
         elem.click()
-        wait_for( 2, lambda: get_clipboard() == "EDITED TEMPLATE: {}".format( orig_template_id ) )
+        wait_for_clipboard( 2, "EDITED TEMPLATE: {}".format( orig_template_id ) )
     for_each_template( test_template )
 
     # customize the SCENARIO NOTE template
@@ -213,7 +213,7 @@ def test_edit_templates( webapp, webdriver ):
     add_simple_note( sortable, "scenario note (ignored)", None )
     elem = find_child( "li img.snippet", sortable )
     elem.click()
-    assert get_clipboard() == "EDITED TEMPLATE: scenario_note"
+    wait_for_clipboard( 2, "EDITED TEMPLATE: scenario_note" )
 
     # customize the OB SETUP template
     select_tab( "ob1" )
@@ -228,7 +228,7 @@ def test_edit_templates( webapp, webdriver ):
         add_simple_note( sortable, "ob setup (ignored)", None )
         elem = find_child( "li img.snippet", sortable )
         elem.click()
-        assert get_clipboard() == "EDITED TEMPLATE: ob_setup"
+        wait_for_clipboard( 2, "EDITED TEMPLATE: ob_setup" )
 
     # customize the OB NOTE template
     select_tab( "ob2" )
@@ -243,7 +243,7 @@ def test_edit_templates( webapp, webdriver ):
         add_simple_note( sortable, "ob note (ignored)", None )
         elem = find_child( "li img.snippet", sortable )
         elem.click()
-        assert get_clipboard() == "EDITED TEMPLATE: ob_note"
+        wait_for_clipboard( 2, "EDITED TEMPLATE: ob_note" )
 
 # ---------------------------------------------------------------------
 
@@ -254,10 +254,10 @@ def _test_snippet( btn, params, expected, expected2 ):
     set_template_params( params )
     marker = set_stored_msg_marker( "_last-warning_" )
     btn.click()
-    snippet = get_clipboard()
-    lines = [ l.strip() for l in snippet.split("\n") ]
-    snippet = " | ".join( l for l in lines if l )
-    assert snippet == expected
+    def reformat( clipboard ): #pylint: disable=missing-docstring
+        lines = [ l.strip() for l in clipboard.split("\n") ]
+        return " | ".join( l for l in lines if l )
+    wait_for_clipboard( 2, expected, transform=reformat )
 
     # check warnings for mandatory parameters
     last_warning = get_stored_msg( "_last-warning_" )

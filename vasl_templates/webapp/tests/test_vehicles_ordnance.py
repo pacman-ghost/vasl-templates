@@ -7,7 +7,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 from vasl_templates.webapp.tests.utils import \
     init_webapp, select_tab, set_template_params, find_child, find_children, \
-    get_clipboard, click_dialog_button
+    wait_for_clipboard, click_dialog_button
 
 # ---------------------------------------------------------------------
 
@@ -66,17 +66,17 @@ def test_crud( webapp, webdriver ):
         select_tab( "ob{}".format( player_no ) )
         btn = find_child( "button[data-id='ob_{}_{}']".format( vo_type, player_no ) )
         btn.click()
-        buf = get_clipboard()
-        names = [
-            mo.group(1)
-            for mo in re.finditer( r"^\[\*\] (.*):" , buf, re.MULTILINE )
-        ]
-        assert names == _expected[ (vo_type,player_no) ]
+        def reformat( clipboard ): #pylint: disable=missing-docstring
+            return [
+                mo.group(1)
+                for mo in re.finditer( r"^\[\*\] (.*):" , clipboard, re.MULTILINE )
+            ]
+        clipboard = wait_for_clipboard( 2, _expected[(vo_type,player_no)], transform=reformat )
         # check the snippet width
         expected = _width[ (vo_type,player_no) ]
         mo = re.search(
             r"width={}$".format( expected if expected else "" ),
-            buf,
+            clipboard,
             re.MULTILINE
         )
         assert mo
@@ -144,7 +144,7 @@ def test_snippets( webapp, webdriver ):
         ]
         if vo_type == "vehicles":
             expected.insert( 3, "- CS 5" )
-        assert get_clipboard() == "\n".join(expected)
+        wait_for_clipboard( 2, "\n".join(expected) )
         delete_vo( vo_type, 1, "a german {}".format(vo_type0), webdriver )
 
         # test a partial example
@@ -159,16 +159,17 @@ def test_snippets( webapp, webdriver ):
         ]
         if vo_type == "vehicles":
             expected.insert( 2, '- cs 4 <small><i>(brew up)</i></small>' )
-        assert get_clipboard() == "\n".join(expected)
+        wait_for_clipboard( 2, "\n".join(expected) )
         delete_vo( vo_type, 1, "another german {}".format(vo_type0), webdriver )
 
         # test a minimal example
         add_vo( vo_type, 1, "name only" )
         btn = find_child( "button[data-id='ob_{}_1']".format( vo_type ) )
         btn.click()
-        assert get_clipboard() == \
+        wait_for_clipboard( 2, \
 '''[German] ; width=
 [*] name only: #='''
+        )
 
     # do the test
     do_test( "vehicles" )
@@ -193,9 +194,10 @@ def test_variable_capabilities( webapp, webdriver ):
         set_template_params( { "SCENARIO_DATE": "{:02d}/01/{}".format(month,year) } )
         select_tab( "ob2" )
         vehicles2.click()
-        buf = get_clipboard()
-        mo = re.search( r"^- capabilities: (.*)$", buf, re.MULTILINE )
-        assert mo.group(1) == expected
+        def reformat( clipboard ): #pylint: disable=missing-docstring
+            mo = re.search( r"^- capabilities: (.*)$", clipboard, re.MULTILINE )
+            return mo.group( 1 )
+        wait_for_clipboard( 2, expected, transform=reformat )
     do_test( 1, 1940, '"sM8\u2020"' )
     do_test( 1, 1943, '"sM8\u2020"' )
     do_test( 2, 1943, '"HE7" "sM8\u2020"' )

@@ -250,7 +250,7 @@ def generate_sortable_entry_snippet( sortable, entry_no ):
     """Generate the snippet for a sortable entry."""
     elems = find_children( "li img.snippet", sortable )
     elems[entry_no].click()
-    return get_clipboard()
+    return _get_clipboard()
 
 def drag_sortable_entry_to_trash( sortable, entry_no ):
     """Draw a sortable entry to the trash."""
@@ -374,8 +374,13 @@ def click_dialog_button( caption ):
 
 _pyqt_app = None
 
-def get_clipboard() :
-    """Get the contents of the clipboard."""
+def _get_clipboard() :
+    """Get the contents of the clipboard.
+
+    NOTE: This used to be public, but there is sometimes a delay between doing something
+    in the UI (e.g. clicking a button) and the result appearing in the clipboard, so tests
+    should use wait_for_clipboard() instead.
+    """
     if pytest.config.option.use_clipboard: #pylint: disable=no-member
         global _pyqt_app
         if _pyqt_app is None:
@@ -405,14 +410,18 @@ def wait_for_elem( timeout, elem_id, parent=None ):
     wait_for( timeout, check_elem )
     return args["elem"]
 
-def wait_for_clipboard( timeout, expected, contains=False ):
+def wait_for_clipboard( timeout, expected, contains=False, transform=None ):
     """Wait for the clipboard to hold an expected value."""
     args = { "last-clipboard": "" }
     def check_clipboard(): #pylint: disable=missing-docstring
-        args["last-clipboard"] = get_clipboard()
-        return expected in args["last-clipboard"] if contains else expected == args["last-clipboard"]
+        clipboard = _get_clipboard()
+        args["last-clipboard"] = clipboard
+        if transform:
+            clipboard = transform( clipboard )
+        return expected in clipboard if contains else expected == clipboard
     try:
         wait_for( timeout, check_clipboard )
+        return args["last-clipboard"]
     except AssertionError:
         print( "Timed out waiting for the clipboard:" )
         print( "- Expecting:", expected )

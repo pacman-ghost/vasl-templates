@@ -6,7 +6,8 @@ import types
 from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp.tests.utils import \
-    get_nationalities, get_clipboard, get_stored_msg, set_stored_msg_marker, select_tab, find_child, find_children, \
+    get_nationalities, wait_for_clipboard, get_stored_msg, set_stored_msg_marker, select_tab, \
+    find_child, find_children, \
     add_simple_note, edit_simple_note, get_sortable_entry_count, drag_sortable_entry_to_trash, \
     select_droplist_val, init_webapp, wait_for, adjust_html
 
@@ -47,7 +48,7 @@ def _do_test_ob_entries( webapp, webdriver, ob_type ):
         elems[entry_no].click()
         if ob_type == "ob_notes":
             expected = re.sub( r" \(col=.*?\)", "", expected )
-        assert adjust_html( get_clipboard() ) == expected
+        assert wait_for_clipboard( 2, expected, transform=adjust_html )
     select_tab( "ob1" )
     check_snippet( sortable1, 0,
         "[German] [{} #1] (col=[OBCOL:german/OBCOL2:german])".format( ob_type )
@@ -110,7 +111,7 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
         select_tab( "ob1" )
         marker = set_stored_msg_marker( "_last-warning_" )
         btn.click()
-        assert get_clipboard() == expected
+        wait_for_clipboard( 2, expected )
         # check if a warning was issued
         last_warning = get_stored_msg( "_last-warning_" )
         if warning:
@@ -209,7 +210,7 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
                 # make sure that the template works
                 elem.click()
                 if isinstance( expected[1], str ):
-                    assert get_clipboard() == expected[1]
+                    wait_for_clipboard( 2, expected[1] )
                 elif isinstance( expected[1], types.FunctionType ):
                     expected[1]() #pylint: disable=not-callable
                 else:

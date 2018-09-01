@@ -9,7 +9,7 @@ from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp import snippets
 from vasl_templates.webapp.tests.utils import \
-    select_tab, select_menu_option, get_clipboard, get_stored_msg, set_stored_msg, set_stored_msg_marker,\
+    select_tab, select_menu_option, wait_for_clipboard, get_stored_msg, set_stored_msg, set_stored_msg_marker,\
     add_simple_note, for_each_template, find_child, find_children, wait_for, \
     select_droplist_val, get_droplist_vals_index, init_webapp
 
@@ -24,14 +24,11 @@ def test_individual_files( webapp, webdriver ):
     # try uploading a customized version of each template
     def test_template( template_id, orig_template_id ):
         """Test uploading a customized version of the template."""
-        # make sure generating a snippet returns something
-        elem, clipboard = _generate_snippet( template_id, orig_template_id )
-        assert clipboard != ""
         # upload a new template
         _ = _upload_template_pack_file( template_id+".j2", "UPLOADED TEMPLATE", False )
         # make sure generating a snippet returns the new version
-        elem.click()
-        assert get_clipboard() == "UPLOADED TEMPLATE"
+        _ = _generate_snippet( template_id, orig_template_id )
+        wait_for_clipboard( 2, "UPLOADED TEMPLATE" )
     for_each_template( test_template )
 
     # try uploading a template with an incorrect filename extension
@@ -159,8 +156,8 @@ def _check_snippets( expected ):
 
     def test_template( template_id, orig_template_id ):
         """Test each template."""
-        _, clipboard = _generate_snippet( template_id, orig_template_id )
-        assert clipboard == expected( template_id )
+        _ = _generate_snippet( template_id, orig_template_id )
+        wait_for_clipboard( 2, expected(template_id) )
     for_each_template( test_template )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -185,7 +182,7 @@ def _generate_snippet( template_id, orig_template_id ):
         # generate a snippet for the specified template
         elem = find_child( "button.generate[data-id='{}']".format( orig_template_id ) )
     elem.click()
-    return elem, get_clipboard()
+    return elem
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
