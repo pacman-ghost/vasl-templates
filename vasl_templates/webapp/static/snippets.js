@@ -362,8 +362,11 @@ function select_capability_by_date( capabilities, scenario_theater, scenario_yea
 {
     var MONTH_NAMES = { F:2, J:6, A:8 } ;
 
-    var val = null ;
+    // initialize
+    capabilities = capabilities.slice() ;
     var ref = has_ref( capabilities ) ;
+
+    var val = null ;
     for ( var i=0 ; i < capabilities.length ; ++i ) {
 
         // check for a ETO/PTO-only flag

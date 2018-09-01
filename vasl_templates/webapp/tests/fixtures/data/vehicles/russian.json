@@ -21,6 +21,12 @@
   "capabilities2": { "D": [ [6,"J4"], [7,5], "\u2020" ], "HE": [ [7,"F3"], [8,"4+"], "\u2020" ], "sD": [ [6,"4+"] ], "sM": "8\u2020" },
   "note_number": "53\u2020",
   "notes": [ "N", "LL" ]
+},
+{ "name": "Sherman III(a)",
+  "CS#": "5:brewup",
+  "capabilities2": { "s": 8, "WP": [ [6,"J4+"], "\u2020" ] },
+  "note_number": "50\u2020",
+  "notes": [ "N", "O", "R\u2020<sup>1</sup>", "LL" ]
 }
 
 ]

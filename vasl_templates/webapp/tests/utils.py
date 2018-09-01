@@ -114,7 +114,7 @@ def new_scenario():
     """Reset the scenario."""
     select_menu_option( "new_scenario" )
     # check if the webapp is asking for confirmation
-    if find_child( "#ask" ):
+    if find_child( "#ask" ).is_displayed():
         # yup - make it so
         click_dialog_button( "OK" )
 
