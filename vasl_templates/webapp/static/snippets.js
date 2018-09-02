@@ -287,7 +287,7 @@ function make_capabilities( entry, scenario_theater, scenario_year, scenario_mon
                 capabilities.push( "LF [" + entry.capabilities2[key].join(", ") + "]" ) ;
                 continue ;
             }
-            if ( $.inArray( key, ["HE","AP","A","D","C","s","sD","sN","WP"] ) === -1 ) {
+            if ( $.inArray( key, ["HE","AP","A","D","C","s","sM","sD","sN","WP"] ) === -1 ) {
                 unexpected_caps.push( key ) ;
                 continue ;
             }
@@ -304,7 +304,7 @@ function make_capabilities( entry, scenario_theater, scenario_year, scenario_mon
                 if ( ! cap )
                     continue ;
                 if ( cap == "<invalid>" ) {
-                    invalid_caps.push( entry.name + ": " + key + " " + entry.capabilities2[key] ) ;
+                    invalid_caps.push( entry.name + ": " + key + ": " + entry.capabilities2[key] ) ;
                     continue ;
                 }
                 capabilities.push( key + cap ) ;
