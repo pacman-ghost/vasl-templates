@@ -24,8 +24,9 @@ def pytest_addoption( parser ):
     # NOTE: This file needs to be in the project root for this to work :-/
 
     # add test options
+    # NOTE: Chrome seems to be ~15% faster than Firefox, headless ~5% faster than headful.
     parser.addoption(
-        "--webdriver", action="store", dest="webdriver", default="firefox",
+        "--webdriver", action="store", dest="webdriver", default="chrome",
         help="Webdriver to use."
     )
     parser.addoption(
