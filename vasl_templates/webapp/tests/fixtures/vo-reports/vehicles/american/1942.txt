@@ -26,8 +26,8 @@ T1E3                 n/a      yes   CS 5 <small><i>(brew up)</i></small>  WP7 s5
 Sherman Crab         n/a      yes   CS 5 <small><i>(brew up)</i></small>  WP7[J4+]†[2] s5[J4+] sM4      sM4            20†     G R†<sup>1</sup> BB†<sup>2</sup>
 POA-CWS-H1           n/a      yes   CS 6                                  sM8                           sM8            21†     P
 M26                  n/a      yes   CS 6                                  A7                            A7             22†     <s>P</s>
-M10 GMC              n/a      yes   CS 7                                  A5[A4]6[5]†[1] s5[5] sP5      sP5            23†     A†<sup>1</sup> N Y
-M18 GMC              n/a      yes   CS 6                                  A5[4]6[5]†[1] s5[5] sP5       sP5            24†     A†<sup>1</sup>
+M10 GMC              n/a      yes   CS 7                                  A5[A4E]6[5E]†[1] s5[5] sP5    sP5            23†     A†<sup>1</sup> N Y
+M18 GMC              n/a      yes   CS 6                                  A5[4E]6[5E]†[1] s5[5] sP5     sP5            24†     A†<sup>1</sup>
 M36 GMC              n/a      yes   CS 7                                  A5[5] sP5                     sP5            25†     <s>P</s>
 M36B1 GMC            n/a      yes   CS 7                                  A5 sP5                        A5 sP5         26      <s>P</s>
 M2                   n/a      yes   CS 4                                  n/a                           n/a            27†[1]  E† H I† N

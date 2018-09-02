@@ -111,6 +111,40 @@ def test_scenario_theater( webapp, webdriver ):
     _check_snippet( "ETO", "01/01/1940", "ordnance", '"NT" "H7" "WP8" "s7"' )
     _check_snippet( "PTO", "01/01/1940", "ordnance", '"NT" "C7\u2020<sup>1</sup>" "H7" "WP8" "s7"' )
 
+    # NOTE: We do a bit of hackery for the APCR specification for the M10 GMC and M18 GMC,
+    # to flag them as ETO-only, so we make sure everything's working properly here.
+
+    # M10 GMC: A(E)5(A4)/6(5)†1
+    new_scenario()
+    load_scenario_params( {
+        "scenario": {
+            "PLAYER_1": "american",
+        },
+        "ob1": {
+            "OB_VEHICLES_1": [ "M10 GMC" ],
+        }
+    } )
+    _check_snippet( "ETO", "07/31/1944", "vehicles", '"sP5"' )
+    _check_snippet( "ETO", "08/01/1944", "vehicles", '"A5\u2020<sup>1</sup>" "sP5"' )
+    _check_snippet( "ETO", "01/01/1945", "vehicles", '"A6\u2020<sup>1</sup>" "s5" "sP5"' )
+    _check_snippet( "other", "01/01/1945", "vehicles", '"s5" "sP5"' )
+
+    # M18 GMC: A(E)5(4)/6(5)†1
+    new_scenario()
+    load_scenario_params( {
+        "scenario": {
+            "PLAYER_1": "american",
+        },
+        "ob1": {
+            "OB_VEHICLES_1": [ "M18 GMC" ],
+        }
+    } )
+    _check_snippet( "ETO", "12/31/1943", "vehicles", '"sP5"' )
+    _check_snippet( "ETO", "01/01/1944", "vehicles", '"A5\u2020<sup>1</sup>" "sP5"' )
+    _check_snippet( "ETO", "01/01/1945", "vehicles", '"A6\u2020<sup>1</sup>" "s5" "sP5"' )
+    _check_snippet( "other", "01/01/1945", "vehicles", '"s5" "sP5"' )
+
+
 # ---------------------------------------------------------------------
 
 def _check_snippet( scenario_theater, scenario_date, vo_type, expected ):
