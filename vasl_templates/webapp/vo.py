@@ -46,18 +46,19 @@ def _do_get_listings( listings_type ):
 
 # ---------------------------------------------------------------------
 
-@app.route( "/<vo_type>/<nat>/<int:year>", defaults={"month":1}  )
-@app.route( "/<vo_type>/<nat>/<int:year>/<int:month>" )
-def get_vo_report( nat, vo_type, year, month ):
+@app.route( "/<vo_type>/<theater>/<nat>/<int:year>", defaults={"month":1}  )
+@app.route( "/<vo_type>/<theater>/<nat>/<int:year>/<int:month>" )
+def get_vo_report( theater, nat, vo_type, year, month ):
     """Get a vehicle/ordnance report."""
 
     # generate the vehicle/ordnance report
     if vo_type not in ("vehicles","ordnance"):
         abort( 404 )
     return render_template( "vo-report.html",
+        THEATER = theater,
         NATIONALITY = nat,
         VO_TYPE = vo_type,
         VO_TYPE0 = vo_type[:-1] if vo_type.endswith("s") else vo_type,
         YEAR = year,
-        MONTH = month
+        MONTH = month,
     )

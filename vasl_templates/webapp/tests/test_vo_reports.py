@@ -18,7 +18,6 @@ def test_vo_reports( webapp, webdriver ):
     """Check the vehicle/ordnance reports."""
 
     # initialize
-    test_utils._webdriver = webdriver #pylint: disable=protected-access
     check_dir = os.path.join( os.path.split(__file__)[0], "fixtures/vo-reports/" )
     save_dir = None # nb: define this to save the generated reports
 
@@ -43,7 +42,7 @@ def test_vo_reports( webapp, webdriver ):
 
                 # get the next report
                 buf = io.StringIO()
-                results = get_vo_report( webapp, webdriver, nat, vo_type, year )
+                results = get_vo_report( webapp, webdriver, "ETO", nat, vo_type, year, 1 )
 
                 # FUDGE! The "capabilities" and "notes" columns span 2 columns each,
                 # so we add dummy header columns to stop tabulate from getting confused :-/
@@ -80,7 +79,7 @@ def test_vo_reports( webapp, webdriver ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def get_vo_report( webapp, webdriver, nat, vo_type, year ):
+def get_vo_report( webapp, webdriver, theater, nat, vo_type, year, month, name=None ):
     """Get a vehicle/ordnance report.
 
     NOTE: We can't get the V/O report to return its results as, say, plain-text, for easy checking,
@@ -88,10 +87,14 @@ def get_vo_report( webapp, webdriver, nat, vo_type, year ):
     the results are ready i.e. Selenium, not wget :-/
     """
 
+    # nb: in case the caller hasn't called init_webapp()
+    test_utils._webdriver = webdriver #pylint: disable=protected-access
+
     # initialize
-    webdriver.get(
-        webapp.url_for( "get_vo_report", nat=nat, vo_type=vo_type, year=year )
-    )
+    url = webapp.url_for( "get_vo_report", theater=theater, nat=nat, vo_type=vo_type, year=year, month=month )
+    if name:
+        url += "?&name={}".format( name )
+    webdriver.get( url )
     wait_for( 2, lambda: find_child("#results").is_displayed() )
 
     def tidy( cell ):

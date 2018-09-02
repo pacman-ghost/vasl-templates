@@ -38,10 +38,14 @@ $(document).ready( function () {
 function load_vo_listings( objs )
 {
     // initialize
+    var theater = "{{THEATER}}".toUpperCase() ;
     var nat = "{{NATIONALITY}}" ;
     var year = {{YEAR}} ;
     var month = {{MONTH}} ;
     var $results = $("#results") ;
+    var vo_name = getUrlParam( "name" ) ; // nb: restricts the report to a single vehicle/ordnance
+    if ( vo_name )
+        vo_name = decodeURIComponent( vo_name ).toLowerCase() ;
 
     // check if there are any vehicles/ordnance for the specified nationality
     if ( ! (nat in objs ) ) {
@@ -61,6 +65,8 @@ function load_vo_listings( objs )
     buf.push( "<th colspan='2'>Capabilities", "<th colspan='2'>Notes" ) ;
     for ( var i=0 ; i < objs[nat].length ; ++i ) {
         var obj = objs[nat][i] ;
+        if ( vo_name && obj.name.toLowerCase() != vo_name )
+            continue ;
         buf.push( "<tr>" ) ;
         buf.push( "<td>", fmtval(obj.name) ) ;
         if ( "{{VO_TYPE}}" === "vehicles" ) {
@@ -68,7 +74,6 @@ function load_vo_listings( objs )
             buf.push( "<td>", fmtval( obj.no_if ? "" : "&#10003;" ) ) ;
             buf.push( "<td>", fmtval(make_crew_survival(obj)) ) ;
         }
-        var theater = "ETO" ;
         var capabilities = make_capabilities( obj, theater, year, month, true, true ) ;
         buf.push( "<td>", listval(capabilities) ) ;
         var capabilities = make_capabilities( obj, theater, year, month, true, false ) ;
