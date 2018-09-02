@@ -98,8 +98,8 @@ The program will then not attempt to create the embedded browser, and will just 
 <div id="helptabs-userguide">
 
 <p> <img src="images/hill-621.png" class="preview" style="width:20em;float:right;">
-<em>VASL Templates</em> makes it easier to set up <a href="http://vasl.info">VASL</a> scenarios, and we'll show how by walking through a setup of everyone's favorite scenario, <em>Hill 621</em>.
-<p> Click on the screenshot to the right to see the finished scenario, in all it's glory.
+<em>VASL Templates</em> makes it easy to set up attractive <a href="http://vasl.info">VASL</a> scenarios, with loads of useful information embedded to assist with game play.
+<p> We'll show how by walking through a setup of everyone's favorite scenario, <em>Hill 621</em>. Click on the screenshot to the right to see the finished scenario.
 
 <p> <small><em>You can find more examples <a href="https://github.com/pacman-ghost/vasl-templates/tree/master/examples/">here</a>, with files that you can load into the program, together with the generated VASL scenarios</em></small>.
 
@@ -269,7 +269,7 @@ When you're writing a new template file, it would be painful to have to ZIP up a
 <div class="code">
 pip install --editable .[dev]
 </div>
-The tests use <a href="http://pytest.org">pytest</a> and Selenium WebDriver, so you will need <tt>geckodriver</tt> and <tt>chromedriver</tt> somewhere in your PATH. The driver to use can be specified via the <tt>--webdriver</tt> parameter, and you can also run the tests headless e.g
+The tests use <a href="http://pytest.org">pytest</a> and <a href="https://www.seleniumhq.org/projects/webdriver/">Selenium WebDriver</a>, so you will need <tt>geckodriver</tt> and <tt>chromedriver</tt> somewhere in your PATH. The driver to use can be specified via the <tt>--webdriver</tt> parameter, and you can also run the tests headless e.g
 <div class="code">
 pytest --webdriver chrome --headless
 </div>
@@ -279,7 +279,7 @@ pytest --webdriver chrome --headless
 
 <h2> Code lint'ing </h2>
 
-<p> Python code is checked using <tt>pylint</tt> (installed during the <tt>pip install</tt> above), which should be run from the root directory of the repo.
+<p> Python code is checked using <a href="https://pylint.readthedocs.io/en/latest/"><tt>pylint</tt></a> (installed during the <tt>pip install</tt> above), which should be run from the root directory of the repo.
 
 <p> Javascript is checked using <a href="http://jshint.com"><tt>jshint</tt></a>, run using <a href="https://www.mozilla.org/rhino">Rhino</a>, both of which need to be installed manually. Then, set the <tt>JSHINT_RHINO</tt> environment variable to point to the script that will run <tt>jshint</tt> using Rhino e.g.
 <div class="code">
