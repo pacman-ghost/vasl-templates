@@ -287,7 +287,7 @@ function make_capabilities( entry, scenario_theater, scenario_year, scenario_mon
                 capabilities.push( "LF [" + entry.capabilities2[key].join(", ") + "]" ) ;
                 continue ;
             }
-            if ( $.inArray( key, ["HE","AP","A","D","C","s","sM","sD","sN","WP"] ) === -1 ) {
+            if ( $.inArray( key, ["HE","AP","A","D","C","H","s","sM","sD","sN","WP","IR"] ) === -1 ) {
                 unexpected_caps.push( key ) ;
                 continue ;
             }
@@ -350,7 +350,8 @@ function make_raw_capability( name, capability )
         if ( typeof(capability[i]) === "string" )
             buf.push( capability[i] ) ;
         else {
-            buf.push( escapeHTML( capability[i][0] ) ) ;
+            if ( capability[i][0] )
+                buf.push( escapeHTML( capability[i][0] ) ) ;
             if ( capability[i][1] )
                 buf.push( "<sup>", escapeHTML( capability[i][1] ), "</sup>" ) ;
         }
@@ -360,25 +361,25 @@ function make_raw_capability( name, capability )
 
 function select_capability_by_date( capabilities, scenario_theater, scenario_year, scenario_month )
 {
-    var MONTH_NAMES = { F:2, J:6, A:8 } ;
+    var MONTH_NAMES = { F:2, J:6, A:8, S:9 } ;
 
     // initialize
     capabilities = capabilities.slice() ;
     var ref = has_ref( capabilities ) ;
 
-    var val = null ;
+    var val = "???" ;
     for ( var i=0 ; i < capabilities.length ; ++i ) {
 
         // check for a ETO/PTO-only flag
         var cap = capabilities[i][1].toString() ;
         if ( cap.substring( cap.length-1 ) === "E" ) {
             if ( scenario_theater != "ETO" )
-                return null ;
+                continue ;
             cap = cap.substring( 0, cap.length-1 ) ;
         }
         if ( cap.substring( cap.length-1 ) === "P" ) {
             if ( scenario_theater != "PTO" )
-                return null ;
+                continue ;
             cap = cap.substring( 0, cap.length-1 ) ;
         }
         // remove any trailing "+" (FIXME! What does it even mean? Doesn't make sense :-/)
@@ -403,8 +404,10 @@ function select_capability_by_date( capabilities, scenario_theater, scenario_yea
                 val = capabilities[i][0] ;
         }
     }
-    if ( ! val )
-        return val ;
+    if ( val === "???" )
+        return null ;
+    if ( val === null )
+        val = "" ; // nb: this can happen for IR
     return ref ? val+ref : val ;
 }
 

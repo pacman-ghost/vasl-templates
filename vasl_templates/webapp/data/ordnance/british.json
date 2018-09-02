@@ -1,0 +1,144 @@
+[
+
+{ "name": "OML 2-in. Mortar",
+  "capabilities": [ "4PP" ],
+  "capabilities2": { "s": 7, "IR": [ [null,"2+"], "\u2020" ] },
+  "note_number": "1",
+  "notes": [ "A\u2020", "N", "P" ]
+},
+{ "name": "OML 2-in. Airborne Mortar",
+  "capabilities": [ "IR" ],
+  "capabilities2": { "s": 7 },
+  "capabilities_other": [ "3PP" ],
+  "note_number": "1"
+},
+{ "name": "OML 3-in. Mortar",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "WP": 7, "s": [ [8,"1+"], "\u2020" ], "IR": [ [null,"2+"], "\u2020<sup>1</sup>" ] },
+  "note_number": "2\u2020",
+  "notes": [ "A\u2020<sup>1</sup>", "D", "N", "P" ]
+},
+{ "name": "OSB 4.2-in. Mortar",
+  "capabilities": [ "NT" ],
+  "capabilities2": { "s": 8, "WP": 7 },
+  "capabilities_other": [ "Towed\u2020" ],
+  "note_number": "3\u2020",
+  "notes": [ "N", "P" ]
+},
+{ "name": "OQF 25mm Hotchkiss",
+  "capabilities": [ "NT", "QSU" ],
+  "note_number": "4\u2020",
+  "notes": [ "B", "N" ]
+},
+{ "name": "OQF 2-Pounder",
+  "capabilities": [ "T" ],
+  "capabilities2": { "LF": [ "NT", "40\u2020<sup>1</sup>", "2 ROF", "B11" ] },
+  "note_number": "5\u2020",
+  "notes": [ "B", "C\u2020<sup>1</sup>", "N", "P" ]
+},
+{ "name": "OQF 6-Pounder 7-cwt",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "HE": [ [7,"F3"], [8,"4+"], "\u2020" ], "D": [ [6,"J4E"], [7,5], "\u2020" ] },
+  "note_number": "6\u2020",
+  "notes": [ "B", "N", "P" ]
+},
+{ "name": "OQF 17/25-Pounder",
+  "capabilities": [ "NT" ],
+  "note_number": "7",
+  "notes": [ "N" ]
+},
+{ "name": "OQF 17-Pounder",
+  "capabilities": [ "NT" ],
+  "capabilities2": { "HE": [ [8,"J4+"], "\u2020" ], "D": [ [5,"S4"], [6,5], "\u2020" ] },
+  "note_number": "8\u2020"
+},
+{ "name": "OQF M1A1 75mm Pack How.",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "H": 6, "WP": 7 },
+  "note_number": "9\u2020",
+  "notes": [ "D", "P" ]
+},
+{ "name": "Canon de 75 mle 1897",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "10\u2020",
+  "notes": [ "B", "N" ]
+},
+{ "name": "OQF 18-Pounder",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "s": 8, "WP": 7 },
+  "note_number": "11\u2020",
+  "notes": [ "N", "P" ]
+},
+{ "name": "OQF 25-Pounder Short",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "12",
+  "notes": [ "D", "P" ]
+},
+{ "name": "OQF 25-Pounder Gun-How.",
+  "capabilities2": { "LF": [ "NT", "0 ROF" ], "s": 8 },
+  "capabilities_other": [ "ST" ],
+  "note_number": "13\u2020",
+  "notes": [ "N", "P" ]
+},
+{ "name": "OQF 3.7-in. Howitzer",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "s": 8, "WP": 7, "H": [ [6,"3+P"], "\u2020" ] },
+  "note_number": "14\u2020",
+  "notes": [ "D", "N", "P" ]
+},
+{ "name": "OQF 4.5-in. Howitzer",
+  "capabilities": [ "NT" ],
+  "capabilities2": { "s": 8, "WP": 7 },
+  "note_number": "15\u2020",
+  "notes": [ "N", "P" ]
+},
+{ "name": "OBL 4.5-in. Gun",
+  "capabilities": [ "NT" ],
+  "note_number": "16\u2020",
+  "notes": [ "N" ]
+},
+{ "name": "OBL 5.5-in. Gun-Howitzer",
+  "capabilities": [ "NT" ],
+  "note_number": "16\u2020",
+  "notes": [ "N", "P" ]
+},
+{ "name": "OBL 6-in. Howitzer",
+  "capabilities": [ "NT" ],
+  "note_number": "17\u2020",
+  "notes": [ "N", "P" ]
+},
+{ "name": "OBL 7.2-in. Howitzer Mk I",
+  "capabilities": [ "NT", "no IF" ],
+  "capabilities_other": [ "Acq. NA\u2020" ],
+  "note_number": "18\u2020",
+  "notes": [ "N", "P" ]
+},
+{ "name": "OBL 7.2-in. Howitzer Mk VI",
+  "capabilities": [ "NT", "RFNM", "no IF" ],
+  "note_number": "19\u2020",
+  "notes": [ "P" ]
+},
+{ "name": "OQF 20mm AA",
+  "capabilities": [ "T" ],
+  "note_number": "20"
+},
+{ "name": "OQF 40mm AA",
+  "capabilities": [ "T" ],
+  "capabilities2": { "LF": [ "40\u2020<sup>1</sup>", "2 ROF" ] },
+  "note_number": "21\u2020",
+  "notes": [ "C\u2020<sup>1</sup>", "N", "P" ]
+},
+{ "name": "OQF 3-in. 20-cwt AA",
+  "capabilities": [ "T" ],
+  "note_number": "22\u2020",
+  "notes": [ "E", "P" ]
+},
+{ "name": "OQF 3.7-in. AA",
+  "capabilities": [ "T" ],
+  "note_number": "23\u2020",
+  "notes": [ "E", "N", "P" ]
+}
+
+]

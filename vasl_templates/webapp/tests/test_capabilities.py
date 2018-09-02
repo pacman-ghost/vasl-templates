@@ -40,8 +40,9 @@ def test_month_capabilities( webapp, webdriver ):
     _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1943", "NT QSU" )
     _check_capabilities( webdriver, webapp, *ordnance, "ETO", "05/1944", "NT QSU" )
     _check_capabilities( webdriver, webapp, *ordnance, "ETO", "06/1944", "NT QSU D4\u2020 HE7\u2020" )
+    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "06/1944", "NT QSU" )
     _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1945", "NT QSU D4\u2020 HE7\u2020" )
-    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "01/1945", "NT QSU" )
+    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "01/1945", "NT QSU HE7\u2020" )
 
     # M3: C7(A2+)†2
     vehicle = [ "american", "vehicles", "M3" ]
@@ -89,6 +90,37 @@ def test_month_capabilities( webapp, webdriver ):
     _check_capabilities( webdriver, webapp, *vehicle, "ETO", "12/1943", "H9 WP9" )
     _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1944", "C4\u2020<sup>1</sup> H9 WP9" )
     _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1945", "C4\u2020<sup>1</sup> H9 WP9" )
+
+    # OML 2-in. Mortar: IR(2)+†
+    ordnance = [ "british", "ordnance", "OML 2-in. Mortar" ]
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1941", "4PP s7" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1942", "4PP IR\u2020 s7" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1943", "4PP IR\u2020 s7" )
+
+    # OML 3-in. Mortar: IR(2)+†1
+    ordnance = [ "british", "ordnance", "OML 3-in. Mortar" ]
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1941", "NT QSU WP7 s8\u2020" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1942", "NT QSU IR\u2020<sup>1</sup> WP7 s8\u2020" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1943", "NT QSU IR\u2020<sup>1</sup> WP7 s8\u2020" )
+
+    # OQF 6-Pounder 7-cwt: D6(J4E)7(5)† HE7(F3)8(4+)†
+    ordnance = [ "british", "ordnance", "OQF 6-Pounder 7-cwt" ]
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1942", "NT QSU" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1943", "NT QSU" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "02/1943", "NT QSU HE7\u2020" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "05/1944", "NT QSU HE8\u2020" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "06/1944", "NT QSU D6\u2020 HE8\u2020" )
+    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "06/1944", "NT QSU HE8\u2020" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1945", "NT QSU D7\u2020 HE8\u2020" )
+    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "01/1945", "NT QSU D7\u2020 HE8\u2020" )
+
+    # OQF 17-Pounder: D5(S4)6(5)† HE8(J4+)†
+    ordnance = [ "british", "ordnance", "OQF 17-Pounder" ]
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1943", "NT" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "05/1944", "NT" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "06/1944", "NT HE8\u2020" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "09/1944", "NT D5\u2020 HE8\u2020" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1945", "NT D6\u2020 HE8\u2020" )
 
 # ---------------------------------------------------------------------
 
@@ -156,6 +188,13 @@ def test_scenario_theater( webapp, webdriver ):
     vehicle = [ "american", "vehicles", "LVT(A)4" ]
     _check_capabilities( webdriver, webapp, *vehicle, "PTO", "01/1940", "C7\u2020<sup>3</sup> H8 WP9" )
     _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1940", "H8 WP9" )
+
+    # OQF 3.7-in. Howitzer: H6(3+P)†
+    ordnance = [ "british", "ordnance", "OQF 3.7-in. Howitzer" ]
+    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "12/1942", "NT QSU WP7 s8" )
+    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "01/1943", "NT QSU H6\u2020 WP7 s8" )
+    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "01/1944", "NT QSU H6\u2020 WP7 s8" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1944", "NT QSU WP7 s8" )
 
 # ---------------------------------------------------------------------
 
