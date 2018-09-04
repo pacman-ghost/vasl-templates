@@ -300,8 +300,8 @@ function make_capabilities( entry, scenario_theater, scenario_year, scenario_mon
                 capabilities.push( make_raw_capability( key, entry.capabilities2[key] ) ) ;
             }
             else {
-                var cap = select_capability_by_date( entry.capabilities2[key], scenario_theater, scenario_year, scenario_month ) ;
-                if ( ! cap )
+                var cap = _select_capability_by_date( entry.capabilities2[key], scenario_theater, scenario_year, scenario_month ) ;
+                if ( cap === null )
                     continue ;
                 if ( cap == "<invalid>" ) {
                     invalid_caps.push( entry.name + ": " + key + ": " + entry.capabilities2[key] ) ;
@@ -344,6 +344,14 @@ function make_capabilities( entry, scenario_theater, scenario_year, scenario_mon
 
 function make_raw_capability( name, capability )
 {
+    // NOTE: The capability can sometimes not have a # e.g. Tetrarch CS has a s# of "ref1".
+    if ( capability[0] === null ) {
+        var cap = capability[1] ;
+        if ( cap.match( /^\d\+?$/ ) )
+            cap = "<sup>" + cap + "</sup>" ;
+        return name + cap ;
+    }
+
     // generate the raw capability string
     var buf = [ name ] ;
     for ( var i=0 ; i < capability.length ; ++i ) {
@@ -359,56 +367,86 @@ function make_raw_capability( name, capability )
     return buf.join( "" ) ;
 }
 
-function select_capability_by_date( capabilities, scenario_theater, scenario_year, scenario_month )
+function _select_capability_by_date( capabilities, scenario_theater, scenario_year, scenario_month )
 {
-    var MONTH_NAMES = { F:2, J:6, A:8, S:9 } ;
+    // NOTE: The capability can sometimes not have a number e.g. Tetrarch CS s# = "ref1", Stuart III(a) = "HE(4+)"
+    var timestamp, val ;
+    if ( capabilities[0] === null ) {
+        timestamp = capabilities[1] ;
+        if ( timestamp.match( /^\d\+?$/ ) ) {
+            val = _check_capability_timestamp( capabilities, timestamp, scenario_theater, scenario_year, scenario_month ) ;
+            if ( val === "<ignore>" )
+                return null ;
+            return "";
+        }
+        return timestamp ;
+    }
 
     // initialize
     capabilities = capabilities.slice() ;
     var ref = has_ref( capabilities ) ;
 
-    var val = "???" ;
+    // check all the capability timestamps
+    var retval = "???" ;
     for ( var i=0 ; i < capabilities.length ; ++i ) {
-
-        // check for a ETO/PTO-only flag
-        var cap = capabilities[i][1].toString() ;
-        if ( cap.substring( cap.length-1 ) === "E" ) {
-            if ( scenario_theater != "ETO" )
-                continue ;
-            cap = cap.substring( 0, cap.length-1 ) ;
-        }
-        if ( cap.substring( cap.length-1 ) === "P" ) {
-            if ( scenario_theater != "PTO" )
-                continue ;
-            cap = cap.substring( 0, cap.length-1 ) ;
-        }
-        // remove any trailing "+" (FIXME! What does it even mean? Doesn't make sense :-/)
-        if ( cap.substring( cap.length-1 ) == "+" )
-            cap = cap.substring( 0, cap.length-1 ) ;
-        if ( ! cap ) {
-            val = capabilities[i][0] ; // nb: the capability is always available
-            break ;
-        }
-        // parse the month/year the capability becomes available
-        var month = MONTH_NAMES[ cap.substring(0,1) ] ;
-        if ( month )
-            cap = cap.substring( 1 ) ;
-        if ( ! /^\d$/.test( cap ) )
-            return "<invalid>" ;
-        cap = parseInt( cap ) ;
-        // check if the capabilitity is available
-        if ( scenario_year > 1940 + cap )
-            val = capabilities[i][0] ;
-        else if ( scenario_year == 1940 + cap ) {
-            if( !month || scenario_month >= month )
-                val = capabilities[i][0] ;
-        }
+        timestamp = capabilities[i][1].toString() ;
+        val = _check_capability_timestamp( capabilities[i], timestamp, scenario_theater, scenario_year, scenario_month ) ;
+        if ( val === "<invalid>" )
+            return val ;
+        if ( val === "<ignore>" )
+            continue ;
+        retval = val ;
     }
-    if ( val === "???" )
+    if ( retval === "???" )
         return null ;
-    if ( val === null )
-        val = "" ; // nb: this can happen for IR
-    return ref ? val+ref : val ;
+    if ( retval === null )
+        retval = "" ; // nb: this can happen for IR
+    return ref ? retval+ref : retval ;
+}
+
+function _check_capability_timestamp( capabilities, timestamp, scenario_theater, scenario_year, scenario_month )
+{
+    var MONTH_NAMES = { F:2, J:6, A:8, S:9 } ;
+
+    // check for a ETO/PTO-only flag
+    if ( timestamp.substring( timestamp.length-1 ) === "E" ) {
+        if ( scenario_theater != "ETO" )
+            return "<ignore>" ;
+        timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
+    }
+    if ( timestamp.substring( timestamp.length-1 ) === "P" ) {
+        if ( scenario_theater != "PTO" )
+            return "<ignore>" ;
+        timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
+    }
+
+    // remove any trailing "+" (FIXME! What does it even mean? Doesn't make sense :-/)
+    if ( timestamp.substring( timestamp.length-1 ) == "+" )
+        timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
+
+    // check if there is anything left
+    if ( ! timestamp ) {
+        // nope - the capability is always available
+        return capabilities[0] ;
+    }
+
+    // parse the month/year the capability becomes available
+    var month = MONTH_NAMES[ timestamp.substring(0,1) ] ;
+    if ( month )
+        timestamp = timestamp.substring( 1 ) ;
+    if ( ! /^\d$/.test( timestamp ) )
+        return "<invalid>" ;
+    timestamp = parseInt( timestamp ) ;
+
+    // check if the capabilitity is available
+    if ( scenario_year > 1940 + timestamp )
+        return capabilities[0] ;
+    else if ( scenario_year == 1940 + timestamp ) {
+        if( !month || scenario_month >= month )
+            return capabilities[0] ;
+    }
+
+    return "<ignore>" ;
 }
 
 function has_ref( val )
@@ -433,8 +471,9 @@ function make_crew_survival( entry )
         return null ;
 
     // check if the vehicle is subject to brew up
-    if ( crew_survival.substring(crew_survival.length-7) == ":brewup" )
-        crew_survival = crew_survival.substring(0,crew_survival.length-7) + " <small><i>(brew up)</i></small>" ;
+    var pos = crew_survival.indexOf( ":brewup" ) ;
+    if ( pos !== -1 )
+        crew_survival = crew_survival.substring(0,pos) + " <small><i>(brew up)</i></small>" + crew_survival.substring(pos+7) ;
 
     return crew_survival ;
 }

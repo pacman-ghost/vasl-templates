@@ -122,6 +122,112 @@ def test_month_capabilities( webapp, webdriver ):
     _check_capabilities( webdriver, webapp, *ordnance, "ETO", "09/1944", "NT D5\u2020 HE8\u2020" )
     _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1945", "NT D6\u2020 HE8\u2020" )
 
+    # Crusader III: HE7(F3+)†1
+    vehicle = [ "british", "vehicles", "Crusader III" ]
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "12/1942", "sD7 sM8\u2020<sup>2</sup>" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1943", "sD7 sM8\u2020<sup>2</sup>" )
+    _check_capabilities( webdriver, webapp, *vehicle,
+        "ETO", "02/1943", "HE7\u2020<sup>1</sup> sD7 sM8\u2020<sup>2</sup>"
+    )
+    _check_capabilities( webdriver, webapp, *vehicle,
+        "ETO", "01/1944", "HE7\u2020<sup>1</sup> sD7 sM8\u2020<sup>2</sup>"
+    )
+
+    # Sherman II(a)/III(a)/V(a): WP6(J4+)†3
+    for vo_name in ("Sherman II(a)","Sherman III(a)","Sherman V(a)"):
+        vehicle = [ "british", "vehicles", vo_name ]
+        _check_capabilities( webdriver, webapp, *vehicle, "ETO", "12/1943", "s8 sD6" )
+        _check_capabilities( webdriver, webapp, *vehicle, "ETO", "05/1944", "s8 sD6" )
+        _check_capabilities( webdriver, webapp, *vehicle, "ETO", "06/1944", "WP6\u2020<sup>3</sup> s8 sD6" )
+        _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1945", "WP6\u2020<sup>3</sup> s8 sD6" )
+
+    # Sherman IIC(a)/VC(a): D5(S4)6(5)†2
+    for vo_name in ("Sherman IIC(a)","Sherman VC(a)"):
+        vehicle = [ "british", "vehicles", vo_name ]
+        _check_capabilities( webdriver, webapp, *vehicle, "ETO", "12/1943", "HE7 sM8" )
+        _check_capabilities( webdriver, webapp, *vehicle, "ETO", "08/1944", "HE7 sM8" )
+        _check_capabilities( webdriver, webapp, *vehicle, "ETO", "09/1944", "D5\u2020<sup>2</sup> HE7 sM8" )
+        _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1945", "D6\u2020<sup>2</sup> HE7 sM8" )
+
+    # Challenger: D5(S4)6(5)†1
+    vehicle = [ "british", "vehicles", "Challenger" ]
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "12/1943", "HE7 sD7 sM8\u2020<sup>2</sup>" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "08/1944", "HE7 sD7 sM8\u2020<sup>2</sup>" )
+    _check_capabilities( webdriver, webapp, *vehicle,
+        "ETO", "09/1944", "D5\u2020<sup>1</sup> HE7 sD7 sM8\u2020<sup>2</sup>"
+    )
+    _check_capabilities( webdriver, webapp, *vehicle,
+        "ETO", "01/1945", "D6\u2020<sup>1</sup> HE7 sD7 sM8\u2020<sup>2</sup>"
+    )
+
+    # Churchill IV: D6(J4)7(5)†2 HE7(F3)8(4)+†1 sD6(4+)
+    vehicle = [ "british", "vehicles", "Churchill IV" ]
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "12/1942", "sM8\u2020<sup>3</sup>" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1943", "sM8\u2020<sup>3</sup>" )
+    _check_capabilities( webdriver, webapp, *vehicle,
+        "ETO", "02/1943", "HE7\u2020<sup>1</sup> sM8\u2020<sup>3</sup>"
+    )
+    _check_capabilities( webdriver, webapp, *vehicle,
+        "ETO", "05/1944", "HE8\u2020<sup>1</sup> sD6 sM8\u2020<sup>3</sup>"
+    )
+    _check_capabilities( webdriver, webapp, *vehicle,
+        "ETO", "06/1944", "D6\u2020<sup>2</sup> HE8\u2020<sup>1</sup> sD6 sM8\u2020<sup>3</sup>"
+    )
+    _check_capabilities( webdriver, webapp, *vehicle,
+        "ETO", "01/1945", "D7\u2020<sup>2</sup> HE8\u2020<sup>1</sup> sD6 sM8\u2020<sup>3</sup>"
+    )
+
+    # Churchill VI: WP6(J4+)†1
+    vehicle = [ "british", "vehicles", "Churchill VI" ]
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "12/1943", "s8 sD7 sM8\u2020<sup>2</sup>" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "05/1944", "s8 sD7 sM8\u2020<sup>2</sup>" )
+    _check_capabilities( webdriver, webapp, *vehicle,
+        "ETO", "06/1944", "WP6\u2020<sup>1</sup> s8 sD7 sM8\u2020<sup>2</sup>"
+    )
+    _check_capabilities( webdriver, webapp, *vehicle,
+        "ETO", "01/1945", "WP6\u2020<sup>1</sup> s8 sD7 sM8\u2020<sup>2</sup>"
+    )
+
+    # Deacon: HE7(F3+)†2
+    vehicle = [ "british", "vehicles", "Deacon" ]
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "12/1942", "n/a" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1943", "n/a" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "02/1943", "HE7\u2020<sup>2</sup>" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1944", "HE7\u2020<sup>2</sup>" )
+
+    # Wolverine(a): A5(S4)6(5)†1 s5(5)
+    vehicle = [ "british", "vehicles", "Wolverine(a)" ]
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "12/1943", "HE7" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "08/1944", "HE7" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "09/1944", "A5\u2020<sup>1</sup> HE7" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1945", "A6\u2020<sup>1</sup> HE7 s5" )
+
+    # Achilles(a): D6(S4)7(5)†1
+    vehicle = [ "british", "vehicles", "Achilles(a)" ]
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "12/1943", "HE7" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "08/1944", "HE7" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "09/1944", "D6\u2020<sup>1</sup> HE7" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1945", "D7\u2020<sup>1</sup> HE7" )
+
+    # AEC II: D6(J4)7(5)†2 HE7(3)8(4)+†1
+    vehicle = [ "british", "vehicles", "AEC II" ]
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "12/1942", "sM8" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1943", "HE7\u2020<sup>1</sup> sM8" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "05/1944", "HE8\u2020<sup>1</sup> sM8" )
+    _check_capabilities( webdriver, webapp, *vehicle,
+        "ETO", "06/1944", "D6\u2020<sup>2</sup> HE8\u2020<sup>1</sup> sM8"
+    )
+    _check_capabilities( webdriver, webapp, *vehicle,
+        "ETO", "01/1945", "D7\u2020<sup>2</sup> HE8\u2020<sup>1</sup> sM8"
+    )
+
+    # M3C GMC(a): WP7(J4+)†1
+    vehicle = [ "british", "vehicles", "M3 GMC(a)" ]
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "12/1943", "s8" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "05/1944", "s8" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "06/1944", "WP7\u2020<sup>1</sup> s8" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1945", "WP7\u2020<sup>1</sup> s8" )
+
 # ---------------------------------------------------------------------
 
 @pytest.mark.skipif(
