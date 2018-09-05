@@ -287,7 +287,7 @@ function make_capabilities( entry, scenario_theater, scenario_year, scenario_mon
                 capabilities.push( "LF [" + entry.capabilities2[key].join(", ") + "]" ) ;
                 continue ;
             }
-            if ( $.inArray( key, ["HE","AP","A","D","C","H","s","sM","sD","sN","WP","IR"] ) === -1 ) {
+            if ( $.inArray( key, ["HE","AP","A","D","C","H","s","sM","sD","sN","WP","IR","Towed"] ) === -1 ) {
                 unexpected_caps.push( key ) ;
                 continue ;
             }

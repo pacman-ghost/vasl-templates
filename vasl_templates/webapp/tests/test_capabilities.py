@@ -228,6 +228,23 @@ def test_month_capabilities( webapp, webdriver ):
     _check_capabilities( webdriver, webapp, *vehicle, "ETO", "06/1944", "WP7\u2020<sup>1</sup> s8" )
     _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1945", "WP7\u2020<sup>1</sup> s8" )
 
+    # Cannone da 47/32: Towed(A1+)†
+    ordnance = [ "italian", "ordnance", "Cannone da 47/32" ]
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1940", "NT QSU no Gunshield" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "07/1941", "NT QSU no Gunshield" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "08/1941", "NT QSU no Gunshield Towed\u2020" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1942", "NT QSU no Gunshield Towed\u2020" )
+
+    # Cannone da 65/17, 75/27, 75/32 + Obice da 75/18: H6(S2+)†1
+    for vo_name in ("Cannone da 65/17", "Cannone da 75/27","Cannone da 75/32","Obice da 75/18"):
+        ordnance = [ "italian", "ordnance", vo_name ]
+        val = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1941" )
+        assert "H6" not in val
+        assert _get_capabilities( webdriver, webapp, *ordnance, "ETO", "08/1942" ) == val
+        val2 = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "09/1942" )
+        assert "H6\u2020<sup>1</sup>" in val2
+        assert _get_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1943" ) == val2
+
 # ---------------------------------------------------------------------
 
 @pytest.mark.skipif(
@@ -308,7 +325,15 @@ def _check_capabilities( webdriver, webapp,
     nat, vo_type, vo_name, scenario_theater, scenario_date,
     expected, row=None
 ): #pylint: disable=too-many-arguments
-    """Check the vehicle/ordnance capabilities for the specified parameters.
+    """Check the vehicle/ordnance capabilities for the specified parameters."""
+    capabilities = _get_capabilities( webdriver, webapp, nat, vo_type, vo_name, scenario_theater, scenario_date, row )
+    assert capabilities == expected
+
+def _get_capabilities( webdriver, webapp,
+    nat, vo_type, vo_name, scenario_theater, scenario_date,
+    row=None
+): #pylint: disable=too-many-arguments
+    """Get the vehicle/ordnance capabilities for the specified parameters.
 
     NOTE: We're only interested in checking the generated capabilities, not testing the UI,
     so we use a V/O report to get the information out of the webapp, which is significantly faster.
@@ -328,10 +353,9 @@ def _check_capabilities( webdriver, webapp,
     # check the capabilities
     if vo_type == "vehicles":
         assert "Capabilities" in results[0][4]
-        capabilities = results[row_no][5]
+        return results[row_no][5]
     elif vo_type == "ordnance":
         assert "Capabilities" in results[0][1]
-        capabilities = results[row_no][2]
+        return results[row_no][2]
     else:
         assert False
-    assert capabilities == expected
