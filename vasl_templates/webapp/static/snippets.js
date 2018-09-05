@@ -408,7 +408,7 @@ function _check_capability_timestamp( capabilities, timestamp, scenario_theater,
 {
     var MONTH_NAMES = { F:2, J:6, A:8, S:9 } ;
 
-    // check for a ETO/PTO-only flag
+    // check for a theater flag
     if ( timestamp.substring( timestamp.length-1 ) === "E" ) {
         if ( scenario_theater != "ETO" )
             return "<ignore>" ;
@@ -416,6 +416,11 @@ function _check_capability_timestamp( capabilities, timestamp, scenario_theater,
     }
     if ( timestamp.substring( timestamp.length-1 ) === "P" ) {
         if ( scenario_theater != "PTO" )
+            return "<ignore>" ;
+        timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
+    }
+    if ( timestamp.substring( timestamp.length-1 ) === "B" ) {
+        if ( scenario_theater != "Burma" )
             return "<ignore>" ;
         timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
     }
