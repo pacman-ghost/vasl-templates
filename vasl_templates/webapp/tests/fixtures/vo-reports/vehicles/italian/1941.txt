@@ -1,0 +1,45 @@
+=== vehicles/italian/1941 ===
+
+Name               Radio    IF    Crew survival      Capabilities    (effective)    #    Notes
+-----------------  -------  ----  -----------------  --------------  -------------  ---  -------------------------------------------------
+L5/21              ®        yes   CS 2               n/a             n/a            1†   A†<sup>1</sup>
+L5/30              ®        yes   CS 2               n/a             n/a            1†   n/a
+L3/35              ®        yes   CS 2               n/a             n/a            2†   A†<sup>1</sup> B†<sup>1</sup> E N R
+L3 aa              ®        yes   CS 2               n/a             n/a            3†   C E†<sup>2</sup> F†<sup>1</sup> N R
+L3 cc              ®        yes   CS 2               n/a             n/a            4†   E J†<sup>1</sup> N
+L3 Lf              ®        yes   CS 2               n/a             n/a            5†   E†<sup>1</sup> N
+L6/40              n/a      yes   CS 2               n/a             n/a            6†   N R
+M11/39             ®        yes   CS 3               n/a             n/a            7†   A†<sup>1</sup> N
+M13/40             ®†       yes   CS 4               n/a             n/a            8†   B†<sup>1</sup> C†<sup>2</sup> N
+M14/41             n/a      yes   CS 4               n/a             n/a            9†   B†<sup>1</sup> C†<sup>2</sup> N
+M15/42             n/a      yes   CS 4               n/a             n/a            10†  B†<sup>1</sup> C†<sup>2</sup>
+MR/35(f)           n/a      yes   CS 2               n/a             n/a            11†  I†<sup>1</sup>
+SMV M40 75/18      n/a      yes   CS 3               H7[S2+]†[2] s8  s8             12   C†<sup>1</sup> F† H†<sup>2</sup> N
+SMV M41 75/18      n/a      yes   CS 3               H7[S2+]†[2] s8  s8             12†  C†<sup>1</sup> H†<sup>2</sup> N
+SMV M42 75/18      n/a      yes   CS 3               H7 s8           H7 s8          13   C†
+SMV M42 75/32      n/a      yes   CS 3               H7 s8           H7 s8          13†  C†<sup>1</sup>
+SMV M43 105/25     n/a      n/a   CS 4               H7 s8           H7 s8          14   C†
+SMV L40 47/32      n/a      yes   CS 3               n/a             n/a            15†  N R
+SMV M41M 90/53     n/a      yes   CS 5               HE7             HE7            16†  D†<sup>1</sup>
+AS 42              n/a      yes   CS 3               n/a             n/a            17†  L†<sup>1</sup> M N
+AS 42 aa           n/a      yes   CS 4               n/a             n/a            17†  G†<sup>1</sup> L†<sup>2</sup> M N AA†<sup>1</sup>
+AS 42 cc           n/a      yes   CS 4               n/a             n/a            17†  G†<sup>1</sup> J†<sup>1</sup> L†<sup>2</sup> M N
+Lince              n/a      yes   CS 2               n/a             n/a            18   E
+Lancia 1ZM         ®        yes   CS 6               n/a             n/a            19†  A†<sup>2</sup> F†<sup>3</sup> M†<sup>1</sup>
+Fiat 611A          ®        yes   CS 5               n/a             n/a            20†  A†<sup>2</sup> F†<sup>3</sup> M†<sup>1</sup>
+Fiat 611B          ®        yes   CS 5               HE7             HE7            20†  F†<sup>2</sup> M†<sup>1</sup>
+AB 40              n/a      yes   CS 4               n/a             n/a            21   A† I†<sup>1</sup> N
+AB 41              n/a      yes   CS 4               n/a             n/a            21†  N R
+Autoprot S37       n/a      yes   CS 4               n/a             n/a            22†  R
+Autocann 20/65(b)  n/a      yes   CS 4               n/a             n/a            23†  G†<sup>1</sup> N R AA†
+Autocann 65/17(b)  n/a      yes   CS 4               H7[S2+]†[2]     n/a            23†  G†<sup>1</sup> H†<sup>2</sup> N
+Autocann 75/27     n/a      yes   CS 4               AP7             AP7            24   D† N AA†<sup>1</sup>
+Autocann 90/53     n/a      yes   CS 4               n/a             n/a            24   D† N AA†<sup>1</sup>
+TL 37              n/a      yes   cs 5               n/a             n/a            25†  L†<sup>1</sup> M N R
+TM 40              n/a      yes   cs 5               n/a             n/a            25†  L†<sup>1</sup> M N R
+TP 32              n/a      yes   cs 5               n/a             n/a            25†  L†<sup>1</sup> M N R
+Autocaretta        n/a      yes   cs 5†<sup>1</sup>  n/a             n/a            26†  K†<sup>1</sup> N R
+Fiat 508 MC        n/a      yes   cs 2†<sup>1</sup>  n/a             n/a            27†  A†<sup>2</sup> K†<sup>1</sup> N R
+Autocarro L        n/a      yes   cs 6               n/a             n/a            28†  N R
+Autocarro M        n/a      yes   cs 7               n/a             n/a            28†  N R
+Autocarro P        n/a      yes   cs 7               n/a             n/a            28†  N R

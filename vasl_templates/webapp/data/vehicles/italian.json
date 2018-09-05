@@ -1,0 +1,229 @@
+[
+
+{ "name": "L5/21",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "1\u2020",
+  "notes": [ "A\u2020<sup>1</sup>" ]
+},
+{ "name": "L5/30",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "1\u2020"
+},
+{ "name": "L3/35",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "2\u2020",
+  "notes": [ "A\u2020<sup>1</sup>", "B\u2020<sup>1</sup>", "E", "N", "R" ]
+},
+{ "name": "L3 aa",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "3\u2020",
+  "notes": [ "C", "E\u2020<sup>2</sup>", "F\u2020<sup>1</sup>", "N", "R" ]
+},
+{ "name": "L3 cc",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "4\u2020",
+  "notes": [ "E", "J\u2020<sup>1</sup>", "N" ]
+},
+{ "name": "L3 Lf",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "5\u2020",
+  "notes": [ "E\u2020<sup>1</sup>", "N" ]
+},
+{ "name": "L6/40",
+  "CS#": 2,
+  "note_number": "6\u2020",
+  "notes": [ "N", "R" ]
+},
+{ "name": "M11/39",
+  "no_radio": "\u00ae",
+  "CS#": 3,
+  "note_number": "7\u2020",
+  "notes": [ "A\u2020<sup>1</sup>", "N" ]
+},
+{ "name": "M13/40",
+  "no_radio": "\u00ae\u2020",
+  "CS#": 4,
+  "note_number": "8\u2020",
+  "notes": [ "B\u2020<sup>1</sup>", "C\u2020<sup>2</sup>", "N" ]
+},
+{ "name": "M14/41",
+  "CS#": 4,
+  "note_number": "9\u2020",
+  "notes": [ "B\u2020<sup>1</sup>", "C\u2020<sup>2</sup>", "N" ]
+},
+{ "name": "M15/42",
+  "CS#": 4,
+  "note_number": "10\u2020",
+  "notes": [ "B\u2020<sup>1</sup>", "C\u2020<sup>2</sup>" ]
+},
+{ "name": "MR/35(f)",
+  "CS#": 2,
+  "note_number": "11\u2020",
+  "notes": [ "I\u2020<sup>1</sup>" ]
+},
+{ "name": "SMV M40 75/18",
+  "CS#": 3,
+  "capabilities2": { "H": [ [7,"S2+"], "\u2020<sup>2</sup>" ], "s": 8 },
+  "note_number": "12",
+  "notes": [ "C\u2020<sup>1</sup>", "F\u2020", "H\u2020<sup>2</sup>", "N" ]
+},
+{ "name": "SMV M41 75/18",
+  "CS#": 3,
+  "capabilities2": { "H": [ [7,"S2+"], "\u2020<sup>2</sup>" ], "s": 8 },
+  "note_number": "12\u2020",
+  "notes": [ "C\u2020<sup>1</sup>", "H\u2020<sup>2</sup>", "N" ]
+},
+{ "name": "SMV M42 75/18",
+  "CS#": 3,
+  "capabilities2": { "H": 7, "s": 8 },
+  "note_number": "13",
+  "notes": [ "C\u2020" ]
+},
+{ "name": "SMV M42 75/32",
+  "CS#": 3,
+  "capabilities2": { "H": 7, "s": 8 },
+  "note_number": "13\u2020",
+  "notes": [ "C\u2020<sup>1</sup>" ]
+},
+{ "name": "SMV M43 105/25",
+  "CS#": 4,
+  "no_if": true,
+  "capabilities2": { "H": 7, "s": 8 },
+  "note_number": "14",
+  "notes": [ "C\u2020" ]
+},
+{ "name": "SMV L40 47/32",
+  "CS#": 3,
+  "note_number": "15\u2020",
+  "notes": [ "N", "R" ]
+},
+{ "name": "SMV M41M 90/53",
+  "CS#": 5,
+  "capabilities2": { "HE": 7 },
+  "note_number": "16\u2020",
+  "notes": [ "D\u2020<sup>1</sup>" ]
+},
+{ "name": "AS 42",
+  "CS#": 3,
+  "note_number": "17\u2020",
+  "notes": [ "L\u2020<sup>1</sup>", "M", "N" ]
+},
+{ "name": "AS 42 aa",
+  "CS#": 4,
+  "note_number": "17\u2020",
+  "notes": [ "G\u2020<sup>1</sup>", "L\u2020<sup>2</sup>", "M", "N", "AA\u2020<sup>1</sup>" ]
+},
+{ "name": "AS 42 cc",
+  "CS#": 4,
+  "note_number": "17\u2020",
+  "notes": [ "G\u2020<sup>1</sup>", "J\u2020<sup>1</sup>", "L\u2020<sup>2</sup>", "M", "N" ]
+},
+{ "name": "Lince",
+  "CS#": 2,
+  "note_number": "18",
+  "notes": [ "E" ]
+},
+{ "name": "Lancia 1ZM",
+  "no_radio": "\u00ae",
+  "CS#": 6,
+  "note_number": "19\u2020",
+  "notes": [ "A\u2020<sup>2</sup>", "F\u2020<sup>3</sup>", "M\u2020<sup>1</sup>" ]
+},
+{ "name": "Fiat 611A",
+  "no_radio": "\u00ae",
+  "CS#": 5,
+  "note_number": "20\u2020",
+  "notes": [ "A\u2020<sup>2</sup>", "F\u2020<sup>3</sup>", "M\u2020<sup>1</sup>" ]
+},
+{ "name": "Fiat 611B",
+  "no_radio": "\u00ae",
+  "CS#": 5,
+  "capabilities2": { "HE": 7 },
+  "note_number": "20\u2020",
+  "notes": [ "F\u2020<sup>2</sup>", "M\u2020<sup>1</sup>" ]
+},
+{ "name": "AB 40",
+  "CS#": 4,
+  "note_number": "21",
+  "notes": [ "A\u2020", "I\u2020<sup>1</sup>", "N" ]
+},
+{ "name": "AB 41",
+  "CS#": 4,
+  "note_number": "21\u2020",
+  "notes": [ "N", "R" ]
+},
+{ "name": "Autoprot S37",
+  "CS#": 4,
+  "note_number": "22\u2020",
+  "notes": [ "R" ]
+},
+{ "name": "Autocann 20/65(b)",
+  "CS#": 4,
+  "note_number": "23\u2020",
+  "notes": [ "G\u2020<sup>1</sup>", "N", "R", "AA\u2020" ]
+},
+{ "name": "Autocann 65/17(b)",
+  "CS#": 4,
+  "capabilities2": { "H": [ [7,"S2+"], "\u2020<sup>2</sup>" ] },
+  "note_number": "23\u2020",
+  "notes": [ "G\u2020<sup>1</sup>", "H\u2020<sup>2</sup>", "N" ]
+},
+{ "name": "Autocann 75/27",
+  "CS#": 4,
+  "capabilities2": { "AP": 7 },
+  "note_number": "24",
+  "notes": [ "D\u2020", "N", "AA\u2020<sup>1</sup>" ]
+},
+{ "name": "Autocann 90/53",
+  "CS#": 4,
+  "note_number": "24",
+  "notes": [ "D\u2020", "N", "AA\u2020<sup>1</sup>" ]
+},
+{ "name": "TL 37",
+  "cs#": 5,
+  "note_number": "25\u2020",
+  "notes": [ "L\u2020<sup>1</sup>", "M", "N", "R" ]
+},
+{ "name": "TM 40",
+  "cs#": 5,
+  "note_number": "25\u2020",
+  "notes": [ "L\u2020<sup>1</sup>", "M", "N", "R" ]
+},
+{ "name": "TP 32",
+  "cs#": 5,
+  "note_number": "25\u2020",
+  "notes": [ "L\u2020<sup>1</sup>", "M", "N", "R" ]
+},
+{ "name": "Autocaretta",
+  "cs#": "5\u2020<sup>1</sup>",
+  "note_number": "26\u2020",
+  "notes": [ "K\u2020<sup>1</sup>", "N", "R" ]
+},
+{ "name": "Fiat 508 MC",
+  "cs#": "2\u2020<sup>1</sup>",
+  "note_number": "27\u2020",
+  "notes": [ "A\u2020<sup>2</sup>", "K\u2020<sup>1</sup>", "N", "R" ]
+},
+{ "name": "Autocarro L",
+  "cs#": 6,
+  "note_number": "28\u2020",
+  "notes": [ "N", "R" ]
+},
+{ "name": "Autocarro M",
+  "cs#": 7,
+  "note_number": "28\u2020",
+  "notes": [ "N", "R" ]
+},
+{ "name": "Autocarro P",
+  "cs#": 7,
+  "note_number": "28\u2020",
+  "notes": [ "N", "R" ]
+}
+
+]

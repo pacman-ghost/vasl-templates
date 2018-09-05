@@ -245,6 +245,16 @@ def test_month_capabilities( webapp, webdriver ):
         assert "H6\u2020<sup>1</sup>" in val2
         assert _get_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1943" ) == val2
 
+    # SMV M40 75/18, SMV M41 75/18, Autocann 65/17(b): H7(S2+)†2
+    for vo_name in ("SMV M40 75/18", "SMV M41 75/18", "Autocann 65/17(b)"):
+        vehicle = [ "italian", "vehicles", vo_name ]
+        val = _get_capabilities( webdriver, webapp, *vehicle, "ETO", "12/1941" )
+        assert "H7" not in val
+        assert _get_capabilities( webdriver, webapp, *vehicle, "ETO", "08/1942" ) == val
+        val2 = _get_capabilities( webdriver, webapp, *vehicle, "ETO", "09/1942" )
+        assert "H7\u2020<sup>2</sup>" in val2
+        assert _get_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1943" ) == val2
+
 # ---------------------------------------------------------------------
 
 @pytest.mark.skipif(
@@ -354,8 +364,8 @@ def _get_capabilities( webdriver, webapp,
     if vo_type == "vehicles":
         assert "Capabilities" in results[0][4]
         return results[row_no][5]
-    elif vo_type == "ordnance":
+    if vo_type == "ordnance":
         assert "Capabilities" in results[0][1]
         return results[row_no][2]
-    else:
-        assert False
+    assert False
+    return None
