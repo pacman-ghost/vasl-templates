@@ -1,0 +1,31 @@
+=== ordnance/japanese/1943 ===
+
+Name                                                  Capabilities                 (effective)                  #       Notes
+----------------------------------------------------  ---------------------------  ---------------------------  ------  ------------------
+Type 89 Heavy Grenade Launcher                        IR WP6† 4PP s7†              IR WP6† 4PP s7†              1†      n/a
+Year-11 Type Curved-Fire Infantry Gun                 NT QSU 5PP dm†[1] WP5        NT QSU 5PP dm†[1] WP5        2†      A B†<sup>1</sup>
+Type 97 Curved-Fire Infantry Gun                      NT QSU WP5                   NT QSU WP5                   3†      A
+Type 97 Light Close-Attack Gun                        NT QSU 5PP dm†[1] WP5        NT QSU 5PP dm†[1] WP5        4†      A B†<sup>1</sup>
+Type 97 Medium Close-Attack Gun                       NT Towing NA†[1]             NT Towing NA†[1]             5†      A C†<sup>1</sup>
+Type 97 Automatic Gun                                 5PP crew†                    5PP crew†                    6†      A
+Type 94 Rapid-Fire Gun                                NT QSU h-d                   NT QSU h-d                   7†      A
+Type 1 Machine-Moved Gun                              NT QSU                       NT QSU                       8†      n/a
+Year-11 Type Flat-Trajectory Infantry Gun             5PP (3PP dm) crewed†         5PP (3PP dm) crewed†         9†      A
+Type 92 Infantry Gun                                  NT QSU h-d AP5 H6[5] WP5     NT QSU h-d AP5 WP5           10†     A
+Year-41 Type Mountain Gun                             NT QSU h-d H6[4+]† WP7       NT QSU h-d WP7               11†     A
+Year-38 Type Field Gun (Improved)                     NT QSU h-d WP6 "12" AP TK#†  NT QSU h-d WP6 "12" AP TK#†  12†     n/a
+Type 90 Field Gun                                     NT QSU WP6                   NT QSU WP6                   13†     n/a
+Type 91 10cm Field Howitzer                           NT                           NT                           14†     n/a
+Type 92 10cm Cannon                                   NT AP5 WP5                   NT AP5 WP5                   15†     n/a
+Year-38 Type 12cm Howitzer                            NT h-d AP5                   NT h-d AP5                   16†     n/a
+Year-3 Type 14cm Naval Seacoast Gun                   T NM†                        T NM†                        17†[1]  D† E
+Year-4 Type 15cm Howitzer                             NT AP5 WP5 Towing risk†      NT AP5 WP5 Towing risk†      18†     n/a
+Type 96 15cm Howitzer                                 NT AP5 WP5                   NT AP5 WP5                   19†     E
+Type 93 Twin-Mount High-Angle Machine Gun             T 2 TK DR† Towing NA†[1]     T 2 TK DR† Towing NA†[1]     20†     A C†<sup>1</sup> E
+Type 98 High-Angle Machine Cannon                     T LF [NT, 20†, 2 ROF]        T LF [NT, 20†, 2 ROF]        21†     A
+Type 96 Naval High-Angle Machine Cannon               T NM†                        T NM†                        22†[1]  D† E
+Type 96 Twin-Mount Naval High-Angle Machine Cannon    T NM† 2 TK DR†[1]            T NM† 2 TK DR†[1]            22†[1]  D† E
+Type 96 Triple-Mount Naval High-Angle Machine Cannon  T NM† 3 TK DR†[1]            T NM† 3 TK DR†[1]            22†[1]  D† E
+Type 88 7.5cm Mobile Field High-Angle Gun             T                            T                            23†     E
+Year-10 Type 12cm Naval High-Angle Gun                T NM†                        T NM†                        24†[1]  D† E
+Type 10 8cm Naval High-Angle Gun                      T NM† "13" AP TK†[1]         T NM† "13" AP TK†[1]         25†[1]  D† E
