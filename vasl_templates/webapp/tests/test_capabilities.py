@@ -255,6 +255,13 @@ def test_month_capabilities( webapp, webdriver ):
         assert "H7\u2020<sup>2</sup>" in val2
         assert _get_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1943" ) == val2
 
+    # M4A4(a): WP7(J4+)†
+    vehicle = [ "chinese", "vehicles", "M4A4(a)" ]
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "12/1943", "s8" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "05/1944", "s8" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "06/1944", "WP7\u2020 s8" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1945", "WP7\u2020 s8" )
+
 # ---------------------------------------------------------------------
 
 @pytest.mark.skipif(
