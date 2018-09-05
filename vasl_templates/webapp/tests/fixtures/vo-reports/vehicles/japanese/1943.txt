@@ -1,0 +1,29 @@
+=== vehicles/japanese/1943 ===
+
+Name                                     Radio           IF    Crew survival                         Capabilities    (effective)    #    Notes
+---------------------------------------  --------------  ----  ------------------------------------  --------------  -------------  ---  -----------------------------
+Type 92A                                 ®               yes   CS 3                                  n/a             n/a            1†   A†<sup>1</sup>
+Type 92B                                 ®               yes   CS 3                                  n/a             n/a            1†   A†<sup>1</sup>
+Type 94                                  ®               yes   CS 2                                  n/a             n/a            2†   n/a
+Type 95 SO-KI                            ®               yes   CS 5                                  n/a             n/a            3†   n/a
+Type 97A TE-KE                           ®               yes   CS 2                                  n/a             n/a            4†   n/a
+Type 97B TE-KE                           ®               n/a   CS 2                                  n/a             n/a            4†   n/a
+Type 95 HA-GO                            ®†<sup>2</sup>  yes   CS 3                                  sD5[4+]†[1]     n/a            5†   B†<sup>1</sup> C†<sup>2</sup>
+Type 2 KA-MI                             n/a             yes   CS 5†                                 n/a             n/a            6†   n/a
+Type 2 KA-MI (without pontoons)          n/a             yes   CS 5†                                 n/a             n/a            6†   n/a
+Type 89A CHI-RO                          ®               yes   CS 4                                  n/a             n/a            7†   A†<sup>1</sup>
+Type 89B CHI-RO                          ®               yes   CS 4                                  n/a             n/a            7†   n/a
+Type 97A CHI-HA                          ®†<sup>2</sup>  yes   CS 4                                  sD5[1+]†[1]     sD5†[1]        8†   B†<sup>1</sup> C†<sup>2</sup>
+Type 97B CHI-HA                          n/a             yes   CS 4                                  sD5             sD5            8†   n/a
+Type 1 CHI-HE                            n/a             yes   CS 5                                  sD5             sD5            9†   n/a
+Type 91                                  n/a             yes   CS 6                                  n/a             n/a            10†  A†<sup>1</sup>
+Type 92                                  n/a             yes   CS 4                                  n/a             n/a            11†  A†<sup>1</sup>
+Type 1 HO-NI I                           n/a             yes   CS 5                                  WP5             WP5            12†  n/a
+Type 4 HO-RO                             n/a             n/a   CS 5 <small><i>(brew up)</i></small>  WP6             WP6            13†  n/a
+Type 1 HO-KI                             n/a             yes   cs 5                                  n/a             n/a            14†  n/a
+Type 98 SHI-KE                           n/a             yes   cs 5                                  n/a             n/a            15†  n/a
+Type 92 I-KE                             n/a             yes   cs 5                                  n/a             n/a            16†  n/a
+Type 95                                  n/a             yes   cs 2                                  n/a             n/a            17†  n/a
+Type 94                                  n/a             yes   cs 6                                  n/a             n/a            18   n/a
+Type 97                                  n/a             yes   cs 7                                  n/a             n/a            18   n/a
+Vickers 8-in. Costal Defense Gun Turret  n/a             yes   n/a                                   n/a             n/a            19†  n/a

@@ -1,0 +1,128 @@
+[
+
+{ "name": "Type 92A",
+  "no_radio": "\u00ae",
+  "CS#": 3,
+  "note_number": "1\u2020",
+  "notes": [ "A\u2020<sup>1</sup>" ]
+},
+{ "name": "Type 92B",
+  "no_radio": "\u00ae",
+  "CS#": 3,
+  "note_number": "1\u2020",
+  "notes": [ "A\u2020<sup>1</sup>" ]
+},
+{ "name": "Type 94",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "2\u2020"
+},
+{ "name": "Type 95 SO-KI",
+  "no_radio": "\u00ae",
+  "CS#": 5,
+  "note_number": "3\u2020"
+},
+{ "name": "Type 97A TE-KE",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "4\u2020"
+},
+{ "name": "Type 97B TE-KE",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "no_if": true,
+  "note_number": "4\u2020"
+},
+{ "name": "Type 95 HA-GO",
+  "no_radio": "\u00ae\u2020<sup>2</sup>",
+  "CS#": 3,
+  "capabilities2": { "sD": [ [5,"4+"], "\u2020<sup>1</sup>" ] },
+  "note_number": "5\u2020",
+  "notes": [ "B\u2020<sup>1</sup>", "C\u2020<sup>2</sup>" ]
+},
+{ "name": "Type 2 KA-MI",
+  "CS#": "5\u2020",
+  "note_number": "6\u2020"
+},
+{ "name": "Type 2 KA-MI (without pontoons)",
+  "CS#": "5\u2020",
+  "note_number": "6\u2020"
+},
+{ "name": "Type 89A CHI-RO",
+  "no_radio": "\u00ae",
+  "CS#": 4,
+  "note_number": "7\u2020",
+  "notes": [ "A\u2020<sup>1</sup>" ]
+},
+{ "name": "Type 89B CHI-RO",
+  "no_radio": "\u00ae",
+  "CS#": 4,
+  "note_number": "7\u2020"
+},
+{ "name": "Type 97A CHI-HA",
+  "no_radio": "\u00ae\u2020<sup>2</sup>",
+  "CS#": 4,
+  "capabilities2": { "sD": [ [5,"1+"], "\u2020<sup>1</sup>" ] },
+  "note_number": "8\u2020",
+  "notes": [ "B\u2020<sup>1</sup>", "C\u2020<sup>2</sup>" ]
+},
+{ "name": "Type 97B CHI-HA",
+  "CS#": 4,
+  "capabilities2": { "sD": 5 },
+  "note_number": "8\u2020"
+},
+{ "name": "Type 1 CHI-HE",
+  "CS#": 5,
+  "capabilities2": { "sD": 5 },
+  "note_number": "9\u2020"
+},
+{ "name": "Type 91",
+  "CS#": 6,
+  "note_number": "10\u2020",
+  "notes": [ "A\u2020<sup>1</sup>" ]
+},
+{ "name": "Type 92",
+  "CS#": 4,
+  "note_number": "11\u2020",
+  "notes": [ "A\u2020<sup>1</sup>" ]
+},
+{ "name": "Type 1 HO-NI I",
+  "CS#": 5,
+  "capabilities2": { "WP": 5 },
+  "note_number": "12\u2020"
+},
+{ "name": "Type 4 HO-RO",
+  "CS#": "5:brewup",
+  "no_if": true,
+  "capabilities2": { "WP": 6 },
+  "note_number": "13\u2020"
+},
+{ "name": "Type 1 HO-KI",
+  "cs#": 5,
+  "note_number": "14\u2020"
+},
+{ "name": "Type 98 SHI-KE",
+  "cs#": 5,
+  "note_number": "15\u2020"
+},
+{ "name": "Type 92 I-KE",
+  "cs#": 5,
+  "note_number": "16\u2020"
+},
+{ "name": "Type 95",
+  "cs#": 2,
+  "note_number": "17\u2020"
+},
+{ "name": "Type 94",
+  "cs#": 6,
+  "note_number": "18"
+},
+{ "name": "Type 97",
+  "cs#": 7,
+  "note_number": "18"
+},
+{ "name": "Vickers 8-in. Costal Defense Gun Turret",
+  "note_number": "19\u2020"
+}
+
+]
