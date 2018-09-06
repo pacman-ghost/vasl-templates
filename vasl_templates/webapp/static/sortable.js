@@ -126,7 +126,7 @@ $.fn.sortable2 = function( action, args )
 
         // style the entry
         // NOTE: Colors aren't going to work when we're using the test template pack!
-        var colors = get_player_colors_for_element($sortable2) || ["#f0f0f0","#c0c0c0"] ;
+        var colors = get_player_colors_for_element($sortable2) || ["#f0f0f0","#e0e0e0","#c0c0c0"] ;
         $entry.data( "colors", colors ) ;
         set_entry_colors( $entry, false ) ;
         $entry.on( {
@@ -211,8 +211,8 @@ $.fn.sortable2 = function( action, args )
             invert = true ; // nb: drag is in progress
         $entry.css( {
             "background": colors[invert?1:0],
-            "border-bottom": "1px solid "+colors[invert?0:1],
-            "border-right": "1px solid "+colors[invert?0:1],
+            "border-bottom": "1px solid "+colors[2],
+            "border-right": "1px solid "+colors[2],
         } ) ;
     }
 

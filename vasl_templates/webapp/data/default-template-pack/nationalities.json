@@ -2,47 +2,47 @@
 
 "german": {
   "display_name": "German",
-  "ob_colors": [ "#d3edfc", "#91cdf5" ]
+  "ob_colors": [ "#d3edfc","#91cdf5", "#91cdf5" ]
 },
 
 "russian": {
   "display_name": "Russian",
-  "ob_colors": [ "#eabe51", "#d68d1a" ]
+  "ob_colors": [ "#eabe51","#d68d1a", "#d68d1a" ]
 },
 
 "american": {
   "display_name": "American",
-  "ob_colors": [ "#e5f700", "#cdf000" ]
+  "ob_colors": [ "#e5f700","#cdf000", "#cdf000" ]
 },
 
 "british": {
   "display_name": "British",
-  "ob_colors": [ "#f6edda", "#e5cea0" ]
+  "ob_colors": [ "#f6edda","#e5cea0", "#e5cea0" ]
 },
 
 "french": {
   "display_name": "French",
-  "ob_colors": [ "#a2ddff", "#41a5ff" ]
+  "ob_colors": [ "#a2ddff","#41a5ff", "#41a5ff" ]
 },
 
 "italian": {
   "display_name": "Italian",
-  "ob_colors": [ "#dde0e2", "#a6adb2" ]
+  "ob_colors": [ "#dde0e2","#a6adb2", "#a6adb2" ]
 },
 
 "finnish": {
   "display_name": "Finnish",
-  "ob_colors": [ "#edefef", "#ced3d3" ]
+  "ob_colors": [ "#edefef","#ced3d3", "#ced3d3" ]
 },
 
 "japanese": {
   "display_name": "Japanese",
-  "ob_colors": [ "#fff200", "#ffdb00" ]
+  "ob_colors": [ "#fff200","#ffdb00", "#ffdb00" ]
 },
 
 "chinese": {
   "display_name": "Chinese",
-  "ob_colors": [ "#d3edfc", "#e0a22b" ]
+  "ob_colors": [ "#d3edfc","#91cdf5", "#e0a22b" ]
 }
 
 }

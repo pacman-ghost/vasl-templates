@@ -58,10 +58,10 @@ function _do_edit_simple_note( $sortable2, $entry, default_width )
             var $dlg = $(this) ;
             $width.keydown( function(evt) { auto_dismiss_dialog( $dlg, evt, "OK" ) ; } ) ;
             // set the titlebar color
-            var colors = get_player_colors_for_element($sortable2) || ["#d0d0d0","#ca0a0a0"] ;
+            var colors = get_player_colors_for_element($sortable2) || ["#d0d0d0","#c0c0c0","#a0a0a0"] ;
             $(".ui-dialog.edit-simple_note .ui-dialog-titlebar").css( {
                 background: colors[0],
-                border: "1px solid "+colors[1]
+                border: "1px solid "+colors[2]
             } ) ;
             // load the dialog
             var data = $entry ? $entry.data("sortable2-data") : null ;

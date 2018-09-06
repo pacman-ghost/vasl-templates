@@ -550,7 +550,7 @@ function on_tab_activate( evt, ui )
     // set the tab being activated
     function set_colors_for_player( tab_id, player_no ) {
         var colors = get_player_colors( player_no ) ;
-        set_colors( tab_id, colors[0], colors[1] ) ;
+        set_colors( tab_id, colors[0], colors[2] ) ;
     }
     tab_id = ui.newPanel.prop( "id" ) ;
     var $tab = $( "#"+tab_id ) ;

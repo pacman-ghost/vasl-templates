@@ -49,12 +49,12 @@ function generate_snippet( $btn, extra_params )
         params.PLAYER_NAME = get_nationality_display_name( params.PLAYER_1 ) ;
         colors = get_player_colors( 1 ) ;
         params.OB_COLOR = colors[0] ;
-        params.OB_COLOR_2 = colors[1] ;
+        params.OB_COLOR_2 = colors[2] ;
     } else if ( curr_tab === "#tabs-ob2" ) {
         params.PLAYER_NAME = get_nationality_display_name( params.PLAYER_2 ) ;
         colors = get_player_colors( 2 ) ;
         params.OB_COLOR = colors[0] ;
-        params.OB_COLOR_2 = colors[1] ;
+        params.OB_COLOR_2 = colors[2] ;
     }
 
     // set player-specific parameters

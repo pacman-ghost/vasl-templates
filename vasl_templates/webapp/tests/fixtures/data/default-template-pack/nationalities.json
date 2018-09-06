@@ -2,42 +2,42 @@
 
 "german": {
   "display_name": "German",
-  "ob_colors": [ "OBCOL:german", "OBCOL2:german" ]
+  "ob_colors": [ "OBCOL:german","OBCOL2:german", "OBCOL-BORDER:german" ]
 },
 
 "russian": {
   "display_name": "Russian",
-  "ob_colors": [ "OBCOL:russian", "OBCOL2:russian" ]
+  "ob_colors": [ "OBCOL:russian","OBCOL2:russian", "OBCOL-BORDER:russian" ]
 },
 
 "american": {
   "display_name": "American",
-  "ob_colors": [ "OBCOL:american", "OBCOL2:american" ]
+  "ob_colors": [ "OBCOL:american","OBCOL2:american", "OBCOL-BORDER:american" ]
 },
 
 "british": {
   "display_name": "British",
-  "ob_colors": [ "OBCOL:british", "OBCOL2:british" ]
+  "ob_colors": [ "OBCOL:british","OBCOL2:british", "OBCOL-BORDER:british" ]
 },
 
 "french": {
   "display_name": "French",
-  "ob_colors": [ "OBCOL:french", "OBCOL2:french" ]
+  "ob_colors": [ "OBCOL:french","OBCOL2:french", "OBCOL-BORDER:french" ]
 },
 
 "italian": {
   "display_name": "Italian",
-  "ob_colors": [ "OBCOL:italian", "OBCOL2:italian" ]
+  "ob_colors": [ "OBCOL:italian","OBCOL2:italian", "OBCOL-BORDER:italian" ]
 },
 
 "finnish": {
   "display_name": "Finnish",
-  "ob_colors": [ "OBCOL:finns", "OBCOL2:finns" ]
+  "ob_colors": [ "OBCOL:finnish","OBCOL2:finnish", "OBCOL-BORDER:finnish" ]
 },
 
 "japanese": {
   "display_name": "Japanese",
-  "ob_colors": [ "OBCOL:japanese", "OBCOL2:japanese" ]
+  "ob_colors": [ "OBCOL:japanese","OBCOL2:japanese", "OBCOL-BORDER:japanese" ]
 }
 
 }

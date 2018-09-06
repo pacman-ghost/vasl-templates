@@ -51,14 +51,14 @@ def _do_test_ob_entries( webapp, webdriver, ob_type ):
         assert wait_for_clipboard( 2, expected, transform=adjust_html )
     select_tab( "ob1" )
     check_snippet( sortable1, 0,
-        "[German] [{} #1] (col=[OBCOL:german/OBCOL2:german])".format( ob_type )
+        "[German] [{} #1] (col=[OBCOL:german/OBCOL-BORDER:german])".format( ob_type )
     )
     check_snippet( sortable1, 1,
-        "[German] [{} #2] (col=[OBCOL:german/OBCOL2:german]) (width=[2px])".format( ob_type )
+        "[German] [{} #2] (col=[OBCOL:german/OBCOL-BORDER:german]) (width=[2px])".format( ob_type )
     )
     select_tab( "ob2" )
     check_snippet( sortable2, 0,
-        "[Russian] [<i>{}</i> #3] (col=[OBCOL:russian/OBCOL2:russian]) (width=[3px])".format( ob_type )
+        "[Russian] [<i>{}</i> #3] (col=[OBCOL:russian/OBCOL-BORDER:russian]) (width=[3px])".format( ob_type )
     )
 
     # make some changes and check the snippets again
@@ -68,14 +68,14 @@ def _do_test_ob_entries( webapp, webdriver, ob_type ):
     edit_simple_note( sortable1, 0, None, "100px" )
     select_tab( "ob2" )
     check_snippet( sortable2, 0,
-        "[Russian] [updated {} #3] (col=[OBCOL:russian/OBCOL2:russian])".format( ob_type )
+        "[Russian] [updated {} #3] (col=[OBCOL:russian/OBCOL-BORDER:russian])".format( ob_type )
     )
     select_tab( "ob1" )
     check_snippet( sortable1, 1,
-        "[German] [<i>updated {} #2</i>] (col=[OBCOL:german/OBCOL2:german]) (width=[200px])".format( ob_type )
+        "[German] [<i>updated {} #2</i>] (col=[OBCOL:german/OBCOL-BORDER:german]) (width=[200px])".format( ob_type )
     )
     check_snippet( sortable1, 0,
-        "[German] [{} #1] (col=[OBCOL:german/OBCOL2:german]) (width=[100px])".format( ob_type )
+        "[German] [{} #1] (col=[OBCOL:german/OBCOL-BORDER:german]) (width=[100px])".format( ob_type )
     )
 
     # delete an OB setup/note by dragging it into the trash
@@ -128,7 +128,7 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
     def check_pf_snippets():
         """Check that the PF snippets are generated correctly."""
         btn = find_child( "button[data-id='pf']" )
-        col = "[OBCOL:german]/[OBCOL2:german]"
+        col = "[OBCOL:german]/[OBCOL-BORDER:german]"
         do_check_snippets( btn, (1942,1), "PF: range=[1] ; check=[2] (drm=[+1]) ; col={}".format(col), True )
         do_check_snippets( btn, (1943,9), "PF: range=[1] ; check=[2] (drm=[+1]) ; col={}".format(col), True )
         do_check_snippets( btn, (1943,10), "PF: range=[1] ; check=[3] ; col={}".format(col), False )
@@ -142,7 +142,7 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
     def check_psk_snippets():
         """Check that the PSK snippets are generated correctly."""
         btn = find_child( "button[data-id='psk']" )
-        expected = "====> whoosh! ; col=[OBCOL:german]/[OBCOL2:german]"
+        expected = "====> whoosh! ; col=[OBCOL:german]/[OBCOL-BORDER:german]"
         do_check_snippets( btn, (1942,1), expected, True )
         do_check_snippets( btn, (1943,9), expected, True )
         do_check_snippets( btn, (1943,10), expected, False )
@@ -154,7 +154,7 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
         btn = find_child( "button[data-id='baz']" )
         do_check_snippets( btn, (1941,1), "BAZ: none", True )
         do_check_snippets( btn, (1942,10), "BAZ: none", True )
-        col = "[OBCOL:american]/[OBCOL2:american]"
+        col = "[OBCOL:american]/[OBCOL-BORDER:american]"
         do_check_snippets( btn, (1942,11), "BAZ: '43 ; range=[4] ; X#=[10] ; TK#=[13] ; col={}".format(col), False )
         do_check_snippets( btn, (1943,1), "BAZ: '43 ; range=[4] ; X#=[10] ; TK#=[13] ; col={}".format(col), False )
         do_check_snippets( btn, (1944,1), "BAZ: '44 ; range=[4] ; X#=[11] ; TK#=[16] ; col={}".format(col), False )
@@ -171,7 +171,7 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
     def check_atmm_snippets():
         """Check that the ATMM snippets are generated correctly."""
         btn = find_child( "button[data-id='atmm']" )
-        expected = "Kaboom!!! ; col=[OBCOL:german]/[OBCOL2:german]"
+        expected = "Kaboom!!! ; col=[OBCOL:german]/[OBCOL-BORDER:german]"
         do_check_snippets( btn, (1943,12), expected, True )
         do_check_snippets( btn, (1944,1), expected, False )
         do_check_snippets( btn, (1944,12), expected, False )
@@ -179,13 +179,13 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
 
     # initialize
     nationality_specific_buttons = {
-        "mol": [ "russian", "Burn, baby, burn! ; col=[OBCOL:russian]/[OBCOL2:russian]" ],
-        "mol-p": [ "russian", "mol-p template ; col=[OBCOL:russian]/[OBCOL2:russian]" ],
+        "mol": [ "russian", "Burn, baby, burn! ; col=[OBCOL:russian]/[OBCOL-BORDER:russian]" ],
+        "mol-p": [ "russian", "mol-p template ; col=[OBCOL:russian]/[OBCOL-BORDER:russian]" ],
         "pf": [ "german", check_pf_snippets ],
         "psk": [ "german", check_psk_snippets ],
         "atmm": [ "german", check_atmm_snippets ],
         "baz": [ "american", check_baz_snippets ],
-        "piat": [ "british", "piat template ; col=[OBCOL:british]/[OBCOL2:british]" ],
+        "piat": [ "british", "piat template ; col=[OBCOL:british]/[OBCOL-BORDER:british]" ],
     }
     btn_elems = {
         btn: find_child( "button[data-id='{}']".format( btn ) )
