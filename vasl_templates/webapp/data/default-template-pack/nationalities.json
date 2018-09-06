@@ -38,6 +38,11 @@
 "japanese": {
   "display_name": "Japanese",
   "ob_colors": [ "#fff200", "#ffdb00" ]
+},
+
+"chinese": {
+  "display_name": "Chinese",
+  "ob_colors": [ "#d3edfc", "#e0a22b" ]
 }
 
 }
