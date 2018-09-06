@@ -219,8 +219,16 @@ function unload_snippet_params( params, check_date_capabilities )
             } ;
             if ( entry.no_radio )
                 obj.no_radio = entry.no_radio ;
-            if ( entry.no_if )
-                obj.no_if = entry.no_if ;
+            if ( entry.no_if ) {
+                obj.no_if = "no IF" ;
+                if ( typeof(entry.no_if) === "string" ) { // nb: only for the French B1-bis :-/
+                    var no_if = entry.no_if ;
+                    if ( no_if.substring(no_if.length-1) == "\u2020" )
+                        obj.no_if += "<sup>"+no_if.substring(0,no_if.length-1)+"</sup>\u2020" ;
+                    else
+                        obj.no_if += "<sup>"+no_if+"</sup>" ;
+                }
+            }
             // NOTE: It would be nice to have a Jinja2 filter that inserted the raw capabilities or selected
             // the correct one for the scenario date e.g.
             //   {% for c in veh.capabilities %} {{c|selcap}} {%endif%}}

@@ -36,7 +36,7 @@ def test_vo_reports( webapp, webdriver ):
             )
 
     # check each vehicle/ordnance report
-    for nat in ["german","russian","american","british","italian","japanese","chinese"]:
+    for nat in ["german","russian","american","british","italian","japanese","chinese","french"]:
         for vo_type in ["vehicles","ordnance"]:
             for year in range(1940,1945+1):
 

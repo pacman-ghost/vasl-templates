@@ -71,7 +71,12 @@ function load_vo_listings( objs )
         buf.push( "<td>", fmtval(obj.name) ) ;
         if ( "{{VO_TYPE}}" === "vehicles" ) {
             buf.push( "<td>", fmtval(obj.no_radio) ) ;
-            buf.push( "<td>", fmtval( obj.no_if ? "" : "&#10003;" ) ) ;
+            var has_if = "&#10003;" ;
+            if ( typeof(obj.no_if) === "string" ) // nb: only for the French B1-bis :-/
+                has_if = "(" + obj.no_if + ")" ;
+            else if ( obj.no_if )
+                has_if = null ;
+            buf.push( "<td>", fmtval(has_if) ) ;
             buf.push( "<td>", fmtval(make_crew_survival(obj)) ) ;
         }
         var capabilities = make_capabilities( obj, theater, year, month, true, true ) ;
