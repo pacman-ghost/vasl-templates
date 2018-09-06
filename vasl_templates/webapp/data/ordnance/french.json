@@ -1,0 +1,113 @@
+[
+
+{ "name": "LG de 50 mle 37(f)",
+  "capabilities_other": [ "2PP", "crewed\u2020" ],
+  "note_number": "1",
+  "notes": [ "A", "B", "C\u2020", "E" ]
+},
+{ "name": "Mortier de 60 mle 35",
+  "capabilities": [ "5PP", "no OBA\u2020" ],
+  "capabilities2": { "IR": [ [null,"2+"], "\u2020" ] },
+  "note_number": "2\u2020",
+  "notes": [ "A", "B", "V" ]
+},
+{ "name": "Mortier de 81 mle 27/31",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "3\u2020",
+  "notes": [ "A", "B", "D", "V" ]
+},
+{ "name": "Fusil Antichar Boys",
+  "capabilities_other": [ "1PP" ],
+  "note_number": "4\u2020",
+  "notes": [ "B" ]
+},
+{ "name": "Canon AC de 25 SA-L mle 34",
+  "capabilities": [ "NT", "QSU" ],
+  "note_number": "5\u2020",
+  "notes": [ "B", "P" ]
+},
+{ "name": "Canon AC de 47 SA mle 37 APX",
+  "capabilities": [ "NT", "QSU", "APCR only\u2020<sup>1</sup>" ],
+  "note_number": "6\u2020<sup>1</sup>",
+  "notes": [ "B", "G\u2020", "P", "V" ]
+},
+{ "name": "Canon de 75 AC mle 97/35",
+  "capabilities": [ "h-d" ],
+  "capabilities2": { "LF": [ "NT" ], "HE": 7, "s": 6 },
+  "capabilities_other": [ "ST", "no shield" ],
+  "note_number": "7",
+  "notes": [ "E" ]
+},
+{ "name": "Canon de 37 mle 16 TR",
+  "capabilities_other": [ "5PP (3PP dm)", "crewed\u2020" ],
+  "note_number": "8\u2020<sup>1</sup>",
+  "notes": [ "A", "C\u2020" ]
+},
+{ "name": "Canon de 65 M mle 06",
+  "capabilities": [ "NT", "QSU", "no Gunshield", "h-d" ],
+  "note_number": "9\u2020",
+  "notes": [ "A", "P" ]
+},
+{ "name": "Canon de 75 M mle 28",
+  "capabilities": [ "NT", "QSU", "h-d" ],
+  "capabilities2": { "s": 6, "AP": 5 },
+  "note_number": "10\u2020",
+  "notes": [ "A", "P" ]
+},
+{ "name": "Canon de 75 mle 1897",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "11\u2020",
+  "notes": [ "B", "P" ]
+},
+{ "name": "Canon de 105 M mle 28",
+  "capabilities": [ "NT", "h-d" ],
+  "note_number": "12\u2020",
+  "notes": [ "A", "P" ]
+},
+{ "name": "Canon de 105 C mle 35 B",
+  "capabilities": [ "NT" ],
+  "note_number": "13",
+  "notes": [ "E", "F\u2020" ]
+},
+{ "name": "Canon de 105 L mle 13 S",
+  "capabilities": [ "NT" ],
+  "note_number": "14\u2020",
+  "notes": [ "P" ]
+},
+{ "name": "Canon de 105 L mle 36 S",
+  "capabilities": [ "NT" ],
+  "note_number": "15",
+  "notes": [ "E", "F\u2020" ]
+},
+{ "name": "Canon de 155 C mle 17 S",
+  "capabilities": [ "NT" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "16\u2020"
+},
+{ "name": "Canon de 155 GPF",
+  "capabilities": [ "NT", "RFNM", "no IF" ],
+  "note_number": "17\u2020"
+},
+{ "name": "Mitr. de 13.2 CAJ mle 30",
+  "capabilities": [ "T", "2 TK DR\u2020<sup>1</sup>", "Towing NA\u2020<sup>1</sup>" ],
+  "note_number": "18\u2020<sup>1</sup>",
+  "notes": [ "B", "G\u2020", "V" ]
+},
+{ "name": "Mitr. de 20 CA mle 39 O",
+  "capabilities": [ "T" ],
+  "capabilities2": { "LF": [ "NT", "20\u2020", "2 ROF", "B11" ] },
+  "note_number": "19\u2020"
+},
+{ "name": "Canon Auto. de 25 CA mle 38",
+  "capabilities": [ "T" ],
+  "note_number": "20\u2020<sup>1</sup>",
+  "notes": [ "G\u2020" ]
+},
+{ "name": "Canon de 75 CA mle 32",
+  "capabilities": [ "T", "NM" ],
+  "note_number": "21\u2020"
+}
+
+]
