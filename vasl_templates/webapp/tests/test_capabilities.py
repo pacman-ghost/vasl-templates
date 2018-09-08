@@ -269,7 +269,7 @@ def test_month_capabilities( webapp, webdriver ):
     reason = "--short-tests specified"
 )
 def test_scenario_theater( webapp, webdriver ):
-    """Test ETO/PTO-only capabilities."""
+    """Test scenario theater specific capabilities."""
 
     # M2A1 105mm Howitzer: C7(4+P)†1
     ordnance = [ "american", "ordnance", "M2A1 105mm Howitzer" ]
@@ -335,6 +335,11 @@ def test_scenario_theater( webapp, webdriver ):
     _check_capabilities( webdriver, webapp, *ordnance, "PTO", "01/1943", "NT QSU H6\u2020 WP7 s8" )
     _check_capabilities( webdriver, webapp, *ordnance, "PTO", "01/1944", "NT QSU H6\u2020 WP7 s8" )
     _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1944", "NT QSU WP7 s8" )
+
+    # Obice da 149/13: WP6(B)
+    ordnance = [ "chinese", "ordnance", "Obice da 149/13" ]
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1940", "NT h-d<sup>C</sup>\u2020 s5" )
+    _check_capabilities( webdriver, webapp, *ordnance, "Burma", "01/1940", "NT h-d<sup>C</sup>\u2020 WP6\u2020 s5" )
 
 # ---------------------------------------------------------------------
 

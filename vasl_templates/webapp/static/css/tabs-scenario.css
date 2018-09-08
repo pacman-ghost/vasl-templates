@@ -4,8 +4,8 @@
 
 #panel-scenario .row { display: flex ; align-items: center ; }
 #panel-scenario input { flex-grow: 1 ; }
-#panel-scenario input[name='SCENARIO_ID'] { margin-left: 0.25em ; width: 70px ; flex-grow: 0 ; }
-#panel-scenario .ui-selectmenu-button.scenario_theater { margin: -3px 0 0 0.25em ; width: 60px ; flex-grow: 0 ; }
+#panel-scenario input[name='SCENARIO_ID'] { margin-left: 0.25em ; width: 80px ; flex-grow: 0 ; }
+#panel-scenario .ui-selectmenu-button.scenario_theater { margin: -3px 0 0 0.25em ; width: 70px ; flex-grow: 0 ; }
 #panel-scenario input[name='SCENARIO_DATE'] { width: 6em ; flex-grow: 0 ; }
 
 #panel-scenario label[for='PLAYER_1'], label[for='PLAYER_2'] { margin-top: 2px ; }

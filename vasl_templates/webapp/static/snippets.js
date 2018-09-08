@@ -428,7 +428,7 @@ function _check_capability_timestamp( capabilities, timestamp, scenario_theater,
         timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
     }
     if ( timestamp.substring( timestamp.length-1 ) === "B" ) {
-        if ( scenario_theater != "Burma" )
+        if ( scenario_theater != "BURMA" )
             return "<ignore>" ;
         timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
     }
