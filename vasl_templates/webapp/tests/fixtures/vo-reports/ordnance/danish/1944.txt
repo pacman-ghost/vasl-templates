@@ -1,0 +1,5 @@
+=== ordnance/danish/1944 ===
+
+Name                     Capabilities           (effective)            #    Notes
+-----------------------  ---------------------  ---------------------  ---  -----------------
+Machinecannon 20mm M-35  NT QSU†[1] R2 IFE=B10  NT QSU†[1] R2 IFE=B10  19†  De T†<sup>1</sup>

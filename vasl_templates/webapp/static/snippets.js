@@ -480,12 +480,19 @@ function has_ref( val )
 
 function make_crew_survival( entry )
 {
+    function make_cs_string( prefix, val ) {
+        if ( val.length === 2 && val[0] === null && val[1] === "\u2020" )
+            return "\u2020" ;
+        else
+            return prefix + " " + val ;
+    }
+
     // check if the vehicle has a crew survival field
     var crew_survival = null ;
     if ( "CS#" in entry )
-        crew_survival = "CS " + entry["CS#"] ;
+        crew_survival = make_cs_string( "CS", entry["CS#"] ) ;
     else if ( "cs#" in entry )
-        crew_survival = "cs " + entry["cs#"] ;
+        crew_survival = make_cs_string( "cs", entry["cs#"] ) ;
     if ( crew_survival === null )
         return null ;
 

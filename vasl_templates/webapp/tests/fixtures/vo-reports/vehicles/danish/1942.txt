@@ -1,0 +1,5 @@
+=== vehicles/danish/1942 ===
+
+Name    Radio    IF    Crew survival    Capabilities    (effective)    #    Notes
+------  -------  ----  ---------------  --------------  -------------  ---  -------
+Nimbus  n/a      yes   †                M8†             M8†            24†  n/a
