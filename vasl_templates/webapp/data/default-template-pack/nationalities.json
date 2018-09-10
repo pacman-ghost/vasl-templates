@@ -43,6 +43,11 @@
 "chinese": {
   "display_name": "Chinese",
   "ob_colors": [ "#d3edfc","#91cdf5", "#e0a22b" ]
+},
+
+"polish": {
+  "display_name": "Polish",
+  "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ]
 }
 
 }

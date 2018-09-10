@@ -1,0 +1,9 @@
+=== ordnance/polish/1940 ===
+
+Name                   Capabilities    (effective)    #    Notes
+---------------------  --------------  -------------  ---  -------
+46mm granatnik wz. 36  4PP             4PP            1    A P
+Ur. wz. 35             1PP             1PP            2    P
+75mm wz. 02/26         NT QSU h-d s6   NT QSU h-d s6  3    P
+100mm wz. 14/19        NT              NT             4    A P
+75mm wz. 97/25         T NM            T NM           5†   P

@@ -1,0 +1,30 @@
+[
+
+{ "name": "46mm granatnik wz. 36",
+  "capabilities_other": [ "4PP" ],
+  "note_number": "1",
+  "notes": [ "A", "P" ]
+},
+{ "name": "Ur. wz. 35",
+  "capabilities_other": [ "1PP" ],
+  "note_number": "2",
+  "notes": [ "P" ]
+},
+{ "name": "75mm wz. 02/26",
+  "capabilities": [ "NT", "QSU", "h-d" ],
+  "capabilities2": { "s": 6 },
+  "note_number": "3",
+  "notes": [ "P" ]
+},
+{ "name": "100mm wz. 14/19",
+  "capabilities": [ "NT" ],
+  "note_number": "4",
+  "notes": [ "A", "P" ]
+},
+{ "name": "75mm wz. 97/25",
+  "capabilities": [ "T", "NM" ],
+  "note_number": "5\u2020",
+  "notes": [ "P" ]
+}
+
+]

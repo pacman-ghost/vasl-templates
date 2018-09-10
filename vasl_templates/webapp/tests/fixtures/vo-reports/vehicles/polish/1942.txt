@@ -1,0 +1,21 @@
+=== vehicles/polish/1942 ===
+
+Name               Radio    IF    Crew survival    Capabilities    (effective)    #    Notes
+-----------------  -------  ----  ---------------  --------------  -------------  ---  ---------------------------------------------
+TKS                ®        yes   CS 2             n/a             n/a            1†   D
+TKS(L)             ®        yes   CS 2             n/a             n/a            1†   D
+Vickers Edw(b)     ®        yes   CS 3             n/a             n/a            2†   A K†<sup>1</sup>
+Vickers Ejw(b)     ®        yes   CS 3             n/a             n/a            2    A
+7TPdw              ®        yes   CS 3             n/a             n/a            3†   K†<sup>1</sup>
+7TPjw              n/a      yes   CS 3             n/a             n/a            3    n/a
+H35(f)             ®        yes   CS 2             AP10            AP10           4    A E† F
+Peugeot 1918(f)    ®        yes   CS 4             n/a             n/a            5    A D G†
+wz.29 "Ursus"      ®        yes   CS 5             n/a             n/a            6†   n/a
+wz.34-I            ®        yes   CS 2             n/a             n/a            7    n/a
+wz.34-II           ®        yes   CS 2             n/a             n/a            7    n/a
+De Dion-Bouton(f)  n/a      yes   CS 7             n/a             n/a            8†   A Q†<sup>1</sup> AA†<sup>2</sup>
+PF 621L SPAA       n/a      yes   CS 5             n/a             n/a            9†   G†<sup>1</sup> Q†<sup>2</sup> AA†<sup>3</sup>
+302T               n/a      yes   CS 3             n/a             n/a            10†  n/a
+C2P                n/a      yes   cs 4             n/a             n/a            11   n/a
+C4P                n/a      yes   cs 5             n/a             n/a            12   n/a
+"Taczanka"         n/a      yes   cs 3             n/a             n/a            13†  Q†<sup>1</sup>

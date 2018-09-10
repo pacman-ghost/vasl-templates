@@ -1,0 +1,93 @@
+[
+
+{ "name": "TKS",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "1\u2020",
+  "notes": [ "D" ]
+},
+{ "name": "TKS(L)",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "1\u2020",
+  "notes": [ "D" ]
+},
+{ "name": "Vickers Edw(b)",
+  "no_radio": "\u00ae",
+  "CS#": 3,
+  "note_number": "2\u2020",
+  "notes": [ "A", "K\u2020<sup>1</sup>" ]
+},
+{ "name": "Vickers Ejw(b)",
+  "no_radio": "\u00ae",
+  "CS#": 3,
+  "note_number": "2",
+  "notes": [ "A" ]
+},
+{ "name": "7TPdw",
+  "no_radio": "\u00ae",
+  "CS#": 3,
+  "note_number": "3\u2020",
+  "notes": [ "K\u2020<sup>1</sup>" ]
+},
+{ "name": "7TPjw",
+  "CS#": 3,
+  "note_number": "3"
+},
+{ "name": "H35(f)",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "capabilities2": { "AP": 10 },
+  "note_number": "4",
+  "notes": [ "A", "E\u2020", "F" ]
+},
+{ "name": "Peugeot 1918(f)",
+  "no_radio": "\u00ae",
+  "CS#": 4,
+  "note_number": "5",
+  "notes": [ "A", "D", "G\u2020" ]
+},
+{ "name": "wz.29 \"Ursus\"",
+  "no_radio": "\u00ae",
+  "CS#": 5,
+  "note_number": "6\u2020"
+},
+{ "name": "wz.34-I",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "7"
+},
+{ "name": "wz.34-II",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "7"
+},
+{ "name": "De Dion-Bouton(f)",
+  "CS#": 7,
+  "note_number": "8\u2020",
+  "notes": [ "A", "Q\u2020<sup>1</sup>", "AA\u2020<sup>2</sup>" ]
+},
+{ "name": "PF 621L SPAA",
+  "CS#": 5,
+  "note_number": "9\u2020",
+  "notes": [ "G\u2020<sup>1</sup>", "Q\u2020<sup>2</sup>", "AA\u2020<sup>3</sup>" ]
+},
+{ "name": "302T",
+  "CS#": 3,
+  "note_number": "10\u2020"
+},
+{ "name": "C2P",
+  "cs#": 4,
+  "note_number": "11"
+},
+{ "name": "C4P",
+  "cs#": 5,
+  "note_number": "12"
+},
+{ "name": "\"Taczanka\"",
+  "cs#": 3,
+  "note_number": "13\u2020",
+  "notes": [ "Q\u2020<sup>1</sup>" ]
+}
+
+]
