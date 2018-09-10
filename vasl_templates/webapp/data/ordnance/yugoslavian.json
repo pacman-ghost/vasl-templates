@@ -1,0 +1,20 @@
+[
+
+{ "name": "3.7cm Infantry Gun",
+  "capabilities": [ "NT", "QSU", "h-d" ],
+  "note_number": "20",
+  "notes": [ "Y" ]
+},
+{ "name": "80mm M28/M33",
+  "capabilities": [ "NT", "h-d" ],
+  "capabilities2": { "s": 5 },
+  "note_number": "21",
+  "notes": [ "Y" ]
+},
+{ "name": "100mm M14/19",
+  "capabilities": [ "NT" ],
+  "note_number": "22",
+  "notes": [ "Y" ]
+}
+
+]
