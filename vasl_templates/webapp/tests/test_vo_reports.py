@@ -38,7 +38,7 @@ def test_vo_reports( webapp, webdriver ):
     # check each vehicle/ordnance report
     nationalities = [
         "german", "russian", "american", "british", "italian", "japanese", "chinese", "french",
-        "polish", "belgian","yugoslavian","danish","dutch","greek"
+        "polish", "belgian","yugoslavian","danish","dutch","greek", "allied-minor-common"
     ]
     for nat in nationalities:
         for vo_type in ["vehicles","ordnance"]:

@@ -1,0 +1,81 @@
+[
+
+{ "name": "Brandt Medium Mortar",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "23\u2020",
+  "notes": [ "A", "B", "Gr", "N", "P", "Y" ]
+},
+{ "name": "37mm Bofors AT",
+  "capabilities": [ "NT", "QSU" ],
+  "note_number": "24\u2020",
+  "notes": [ "A", "De", "P" ]
+},
+{ "name": "3.7cm PaK 35/36",
+  "capabilities": [ "NT", "QSU" ],
+  "note_number": "25\u2020",
+  "notes": [ "Gr", "Ne", "Y" ]
+},
+{ "name": "Bohler M35 47mm",
+  "capabilities": [ "NT", "QSU" ],
+  "note_number": "26\u2020",
+  "notes": [ "A", "Gr", "Ne", "Y" ]
+},
+{ "name": "65mm wz.06",
+  "capabilities": [ "NT", "QSU", "no Gunshield", "h-d" ],
+  "note_number": "27\u2020",
+  "notes": [ "A", "Gr", "P", "Y" ]
+},
+{ "name": "75mm wz.97",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "28\u2020",
+  "notes": [ "A", "Gr", "N", "P" ]
+},
+{ "name": "Bofors M34",
+  "capabilities": [ "NT", "QSU" ],
+  "note_number": "29\u2020",
+  "notes": [ "A", "B", "Gr", "Ne", "N" ]
+},
+{ "name": "75M 19S",
+  "capabilities": [ "NT", "QSU", "h-d" ],
+  "capabilities2": { "s": 6, "AP": 5 },
+  "note_number": "30\u2020",
+  "notes": [ "A", "Gr", "P", "Y" ]
+},
+{ "name": "C105 L 13 S",
+  "capabilities": [ "NT" ],
+  "note_number": "31\u2020",
+  "notes": [ "B", "P", "Y" ]
+},
+{ "name": "120mm wz. 09/31",
+  "capabilities": [ "NT", "h-d" ],
+  "capabilities2": { "s": 6 },
+  "note_number": "32\u2020",
+  "notes": [ "N", "P" ]
+},
+{ "name": "155mm 17 S",
+  "capabilities": [ "NT" ],
+  "capabilities2": { "s": 8 },
+  "note_number": "33",
+  "notes": [ "B", "Gr", "P", "Y" ]
+},
+{ "name": "Mitrailleuse de 13.2 CAJ mle 30",
+  "capabilities": [ "T", "2 TK DR\u2020", "Towing NA\u2020<sup>1</sup>" ],
+  "note_number": "34\u2020",
+  "notes": [ "T\u2020<sup>1</sup>", "B", "Gr", "Y" ]
+},
+{ "name": "20mm Oerlikon",
+  "capabilities": [ "T" ],
+  "capabilities2": { "LF": [ "NT", "20\u2020<sup>1</sup>", "2 ROF", "B11" ] },
+  "note_number": "35\u2020",
+  "notes": [ "C\u2020<sup>1</sup>", "Gr", "Ne", "Y" ]
+},
+{ "name": "40mm Bofors AA",
+  "capabilities": [ "T" ],
+  "capabilities2": { "LF": [ "40\u2020<sup>1</sup>", "2 ROF" ] },
+  "note_number": "36\u2020",
+  "notes": [ "C\u2020<sup>1</sup>", "B", "N", "Ne", "P" ]
+}
+
+]
