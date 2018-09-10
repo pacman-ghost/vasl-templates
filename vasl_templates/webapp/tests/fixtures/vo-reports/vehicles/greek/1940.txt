@@ -1,0 +1,4 @@
+=== vehicles/greek/1940 ===
+
+Name    Radio    IF    Crew survival    Capabilities    (effective)    #    Notes
+------  -------  ----  ---------------  --------------  -------------  ---  -------

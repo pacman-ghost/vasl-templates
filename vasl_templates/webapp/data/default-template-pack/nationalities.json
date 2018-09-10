@@ -64,6 +64,10 @@
 "dutch": {
   "display_name": "Dutch",
   "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ]
+},
+"greek": {
+  "display_name": "Greek",
+  "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ]
 }
 
 }
