@@ -1,0 +1,11 @@
+=== vehicles/dutch/1941 ===
+
+Name                      Radio    IF    Crew survival    Capabilities    (effective)    #    Notes
+------------------------  -------  ----  ---------------  --------------  -------------  ---  --------
+VCL M1936(b)              ®        yes   CS 2             n/a             n/a            25†  A V
+CTLS-4(a)                 ®        yes   CS 2             n/a             n/a            26†  A V
+M36                       ®        yes   CS 5             HE10            HE10           27   <s>V</s>
+M38                       ®        yes   CS 5             HE10            HE10           27   <s>V</s>
+M39                       ®        yes   CS 6             HE10            HE10           28   <s>V</s>
+Marmon-Herrington III(b)  ®        yes   CS 4             n/a             n/a            29†  A V
+Jeep(a)                   n/a      yes   cs 2†            n/a             n/a            30†  A V

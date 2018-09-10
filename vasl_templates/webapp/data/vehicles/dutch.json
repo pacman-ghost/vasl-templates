@@ -1,0 +1,48 @@
+[
+
+{ "name": "VCL M1936(b)",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "25\u2020",
+  "notes": [ "A", "V" ]
+},
+{ "name": "CTLS-4(a)",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "26\u2020",
+  "notes": [ "A", "V" ]
+},
+{ "name": "M36",
+  "no_radio": "\u00ae",
+  "CS#": 5,
+  "capabilities2": { "HE": 10 },
+  "note_number": "27",
+  "notes": [ "<s>V</s>" ]
+},
+{ "name": "M38",
+  "no_radio": "\u00ae",
+  "CS#": 5,
+  "capabilities2": { "HE": 10 },
+  "note_number": "27",
+  "notes": [ "<s>V</s>" ]
+},
+{ "name": "M39",
+  "no_radio": "\u00ae",
+  "CS#": 6,
+  "capabilities2": { "HE": 10 },
+  "note_number": "28",
+  "notes": [ "<s>V</s>" ]
+},
+{ "name": "Marmon-Herrington III(b)",
+  "no_radio": "\u00ae",
+  "CS#": 4,
+  "note_number": "29\u2020",
+  "notes": [ "A", "V" ]
+},
+{ "name": "Jeep(a)",
+  "cs#": "2\u2020",
+  "note_number": "30\u2020",
+  "notes": [ "A", "V" ]
+}
+
+]

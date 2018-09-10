@@ -1,0 +1,5 @@
+=== ordnance/dutch/1943 ===
+
+Name                 Capabilities    (effective)      #  Notes
+-------------------  --------------  -------------  ---  -------
+Solothurn s/18-1100  5PP             5PP             15  A Ne
