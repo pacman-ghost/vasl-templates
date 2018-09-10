@@ -1,0 +1,9 @@
+=== vehicles/belgian/1942 ===
+
+Name              Radio    IF    Crew survival                          Capabilities    (effective)    #    Notes
+----------------  -------  ----  -------------------------------------  --------------  -------------  ---  ----------------
+VCL Mk VI/c47(b)  ®        yes   CS 2                                   n/a             n/a            14†  A Q†<sup>1</sup>
+T-13 II(b)        ®        yes   CS 4 <small><i>(brew up)</i></small>†  n/a             n/a            15†  A
+T-13 III(b)       ®        yes   CS 4 <small><i>(brew up)</i></small>   n/a             n/a            16   A
+T-15(b)           ®        yes   CS 2                                   n/a             n/a            17   A
+ACG1(f)           ®        yes   CS 3 <small><i>(brew up)</i></small>   n/a             n/a            18†  A

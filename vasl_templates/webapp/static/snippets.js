@@ -292,7 +292,13 @@ function make_capabilities( entry, scenario_theater, scenario_year, scenario_mon
             }
             // check for LF
             if ( key == "LF" ) {
-                capabilities.push( "LF [" + entry.capabilities2[key].join(", ") + "]" ) ;
+                var caps = $.extend( true, [], entry.capabilities2[key] ) ;
+                if ( caps[caps.length-1] == "\u2020" ) {
+                    caps.pop() ;
+                    capabilities.push( "LF\u2020" ) ;
+                } else
+                    capabilities.push( "LF" ) ;
+                capabilities[ capabilities.length-1 ] += " [" + caps.join(", ") + "]" ;
                 continue ;
             }
             if ( $.inArray( key, ["HE","AP","A","D","C","H","s","sM","sD","sN","WP","IR","Towed"] ) === -1 ) {

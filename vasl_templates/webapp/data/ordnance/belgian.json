@@ -1,0 +1,62 @@
+[
+
+{ "name": "DBT",
+  "capabilities_other": [ "3PP", "\u2020" ],
+  "note_number": "6\u2020",
+  "notes": [ "A", "B", "D" ]
+},
+{ "name": "M76 A",
+  "capabilities": [ "NT", "h-d" ],
+  "capabilities2": { "LF": [ ["INF"], "\u2020" ] },
+  "note_number": "7\u2020",
+  "notes": [ "A", "B", "D" ]
+},
+{ "name": "M76 A",
+  "capabilities": [ "NT", "h-d" ],
+  "capabilities2": { "LF": [ ["INF"], "\u2020" ] },
+  "note_number": "7\u2020",
+  "notes": [ "A", "B", "D" ]
+},
+{ "name": "7.6cm FRC",
+  "capabilities": [ "NT", "QSU" ],
+  "capabilities_other": [ "\u2020" ],
+  "note_number": "8\u2020",
+  "notes": [ "A", "B" ]
+},
+{ "name": "C47 FRC M 32",
+  "capabilities": [ "NT", "QSU" ],
+  "note_number": "9",
+  "notes": [ "B" ]
+},
+{ "name": "C75 TR",
+  "capabilities": [ "NT", "QSU", "h-d" ],
+  "capabilities2": { "s": 5 },
+  "note_number": "10",
+  "notes": [ "B" ]
+},
+{ "name": "C75 GP",
+  "capabilities": [ "NT" ],
+  "capabilities2": { "LF": [ "75*", "B10" ], "s": 5 },
+  "note_number": "11",
+  "notes": [ "B" ]
+},
+{ "name": "Ob 105 GP",
+  "capabilities": [ "NT" ],
+  "capabilities2": { "LF": [ "105*" ], "s": 5 },
+  "note_number": "12",
+  "notes": [ "B" ]
+},
+{ "name": "C120 M31",
+  "capabilities": [ "NT" ],
+  "capabilities2": { "LF": [ "120*" ] },
+  "note_number": "13",
+  "notes": [ "B" ]
+},
+{ "name": "M27 FRC",
+  "capabilities": [ "NM" ],
+  "capabilities_other": [ "ST" ],
+  "note_number": "14",
+  "notes": [ "B" ]
+}
+
+]

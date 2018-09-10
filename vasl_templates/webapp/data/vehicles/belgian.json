@@ -1,0 +1,34 @@
+[
+
+{ "name": "VCL Mk VI/c47(b)",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "14\u2020",
+  "notes": [ "A", "Q\u2020<sup>1</sup>" ]
+},
+{ "name": "T-13 II(b)",
+  "no_radio": "\u00ae",
+  "CS#": "4:brewup\u2020",
+  "note_number": "15\u2020",
+  "notes": [ "A" ]
+},
+{ "name": "T-13 III(b)",
+  "no_radio": "\u00ae",
+  "CS#": "4:brewup",
+  "note_number": "16",
+  "notes": [ "A" ]
+},
+{ "name": "T-15(b)",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "17",
+  "notes": [ "A" ]
+},
+{ "name": "ACG1(f)",
+  "no_radio": "\u00ae",
+  "CS#": "3:brewup",
+  "note_number": "18\u2020",
+  "notes": [ "A" ]
+}
+
+]

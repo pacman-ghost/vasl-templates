@@ -48,6 +48,10 @@
 "polish": {
   "display_name": "Polish",
   "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ]
+},
+"belgian": {
+  "display_name": "Belgian",
+  "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ]
 }
 
 }
