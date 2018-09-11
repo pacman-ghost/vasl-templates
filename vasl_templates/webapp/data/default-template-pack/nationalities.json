@@ -77,6 +77,10 @@
 "hungarian": {
   "display_name": "Hungarian",
   "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
+},
+"slovakian": {
+  "display_name": "Slovakian",
+  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
 }
 
 }

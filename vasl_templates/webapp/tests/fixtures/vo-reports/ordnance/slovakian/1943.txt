@@ -1,0 +1,11 @@
+=== ordnance/slovakian/1943 ===
+
+Name                 Capabilities          (effective)           #    Notes
+-------------------  --------------------  --------------------  ---  -------
+Minomet vz. 36       NT QSU                NT QSU                28   A
+Kanon PUV vz. 36(t)  NT QSU A5[1]4[2]      NT QSU A4             29   E
+leIG 18(g)           NT QSU H7[3+]         NT QSU H7             30   A E
+Skoda M37(K4)        NT s6                 NT s6                 31   n/a
+Skoda 47L40(t)       T QSU AA Fire ROF 2†  T QSU AA Fire ROF 2†  32†  E
+Skoda PL vz. 37(t)   T                     T                     33   E
+Kanon PL vz. 22/24   ST                    ST                    34†  n/a

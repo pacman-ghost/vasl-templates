@@ -1,0 +1,43 @@
+[
+
+{ "name": "T vz 33(t)",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "17\u2020",
+  "notes": [ "K\u2020<sup>1</sup>", "E", "F", "G\u2020<sup>2</sup>" ]
+},
+{ "name": "LT vz 34",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "18"
+},
+{ "name": "PzKpfw IIA(g)",
+  "CS#": 3,
+  "capabilities2": { "sD": 6 },
+  "note_number": "19",
+  "notes": [ "E" ]
+},
+{ "name": "LT vz 40(t)",
+  "CS#": 4,
+  "capabilities2": { "sD": 6 },
+  "note_number": "20\u2020",
+  "notes": [ "K\u2020<sup>1</sup>", "E" ]
+},
+{ "name": "Marder III(t)H",
+  "CS#": "4:brewup",
+  "capabilities2": { "A": [ [4,3], [3,4] ], "HE": 7, "s": 7, "sD": 6 },
+  "note_number": "21\u2020",
+  "notes": [ "E" ]
+},
+{ "name": "Kfz 1(g)",
+  "cs#": "2\u2020<sup>1</sup>",
+  "note_number": "22\u2020",
+  "notes": [ "E", "L\u2020<sup>2</sup>", "I\u2020<sup>1</sup>" ]
+},
+{ "name": "SdKfz 2(g)",
+  "cs#": 2,
+  "note_number": "23\u2020",
+  "notes": [ "E", "L\u2020<sup>1</sup>" ]
+}
+
+]

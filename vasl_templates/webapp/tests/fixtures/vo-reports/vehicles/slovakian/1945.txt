@@ -1,0 +1,11 @@
+=== vehicles/slovakian/1945 ===
+
+Name            Radio    IF    Crew survival                         Capabilities          (effective)    #    Notes
+--------------  -------  ----  ------------------------------------  --------------------  -------------  ---  ---------------------------------
+T vz 33(t)      ®        yes   CS 2                                  n/a                   n/a            17†  K†<sup>1</sup> E F G†<sup>2</sup>
+LT vz 34        ®        yes   CS 2                                  n/a                   n/a            18   n/a
+PzKpfw IIA(g)   n/a      yes   CS 3                                  sD6                   sD6            19   E
+LT vz 40(t)     n/a      yes   CS 4                                  sD6                   sD6            20†  K†<sup>1</sup> E
+Marder III(t)H  n/a      yes   CS 4 <small><i>(brew up)</i></small>  A4[3]3[4] HE7 s7 sD6  A3 HE7 s7 sD6  21†  E
+Kfz 1(g)        n/a      yes   cs 2†<sup>1</sup>                     n/a                   n/a            22†  E L†<sup>2</sup> I†<sup>1</sup>
+SdKfz 2(g)      n/a      yes   cs 2                                  n/a                   n/a            23†  E L†<sup>1</sup>
