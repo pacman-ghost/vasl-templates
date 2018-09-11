@@ -1,0 +1,37 @@
+=== vehicles/axis-minor-common/1943 ===
+
+Name            Radio    IF    Crew survival                         Capabilities       (effective)    #    Notes
+--------------  -------  ----  ------------------------------------  -----------------  -------------  ---  ---------------------------------------
+L3/35(i)        ®        yes   CS 2                                  n/a                n/a            29†  K†<sup>1</sup> E F G†<sup>2</sup> H C B
+FT-17M(f)       ®        n/a   CS 2                                  n/a                n/a            30†  D R C
+FT-17C(f)       ®        yes   CS 2                                  AP9                AP9            30†  D R C
+PzKpfw IB(g)    n/a      yes   CS 2                                  sD6                sD6            31†  K†<sup>1</sup> E H C
+R-35(f)         ®        yes   CS 2                                  AP10               AP10           32†  A†<sup>1</sup> D E R H B
+H39(f)          ®        yes   CS 2                                  AP10               AP10           33†  A†<sup>1</sup> D E H C B
+LT vz 35(g)     n/a      yes   CS 4                                  sD5                sD5            34†  E R S B
+LT vz 38(t)A    n/a      yes   CS 4                                  A3[1]4[2]3[3] sD6  A3 sD6         35†  E R H S
+LT vz 38(t)E    n/a      yes   CS 4                                  A4[2]3[3] sD7      A3 sD7         35†  E H S B
+S-35(f)         n/a      yes   CS 4                                  n/a                n/a            36†  A†<sup>1</sup> D E H S
+PzKpfw IIIL(g)  n/a      yes   CS 5                                  A5[2]4[3]3[4] sD5  A4 sD5         37†  E O†<sup>1</sup> Q R H C
+PzKpfw IIIN(g)  n/a      yes   CS 5                                  H8[3+] s8 sD7      H8 s8 sD7      38†  E O†<sup>1</sup> Q R S
+PzKpfw IVD(g)   n/a      yes   CS 5                                  AP7 H5[3+] s8 sD7  AP7 H5 s8 sD7  39†  E Q R
+PzKpfw IVF1(g)  n/a      yes   CS 6                                  AP7 H5[3+] s8 sD7  AP7 H5 s8 sD7  39†  E Q R H B
+PzKpfw IVH(g)   n/a      yes   CS 6                                  A4[2]3[3] s7 sD5   A3 s7 sD5      39†  E O†<sup>1</sup> Q R H B
+StuG IIIG(g)    n/a      yes   CS 4                                  A3[4] s8 sD7       s8 sD7         40†  E Q R H B
+JgdPz 38(t)     n/a      yes   CS 4                                  A3[4] HE7          HE7            41†  E H B
+SPW 250/1(g)    n/a      yes   CS 4                                  n/a                n/a            42†  E R
+SPW 251/1(g)    n/a      yes   CS 5                                  n/a                n/a            42†  E R C
+SPW 251/9(g)    n/a      yes   CS 4 <small><i>(brew up)</i></small>  H5 s8              H5 s8          42†  E R
+OA vz 30(t)     ®        yes   CS 2                                  n/a                n/a            43†  E R S
+AB 41(i)        n/a      yes   CS 4                                  n/a                n/a            44†  E R C
+PSW 222(g)      n/a      yes   CS 3                                  sD6                sD6            45†  P†<sup>1</sup> E M†<sup>2</sup> R B
+PSW 222(L)(g)   n/a      yes   CS 3                                  sD6                sD6            45†  P†<sup>1</sup> E M†<sup>2</sup> R B
+PSW 223(g)      n/a      yes   CS 3                                  sD6                sD6            46†  E M†<sup>1</sup> P†<sup>2</sup> R B
+Komsomolet(r)   n/a      yes   cs 2†<sup>1</sup>                     n/a                n/a            47†  E F I†<sup>1</sup> J R H S C B
+RSO(g)          n/a      yes   cs 5                                  n/a                n/a            48   S B
+Light Tractor   n/a      yes   cs 4                                  n/a                n/a            49   R H S C B
+Medium Tractor  n/a      yes   cs 5                                  n/a                n/a            49   R H S C B
+Heavy Tractor   n/a      yes   cs 6                                  n/a                n/a            49   R H S C B
+Light Truck     n/a      yes   cs 4                                  n/a                n/a            50   R H S C B
+Medium Truck    n/a      yes   cs 5                                  n/a                n/a            50   R H S C B
+Heavy Truck     n/a      yes   cs 7                                  n/a                n/a            50   R H S C B

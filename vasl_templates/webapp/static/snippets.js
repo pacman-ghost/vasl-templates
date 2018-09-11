@@ -438,6 +438,18 @@ function _check_capability_timestamp( capabilities, timestamp, scenario_theater,
             return "<ignore>" ;
         timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
     }
+    if ( timestamp.substring( timestamp.length-1 ) === "R" ) {
+        // FIXME! What does a "R" superscript mean?
+        timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
+    }
+    if ( timestamp.substring( timestamp.length-1 ) === "S" ) {
+        // FIXME! What does a "S" superscript mean?
+        timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
+    }
+    if ( timestamp.substring( timestamp.length-1 ) === "C" ) {
+        // FIXME! What does a "C" superscript mean?
+        timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
+    }
 
     // remove any trailing "+" (FIXME! What does it even mean? Doesn't make sense :-/)
     if ( timestamp.substring( timestamp.length-1 ) == "+" )
@@ -453,17 +465,26 @@ function _check_capability_timestamp( capabilities, timestamp, scenario_theater,
     var month = MONTH_NAMES[ timestamp.substring(0,1) ] ;
     if ( month )
         timestamp = timestamp.substring( 1 ) ;
-    if ( ! /^\d$/.test( timestamp ) )
-        return "<invalid>" ;
-    timestamp = parseInt( timestamp ) ;
-
-    // check if the capabilitity is available
-    if ( scenario_year > 1940 + timestamp )
-        return capabilities[0] ;
-    else if ( scenario_year == 1940 + timestamp ) {
-        if( !month || scenario_month >= month )
+    if ( /^\d$/.test( timestamp ) ) {
+        // this is a single year
+        timestamp = parseInt( timestamp ) ;
+        // check if the capabilitity is available
+        if ( scenario_year > 1940 + timestamp )
+            return capabilities[0] ;
+        else if ( scenario_year == 1940 + timestamp ) {
+            if( !month || scenario_month >= month )
+                return capabilities[0] ;
+        }
+    } else if ( /^\d-\d$/.test( timestamp ) ) {
+        // this is a range of years
+        var timestamp1 = parseInt( timestamp[0] ) ;
+        var timestamp2 = parseInt( timestamp[timestamp.length-1] ) ;
+        // check if the capabilitity is available
+        if ( 1940+timestamp1 <= scenario_year && scenario_year <= 1940+timestamp2 )
             return capabilities[0] ;
     }
+    else
+        return "<invalid>" ;
 
     return "<ignore>" ;
 }

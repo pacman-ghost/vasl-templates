@@ -1,0 +1,194 @@
+[
+
+{ "name": "L3/35(i)",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "29\u2020",
+  "notes": [ "K\u2020<sup>1</sup>", "E", "F", "G\u2020<sup>2</sup>", "H", "C", "B" ]
+},
+{ "name": "FT-17M(f)",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "no_if": true,
+  "note_number": "30\u2020",
+  "notes": [ "D", "R", "C" ]
+},
+{ "name": "FT-17C(f)",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "capabilities2": { "AP": 9 },
+  "note_number": "30\u2020",
+  "notes": [ "D", "R", "C" ]
+},
+{ "name": "PzKpfw IB(g)",
+  "CS#": 2,
+  "capabilities2": { "sD": 6 },
+  "note_number": "31\u2020",
+  "notes": [ "K\u2020<sup>1</sup>", "E", "H", "C" ]
+},
+{ "name": "R-35(f)",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "capabilities2": { "AP": 10 },
+  "note_number": "32\u2020",
+  "notes": [ "A\u2020<sup>1</sup>", "D", "E", "R", "H", "B" ]
+},
+{ "name": "H39(f)",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "capabilities2": { "AP": 10 },
+  "note_number": "33\u2020",
+  "notes": [ "A\u2020<sup>1</sup>", "D", "E", "H", "C", "B" ]
+},
+{ "name": "LT vz 35(g)",
+  "CS#": 4,
+  "capabilities2": { "sD": 5 },
+  "note_number": "34\u2020",
+  "notes": [ "E", "R", "S", "B" ]
+},
+{ "name": "LT vz 38(t)A",
+  "CS#": 4,
+  "capabilities2": { "A": [ [3,1], [4,2], [3,3] ], "sD": 6 },
+  "note_number": "35\u2020",
+  "notes": [ "E", "R", "H", "S" ]
+},
+{ "name": "LT vz 38(t)E",
+  "CS#": 4,
+  "capabilities2": { "A": [ [4,2], [3,3] ], "sD": 7 },
+  "note_number": "35\u2020",
+  "notes": [ "E", "H", "S", "B" ]
+},
+{ "name": "S-35(f)",
+  "CS#": 4,
+  "note_number": "36\u2020",
+  "notes": [ "A\u2020<sup>1</sup>", "D", "E", "H", "S" ]
+},
+{ "name": "PzKpfw IIIL(g)",
+  "CS#": 5,
+  "capabilities2": { "A": [ [5,2], [4,3], [3,4] ], "sD": 5 },
+  "note_number": "37\u2020",
+  "notes": [ "E", "O\u2020<sup>1</sup>", "Q", "R", "H", "C" ]
+},
+{ "name": "PzKpfw IIIN(g)",
+  "CS#": 5,
+  "capabilities2": { "H": [ [8,"3+"] ], "s": 8, "sD": 7 },
+  "note_number": "38\u2020",
+  "notes": [ "E", "O\u2020<sup>1</sup>", "Q", "R", "S" ]
+},
+{ "name": "PzKpfw IVD(g)",
+  "CS#": 5,
+  "capabilities2": { "AP": 7, "H": [ [5,"3+"] ], "s": 8, "sD": 7 },
+  "note_number": "39\u2020",
+  "notes": [ "E", "Q", "R" ]
+},
+{ "name": "PzKpfw IVF1(g)",
+  "CS#": 6,
+  "capabilities2": { "AP": 7, "H": [ [5,"3+"] ], "s": 8, "sD": 7 },
+  "note_number": "39\u2020",
+  "notes": [ "E", "Q", "R", "H", "B" ]
+},
+{ "name": "PzKpfw IVH(g)",
+  "CS#": 6,
+  "capabilities2": { "A": [ [4,2], [3,3] ], "s": 7, "sD": 5 },
+  "note_number": "39\u2020",
+  "notes": [ "E", "O\u2020<sup>1</sup>", "Q", "R", "H", "B" ]
+},
+{ "name": "StuG IIIG(g)",
+  "CS#": 4,
+  "capabilities2": { "A": [ [3,4] ], "s": 8, "sD": 7 },
+  "note_number": "40\u2020",
+  "notes": [ "E", "Q", "R", "H", "B" ]
+},
+{ "name": "JgdPz 38(t)",
+  "CS#": 4,
+  "capabilities2": { "A": [ [3,4] ], "HE": 7 },
+  "note_number": "41\u2020",
+  "notes": [ "E", "H", "B" ]
+},
+{ "name": "SPW 250/1(g)",
+  "CS#": 4,
+  "note_number": "42\u2020",
+  "notes": [ "E", "R" ]
+},
+{ "name": "SPW 251/1(g)",
+  "CS#": 5,
+  "note_number": "42\u2020",
+  "notes": [ "E", "R", "C" ]
+},
+{ "name": "SPW 251/9(g)",
+  "CS#": "4:brewup",
+  "capabilities2": { "H": 5, "s": 8 },
+  "note_number": "42\u2020",
+  "notes": [ "E", "R" ]
+},
+{ "name": "OA vz 30(t)",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "43\u2020",
+  "notes": [ "E", "R", "S" ]
+},
+{ "name": "AB 41(i)",
+  "CS#": 4,
+  "note_number": "44\u2020",
+  "notes": [ "E", "R", "C" ]
+},
+{ "name": "PSW 222(g)",
+  "CS#": 3,
+  "capabilities2": { "sD": 6 },
+  "note_number": "45\u2020",
+  "notes": [ "P\u2020<sup>1</sup>", "E", "M\u2020<sup>2</sup>", "R", "B" ]
+},
+{ "name": "PSW 222(L)(g)",
+  "CS#": 3,
+  "capabilities2": { "sD": 6 },
+  "note_number": "45\u2020",
+  "notes": [ "P\u2020<sup>1</sup>", "E", "M\u2020<sup>2</sup>", "R", "B" ]
+},
+{ "name": "PSW 223(g)",
+  "CS#": 3,
+  "capabilities2": { "sD": 6 },
+  "note_number": "46\u2020",
+  "notes": [ "E", "M\u2020<sup>1</sup>", "P\u2020<sup>2</sup>", "R", "B" ]
+},
+{ "name": "Komsomolet(r)",
+  "cs#": "2\u2020<sup>1</sup>",
+  "note_number": "47\u2020",
+  "notes": [ "E", "F", "I\u2020<sup>1</sup>", "J", "R", "H", "S", "C", "B" ]
+},
+{ "name": "RSO(g)",
+  "cs#": 5,
+  "note_number": "48",
+  "notes": [ "S", "B" ]
+},
+{ "name": "Light Tractor",
+  "cs#": 4,
+  "note_number": "49",
+  "notes": [ "R", "H", "S", "C", "B" ]
+},
+{ "name": "Medium Tractor",
+  "cs#": 5,
+  "note_number": "49",
+  "notes": [ "R", "H", "S", "C", "B" ]
+},
+{ "name": "Heavy Tractor",
+  "cs#": 6,
+  "note_number": "49",
+  "notes": [ "R", "H", "S", "C", "B" ]
+},
+{ "name": "Light Truck",
+  "cs#": 4,
+  "note_number": "50",
+  "notes": [ "R", "H", "S", "C", "B" ]
+},
+{ "name": "Medium Truck",
+  "cs#": 5,
+  "note_number": "50",
+  "notes": [ "R", "H", "S", "C", "B" ]
+},
+{ "name": "Heavy Truck",
+  "cs#": 7,
+  "note_number": "50",
+  "notes": [ "R", "H", "S", "C", "B" ]
+}
+
+]
