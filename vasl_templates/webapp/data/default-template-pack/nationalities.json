@@ -85,6 +85,10 @@
 "croatian": {
   "display_name": "Croatian",
   "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
+},
+"bulgarian": {
+  "display_name": "Bulgarian",
+  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
 }
 
 }
