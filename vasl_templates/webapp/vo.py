@@ -2,7 +2,6 @@
 
 import os
 import json
-import glob
 
 from flask import request, render_template, jsonify, abort
 
@@ -23,7 +22,7 @@ def get_ordnance_listings():
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def _do_get_listings( listings_type ):
+def _do_get_listings( listings_type ): #pylint: disable=too-many-branches
     """Load the vehicle/ordnance listings."""
 
     # locate the data directory
@@ -37,10 +36,29 @@ def _do_get_listings( listings_type ):
 
     # load the listings
     listings = {}
-    for fname in glob.glob( os.path.join( dname, "*.json" ) ):
-        nat = os.path.splitext( os.path.split(fname)[1] )[ 0 ]
-        with open( fname, "r" ) as fp:
-            listings[nat] = json.load( fp )
+    minor_nats = { "allied-minor": set(), "axis-minor": set() }
+    for root,_,fnames in os.walk(dname):
+        for fname in fnames:
+            if os.path.splitext(fname)[1] != ".json":
+                continue
+            nat = os.path.splitext( os.path.split(fname)[1] )[ 0 ]
+            if os.path.split(root)[1] in ("allied-minor","axis-minor"):
+                minor_type = os.path.split( root )[1]
+                if nat == "common":
+                    nat = minor_type + "-common"
+                else:
+                    minor_nats[minor_type].add( nat )
+            with open( os.path.join(root,fname), "r" ) as fp:
+                listings[nat] = json.load( fp )
+
+    # merge the common entries into each Allied/Axis Minor listing
+    if not request.args.get( "no_merge_common" ):
+        for minor_type in ("allied-minor","axis-minor"):
+            if minor_type+"-common" not in listings:
+                continue
+            for nat in minor_nats[minor_type]:
+                listings[nat].extend( listings[minor_type+"-common"] )
+            del listings[ minor_type+"-common" ]
 
     return jsonify( listings )
 

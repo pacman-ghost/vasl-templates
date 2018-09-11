@@ -25,9 +25,9 @@ $(document).ready( function () {
     // get the vehicle listings
     var url ;
     if ( "{{VO_TYPE}}" == "vehicles" )
-        url = "{{url_for( 'get_vehicle_listings', report=1 )}}"
+        url = "{{url_for( 'get_vehicle_listings', report=1, no_merge_common=1 ) | safe}}"
     else
-        url = "{{url_for( 'get_ordnance_listings', report=1 )}}" ;
+        url = "{{url_for( 'get_ordnance_listings', report=1, no_merge_common=1 ) | safe}}" ;
     $.getJSON( url, function(data) {
         load_vo_listings( data ) ;
     } ).fail( function( xhr, status, errorMsg ) {
