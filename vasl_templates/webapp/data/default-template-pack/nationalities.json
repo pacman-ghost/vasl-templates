@@ -68,6 +68,11 @@
 "greek": {
   "display_name": "Greek",
   "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ]
+},
+
+"romanian": {
+  "display_name": "Romanian",
+  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
 }
 
 }

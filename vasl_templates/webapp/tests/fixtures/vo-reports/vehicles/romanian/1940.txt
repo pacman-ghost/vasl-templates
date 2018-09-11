@@ -1,0 +1,12 @@
+=== vehicles/romanian/1940 ===
+
+Name            Radio    IF    Crew survival      Capabilities    (effective)    #    Notes
+--------------  -------  ----  -----------------  --------------  -------------  ---  ------------------
+R-1(t)          ®        yes   CS 2               n/a             n/a            1†   E
+R-35/45(f)      ®        yes   CS 2               n/a             n/a            2    D
+TACAM T-60(r)   n/a      yes   CS 3               n/a             n/a            3†   E
+TACAM T-60A(r)  n/a      yes   CS 3               n/a             n/a            3†   E
+TACAM R-2(r)    n/a      yes   CS 3               AP5             AP5            4†   E N
+BA-6(r)         ®        yes   CS 4               n/a             n/a            5†   E
+BA-20(r)        ®        yes   CS 3               n/a             n/a            5†   E
+Malaxa UE2      n/a      yes   cs 2†<sup>1</sup>  n/a             n/a            6†   F I†<sup>1</sup> J
