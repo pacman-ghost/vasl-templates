@@ -73,6 +73,10 @@
 "romanian": {
   "display_name": "Romanian",
   "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
+},
+"hungarian": {
+  "display_name": "Hungarian",
+  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
 }
 
 }
