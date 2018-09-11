@@ -1,0 +1,14 @@
+[
+
+{ "name": "Canonne da 65/17",
+  "capabilities": [ "NT", "no Gunshield" ],
+  "note_number": "35",
+  "notes": [ "A" ]
+},
+{ "name": "Skoda M28(FE)",
+  "capabilities": [ "NT" ],
+  "note_number": "36",
+  "notes": [ "A" ]
+}
+
+]

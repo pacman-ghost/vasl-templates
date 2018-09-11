@@ -1,0 +1,6 @@
+=== ordnance/croatian/1943 ===
+
+Name              Capabilities     (effective)        #  Notes
+----------------  ---------------  ---------------  ---  -------
+Canonne da 65/17  NT no Gunshield  NT no Gunshield   35  A
+Skoda M28(FE)     NT               NT                36  A

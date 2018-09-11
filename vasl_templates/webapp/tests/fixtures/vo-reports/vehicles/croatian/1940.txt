@@ -1,0 +1,10 @@
+=== vehicles/croatian/1940 ===
+
+Name              Radio    IF    Crew survival    Capabilities    (effective)    #    Notes
+----------------  -------  ----  ---------------  --------------  -------------  ---  --------------
+TKS               ®        yes   CS 2             n/a             n/a            24†  F
+TKS(L)            ®        yes   CS 2             n/a             n/a            24†  F
+L6/40(i)          n/a      yes   CS 2             n/a             n/a            25   n/a
+wz 34-I           ®        yes   CS 2             n/a             n/a            26   n/a
+wz 34-II          ®        yes   CS 2             n/a             n/a            26   n/a
+SMV L40 da 47/32  n/a      yes   CS 3             n/a             n/a            27†  O†<sup>1</sup>

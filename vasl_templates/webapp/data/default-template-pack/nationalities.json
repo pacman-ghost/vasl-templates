@@ -81,6 +81,10 @@
 "slovakian": {
   "display_name": "Slovakian",
   "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
+},
+"croatian": {
+  "display_name": "Croatian",
+  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
 }
 
 }
