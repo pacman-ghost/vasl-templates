@@ -25,9 +25,11 @@ $(document).ready( function () {
     // get the vehicle listings
     var url ;
     if ( "{{VO_TYPE}}" == "vehicles" )
-        url = "{{url_for( 'get_vehicle_listings', report=1, no_merge_common=1 ) | safe}}"
+        url = "{{url_for( 'get_vehicle_listings', report=1 )}}"
     else
-        url = "{{url_for( 'get_ordnance_listings', report=1, no_merge_common=1 ) | safe}}" ;
+        url = "{{url_for( 'get_ordnance_listings', report=1 )}}" ;
+    if ( getUrlParam( "merge_common" ) === "1" )
+        url += "&merge_common=1" ;
     $.getJSON( url, function(data) {
         load_vo_listings( data ) ;
     } ).fail( function( xhr, status, errorMsg ) {
@@ -79,9 +81,9 @@ function load_vo_listings( objs )
             buf.push( "<td>", fmtval(has_if) ) ;
             buf.push( "<td>", fmtval(make_crew_survival(obj)) ) ;
         }
-        var capabilities = make_capabilities( obj, theater, year, month, true, true ) ;
+        var capabilities = make_capabilities( obj, nat, theater, year, month, true, true ) ;
         buf.push( "<td>", listval(capabilities) ) ;
-        var capabilities = make_capabilities( obj, theater, year, month, true, false ) ;
+        var capabilities = make_capabilities( obj, nat, theater, year, month, true, false ) ;
         buf.push( "<td>", listval(capabilities) ) ;
         buf.push( "<td>", "<span class='val'>" + fmtval(obj.note_number) + "</span>" ) ;
         buf.push( "<td>", listval(obj.notes) ) ;

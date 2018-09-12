@@ -52,7 +52,7 @@ def _do_get_listings( listings_type ): #pylint: disable=too-many-branches
                 listings[nat] = json.load( fp )
 
     # merge the common entries into each Allied/Axis Minor listing
-    if not request.args.get( "no_merge_common" ):
+    if request.args.get( "merge_common" ) == "1":
         for minor_type in ("allied-minor","axis-minor"):
             if minor_type+"-common" not in listings:
                 continue

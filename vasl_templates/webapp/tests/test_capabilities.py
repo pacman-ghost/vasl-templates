@@ -1,5 +1,7 @@
 """ Test snippet generation for capabilities. """
 
+import re
+
 import pytest
 
 from vasl_templates.webapp.tests.test_vo_reports import get_vo_report
@@ -268,8 +270,8 @@ def test_month_capabilities( webapp, webdriver ):
     pytest.config.option.short_tests, #pylint: disable=no-member
     reason = "--short-tests specified"
 )
-def test_scenario_theater( webapp, webdriver ):
-    """Test scenario theater specific capabilities."""
+def test_theater_capabilities( webapp, webdriver ):
+    """Test theater-specific capabilities."""
 
     # M2A1 105mm Howitzer: C7(4+P)†1
     ordnance = [ "american", "ordnance", "M2A1 105mm Howitzer" ]
@@ -343,16 +345,63 @@ def test_scenario_theater( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+@pytest.mark.skipif(
+    pytest.config.option.short_tests, #pylint: disable=no-member
+    reason = "--short-tests specified"
+)
+def test_nationality_capabilities( webapp, webdriver ):
+    """Test nationality-specific capabilities."""
+
+    # G obr. 38:  s5(1-2R)†
+    ordnance = [ "romanian", "ordnance", "G obr. 38" ]
+    val = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1940", merge_common=True )
+    assert not re.search( r"s5\u2020", val )
+    ordnance = [ "romanian", "ordnance", "G obr. 38" ]
+    val = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1941", merge_common=True )
+    assert re.search( r"s5\u2020", val )
+    ordnance = [ "slovakian", "ordnance", "G obr. 38" ]
+    val = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1941", merge_common=True )
+    assert not re.search( r"s5\u2020", val )
+
+    # Skoda M35: C7(CS)†
+    ordnance = [ "croatian", "ordnance", "Skoda M35" ]
+    val = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1940", merge_common=True )
+    assert re.search( r"C7\u2020", val )
+    ordnance = [ "slovakian", "ordnance", "Skoda M35" ]
+    val = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1940", merge_common=True )
+    assert re.search( r"C7\u2020", val )
+    ordnance = [ "bulgarian", "ordnance", "Skoda M35" ]
+    val = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1940", merge_common=True )
+    assert not re.search( r"C7\u2020", val )
+
+    # Kanon PUV vz. 37(t): A4(1S)
+    ordnance = [ "slovakian", "ordnance", "Kanon PUV vz. 37(t)" ]
+    val = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1940", merge_common=True )
+    assert not re.search( r"A4", val )
+    ordnance = [ "slovakian", "ordnance", "Kanon PUV vz. 37(t)" ]
+    val = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1941", merge_common=True )
+    assert re.search( r"A4", val )
+    ordnance = [ "croatian", "ordnance", "Kanon PUV vz. 37(t)" ]
+    val = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1941", merge_common=True )
+    assert not re.search( r"A4", val )
+
+# ---------------------------------------------------------------------
+
 def _check_capabilities( webdriver, webapp,
     nat, vo_type, vo_name, scenario_theater, scenario_date,
     expected, row=None
 ): #pylint: disable=too-many-arguments
     """Check the vehicle/ordnance capabilities for the specified parameters."""
-    capabilities = _get_capabilities( webdriver, webapp, nat, vo_type, vo_name, scenario_theater, scenario_date, row )
+    capabilities = _get_capabilities(
+        webdriver, webapp, nat, vo_type, vo_name, scenario_theater, scenario_date,
+        merge_common = False,
+        row = row
+    )
     assert capabilities == expected
 
 def _get_capabilities( webdriver, webapp,
     nat, vo_type, vo_name, scenario_theater, scenario_date,
+    merge_common=False,
     row=None
 ): #pylint: disable=too-many-arguments
     """Get the vehicle/ordnance capabilities for the specified parameters.
@@ -369,7 +418,10 @@ def _get_capabilities( webdriver, webapp,
 
     # generate the V/O report
     month, year = scenario_date.split( "/" )
-    results = get_vo_report( webapp, webdriver, scenario_theater, nat, vo_type, year, month, name=vo_name )
+    results = get_vo_report( webapp, webdriver,
+        scenario_theater, nat, vo_type, year, month, name=vo_name,
+        merge_common = merge_common
+    )
     assert len(results) == 1+expected_rows
 
     # check the capabilities

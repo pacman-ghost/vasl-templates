@@ -84,7 +84,10 @@ def test_vo_reports( webapp, webdriver ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def get_vo_report( webapp, webdriver, theater, nat, vo_type, year, month, name=None ):
+def get_vo_report( webapp, webdriver,
+    theater, nat, vo_type, year, month,
+    name=None, merge_common=False
+): #pylint: disable=too-many-arguments,too-many-locals
     """Get a vehicle/ordnance report.
 
     NOTE: We can't get the V/O report to return its results as, say, plain-text, for easy checking,
@@ -97,8 +100,11 @@ def get_vo_report( webapp, webdriver, theater, nat, vo_type, year, month, name=N
 
     # initialize
     url = webapp.url_for( "get_vo_report", theater=theater, nat=nat, vo_type=vo_type, year=year, month=month )
+    assert "?" in url
     if name:
-        url += "?&name={}".format( name )
+        url += "&name={}".format( name )
+    if merge_common:
+        url += "&merge_common=1"
     webdriver.get( url )
     wait_for( 2, lambda: find_child("#results").is_displayed() )
 

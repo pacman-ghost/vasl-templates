@@ -236,8 +236,10 @@ function unload_snippet_params( params, check_date_capabilities )
             // but by the time the filter gets called, it's too late :-( Instead, we provide a "raw_capabilities"
             // parameter that people can use in their templates - ugly, but probably not something that will
             // get a lot of use :-/
+            var nat = params[ "PLAYER_"+player_no ] ;
             var capabilities = make_capabilities(
                 entry,
+                nat,
                 params.SCENARIO_THEATER,
                 params.SCENARIO_YEAR, params.SCENARIO_MONTH, check_date_capabilities,
                 false
@@ -246,6 +248,7 @@ function unload_snippet_params( params, check_date_capabilities )
                 obj.capabilities = capabilities ;
             capabilities = make_capabilities(
                 entry,
+                nat,
                 params.SCENARIO_THEATER,
                 params.SCENARIO_YEAR, params.SCENARIO_MONTH, check_date_capabilities,
                 true
@@ -270,7 +273,7 @@ function unload_snippet_params( params, check_date_capabilities )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function make_capabilities( entry, scenario_theater, scenario_year, scenario_month, check_date_capabilities, raw )
+function make_capabilities( entry, nat, scenario_theater, scenario_year, scenario_month, check_date_capabilities, raw )
 {
     var capabilities = [] ;
 
@@ -314,7 +317,7 @@ function make_capabilities( entry, scenario_theater, scenario_year, scenario_mon
                 capabilities.push( make_raw_capability( key, entry.capabilities2[key] ) ) ;
             }
             else {
-                var cap = _select_capability_by_date( entry.capabilities2[key], scenario_theater, scenario_year, scenario_month ) ;
+                var cap = _select_capability_by_date( entry.capabilities2[key], nat, scenario_theater, scenario_year, scenario_month ) ;
                 if ( cap === null )
                     continue ;
                 if ( cap == "<invalid>" ) {
@@ -381,14 +384,14 @@ function make_raw_capability( name, capability )
     return buf.join( "" ) ;
 }
 
-function _select_capability_by_date( capabilities, scenario_theater, scenario_year, scenario_month )
+function _select_capability_by_date( capabilities, nat, scenario_theater, scenario_year, scenario_month )
 {
     // NOTE: The capability can sometimes not have a number e.g. Tetrarch CS s# = "ref1", Stuart III(a) = "HE(4+)"
     var timestamp, val ;
     if ( capabilities[0] === null ) {
         timestamp = capabilities[1] ;
         if ( timestamp.match( /^\d\+?$/ ) ) {
-            val = _check_capability_timestamp( capabilities, timestamp, scenario_theater, scenario_year, scenario_month ) ;
+            val = _check_capability_timestamp( capabilities, timestamp, nat, scenario_theater, scenario_year, scenario_month ) ;
             if ( val === "<ignore>" )
                 return null ;
             return "";
@@ -404,7 +407,7 @@ function _select_capability_by_date( capabilities, scenario_theater, scenario_ye
     var retval = "???" ;
     for ( var i=0 ; i < capabilities.length ; ++i ) {
         timestamp = capabilities[i][1].toString() ;
-        val = _check_capability_timestamp( capabilities[i], timestamp, scenario_theater, scenario_year, scenario_month ) ;
+        val = _check_capability_timestamp( capabilities[i], timestamp, nat, scenario_theater, scenario_year, scenario_month ) ;
         if ( val === "<invalid>" )
             return val ;
         if ( val === "<ignore>" )
@@ -418,7 +421,7 @@ function _select_capability_by_date( capabilities, scenario_theater, scenario_ye
     return ref ? retval+ref : retval ;
 }
 
-function _check_capability_timestamp( capabilities, timestamp, scenario_theater, scenario_year, scenario_month )
+function _check_capability_timestamp( capabilities, timestamp, nat, scenario_theater, scenario_year, scenario_month )
 {
     var MONTH_NAMES = { F:2, J:6, A:8, S:9 } ;
 
@@ -439,15 +442,18 @@ function _check_capability_timestamp( capabilities, timestamp, scenario_theater,
         timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
     }
     if ( timestamp.substring( timestamp.length-1 ) === "R" ) {
-        // FIXME! What does a "R" superscript mean?
+        if ( nat != "romanian" )
+            return "<ignore>" ;
         timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
+    }
+    if ( timestamp.substring( timestamp.length-2 ) === "CS" ) {
+        if ( nat != "croatian" && nat != "slovakian" )
+            return "<ignore>" ;
+        timestamp = timestamp.substring( 0, timestamp.length-2 ) ;
     }
     if ( timestamp.substring( timestamp.length-1 ) === "S" ) {
-        // FIXME! What does a "S" superscript mean?
-        timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
-    }
-    if ( timestamp.substring( timestamp.length-1 ) === "C" ) {
-        // FIXME! What does a "C" superscript mean?
+        if ( nat != "slovakian" )
+            return "<ignore>" ;
         timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
     }
 

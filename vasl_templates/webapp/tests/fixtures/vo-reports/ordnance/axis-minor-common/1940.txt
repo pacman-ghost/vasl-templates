@@ -21,7 +21,7 @@ Skoda M17                        NT QSU                         NT QSU          
 Skoda M28(80)                    T                              T                              60†  S C
 Skoda M14/19                     NT s8                          NT s8                          61†  A† R H S C
 leFH 18(g)                       NT H4[3+] s5                   NT s5                          62†  E H S B
-Skoda M35                        NT AP7 C7[CS]†                 NT AP7 C7†                     63†  R S C
+Skoda M35                        NT AP7 C7[CS]†                 NT AP7                         63†  R S C
 G obr. 10/30                     NT h-d s7                      NT h-d s7                      64†  R B
 G obr. 38                        NT s5[1-2R]†                   NT                             65   R B
 Skoda M14                        NT                             NT                             66†  R H S
