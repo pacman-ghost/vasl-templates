@@ -264,6 +264,31 @@ def test_month_capabilities( webapp, webdriver ):
     _check_capabilities( webdriver, webapp, *vehicle, "ETO", "06/1944", "WP7\u2020 s8" )
     _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1945", "WP7\u2020 s8" )
 
+    # 81 Krh/32: s8(N1)†
+    ordnance = [ "finnish", "ordnance", "81 Krh/32" ]
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1940", "NT QSU 5PP dm" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "10/1941", "NT QSU 5PP dm" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "11/1941", "NT QSU s8\u2020 5PP dm" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1942", "NT QSU s8\u2020 5PP dm" )
+
+    # 76 RK/27(r): H6J4+†
+    ordnance = [ "finnish", "ordnance", "76 RK/27(r)" ]
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1943", "NT QSU s6" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "05/1944", "NT QSU s6" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "06/1944", "NT QSU H6\u2020 s6" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1945", "NT QSU H6\u2020 s6" )
+
+    # 105 H/33(g) ; 105 H/41(t): H6A4+†
+    for vo_name in ("105 H/33(g)","105 H/41(t)"):
+        ordnance = [ "finnish", "ordnance", vo_name ]
+        val = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1943" )
+        assert "H6" not in val
+        assert _get_capabilities( webdriver, webapp, *ordnance, "ETO", "07/1944" ) == val
+        val = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "08/1944" )
+        print(vo_name)
+        assert "H6\u2020" in val
+        assert _get_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1945" ) == val
+
 # ---------------------------------------------------------------------
 
 @pytest.mark.skipif(

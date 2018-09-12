@@ -1,0 +1,36 @@
+=== vehicles/finnish/1941 ===
+
+Name                         Radio    IF    Crew survival                         Capabilities    (effective)    #    Notes
+---------------------------  -------  ----  ------------------------------------  --------------  -------------  ---  ----------------
+T-37(r)                      ®        yes   CS 2                                  n/a             n/a            1†   D M
+T-50(r)                      n/a      yes   CS 4                                  n/a             n/a            2†   D
+Vikkersi(b)                  ®        yes   CS 3                                  n/a             n/a            3†   B†<sup>1</sup> D
+T-26E(b)                     ®        yes   CS 3                                  n/a             n/a            4    B† D
+T-26A(r)                     ®        yes   CS 3                                  n/a             n/a            5†   D M
+T-26B(r)                     ®        yes   CS 3                                  n/a             n/a            6    C† D M
+T-26C(r)                     ®        yes   CS 3                                  n/a             n/a            7    C† D M
+OT-133(r)                    ®        yes   CS 3                                  n/a             n/a            8    D M
+BT-5(r)                      ®        yes   CS 3                                  n/a             n/a            9    D M
+BT-7(r)                      ®        yes   CS 3                                  n/a             n/a            9    D M
+Postijuna(r)                 ®        yes   CS 5                                  s8              s8             10   D F† M
+Postijuna(L)(r)              ®        yes   CS 6                                  s8              s8             11   D F† M
+Sotka(r)                     n/a      yes   CS 5                                  A3[2+]          n/a            12†  D E M
+Sotka(L)(r)                  n/a      yes   CS 5                                  A3              A3             13†  D E
+Pitk&#228;putkinen Sotka(r)  n/a      yes   CS 6                                  A3 sD6†         A3 sD6†        14†  D
+KV-1E(r)                     n/a      yes   CS 6                                  n/a             n/a            15†  D E M
+KV-1 M42(r)                  n/a      yes   CS 6                                  A3              A3             15†  D E M
+BT-42(r)                     ®        n/a   CS 3 <small><i>(brew up)</i></small>  H† s6           H† s6          16†  D M
+Sturmi(g)                    n/a      yes   CS 4                                  A3 H4 s8        A3 H4 s8       17†  D
+Landsverk Anti II(s)         ®        yes   CS 6                                  n/a             n/a            18   A† D
+L182(s)                      n/a      yes   CS 5                                  n/a             n/a            19†  n/a
+L182(L)(s)                   n/a      yes   CS 5                                  n/a             n/a            19†  n/a
+BA-20(r)                     ®        yes   CS 3                                  n/a             n/a            20†  n/a
+BA-6(r)                      ®        yes   CS 4                                  n/a             n/a            21   D
+GAZ-4M-AA(r)                 n/a      yes   CS 4                                  n/a             n/a            22†  A†<sup>1</sup>
+T-20(r)                      n/a      yes   CS 2†                                 n/a             n/a            23†  D
+RSO(g)                       n/a      yes   cs 5                                  n/a             n/a            24   D
+STZ-3(r)                     n/a      yes   cs 4                                  n/a             n/a            25   D
+Tempo G1200                  n/a      yes   cs 2                                  n/a             n/a            26†  n/a
+Light Truck                  n/a      yes   cs 6                                  n/a             n/a            27†  n/a
+Medium Truck                 n/a      yes   cs 7                                  n/a             n/a            27†  n/a
+Heavy Truck                  n/a      yes   cs 7                                  n/a             n/a            27   n/a

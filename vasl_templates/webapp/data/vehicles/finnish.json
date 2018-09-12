@@ -1,0 +1,182 @@
+[
+
+{ "name": "T-37(r)",
+  "no_radio": "\u00ae",
+  "CS#": 2,
+  "note_number": "1\u2020",
+  "notes": [ "D", "M" ]
+},
+{ "name": "T-50(r)",
+  "CS#": 4,
+  "note_number": "2\u2020",
+  "notes": [ "D" ]
+},
+{ "name": "Vikkersi(b)",
+  "no_radio": "\u00ae",
+  "CS#": 3,
+  "note_number": "3\u2020",
+  "notes": [ "B\u2020<sup>1</sup>", "D" ]
+},
+{ "name": "T-26E(b)",
+  "no_radio": "\u00ae",
+  "CS#": 3,
+  "note_number": "4",
+  "notes": [ "B\u2020", "D" ]
+},
+{ "name": "T-26A(r)",
+  "no_radio": "\u00ae",
+  "CS#": 3,
+  "note_number": "5\u2020",
+  "notes": [ "D", "M" ]
+},
+{ "name": "T-26B(r)",
+  "no_radio": "\u00ae",
+  "CS#": 3,
+  "note_number": "6",
+  "notes": [ "C\u2020", "D", "M" ]
+},
+{ "name": "T-26C(r)",
+  "no_radio": "\u00ae",
+  "CS#": 3,
+  "note_number": "7",
+  "notes": [ "C\u2020", "D", "M" ]
+},
+{ "name": "OT-133(r)",
+  "no_radio": "\u00ae",
+  "CS#": 3,
+  "note_number": "8",
+  "notes": [ "D", "M" ]
+},
+{ "name": "BT-5(r)",
+  "no_radio": "\u00ae",
+  "CS#": 3,
+  "note_number": "9",
+  "notes": [ "D", "M" ]
+},
+{ "name": "BT-7(r)",
+  "no_radio": "\u00ae",
+  "CS#": 3,
+  "note_number": "9",
+  "notes": [ "D", "M" ]
+},
+{ "name": "Postijuna(r)",
+  "no_radio": "\u00ae",
+  "CS#": 5,
+  "capabilities2": { "s": 8 },
+  "note_number": "10",
+  "notes": [ "D", "F\u2020", "M" ]
+},
+{ "name": "Postijuna(L)(r)",
+  "no_radio": "\u00ae",
+  "CS#": 6,
+  "capabilities2": { "s": 8 },
+  "note_number": "11",
+  "notes": [ "D", "F\u2020", "M" ]
+},
+{ "name": "Sotka(r)",
+  "CS#": 5,
+  "capabilities2": { "A": [ [3,"2+"] ] },
+  "note_number": "12\u2020",
+  "notes": [ "D", "E", "M" ]
+},
+{ "name": "Sotka(L)(r)",
+  "CS#": 5,
+  "capabilities2": { "A": 3 },
+  "note_number": "13\u2020",
+  "notes": [ "D", "E" ]
+},
+{ "name": "Pitk\u00e4putkinen Sotka(r)",
+  "CS#": 6,
+  "capabilities2": { "A": 3, "sD": "6\u2020" },
+  "note_number": "14\u2020",
+  "notes": [ "D" ]
+},
+{ "name": "KV-1E(r)",
+  "CS#": 6,
+  "note_number": "15\u2020",
+  "notes": [ "D", "E", "M" ]
+},
+{ "name": "KV-1 M42(r)",
+  "CS#": 6,
+  "capabilities2": { "A": 3 },
+  "note_number": "15\u2020",
+  "notes": [ "D", "E", "M" ]
+},
+{ "name": "BT-42(r)",
+  "no_radio": "\u00ae",
+  "CS#": "3:brewup",
+  "no_if": true,
+  "capabilities": [ "H\u2020" ],
+  "capabilities2": { "s": 6 },
+  "note_number": "16\u2020",
+  "notes": [ "D", "M" ]
+},
+{ "name": "Sturmi(g)",
+  "CS#": 4,
+  "capabilities2": { "A": 3, "H": 4, "s": 8 },
+  "note_number": "17\u2020",
+  "notes": [ "D" ]
+},
+{ "name": "Landsverk Anti II(s)",
+  "no_radio": "\u00ae",
+  "CS#": 6,
+  "note_number": "18",
+  "notes": [ "A\u2020", "D" ]
+},
+{ "name": "L182(s)",
+  "CS#": 5,
+  "note_number": "19\u2020"
+},
+{ "name": "L182(L)(s)",
+  "CS#": 5,
+  "note_number": "19\u2020"
+},
+{ "name": "BA-20(r)",
+  "no_radio": "\u00ae",
+  "CS#": 3,
+  "note_number": "20\u2020"
+},
+{ "name": "BA-6(r)",
+  "no_radio": "\u00ae",
+  "CS#": 4,
+  "note_number": "21",
+  "notes": [ "D" ]
+},
+{ "name": "GAZ-4M-AA(r)",
+  "CS#": 4,
+  "note_number": "22\u2020",
+  "notes": [ "A\u2020<sup>1</sup>" ]
+},
+{ "name": "T-20(r)",
+  "CS#": "2\u2020",
+  "note_number": "23\u2020",
+  "notes": [ "D" ]
+},
+{ "name": "RSO(g)",
+  "cs#": 5,
+  "note_number": "24",
+  "notes": [ "D" ]
+},
+{ "name": "STZ-3(r)",
+  "cs#": 4,
+  "note_number": "25",
+  "notes": [ "D" ]
+},
+{ "name": "Tempo G1200",
+  "cs#": 2,
+  "note_number": "26\u2020"
+},
+{ "name": "Light Truck",
+  "cs#": 6,
+  "note_number": "27\u2020"
+},
+{ "name": "Medium Truck",
+  "cs#": 7,
+  "note_number": "27\u2020"
+},
+{ "name": "Heavy Truck",
+  "cs#": 7,
+  "note_number": "27"
+}
+
+]

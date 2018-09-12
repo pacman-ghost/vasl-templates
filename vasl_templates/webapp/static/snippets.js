@@ -304,7 +304,7 @@ function make_capabilities( entry, nat, scenario_theater, scenario_year, scenari
                 capabilities[ capabilities.length-1 ] += " [" + caps.join(", ") + "]" ;
                 continue ;
             }
-            if ( $.inArray( key, ["HE","AP","A","D","C","H","s","sM","sD","sN","WP","IR","Towed"] ) === -1 ) {
+            if ( $.inArray( key, ["HE","AP","A","D","C","H","B","s","sM","sD","sN","WP","IR","Towed"] ) === -1 ) {
                 unexpected_caps.push( key ) ;
                 continue ;
             }
@@ -423,7 +423,7 @@ function _select_capability_by_date( capabilities, nat, scenario_theater, scenar
 
 function _check_capability_timestamp( capabilities, timestamp, nat, scenario_theater, scenario_year, scenario_month )
 {
-    var MONTH_NAMES = { F:2, J:6, A:8, S:9 } ;
+    var MONTH_NAMES = { F:2, J:6, A:8, S:9, N:11 } ;
 
     // check for a theater flag
     if ( timestamp.substring( timestamp.length-1 ) === "E" ) {
