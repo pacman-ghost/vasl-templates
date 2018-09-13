@@ -167,14 +167,20 @@ $(document).ready( function () {
     $("#select-vo").dblclick( function(evt) { auto_select_vo(evt) ; } ) ;
 
     // add player change handlers
+    function on_player_droplist_open( $sel ) {
+        // remember the current selection
+        $sel.data( "prev-val", $sel.val() ) ;
+        // limit the droplist's height to the available space
+        restrict_droplist_height( $sel ) ;
+    }
     $("select[name='PLAYER_1']").selectmenu( {
-        width: "7em",
-        open: function() { $(this).data("prev-val",$(this).val()) ; },
+        width: "7.5em",
+        open: function(evt,ui) { on_player_droplist_open($(this)) ; },
         select: function() { on_player_change_with_confirm( 1 ) ; },
     } ) ;
     $("select[name='PLAYER_2']").selectmenu( {
-        width: "7em",
-        open: function() { $(this).data("prev-val",$(this).val()) ; },
+        width: "7.5em",
+        open: function(evt,ui) { on_player_droplist_open($(this)) ; },
         select: function() { on_player_change_with_confirm( 2 ) ; },
     } ) ;
 

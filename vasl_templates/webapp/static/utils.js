@@ -237,6 +237,28 @@ function makeBulletListMsg( caption, items, li_class )
 
 // --------------------------------------------------------------------
 
+function restrict_droplist_height( $sel )
+{
+    // restrict the selectmenu's droplist height to the available space
+    // NOTE: The user can circumvent this by resizing the window after opening
+    // the droplist, but we can live with that... :-/
+
+    // figure out how much space is available
+    var $droplist = $( "#" + $sel.attr("id") + "-menu" ) ;
+    var avail = $(window).height() - $droplist.offset().top - 5 ;
+
+    // make sure the currently-selected item will be visible
+    $droplist.css( "max-height", "" );
+    var $elem = $droplist.find( ".ui-menu-item-wrapper.ui-state-active" ) ;
+    var offset = $elem.offset().top - $droplist.offset().top - avail/3 ;
+
+    // set the max-height for the droplist
+    $droplist.css( "max-height", Math.floor(avail)+"px" ) ;
+    $droplist.animate({ scrollTop: offset }) ;
+}
+
+// --------------------------------------------------------------------
+
 function getUrlParam( param )
 {
     // look for the specified URL parameter
