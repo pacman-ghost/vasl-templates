@@ -44,10 +44,10 @@ Matilda I                  ®        yes   CS 2                                 
 Matilda II                 n/a      yes   CS 5                                               sD6                                              sD6                        26†     B†<sup>1</sup> K†<sup>2</sup> N P
 Matilda II CS              n/a      yes   CS 5                                               HE9†[2] s†[2] sD6                                HE9†[2] s†[2] sD6          26†     K†<sup>1</sup> N P S†<sup>2</sup>
 Valentine II               n/a      yes   CS 4                                               sM8                                              sM8                        27†     N
-Valentine V                n/a      yes   CS 4                                               sM8                                              sM8                        28†     K†<sup>1</sup> N
-Valentine VIII             n/a      yes   CS 4                                               HE7 sD6                                          HE7 sD6                    29      N
+Valentine V                n/a      yes   CS 4                                               sM8                                              sM8                        28†     K†<sup>1</sup> N<sup>T</sup>
+Valentine VIII             n/a      yes   CS 4                                               HE7 sD6                                          HE7 sD6                    29      N<sup>T</sup>
 Valentine XI               n/a      yes   CS 4                                               WP6 s8 sD8                                       WP6 s8 sD8                 30      n/a
-Churchill I                n/a      yes   CS 7                                               HE9†[2] s†[2] sD5[4] sM8†[1]                     HE9†[2] s†[2] sD5 sM8†[1]  31†     N S†<sup>2</sup> Z†<sup>1</sup> CC
+Churchill I                n/a      yes   CS 7                                               HE9†[2] s†[2] sD5[4] sM8†[1]                     HE9†[2] s†[2] sD5 sM8†[1]  31†     N<sup>T</sup> S†<sup>2</sup> Z†<sup>1</sup> CC
 Churchill IV               n/a      yes   CS 7                                               D6[J4]7[5]†[2] HE7[F3]8[4+]†[1] sD6[4+] sM8†[3]  HE8†[1] sD6 sM8†[3]        32†     J†<sup>2</sup> N Y†<sup>1</sup> Z†<sup>3</sup> CC
 Churchill V                n/a      yes   CS 7                                               H6 s9 sD7 sM8†[1]                                H6 s9 sD7 sM8†[1]          33†     S Z†<sup>1</sup> CC
 Churchill VI               n/a      yes   CS 7                                               WP6[J4+]†[1] s8 sD7 sM8†[2]                      s8 sD7 sM8†[2]             34†     W†<sup>1</sup> Z†<sup>2</sup> CC
@@ -64,7 +64,7 @@ Archer                     n/a      yes   CS 5                                  
 Daimler                    n/a      yes   CS 2                                               sD4[4+]†                                         sD4†                       42†     M N P
 Lynx                       n/a      yes   CS 2                                               sD5                                              sD5                        42†     L†<sup>1</sup> M P
 Humber                     n/a      yes   CS 2                                               sD4[4+]†                                         sD4†                       43†     L†<sup>1</sup> M P BB†<sup>2</sup>
-Stuart Recce               n/a      yes   CS 5                                               n/a                                              n/a                        44†     A D N P
+Stuart Recce               n/a      yes   CS 5                                               n/a                                              n/a                        44†     A D N<sup>T</sup> P
 Humber III LRC             n/a      yes   CS 3                                               sD5                                              sD5                        45†     L†<sup>1</sup> N P Q†<sup>2</sup>
 Otter LRC                  n/a      yes   CS 3                                               sD5                                              sD5                        45†     L†<sup>1</sup> P Q†<sup>2</sup>
 Morris CS9                 n/a      yes   CS 4                                               sD5                                              sD5                        46†     N Q†<sup>2</sup> T†<sup>3</sup> X†<sup>1</sup>
@@ -86,7 +86,7 @@ Staghound II(a)            n/a      yes   CS 4                                  
 Bishop                     n/a      n/a   CS 5                                               s8                                               s8                         55†     K†<sup>1</sup> N P
 Priest(a)                  n/a      yes   CS 7                                               H6 WP7 s8                                        H6 WP7 s8                  56†     A N P
 Sexton(a)                  n/a      yes   CS 7                                               s8                                               s8                         57†     A K†<sup>1</sup>
-M3 GMC(a)                  n/a      yes   CS 4                                               WP7[J4+]†[1] s8                                  s8                         58†     A N W†<sup>1</sup>
+M3 GMC(a)                  n/a      yes   CS 4                                               WP7[J4+]†[1] s8                                  s8                         58†     A N<sup>T</sup> W†<sup>1</sup>
 Mk VI AA                   n/a      yes   CS 2                                               n/a                                              n/a                        59†     N O†<sup>1</sup> AA†<sup>2</sup>
 Crusader AA                n/a      yes   CS 4 <small><i>(brew up)</i></small>               sD7                                              sD7                        60†     AA†<sup>1</sup>
 M17 MGMC(a)                n/a      yes   CS 4                                               n/a                                              n/a                        61†     A F† AA†<sup>1</sup>

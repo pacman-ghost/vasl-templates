@@ -38,7 +38,7 @@
   "capabilities": [ "NT", "QSU" ],
   "capabilities_other": [ "uses APCR TK Table\u2020" ],
   "note_number": "7",
-  "notes": [ "A\u2020", "N" ]
+  "notes": [ "A\u2020", "N<sup>T</sup>" ]
 },
 { "name": "5cm PaK 38",
   "capabilities": [ "NT", "QSU" ],
@@ -50,13 +50,13 @@
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "H": 6, "s": 7 },
   "note_number": "9",
-  "notes": [ "N" ]
+  "notes": [ "N<sup>T</sup>" ]
 },
 { "name": "7.5cm PaK 40",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "A": [ [5,2], [4,3], [3,4] ], "s": 7 },
   "note_number": "10\u2020",
-  "notes": [ "N" ]
+  "notes": [ "N<sup>T</sup>" ]
 },
 { "name": "7.62cm PaK 36r",
   "capabilities": [ "NT", "QSU" ],
@@ -94,13 +94,13 @@
   "capabilities": [ "T", "QSU" ],
   "capabilities2": { "H": 6 },
   "note_number": "17",
-  "notes": [ "N" ]
+  "notes": [ "N<sup>T</sup>" ]
 },
 { "name": "10.5cm LG 42",
   "capabilities": [ "T", "QSU" ],
   "capabilities2": { "H": 6, "s": 6 },
   "note_number": "18\u2020",
-  "notes": [ "N" ]
+  "notes": [ "N<sup>T</sup>" ]
 },
 { "name": "7.5cm leFK 16nA",
   "capabilities": [ "NT", "QSU", "h-d" ],
@@ -129,7 +129,7 @@
   "capabilities": [ "NT", "RFNM" ],
   "capabilities2": { "AP": 6 },
   "note_number": "23",
-  "notes": [ "N" ]
+  "notes": [ "N<sup>T</sup>" ]
 },
 { "name": "17cm K 18",
   "capabilities": [ "NT", "RFNM", "no IF" ],

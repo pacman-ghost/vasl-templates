@@ -4,7 +4,7 @@
   "CS#": 2,
   "capabilities2": { "sD": 6 },
   "note_number": "1\u2020",
-  "notes": [ "N" ]
+  "notes": [ "N<sup>F</sup>" ]
 },
 { "name": "PzKpfw IIA",
   "CS#": 3,
@@ -109,7 +109,7 @@
   "CS#": 5,
   "capabilities2": { "H": 9, "s": 9, "sD": 7 },
   "note_number": "16",
-  "notes": [ "B\u2020", "N", "S" ]
+  "notes": [ "B\u2020", "N<sup>T</sup>", "S" ]
 },
 { "name": "PzKpfw III(Fl)",
   "CS#": 3,
@@ -189,7 +189,7 @@
   "CS#": 6,
   "capabilities2": { "A": [ [6,2] ], "sD": 7, "M": "7\u2020" },
   "note_number": "30\u2020",
-  "notes": [ "K", "N" ]
+  "notes": [ "K", "N<sup>FT</sup>" ]
 },
 { "name": "PzKpfw VIE (L)",
   "CS#": 6,
@@ -212,7 +212,7 @@
   "CS#": 4,
   "capabilities2": { "A": [ [6,2] ], "s": 8, "sD": 7 },
   "note_number": "34\u2020",
-  "notes": [ "N", "P\u2020", "S" ]
+  "notes": [ "N<sup>FT</sup>", "P\u2020", "S" ]
 },
 { "name": "StuG IIIG (L)",
   "CS#": 4,
@@ -224,7 +224,7 @@
   "CS#": 4,
   "capabilities2": { "H": 9, "s": 9, "sD": 7 },
   "note_number": "36\u2020",
-  "notes": [ "N", "P\u2020", "S" ]
+  "notes": [ "N<sup>FT</sup>", "P\u2020", "S" ]
 },
 { "name": "StuH 42 (L)",
   "CS#": 4,
@@ -308,13 +308,13 @@
   "CS#": "4:brewup",
   "capabilities2": { "A": [ [6,2] ], "HE": 7, "s": 7 },
   "note_number": "46",
-  "notes": [ "M\u2020", "N" ]
+  "notes": [ "M\u2020", "N<sup>FT</sup>" ]
 },
 { "name": "Marder III(t)H",
   "CS#": "4:brewup",
   "capabilities2": { "A": [ [6,2] ], "HE": 7, "s": 7, "sD": 6 },
   "note_number": "47",
-  "notes": [ "E", "G", "N" ]
+  "notes": [ "E", "G", "N<sup>F</sup>" ]
 },
 { "name": "Marder III(t)M",
   "CS#": "4:brewup",
@@ -485,7 +485,7 @@
   "CS#": 3,
   "capabilities2": { "sD": 6 },
   "note_number": "70\u2020",
-  "notes": [ "A\u2020", "N" ]
+  "notes": [ "A\u2020", "N<sup>F</sup>" ]
 },
 { "name": "PSW 231 (6 rad)",
   "CS#": 4,
@@ -501,13 +501,13 @@
   "CS#": 4,
   "capabilities2": { "sD": 6 },
   "note_number": "72",
-  "notes": [ "N" ]
+  "notes": [ "N<sup>F</sup>" ]
 },
 { "name": "PSW 233",
   "CS#": 5,
   "capabilities2": { "H": 8, "s": 9, "sD": 7 },
   "note_number": "73",
-  "notes": [ "N" ]
+  "notes": [ "N<sup>T</sup>" ]
 },
 { "name": "PSW 234/1",
   "CS#": 5,
@@ -549,7 +549,7 @@
   "no_if": true,
   "capabilities2": { "H": 6, "s": 9 },
   "note_number": "80",
-  "notes": [ "E", "N" ]
+  "notes": [ "E", "N<sup>FT</sup>" ]
 },
 { "name": "PzA II",
   "CS#": 4,

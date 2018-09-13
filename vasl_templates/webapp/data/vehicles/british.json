@@ -255,13 +255,13 @@
   "CS#": 4,
   "capabilities2": { "sM": 8 },
   "note_number": "28\u2020",
-  "notes": [ "K\u2020<sup>1</sup>", "N" ]
+  "notes": [ "K\u2020<sup>1</sup>", "N<sup>T</sup>" ]
 },
 { "name": "Valentine VIII",
   "CS#": 4,
   "capabilities2": { "HE": 7, "sD": 6 },
   "note_number": "29",
-  "notes": [ "N" ]
+  "notes": [ "N<sup>T</sup>" ]
 },
 { "name": "Valentine XI",
   "CS#": 4,
@@ -272,7 +272,7 @@
   "CS#": 7,
   "capabilities2": { "HE": "9\u2020<sup>2</sup>", "s": [ null, "\u2020<sup>2</sup>" ], "sD": [ [5,4] ], "sM": "8\u2020<sup>1</sup>" },
   "note_number": "31\u2020",
-  "notes": [ "N", "S\u2020<sup>2</sup>", "Z\u2020<sup>1</sup>", "CC" ]
+  "notes": [ "N<sup>T</sup>", "S\u2020<sup>2</sup>", "Z\u2020<sup>1</sup>", "CC" ]
 },
 { "name": "Churchill IV",
   "CS#": 7,
@@ -374,7 +374,7 @@
 { "name": "Stuart Recce",
   "CS#": 5,
   "note_number": "44\u2020",
-  "notes": [ "A", "D", "N", "P" ]
+  "notes": [ "A", "D", "N<sup>T</sup>", "P" ]
 },
 { "name": "Humber III LRC",
   "CS#": 3,
@@ -502,7 +502,7 @@
   "CS#": 4,
   "capabilities2": { "s": 8, "WP": [ [7,"J4+"], "\u2020<sup>1</sup>" ] },
   "note_number": "58\u2020",
-  "notes": [ "A", "N", "W\u2020<sup>1</sup>" ]
+  "notes": [ "A", "N<sup>T</sup>", "W\u2020<sup>1</sup>" ]
 },
 { "name": "Mk VI AA",
   "CS#": 2,

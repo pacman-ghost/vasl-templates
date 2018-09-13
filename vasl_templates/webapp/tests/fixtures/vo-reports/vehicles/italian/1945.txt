@@ -19,7 +19,7 @@ SMV M41 75/18      n/a      yes   CS 3               H7[S2+]†[2] s8  H7†[2] 
 SMV M42 75/18      n/a      yes   CS 3               H7 s8           H7 s8          13   C†
 SMV M42 75/32      n/a      yes   CS 3               H7 s8           H7 s8          13†  C†<sup>1</sup>
 SMV M43 105/25     n/a      n/a   CS 4               H7 s8           H7 s8          14   C†
-SMV L40 47/32      n/a      yes   CS 3               n/a             n/a            15†  N R
+SMV L40 47/32      n/a      yes   CS 3               n/a             n/a            15†  N<sup>T</sup> R
 SMV M41M 90/53     n/a      yes   CS 5               HE7             HE7            16†  D†<sup>1</sup>
 AS 42              n/a      yes   CS 3               n/a             n/a            17†  L†<sup>1</sup> M N
 AS 42 aa           n/a      yes   CS 4               n/a             n/a            17†  G†<sup>1</sup> L†<sup>2</sup> M N AA†<sup>1</sup>

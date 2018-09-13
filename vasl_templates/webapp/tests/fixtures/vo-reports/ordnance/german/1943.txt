@@ -1,30 +1,30 @@
 === ordnance/german/1943 ===
 
 Name                 Capabilities                           (effective)                            #    Notes
--------------------  -------------------------------------  -------------------------------------  ---  -------
+-------------------  -------------------------------------  -------------------------------------  ---  ----------------
 5cm leGrW            5PP                                    5PP                                    1    N
 8cm GrW 34           NT QSU IR s8                           NT QSU IR s8                           2†   N
 10cm NbW 35          NT QSU s10                             NT QSU s10                             3    O
 12cm GrW 42          NT QSU s8                              NT QSU s8                              4†   n/a
 2.8cm sPzB 41        NT QSU uses APCR TK Table†             NT QSU uses APCR TK Table†             5†   A† N P
 3.7cm PaK 35/36      NT QSU A4[1]5[2]4[3]3[4] H6[9]†        NT QSU A4 H6[9]†                       6    B† N P
-4.2cm lePaK 41       NT QSU uses APCR TK Table†             NT QSU uses APCR TK Table†             7    A† N
+4.2cm lePaK 41       NT QSU uses APCR TK Table†             NT QSU uses APCR TK Table†             7    A† N<sup>T</sup>
 5cm PaK 38           NT QSU A5[1]6[2]5[3]4[4]               NT QSU A5                              8†   N
-7.5cm PaK 97/38      NT QSU H6 s7                           NT QSU H6 s7                           9    N
-7.5cm PaK 40         NT QSU A5[2]4[3]3[4] s7                NT QSU A4 s7                           10†  N
+7.5cm PaK 97/38      NT QSU H6 s7                           NT QSU H6 s7                           9    N<sup>T</sup>
+7.5cm PaK 40         NT QSU A5[2]4[3]3[4] s7                NT QSU A4 s7                           10†  N<sup>T</sup>
 7.62cm PaK 36r       NT QSU A5[2]4[3]3[4] s6                NT QSU A4 s6                           11†  N
 8.8cm PaK 43         T LF [88†, 1 ROF, B11, <b>M4</b>, -1]  T LF [88†, 1 ROF, B11, <b>M4</b>, -1]  12   C†
 8.8cm PaK 43/41      NT                                     NT                                     13   n/a
 12.8cm K 81/1        NT NM                                  NT NM                                  14   n/a
 7.5cm leIG 18        NT QSU H7                              NT QSU H7                              15   N O
 15cm sIG 33          NT H7 s8                               NT H7 s8                               16   N
-7.5cm LG 40          T QSU H6                               T QSU H6                               17   N
-10.5cm LG 42         T QSU H6 s6                            T QSU H6 s6                            18†  N
+7.5cm LG 40          T QSU H6                               T QSU H6                               17   N<sup>T</sup>
+10.5cm LG 42         T QSU H6 s6                            T QSU H6 s6                            18†  N<sup>T</sup>
 7.5cm leFK 16nA      NT QSU h-d H5 s8                       NT QSU h-d H5 s8                       19   n/a
 10.5cm leFH 18       NT H6 s8                               NT H6 s8                               20   N
 s 10cm K 18          NT NM H6 s8                            NT NM H6 s8                            21   N
 15cm sFH 18          NT NM H6 s8                            NT NM H6 s8                            22   N
-15cm K 18            NT RFNM AP6                            NT RFNM AP6                            23   N
+15cm K 18            NT RFNM AP6                            NT RFNM AP6                            23   N<sup>T</sup>
 17cm K 18            NT RFNM no IF AP6                      NT RFNM no IF AP6                      24   N
 2cm FlaK 30          T LF [20†, 2 ROF, B10, NT]             T LF [20†, 2 ROF, B10, NT]             25   C† N
 2cm FlaK 38          T LF [20†, 2 ROF, B11, NT]             T LF [20†, 2 ROF, B11, NT]             26   C† N

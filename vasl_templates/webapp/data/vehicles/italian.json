@@ -101,7 +101,7 @@
 { "name": "SMV L40 47/32",
   "CS#": 3,
   "note_number": "15\u2020",
-  "notes": [ "N", "R" ]
+  "notes": [ "N<sup>T</sup>", "R" ]
 },
 { "name": "SMV M41M 90/53",
   "CS#": 5,
