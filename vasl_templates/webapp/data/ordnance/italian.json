@@ -89,7 +89,7 @@
   "note_number": "16\u2020",
   "notes": [ "N" ]
 },
-{ "name": "Cannone-mitr. da 20/65",
+{ "name": "Cannone-mitragliera da 20/65",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "NT", "20\u2020", "2 ROF" ] },
   "note_number": "17\u2020",

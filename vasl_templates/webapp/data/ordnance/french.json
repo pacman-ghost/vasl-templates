@@ -90,17 +90,17 @@
   "capabilities": [ "NT", "RFNM", "no IF" ],
   "note_number": "17\u2020"
 },
-{ "name": "Mitr. de 13.2 CAJ mle 30",
+{ "name": "Mitrailleuse de 13.2 CAJ mle 30",
   "capabilities": [ "T", "2 TK DR\u2020<sup>1</sup>", "Towing NA\u2020<sup>1</sup>" ],
   "note_number": "18\u2020<sup>1</sup>",
   "notes": [ "B", "G\u2020", "V" ]
 },
-{ "name": "Mitr. de 20 CA mle 39 O",
+{ "name": "Mitrailleuse de 20 CA mle 39 O",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "NT", "20\u2020", "2 ROF", "B11" ] },
   "note_number": "19\u2020"
 },
-{ "name": "Canon Auto. de 25 CA mle 38",
+{ "name": "Canon Automatique de 25 CA mle 38",
   "capabilities": [ "T" ],
   "note_number": "20\u2020<sup>1</sup>",
   "notes": [ "G\u2020" ]

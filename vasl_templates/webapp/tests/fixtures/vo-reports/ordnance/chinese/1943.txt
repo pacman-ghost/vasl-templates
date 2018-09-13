@@ -32,7 +32,7 @@ M2A1 105mm Howitzer             NT C5† WP7 s6                   NT C5† WP7 s
 122mm G obr. 38                 NT s6                           NT s6                           13      <s>B</s> D†
 Obice da 149/13                 NT h-d[C]† WP6[B]† s5           NT h-d[C]† s5                   14†     n/a
 Oerlikon FF                     T LF [NT, 20†, 2 ROF, B10]      T LF [NT, 20†, 2 ROF, B10]      15†[1]  G†
-Cannone-mitra. da 20/65         T LF [NT, 20†[1], 2 ROF]        T LF [NT, 20†[1], 2 ROF]        15†[2]  D† G†<sup>1</sup>
+Cannone-mitragliera da 20/65    T LF [NT, 20†[1], 2 ROF]        T LF [NT, 20†[1], 2 ROF]        15†[2]  D† G†<sup>1</sup>
 2cm FlaK 30                     T LF [NT, 20†, 2 ROF, B10]      T LF [NT, 20†, 2 ROF, B10]      15†[1]  G†
 3.7cm FlaK 36 o. 37             T AP6                           T AP6                           16      <s>B</s>
 Bofors 40mm L/60                T AP6 LF [40†[1], 2 ROF]        T AP6 LF [40†[1], 2 ROF]        16†     G†<sup>1</sup>

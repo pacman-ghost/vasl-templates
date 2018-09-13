@@ -52,7 +52,7 @@
   "capabilities2": { "HE": [ [8,"J4+"], "\u2020" ], "D": [ [5,"S4"], [6,5], "\u2020" ] },
   "note_number": "8\u2020"
 },
-{ "name": "OQF M1A1 75mm Pack How.",
+{ "name": "OQF M1A1 75mm Pack Howitzer",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "H": 6, "WP": 7 },
   "note_number": "9\u2020",
@@ -76,7 +76,7 @@
   "note_number": "12",
   "notes": [ "D", "P" ]
 },
-{ "name": "OQF 25-Pounder Gun-How.",
+{ "name": "OQF 25-Pounder Gun-Howitzer",
   "capabilities2": { "LF": [ "NT", "0 ROF" ], "s": 8 },
   "capabilities_other": [ "ST" ],
   "note_number": "13\u2020",
