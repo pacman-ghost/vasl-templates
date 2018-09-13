@@ -51,14 +51,23 @@ def _do_get_listings( listings_type ): #pylint: disable=too-many-branches
             with open( os.path.join(root,fname), "r" ) as fp:
                 listings[nat] = json.load( fp )
 
-    # merge the common entries into each Allied/Axis Minor listing
+    # merge common entries
     if request.args.get( "merge_common" ) == "1":
+        # merge common Allied/Axis Minor vehicles/ordnance
         for minor_type in ("allied-minor","axis-minor"):
             if minor_type+"-common" not in listings:
                 continue
             for nat in minor_nats[minor_type]:
                 listings[nat].extend( listings[minor_type+"-common"] )
             del listings[ minor_type+"-common" ]
+        # merge landing craft
+        if listings_type == "vehicles":
+            for lc in listings.get("landing-craft",[]):
+                if lc["name"] in ("Daihatsu","Shohatsu"):
+                    listings["japanese"].append( lc )
+                else:
+                    listings["american"].append( lc )
+                    listings["british"].append( lc )
 
     return jsonify( listings )
 
@@ -79,4 +88,13 @@ def get_vo_report( theater, nat, vo_type, year, month ):
         VO_TYPE0 = vo_type[:-1] if vo_type.endswith("s") else vo_type,
         YEAR = year,
         MONTH = month,
+    )
+
+@app.route( "/landing_craft" )
+def get_lc_report():
+    """Get a landing craft ordnance report."""
+    return render_template( "vo-report.html",
+        VO_TYPE = "landing-craft",
+        YEAR = "null",
+        MONTH = "null",
     )

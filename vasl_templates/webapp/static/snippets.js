@@ -356,6 +356,10 @@ function make_capabilities( entry, nat, scenario_theater, scenario_year, scenari
             capabilities.push( entry.capabilities_other[i] ) ;
     }
 
+    // include damage points (for Landing Craft)
+    if ( "damage_points" in entry )
+        capabilities.push( "DP " + entry.damage_points ) ;
+
     return capabilities.length > 0 ? capabilities : null ;
 }
 

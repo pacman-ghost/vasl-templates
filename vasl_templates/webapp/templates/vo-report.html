@@ -24,10 +24,10 @@ td { padding: 0.2em 0.5em ; }
 $(document).ready( function () {
     // get the vehicle listings
     var url ;
-    if ( "{{VO_TYPE}}" == "vehicles" )
-        url = "{{url_for( 'get_vehicle_listings', report=1 )}}"
-    else
+    if ( "{{VO_TYPE}}" == "ordnance" )
         url = "{{url_for( 'get_ordnance_listings', report=1 )}}" ;
+    else
+        url = "{{url_for( 'get_vehicle_listings', report=1 )}}" ; // nb: includes landing craft
     if ( getUrlParam( "merge_common" ) === "1" )
         url += "&merge_common=1" ;
     $.getJSON( url, function(data) {
@@ -50,8 +50,10 @@ function load_vo_listings( objs )
         vo_name = decodeURIComponent( vo_name ).toLowerCase() ;
 
     // check if there are any vehicles/ordnance for the specified nationality
+    if ( "{{VO_TYPE}}" === "landing-craft" )
+        nat = "landing-craft" ;
     if ( ! (nat in objs ) ) {
-        $results.text( "No listings for nationality: " ) ; + nat
+        $results.text( "No listings for nationality: " + nat ).show() ;
         return ;
     }
 
@@ -62,6 +64,10 @@ function load_vo_listings( objs )
     if ( "{{VO_TYPE}}" === "vehicles" ) {
         buf.push( "<th>Radio" ) ;
         buf.push( "<th>IF" ) ;
+        buf.push( "<th>Crew survival" ) ;
+    }
+    if ( "{{VO_TYPE}}" === "landing-craft" ) {
+        buf.push( "<th>Damage points" ) ;
         buf.push( "<th>Crew survival" ) ;
     }
     buf.push( "<th colspan='2'>Capabilities", "<th colspan='2'>Notes" ) ;
@@ -79,6 +85,10 @@ function load_vo_listings( objs )
             else if ( obj.no_if )
                 has_if = null ;
             buf.push( "<td>", fmtval(has_if) ) ;
+            buf.push( "<td>", fmtval(make_crew_survival(obj)) ) ;
+        }
+        if ( "{{VO_TYPE}}" === "landing-craft" ) {
+            buf.push( "<td>", fmtval(obj.damage_points) ) ;
             buf.push( "<td>", fmtval(make_crew_survival(obj)) ) ;
         }
         var capabilities = make_capabilities( obj, nat, theater, year, month, true, true ) ;

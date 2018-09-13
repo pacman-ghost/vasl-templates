@@ -14,7 +14,7 @@ from vasl_templates.webapp.tests.utils import find_child, wait_for
 
 # ---------------------------------------------------------------------
 
-def test_vo_reports( webapp, webdriver ):
+def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
     """Check the vehicle/ordnance reports."""
 
     # initialize
@@ -46,7 +46,6 @@ def test_vo_reports( webapp, webdriver ):
             for year in range(1940,1945+1):
 
                 # get the next report
-                buf = io.StringIO()
                 results = get_vo_report( webapp, webdriver, "ETO", nat, vo_type, year, 1 )
 
                 # FUDGE! The "capabilities" and "notes" columns span 2 columns each,
@@ -61,7 +60,8 @@ def test_vo_reports( webapp, webdriver ):
                 fixup_capabilities( -3, "(effective)" )
                 fixup_capabilities( -2, "#" )
 
-                # output the report
+                # convert the report to plain-text
+                buf = io.StringIO()
                 print( "=== {}/{}/{} ===".format( vo_type, nat, year ), file=buf )
                 print( "", file=buf )
                 print(
@@ -81,6 +81,35 @@ def test_vo_reports( webapp, webdriver ):
                 # check the report
                 fname = os.path.join( check_dir, fname )
                 assert open(fname,"r",encoding="utf-8").read() == report
+
+    # get the landing craft report
+    url = webapp.url_for( "get_lc_report" )
+    webdriver.get( url )
+    wait_for( 2, lambda: find_child("#results").is_displayed() )
+    results = _parse_report( webdriver.page_source )
+
+    # convert the report to plain-text
+    assert results[0][-1] == "Notes"
+    results[0].insert( len(results[0])-1, "#" )
+    assert results[0][-3] == "Capabilities"
+    results[0].insert( len(results[0])-2, "(effective)" )
+    buf = io.StringIO()
+    print( "=== landing craft ===", file=buf )
+    print( "", file=buf )
+    print(
+        tabulate.tabulate( results, headers="firstrow" ),
+        file = buf
+    )
+    report = buf.getvalue()
+
+    # check if we should save the report
+    if save_dir:
+        with open( os.path.join(save_dir,"landing-craft.txt"), "w" ) as fp:
+            fp.write( report )
+
+    # check the report
+    fname = os.path.join( check_dir, "landing-craft.txt" )
+    assert open(fname,"r",encoding="utf-8").read() == report
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -108,6 +137,14 @@ def get_vo_report( webapp, webdriver,
     webdriver.get( url )
     wait_for( 2, lambda: find_child("#results").is_displayed() )
 
+    # parse the report
+    results = _parse_report( webdriver.page_source )
+
+    return results
+
+def _parse_report( buf ):
+    """Parse a vehicle/ordnance report."""
+
     def tidy( cell ):
         """Tidy up a cell value."""
         val = lxml.etree.tostring( cell ).decode( "utf-8" ) #pylint: disable=c-extension-no-member
@@ -123,7 +160,7 @@ def get_vo_report( webapp, webdriver,
     # unload the results
     # NOTE: Getting each table cell via Selenium is insanely slow - we parse the HTML manually :-/
     results = []
-    doc = lxml.html.fromstring( webdriver.page_source )
+    doc = lxml.html.fromstring( buf )
     for row in doc.xpath( "//div[@id='results']//table//tr" ):
         tag = "td" if results else "th"
         cells = row.xpath( ".//{}".format( tag ) )
