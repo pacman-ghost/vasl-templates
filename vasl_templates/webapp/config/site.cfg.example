@@ -1,0 +1,4 @@
+[Site Config]
+
+; Enable VASL counter images in the UI by configuring a VASL .vmod file here.
+VASL_MOD = ...

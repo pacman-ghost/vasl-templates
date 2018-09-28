@@ -4,35 +4,41 @@
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "19",
-  "notes": [ "D" ]
+  "notes": [ "D" ],
+  "_gpid_": 2302
 },
 { "name": "M3A1(a)",
   "CS#": 4,
   "capabilities2": { "C": "3\u2020" },
   "note_number": "20\u2020",
-  "notes": [ "A", "B", "C", "L" ]
+  "notes": [ "A", "B", "C", "L" ],
+  "_gpid_": 2304
 },
 { "name": "M3A3(a)",
   "CS#": 4,
   "capabilities2": { "C": "3\u2020", "sD": 3 },
   "note_number": "20\u2020",
-  "notes": [ "A", "B", "C", "L" ]
+  "notes": [ "A", "B", "C", "L" ],
+  "_gpid_": 2306
 },
 { "name": "M3(a) PaK 40",
   "CS#": 2,
   "note_number": "21\u2020",
-  "notes": [ "A", "H\u2020<sup>1</sup>", "L" ]
+  "notes": [ "A", "H\u2020<sup>1</sup>", "L" ],
+  "_gpid_": 2308
 },
 { "name": "M3(a) FlaK 38",
   "CS#": 2,
   "note_number": "22\u2020",
-  "notes": [ "A", "H\u2020<sup>1</sup>", "L", "AA\u2020<sup>2</sup>" ]
+  "notes": [ "A", "H\u2020<sup>1</sup>", "L", "AA\u2020<sup>2</sup>" ],
+  "_gpid_": 2310
 },
 { "name": "AEC II(b)",
   "CS#": 4,
   "capabilities2": { "HE": 5, "D": 4, "sM": 8 },
   "note_number": "23",
-  "notes": [ "A", "G\u2020", "L" ]
+  "notes": [ "A", "G\u2020", "L" ],
+  "_gpid_": 2312
 }
 
 ]

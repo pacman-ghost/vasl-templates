@@ -165,7 +165,7 @@ def set_template_params( params ): #pylint: disable=too-many-branches
             mo = re.search( r"^OB_(VEHICLES|ORDNANCE)_\d$", key )
             vo_type = mo.group(1).lower()
             for vo_name in val:
-                add_vo( vo_type, int(key[-1]), vo_name )
+                add_vo( _webdriver, vo_type, int(key[-1]), vo_name )
             continue
 
         # locate the next parameter

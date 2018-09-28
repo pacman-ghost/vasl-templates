@@ -24,11 +24,28 @@ function add_vo( vo_type, player_no )
         // TODO: It'd be nice to be able to use HTML in the option text (e.g. PzKpfw IVF 1/2)
         buf.push( "<option value='" + i + "'>" + entries[i].name + "</option>" ) ;
     }
-    var $listbox = $( "#select-vo select" ) ;
-    $listbox.html( buf.join("") ) ;
-    $listbox.prop( "selectedIndex", 0 ).animate({ scrollTop: 0 }) ;
+    function format_vo_entry( opt ) {
+        if ( ! opt.id )
+            return opt.text ;
+        return $( "<div class='vo-entry'><img src='" + _get_vo_image_url(entries[opt.id]) + "'>" + opt.text + "</div>" ) ;
+    }
+    var $sel = $( "#select-vo select" ) ;
+    $sel.html( buf.join("") ).select2( {
+        width: "100%",
+        templateResult: format_vo_entry,
+        dropdownParent: $("#select-vo"), // FUDGE! need this for the searchbox to work :-/
+        closeOnSelect: false ,
+    } ) ;
+
+    // stop the select2 droplist from closing up
+    $sel.on( "select2:closing", function(evt) {
+        evt.preventDefault() ;
+    } ) ;
 
     // let the user select a vehicle/ordnance
+    function on_resize( $dlg ) {
+        $( ".select2-results ul" ).height( $dlg.height() - 50 ) ;
+    }
     $("#select-vo").dialog( {
         title: "Add " + SORTABLE_DISPLAY_NAMES["ob_"+vo_type][0],
         dialogClass: "select-vo",
@@ -37,36 +54,33 @@ function add_vo( vo_type, player_no )
         minHeight: 300,
         create: function() {
             init_dialog( $(this), "OK", false ) ;
-            // trap down arrow, set focus to the V/O list
-            $("#select-vo input[type='text']").keydown( function(evt) {
-                if ( evt.keyCode == 40 ) {
-                    if ( $listbox.find( ":selected" ).length === 0 )
-                        $listbox.find( "option:eq(0)" ).prop( "selected", true ) ;
-                    $listbox.focus() ;
-                    evt.preventDefault() ;
-                }
+            // handle ESCAPE
+            $(this).keydown( function(evt) {
+                if ( evt.keyCode == $.ui.keyCode.ESCAPE )
+                    $(this).dialog( "close" ) ;
             } ) ;
         },
         open: function() {
             // initialize
             on_dialog_open( $(this) ) ;
-            $("#select-vo input[type='text']").val( "" ).focus() ;
-            $(this).height( $(this).height() ) ; // fudge: force the select to resize
-            $("#select-vo select").filterByText( $("#select-vo input[type='text']") ) ;
+            $sel.select2( "open" ) ;
             // set the titlebar color
             var colors = get_player_colors_for_element( $sortable2 ) ;
             $(".ui-dialog.select-vo .ui-dialog-titlebar").css( {
                 background: colors[0],
                 border: "1px solid "+colors[2],
             } ) ;
+            // update the UI
+            on_resize( $(this) ) ;
         },
+        resize: function() { on_resize( $(this) ) ; },
         buttons: {
             OK: function() {
                 // add the new vehicle/ordnance
-                var val = $listbox.val() ;
-                if ( ! val )
+                var data = $sel.select2( "data" ) ;
+                if ( ! data )
                     return ;
-                do_add_vo( vo_type, player_no, entries[val] ) ;
+                do_add_vo( vo_type, player_no, entries[data[0].id] ) ;
                 $(this).dialog( "close" ) ;
             },
             Cancel: function() { $(this).dialog( "close" ) ; },
@@ -81,7 +95,7 @@ function do_add_vo( vo_type, player_no, entry )
     // add the specified vehicle/ordnance
     var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
     $sortable2.sortable2( "add", {
-        content: $( "<div>" + entry.name + "</div>" ),
+        content: $( "<div>" + "<img src='"+_get_vo_image_url(entry)+"'>" + entry.name + "</div>" ),
         data: { caption: entry.name, vo_entry: entry },
     } ) ;
 }
@@ -98,4 +112,15 @@ function find_vo( vo_type, nat, name )
     }
 
     return null ;
+}
+
+// --------------------------------------------------------------------
+
+function _get_vo_image_url( entry )
+{
+    if ( $.isArray( entry._gpid_ ) )
+        return "/counter/" + entry._gpid_[0] + "/front" ; // FIXME! if > 1 image available, let the user pick which one
+    if ( entry._gpid_ )
+        return "/counter/" + entry._gpid_ + "/front" ;
+    return gImagesBaseUrl + "/missing-image.png" ;
 }

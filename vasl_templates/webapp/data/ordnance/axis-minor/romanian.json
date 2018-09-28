@@ -4,111 +4,133 @@
   "capabilities": [ "IR" ],
   "capabilities_other": [ "5PP" ],
   "note_number": "1",
-  "notes": [ "A" ]
+  "notes": [ "A" ],
+  "_gpid_": 3682
 },
 { "name": "Bofors 37mm",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "2\u2020",
-  "notes": [ "A" ]
+  "notes": [ "A" ],
+  "_gpid_": 3740
 },
 { "name": "45mm PTP obr. 32",
   "capabilities": [ "NT", "QSU" ],
-  "note_number": "3\u2020"
+  "note_number": "3\u2020",
+  "_gpid_": 3741
 },
 { "name": "Resita M43",
   "capabilities": [ "NT", "QSU" ],
   "capabilities_other": [ "Blk TH", "AP TK#18\u2020" ],
-  "note_number": "4\u2020"
+  "note_number": "4\u2020",
+  "_gpid_": 3742
 },
 { "name": "76.2mm PaK 36(r)",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "s": 7 },
   "note_number": "5",
-  "notes": [ "K\u2020" ]
+  "notes": [ "K\u2020" ],
+  "_gpid_": 3743
 },
 { "name": "Breda 47",
   "capabilities": [ "NT", "QSU", "no Gunshield" ],
   "note_number": "6\u2020",
-  "notes": [ "A" ]
+  "notes": [ "A" ],
+  "_gpid_": 3744
 },
 { "name": "75mm PP obr. 27",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "H": 6, "s": 8 },
   "note_number": "7",
-  "notes": [ "A" ]
+  "notes": [ "A" ],
+  "_gpid_": 3745
 },
 { "name": "75 M mle 28",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities2": { "AP": 5, "s": 5 },
   "note_number": "8",
-  "notes": [ "A" ]
+  "notes": [ "A" ],
+  "_gpid_": 3746
 },
 { "name": "Skoda M14/34",
   "capabilities": [ "NT" ],
   "capabilities2": { "AP": 6 },
   "note_number": "9\u2020",
-  "notes": [ "A" ]
+  "notes": [ "A" ],
+  "_gpid_": 3747
 },
 { "name": "76.2mm P obr. 00/02",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities2": { "s": 7 },
-  "note_number": "10"
+  "note_number": "10",
+  "_gpid_": 3748
 },
 { "name": "76.2mm P obr. 02/30",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities2": { "s": 7 },
-  "note_number": "11"
+  "note_number": "11",
+  "_gpid_": 3749
 },
 { "name": "76.2mm P obr. 39(r)",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "s": 5 },
   "note_number": "12",
-  "notes": [ "K\u2020" ]
+  "notes": [ "K\u2020" ],
+  "_gpid_": 3750
 },
 { "name": "s 10cm K 18(g)",
   "capabilities": [ "NT", "NM" ],
   "capabilities2": { "s": 5 },
   "note_number": "13",
-  "notes": [ "E" ]
+  "notes": [ "E" ],
+  "_gpid_": 3751
 },
 { "name": "Skoda M39(D9)",
   "capabilities": [ "NT" ],
-  "note_number": "14"
+  "note_number": "14",
+  "_gpid_": 3752
 },
 { "name": "Canon de 105L mle 36S",
   "capabilities": [ "NT" ],
-  "note_number": "15"
+  "note_number": "15",
+  "_gpid_": 3753
 },
 { "name": "Canon mle 10/12",
   "capabilities": [ "NT", "h-d" ],
   "capabilities2": { "s": 4 },
-  "note_number": "16"
+  "note_number": "16",
+  "_gpid_": 3754
 },
 { "name": "OQF 4.5in",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 4 },
-  "note_number": "17"
+  "note_number": "17",
+  "_gpid_": 3755
 },
 { "name": "Skoda M28 NOa",
   "capabilities": [ "NM", "no IF" ],
   "capabilities_other": [ "ST" ],
-  "note_number": "18"
+  "note_number": "18",
+  "_gpid_": 3756
 },
 { "name": "Skoda M33 (K1)",
   "capabilities": [ "NT" ],
-  "note_number": "19"
+  "note_number": "19",
+  "_gpid_": 3757
 },
 { "name": "CA mle 38",
   "capabilities": [ "T" ],
-  "note_number": "20"
+  "note_number": "20",
+  "_gpid_": 3758
 },
 { "name": "Vickers/Resita M36/39",
   "capabilities": [ "T" ],
-  "note_number": "21\u2020"
+  "note_number": "21\u2020",
+  "_gpid_": 3759
 },
 { "name": "Kanon PL vz. 12/20",
   "capabilities": [ "T", "NM" ],
-  "note_number": "22"
+  "note_number": "22",
+  "_gpid_": 3760
 }
 
 ]

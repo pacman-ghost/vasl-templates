@@ -2,7 +2,7 @@
 html { height: 100% ; }
 body { height: 100% ; overflow: hidden ; }
 
-ul, ol { margin: 0.5em 0 0 1.25em ; br}
+ul, ol { margin: 0.5em 0 0 1.25em ; }
 
 input[type="text"] { height: 1.25em ; border: 1px solid #c5c5c5 ; }
 label { height: 1.25em ; margin-top: -3px ; }
@@ -118,7 +118,12 @@ button.edit-template img { height: 18px ; vertical-align: middle ; margin-right:
 
 #select-vo { overflow: hidden ; padding: 2px ; }
 #select-vo .header { height: 1.75em ; margin-top: 0.25em ; font-size: 80% ; }
-#select-vo select { width: 100% ; top: 2em ; height: calc(100% - 1.5em) ; }
+#select-vo .select2-selection { display: none ; }
+#select-vo .select2-search { padding: 0 0 5px 0 ; }
+#select-vo .select2-results__options { max-height: none ; }
+#select-vo .select2-dropdown { border: none ; }
+#select-vo .select2-dropdown .vo-entry { display: flex ; align-items: center ; }
+#select-vo .select2-dropdown .vo-entry img { width: 3em ; margin-right: 0.5em ; }
 .ui-dialog.select-vo .ui-dialog-buttonpane { border: none ; padding: 0 ; font-size: 75% ; }
 .ui-dialog.select-vo button { margin: 0 0 0 5px ; padding: 0.1em 0.2em ; }
 

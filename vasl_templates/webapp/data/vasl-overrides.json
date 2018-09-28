@@ -1,0 +1,104 @@
+{
+
+"2474": {
+    "expected": {
+        "name": "Goliath",
+        "front_images": [ "ge/gegol", "ge/gegolb" ],
+        "back_images": null
+    },
+    "updated": {
+        "front_images": "ge/gegol"
+    }
+},
+
+"1555": {
+    "expected": {
+        "name": "2pdr Portee",
+        "front_images": "br/vehicles/portee",
+        "back_images": [ "br/vehicles/portee", "br/vehicles/portee0" ]
+    },
+    "updated": {
+        "front_images": [ "br/vehicles/portee", "br/vehicles/portee0" ],
+        "back_images": null
+    }
+},
+
+"3463": {
+    "expected": {
+        "name": "75L AA 75/46",
+        "front_images": [ "it/gun/itAA7546", "it/gun/itAA7546b" ],
+        "back_images": [ "it/gun/itAA7546b", "it/gun/itAA7546lb" ]
+    },
+    "updated": {
+        "front_images": "it/gun/itAA7546",
+        "back_images": "it/gun/itAA7546b"
+    }
+},
+
+"3776": {
+    "expected": {
+        "name": "37* INF Skoda IG",
+        "front_images": [ "ax/gun/buIN37s", "ax/gun/buIN37s2" ],
+        "back_images": "ax/gun/buIN37sb"
+    },
+    "updated": {
+        "front_images": "ax/gun/buIN37s"
+    }
+},
+
+"3777": {
+    "expected": {
+        "name": "70* INF Skoda IG",
+        "front_images": [ "ax/gun/buIN37s", "ax/gun/buIN37s2" ],
+        "back_images": "ax/gun/buIN37sb"
+    },
+    "updated": {
+        "front_images": "ax/gun/buIN37s2"
+    }
+},
+
+"6802": {
+    "expected": {
+        "name": "20L (4) AA",
+        "front_images": [ "fi/gun/fi20L4 _2.png", "fi/gun/fi20L4 _2 LIM.png" ],
+        "back_images": null
+    },
+    "updated": {
+        "front_images": "fi/gun/fi20L4 _2.png"
+    }
+},
+
+"6803": {
+    "expected": {
+        "name": "20L VKT (12) AA",
+        "front_images": [ "fi/gun/fi20L12.png", "fi/gun/fi20L12L.png" ],
+        "back_images": null
+    },
+    "updated": {
+        "front_images": "fi/gun/fi20L12.png"
+    }
+},
+
+"6804": {
+    "expected": {
+        "name": "40L Bofors AA (s)",
+        "front_images": [ "fi/gun/fi40L.png", "fi/gun/fi40LL.png" ],
+        "back_images": null
+    },
+    "updated": {
+        "front_images": "fi/gun/fi40L.png"
+    }
+},
+
+"7409": {
+    "expected": {
+        "name": "76 ItK/28 B(s)",
+        "front_images": "fiAA76L.png",
+        "back_images": [ "fiAA76L.png", "fiAA76LB.png" ]
+    },
+    "updated": {
+        "back_images": "fiAA76LB.png"
+    }
+}
+
+}

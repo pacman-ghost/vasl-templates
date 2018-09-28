@@ -4,458 +4,538 @@
   "CS#": 2,
   "capabilities2": { "sD": 6 },
   "note_number": "1\u2020",
-  "notes": [ "N<sup>F</sup>" ]
+  "notes": [ "N<sup>F</sup>" ],
+  "_gpid_": 2524
 },
 { "name": "PzKpfw IIA",
   "CS#": 3,
   "capabilities2": { "sD": 6 },
-  "note_number": "2"
+  "note_number": "2",
+  "_gpid_": 2526
 },
 { "name": "PzKpfw IIF",
   "CS#": 3,
   "capabilities2": { "sD": 7 },
   "note_number": "3",
-  "notes": [ "N" ]
+  "notes": [ "N" ],
+  "_gpid_": 2528
 },
 { "name": "PzKpfw II(Fl)",
   "CS#": "2:brewup",
   "capabilities2": { "sD": "7\u2020" },
-  "note_number": "4\u2020"
+  "note_number": "4\u2020",
+  "_gpid_": 2530
 },
 { "name": "PzKpfw IIL",
   "CS#": 4,
   "capabilities2": { "sD": 7 },
-  "note_number": "5"
+  "note_number": "5",
+  "_gpid_": 2532
 },
 { "name": "PzKpfw 35t",
   "CS#": 4,
   "capabilities2": { "sD": 5 },
-  "note_number": "6\u2020"
+  "note_number": "6\u2020",
+  "_gpid_": 2534
 },
 { "name": "PzKpfw 38(t)A",
   "CS#": 4,
   "capabilities2": { "A": [ [4,1], [5,2] ], "sD": 6 },
   "note_number": "7\u2020",
-  "notes": [ "E" ]
+  "notes": [ "E" ],
+  "_gpid_": 2536
 },
 { "name": "PzKpfw 38(t)E",
   "CS#": 4,
   "capabilities2": { "A": [ [4,1], [5,2] ], "sD": 7 },
   "note_number": "8\u2020",
-  "notes": [ "E" ]
+  "notes": [ "E" ],
+  "_gpid_": 2538
 },
 { "name": "Aufklaerer 38(t)",
   "CS#": 5,
   "note_number": "9",
-  "notes": [ "A\u2020", "E" ]
+  "notes": [ "A\u2020", "E" ],
+  "_gpid_": 2540
 },
 { "name": "FT-17 730m(f)",
   "CS#": 2,
   "note_number": "9.1\u2020",
-  "notes": [ "a", "c", "f" ]
+  "notes": [ "a", "c", "f" ],
+  "_gpid_": [ 2542, 7124 ]
 },
 { "name": "FT-17 730(f)",
   "CS#": 2,
   "capabilities2": { "AP": 9 },
   "note_number": "9.1\u2020",
-  "notes": [ "a", "c", "f" ]
+  "notes": [ "a", "c", "f" ],
+  "_gpid_": [ 2544, 7128 ]
 },
 { "name": "38H 735(f)",
   "CS#": 3,
   "capabilities2": { "AP": 10 },
   "note_number": "9.2",
-  "notes": [ "a", "b\u2020", "f" ]
+  "notes": [ "a", "b\u2020", "f" ],
+  "_gpid_": [ 2546, 7132 ]
 },
 { "name": "35-S 739(f)",
   "CS#": 4,
   "note_number": "9.3",
-  "notes": [ "a", "b\u2020<sup>2</sup>", "d\u2020<sup>1</sup>", "f" ]
+  "notes": [ "a", "b\u2020<sup>2</sup>", "d\u2020<sup>1</sup>", "f" ],
+  "_gpid_": [ 2548, 7136 ]
 },
 { "name": "PzKpfw IIID",
   "CS#": 5,
   "capabilities2": { "sD": 6 },
-  "note_number": "10\u2020"
+  "note_number": "10\u2020",
+  "_gpid_": 2552
 },
 { "name": "PzKpfw IIIF",
   "CS#": 5,
   "capabilities2": { "A": [ [4,1] ], "sD": 7 },
-  "note_number": "11\u2020"
+  "note_number": "11\u2020",
+  "_gpid_": 2554
 },
 { "name": "PzKpfw IIIG",
   "CS#": 5,
   "capabilities2": { "A": [ [4,1] ], "sD": 7 },
   "note_number": "12",
-  "notes": [ "N" ]
+  "notes": [ "N" ],
+  "_gpid_": 2556
 },
 { "name": "PzKpfw IIIH",
   "CS#": 6,
   "capabilities2": { "A": [ [4,1] ], "sD": 7 },
   "note_number": "13\u2020",
-  "notes": [ "N" ]
+  "notes": [ "N" ],
+  "_gpid_": 2558
 },
 { "name": "PzKpfw IIIJ",
   "CS#": 6,
   "capabilities2": { "A": [ [6,2] ], "sD": 7 },
   "note_number": "14\u2020",
-  "notes": [ "N", "S" ]
+  "notes": [ "N", "S" ],
+  "_gpid_": 2560
 },
 { "name": "PzKpfw IIIL",
   "CS#": 5,
   "capabilities2": { "A": [ [6,2] ], "sD": 7 },
   "note_number": "15\u2020",
-  "notes": [ "B\u2020", "N", "S" ]
+  "notes": [ "B\u2020", "N", "S" ],
+  "_gpid_": [ 2562, 2564 ]
 },
 { "name": "PzKpfw IIIN",
   "CS#": 5,
   "capabilities2": { "H": 9, "s": 9, "sD": 7 },
   "note_number": "16",
-  "notes": [ "B\u2020", "N<sup>T</sup>", "S" ]
+  "notes": [ "B\u2020", "N<sup>T</sup>", "S" ],
+  "_gpid_": [ 2566, 2568 ]
 },
 { "name": "PzKpfw III(Fl)",
   "CS#": 3,
   "capabilities2": { "sD": 7 },
-  "note_number": "17"
+  "note_number": "17",
+  "_gpid_": 2570
 },
 { "name": "PzKpfw IVA",
   "CS#": 5,
   "capabilities2": { "AP": 7, "s": 9, "sD": 6 },
-  "note_number": "18\u2020"
+  "note_number": "18\u2020",
+  "_gpid_": 2572
 },
 { "name": "PzKpfw IVC",
   "CS#": 5,
   "capabilities2": { "AP": 7, "s": 9, "sD": 6 },
-  "note_number": "19\u2020"
+  "note_number": "19\u2020",
+  "_gpid_": 2574
 },
 { "name": "PzKpfw IVD",
   "CS#": 5,
   "capabilities2": { "H": 6, "AP": 7, "s": 9, "sD": 7 },
   "note_number": "20",
-  "notes": [ "N", "R\u2020" ]
+  "notes": [ "N", "R\u2020" ],
+  "_gpid_": 2576
 },
 { "name": "PzKpfw IVE",
   "CS#": 6,
   "capabilities2": { "H": 6, "AP": 7, "s": 9, "sD": 7 },
   "note_number": "21",
-  "notes": [ "N", "R\u2020" ]
+  "notes": [ "N", "R\u2020" ],
+  "_gpid_": 2578
 },
 { "name": "PzKpfw IVF<sub>1</sub>",
   "CS#": 6,
   "capabilities2": { "H": 6, "AP": 7, "s": 9, "sD": 7 },
   "note_number": "22",
-  "notes": [ "N", "R\u2020" ]
+  "notes": [ "N", "R\u2020" ],
+  "_gpid_": 2580
 },
 { "name": "PzKpfw IVF<sub>2</sub>",
   "CS#": 6,
   "capabilities2": { "A": [ [5,2] ], "s": 8, "sD": 6 },
   "note_number": "23\u2020",
-  "notes": [ "N", "S" ]
+  "notes": [ "N", "S" ],
+  "_gpid_": 2582
 },
 { "name": "PzKpfw IVH",
   "CS#": 6,
   "capabilities2": { "A": [ [5,2] ], "s": 8, "sD": 5 },
   "note_number": "24\u2020",
-  "notes": [ "B\u2020", "S" ]
+  "notes": [ "B\u2020", "S" ],
+  "_gpid_": [ 2584, 2586, 2807, 2809 ]
 },
 { "name": "PzKpfw IVJ",
   "CS#": 6,
   "capabilities2": { "A": [ [3,4] ], "s": 8, "sN": 9 },
   "note_number": "25",
-  "notes": [ "S" ]
+  "notes": [ "S" ],
+  "_gpid_": [ 2588, 2811 ]
 },
 { "name": "PzKpfw VD",
   "CS#": "5:brewup",
   "capabilities2": { "sD": 5 },
   "note_number": "26",
-  "notes": [ "F\u2020" ]
+  "notes": [ "F\u2020" ],
+  "_gpid_": 2590
 },
 { "name": "PzKpfw VG",
   "CS#": 6,
   "capabilities2": { "sN": [ [7,4] ] },
   "note_number": "27\u2020",
-  "notes": [ "H\u2020" ]
+  "notes": [ "H\u2020" ],
+  "_gpid_": [ 2592, 2813 ]
 },
 { "name": "PzKpfw M15/42(i)",
   "CS#": 4,
   "note_number": "28",
-  "notes": [ "I" ]
+  "notes": [ "I" ],
+  "_gpid_": 2594
 },
 { "name": "PzKpfw P26/40(i)",
   "CS#": 4,
   "capabilities2": { "s": 8 },
   "note_number": "29",
-  "notes": [ "I" ]
+  "notes": [ "I" ],
+  "_gpid_": 2596
 },
 { "name": "PzKpfw VIE",
   "CS#": 6,
   "capabilities2": { "A": [ [6,2] ], "sD": 7, "M": "7\u2020" },
   "note_number": "30\u2020",
-  "notes": [ "K", "N<sup>FT</sup>" ]
+  "notes": [ "K", "N<sup>FT</sup>" ],
+  "_gpid_": 2598
 },
 { "name": "PzKpfw VIE (L)",
   "CS#": 6,
   "capabilities2": { "A": [ [4,4] ], "sN": [ [7,4] ] },
   "note_number": "31",
-  "notes": [ "K" ]
+  "notes": [ "K" ],
+  "_gpid_": 2600
 },
 { "name": "PzKpfw VIB",
   "CS#": 6,
   "capabilities2": { "sN": 9 },
   "note_number": "32\u2020",
-  "notes": [ "K" ]
+  "notes": [ "K" ],
+  "_gpid_": 2602
 },
 { "name": "StuG IIIB",
   "CS#": 4,
   "capabilities2": { "H": 6, "AP": 7, "s": 9, "sD": 7 },
-  "note_number": "33\u2020"
+  "note_number": "33\u2020",
+  "_gpid_": 2608
 },
 { "name": "StuG IIIG",
   "CS#": 4,
   "capabilities2": { "A": [ [6,2] ], "s": 8, "sD": 7 },
   "note_number": "34\u2020",
-  "notes": [ "N<sup>FT</sup>", "P\u2020", "S" ]
+  "notes": [ "N<sup>FT</sup>", "P\u2020", "S" ],
+  "_gpid_": 2610
 },
 { "name": "StuG IIIG (L)",
   "CS#": 4,
   "capabilities2": { "A": [ [4,4] ], "s": 8, "sN": 9 },
   "note_number": "35",
-  "notes": [ "O\u2020", "Q\u2020", "S" ]
+  "notes": [ "O\u2020", "Q\u2020", "S" ],
+  "_gpid_": 2612
 },
 { "name": "StuH 42",
   "CS#": 4,
   "capabilities2": { "H": 9, "s": 9, "sD": 7 },
   "note_number": "36\u2020",
-  "notes": [ "N<sup>FT</sup>", "P\u2020", "S" ]
+  "notes": [ "N<sup>FT</sup>", "P\u2020", "S" ],
+  "_gpid_": 2614
 },
 { "name": "StuH 42 (L)",
   "CS#": 4,
   "capabilities2": { "H": 9, "s": 9, "sN": 9 },
   "note_number": "35",
-  "notes": [ "O\u2020", "Q\u2020", "S" ]
+  "notes": [ "O\u2020", "Q\u2020", "S" ],
+  "_gpid_": 2616
 },
 { "name": "StuPz IV",
   "CS#": 6,
   "no_if": true,
   "capabilities2": { "H": 7, "s": 9 },
   "note_number": "37\u2020",
-  "notes": [ "S" ]
+  "notes": [ "S" ],
+  "_gpid_": [ 2618, 2620 ]
 },
 { "name": "Sturmtiger",
   "CS#": 5,
   "no_if": true,
   "capabilities2": { "sN": 9 },
   "note_number": "37.1\u2020",
-  "notes": [ "K" ]
+  "notes": [ "K" ],
+  "_gpid_": null
 },
 { "name": "PzJg Tiger",
   "CS#": 7,
-  "note_number": "38"
+  "note_number": "38",
+  "_gpid_": [ 2622, 2624 ]
 },
 { "name": "StuG 75/18(i)",
   "CS#": 3,
   "capabilities2": { "H": 7, "s": 9 },
   "note_number": "39",
-  "notes": [ "I", "P\u2020" ]
+  "notes": [ "I", "P\u2020" ],
+  "_gpid_": 2626
 },
 { "name": "StuG 75/34(i)",
   "CS#": 3,
   "capabilities2": { "s": 9 },
   "note_number": "40",
-  "notes": [ "I", "P\u2020" ]
+  "notes": [ "I", "P\u2020" ],
+  "_gpid_": 2628
 },
 { "name": "StuG 105/25(i)",
   "CS#": 3,
   "no_if": true,
   "capabilities2": { "H": 7, "s": 9 },
   "note_number": "41",
-  "notes": [ "I", "P\u2020" ]
+  "notes": [ "I", "P\u2020" ],
+  "_gpid_": 2630
 },
 { "name": "StuG 75/46(i)",
   "CS#": 3,
   "capabilities2": { "s": 9 },
   "note_number": "42",
-  "notes": [ "I", "P\u2020" ]
+  "notes": [ "I", "P\u2020" ],
+  "_gpid_": 2632
 },
 { "name": "PzJg I",
   "CS#": 3,
   "capabilities2": { "A": [ [5,1] ], "HE": 7 },
   "note_number": "43",
-  "notes": [ "N" ]
+  "notes": [ "N" ],
+  "_gpid_": 2634
 },
 { "name": "PzJg 35R(f)",
   "CS#": 3,
   "capabilities2": { "A": [ [5,1] ], "HE": 7 },
   "note_number": "44",
-  "notes": [ "a" ]
+  "notes": [ "a" ],
+  "_gpid_": 2636
 },
 { "name": "Pz 35R 731(f)",
   "CS#": 2,
   "note_number": "44.1\u2020",
-  "notes": [ "a" ]
+  "notes": [ "a" ],
+  "_gpid_": 2550
 },
 { "name": "Marder I",
   "CS#": "4:brewup",
   "capabilities2": { "A": [ [6,2] ], "HE": 7, "s": 7 },
   "note_number": "45\u2020",
-  "notes": [ "a" ]
+  "notes": [ "a" ],
+  "_gpid_": 2640
 },
 { "name": "GSW 39H(f) Pak",
   "CS#": 3,
   "capabilities2": { "A": [ [4,4] ], "HE": 9 },
   "note_number": "45.1",
-  "notes": [ "a", "e" ]
+  "notes": [ "a", "e" ],
+  "_gpid_": 2638
 },
 { "name": "Marder II",
   "CS#": "4:brewup",
   "capabilities2": { "A": [ [6,2] ], "HE": 7, "s": 7 },
   "note_number": "46",
-  "notes": [ "M\u2020", "N<sup>FT</sup>" ]
+  "notes": [ "M\u2020", "N<sup>FT</sup>" ],
+  "_gpid_": [ 2642, 2644 ]
 },
 { "name": "Marder III(t)H",
   "CS#": "4:brewup",
   "capabilities2": { "A": [ [6,2] ], "HE": 7, "s": 7, "sD": 6 },
   "note_number": "47",
-  "notes": [ "E", "G", "N<sup>F</sup>" ]
+  "notes": [ "E", "G", "N<sup>F</sup>" ],
+  "_gpid_": 2646
 },
 { "name": "Marder III(t)M",
   "CS#": "4:brewup",
   "capabilities2": { "A": [ [5,3] ], "HE": 7, "s": 7, "sD": 5 },
   "note_number": "48",
-  "notes": [ "E" ]
+  "notes": [ "E" ],
+  "_gpid_": 2648
 },
 { "name": "PzJg III/IV",
   "CS#": 5,
   "capabilities2": { "HE": 7 },
   "note_number": "49",
-  "notes": [ "M\u2020" ]
+  "notes": [ "M\u2020" ],
+  "_gpid_": [ 2650, 2652 ]
 },
 { "name": "JgdPz 38(t)",
   "CS#": 4,
   "capabilities2": { "A": [ [4,4] ], "HE": 7 },
   "note_number": "50",
-  "notes": [ "E", "O\u2020" ]
+  "notes": [ "E", "O\u2020" ],
+  "_gpid_": 2654
 },
 { "name": "JgdPz 38(t) (Fl)",
   "CS#": 4,
   "note_number": "51",
-  "notes": [ "E", "O\u2020" ]
+  "notes": [ "E", "O\u2020" ],
+  "_gpid_": 2656
 },
 { "name": "JgdPz IV",
   "CS#": 4,
   "capabilities2": { "A": [ [4,4] ], "HE": 7, "s": 7, "sN": [ [7,4] ] },
   "note_number": "52",
-  "notes": [ "S" ]
+  "notes": [ "S" ],
+  "_gpid_": 2658
 },
 { "name": "JgdPz IV (L)",
   "CS#": 4,
   "capabilities2": { "A": [ [4,4] ], "HE": 7, "s": 7, "sN": [ [8,4] ] },
   "note_number": "52",
-  "notes": [ "S" ]
+  "notes": [ "S" ],
+  "_gpid_": 2660
 },
 { "name": "StuIG 33B",
   "CS#": 5,
   "no_if": true,
   "capabilities2": { "H": 7, "s": 9 },
-  "note_number": "53\u2020"
+  "note_number": "53\u2020",
+  "_gpid_": 2668
 },
 { "name": "JgdPz IV/70",
   "CS#": 4,
   "capabilities2": { "HE": 7, "sN": 9 },
   "note_number": "54\u2020",
-  "notes": [ "S" ]
+  "notes": [ "S" ],
+  "_gpid_": 2662
 },
 { "name": "JgdPz V",
   "CS#": 6,
   "capabilities2": { "HE": 7, "sN": 9 },
   "note_number": "55",
-  "notes": [ "H" ]
+  "notes": [ "H" ],
+  "_gpid_": [ 2664, 2815 ]
 },
 { "name": "JgdPz VI",
   "CS#": 7,
   "capabilities2": { "HE": 7, "sN": 9 },
-  "note_number": "56"
+  "note_number": "56",
+  "_gpid_": 2666
 },
 { "name": "SPW 250/1",
   "CS#": 4,
   "note_number": "57",
-  "notes": [ "N" ]
+  "notes": [ "N" ],
+  "_gpid_": 2674
 },
 { "name": "SPW 250/sMG",
   "CS#": "4\u2020",
   "note_number": "58\u2020",
-  "notes": [ "J\u2020", "N" ]
+  "notes": [ "J\u2020", "N" ],
+  "_gpid_": 2676
 },
 { "name": "SPW 250/7",
   "CS#": "4:brewup",
   "capabilities": [ "IR" ],
   "capabilities2": { "s": 8 },
   "note_number": "59",
-  "notes": [ "J\u2020", "N" ]
+  "notes": [ "J\u2020", "N" ],
+  "_gpid_": 2678
 },
 { "name": "SPW 250/8",
   "CS#": "4:brewup",
   "capabilities2": { "H": 6, "s": 8 },
   "note_number": "60",
-  "notes": [ "Q\u2020" ]
+  "notes": [ "Q\u2020" ],
+  "_gpid_": [ 2680, 2682 ]
 },
 { "name": "SPW 250/9",
   "CS#": 4,
   "note_number": "61\u2020",
-  "notes": [ "A\u2020" ]
+  "notes": [ "A\u2020" ],
+  "_gpid_": 2684
 },
 { "name": "SPW 250/10",
   "CS#": 4,
   "capabilities2": { "A": [ [4,1] ] },
   "note_number": "62",
-  "notes": [ "J\u2020", "N" ]
+  "notes": [ "J\u2020", "N" ],
+  "_gpid_": 2686
 },
 { "name": "SPW 251/1",
   "CS#": 5,
   "note_number": "63",
-  "notes": [ "C\u2020", "N" ]
+  "notes": [ "C\u2020", "N" ],
+  "_gpid_": [ 2688, 2805 ]
 },
 { "name": "SPW 251/sMG",
   "CS#": "5\u2020",
   "note_number": "58\u2020",
-  "notes": [ "C\u2020", "J\u2020", "N" ]
+  "notes": [ "C\u2020", "J\u2020", "N" ],
+  "_gpid_": 2690
 },
 { "name": "SPW 251/2",
   "CS#": "4:brewup",
   "capabilities": [ "IR" ],
   "capabilities2": { "s": 8 },
   "note_number": "59",
-  "notes": [ "C\u2020", "J\u2020", "N" ]
+  "notes": [ "C\u2020", "J\u2020", "N" ],
+  "_gpid_": 2692
 },
 { "name": "SPW 251/9",
   "CS#": "4:brewup",
   "capabilities2": { "H": 6, "s": 9 },
   "note_number": "64",
-  "notes": [ "C\u2020", "N", "Q\u2020" ]
+  "notes": [ "C\u2020", "N", "Q\u2020" ],
+  "_gpid_": [ 2694, 2696 ]
 },
 { "name": "SPW 251/10",
   "CS#": 4,
   "capabilities2": { "A": [ [4,1] ] },
   "note_number": "65",
-  "notes": [ "C\u2020", "J\u2020", "N" ]
+  "notes": [ "C\u2020", "J\u2020", "N" ],
+  "_gpid_": 2698
 },
 { "name": "SPW 251/16",
   "CS#": "4:brewup",
-  "note_number": "66\u2020"
+  "note_number": "66\u2020",
+  "_gpid_": 2700
 },
 { "name": "SPW 251/21",
   "CS#": 4,
-  "note_number": "66.1\u2020"
+  "note_number": "66.1\u2020",
+  "_gpid_": 2702
 },
 { "name": "SPW 251/22",
   "CS#": "4:brewup",
   "capabilities2": { "HE": 7, "s": 7 },
   "note_number": "67",
-  "notes": [ "J\u2020" ]
+  "notes": [ "J\u2020" ],
+  "_gpid_": 2704
 },
 { "name": "SPW S307(f)",
   "CS#": 4,
   "capabilities2": { "A": [ [4,4] ], "HE": 9 },
   "note_number": "67.1",
-  "notes": [ "a", "e" ]
+  "notes": [ "a", "e" ],
+  "_gpid_": 2706
 },
 { "name": "mSPW S307(f)",
   "CS#": 4,
@@ -463,217 +543,257 @@
   "capabilities": [ "IR" ],
   "capabilities2": { "s": 5 },
   "note_number": "67.2",
-  "notes": [ "a", "e" ]
+  "notes": [ "a", "e" ],
+  "_gpid_": 2708
 },
 { "name": "Kfz 13",
   "CS#": 2,
-  "note_number": "68\u2020"
+  "note_number": "68\u2020",
+  "_gpid_": 2717
 },
 { "name": "PSW 221",
   "CS#": 2,
   "capabilities2": { "sD": 6 },
   "note_number": "69\u2020",
-  "notes": [ "A\u2020", "N" ]
+  "notes": [ "A\u2020", "N" ],
+  "_gpid_": 2719
 },
 { "name": "PSW 222",
   "CS#": 3,
   "capabilities2": { "sD": 6 },
   "note_number": "70\u2020",
-  "notes": [ "A\u2020", "N" ]
+  "notes": [ "A\u2020", "N" ],
+  "_gpid_": 2721
 },
 { "name": "PSW 222 (L)",
   "CS#": 3,
   "capabilities2": { "sD": 6 },
   "note_number": "70\u2020",
-  "notes": [ "A\u2020", "N<sup>F</sup>" ]
+  "notes": [ "A\u2020", "N<sup>F</sup>" ],
+  "_gpid_": 2723
 },
 { "name": "PSW 231 (6 rad)",
   "CS#": 4,
-  "note_number": "71\u2020"
+  "note_number": "71\u2020",
+  "_gpid_": [ 2725, 2727 ]
 },
 { "name": "PSW 231 (8 rad)",
   "CS#": 4,
   "capabilities2": { "sD": 6 },
   "note_number": "72\u2020",
-  "notes": [ "N" ]
+  "notes": [ "N" ],
+  "_gpid_": 2729
 },
 { "name": "PSW 232 (8 rad)",
   "CS#": 4,
   "capabilities2": { "sD": 6 },
   "note_number": "72",
-  "notes": [ "N<sup>F</sup>" ]
+  "notes": [ "N<sup>F</sup>" ],
+  "_gpid_": 2731
 },
 { "name": "PSW 233",
   "CS#": 5,
   "capabilities2": { "H": 8, "s": 9, "sD": 7 },
   "note_number": "73",
-  "notes": [ "N<sup>T</sup>" ]
+  "notes": [ "N<sup>T</sup>" ],
+  "_gpid_": 2733
 },
 { "name": "PSW 234/1",
   "CS#": 5,
   "note_number": "74",
-  "notes": [ "A\u2020" ]
+  "notes": [ "A\u2020" ],
+  "_gpid_": 2735
 },
 { "name": "PSW 234/2",
   "CS#": 4,
   "capabilities2": { "A": [ [5,3] ], "sD": 7 },
-  "note_number": "75"
+  "note_number": "75",
+  "_gpid_": 2737
 },
 { "name": "PSW 234/3",
   "CS#": 5,
   "capabilities2": { "H": 8, "s": 9 },
   "note_number": "76",
-  "notes": [ "Q\u2020" ]
+  "notes": [ "Q\u2020" ],
+  "_gpid_": [ 2739, 2741 ]
 },
 { "name": "PSW 234/4",
   "CS#": "5:brewup",
   "capabilities2": { "HE": 7, "s": 7 },
-  "note_number": "77\u2020"
+  "note_number": "77\u2020",
+  "_gpid_": 2743
 },
 { "name": "sIG IB",
   "CS#": "4:brewup",
   "no_if": true,
   "capabilities2": { "H": 6, "s": 9 },
   "note_number": "78",
-  "notes": [ "G" ]
+  "notes": [ "G" ],
+  "_gpid_": 2747
 },
 { "name": "sIG II",
   "CS#": "4:brewup",
   "no_if": true,
   "capabilities2": { "H": 6, "s": 9 },
   "note_number": "79",
-  "notes": [ "N" ]
+  "notes": [ "N" ],
+  "_gpid_": 2749
 },
 { "name": "sIG 38(t)M",
   "CS#": "4:brewup",
   "no_if": true,
   "capabilities2": { "H": 6, "s": 9 },
   "note_number": "80",
-  "notes": [ "E", "N<sup>FT</sup>" ]
+  "notes": [ "E", "N<sup>FT</sup>" ],
+  "_gpid_": 2751
 },
 { "name": "PzA II",
   "CS#": 4,
   "capabilities2": { "H": 5, "s": 8 },
   "note_number": "81",
-  "notes": [ "M\u2020" ]
+  "notes": [ "M\u2020" ],
+  "_gpid_": [ 2753, 2755 ]
 },
 { "name": "PzA LrS(f)",
   "CS#": 4,
   "no_if": true,
   "capabilities2": { "H": 4, "s": 8 },
   "note_number": "82",
-  "notes": [ "a", "N" ]
+  "notes": [ "a", "N" ],
+  "_gpid_": 2757
 },
 { "name": "GSW 39H(f)",
   "CS#": 4,
   "capabilities2": { "H": 4, "s": 7 },
   "note_number": "82.1",
-  "notes": [ "a", "e" ]
+  "notes": [ "a", "e" ],
+  "_gpid_": 2759
 },
 { "name": "PzA III/IV",
   "CS#": 6,
   "no_if": true,
   "capabilities2": { "H": 5, "s": 8 },
-  "note_number": "83"
+  "note_number": "83",
+  "_gpid_": 2761
 },
 { "name": "FlaKPz 38(t)",
   "CS#": 4,
   "note_number": "84",
-  "notes": [ "A\u2020", "E" ]
+  "notes": [ "A\u2020", "E" ],
+  "_gpid_": 2763
 },
 { "name": "37 FlaK/Pz IV",
   "CS#": 5,
   "note_number": "85\u2020",
-  "notes": [ "A\u2020" ]
+  "notes": [ "A\u2020" ],
+  "_gpid_": 2765
 },
 { "name": "(Moebelwagen)",
   "CS#": 6,
   "note_number": "85\u2020",
-  "notes": [ "A\u2020" ]
+  "notes": [ "A\u2020" ],
+  "_gpid_": null
 },
 { "name": "FlaKPz IV/20",
   "CS#": 6,
   "note_number": "86",
-  "notes": [ "A\u2020" ]
+  "notes": [ "A\u2020" ],
+  "_gpid_": [ 2768, 2817 ]
 },
 { "name": "FlaKPz IV/37",
   "CS#": 6,
   "note_number": "87",
-  "notes": [ "A\u2020" ]
+  "notes": [ "A\u2020" ],
+  "_gpid_": 2770
 },
 { "name": "SdKfz 10/4",
   "CS#": 5,
   "note_number": "88",
-  "notes": [ "A\u2020", "D\u2020", "N" ]
+  "notes": [ "A\u2020", "D\u2020", "N" ],
+  "_gpid_": [ 7146, 2772 ]
 },
 { "name": "SdKfz 10/5",
   "CS#": 4,
   "note_number": "88.1\u2020",
-  "notes": [ "A\u2020<sup>2</sup>", "D\u2020<sup>1</sup>" ]
+  "notes": [ "A\u2020<sup>2</sup>", "D\u2020<sup>1</sup>" ],
+  "_gpid_": [ 7140, 2775 ]
 },
 { "name": "SdKfz 6/2",
   "CS#": 5,
   "note_number": "89",
-  "notes": [ "A\u2020", "D\u2020", "N" ]
+  "notes": [ "A\u2020", "D\u2020", "N" ],
+  "_gpid_": 2778
 },
 { "name": "SdKfz 7/1",
   "CS#": 4,
   "note_number": "90",
-  "notes": [ "A\u2020", "D\u2020", "N" ]
+  "notes": [ "A\u2020", "D\u2020", "N" ],
+  "_gpid_": 2781
 },
 { "name": "Kfz 4",
   "CS#": 3,
   "note_number": "91\u2020",
-  "notes": [ "N" ]
+  "notes": [ "N" ],
+  "_gpid_": 2784
 },
 { "name": "2cm FlaK LKW",
   "CS#": 5,
   "note_number": "92",
-  "notes": [ "A\u2020" ]
+  "notes": [ "A\u2020" ],
+  "_gpid_": 2785
 },
 { "name": "3.7cm FlaK LKW",
   "CS#": 5,
   "note_number": "92",
-  "notes": [ "A\u2020" ]
+  "notes": [ "A\u2020" ],
+  "_gpid_": 2787
 },
 { "name": "Goliath",
   "note_number": "93\u2020",
-  "notes": [ "L\u2020" ]
+  "notes": [ "L\u2020" ],
+  "_gpid_": 2474
 },
 { "name": "Kfz 1",
   "cs#": "2\u2020",
   "note_number": "94\u2020",
-  "notes": [ "L\u2020", "N" ]
+  "notes": [ "L\u2020", "N" ],
+  "_gpid_": 2791
 },
 { "name": "Kfz 1/20",
   "cs#": 2,
   "note_number": "95\u2020",
-  "notes": [ "L\u2020" ]
+  "notes": [ "L\u2020" ],
+  "_gpid_": 2793
 },
 { "name": "Opel 6700 (Blitz)",
   "cs#": 6,
   "note_number": "96",
-  "notes": [ "N" ]
+  "notes": [ "N" ],
+  "_gpid_": 2794
 },
 { "name": "Buessing-NAG 4500",
   "cs#": 7,
   "note_number": "96",
-  "notes": [ "N" ]
+  "notes": [ "N" ],
+  "_gpid_": 2796
 },
 { "name": "SdKfz 2",
   "cs#": 2,
   "note_number": "97\u2020",
-  "notes": [ "L\u2020", "N" ]
+  "notes": [ "L\u2020", "N" ],
+  "_gpid_": [ 2710, 2798 ]
 },
 { "name": "SdKfz 7",
   "cs#": 6,
   "note_number": "98",
-  "notes": [ "N" ]
+  "notes": [ "N" ],
+  "_gpid_": [ 2713, 2801 ]
 },
 { "name": "SdKfz 11",
   "cs#": 5,
   "note_number": "99",
-  "notes": [ "N" ]
+  "notes": [ "N" ],
+  "_gpid_": [ 2711, 2799 ]
 }
 
 ]

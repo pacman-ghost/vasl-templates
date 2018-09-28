@@ -4,46 +4,54 @@
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "1\u2020",
-  "notes": [ "E" ]
+  "notes": [ "E" ],
+  "_gpid_": 3861
 },
 { "name": "R-35/45(f)",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "2",
-  "notes": [ "D" ]
+  "notes": [ "D" ],
+  "_gpid_": 3863
 },
 { "name": "TACAM T-60(r)",
   "CS#": 3,
   "note_number": "3\u2020",
-  "notes": [ "E" ]
+  "notes": [ "E" ],
+  "_gpid_": 3865
 },
 { "name": "TACAM T-60A(r)",
   "CS#": 3,
   "note_number": "3\u2020",
-  "notes": [ "E" ]
+  "notes": [ "E" ],
+  "_gpid_": 3867
 },
 { "name": "TACAM R-2(r)",
   "CS#": 3,
   "capabilities2": { "AP": 5 },
   "note_number": "4\u2020",
-  "notes": [ "E", "N" ]
+  "notes": [ "E", "N" ],
+  "_gpid_": 3869
 },
 { "name": "BA-6(r)",
   "no_radio": "\u00ae",
   "CS#": 4,
   "note_number": "5\u2020",
-  "notes": [ "E" ]
+  "notes": [ "E" ],
+  "_gpid_": 3871
 },
 { "name": "BA-20(r)",
   "no_radio": "\u00ae",
   "CS#": 3,
   "note_number": "5\u2020",
-  "notes": [ "E" ]
+  "notes": [ "E" ],
+  "_gpid_": 3873
 },
 { "name": "Malaxa UE2",
   "cs#": "2\u2020<sup>1</sup>",
   "note_number": "6\u2020",
-  "notes": [ "F", "I\u2020<sup>1</sup>", "J" ]
+  "notes": [ "F", "I\u2020<sup>1</sup>", "J" ],
+  "_gpid_": [ 3875, 3877 ]
 }
 
 ]

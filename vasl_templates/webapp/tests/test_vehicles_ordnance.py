@@ -2,7 +2,6 @@
 
 import re
 
-from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.action_chains import ActionChains
 
 from vasl_templates.webapp.tests.utils import \
@@ -33,7 +32,7 @@ def test_crud( webapp, webdriver ):
         select_tab( "ob{}".format( player_no ) )
         _check_hint( vo_type, player_no )
         # add the vehicle/ordnance
-        add_vo( vo_type, player_no, name )
+        add_vo( webdriver, vo_type, player_no, name )
         _expected[ (vo_type,player_no) ].append( name )
         # check the snippet and hint
         _check_snippet( vo_type, player_no )
@@ -132,7 +131,7 @@ def test_snippets( webapp, webdriver ):
         """Run the test."""
         vo_type0 = vo_type[:-1] if vo_type.endswith("s") else vo_type
         # test a full example
-        add_vo( vo_type, 1, "a german {}".format(vo_type) )
+        add_vo( webdriver, vo_type, 1, "a german {}".format(vo_type) )
         btn = find_child( "button[data-id='ob_{}_1']".format( vo_type ) )
         btn.click()
         expected = [
@@ -148,7 +147,7 @@ def test_snippets( webapp, webdriver ):
         delete_vo( vo_type, 1, "a german {}".format(vo_type0), webdriver )
 
         # test a partial example
-        add_vo( vo_type, 1, "another german {}".format(vo_type) )
+        add_vo( webdriver, vo_type, 1, "another german {}".format(vo_type) )
         btn = find_child( "button[data-id='ob_{}_1']".format( vo_type ) )
         btn.click()
         expected = [
@@ -163,7 +162,7 @@ def test_snippets( webapp, webdriver ):
         delete_vo( vo_type, 1, "another german {}".format(vo_type0), webdriver )
 
         # test a minimal example
-        add_vo( vo_type, 1, "name only" )
+        add_vo( webdriver, vo_type, 1, "name only" )
         btn = find_child( "button[data-id='ob_{}_1']".format( vo_type ) )
         btn.click()
         wait_for_clipboard( 2, \
@@ -184,7 +183,7 @@ def test_variable_capabilities( webapp, webdriver ):
     init_webapp( webapp, webdriver )
 
     # add a vehicle
-    add_vo( "vehicles", 2, "Churchill III(b)" )
+    add_vo( webdriver, "vehicles", 2, "Churchill III(b)" )
 
     # change the scenario date and check the generated snippet
     vehicles2 = find_child( "button.generate[data-id='ob_vehicles_2']" )
@@ -212,16 +211,24 @@ def test_variable_capabilities( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-def add_vo( vo_type, player_no, name ):
+def add_vo( webdriver, vo_type, player_no, name ):
     """Add a vehicle/ordnance."""
 
     # add the vehicle/ordnance
     select_tab( "ob{}".format( player_no ) )
     elem = find_child( "#ob_{}-add_{}".format( vo_type, player_no ) )
     elem.click()
-    sel = Select( find_child( "#select-vo select" ) )
-    sel.select_by_visible_text( name[:-1] if name.endswith("s") else name )
-    click_dialog_button( "OK" )
+    entries = find_children( "#select-vo .select2-results li" )
+    if name.endswith( "s" ):
+        name = name[:-1]
+    matches = [ e for e in entries if e.text == name ]
+    assert len(matches) == 1
+    elem = matches[0]
+    webdriver.execute_script( "arguments[0].scrollIntoView()", elem )
+    ActionChains( webdriver ).click( elem ).perform()
+    if find_child( "#select-vo" ).is_displayed():
+        # FUDGE! Clicking on the element sometimes make the dialog close :-/
+        click_dialog_button( "OK" )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

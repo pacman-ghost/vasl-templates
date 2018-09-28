@@ -3,62 +3,73 @@
 { "name": "38M Toldi I",
   "CS#": 3,
   "note_number": "7\u2020",
-  "notes": [ "A\u2020<sup>1</sup>" ]
+  "notes": [ "A\u2020<sup>1</sup>" ],
+  "_gpid_": 4009
 },
 { "name": "38M Toldi IIA",
   "CS#": 3,
   "note_number": "8\u2020",
-  "notes": [ "A\u2020<sup>1</sup>" ]
+  "notes": [ "A\u2020<sup>1</sup>" ],
+  "_gpid_": 4011
 },
 { "name": "40M Turan I(r)",
   "CS#": 5,
   "capabilities2": { "sD": 5 },
   "note_number": "9\u2020",
-  "notes": [ "E", "N", "Q" ]
+  "notes": [ "E", "N", "Q" ],
+  "_gpid_": 4013
 },
 { "name": "41M Turan II(r)",
   "CS#": 5,
   "capabilities2": { "AP": 6, "s": 7, "sD": 5 },
   "note_number": "10\u2020",
-  "notes": [ "E", "N", "Q" ]
+  "notes": [ "E", "N", "Q" ],
+  "_gpid_": 4015
 },
 { "name": "PzKpfw VG(g)",
   "CS#": 6,
   "capabilities2": { "sN": 6 },
   "note_number": "11\u2020",
-  "notes": [ "E" ]
+  "notes": [ "E" ],
+  "_gpid_": 4043
 },
 { "name": "PzKpfw VIE(L)(g)",
   "CS#": 6,
   "capabilities2": { "A": [ [3,4] ], "sN": 6 },
   "note_number": "12\u2020",
-  "notes": [ "E" ]
+  "notes": [ "E" ],
+  "_gpid_": 4045
 },
 { "name": "43M Zrinyi II",
   "CS#": 4,
   "capabilities2": { "s": 7, "sD": 5 },
   "note_number": "13\u2020",
-  "notes": [ "Q" ]
+  "notes": [ "Q" ],
+  "_gpid_": 4055
 },
 { "name": "39M Csaba",
   "CS#": 4,
-  "note_number": "14"
+  "note_number": "14",
+  "_gpid_": 4065
 },
 { "name": "40M Csaba",
   "CS#": 4,
-  "note_number": "14"
+  "note_number": "14",
+  "_gpid_": 4067
 },
 { "name": "Marder II(g)",
   "CS#": "4:brewup",
   "capabilities2": { "A": [ [4,3], [3,4] ], "HE": 7, "s": 6 },
   "note_number": "15",
-  "notes": [ "E" ]
+  "notes": [ "E" ],
+  "_gpid_": 4057
 },
 { "name": "40M Nimrod",
   "CS#": 6,
   "capabilities2": { "H": [ ["6[9]","3+"] ] },
   "note_number": "16\u2020",
-  "notes": [ "P\u2020<sup>1</sup>" ]
+  "notes": [ "P\u2020<sup>1</sup>" ],
+  "_gpid_": 4059
 }
 
 ]

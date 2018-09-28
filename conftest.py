@@ -43,6 +43,12 @@ def pytest_addoption( parser ):
         "--short-tests", action="store_true", dest="short_tests", default=False,
         help="Run a shorter version of the test suite."
     )
+    # NOTE: Some tests require the VASL module file(s). We don't want to put these into source control,
+    # so we provide this option to allow the caller to specify where they live.
+    parser.addoption(
+        "--vasl-mods", action="store", dest="vasl_mods", default=None,
+        help="Directory containing the VASL .vmod file(s)."
+    )
     # NOTE: It's not good to have the code run differently to how it will normally,
     # but using the clipboard to retrieve snippets causes more trouble than it's worth :-/
     # since any kind of clipboard activity while the tests are running could cause them to fail

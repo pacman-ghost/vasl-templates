@@ -254,7 +254,7 @@ function restrict_droplist_height( $sel )
 
     // set the max-height for the droplist
     $droplist.css( "max-height", Math.floor(avail)+"px" ) ;
-    $droplist.animate({ scrollTop: offset }) ;
+    $droplist.animate({ scrollTop: offset }, 0 ) ;
 }
 
 // --------------------------------------------------------------------

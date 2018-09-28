@@ -47,7 +47,7 @@ def test_dirty_scenario_checks( webapp, webdriver ):
             info = VEHICLE_ORDNANCE[param]
             target = find_child( info[0] )
             mo = re.search( r"([a-z]+)-", info[0] )
-            add_vo( mo.group(1), info[1], info[2] )
+            add_vo( webdriver, mo.group(1), info[1], info[2] )
             return target
         target = next( e for e in [
             find_child( "{}[name='{}']".format( ctype, param ) )

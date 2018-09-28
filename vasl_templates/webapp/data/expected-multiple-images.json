@@ -1,0 +1,15 @@
+{
+
+"1555": {
+    "name": "2pdr Portee",
+    "front_images": [ "br/vehicles/portee", "br/vehicles/portee0" ],
+    "back_images": null
+},
+
+"2212": {
+    "name": "76* INF FRC",
+    "front_images": [ "al/gun/alINF76", "al/gun/alINF76u" ],
+    "back_images": "al/gun/alINF76b"
+}
+
+}

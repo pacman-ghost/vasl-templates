@@ -16,8 +16,14 @@
 .panel-ob_vehicles .content { flex-grow: 1 ; }
 .panel-ob_vehicles .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
 
+.panel-ob_vehicles .sortable { font-size: 90% ; }
+.panel-ob_vehicles .sortable img { display: inline-block ; vertical-align: middle ; width: 3em ; margin-right: 0.5em ; }
+
 /* -------------------------------------------------------------------- */
 
 .panel-ob_ordnance { height: 100% ;  display: flex ; flex-direction: column ; }
 .panel-ob_ordnance .content { flex-grow: 1 ; }
 .panel-ob_ordnance .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
+
+.panel-ob_ordnance .sortable { font-size: 90% ; }
+.panel-ob_ordnance .sortable img { display: inline-block ; vertical-align: middle ; width: 3em ; margin-right: 0.5em ; }

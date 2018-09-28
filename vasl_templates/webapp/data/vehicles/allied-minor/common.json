@@ -4,29 +4,34 @@
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "31",
-  "notes": [ "A" ]
+  "notes": [ "A" ],
+  "_gpid_": [ 2231, 2329 ]
 },
 { "name": "L3/35(i)",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "31\u2020",
-  "notes": [ "A", "D" ]
+  "notes": [ "A", "D" ],
+  "_gpid_": [ 2233, 2331 ]
 },
 { "name": "L6/40(i)",
   "CS#": 2,
   "note_number": "31\u2020",
-  "notes": [ "A" ]
+  "notes": [ "A" ],
+  "_gpid_": [ 2235, 2333 ]
 },
 { "name": "M13/40(i)",
   "CS#": 4,
   "note_number": "31\u2020",
-  "notes": [ "A" ]
+  "notes": [ "A" ],
+  "_gpid_": [ 2237, 2335 ]
 },
 { "name": "FT-17M(f)",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "32\u2020",
-  "notes": [ "A", "F" ]
+  "notes": [ "A", "F" ],
+  "_gpid_": 2239
 },
 { "name": "FT-17C(f)",
   "no_radio": "\u00ae",
@@ -34,46 +39,55 @@
   "no_if": true,
   "capabilities2": { "AP": 9 },
   "note_number": "32\u2020",
-  "notes": [ "A", "F" ]
+  "notes": [ "A", "F" ],
+  "_gpid_": 2241
 },
 { "name": "R-35(f)",
   "no_radio": "\u00ae",
   "CS#": 2,
   "capabilities2": { "AP": 10 },
   "note_number": "33\u2020",
-  "notes": [ "A", "E\u2020<sup>1</sup>", "F" ]
+  "notes": [ "A", "E\u2020<sup>1</sup>", "F" ],
+  "_gpid_": 2243
 },
 { "name": "M3A1(a)",
   "CS#": 4,
   "note_number": "34\u2020",
-  "notes": [ "A", "V" ]
+  "notes": [ "A", "V" ],
+  "_gpid_": 2245
 },
 { "name": "C-K P17(f)",
   "cs#": 4,
   "note_number": "35",
-  "notes": [ "A" ]
+  "notes": [ "A" ],
+  "_gpid_": 2247
 },
 { "name": "C-K P19(f)",
   "cs#": 5,
   "note_number": "35\u2020",
-  "notes": [ "A" ]
+  "notes": [ "A" ],
+  "_gpid_": 2249
 },
 { "name": "VCL Utility B(b)",
   "cs#": 2,
   "note_number": "36\u2020",
-  "notes": [ "A", "H\u2020<sup>1</sup>", "V" ]
+  "notes": [ "A", "H\u2020<sup>1</sup>", "V" ],
+  "_gpid_": 2251
 },
 { "name": "Light Truck",
   "cs#": 4,
-  "note_number": "37"
+  "note_number": "37",
+  "_gpid_": 2253
 },
 { "name": "Medium Truck",
   "cs#": 5,
-  "note_number": "37"
+  "note_number": "37",
+  "_gpid_": 2255
 },
 { "name": "Heavy Truck",
   "cs#": 7,
-  "note_number": "37"
+  "note_number": "37",
+  "_gpid_": 2257
 }
 
 ]

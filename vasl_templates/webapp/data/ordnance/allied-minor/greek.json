@@ -4,17 +4,20 @@
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 5 },
   "note_number": "16",
-  "notes": [ "Gr" ]
+  "notes": [ "Gr" ],
+  "_gpid_": 2219
 },
 { "name": "OR 105/19",
   "capabilities": [ "NT", "h-d" ],
   "note_number": "17",
-  "notes": [ "Gr" ]
+  "notes": [ "Gr" ],
+  "_gpid_": 2220
 },
 { "name": "3.7cm Bofors AA",
   "capabilities": [ "T" ],
   "note_number": "18",
-  "notes": [ "Gr" ]
+  "notes": [ "Gr" ],
+  "_gpid_": 2221
 }
 
 ]

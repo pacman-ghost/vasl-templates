@@ -3,224 +3,263 @@
 { "name": "47 Krh/41",
   "capabilities_other": [ "2PP" ],
   "note_number": "1",
-  "notes": [ "A" ]
+  "notes": [ "A" ],
+  "_gpid_": 6730
 },
 { "name": "50 Krh/39(r)",
   "capabilities": [ "4PP" ],
   "capabilities2": { "B": [ [12,"3+"], "\u2020" ] },
   "note_number": "2\u2020",
-  "notes": [ "A", "B" ]
+  "notes": [ "A", "B" ],
+  "_gpid_": 3605
 },
 { "name": "81 Krh/32",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "s": [ [8,"N1"], "\u2020" ], "IR": [ [null,"3+"], "\u2020" ] },
   "capabilities_other": [ "5PP dm" ],
   "note_number": "3\u2020",
-  "notes": [ "A" ]
+  "notes": [ "A" ],
+  "_gpid_": 6765
 },
 { "name": "81 Savunheitin M/42",
   "capabilities": [ "NT", "QSU" ],
   "capabilities_other": [ "s\u2020", "4PP dm" ],
   "note_number": "4\u2020",
-  "notes": [ "A" ]
+  "notes": [ "A" ],
+  "_gpid_": 6782
 },
 { "name": "120 Krh/40",
   "capabilities": [ "NT", "QSU" ],
-  "note_number": "5\u2020"
+  "note_number": "5\u2020",
+  "_gpid_": 6806
 },
 { "name": "Boys ATR(b)",
   "capabilities_other": [ "1PP", "\"British\"\u2020" ],
-  "note_number": "6\u2020"
+  "note_number": "6\u2020",
+  "_gpid_": null
 },
 { "name": "Lahti ATR",
   "capabilities_other": [ "4PP", "Light AA fire in 44+\u2020", "B30.35\u2020" ],
   "note_number": "7\u2020",
-  "notes": [ "A" ]
+  "notes": [ "A" ],
+  "_gpid_": 3608
 },
 { "name": "20 PstK/40",
   "capabilities": [ "NT", "QSU", "Towing NA\u2020<sup>1</sup>" ],
   "capabilities_other": [ "R2", "IFE=B10" ],
   "note_number": "8\u2020",
-  "notes": [ "C\u2020<sup>1</sup>" ]
+  "notes": [ "C\u2020<sup>1</sup>" ],
+  "_gpid_": 6808
 },
 { "name": "25 PstK/37(f)",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "9\u2020",
-  "notes": [ "B", "D" ]
+  "notes": [ "B", "D" ],
+  "_gpid_": 6810
 },
 { "name": "37 PstK/36(s)",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "HE": [ [null,"1+"], "\u2020" ] },
   "note_number": "10\u2020",
-  "notes": [ "A", "B" ]
+  "notes": [ "A", "B" ],
+  "_gpid_": 6811
 },
 { "name": "37 PstK/37(g)",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "H": [ ["6[9]","3+"], "\u2020" ] },
   "note_number": "11\u2020",
-  "notes": [ "B", "D" ]
+  "notes": [ "B", "D" ],
+  "_gpid_": 6812
 },
 { "name": "45 PstK/32(r)",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "12\u2020",
-  "notes": [ "B" ]
+  "notes": [ "B" ],
+  "_gpid_": 6813
 },
 { "name": "50 PstK/38(g)",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "A": 4 },
   "note_number": "13",
-  "notes": [ "B" ]
+  "notes": [ "B" ],
+  "_gpid_": 6814
 },
 { "name": "75 PstK/97-38(g)",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "H": 8 },
   "capabilities_other": [ "H=B12" ],
   "note_number": "14\u2020",
-  "notes": [ "B" ]
+  "notes": [ "B" ],
+  "_gpid_": 6815
 },
 { "name": "75 PstK/40(g)",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "A": 3, "H": 4, "s": 7 },
   "note_number": "15",
-  "notes": [ "B" ]
+  "notes": [ "B" ],
+  "_gpid_": 6816
 },
 { "name": "76 RK/27(r)",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "H": [ ["6","J4+"], "\u2020" ], "s": 6 },
   "note_number": "16\u2020",
-  "notes": [ "A", "B" ]
+  "notes": [ "A", "B" ],
+  "_gpid_": 6818
 },
 { "name": "75 K/02",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "s": 6 },
-  "note_number": "17\u2020"
+  "note_number": "17\u2020",
+  "_gpid_": 6819
 },
 { "name": "76 LK/13",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "s": 6 },
-  "note_number": "18"
+  "note_number": "18",
+  "_gpid_": 6820
 },
 { "name": "76 K/02(r)",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities2": { "s": 6 },
   "note_number": "19\u2020",
-  "notes": [ "B" ]
+  "notes": [ "B" ],
+  "_gpid_": 6821
 },
 { "name": "76 K/36(r)",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "s": 6 },
   "note_number": "20\u2020",
-  "notes": [ "B", "E\u2020<sup>1</sup>" ]
+  "notes": [ "B", "E\u2020<sup>1</sup>" ],
+  "_gpid_": 6822
 },
 { "name": "87 K/95",
   "capabilities": [ "NT", "QSU", "no IF", "h-d" ],
   "capabilities_other": [ "Acq. NA\u2020" ],
   "note_number": "21",
-  "notes": [ "F\u2020" ]
+  "notes": [ "F\u2020" ],
+  "_gpid_": 6823
 },
 { "name": "90 K/77",
   "capabilities": [ "NT", "QSU", "no IF", "Acq. NA\u2020<sup>1</sup>", "h-d" ],
   "note_number": "22\u2020",
-  "notes": [ "F\u2020<sup>1</sup>" ]
+  "notes": [ "F\u2020<sup>1</sup>" ],
+  "_gpid_": 6824
 },
 { "name": "105 H/33(g)",
   "capabilities": [ "NT", "h-d" ],
   "capabilities2": { "H": [ [6,"A4+"], "\u2020" ], "s": 8 },
   "note_number": "23\u2020",
-  "notes": [ "B" ]
+  "notes": [ "B" ],
+  "_gpid_": 6826
 },
 { "name": "105 H/37",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 6 },
-  "note_number": "24\u2020"
+  "note_number": "24\u2020",
+  "_gpid_": 6827
 },
 { "name": "105 H/41(t)",
   "capabilities": [ "NT" ],
   "capabilities2": { "H": [ [6,"A4+"], "\u2020" ], "s": 8 },
   "note_number": "25\u2020",
-  "notes": [ "B" ]
+  "notes": [ "B" ],
+  "_gpid_": 6828
 },
 { "name": "107 K 10/13",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 5 },
-  "note_number": "26\u2020"
+  "note_number": "26\u2020",
+  "_gpid_": 6829
 },
 { "name": "107 K/77(r)",
   "capabilities": [ "NT", "no IF", "Acq. NA\u2020<sup>1</sup>", "h-d" ],
   "note_number": "27\u2020",
-  "notes": [ "B", "F\u2020<sup>1</sup>" ]
+  "notes": [ "B", "F\u2020<sup>1</sup>" ],
+  "_gpid_": 6830
 },
 { "name": "114 H/18(b)",
   "capabilities": [ "NT" ],
   "capabilities2": { "H": [ [4,"4+"] ], "s": 8, "WP": [ [6,"4+"] ] },
-  "note_number": "28\u2020"
+  "note_number": "28\u2020",
+  "_gpid_": 6831
 },
 { "name": "122 H/10(r)",
   "capabilities": [ "NT", "h-d" ],
   "capabilities2": { "s": 6, "WP": [ [6,"4+"] ] },
   "note_number": "29\u2020",
-  "notes": [ "B" ]
+  "notes": [ "B" ],
+  "_gpid_": 6832
 },
 { "name": "150 H/40(g)",
   "capabilities": [ "NT", "NM" ],
   "capabilities2": { "H": 6, "s": 8 },
   "note_number": "30",
-  "notes": [ "B" ]
+  "notes": [ "B" ],
+  "_gpid_": 6833
 },
 { "name": "155 H/17(f)",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 6 },
   "note_number": "31",
-  "notes": [ "B" ]
+  "notes": [ "B" ],
+  "_gpid_": 6834
 },
 { "name": "7.62 ItKK/31-40",
   "capabilities": [ "T", "QSU", "Towing NA\u2020<sup>1</sup>" ],
   "capabilities_other": [ "2 TK DR\u2020" ],
   "note_number": "32\u2020",
-  "notes": [ "C\u2020<sup>1</sup>" ]
+  "notes": [ "C\u2020<sup>1</sup>" ],
+  "_gpid_": 6796
 },
 { "name": "20 ItK/30 BSW(g)",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "NT", "20\u2020", "2 ROF", "B10" ] },
   "note_number": "33",
-  "notes": [ "B", "G\u2020" ]
+  "notes": [ "B", "G\u2020" ],
+  "_gpid_": 6797
 },
 { "name": "20 ItK/38 BSW(g)",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "NT", "20\u2020<sup>1</sup>", "2 ROF", "B11" ] },
   "note_number": "34\u2020",
-  "notes": [ "B", "G\u2020<sup>1</sup>" ]
+  "notes": [ "B", "G\u2020<sup>1</sup>" ],
+  "_gpid_": 6801
 },
 { "name": "20 ItK/35 Br",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "NT", "20\u2020<sup>1</sup>", "2 ROF" ] },
   "capabilities_other": [ "Road MP = 1\u2020" ],
   "note_number": "35\u2020",
-  "notes": [ "A", "D", "G\u2020<sup>1</sup>" ]
+  "notes": [ "A", "D", "G\u2020<sup>1</sup>" ],
+  "_gpid_": 6802
 },
 { "name": "20 ItK/40 VKT",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "NT", "20\u2020<sup>1</sup>", "2 ROF", "8 IFE", "B11" ] },
   "capabilities_other": [ "2 TK DR\u2020", "Unhooking risk\u2020" ],
   "note_number": "36\u2020",
-  "notes": [ "D", "G\u2020<sup>1</sup>" ]
+  "notes": [ "D", "G\u2020<sup>1</sup>" ],
+  "_gpid_": 6803
 },
 { "name": "40 ItK/35-39 B(s)",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "40\u2020<sup>1</sup>", "2 ROF" ] },
   "note_number": "37\u2020",
-  "notes": [ "B", "G\u2020<sup>1</sup>" ]
+  "notes": [ "B", "G\u2020<sup>1</sup>" ],
+  "_gpid_": 6804
 },
 { "name": "76 ItK/28 B(s)",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "NT", "76\u2020", "1 ROF" ] },
   "note_number": "38",
-  "notes": [ "B", "G\u2020" ]
+  "notes": [ "B", "G\u2020" ],
+  "_gpid_": 7409
 },
 { "name": "76 ItK/31(r)",
   "capabilities": [ "T" ],
   "note_number": "39",
-  "notes": [ "B", "E\u2020" ]
+  "notes": [ "B", "E\u2020" ],
+  "_gpid_": 6805
 }
 
 ]

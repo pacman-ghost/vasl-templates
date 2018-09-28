@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='jquery-ui/jquery-ui.min.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='growl/jquery.growl.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='popmenu/jquery.popmenu.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='select2/select2.min.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/main.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/sortable.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/tabs-scenario.css')}}" />
@@ -277,8 +278,7 @@
 </div>
 
 <div id="select-vo" style="display:none;">
-    <div class="header"> <b>Filter by:</b> <input type="text" size="20"> </div>
-    <select size=2></select> </div>
+    <select></select>
 </div>
 
 <div id="ask" style="display:none;"></div>
@@ -295,6 +295,7 @@
 <script src="{{url_for('static',filename='hotkey/jquery.hotkey.js')}}"></script>
 <script src="{{url_for('static',filename='download/download.min.js')}}"></script>
 <script src="{{url_for('static',filename='jszip/jszip.min.js')}}"></script>
+<script src="{{url_for('static',filename='select2/select2.min.js')}}"></script>
 <script>
 gAppName = "{{APP_NAME}}" ;
 gAppVersion = "{{APP_VERSION}}" ;

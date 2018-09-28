@@ -12,10 +12,18 @@ from vasl_templates.webapp.config.constants import APP_NAME, APP_VERSION, BASE_D
 
 # ---------------------------------------------------------------------
 
+def _load_config( fname, section ):
+    """Load config settings from a file."""
+    if not os.path.isfile( fname ):
+        return
+    config_parser = configparser.ConfigParser()
+    config_parser.optionxform = str # preserve case for the keys :-/
+    config_parser.read( fname )
+    app.config.update( dict( config_parser.items( section) ) )
+
 def load_debug_config( fname ):
     """Configure the application."""
-    config_parser.read( fname )
-    app.config.update( dict( config_parser.items( "Debug" ) ) )
+    _load_config( fname, "Debug" )
 
 # ---------------------------------------------------------------------
 
@@ -24,10 +32,12 @@ app = Flask( __name__ )
 
 # load the application configuration
 config_dir = os.path.join( BASE_DIR, "config" )
-config_parser = configparser.ConfigParser()
-config_parser.optionxform = str # preserve case for the keys :-/
-config_parser.read( os.path.join( config_dir, "app.cfg" ) )
-app.config.update( dict( config_parser.items( "System" ) ) )
+_fname = os.path.join( config_dir, "app.cfg" )
+_load_config( _fname, "System" )
+
+# load any site configuration
+_fname = os.path.join( config_dir, "site.cfg" )
+_load_config( _fname, "Site Config" )
 
 # load any debug configuration
 _fname = os.path.join( config_dir, "debug.cfg" )
@@ -47,6 +57,7 @@ else:
 import vasl_templates.webapp.main #pylint: disable=cyclic-import
 import vasl_templates.webapp.vo #pylint: disable=cyclic-import
 import vasl_templates.webapp.snippets #pylint: disable=cyclic-import
+import vasl_templates.webapp.files #pylint: disable=cyclic-import
 
 # ---------------------------------------------------------------------
 
