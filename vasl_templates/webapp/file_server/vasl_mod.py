@@ -46,6 +46,13 @@ class VaslMod:
 
         return image_path, image_data
 
+    def get_piece_info( self ):
+        """Get information about each piece."""
+        return {
+            p["gpid"]: { "name": p["name"], "is_small": p["is_small"] }
+            for p in self.pieces.values()
+        }
+
     def _parse_vmod( self, data_dir ): #pylint: disable=too-many-branches,too-many-locals
         """Parse a .vmod file."""
 
@@ -85,6 +92,7 @@ class VaslMod:
                 "name": node.attrib["entryName"],
                 "front_images": front_images,
                 "back_images": back_images,
+                "is_small": int(node.attrib["height"]) <= 48,
             }
 
             # check if we want to override any values

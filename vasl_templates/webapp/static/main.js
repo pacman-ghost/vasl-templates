@@ -2,6 +2,7 @@ gTemplatePack = {} ;
 gDefaultNationalities = {} ;
 gValidTemplateIds = [] ;
 gVehicleOrdnanceListings = {} ;
+gVaslPieceInfo = {} ;
 
 gWebChannelHandler = null ;
 gEmSize = null ;
@@ -220,6 +221,14 @@ $(document).ready( function () {
         showErrorMsg( "Can't get the ordnance listings:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
     } ) ;
 
+    // get the VASL piece info
+    $.getJSON( gGetVaslPieceInfoUrl, function(data) {
+        gVaslPieceInfo = data ;
+        update_page_load_status( "vasl-piece-info" ) ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        showErrorMsg( "Can't get the VASL piece info:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+    } ) ;
+
     // get the template pack
     $.getJSON( gGetTemplatePackUrl, function(data) {
         if ( "error" in data )
@@ -373,7 +382,7 @@ $(document).ready( function () {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-gPageLoadStatus = [ "main", "vehicle-listings", "ordnance-listings", "template-pack", "default-scenario" ] ;
+gPageLoadStatus = [ "main", "vehicle-listings", "ordnance-listings", "vasl-piece-info", "template-pack", "default-scenario" ] ;
 
 function update_page_load_status( id )
 {

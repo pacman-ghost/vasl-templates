@@ -27,7 +27,10 @@ function add_vo( vo_type, player_no )
     function format_vo_entry( opt ) {
         if ( ! opt.id )
             return opt.text ;
-        return $( "<div class='vo-entry'><img src='" + _get_vo_image_url(entries[opt.id]) + "'>" + opt.text + "</div>" ) ;
+        var div_class = "vo-entry" ;
+        if ( is_small_vasl_piece( entries[opt.id] ) )
+            div_class += " small-piece" ;
+        return $( "<div class='" + div_class + "'><img src='" + _get_vo_image_url(entries[opt.id]) + "'>" + opt.text + "</div>" ) ;
     }
     var $sel = $( "#select-vo select" ) ;
     $sel.html( buf.join("") ).select2( {
@@ -94,8 +97,12 @@ function do_add_vo( vo_type, player_no, entry )
 {
     // add the specified vehicle/ordnance
     var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
+    var div_tag = "<div" ;
+    if ( is_small_vasl_piece( entry ) )
+        div_tag += " class='small-piece'" ;
+    div_tag += ">" ;
     $sortable2.sortable2( "add", {
-        content: $( "<div>" + "<img src='"+_get_vo_image_url(entry)+"'>" + entry.name + "</div>" ),
+        content: $( div_tag + "<img src='"+_get_vo_image_url(entry)+"'>" + entry.name + "</div>" ),
         data: { caption: entry.name, vo_entry: entry },
     } ) ;
 }
@@ -116,11 +123,21 @@ function find_vo( vo_type, nat, name )
 
 // --------------------------------------------------------------------
 
-function _get_vo_image_url( entry )
+function _get_vo_image_url( vo_entry )
 {
-    if ( $.isArray( entry._gpid_ ) )
-        return "/counter/" + entry._gpid_[0] + "/front" ; // FIXME! if > 1 image available, let the user pick which one
-    if ( entry._gpid_ )
-        return "/counter/" + entry._gpid_ + "/front" ;
+    if ( $.isArray( vo_entry._gpid_ ) ) // FIXME! if > 1 image available, let the user pick which one
+        return "/counter/" + vo_entry._gpid_[0] + "/front" ;
+    if ( vo_entry._gpid_ )
+        return "/counter/" + vo_entry._gpid_ + "/front" ;
     return gImagesBaseUrl + "/missing-image.png" ;
+}
+
+function is_small_vasl_piece( vo_entry )
+{
+    var gpid = vo_entry._gpid_ ;
+    if ( $.isArray( gpid ) ) // FIXME! if > 1 image available, need to be smarter here
+        gpid = gpid[0] ;
+    if ( !( gpid in gVaslPieceInfo ) )
+        return false ;
+    return gVaslPieceInfo[gpid].is_small ;
 }
