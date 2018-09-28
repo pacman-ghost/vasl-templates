@@ -191,9 +191,13 @@ $.fn.sortable2 = function( action, args )
         // NOTE: We can't get height for sortable2's that are not visible (i.e. not in the active tab),
         // we update the heights dynamically as tabs are selected, and the window is resized.
         var available_height = $sortable2.parent().height() ;
-        var max_height = Math.max( available_height/$entries.length, 2*gEmSize ) ;
+        var max_height = Math.ceil( Math.max( available_height/$entries.length, 2*gEmSize ) ) ;
         $entries.each( function() {
-            $(this).css({ "max-height": Math.ceil(max_height)+"px", "overflow-y": "hidden" }) ;
+            var fixed_height = $(this).data( "sortable2-data" ).fixed_height ;
+            if ( fixed_height )
+                $(this).css( "height", fixed_height+"px" ) ;
+            else
+                $(this).css({ "max-height": max_height+"px", "overflow-y": "hidden" }) ;
             // check for overflow
             var entry_height = $(this).height() ;
             var content_height = $(this).children("div").height() ;

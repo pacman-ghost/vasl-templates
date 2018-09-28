@@ -96,14 +96,19 @@ function add_vo( vo_type, player_no )
 function do_add_vo( vo_type, player_no, entry )
 {
     // add the specified vehicle/ordnance
+    // NOTE: We set a fixed height for the sortable2 entries (based on the CSS settings in tabs-ob.css),
+    // so that the vehicle/ordnance images won't get truncated if there are a lot of them.
     var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
     var div_tag = "<div" ;
-    if ( is_small_vasl_piece( entry ) )
+    var fixed_height = 3.25 * gEmSize ;
+    if ( is_small_vasl_piece( entry ) ) {
         div_tag += " class='small-piece'" ;
+        fixed_height = 2.25 * gEmSize ;
+    }
     div_tag += ">" ;
     $sortable2.sortable2( "add", {
         content: $( div_tag + "<img src='"+_get_vo_image_url(entry)+"'>" + entry.name + "</div>" ),
-        data: { caption: entry.name, vo_entry: entry },
+        data: { caption: entry.name, vo_entry: entry, fixed_height: fixed_height },
     } ) ;
 }
 
