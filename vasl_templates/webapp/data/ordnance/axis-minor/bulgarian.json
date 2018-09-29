@@ -1,6 +1,7 @@
 [
 
 { "name": "LG de 50 mle 37",
+  "type": "MTR",
   "capabilities_other": [ "2PP" ],
   "note_number": "37",
   "notes": [ "A" ],
@@ -8,6 +9,7 @@
   "_gpid_": 3679
 },
 { "name": "Madsen M-35",
+  "type": "AT",
   "capabilities": [ "NT", "QSU", "no Gunshield" ],
   "capabilities_other": [ "R2", "IFE=B10\u2020" ],
   "note_number": "38\u2020",
@@ -16,18 +18,21 @@
   "_gpid_": 3775
 },
 { "name": "Skoda Infantry Gun",
+  "type": "INF",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "note_number": "39\u2020",
   "_id_": "bu/o:002",
   "_gpid_": 3776
 },
 { "name": "Skoda Infantry Gun",
+  "type": "INF",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "note_number": "39\u2020",
   "_id_": "bu/o:003",
   "_gpid_": 3777
 },
 { "name": "Bofors 75mm M36",
+  "type": "ART",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "note_number": "40\u2020",
   "notes": [ "A" ],
@@ -35,6 +40,7 @@
   "_gpid_": 3778
 },
 { "name": "75mm K-S",
+  "type": "ART",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities2": { "s": 5 },
   "note_number": "41\u2020",
@@ -42,6 +48,7 @@
   "_gpid_": 3779
 },
 { "name": "Ob 105mm GP",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 5, "LF": [ "105*\u2020<sup>1</sup>" ] },
   "note_number": "42\u2020",
@@ -50,6 +57,7 @@
   "_gpid_": 3780
 },
 { "name": "D/30 Krupp",
+  "type": "ART",
   "capabilities": [ "NT", "RFNM", "no IF" ],
   "note_number": "43",
   "_id_": "bu/o:007",

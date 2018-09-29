@@ -1,6 +1,7 @@
 [
 
 { "name": "5cm leGrW 36",
+  "type": "MTR",
   "capabilities_other": [ "5PP" ],
   "note_number": "44",
   "notes": [ "A", "H", "S", "C", "B" ],
@@ -8,6 +9,7 @@
   "_gpid_": 3680
 },
 { "name": "50mm RM obr. 40",
+  "type": "MTR",
   "capabilities_other": [ "4PP" ],
   "note_number": "45",
   "notes": [ "A", "R", "H", "S", "C" ],
@@ -15,6 +17,7 @@
   "_gpid_": 3681
 },
 { "name": "8cm GrW 34",
+  "type": "MTR",
   "capabilities": [ "NT", "QSU", "IR" ],
   "capabilities2": { "s": 7 },
   "note_number": "46\u2020",
@@ -23,6 +26,7 @@
   "_gpid_": 3709
 },
 { "name": "Brandt M27/31",
+  "type": "MTR",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "s": 7 },
   "note_number": "47\u2020",
@@ -31,6 +35,7 @@
   "_gpid_": 3711
 },
 { "name": "PM obr. 38",
+  "type": "MTR",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities2": { "s": 8 },
   "note_number": "48\u2020",
@@ -39,6 +44,7 @@
   "_gpid_": 3713
 },
 { "name": "Ur wz. 35",
+  "type": "ATR",
   "capabilities_other": [ "1PP" ],
   "note_number": "49",
   "notes": [ "R", "H", "S", "C", "B" ],
@@ -46,6 +52,7 @@
   "_gpid_": null
 },
 { "name": "s18-1100",
+  "type": "ATR",
   "capabilities_other": [ "5PP" ],
   "note_number": "50",
   "notes": [ "A", "R", "H" ],
@@ -53,6 +60,7 @@
   "_gpid_": null
 },
 { "name": "Kanon PUV vz. 37(t)",
+  "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "A": [ [4,"1S"] ] },
   "note_number": "51\u2020",
@@ -61,6 +69,7 @@
   "_gpid_": 3714
 },
 { "name": "Bohler M35",
+  "type": "AT",
   "capabilities": [ "NT", "QSU", "no Gunshield" ],
   "note_number": "52\u2020",
   "notes": [ "A", "R", "H", "S" ],
@@ -68,6 +77,7 @@
   "_gpid_": 3715
 },
 { "name": "5cm PaK 38(g)",
+  "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "A": [ [4,3], [3,4] ] },
   "note_number": "53\u2020",
@@ -76,6 +86,7 @@
   "_gpid_": 3716
 },
 { "name": "7.5cm PaK 97/38(g)",
+  "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "H": [ [5,"3+"] ], "s": 6 },
   "note_number": "54\u2020",
@@ -84,6 +95,7 @@
   "_gpid_": 3717
 },
 { "name": "7.5cm PaK 40(g)",
+  "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "A": [ [4,3], [3,4] ] },
   "note_number": "55\u2020",
@@ -92,6 +104,7 @@
   "_gpid_": 3718
 },
 { "name": "Skoda M15",
+  "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "56\u2020",
   "notes": [ "A", "R", "H", "S", "C", "B" ],
@@ -99,6 +112,7 @@
   "_gpid_": 3719
 },
 { "name": "Canon de 75 mle 1897",
+  "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "s": 7 },
   "note_number": "57",
@@ -107,6 +121,7 @@
   "_gpid_": 3720
 },
 { "name": "Skoda M29",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "AP": 6 },
   "note_number": "58\u2020",
@@ -115,6 +130,7 @@
   "_gpid_": 3721
 },
 { "name": "Skoda M17",
+  "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "59\u2020",
   "notes": [ "A", "R", "S", "C" ],
@@ -122,6 +138,7 @@
   "_gpid_": 3722
 },
 { "name": "Skoda M28(80)",
+  "type": "ART",
   "capabilities": [ "T" ],
   "note_number": "60\u2020",
   "notes": [ "S", "C" ],
@@ -129,6 +146,7 @@
   "_gpid_": 3723
 },
 { "name": "Skoda M14/19",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 8 },
   "note_number": "61\u2020",
@@ -137,6 +155,7 @@
   "_gpid_": 3724
 },
 { "name": "leFH 18(g)",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "H": [ [4,"3+"] ], "s": 5 },
   "note_number": "62\u2020",
@@ -145,6 +164,7 @@
   "_gpid_": 3725
 },
 { "name": "Skoda M35",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "AP": 7, "C": [ [7,"CS"], "\u2020" ] },
   "note_number": "63\u2020",
@@ -153,6 +173,7 @@
   "_gpid_": 3726
 },
 { "name": "G obr. 10/30",
+  "type": "ART",
   "capabilities": [ "NT", "h-d" ],
   "capabilities2": { "s": 7 },
   "note_number": "64\u2020",
@@ -161,6 +182,7 @@
   "_gpid_": 3727
 },
 { "name": "G obr. 38",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": [ [5,"1-2R"], "\u2020" ] },
   "note_number": "65",
@@ -169,6 +191,7 @@
   "_gpid_": 3728
 },
 { "name": "Skoda M14",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "note_number": "66\u2020",
   "notes": [ "R", "H", "S" ],
@@ -176,6 +199,7 @@
   "_gpid_": 3729
 },
 { "name": "Skoda M15/16",
+  "type": "ART",
   "capabilities": [ "NT", "no IF" ],
   "capabilities2": { "s": 6 },
   "note_number": "67\u2020",
@@ -184,6 +208,7 @@
   "_gpid_": 3730
 },
 { "name": "C mle 17 S",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 7 },
   "note_number": "68\u2020",
@@ -192,6 +217,7 @@
   "_gpid_": 3731
 },
 { "name": "Mitrailleuse de 13.2 CAJ mle 30",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities_other": [ "2 TK DR\u2020" ],
   "note_number": "69\u2020",
@@ -200,6 +226,7 @@
   "_gpid_": 3732
 },
 { "name": "Oerlikon FF",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "NT", "20\u2020", "2 ROF", "B11" ] },
   "note_number": "70",
@@ -208,6 +235,7 @@
   "_gpid_": 3733
 },
 { "name": "2cm FlaK 30(g)",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "NT", "20\u2020<sup>1</sup>", "2 ROF", "B9" ] },
   "note_number": "71\u2020",
@@ -216,6 +244,7 @@
   "_gpid_": 3734
 },
 { "name": "2cm FlaK 38(g)",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "NT", "20\u2020<sup>1</sup>", "2 ROF", "B10" ] },
   "note_number": "72\u2020",
@@ -224,6 +253,7 @@
   "_gpid_": 3735
 },
 { "name": "3.7cm FlaK 36(g)",
+  "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "73\u2020",
   "notes": [ "E", "R", "B" ],
@@ -231,6 +261,7 @@
   "_gpid_": 3736
 },
 { "name": "Bofors 40mm",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "40\u2020<sup>1</sup>", "2 ROF" ] },
   "note_number": "74\u2020",
@@ -239,6 +270,7 @@
   "_gpid_": 3737
 },
 { "name": "Skoda M33",
+  "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "75R",
   "notes": [ "S" ],
@@ -246,6 +278,7 @@
   "_gpid_": 3738
 },
 { "name": "8.8cm FlaK 18 o. 36(g)",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "88\u2020<sup>1</sup>", "1 ROF", "B11" ] },
   "note_number": "76\u2020",

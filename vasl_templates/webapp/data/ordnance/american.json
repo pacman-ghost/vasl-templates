@@ -1,6 +1,7 @@
 [
 
 { "name": "M2 60mm Mortar",
+  "type": "MTR",
   "capabilities": [ "IR" ],
   "capabilities2": { "WP": [ [7,5] ] },
   "capabilities_other": [ "5PP", "OBA\u2020" ],
@@ -10,6 +11,7 @@
   "_gpid_": 849
 },
 { "name": "M19 60mm Mortar",
+  "type": "MTR",
   "capabilities": [ "IR" ],
   "capabilities2": { "WP": [ [6,5] ] },
   "capabilities_other": [ "4PP" ],
@@ -19,6 +21,7 @@
   "_gpid_": 850
 },
 { "name": "M1 81mm Mortar",
+  "type": "MTR",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "WP": 8 },
   "note_number": "3",
@@ -27,6 +30,7 @@
   "_gpid_": 879
 },
 { "name": "M2 4.2-in. Mortar",
+  "type": "MTR",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "WP": 10 },
   "note_number": "4\u2020",
@@ -34,6 +38,7 @@
   "_gpid_": 881
 },
 { "name": "T25 155mm Mortar",
+  "type": "MTR",
   "capabilities": [ "NT" ],
   "capabilities2": { "WP": 8 },
   "note_number": "5\u2020",
@@ -42,6 +47,7 @@
   "_gpid_": 882
 },
 { "name": "M3A1 37mm AT Gun",
+  "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "C": [ [7,"A2+"], "\u2020<sup>1</sup>" ] },
   "note_number": "6\u2020",
@@ -50,6 +56,7 @@
   "_gpid_": 884
 },
 { "name": "M1 57mm AT Gun",
+  "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "HE": [ [7,"J4E"], [7,5], "\u2020" ], "D": [ [4,"J4+E"], "\u2020" ] },
   "note_number": "7\u2020",
@@ -57,6 +64,7 @@
   "_gpid_": 885
 },
 { "name": "M5 3-in. AT Gun",
+  "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "A": [ [4,4], [5,5], "\u2020" ], "s": [ [6,5] ] },
   "note_number": "8\u2020",
@@ -65,6 +73,7 @@
   "_gpid_": 886
 },
 { "name": "T32 37mm Manpack Gun",
+  "type": "INF",
   "capabilities": [ "5PP (3PP dm)\u2020", "C5\u2020<sup>1</sup>", "crewed\u2020<sup>2</sup>" ],
   "note_number": "9\u2020",
   "notes": [ "C\u2020<sup>1</sup>", "D\u2020<sup>2</sup>", "F" ],
@@ -72,6 +81,7 @@
   "_gpid_": null
 },
 { "name": "M18 57mm Recoilless Rifle",
+  "type": "RCL",
   "capabilities": [ "3PP", "crewed\u2020<sup>1</sup>" ],
   "capabilities2": { "H": 7, "WP": 6 },
   "note_number": "10",
@@ -80,6 +90,7 @@
   "_gpid_": null
 },
 { "name": "M20 75mm Recoilless Rifle",
+  "type": "RCL",
   "capabilities": [ "5PP", "crewed\u2020<sup>1</sup>" ],
   "capabilities2": { "H": 7, "WP": 7 },
   "note_number": "11",
@@ -88,6 +99,7 @@
   "_gpid_": null
 },
 { "name": "M1A1 75mm Pack Howitzer",
+  "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "H": 7, "WP": 8, "C": [ [4,"4+"], "\u2020<sup>1</sup>" ] },
   "note_number": "12\u2020",
@@ -96,6 +108,7 @@
   "_gpid_": 888
 },
 { "name": "M1897A2 75mm Gun",
+  "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "WP": 8 },
   "note_number": "13",
@@ -104,6 +117,7 @@
   "_gpid_": 890
 },
 { "name": "M2A1 105mm Howitzer",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "H": 6, "s": 7, "WP": 8, "C": [ [7,"4+P"], "\u2020<sup>1</sup>" ] },
   "note_number": "14\u2020",
@@ -112,6 +126,7 @@
   "_gpid_": 891
 },
 { "name": "M3 105mm Howitzer",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "H": 7, "s": 7, "WP": 8, "C": [ [7,"P"], "\u2020<sup>1</sup>" ] },
   "note_number": "15\u2020",
@@ -120,6 +135,7 @@
   "_gpid_": 892
 },
 { "name": "M1 4.5-in. Gun",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "note_number": "16\u2020",
   "notes": [ "<s>P</s>" ],
@@ -127,6 +143,7 @@
   "_gpid_": 893
 },
 { "name": "M1918 155mm Howitzer",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": [ [7,"3+"] ], "WP": 8 },
   "note_number": "17\u2020",
@@ -135,6 +152,7 @@
   "_gpid_": 894
 },
 { "name": "M1 155mm Howitzer",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 7, "WP": 8 },
   "note_number": "18\u2020",
@@ -143,6 +161,7 @@
   "_gpid_": 895
 },
 { "name": "M1918M1 155mm Gun",
+  "type": "ART",
   "capabilities": [ "NT", "RFNM", "AP4\u2020<sup>1</sup>", "no IF" ],
   "capabilities2": { "WP": 8 },
   "note_number": "19\u2020",
@@ -151,6 +170,7 @@
   "_gpid_": 896
 },
 { "name": "M1A1 155mm Gun",
+  "type": "ART",
   "capabilities": [ "NT", "RFNM", "AP4\u2020<sup>1</sup>", "no IF" ],
   "capabilities2": { "s": [ [7,5] ], "WP": 8 },
   "note_number": "20\u2020",
@@ -159,12 +179,14 @@
   "_gpid_": 897
 },
 { "name": "M1 8-in. Howitzer",
+  "type": "ART",
   "capabilities": [ "NT", "RFNM", "no IF" ],
   "note_number": "21\u2020",
   "_id_": "am/o:020",
   "_gpid_": 898
 },
 { "name": "M51 Multiple .50-cal MG Carriage",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "2 ROF", "20 IFE", "B11" ] },
   "capabilities_other": [ "4 TK DR\u2020" ],
@@ -173,6 +195,7 @@
   "_gpid_": 900
 },
 { "name": "M1A2 37mm AA Gun",
+  "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "23\u2020",
   "notes": [ "N" ],
@@ -180,6 +203,7 @@
   "_gpid_": 901
 },
 { "name": "M1 40mm AA Gun",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "40\u2020<sup>1</sup>", "2 ROF" ] },
   "note_number": "24\u2020",
@@ -188,6 +212,7 @@
   "_gpid_": 902
 },
 { "name": "M3 3-in. AA Gun",
+  "type": "AA",
   "capabilities": [ "T", "NM" ],
   "note_number": "25",
   "notes": [ "P" ],
@@ -195,6 +220,7 @@
   "_gpid_": 903
 },
 { "name": "M1A1 90mm AA Gun",
+  "type": "AA",
   "capabilities": [ "T", "NM" ],
   "note_number": "26\u2020",
   "notes": [ "N" ],
@@ -202,6 +228,7 @@
   "_gpid_": 904
 },
 { "name": "M2 90mm AA Gun",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "90\u2020", "1 ROF", "B11" ] },
   "note_number": "27\u2020<sup>1</sup>",

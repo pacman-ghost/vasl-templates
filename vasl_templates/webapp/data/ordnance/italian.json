@@ -1,6 +1,7 @@
 [
 
 { "name": "Mortaio da 45 \"Brixia\"",
+  "type": "MTR",
   "capabilities_other": [ "4PP" ],
   "note_number": "1",
   "notes": [ "N" ],
@@ -8,6 +9,7 @@
   "_gpid_": 3422
 },
 { "name": "Mortaio da 81/14",
+  "type": "MTR",
   "capabilities": [ "NT", "QSU", "IR" ],
   "capabilities2": { "s": 8 },
   "note_number": "2\u2020",
@@ -16,6 +18,7 @@
   "_gpid_": 3442
 },
 { "name": "Fucile-cc S",
+  "type": "ATR",
   "capabilities_other": [ "5PP" ],
   "note_number": "3",
   "notes": [ "N" ],
@@ -23,6 +26,7 @@
   "_gpid_": 3428
 },
 { "name": "Cannone-cc da 37/45",
+  "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "4\u2020",
   "notes": [ "C", "N", "<s>R</s>" ],
@@ -30,6 +34,7 @@
   "_gpid_": 3444
 },
 { "name": "Cannone da 47/32",
+  "type": "AT",
   "capabilities": [ "NT", "QSU", "no Gunshield" ],
   "capabilities2": { "Towed": [ [null,"A1+"], "\u2020" ] },
   "note_number": "5\u2020",
@@ -38,6 +43,7 @@
   "_gpid_": 3445
 },
 { "name": "Cannone da 65/17",
+  "type": "INF",
   "capabilities": [ "NT", "no Gunshield" ],
   "capabilities2": { "H": [ [6,"S2+"], "\u2020<sup>1</sup>" ] },
   "note_number": "6\u2020",
@@ -46,6 +52,7 @@
   "_gpid_": 3446
 },
 { "name": "Cannone da 70/15",
+  "type": "INF",
   "capabilities": [ "NT", "QSU", "Acq. NA\u2020<sup>1</sup>", "no Gunshield", "h-d" ],
   "note_number": "7\u2020",
   "notes": [ "A", "B\u2020<sup>1</sup>", "<s>R</s>" ],
@@ -53,6 +60,7 @@
   "_gpid_": 3447
 },
 { "name": "Obice da 75/13",
+  "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "8\u2020",
   "notes": [ "A" ],
@@ -60,6 +68,7 @@
   "_gpid_": 3451
 },
 { "name": "Cannone da 75/27",
+  "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "H": [ [6,"S2+"], "\u2020<sup>1</sup>" ] },
   "note_number": "9\u2020",
@@ -68,6 +77,7 @@
   "_gpid_": 3452
 },
 { "name": "Obice da 75/18",
+  "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "H": [ [6,"S2+"], "\u2020<sup>1</sup>" ], "s": 8 },
   "note_number": "10\u2020",
@@ -76,6 +86,7 @@
   "_gpid_": 3453
 },
 { "name": "Cannone da 75/32",
+  "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "H": [ [6,"S2+"], "\u2020<sup>1</sup>" ], "s": 8 },
   "note_number": "11\u2020",
@@ -84,6 +95,7 @@
   "_gpid_": 3454
 },
 { "name": "Obice da 100/17",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "H": [ [6,"S2+"], "\u2020<sup>1</sup>" ] },
   "note_number": "12\u2020",
@@ -92,6 +104,7 @@
   "_gpid_": 3455
 },
 { "name": "Cannone da 105/28",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 8 },
   "note_number": "13\u2020",
@@ -100,6 +113,7 @@
   "_gpid_": 3456
 },
 { "name": "Obice 149/13",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "note_number": "14\u2020",
   "notes": [ "N" ],
@@ -107,6 +121,7 @@
   "_gpid_": 3457
 },
 { "name": "Cannone da 149/35",
+  "type": "ART",
   "capabilities": [ "NT", "RFNM", "no IF", "Acq. NA\u2020<sup>1</sup>" ],
   "capabilities2": { "s": 8 },
   "note_number": "15\u2020",
@@ -115,6 +130,7 @@
   "_gpid_": 3458
 },
 { "name": "Cannone da 149/40",
+  "type": "ART",
   "capabilities": [ "NT", "RFNM" ],
   "note_number": "16\u2020",
   "notes": [ "N" ],
@@ -122,6 +138,7 @@
   "_gpid_": 3459
 },
 { "name": "Cannone-mitragliera da 20/65",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "NT", "20\u2020", "2 ROF" ] },
   "note_number": "17\u2020",
@@ -130,6 +147,7 @@
   "_gpid_": 3461
 },
 { "name": "Cannone-aa da 75/39",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities_other": [ "\"16\" AP TK#\u2020" ],
   "note_number": "18\u2020",
@@ -137,6 +155,7 @@
   "_gpid_": 3462
 },
 { "name": "Cannone-aa da 75/46",
+  "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "19\u2020",
   "notes": [ "N" ],
@@ -144,6 +163,7 @@
   "_gpid_": 3463
 },
 { "name": "Cannone-aa da 90/53",
+  "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "20\u2020",
   "notes": [ "N", "<s>R</s>" ],

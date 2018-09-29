@@ -1,6 +1,7 @@
 [
 
 { "name": "3.7cm Infantry Gun",
+  "type": "INF",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "note_number": "20",
   "notes": [ "Y" ],
@@ -8,6 +9,7 @@
   "_gpid_": 2223
 },
 { "name": "80mm M28/M33",
+  "type": "ART",
   "capabilities": [ "NT", "h-d" ],
   "capabilities2": { "s": 5 },
   "note_number": "21",
@@ -16,6 +18,7 @@
   "_gpid_": 2224
 },
 { "name": "100mm M14/19",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "note_number": "22",
   "notes": [ "Y" ],

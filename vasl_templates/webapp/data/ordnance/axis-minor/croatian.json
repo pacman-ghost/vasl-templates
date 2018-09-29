@@ -1,6 +1,7 @@
 [
 
 { "name": "Canonne da 65/17",
+  "type": "INF",
   "capabilities": [ "NT", "no Gunshield" ],
   "note_number": "35",
   "notes": [ "A" ],
@@ -8,6 +9,7 @@
   "_gpid_": 3772
 },
 { "name": "Skoda M28(FE)",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "note_number": "36",
   "notes": [ "A" ],

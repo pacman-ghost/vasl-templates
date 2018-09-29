@@ -1,6 +1,7 @@
 [
 
 { "name": "VCL M1931(b)",
+  "type": "aTt",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "1\u2020",
@@ -9,6 +10,7 @@
   "_gpid_": 2063
 },
 { "name": "L3/35(i)",
+  "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": "2\u2020",
   "note_number": "2\u2020",
@@ -17,6 +19,7 @@
   "_gpid_": 2065
 },
 { "name": "PzKpfw IA(g)",
+  "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "3\u2020",
@@ -25,6 +28,7 @@
   "_gpid_": 2067
 },
 { "name": "Vickers 6-Ton Mk E(b)",
+  "type": "LT",
   "no_radio": "\u00ae",
   "CS#": 3,
   "capabilities2": { "C": "5\u2020<sup>2</sup>" },
@@ -34,6 +38,7 @@
   "_gpid_": 2069
 },
 { "name": "T-26TU M33(r)",
+  "type": "LT",
   "CS#": 3,
   "note_number": "5\u2020",
   "notes": [ "A", "E\u2020<sup>1</sup>" ],
@@ -41,6 +46,7 @@
   "_gpid_": [ 2071, 2073 ]
 },
 { "name": "M3A3(a)",
+  "type": "LT",
   "CS#": 4,
   "capabilities2": { "C": "9\u2020<sup>1</sup>" },
   "note_number": "6\u2020",
@@ -49,6 +55,7 @@
   "_gpid_": [ 2075, 2077 ]
 },
 { "name": "M4A4(a)",
+  "type": "MT",
   "CS#": "5:brewup",
   "capabilities2": { "s": 8, "WP": [ [7,"J4+"], "\u2020" ] },
   "note_number": "7\u2020",
@@ -57,6 +64,7 @@
   "_gpid_": [ 2079, 2081 ]
 },
 { "name": "M3A1(a)",
+  "type": "SC",
   "CS#": 4,
   "note_number": "8\u2020",
   "notes": [ "A", "B", "E\u2020<sup>1</sup>" ],
@@ -64,6 +72,7 @@
   "_gpid_": 2085
 },
 { "name": "Stuart Recon(a)",
+  "type": "SC",
   "CS#": 5,
   "note_number": "9\u2020",
   "notes": [ "A", "B", "D\u2020<sup>1</sup>", "E\u2020<sup>2</sup>" ],
@@ -71,6 +80,7 @@
   "_gpid_": 2087
 },
 { "name": "Type 22",
+  "type": "AC",
   "no_radio": "\u00ae",
   "CS#": 4,
   "note_number": "10\u2020<sup>1</sup>",
@@ -79,6 +89,7 @@
   "_gpid_": 2089
 },
 { "name": "PSW 221(g)",
+  "type": "AC",
   "CS#": 2,
   "note_number": "11\u2020",
   "notes": [ "A", "<s>B</s>", "F\u2020" ],
@@ -86,6 +97,7 @@
   "_gpid_": 2091
 },
 { "name": "PSW 222(g)",
+  "type": "AC",
   "CS#": 3,
   "note_number": "11\u2020",
   "notes": [ "A", "<s>B</s>", "E\u2020<sup>1</sup>", "F\u2020" ],
@@ -93,6 +105,7 @@
   "_gpid_": 2093
 },
 { "name": "BA-20(r)",
+  "type": "AC",
   "no_radio": "\u00ae",
   "CS#": 3,
   "note_number": "12",
@@ -101,6 +114,7 @@
   "_gpid_": 2095
 },
 { "name": "BA-6(r)",
+  "type": "AC",
   "no_radio": "\u00ae",
   "CS#": 4,
   "note_number": "12",
@@ -109,6 +123,7 @@
   "_gpid_": 2097
 },
 { "name": "VCL Mk VI Carrier(b)",
+  "type": "APC",
   "CS#": "2\u2020",
   "note_number": "13\u2020",
   "notes": [ "A", "<s>B</s>", "H\u2020<sup>1</sup>" ],
@@ -116,6 +131,7 @@
   "_gpid_": [ 2101, 2103 ]
 },
 { "name": "Carrier A(b)",
+  "type": "APC",
   "CS#": 3,
   "note_number": "14\u2020",
   "notes": [ "A" ],
@@ -123,6 +139,7 @@
   "_gpid_": 2105
 },
 { "name": "Carrier B(b)",
+  "type": "APC",
   "CS#": 3,
   "note_number": "14\u2020",
   "notes": [ "A", "E\u2020<sup>1</sup>" ],
@@ -130,6 +147,7 @@
   "_gpid_": 2107
 },
 { "name": "Carrier C(b)",
+  "type": "APC",
   "CS#": 3,
   "note_number": "14\u2020",
   "notes": [ "A", "E\u2020<sup>1</sup>" ],
@@ -137,6 +155,7 @@
   "_gpid_": 2109
 },
 { "name": "Henschel 33(g)",
+  "type": "tr",
   "cs#": 7,
   "note_number": "15\u2020<sup>1</sup>",
   "notes": [ "A", "F\u2020" ],
@@ -144,6 +163,7 @@
   "_gpid_": 2111
 },
 { "name": "Jeep(a)",
+  "type": "tr",
   "cs#": "2\u2020",
   "note_number": "16\u2020",
   "notes": [ "A", "H\u2020<sup>1</sup>" ],
@@ -151,6 +171,7 @@
   "_gpid_": 2113
 },
 { "name": "2\u00bd-Ton(a)",
+  "type": "tr",
   "cs#": 7,
   "note_number": "16\u2020",
   "notes": [ "A" ],

@@ -1,6 +1,7 @@
 [
 
 { "name": "Type 92A",
+  "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 3,
   "note_number": "1\u2020",
@@ -9,6 +10,7 @@
   "_gpid_": 3310
 },
 { "name": "Type 92B",
+  "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 3,
   "note_number": "1\u2020",
@@ -17,6 +19,7 @@
   "_gpid_": 3312
 },
 { "name": "Type 94",
+  "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "2\u2020",
@@ -24,6 +27,7 @@
   "_gpid_": 3314
 },
 { "name": "Type 95 SO-KI",
+  "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 5,
   "note_number": "3\u2020",
@@ -31,6 +35,7 @@
   "_gpid_": 3316
 },
 { "name": "Type 97A TE-KE",
+  "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "4\u2020",
@@ -38,6 +43,7 @@
   "_gpid_": 3318
 },
 { "name": "Type 97B TE-KE",
+  "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 2,
   "no_if": true,
@@ -46,6 +52,7 @@
   "_gpid_": 3320
 },
 { "name": "Type 95 HA-GO",
+  "type": "LT",
   "no_radio": "\u00ae\u2020<sup>2</sup>",
   "CS#": 3,
   "capabilities2": { "sD": [ [5,"4+"], "\u2020<sup>1</sup>" ] },
@@ -55,18 +62,21 @@
   "_gpid_": 3322
 },
 { "name": "Type 2 KA-MI",
+  "type": "aLT",
   "CS#": "5\u2020",
   "note_number": "6\u2020",
   "_id_": "ja/v:007",
   "_gpid_": 3326
 },
 { "name": "Type 2 KA-MI (without pontoons)",
+  "type": "aLT",
   "CS#": "5\u2020",
   "note_number": "6\u2020",
   "_id_": "ja/v:008",
   "_gpid_": 3324
 },
 { "name": "Type 89A CHI-RO",
+  "type": "MT",
   "no_radio": "\u00ae",
   "CS#": 4,
   "note_number": "7\u2020",
@@ -75,6 +85,7 @@
   "_gpid_": 3329
 },
 { "name": "Type 89B CHI-RO",
+  "type": "MT",
   "no_radio": "\u00ae",
   "CS#": 4,
   "note_number": "7\u2020",
@@ -82,6 +93,7 @@
   "_gpid_": 3331
 },
 { "name": "Type 97A CHI-HA",
+  "type": "MT",
   "no_radio": "\u00ae\u2020<sup>2</sup>",
   "CS#": 4,
   "capabilities2": { "sD": [ [5,"1+"], "\u2020<sup>1</sup>" ] },
@@ -91,6 +103,7 @@
   "_gpid_": 3333
 },
 { "name": "Type 97B CHI-HA",
+  "type": "MT",
   "CS#": 4,
   "capabilities2": { "sD": 5 },
   "note_number": "8\u2020",
@@ -98,6 +111,7 @@
   "_gpid_": 3335
 },
 { "name": "Type 1 CHI-HE",
+  "type": "MT",
   "CS#": 5,
   "capabilities2": { "sD": 5 },
   "note_number": "9\u2020",
@@ -105,6 +119,7 @@
   "_gpid_": 3337
 },
 { "name": "Type 91",
+  "type": "AC",
   "CS#": 6,
   "note_number": "10\u2020",
   "notes": [ "A\u2020<sup>1</sup>" ],
@@ -112,6 +127,7 @@
   "_gpid_": [ 3341, 3343, 3345 ]
 },
 { "name": "Type 92",
+  "type": "AC",
   "CS#": 4,
   "note_number": "11\u2020",
   "notes": [ "A\u2020<sup>1</sup>" ],
@@ -119,6 +135,7 @@
   "_gpid_": [ 3347, 3349 ]
 },
 { "name": "Type 1 HO-NI I",
+  "type": "SPA",
   "CS#": 5,
   "capabilities2": { "WP": 5 },
   "note_number": "12\u2020",
@@ -126,6 +143,7 @@
   "_gpid_": 3353
 },
 { "name": "Type 4 HO-RO",
+  "type": "SPA",
   "CS#": "5:brewup",
   "no_if": true,
   "capabilities2": { "WP": 6 },
@@ -134,36 +152,42 @@
   "_gpid_": 3355
 },
 { "name": "Type 1 HO-KI",
+  "type": "APC",
   "cs#": 5,
   "note_number": "14\u2020",
   "_id_": "ja/v:018",
   "_gpid_": 3357
 },
 { "name": "Type 98 SHI-KE",
+  "type": "PC",
   "cs#": 5,
   "note_number": "15\u2020",
   "_id_": "ja/v:019",
   "_gpid_": 3359
 },
 { "name": "Type 92 I-KE",
+  "type": "PC",
   "cs#": 5,
   "note_number": "16\u2020",
   "_id_": "ja/v:020",
   "_gpid_": 3361
 },
 { "name": "Type 95",
+  "type": "tr",
   "cs#": 2,
   "note_number": "17\u2020",
   "_id_": "ja/v:021",
   "_gpid_": 3363
 },
 { "name": "Type 94",
+  "type": "tr",
   "cs#": 6,
   "note_number": "18",
   "_id_": "ja/v:022",
   "_gpid_": 3364
 },
 { "name": "Type 97",
+  "type": "tr",
   "cs#": 7,
   "note_number": "18",
   "_id_": "ja/v:023",

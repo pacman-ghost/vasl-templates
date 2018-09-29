@@ -1,6 +1,7 @@
 [
 
 { "name": "VCL M1936(b)",
+  "type": "aTt",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "25\u2020",
@@ -9,6 +10,7 @@
   "_gpid_": 2315
 },
 { "name": "CTLS-4(a)",
+  "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "26\u2020",
@@ -17,6 +19,7 @@
   "_gpid_": 2317
 },
 { "name": "M36",
+  "type": "AC",
   "no_radio": "\u00ae",
   "CS#": 5,
   "capabilities2": { "HE": 10 },
@@ -26,6 +29,7 @@
   "_gpid_": 2319
 },
 { "name": "M38",
+  "type": "AC",
   "no_radio": "\u00ae",
   "CS#": 5,
   "capabilities2": { "HE": 10 },
@@ -35,6 +39,7 @@
   "_gpid_": 2321
 },
 { "name": "M39",
+  "type": "AC",
   "no_radio": "\u00ae",
   "CS#": 6,
   "capabilities2": { "HE": 10 },
@@ -44,6 +49,7 @@
   "_gpid_": 2323
 },
 { "name": "Marmon-Herrington III(b)",
+  "type": "AC",
   "no_radio": "\u00ae",
   "CS#": 4,
   "note_number": "29\u2020",
@@ -52,6 +58,7 @@
   "_gpid_": 2325
 },
 { "name": "Jeep(a)",
+  "type": "tr",
   "cs#": "2\u2020",
   "note_number": "30\u2020",
   "notes": [ "A", "V" ],

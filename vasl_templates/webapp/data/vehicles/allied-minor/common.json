@@ -1,6 +1,7 @@
 [
 
 { "name": "L5/30(i)",
+  "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "31",
@@ -9,6 +10,7 @@
   "_gpid_": [ 2231, 2329 ]
 },
 { "name": "L3/35(i)",
+  "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "31\u2020",
@@ -17,6 +19,7 @@
   "_gpid_": [ 2233, 2331 ]
 },
 { "name": "L6/40(i)",
+  "type": "LT",
   "CS#": 2,
   "note_number": "31\u2020",
   "notes": [ "A" ],
@@ -24,6 +27,7 @@
   "_gpid_": [ 2235, 2333 ]
 },
 { "name": "M13/40(i)",
+  "type": "MT",
   "CS#": 4,
   "note_number": "31\u2020",
   "notes": [ "A" ],
@@ -31,6 +35,7 @@
   "_gpid_": [ 2237, 2335 ]
 },
 { "name": "FT-17M(f)",
+  "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "32\u2020",
@@ -39,6 +44,7 @@
   "_gpid_": 2239
 },
 { "name": "FT-17C(f)",
+  "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 2,
   "no_if": true,
@@ -49,6 +55,7 @@
   "_gpid_": 2241
 },
 { "name": "R-35(f)",
+  "type": "LT",
   "no_radio": "\u00ae",
   "CS#": 2,
   "capabilities2": { "AP": 10 },
@@ -58,6 +65,7 @@
   "_gpid_": 2243
 },
 { "name": "M3A1(a)",
+  "type": "SC",
   "CS#": 4,
   "note_number": "34\u2020",
   "notes": [ "A", "V" ],
@@ -65,6 +73,7 @@
   "_gpid_": 2245
 },
 { "name": "C-K P17(f)",
+  "type": "ht",
   "cs#": 4,
   "note_number": "35",
   "notes": [ "A" ],
@@ -72,6 +81,7 @@
   "_gpid_": 2247
 },
 { "name": "C-K P19(f)",
+  "type": "ht",
   "cs#": 5,
   "note_number": "35\u2020",
   "notes": [ "A" ],
@@ -79,6 +89,7 @@
   "_gpid_": 2249
 },
 { "name": "VCL Utility B(b)",
+  "type": "APC",
   "cs#": 2,
   "note_number": "36\u2020",
   "notes": [ "A", "H\u2020<sup>1</sup>", "V" ],
@@ -86,18 +97,21 @@
   "_gpid_": 2251
 },
 { "name": "Light Truck",
+  "type": "tr",
   "cs#": 4,
   "note_number": "37",
   "_id_": "alc/v:011",
   "_gpid_": 2253
 },
 { "name": "Medium Truck",
+  "type": "tr",
   "cs#": 5,
   "note_number": "37",
   "_id_": "alc/v:012",
   "_gpid_": 2255
 },
 { "name": "Heavy Truck",
+  "type": "tr",
   "cs#": 7,
   "note_number": "37",
   "_id_": "alc/v:013",

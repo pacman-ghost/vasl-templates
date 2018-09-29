@@ -1,6 +1,7 @@
 [
 
 { "name": "Vickers 6-Ton Mk E",
+  "type": "LT",
   "no_radio": "\u00ae",
   "CS#": 3,
   "capabilities2": { "C": "5\u2020" },

@@ -1,6 +1,7 @@
 [
 
 { "name": "OML 2-in. Mortar",
+  "type": "MTR",
   "capabilities": [ "4PP" ],
   "capabilities2": { "s": 7, "IR": [ [null,"2+"], "\u2020" ] },
   "note_number": "1",
@@ -9,6 +10,7 @@
   "_gpid_": 1153
 },
 { "name": "OML 2-in. Airborne Mortar",
+  "type": "MTR",
   "capabilities": [ "IR" ],
   "capabilities2": { "s": 7 },
   "capabilities_other": [ "3PP" ],
@@ -17,6 +19,7 @@
   "_gpid_": 1149
 },
 { "name": "OML 3-in. Mortar",
+  "type": "MTR",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "WP": 7, "s": [ [8,"1+"], "\u2020" ], "IR": [ [null,"2+"], "\u2020<sup>1</sup>" ] },
   "note_number": "2\u2020",
@@ -25,6 +28,7 @@
   "_gpid_": [ 1177, 1179 ]
 },
 { "name": "OSB 4.2-in. Mortar",
+  "type": "MTR",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 8, "WP": 7 },
   "capabilities_other": [ "Towed\u2020" ],
@@ -34,6 +38,7 @@
   "_gpid_": 1181
 },
 { "name": "OQF 25mm Hotchkiss",
+  "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "4\u2020",
   "notes": [ "B", "N" ],
@@ -41,6 +46,7 @@
   "_gpid_": 1183
 },
 { "name": "OQF 2-Pounder",
+  "type": "AT",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "NT", "40\u2020<sup>1</sup>", "2 ROF", "B11" ] },
   "note_number": "5\u2020",
@@ -49,6 +55,7 @@
   "_gpid_": 1184
 },
 { "name": "OQF 6-Pounder 7-cwt",
+  "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "HE": [ [7,"F3"], [8,"4+"], "\u2020" ], "D": [ [6,"J4E"], [7,5], "\u2020" ] },
   "note_number": "6\u2020",
@@ -57,6 +64,7 @@
   "_gpid_": 1185
 },
 { "name": "OQF 17/25-Pounder",
+  "type": "AT",
   "capabilities": [ "NT" ],
   "note_number": "7",
   "notes": [ "N" ],
@@ -64,6 +72,7 @@
   "_gpid_": 1186
 },
 { "name": "OQF 17-Pounder",
+  "type": "AT",
   "capabilities": [ "NT" ],
   "capabilities2": { "HE": [ [8,"J4+"], "\u2020" ], "D": [ [5,"S4"], [6,5], "\u2020" ] },
   "note_number": "8\u2020",
@@ -71,6 +80,7 @@
   "_gpid_": 1187
 },
 { "name": "OQF M1A1 75mm Pack Howitzer",
+  "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "H": 6, "WP": 7 },
   "note_number": "9\u2020",
@@ -79,6 +89,7 @@
   "_gpid_": 1189
 },
 { "name": "Canon de 75 mle 1897",
+  "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "s": 8 },
   "note_number": "10\u2020",
@@ -87,6 +98,7 @@
   "_gpid_": 1191
 },
 { "name": "OQF 18-Pounder",
+  "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "s": 8, "WP": 7 },
   "note_number": "11\u2020",
@@ -95,6 +107,7 @@
   "_gpid_": 1192
 },
 { "name": "OQF 25-Pounder Short",
+  "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "s": 8 },
   "note_number": "12",
@@ -103,6 +116,7 @@
   "_gpid_": 1193
 },
 { "name": "OQF 25-Pounder Gun-Howitzer",
+  "type": "ART",
   "capabilities2": { "LF": [ "NT", "0 ROF" ], "s": 8 },
   "capabilities_other": [ "ST" ],
   "note_number": "13\u2020",
@@ -111,6 +125,7 @@
   "_gpid_": 1194
 },
 { "name": "OQF 3.7-in. Howitzer",
+  "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "s": 8, "WP": 7, "H": [ [6,"3+P"], "\u2020" ] },
   "note_number": "14\u2020",
@@ -119,6 +134,7 @@
   "_gpid_": 1195
 },
 { "name": "OQF 4.5-in. Howitzer",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 8, "WP": 7 },
   "note_number": "15\u2020",
@@ -127,6 +143,7 @@
   "_gpid_": 1196
 },
 { "name": "OBL 4.5-in. Gun",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "note_number": "16\u2020",
   "notes": [ "N" ],
@@ -134,6 +151,7 @@
   "_gpid_": 1197
 },
 { "name": "OBL 5.5-in. Gun-Howitzer",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "note_number": "16\u2020",
   "notes": [ "N", "P" ],
@@ -141,6 +159,7 @@
   "_gpid_": 1198
 },
 { "name": "OBL 6-in. Howitzer",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "note_number": "17\u2020",
   "notes": [ "N", "P" ],
@@ -148,6 +167,7 @@
   "_gpid_": 1199
 },
 { "name": "OBL 7.2-in. Howitzer Mk I",
+  "type": "ART",
   "capabilities": [ "NT", "no IF" ],
   "capabilities_other": [ "Acq. NA\u2020" ],
   "note_number": "18\u2020",
@@ -156,6 +176,7 @@
   "_gpid_": 1200
 },
 { "name": "OBL 7.2-in. Howitzer Mk VI",
+  "type": "ART",
   "capabilities": [ "NT", "RFNM", "no IF" ],
   "note_number": "19\u2020",
   "notes": [ "P" ],
@@ -163,12 +184,14 @@
   "_gpid_": 1201
 },
 { "name": "OQF 20mm AA",
+  "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "20",
   "_id_": "br/o:021",
   "_gpid_": 1203
 },
 { "name": "OQF 40mm AA",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "40\u2020<sup>1</sup>", "2 ROF" ] },
   "note_number": "21\u2020",
@@ -177,6 +200,7 @@
   "_gpid_": 1204
 },
 { "name": "OQF 3-in. 20-cwt AA",
+  "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "22\u2020",
   "notes": [ "E", "P" ],
@@ -184,6 +208,7 @@
   "_gpid_": 1205
 },
 { "name": "OQF 3.7-in. AA",
+  "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "23\u2020",
   "notes": [ "E", "N", "P" ],

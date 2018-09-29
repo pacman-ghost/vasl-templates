@@ -1,6 +1,7 @@
 [
 
 { "name": "L3/35(i)",
+  "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "29\u2020",
@@ -9,6 +10,7 @@
   "_gpid_": 3787
 },
 { "name": "FT-17M(f)",
+  "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 2,
   "no_if": true,
@@ -18,6 +20,7 @@
   "_gpid_": 3789
 },
 { "name": "FT-17C(f)",
+  "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 2,
   "capabilities2": { "AP": 9 },
@@ -27,6 +30,7 @@
   "_gpid_": 3791
 },
 { "name": "PzKpfw IB(g)",
+  "type": "Tt",
   "CS#": 2,
   "capabilities2": { "sD": 6 },
   "note_number": "31\u2020",
@@ -35,6 +39,7 @@
   "_gpid_": 3827
 },
 { "name": "R-35(f)",
+  "type": "LT",
   "no_radio": "\u00ae",
   "CS#": 2,
   "capabilities2": { "AP": 10 },
@@ -44,6 +49,7 @@
   "_gpid_": [ 3795, 3906 ]
 },
 { "name": "H39(f)",
+  "type": "LT",
   "no_radio": "\u00ae",
   "CS#": 2,
   "capabilities2": { "AP": 10 },
@@ -53,6 +59,7 @@
   "_gpid_": 3793
 },
 { "name": "LT vz 35(g)",
+  "type": "LT",
   "CS#": 4,
   "capabilities2": { "sD": 5 },
   "note_number": "34\u2020",
@@ -61,6 +68,7 @@
   "_gpid_": 3825
 },
 { "name": "LT vz 38(t)A",
+  "type": "LT",
   "CS#": 4,
   "capabilities2": { "A": [ [3,1], [4,2], [3,3] ], "sD": 6 },
   "note_number": "35\u2020",
@@ -69,6 +77,7 @@
   "_gpid_": 3799
 },
 { "name": "LT vz 38(t)E",
+  "type": "LT",
   "CS#": 4,
   "capabilities2": { "A": [ [4,2], [3,3] ], "sD": 7 },
   "note_number": "35\u2020",
@@ -77,6 +86,7 @@
   "_gpid_": 3801
 },
 { "name": "S-35(f)",
+  "type": "MT",
   "CS#": 4,
   "note_number": "36\u2020",
   "notes": [ "A\u2020<sup>1</sup>", "D", "E", "H", "S" ],
@@ -84,6 +94,7 @@
   "_gpid_": 3797
 },
 { "name": "PzKpfw IIIL(g)",
+  "type": "MT",
   "CS#": 5,
   "capabilities2": { "A": [ [5,2], [4,3], [3,4] ], "sD": 5 },
   "note_number": "37\u2020",
@@ -92,6 +103,7 @@
   "_gpid_": [ 3829, 3831 ]
 },
 { "name": "PzKpfw IIIN(g)",
+  "type": "MT",
   "CS#": 5,
   "capabilities2": { "H": [ [8,"3+"] ], "s": 8, "sD": 7 },
   "note_number": "38\u2020",
@@ -100,6 +112,7 @@
   "_gpid_": [ 3833, 3835 ]
 },
 { "name": "PzKpfw IVD(g)",
+  "type": "MT",
   "CS#": 5,
   "capabilities2": { "AP": 7, "H": [ [5,"3+"] ], "s": 8, "sD": 7 },
   "note_number": "39\u2020",
@@ -108,6 +121,7 @@
   "_gpid_": 3837
 },
 { "name": "PzKpfw IVF1(g)",
+  "type": "MT",
   "CS#": 6,
   "capabilities2": { "AP": 7, "H": [ [5,"3+"] ], "s": 8, "sD": 7 },
   "note_number": "39\u2020",
@@ -116,6 +130,7 @@
   "_gpid_": 3839
 },
 { "name": "PzKpfw IVH(g)",
+  "type": "MT",
   "CS#": 6,
   "capabilities2": { "A": [ [4,2], [3,3] ], "s": 7, "sD": 5 },
   "note_number": "39\u2020",
@@ -124,6 +139,7 @@
   "_gpid_": [ 3841, 3843 ]
 },
 { "name": "StuG IIIG(g)",
+  "type": "AG",
   "CS#": 4,
   "capabilities2": { "A": [ [3,4] ], "s": 8, "sD": 7 },
   "note_number": "40\u2020",
@@ -132,6 +148,7 @@
   "_gpid_": 3845
 },
 { "name": "JgdPz 38(t)",
+  "type": "TD",
   "CS#": 4,
   "capabilities2": { "A": [ [3,4] ], "HE": 7 },
   "note_number": "41\u2020",
@@ -140,6 +157,7 @@
   "_gpid_": 3803
 },
 { "name": "SPW 250/1(g)",
+  "type": "ht",
   "CS#": 4,
   "note_number": "42\u2020",
   "notes": [ "E", "R" ],
@@ -147,6 +165,7 @@
   "_gpid_": 3847
 },
 { "name": "SPW 251/1(g)",
+  "type": "ht",
   "CS#": 5,
   "note_number": "42\u2020",
   "notes": [ "E", "R", "C" ],
@@ -154,6 +173,7 @@
   "_gpid_": 3849
 },
 { "name": "SPW 251/9(g)",
+  "type": "ht",
   "CS#": "4:brewup",
   "capabilities2": { "H": 5, "s": 8 },
   "note_number": "42\u2020",
@@ -162,6 +182,7 @@
   "_gpid_": 3851
 },
 { "name": "OA vz 30(t)",
+  "type": "AC",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "43\u2020",
@@ -170,6 +191,7 @@
   "_gpid_": 3805
 },
 { "name": "AB 41(i)",
+  "type": "AC",
   "CS#": 4,
   "note_number": "44\u2020",
   "notes": [ "E", "R", "C" ],
@@ -177,6 +199,7 @@
   "_gpid_": 3807
 },
 { "name": "PSW 222(g)",
+  "type": "AC",
   "CS#": 3,
   "capabilities2": { "sD": 6 },
   "note_number": "45\u2020",
@@ -185,6 +208,7 @@
   "_gpid_": 3853
 },
 { "name": "PSW 222(L)(g)",
+  "type": "AC",
   "CS#": 3,
   "capabilities2": { "sD": 6 },
   "note_number": "45\u2020",
@@ -193,6 +217,7 @@
   "_gpid_": 3855
 },
 { "name": "PSW 223(g)",
+  "type": "AC",
   "CS#": 3,
   "capabilities2": { "sD": 6 },
   "note_number": "46\u2020",
@@ -201,6 +226,7 @@
   "_gpid_": 3857
 },
 { "name": "Komsomolet(r)",
+  "type": "APC",
   "cs#": "2\u2020<sup>1</sup>",
   "note_number": "47\u2020",
   "notes": [ "E", "F", "I\u2020<sup>1</sup>", "J", "R", "H", "S", "C", "B" ],
@@ -208,6 +234,7 @@
   "_gpid_": [ 3809, 3811 ]
 },
 { "name": "RSO(g)",
+  "type": "PC",
   "cs#": 5,
   "note_number": "48",
   "notes": [ "S", "B" ],
@@ -215,6 +242,7 @@
   "_gpid_": 3859
 },
 { "name": "Light Tractor",
+  "type": "PC",
   "cs#": 4,
   "note_number": "49",
   "notes": [ "R", "H", "S", "C", "B" ],
@@ -222,6 +250,7 @@
   "_gpid_": 3813
 },
 { "name": "Medium Tractor",
+  "type": "PC",
   "cs#": 5,
   "note_number": "49",
   "notes": [ "R", "H", "S", "C", "B" ],
@@ -229,6 +258,7 @@
   "_gpid_": 3815
 },
 { "name": "Heavy Tractor",
+  "type": "PC",
   "cs#": 6,
   "note_number": "49",
   "notes": [ "R", "H", "S", "C", "B" ],
@@ -236,6 +266,7 @@
   "_gpid_": 3817
 },
 { "name": "Light Truck",
+  "type": "tr",
   "cs#": 4,
   "note_number": "50",
   "notes": [ "R", "H", "S", "C", "B" ],
@@ -243,6 +274,7 @@
   "_gpid_": 3819
 },
 { "name": "Medium Truck",
+  "type": "tr",
   "cs#": 5,
   "note_number": "50",
   "notes": [ "R", "H", "S", "C", "B" ],
@@ -250,6 +282,7 @@
   "_gpid_": 3821
 },
 { "name": "Heavy Truck",
+  "type": "tr",
   "cs#": 7,
   "note_number": "50",
   "notes": [ "R", "H", "S", "C", "B" ],

@@ -1,6 +1,7 @@
 [
 
 { "name": "Nimbus",
+  "type": "TDmc",
   "CS#": [ null, "\u2020" ],
   "capabilities": [ "M8\u2020" ],
   "note_number": "24\u2020",

@@ -1,6 +1,7 @@
 [
 
 { "name": "Type 27 Grenade Launcher",
+  "type": "MTR",
   "capabilities_other": [ "2PP", "Air Bursts NA\u2020" ],
   "note_number": "1\u2020",
   "notes": [ "A" ],
@@ -8,6 +9,7 @@
   "_gpid_": 1982
 },
 { "name": "Mortaio da 45 \"Brixia\"",
+  "type": "MTR",
   "capabilities_other": [ "4PP" ],
   "note_number": "2",
   "notes": [ "A", "D\u2020" ],
@@ -15,6 +17,7 @@
   "_gpid_": [ 1983, 1984 ]
 },
 { "name": "5cm leGrW 36",
+  "type": "MTR",
   "capabilities_other": [ "5PP" ],
   "note_number": "2",
   "notes": [ "A" ],
@@ -22,6 +25,7 @@
   "_gpid_": 1985
 },
 { "name": "50mm RM obr. 38",
+  "type": "MTR",
   "capabilities_other": [ "5PP" ],
   "note_number": "2",
   "notes": [ "A" ],
@@ -29,6 +33,7 @@
   "_gpid_": 1986
 },
 { "name": "Type 89 Heavy Grenade Launcher",
+  "type": "MTR",
   "capabilities": [ "IR" ],
   "capabilities2": { "s": 5, "WP": 5 },
   "capabilities_other": [ "4PP" ],
@@ -38,6 +43,7 @@
   "_gpid_": 1987
 },
 { "name": "M2 60mm",
+  "type": "MTR",
   "capabilities": [ "IR" ],
   "capabilities_other": [ "5PP", "OBA\u2020" ],
   "note_number": "3\u2020",
@@ -46,6 +52,7 @@
   "_gpid_": 1988
 },
 { "name": "Stokes 3-in.",
+  "type": "MTR",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "4",
   "notes": [ "A", "E\u2020" ],
@@ -53,6 +60,7 @@
   "_gpid_": 2016
 },
 { "name": "8cm GrW 34",
+  "type": "MTR",
   "capabilities": [ "NT", "QSU", "IR" ],
   "capabilities2": { "s": 6 },
   "note_number": "4",
@@ -61,6 +69,7 @@
   "_gpid_": 2018
 },
 { "name": "82mm BM obr. 37",
+  "type": "MTR",
   "capabilities": [ "NT", "QSU", "IR" ],
   "capabilities2": { "s": 6 },
   "note_number": "4",
@@ -69,6 +78,7 @@
   "_gpid_": 2020
 },
 { "name": "M1 81mm",
+  "type": "MTR",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "WP": 7 },
   "note_number": "5",
@@ -77,6 +87,7 @@
   "_gpid_": 2022
 },
 { "name": "M2 4.2-in.",
+  "type": "MTR",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "WP": 9 },
   "note_number": "5\u2020",
@@ -85,6 +96,7 @@
   "_gpid_": 2024
 },
 { "name": "3.7cm PaK 35/36",
+  "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "6",
   "notes": [ "E\u2020" ],
@@ -92,6 +104,7 @@
   "_gpid_": 2026
 },
 { "name": "M3A1 37mm",
+  "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "C": "7\u2020<sup>1</sup>" },
   "note_number": "6\u2020",
@@ -100,6 +113,7 @@
   "_gpid_": 2027
 },
 { "name": "37mm PP obr. 15R",
+  "type": "ART",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities_other": [ "Low Ammo\u2020" ],
   "note_number": "7\u2020",
@@ -108,6 +122,7 @@
   "_gpid_": 2029
 },
 { "name": "Cannone da 70/15",
+  "type": "ART",
   "capabilities": [ "NT", "QSU", "Acq. NA\u2020", "Low Ammo\u2020", "h-d" ],
   "note_number": "7\u2020",
   "notes": [ "A", "<s>B</s>" ],
@@ -115,6 +130,7 @@
   "_gpid_": 2030
 },
 { "name": "7.5cm Krupp M08",
+  "type": "ART",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities2": { "s": 5, "AP": 5 },
   "note_number": "8",
@@ -123,6 +139,7 @@
   "_gpid_": 2031
 },
 { "name": "Obice da 75/13",
+  "type": "ART",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "note_number": "8",
   "notes": [ "A", "D\u2020", "F\u2020<sup>1</sup>" ],
@@ -130,12 +147,14 @@
   "_gpid_": [ 2032, 2033 ]
 },
 { "name": "7.5cm leIG 18",
+  "type": "ART",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "note_number": "9\u2020",
   "_id_": "ch/o:017",
   "_gpid_": 2034
 },
 { "name": "76.2mm PP obr. 27",
+  "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "s": 6, "AP": 6 },
   "note_number": "9\u2020<sup>1</sup>",
@@ -144,6 +163,7 @@
   "_gpid_": [ 2035, 2036 ]
 },
 { "name": "M1A1 75mm Pack Howitzer",
+  "type": "ART",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities2": { "WP": 7, "C": "5\u2020<sup>1</sup>" },
   "note_number": "10\u2020",
@@ -152,6 +172,7 @@
   "_gpid_": 2037
 },
 { "name": "7.7cm FK 16",
+  "type": "ART",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities2": { "s": 5, "AP": 6 },
   "note_number": "11",
@@ -160,6 +181,7 @@
   "_gpid_": 2039
 },
 { "name": "76.2mm P obr. 02/30",
+  "type": "ART",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities2": { "s": 6, "AP": 6 },
   "note_number": "11",
@@ -168,6 +190,7 @@
   "_gpid_": [ 2040, 2041 ]
 },
 { "name": "OQF 18-Pounder",
+  "type": "ART",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities2": { "s": 6, "WP": 5, "AP": 6 },
   "note_number": "11",
@@ -176,6 +199,7 @@
   "_gpid_": 2042
 },
 { "name": "10.5cm leFH 16",
+  "type": "ART",
   "capabilities": [ "NT", "h-d" ],
   "capabilities2": { "s": 6 },
   "note_number": "12\u2020",
@@ -184,6 +208,7 @@
   "_gpid_": 2043
 },
 { "name": "Cannone da 105/28",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 6, "AP": 5 },
   "note_number": "12",
@@ -192,6 +217,7 @@
   "_gpid_": 2044
 },
 { "name": "M2A1 105mm Howitzer",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 6, "WP": 7, "C": "5\u2020" },
   "note_number": "12",
@@ -200,6 +226,7 @@
   "_gpid_": 2045
 },
 { "name": "122mm G obr. 10/30",
+  "type": "ART",
   "capabilities": [ "NT", "h-d" ],
   "capabilities2": { "s": 6 },
   "note_number": "13",
@@ -208,6 +235,7 @@
   "_gpid_": [ 2046, 5852 ]
 },
 { "name": "122mm G obr. 38",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 6 },
   "note_number": "13",
@@ -216,6 +244,7 @@
   "_gpid_": [ 2048, 5853 ]
 },
 { "name": "Obice da 149/13",
+  "type": "ART",
   "capabilities": [ "NT", "h-d<sup>C</sup>\u2020" ],
   "capabilities2": { "s": 5, "WP": [ [6,"B"], "\u2020" ] },
   "note_number": "14\u2020",
@@ -223,6 +252,7 @@
   "_gpid_": 2050
 },
 { "name": "Oerlikon FF",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "NT", "20\u2020", "2 ROF", "B10" ] },
   "note_number": "15\u2020<sup>1</sup>",
@@ -231,6 +261,7 @@
   "_gpid_": 2052
 },
 { "name": "Cannone-mitragliera da 20/65",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "NT", "20\u2020<sup>1</sup>", "2 ROF" ] },
   "note_number": "15\u2020<sup>2</sup>",
@@ -239,6 +270,7 @@
   "_gpid_": [ 2053, 5854 ]
 },
 { "name": "2cm FlaK 30",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "NT", "20\u2020", "2 ROF", "B10" ] },
   "note_number": "15\u2020<sup>1</sup>",
@@ -247,6 +279,7 @@
   "_gpid_": 2055
 },
 { "name": "3.7cm FlaK 36 o. 37",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "AP": 6 },
   "note_number": "16",
@@ -255,6 +288,7 @@
   "_gpid_": 2056
 },
 { "name": "Bofors 40mm L/60",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "40\u2020<sup>1</sup>", "2 ROF" ], "AP": 6 },
   "note_number": "16\u2020",
@@ -263,6 +297,7 @@
   "_gpid_": 2057
 },
 { "name": "Bofors 75mm M29",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "75\u2020<sup>1</sup>", "1 ROF", "B10\u2020" ], "AP": 6 },
   "note_number": "17",
@@ -271,6 +306,7 @@
   "_gpid_": [ 2058, 5855 ]
 },
 { "name": "8.8cm FlaK 18",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "88\u2020<sup>1</sup>", "1 ROF", "B10\u2020" ], "AP": 6 },
   "note_number": "17",

@@ -1,6 +1,7 @@
 [
 
 { "name": "LG de 50 mle 37(f)",
+  "type": "MTR",
   "capabilities_other": [ "2PP", "crewed\u2020" ],
   "note_number": "1",
   "notes": [ "A", "B", "C\u2020", "E" ],
@@ -8,6 +9,7 @@
   "_gpid_": 1636
 },
 { "name": "Mortier de 60 mle 35",
+  "type": "MTR",
   "capabilities": [ "5PP", "no OBA\u2020" ],
   "capabilities2": { "IR": [ [null,"2+"], "\u2020" ] },
   "note_number": "2\u2020",
@@ -16,6 +18,7 @@
   "_gpid_": 1641
 },
 { "name": "Mortier de 81 mle 27/31",
+  "type": "MTR",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "s": 8 },
   "note_number": "3\u2020",
@@ -24,6 +27,7 @@
   "_gpid_": 1667
 },
 { "name": "Fusil Antichar Boys",
+  "type": "ATR",
   "capabilities_other": [ "1PP" ],
   "note_number": "4\u2020",
   "notes": [ "B" ],
@@ -31,6 +35,7 @@
   "_gpid_": null
 },
 { "name": "Canon AC de 25 SA-L mle 34",
+  "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "5\u2020",
   "notes": [ "B", "P" ],
@@ -38,6 +43,7 @@
   "_gpid_": 1669
 },
 { "name": "Canon AC de 47 SA mle 37 APX",
+  "type": "AT",
   "capabilities": [ "NT", "QSU", "APCR only\u2020<sup>1</sup>" ],
   "note_number": "6\u2020<sup>1</sup>",
   "notes": [ "B", "G\u2020", "P", "V" ],
@@ -45,6 +51,7 @@
   "_gpid_": [ 1670, 1671, 1672 ]
 },
 { "name": "Canon de 75 AC mle 97/35",
+  "type": "AT",
   "capabilities": [ "h-d" ],
   "capabilities2": { "LF": [ "NT" ], "HE": 7, "s": 6 },
   "capabilities_other": [ "ST", "no shield" ],
@@ -54,6 +61,7 @@
   "_gpid_": 1673
 },
 { "name": "Canon de 37 mle 16 TR",
+  "type": "INF",
   "capabilities_other": [ "5PP (3PP dm)", "crewed\u2020" ],
   "note_number": "8\u2020<sup>1</sup>",
   "notes": [ "A", "C\u2020" ],
@@ -61,6 +69,7 @@
   "_gpid_": 1632
 },
 { "name": "Canon de 65 M mle 06",
+  "type": "INF",
   "capabilities": [ "NT", "QSU", "no Gunshield", "h-d" ],
   "note_number": "9\u2020",
   "notes": [ "A", "P" ],
@@ -68,6 +77,7 @@
   "_gpid_": 1674
 },
 { "name": "Canon de 75 M mle 28",
+  "type": "ART",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities2": { "s": 6, "AP": 5 },
   "note_number": "10\u2020",
@@ -76,6 +86,7 @@
   "_gpid_": 1678
 },
 { "name": "Canon de 75 mle 1897",
+  "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "s": 8 },
   "note_number": "11\u2020",
@@ -84,6 +95,7 @@
   "_gpid_": [ 1679, 1704 ]
 },
 { "name": "Canon de 105 M mle 28",
+  "type": "ART",
   "capabilities": [ "NT", "h-d" ],
   "note_number": "12\u2020",
   "notes": [ "A", "P" ],
@@ -91,6 +103,7 @@
   "_gpid_": 1680
 },
 { "name": "Canon de 105 C mle 35 B",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "note_number": "13",
   "notes": [ "E", "F\u2020" ],
@@ -98,6 +111,7 @@
   "_gpid_": 1681
 },
 { "name": "Canon de 105 L mle 13 S",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "note_number": "14\u2020",
   "notes": [ "P" ],
@@ -105,6 +119,7 @@
   "_gpid_": 1682
 },
 { "name": "Canon de 105 L mle 36 S",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "note_number": "15",
   "notes": [ "E", "F\u2020" ],
@@ -112,6 +127,7 @@
   "_gpid_": 1683
 },
 { "name": "Canon de 155 C mle 17 S",
+  "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 8 },
   "note_number": "16\u2020",
@@ -119,12 +135,14 @@
   "_gpid_": 1684
 },
 { "name": "Canon de 155 GPF",
+  "type": "ART",
   "capabilities": [ "NT", "RFNM", "no IF" ],
   "note_number": "17\u2020",
   "_id_": "fr/o:016",
   "_gpid_": 1685
 },
 { "name": "Mitrailleuse de 13.2 CAJ mle 30",
+  "type": "AA",
   "capabilities": [ "T", "2 TK DR\u2020<sup>1</sup>", "Towing NA\u2020<sup>1</sup>" ],
   "note_number": "18\u2020<sup>1</sup>",
   "notes": [ "B", "G\u2020", "V" ],
@@ -132,6 +150,7 @@
   "_gpid_": [ 1687, 1688, 1689 ]
 },
 { "name": "Mitrailleuse de 20 CA mle 39 O",
+  "type": "AA",
   "capabilities": [ "T" ],
   "capabilities2": { "LF": [ "NT", "20\u2020", "2 ROF", "B11" ] },
   "note_number": "19\u2020",
@@ -139,6 +158,7 @@
   "_gpid_": 1690
 },
 { "name": "Canon Automatique de 25 CA mle 38",
+  "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "20\u2020<sup>1</sup>",
   "notes": [ "G\u2020" ],
@@ -146,6 +166,7 @@
   "_gpid_": [ 1691, 1692 ]
 },
 { "name": "Canon de 75 CA mle 32",
+  "type": "AA",
   "capabilities": [ "T", "NM" ],
   "note_number": "21\u2020",
   "_id_": "fr/o:020",

@@ -30,7 +30,13 @@ function add_vo( vo_type, player_no )
         var div_class = "vo-entry" ;
         if ( is_small_vasl_piece( entries[opt.id] ) )
             div_class += " small-piece" ;
-        return $( "<div class='" + div_class + "'><img src='" + _get_vo_image_url(entries[opt.id]) + "'>" + opt.text + "</div>" ) ;
+        var buf2 = ["<div class='" + div_class + "'>",
+            "<img src='" + _get_vo_image_url(entries[opt.id]) + "'>",
+            opt.text,
+            entries[opt.id].type ? "&nbsp;<span class='vo-type'>("+entries[opt.id].type+")</span>" : "",
+            "</div>"
+        ] ;
+        return $( buf2.join("") ) ;
     }
     var $sel = $( "#select-vo select" ) ;
     $sel.html( buf.join("") ).select2( {
