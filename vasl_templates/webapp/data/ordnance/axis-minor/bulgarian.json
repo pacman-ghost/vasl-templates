@@ -4,6 +4,7 @@
   "capabilities_other": [ "2PP" ],
   "note_number": "37",
   "notes": [ "A" ],
+  "_id_": "bu/o:000",
   "_gpid_": 3679
 },
 { "name": "Madsen M-35",
@@ -11,28 +12,33 @@
   "capabilities_other": [ "R2", "IFE=B10\u2020" ],
   "note_number": "38\u2020",
   "notes": [ "T\u2020<sup>1</sup>" ],
+  "_id_": "bu/o:001",
   "_gpid_": 3775
 },
 { "name": "Skoda Infantry Gun",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "note_number": "39\u2020",
+  "_id_": "bu/o:002",
   "_gpid_": 3776
 },
 { "name": "Skoda Infantry Gun",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "note_number": "39\u2020",
+  "_id_": "bu/o:003",
   "_gpid_": 3777
 },
 { "name": "Bofors 75mm M36",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "note_number": "40\u2020",
   "notes": [ "A" ],
+  "_id_": "bu/o:004",
   "_gpid_": 3778
 },
 { "name": "75mm K-S",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities2": { "s": 5 },
   "note_number": "41\u2020",
+  "_id_": "bu/o:005",
   "_gpid_": 3779
 },
 { "name": "Ob 105mm GP",
@@ -40,11 +46,13 @@
   "capabilities2": { "s": 5, "LF": [ "105*\u2020<sup>1</sup>" ] },
   "note_number": "42\u2020",
   "notes": [ "G\u2020<sup>1</sup>" ],
+  "_id_": "bu/o:006",
   "_gpid_": 3780
 },
 { "name": "D/30 Krupp",
   "capabilities": [ "NT", "RFNM", "no IF" ],
   "note_number": "43",
+  "_id_": "bu/o:007",
   "_gpid_": 3781
 }
 

@@ -4,6 +4,7 @@
   "capabilities": [ "NT", "QSU", "h-d" ],
   "note_number": "20",
   "notes": [ "Y" ],
+  "_id_": "yu/o:000",
   "_gpid_": 2223
 },
 { "name": "80mm M28/M33",
@@ -11,12 +12,14 @@
   "capabilities2": { "s": 5 },
   "note_number": "21",
   "notes": [ "Y" ],
+  "_id_": "yu/o:001",
   "_gpid_": 2224
 },
 { "name": "100mm M14/19",
   "capabilities": [ "NT" ],
   "note_number": "22",
   "notes": [ "Y" ],
+  "_id_": "yu/o:002",
   "_gpid_": 2225
 }
 

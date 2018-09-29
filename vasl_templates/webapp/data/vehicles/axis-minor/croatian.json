@@ -5,6 +5,7 @@
   "CS#": 2,
   "note_number": "24\u2020",
   "notes": [ "F" ],
+  "_id_": "cr/v:000",
   "_gpid_": 3892
 },
 { "name": "TKS(L)",
@@ -12,29 +13,34 @@
   "CS#": 2,
   "note_number": "24\u2020",
   "notes": [ "F" ],
+  "_id_": "cr/v:001",
   "_gpid_": 3894
 },
 { "name": "L6/40(i)",
   "CS#": 2,
   "note_number": "25",
+  "_id_": "cr/v:002",
   "_gpid_": 3896
 },
 { "name": "wz 34-I",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "26",
+  "_id_": "cr/v:003",
   "_gpid_": 3898
 },
 { "name": "wz 34-II",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "26",
+  "_id_": "cr/v:004",
   "_gpid_": 3900
 },
 { "name": "SMV L40 da 47/32",
   "CS#": 3,
   "note_number": "27\u2020",
   "notes": [ "O\u2020<sup>1</sup>" ],
+  "_id_": "cr/v:005",
   "_gpid_": 3902
 }
 

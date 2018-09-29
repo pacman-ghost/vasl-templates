@@ -5,12 +5,14 @@
   "damage_points": 2,
   "note_number": "1\u2020",
   "notes": [ "A\u2020<sup>1</sup>", "B\u2020<sup>3</sup>", "C\u2020<sup>2</sup>", "D" ],
+  "_id_": "sh/v:000",
   "_gpid_": [ 399, 397 ]
 },
 { "name": "LCA",
   "CS#": 6,
   "damage_points": 3,
   "note_number": "2\u2020",
+  "_id_": "sh/v:001",
   "_gpid_": 401
 },
 { "name": "LCVP",
@@ -18,12 +20,14 @@
   "damage_points": 3,
   "note_number": "3\u2020",
   "notes": [ "B\u2020<sup>2</sup>", "C\u2020<sup>1</sup>" ],
+  "_id_": "sh/v:002",
   "_gpid_": [ 403, 405 ]
 },
 { "name": "LCV",
   "CS#": 5,
   "damage_points": 3,
   "note_number": "3\u2020",
+  "_id_": "sh/v:003",
   "_gpid_": null
 },
 { "name": "LCM(3)",
@@ -31,6 +35,7 @@
   "damage_points": 5,
   "note_number": "4\u2020",
   "notes": [ "B\u2020<sup>2</sup>", "C\u2020<sup>1</sup>" ],
+  "_id_": "sh/v:004",
   "_gpid_": [ 407, 409 ]
 },
 { "name": "LCI(S)",
@@ -38,6 +43,7 @@
   "damage_points": 14,
   "note_number": "5\u2020",
   "notes": [ "C\u2020<sup>3</sup>", "D", "E\u2020<sup>2</sup>", "F\u2020<sup>1</sup>", "G" ],
+  "_id_": "sh/v:005",
   "_gpid_": 411
 },
 { "name": "LCT(4)",
@@ -45,6 +51,7 @@
   "damage_points": 10,
   "note_number": "6\u2020",
   "notes": [ "C\u2020<sup>3</sup>", "E\u2020<sup>2</sup>", "F\u2020<sup>1</sup>", "G" ],
+  "_id_": "sh/v:006",
   "_gpid_": [ 413, 415 ]
 },
 { "name": "Daihatsu",
@@ -52,6 +59,7 @@
   "damage_points": 3,
   "note_number": "7\u2020",
   "notes": [ "A\u2020<sup>1</sup>" ],
+  "_id_": "sh/v:007",
   "_gpid_": 417
 },
 { "name": "Shohatsu",
@@ -59,6 +67,7 @@
   "damage_points": 2,
   "note_number": "8\u2020",
   "notes": [ "A\u2020", "D" ],
+  "_id_": "sh/v:008",
   "_gpid_": 419
 }
 

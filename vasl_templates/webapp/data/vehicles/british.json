@@ -5,18 +5,21 @@
   "capabilities2": { "sD": 6 },
   "note_number": "1\u2020",
   "notes": [ "N", "P" ],
+  "_id_": "br/v:000",
   "_gpid_": 1208
 },
 { "name": "Mark VIC",
   "CS#": 3,
   "capabilities2": { "sD": 6 },
   "note_number": "1\u2020",
+  "_id_": "br/v:001",
   "_gpid_": 1210
 },
 { "name": "Tetrarch",
   "CS#": 3,
   "capabilities2": { "sD": 6 },
   "note_number": "2\u2020",
+  "_id_": "br/v:002",
   "_gpid_": 1212
 },
 { "name": "Tetrarch CS",
@@ -24,6 +27,7 @@
   "capabilities2": { "HE": "9\u2020<sup>1</sup>", "s": [ null, "\u2020<sup>1</sup>" ], "sD": 6 },
   "note_number": "2\u2020",
   "notes": [ "S\u2020<sup>1</sup>" ],
+  "_id_": "br/v:003",
   "_gpid_": 1214
 },
 { "name": "Stuart I(a)",
@@ -31,6 +35,7 @@
   "capabilities2": { "sD": 5 },
   "note_number": "3\u2020",
   "notes": [ "A", "N", "P" ],
+  "_id_": "br/v:004",
   "_gpid_": 1216
 },
 { "name": "Stuart III(a)",
@@ -38,6 +43,7 @@
   "capabilities2": { "HE": [ null, "4+" ], "C": [ [6,"4+"], "\u2020<sup>1</sup>" ], "sD": 5 },
   "note_number": "3\u2020",
   "notes": [ "A", "C\u2020<sup>1</sup>", "G", "N", "P" ],
+  "_id_": "br/v:005",
   "_gpid_": 1218
 },
 { "name": "Stuart V(a)",
@@ -45,6 +51,7 @@
   "capabilities2": { "C": "6\u2020<sup>1</sup>", "sD": 5 },
   "note_number": "4\u2020",
   "notes": [ "A", "C\u2020<sup>1</sup>", "G" ],
+  "_id_": "br/v:006",
   "_gpid_": 1220
 },
 { "name": "Locust(a)",
@@ -52,6 +59,7 @@
   "capabilities2": { "C": "6\u2020", "sD": 6 },
   "note_number": "5",
   "notes": [ "A", "C\u2020" ],
+  "_id_": "br/v:007",
   "_gpid_": 1222
 },
 { "name": "A9",
@@ -59,6 +67,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "6\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N" ],
+  "_id_": "br/v:008",
   "_gpid_": [ 1224, 1226 ]
 },
 { "name": "A9 CS",
@@ -66,6 +75,7 @@
   "capabilities2": { "s": [ null, "\u2020<sup>2</sup>" ], "sD": 6 },
   "note_number": "6\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N", "S\u2020<sup>2</sup>" ],
+  "_id_": "br/v:009",
   "_gpid_": [ 1228, 1230 ]
 },
 { "name": "A10 Mk IA",
@@ -73,6 +83,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "7\u2020",
   "notes": [ "B\u2020<sup>1</sup>", "K\u2020<sup>2</sup>", "N" ],
+  "_id_": "br/v:010",
   "_gpid_": [ 1232, 1234, 1236, 1238, 1240 ]
 },
 { "name": "A10 Mk IA CS",
@@ -80,6 +91,7 @@
   "capabilities2": { "s": [ null, "\u2020<sup>2</sup>" ], "sD": 6 },
   "note_number": "7\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N", "S\u2020<sup>2</sup>" ],
+  "_id_": "br/v:011",
   "_gpid_": [ 1242, 1244, 1246 ]
 },
 { "name": "A13 Mk I",
@@ -87,6 +99,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "8",
   "notes": [ "K\u2020" ],
+  "_id_": "br/v:012",
   "_gpid_": [ 1248, 1250 ]
 },
 { "name": "A13 Mk II",
@@ -94,6 +107,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "8\u2020",
   "notes": [ "B\u2020<sup>1</sup>", "K\u2020<sup>2</sup>", "N" ],
+  "_id_": "br/v:013",
   "_gpid_": [ 1252, 1254, 1256, 1258 ]
 },
 { "name": "A13 Mk II CS",
@@ -101,6 +115,7 @@
   "capabilities2": { "s": [ null, "\u2020<sup>2</sup>" ], "sD": 6 },
   "note_number": "8\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N", "S\u2020<sup>2</sup>" ],
+  "_id_": "br/v:014",
   "_gpid_": 1260
 },
 { "name": "Crusader I",
@@ -108,6 +123,7 @@
   "capabilities2": { "sM": 8 },
   "note_number": "9\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N" ],
+  "_id_": "br/v:015",
   "_gpid_": [ 1262, 1264 ]
 },
 { "name": "Crusader I CS",
@@ -115,6 +131,7 @@
   "capabilities2": { "HE": 9, "s": [ null, "\u2020<sup>2</sup>" ], "sM": 8 },
   "note_number": "9\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N", "S\u2020<sup>2</sup>" ],
+  "_id_": "br/v:016",
   "_gpid_": [ 1266, 1268 ]
 },
 { "name": "Crusader II",
@@ -122,6 +139,7 @@
   "capabilities2": { "sM": 8 },
   "note_number": "9\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N" ],
+  "_id_": "br/v:017",
   "_gpid_": [ 1270, 1272 ]
 },
 { "name": "Crusader II CS",
@@ -129,6 +147,7 @@
   "capabilities2": { "HE": 9, "s": [ null, "\u2020<sup>2</sup>" ], "sM": 8 },
   "note_number": "9\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N", "S\u2020<sup>2</sup>" ],
+  "_id_": "br/v:018",
   "_gpid_": [ 1274, 1276 ]
 },
 { "name": "Crusader III",
@@ -136,6 +155,7 @@
   "capabilities2": { "HE": [ [7,"F3+"], "\u2020<sup>1</sup>" ], "sD": 7, "sM": "8\u2020<sup>2</sup>" },
   "note_number": "10\u2020",
   "notes": [ "N", "Y\u2020<sup>1</sup>", "Z\u2020<sup>2</sup>" ],
+  "_id_": "br/v:019",
   "_gpid_": 1278
 },
 { "name": "Grant(a)",
@@ -143,6 +163,7 @@
   "capabilities2": { "HE": [ null, "4+" ], "C": [ [5,"4+"], "\u2020<sup>1</sup>" ], "s": "8\u2020", "sM": 8 },
   "note_number": "11\u2020",
   "notes": [ "A", "C\u2020<sup>1</sup>", "G", "N", "P" ],
+  "_id_": "br/v:020",
   "_gpid_": 1280
 },
 { "name": "Lee(a)",
@@ -150,6 +171,7 @@
   "capabilities2": { "HE": [ null, "4+" ], "C": [ [5,"4+"], "\u2020<sup>1</sup>" ], "s": "8\u2020", "sD": 6 },
   "note_number": "11\u2020",
   "notes": [ "A", "C\u2020<sup>1</sup>", "G", "N", "P" ],
+  "_id_": "br/v:021",
   "_gpid_": [ 1282, 1284 ]
 },
 { "name": "Sherman II(a)",
@@ -157,6 +179,7 @@
   "capabilities2": { "s": 8, "WP": [ [6,"J4+"], "\u2020<sup>3</sup>" ], "sD": 6 },
   "note_number": "12\u2020",
   "notes": [ "A", "G", "K\u2020<sup>2</sup>", "N", "R\u2020<sup>1</sup>", "W\u2020<sup>3</sup>" ],
+  "_id_": "br/v:022",
   "_gpid_": [ 1286, 1288 ]
 },
 { "name": "Sherman III(a)",
@@ -164,6 +187,7 @@
   "capabilities2": { "s": 8, "WP": [ [6,"J4+"], "\u2020<sup>3</sup>" ], "sD": 6 },
   "note_number": "13\u2020",
   "notes": [ "A", "G", "K\u2020<sup>2</sup>", "N", "R\u2020<sup>1</sup>", "W\u2020<sup>3</sup>" ],
+  "_id_": "br/v:023",
   "_gpid_": [ 1290, 1292 ]
 },
 { "name": "Sherman V(a)",
@@ -171,6 +195,7 @@
   "capabilities2": { "s": 8, "WP": [ [6,"J4+"], "\u2020<sup>3</sup>" ], "sD": 6 },
   "note_number": "14\u2020",
   "notes": [ "A", "G", "K\u2020<sup>2</sup>", "P", "R\u2020<sup>1</sup>", "W\u2020<sup>3</sup>" ],
+  "_id_": "br/v:024",
   "_gpid_": [ 1294, 1296 ]
 },
 { "name": "Sherman IIA(a)",
@@ -178,6 +203,7 @@
   "capabilities2": { "A": [ [4,4], [5,5] ], "s": [ [5,5] ], "sM": 8 },
   "note_number": "15\u2020",
   "notes": [ "A", "G", "K\u2020<sup>1</sup>" ],
+  "_id_": "br/v:025",
   "_gpid_": [ 1298, 1300 ]
 },
 { "name": "Sherman IIC(a)",
@@ -185,6 +211,7 @@
   "capabilities2": { "HE": 7, "D": [ [5,"S4"], [6,5], "\u2020<sup>2</sup>" ], "sM": 8 },
   "note_number": "16\u2020",
   "notes": [ "A", "J\u2020<sup>2</sup>", "K\u2020<sup>1</sup>" ],
+  "_id_": "br/v:026",
   "_gpid_": [ 1302, 1304 ]
 },
 { "name": "Sherman VC(a)",
@@ -192,6 +219,7 @@
   "capabilities2": { "HE": 7, "D": [ [5,"S4"], [6,5], "\u2020<sup>2</sup>" ], "sM": 8 },
   "note_number": "16\u2020",
   "notes": [ "A", "J\u2020<sup>2</sup>", "K\u2020<sup>1</sup>" ],
+  "_id_": "br/v:027",
   "_gpid_": [ 1306, 1308 ]
 },
 { "name": "Sherman IB(a)",
@@ -199,6 +227,7 @@
   "capabilities2": { "H": 9, "s": 7, "WP": 9, "sM": 8 },
   "note_number": "17\u2020",
   "notes": [ "A", "K\u2020<sup>1</sup>" ],
+  "_id_": "br/v:028",
   "_gpid_": [ 1310, 1312 ]
 },
 { "name": "Centaur IV",
@@ -206,6 +235,7 @@
   "capabilities2": { "H": 6, "s": 9, "sD": 7, "sM": "8\u2020" },
   "note_number": "18",
   "notes": [ "S", "Z\u2020" ],
+  "_id_": "br/v:029",
   "_gpid_": 1314
 },
 { "name": "Cromwell IV",
@@ -213,6 +243,7 @@
   "capabilities2": { "s": 8, "WP": 6, "sD": 7, "sM": "8\u2020<sup>1</sup>" },
   "note_number": "19\u2020",
   "notes": [ "Z\u2020<sup>1</sup>" ],
+  "_id_": "br/v:030",
   "_gpid_": 1316
 },
 { "name": "Cromwell VI",
@@ -220,6 +251,7 @@
   "capabilities2": { "H": 6, "s": 9, "sD": 7, "sM": "8\u2020<sup>1</sup>" },
   "note_number": "20\u2020",
   "notes": [ "S", "Z\u2020<sup>1</sup>" ],
+  "_id_": "br/v:031",
   "_gpid_": 1318
 },
 { "name": "Cromwell VII",
@@ -227,6 +259,7 @@
   "capabilities2": { "s": 8, "WP": 6, "sD": 7, "sM": "8\u2020" },
   "note_number": "19\u2020",
   "notes": [ "Z\u2020<sup>1</sup>" ],
+  "_id_": "br/v:032",
   "_gpid_": 1320
 },
 { "name": "Cromwell VIII",
@@ -234,6 +267,7 @@
   "capabilities2": { "H": 6, "s": 9, "sD": 7, "sM": "8\u2020<sup>1</sup>" },
   "note_number": "20\u2020",
   "notes": [ "S", "Z\u2020<sup>1</sup>" ],
+  "_id_": "br/v:033",
   "_gpid_": 1322
 },
 { "name": "Challenger",
@@ -241,6 +275,7 @@
   "capabilities2": { "HE": 7, "D": [ [5,"S4"], [6,5], "\u2020<sup>1</sup>" ], "sD": 7, "sM": "8\u2020<sup>2</sup>" },
   "note_number": "21\u2020",
   "notes": [ "J\u2020<sup>1</sup>", "Z\u2020<sup>2</sup>" ],
+  "_id_": "br/v:034",
   "_gpid_": 1324
 },
 { "name": "Comet",
@@ -248,6 +283,7 @@
   "capabilities2": { "sD": 7, "sM": "8\u2020" },
   "note_number": "22",
   "notes": [ "Z\u2020" ],
+  "_id_": "br/v:035",
   "_gpid_": 1326
 },
 { "name": "Sherman Dozer(a)",
@@ -255,6 +291,7 @@
   "capabilities2": { "s": 8, "WP": 6, "sD": 6 },
   "note_number": "23\u2020",
   "notes": [ "A", "G", "K\u2020<sup>2</sup>", "P", "R\u2020<sup>1</sup>" ],
+  "_id_": "br/v:036",
   "_gpid_": [ 1328, 1330 ]
 },
 { "name": "Sherman Crab(a)",
@@ -262,6 +299,7 @@
   "capabilities2": { "s": 8, "WP": 6, "sD": 6 },
   "note_number": "24\u2020",
   "notes": [ "A", "G", "K\u2020<sup>2</sup>", "P", "R\u2020<sup>1</sup>" ],
+  "_id_": "br/v:037",
   "_gpid_": [ 1332, 1334 ]
 },
 { "name": "Matilda I",
@@ -270,6 +308,7 @@
   "capabilities2": { "sD": 5 },
   "note_number": "25\u2020",
   "notes": [ "B\u2020<sup>1</sup>" ],
+  "_id_": "br/v:038",
   "_gpid_": [ 1338, 1340 ]
 },
 { "name": "Matilda II",
@@ -277,6 +316,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "26\u2020",
   "notes": [ "B\u2020<sup>1</sup>", "K\u2020<sup>2</sup>", "N", "P" ],
+  "_id_": "br/v:039",
   "_gpid_": [ 1342, 1344, 1346, 1348 ]
 },
 { "name": "Matilda II CS",
@@ -284,6 +324,7 @@
   "capabilities2": { "HE": "9\u2020<sup>2</sup>", "s": [ null, "\u2020<sup>2</sup>" ], "sD": 6 },
   "note_number": "26\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N", "P", "S\u2020<sup>2</sup>" ],
+  "_id_": "br/v:040",
   "_gpid_": [ 1350, 1352 ]
 },
 { "name": "Valentine II",
@@ -291,6 +332,7 @@
   "capabilities2": { "sM": 8 },
   "note_number": "27\u2020",
   "notes": [ "N" ],
+  "_id_": "br/v:041",
   "_gpid_": 1354
 },
 { "name": "Valentine V",
@@ -298,6 +340,7 @@
   "capabilities2": { "sM": 8 },
   "note_number": "28\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N<sup>T</sup>" ],
+  "_id_": "br/v:042",
   "_gpid_": [ 1356, 1358 ]
 },
 { "name": "Valentine VIII",
@@ -305,12 +348,14 @@
   "capabilities2": { "HE": 7, "sD": 6 },
   "note_number": "29",
   "notes": [ "N<sup>T</sup>" ],
+  "_id_": "br/v:043",
   "_gpid_": 1360
 },
 { "name": "Valentine XI",
   "CS#": 4,
   "capabilities2": { "s": 8, "WP": 6, "sD": 8 },
   "note_number": "30",
+  "_id_": "br/v:044",
   "_gpid_": 1362
 },
 { "name": "Churchill I",
@@ -318,6 +363,7 @@
   "capabilities2": { "HE": "9\u2020<sup>2</sup>", "s": [ null, "\u2020<sup>2</sup>" ], "sD": [ [5,4] ], "sM": "8\u2020<sup>1</sup>" },
   "note_number": "31\u2020",
   "notes": [ "N<sup>T</sup>", "S\u2020<sup>2</sup>", "Z\u2020<sup>1</sup>", "CC" ],
+  "_id_": "br/v:045",
   "_gpid_": 1364
 },
 { "name": "Churchill IV",
@@ -325,6 +371,7 @@
   "capabilities2": { "HE": [ [7,"F3"], [8,"4+"], "\u2020<sup>1</sup>" ], "D": [ [6,"J4"], [7,5], "\u2020<sup>2</sup>" ], "sD": [ [6,"4+"] ], "sM": "8\u2020<sup>3</sup>" },
   "note_number": "32\u2020",
   "notes": [ "J\u2020<sup>2</sup>", "N", "Y\u2020<sup>1</sup>", "Z\u2020<sup>3</sup>", "CC" ],
+  "_id_": "br/v:046",
   "_gpid_": 1366
 },
 { "name": "Churchill V",
@@ -332,6 +379,7 @@
   "capabilities2": { "H": 6, "s": 9, "sD": 7, "sM": "8\u2020<sup>1</sup>" },
   "note_number": "33\u2020",
   "notes": [ "S", "Z\u2020<sup>1</sup>", "CC" ],
+  "_id_": "br/v:047",
   "_gpid_": 1368
 },
 { "name": "Churchill VI",
@@ -339,6 +387,7 @@
   "capabilities2": { "s": 8, "WP": [ [6,"J4+"], "\u2020<sup>1</sup>" ], "sD": 7, "sM": "8\u2020<sup>2</sup>" },
   "note_number": "34\u2020",
   "notes": [ "W\u2020<sup>1</sup>", "Z\u2020<sup>2</sup>", "CC" ],
+  "_id_": "br/v:048",
   "_gpid_": 1370
 },
 { "name": "Churchill VII",
@@ -346,6 +395,7 @@
   "capabilities2": { "s": 8, "WP": 6, "sD": 7, "sM": "8\u2020<sup>1</sup>" },
   "note_number": "35\u2020",
   "notes": [ "Z\u2020<sup>1</sup>", "CC" ],
+  "_id_": "br/v:049",
   "_gpid_": 1372
 },
 { "name": "Churchill VIII",
@@ -353,6 +403,7 @@
   "capabilities2": { "H": 6, "s": 9, "sD": 7, "sM": "8\u2020<sup>1</sup>" },
   "note_number": "35\u2020",
   "notes": [ "S", "Z\u2020<sup>1</sup>", "CC" ],
+  "_id_": "br/v:050",
   "_gpid_": 1374
 },
 { "name": "Valentine Bridgelayer",
@@ -360,6 +411,7 @@
   "capabilities2": { "sD": 7 },
   "note_number": "36\u2020",
   "notes": [ "M", "P" ],
+  "_id_": "br/v:051",
   "_gpid_": 1376
 },
 { "name": "Churchill Bridgelayer",
@@ -367,6 +419,7 @@
   "capabilities2": { "sD": 7 },
   "note_number": "36\u2020",
   "notes": [ "M", "CC" ],
+  "_id_": "br/v:052",
   "_gpid_": 1380
 },
 { "name": "Churchill AVRE",
@@ -375,6 +428,7 @@
   "capabilities2": { "sD": 7, "sM": "8\u2020<sup>1</sup>" },
   "note_number": "37\u2020",
   "notes": [ "Z\u2020<sup>1</sup>", "CC" ],
+  "_id_": "br/v:053",
   "_gpid_": [ 1384, 1386 ]
 },
 { "name": "Churchill Crocodile",
@@ -382,6 +436,7 @@
   "capabilities2": { "s": 8, "WP": 6, "sD": 7, "sM": "8\u2020<sup>1</sup>" },
   "note_number": "38\u2020",
   "notes": [ "Z\u2020<sup>1</sup>", "CC" ],
+  "_id_": "br/v:054",
   "_gpid_": 1390
 },
 { "name": "Deacon",
@@ -389,6 +444,7 @@
   "capabilities2": { "HE": [ [7,"F3+"], "\u2020<sup>2</sup>" ] },
   "note_number": "39\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "N", "Y\u2020<sup>2</sup>" ],
+  "_id_": "br/v:055",
   "_gpid_": 1393
 },
 { "name": "Wolverine(a)",
@@ -396,6 +452,7 @@
   "capabilities2": { "HE": 7, "A": [ [5,"S4"], [6,5], "\u2020<sup>1</sup>" ], "s": [ [5,5] ] },
   "note_number": "40\u2020",
   "notes": [ "A", "J\u2020<sup>1</sup>" ],
+  "_id_": "br/v:056",
   "_gpid_": 1395
 },
 { "name": "Achilles(a)",
@@ -403,6 +460,7 @@
   "capabilities2": { "HE": 7, "D": [ [6,"S4"], [7,5], "\u2020<sup>1</sup>" ] },
   "note_number": "40\u2020",
   "notes": [ "A", "J\u2020<sup>1</sup>" ],
+  "_id_": "br/v:057",
   "_gpid_": 1397
 },
 { "name": "Archer",
@@ -410,6 +468,7 @@
   "capabilities2": { "HE": 7, "D": [ [6,4], [7,5], "\u2020<sup>1</sup>" ], "sD": 7 },
   "note_number": "41\u2020",
   "notes": [ "J\u2020<sup>1</sup>" ],
+  "_id_": "br/v:058",
   "_gpid_": 1399
 },
 { "name": "Daimler",
@@ -417,6 +476,7 @@
   "capabilities2": { "sD": [ [4,"4+"], "\u2020" ] },
   "note_number": "42\u2020",
   "notes": [ "M", "N", "P" ],
+  "_id_": "br/v:059",
   "_gpid_": 1401
 },
 { "name": "Lynx",
@@ -424,6 +484,7 @@
   "capabilities2": { "sD": 5 },
   "note_number": "42\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "M", "P" ],
+  "_id_": "br/v:060",
   "_gpid_": 1403
 },
 { "name": "Humber",
@@ -431,12 +492,14 @@
   "capabilities2": { "sD": [ [4,"4+"], "\u2020" ] },
   "note_number": "43\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "M", "P", "BB\u2020<sup>2</sup>" ],
+  "_id_": "br/v:061",
   "_gpid_": 1405
 },
 { "name": "Stuart Recce",
   "CS#": 5,
   "note_number": "44\u2020",
   "notes": [ "A", "D", "N<sup>T</sup>", "P" ],
+  "_id_": "br/v:062",
   "_gpid_": 1407
 },
 { "name": "Humber III LRC",
@@ -444,6 +507,7 @@
   "capabilities2": { "sD": 5 },
   "note_number": "45\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "N", "P", "Q\u2020<sup>2</sup>" ],
+  "_id_": "br/v:063",
   "_gpid_": 1409
 },
 { "name": "Otter LRC",
@@ -451,6 +515,7 @@
   "capabilities2": { "sD": 5 },
   "note_number": "45\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "P", "Q\u2020<sup>2</sup>" ],
+  "_id_": "br/v:064",
   "_gpid_": 1411
 },
 { "name": "Morris CS9",
@@ -458,6 +523,7 @@
   "capabilities2": { "sD": 5 },
   "note_number": "46\u2020",
   "notes": [ "N", "Q\u2020<sup>2</sup>", "T\u2020<sup>3</sup>", "X\u2020<sup>1</sup>" ],
+  "_id_": "br/v:065",
   "_gpid_": 1413
 },
 { "name": "Rolls Royce",
@@ -465,36 +531,42 @@
   "capabilities2": { "sD": 5 },
   "note_number": "47\u2020",
   "notes": [ "N", "Q\u2020<sup>2</sup>", "T\u2020<sup>3</sup>", "X\u2020<sup>1</sup>" ],
+  "_id_": "br/v:066",
   "_gpid_": 1415
 },
 { "name": "Marmon-Herrington II ME",
   "CS#": 4,
   "note_number": "48\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "N", "Q\u2020<sup>2</sup>", "T\u2020<sup>3</sup>" ],
+  "_id_": "br/v:067",
   "_gpid_": 1417
 },
 { "name": "Marmon-Herrington IIv",
   "CS#": 4,
   "note_number": "49\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "N", "AA\u2020<sup>2</sup>" ],
+  "_id_": "br/v:068",
   "_gpid_": 1419
 },
 { "name": "Marmon-Herrington III MFF",
   "CS#": 4,
   "note_number": "48\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "P", "Q\u2020<sup>2</sup>" ],
+  "_id_": "br/v:069",
   "_gpid_": 1421
 },
 { "name": "Marmon-Herrington III ME",
   "CS#": 4,
   "note_number": "48\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "N", "Q\u2020<sup>2</sup>", "T\u2020<sup>3</sup>" ],
+  "_id_": "br/v:070",
   "_gpid_": 1423
 },
 { "name": "Marmon-Herrington IIIv",
   "CS#": 4,
   "note_number": "49\u2020",
   "notes": [ "K\u2020<sup>2</sup>", "L\u2020<sup>1</sup>", "N", "T\u2020<sup>2</sup>" ],
+  "_id_": "br/v:071",
   "_gpid_": [ 1425, 1427 ]
 },
 { "name": "Humber II",
@@ -502,6 +574,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "50\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "N" ],
+  "_id_": "br/v:072",
   "_gpid_": 1429
 },
 { "name": "Humber III",
@@ -509,6 +582,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "50\u2020",
   "notes": [ "K\u2020<sup>2</sup>", "L\u2020<sup>1</sup>", "N", "P" ],
+  "_id_": "br/v:073",
   "_gpid_": [ 1431, 1433 ]
 },
 { "name": "Humber IV",
@@ -516,6 +590,7 @@
   "capabilities2": { "C": [ [6,"4+"], "\u2020<sup>2</sup>" ], "sD": 6 },
   "note_number": "51\u2020",
   "notes": [ "A", "C\u2020<sup>2</sup>", "L\u2020<sup>1</sup>", "P" ],
+  "_id_": "br/v:074",
   "_gpid_": 1435
 },
 { "name": "Daimler",
@@ -523,6 +598,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "52\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N", "P" ],
+  "_id_": "br/v:075",
   "_gpid_": [ 1437, 1439 ]
 },
 { "name": "AEC I",
@@ -530,6 +606,7 @@
   "capabilities2": { "sM": 8 },
   "note_number": "53\u2020",
   "notes": [ "N", "X\u2020<sup>1</sup>" ],
+  "_id_": "br/v:076",
   "_gpid_": 1441
 },
 { "name": "AEC II",
@@ -537,6 +614,7 @@
   "capabilities2": { "HE": [ [7,3], [8,"4+"], "\u2020<sup>1</sup>" ], "D": [ [6,"J4"], [7,5], "\u2020<sup>2</sup>" ], "sM": 8 },
   "note_number": "53",
   "notes": [ "J\u2020<sup>2</sup>", "X\u2020", "Y\u2020<sup>1</sup>" ],
+  "_id_": "br/v:077",
   "_gpid_": 1443
 },
 { "name": "AEC III",
@@ -544,6 +622,7 @@
   "capabilities2": { "s": 8, "WP": 6, "sM": 8 },
   "note_number": "53",
   "notes": [ "X\u2020" ],
+  "_id_": "br/v:078",
   "_gpid_": 1445
 },
 { "name": "Staghound I(a)",
@@ -551,6 +630,7 @@
   "capabilities2": { "C": [ [6,"4+"], "\u2020<sup>3</sup>" ], "sM": 8 },
   "note_number": "54\u2020",
   "notes": [ "A", "C\u2020<sup>3</sup>", "G", "K\u2020<sup>2</sup>", "X\u2020<sup>1</sup>" ],
+  "_id_": "br/v:079",
   "_gpid_": [ 1447, 1449 ]
 },
 { "name": "Staghound II(a)",
@@ -558,6 +638,7 @@
   "capabilities2": { "s": 9, "sD": 6 },
   "note_number": "54\u2020",
   "notes": [ "A", "K\u2020<sup>3</sup>", "S\u2020<sup>2</sup>", "X\u2020<sup>1</sup>" ],
+  "_id_": "br/v:080",
   "_gpid_": [ 1451, 1453 ]
 },
 { "name": "Bishop",
@@ -566,6 +647,7 @@
   "capabilities2": { "s": 8 },
   "note_number": "55\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N", "P" ],
+  "_id_": "br/v:081",
   "_gpid_": [ 1457, 1459 ]
 },
 { "name": "Priest(a)",
@@ -573,6 +655,7 @@
   "capabilities2": { "H": 6, "s": 8, "WP": 7 },
   "note_number": "56\u2020",
   "notes": [ "A", "N", "P" ],
+  "_id_": "br/v:082",
   "_gpid_": 1461
 },
 { "name": "Sexton(a)",
@@ -580,6 +663,7 @@
   "capabilities2": { "s": 8 },
   "note_number": "57\u2020",
   "notes": [ "A", "K\u2020<sup>1</sup>" ],
+  "_id_": "br/v:083",
   "_gpid_": [ 1463, 1465 ]
 },
 { "name": "M3 GMC(a)",
@@ -587,12 +671,14 @@
   "capabilities2": { "s": 8, "WP": [ [7,"J4+"], "\u2020<sup>1</sup>" ] },
   "note_number": "58\u2020",
   "notes": [ "A", "N<sup>T</sup>", "W\u2020<sup>1</sup>" ],
+  "_id_": "br/v:084",
   "_gpid_": 1467
 },
 { "name": "Mk VI AA",
   "CS#": 2,
   "note_number": "59\u2020",
   "notes": [ "N", "O\u2020<sup>1</sup>", "AA\u2020<sup>2</sup>" ],
+  "_id_": "br/v:085",
   "_gpid_": 1469
 },
 { "name": "Crusader AA",
@@ -600,48 +686,56 @@
   "capabilities2": { "sD": 7 },
   "note_number": "60\u2020",
   "notes": [ "AA\u2020<sup>1</sup>" ],
+  "_id_": "br/v:086",
   "_gpid_": [ 1471, 1473 ]
 },
 { "name": "M17 MGMC(a)",
   "CS#": 4,
   "note_number": "61\u2020",
   "notes": [ "A", "F\u2020", "AA\u2020<sup>1</sup>" ],
+  "_id_": "br/v:087",
   "_gpid_": 1475
 },
 { "name": "Humber AA",
   "CS#": 2,
   "note_number": "62\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "N", "O\u2020<sup>2</sup>", "AA\u2020<sup>3</sup>" ],
+  "_id_": "br/v:088",
   "_gpid_": 1477
 },
 { "name": "Staghound AA(a)",
   "CS#": 3,
   "note_number": "62\u2020",
   "notes": [ "A", "F\u2020", "X\u2020<sup>1</sup>", "AA\u2020<sup>2</sup>" ],
+  "_id_": "br/v:089",
   "_gpid_": 1479
 },
 { "name": "M5(a)",
   "cs#": "5\u2020<sup>1</sup>",
   "note_number": "63\u2020",
   "notes": [ "A", "I\u2020<sup>1</sup>", "N" ],
+  "_id_": "br/v:090",
   "_gpid_": [ 1481, 1483 ]
 },
 { "name": "M9(a)",
   "cs#": "4\u2020<sup>1</sup>",
   "note_number": "63\u2020",
   "notes": [ "A", "I\u2020<sup>1</sup>", "N" ],
+  "_id_": "br/v:091",
   "_gpid_": [ 1489, 1491 ]
 },
 { "name": "M5A1(a)",
   "cs#": "5\u2020",
   "note_number": "63",
   "notes": [ "A", "I\u2020" ],
+  "_id_": "br/v:092",
   "_gpid_": [ 1485, 1487 ]
 },
 { "name": "M9A1(a)",
   "cs#": "4\u2020",
   "note_number": "63",
   "notes": [ "A", "I\u2020" ],
+  "_id_": "br/v:093",
   "_gpid_": [ 1493, 1495 ]
 },
 { "name": "Carrier A",
@@ -649,6 +743,7 @@
   "capabilities2": { "sD": [ [5,"4+"], "\u2020<sup>1</sup>" ] },
   "note_number": "64\u2020",
   "notes": [ "N", "P", "U\u2020<sup>1</sup>" ],
+  "_id_": "br/v:094",
   "_gpid_": 1497
 },
 { "name": "Carrier B",
@@ -656,6 +751,7 @@
   "capabilities2": { "sD": [ [5,"4+"], "\u2020<sup>2</sup>" ] },
   "note_number": "64\u2020",
   "notes": [ "N", "P", "Q\u2020<sup>1</sup>", "U\u2020<sup>2</sup>" ],
+  "_id_": "br/v:095",
   "_gpid_": 1499
 },
 { "name": "Carrier C",
@@ -663,6 +759,7 @@
   "capabilities2": { "sD": [ [5,"4+"], "\u2020<sup>1</sup>" ] },
   "note_number": "64\u2020",
   "notes": [ "N", "P", "U\u2020<sup>1</sup>" ],
+  "_id_": "br/v:096",
   "_gpid_": 1501
 },
 { "name": "Carrier, MMG A",
@@ -670,6 +767,7 @@
   "capabilities2": { "sD": [ [5,"4+"], "\u2020<sup>2</sup>" ] },
   "note_number": "65\u2020",
   "notes": [ "N", "P", "Q\u2020<sup>1</sup>", "U\u2020<sup>2</sup>" ],
+  "_id_": "br/v:097",
   "_gpid_": [ 1503, 1505 ]
 },
 { "name": "Carrier, MMG B",
@@ -677,6 +775,7 @@
   "capabilities2": { "sD": [ [5,"4+"], "\u2020<sup>2</sup>" ] },
   "note_number": "65\u2020",
   "notes": [ "U\u2020<sup>2</sup>", "BB\u2020<sup>1</sup>" ],
+  "_id_": "br/v:098",
   "_gpid_": 1507
 },
 { "name": "Carrier, 2-in. MTR",
@@ -684,48 +783,56 @@
   "capabilities2": { "IR": [ [null,"2+"], "\u2020" ], "s": 7 },
   "note_number": "66\u2020",
   "notes": [ "N", "P", "U\u2020<sup>1</sup>" ],
+  "_id_": "br/v:099",
   "_gpid_": 1509
 },
 { "name": "Carrier, 3-in. MTR",
   "CS#": "4:brewup\u2020<sup>1</sup>",
   "note_number": "67\u2020",
   "notes": [ "H\u2020<sup>1</sup>", "N", "P", "U", "BB\u2020<sup>2</sup>" ],
+  "_id_": "br/v:100",
   "_gpid_": 1511
 },
 { "name": "Priest Kangaroo(a)",
   "CS#": 7,
   "note_number": "68\u2020",
   "notes": [ "A", "D" ],
+  "_id_": "br/v:101",
   "_gpid_": 1513
 },
 { "name": "Ram Kangaroo(a)",
   "CS#": 7,
   "note_number": "68\u2020",
   "notes": [ "A", "D", "K\u2020<sup>1</sup>" ],
+  "_id_": "br/v:102",
   "_gpid_": [ 1515, 1517 ]
 },
 { "name": "White(a) SC",
   "cs#": "4\u2020<sup>1</sup>",
   "note_number": "69\u2020",
   "notes": [ "A", "I\u2020<sup>1</sup>", "N" ],
+  "_id_": "br/v:103",
   "_gpid_": [ 1519, 1521 ]
 },
 { "name": "IP Carrier Mk IIA",
   "CS#": 4,
   "note_number": "70\u2020",
   "notes": [ "N", "P", "V", "X\u2020<sup>1</sup>" ],
+  "_id_": "br/v:104",
   "_gpid_": 1523
 },
 { "name": "IP Carrier Mk IIB",
   "CS#": 4,
   "note_number": "70\u2020",
   "notes": [ "N", "P", "Q\u2020<sup>2</sup>", "V", "X\u2020<sup>1</sup>" ],
+  "_id_": "br/v:105",
   "_gpid_": 1525
 },
 { "name": "IP Carrier AOV",
   "CS#": 4,
   "note_number": "70\u2020",
   "notes": [ "P", "Q\u2020<sup>1</sup>", "V", "X\u2020" ],
+  "_id_": "br/v:106",
   "_gpid_": 1527
 },
 { "name": "IP Carrier, 3-in. MTR",
@@ -734,6 +841,7 @@
   "capabilities2": { "s": 8, "WP": 7 },
   "note_number": "71\u2020<sup>2</sup>",
   "notes": [ "E\u2020<sup>3</sup>", "H\u2020", "P", "V", "X\u2020<sup>1</sup>", "BB\u2020<sup>4</sup>" ],
+  "_id_": "br/v:107",
   "_gpid_": [ 1529, 1531 ]
 },
 { "name": "Wasp",
@@ -741,12 +849,14 @@
   "capabilities2": { "sD": "5\u2020" },
   "note_number": "72\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "U" ],
+  "_id_": "br/v:108",
   "_gpid_": [ 1533, 1535 ]
 },
 { "name": "Badger(a)",
   "CS#": 3,
   "note_number": "72\u2020",
   "notes": [ "A", "K\u2020<sup>1</sup>", "M" ],
+  "_id_": "br/v:109",
   "_gpid_": [ 1537, 1539 ]
 },
 { "name": "Buffalo Mk II(a)",
@@ -754,6 +864,7 @@
   "capabilities2": { "sD": "5\u2020" },
   "note_number": "73\u2020",
   "notes": [ "A", "D", "AA\u2020<sup>1</sup>" ],
+  "_id_": "br/v:110",
   "_gpid_": 1541
 },
 { "name": "Buffalo Mk IV(a)",
@@ -761,6 +872,7 @@
   "capabilities2": { "sD": "5\u2020" },
   "note_number": "73\u2020",
   "notes": [ "A", "D", "E\u2020<sup>1</sup>", "AA\u2020<sup>2</sup>" ],
+  "_id_": "br/v:111",
   "_gpid_": 1543
 },
 { "name": "Sherman III DD(a)",
@@ -768,90 +880,105 @@
   "capabilities2": { "s": 8, "WP": 6, "sD": 6 },
   "note_number": "74\u2020",
   "notes": [ "A", "G", "K\u2020<sup>2</sup>", "R\u2020<sup>1</sup>" ],
+  "_id_": "br/v:112",
   "_gpid_": [ 1545, 1547 ]
 },
 { "name": "DUKW(a)",
   "cs#": "7\u2020<sup>1</sup>",
   "note_number": "75\u2020",
   "notes": [ "A", "D", "I\u2020<sup>1</sup>", "P" ],
+  "_id_": "br/v:113",
   "_gpid_": 1549
 },
 { "name": "Terrapin Mk I",
   "cs#": 7,
   "note_number": "76\u2020",
   "notes": [ "D" ],
+  "_id_": "br/v:114",
   "_gpid_": 1553
 },
 { "name": "2pdr Portee",
   "CS#": "4\u2020<sup>1</sup>",
   "note_number": "77\u2020",
   "notes": [ "H\u2020<sup>1</sup>", "N", "P" ],
+  "_id_": "br/v:115",
   "_gpid_": 1555
 },
 { "name": "Morris C9/B",
   "CS#": 4,
   "note_number": "78\u2020",
   "notes": [ "P", "AA\u2020<sup>1</sup>" ],
+  "_id_": "br/v:116",
   "_gpid_": 1557
 },
 { "name": "Loyd Carrier",
   "cs#": 5,
   "note_number": "79\u2020",
   "notes": [ "N", "P" ],
+  "_id_": "br/v:117",
   "_gpid_": 1559
 },
 { "name": "Quad FAT",
   "CS#": "5:brewup\u2020",
   "note_number": "80\u2020",
   "notes": [ "N", "P" ],
+  "_id_": "br/v:118",
   "_gpid_": 1561
 },
 { "name": "15-cwt Truck",
   "cs#": 5,
   "note_number": "81\u2020",
   "notes": [ "N", "P" ],
+  "_id_": "br/v:119",
   "_gpid_": 1563
 },
 { "name": "30-cwt Lorry",
   "cs#": 6,
   "note_number": "82\u2020",
   "notes": [ "N", "P" ],
+  "_id_": "br/v:120",
   "_gpid_": 1565
 },
 { "name": "3-Ton Lorry",
   "cs#": 7,
   "note_number": "83\u2020",
   "notes": [ "N", "P" ],
+  "_id_": "br/v:121",
   "_gpid_": 1567
 },
 { "name": "\u00bc-Ton Jeep(a)",
   "cs#": "2\u2020<sup>1</sup>",
   "note_number": "84\u2020",
   "notes": [ "A", "I\u2020<sup>1</sup>", "N", "P" ],
+  "_id_": "br/v:122",
   "_gpid_": [ 1569, 1570 ]
 },
 { "name": "\u00be-Ton Truck(a)",
   "cs#": 4,
   "note_number": "85",
   "notes": [ "A", "N" ],
+  "_id_": "br/v:123",
   "_gpid_": 1571
 },
 { "name": "1\u00bd-Ton Truck(a)",
   "cs#": 6,
   "note_number": "85",
   "notes": [ "A", "N" ],
+  "_id_": "br/v:124",
   "_gpid_": 1573
 },
 { "name": "2\u00bd-Ton Truck(a)",
   "cs#": 7,
   "note_number": "85",
   "notes": [ "A", "N" ],
+  "_id_": "br/v:125",
   "_gpid_": 1575
 },
 { "name": "7\u00bd-Ton Truck(a)",
   "cs#": 7,
   "note_number": "85\u2020",
   "notes": [ "A", "N" ],
+  "_id_": "br/v:126",
   "_gpid_": 1577
 }
 

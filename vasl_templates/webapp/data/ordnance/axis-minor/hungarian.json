@@ -4,23 +4,27 @@
   "capabilities_other": [ "5PP" ],
   "note_number": "23",
   "notes": [ "A" ],
+  "_id_": "hu/o:000",
   "_gpid_": 3679
 },
 { "name": "40mm MAVAG 40 M",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "H": "7[9]\u2020" },
   "note_number": "24\u2020",
+  "_id_": "hu/o:001",
   "_gpid_": 3993
 },
 { "name": "Skoda M05/08",
   "capabilities": [ "NT" ],
   "note_number": "25",
   "notes": [ "A" ],
+  "_id_": "hu/o:002",
   "_gpid_": 3999
 },
 { "name": "105mm MAVAG M40",
   "capabilities": [ "NT", "h-d" ],
   "note_number": "26",
+  "_id_": "hu/o:003",
   "_gpid_": 4001
 },
 { "name": "Bofors 80mm M29/38",
@@ -28,6 +32,7 @@
   "capabilities2": { "LF": [ "80\u2020<sup>1</sup>", "1 ROF", "B11" ] },
   "note_number": "27\u2020",
   "notes": [ "G\u2020<sup>1</sup>" ],
+  "_id_": "hu/o:004",
   "_gpid_": 4007
 }
 

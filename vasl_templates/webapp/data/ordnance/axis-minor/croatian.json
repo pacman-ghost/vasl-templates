@@ -4,12 +4,14 @@
   "capabilities": [ "NT", "no Gunshield" ],
   "note_number": "35",
   "notes": [ "A" ],
+  "_id_": "cr/o:000",
   "_gpid_": 3772
 },
 { "name": "Skoda M28(FE)",
   "capabilities": [ "NT" ],
   "note_number": "36",
   "notes": [ "A" ],
+  "_id_": "cr/o:001",
   "_gpid_": 3774
 }
 

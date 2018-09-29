@@ -5,30 +5,35 @@
   "capabilities2": { "s": 8 },
   "note_number": "23\u2020",
   "notes": [ "A", "B", "Gr", "N", "P", "Y" ],
+  "_id_": "alc/o:000",
   "_gpid_": 2193
 },
 { "name": "37mm Bofors AT",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "24\u2020",
   "notes": [ "A", "De", "P" ],
+  "_id_": "alc/o:001",
   "_gpid_": 2195
 },
 { "name": "3.7cm PaK 35/36",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "25\u2020",
   "notes": [ "Gr", "Ne", "Y" ],
+  "_id_": "alc/o:002",
   "_gpid_": 2196
 },
 { "name": "Bohler M35 47mm",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "26\u2020",
   "notes": [ "A", "Gr", "Ne", "Y" ],
+  "_id_": "alc/o:003",
   "_gpid_": 2197
 },
 { "name": "65mm wz.06",
   "capabilities": [ "NT", "QSU", "no Gunshield", "h-d" ],
   "note_number": "27\u2020",
   "notes": [ "A", "Gr", "P", "Y" ],
+  "_id_": "alc/o:004",
   "_gpid_": 2198
 },
 { "name": "75mm wz.97",
@@ -36,12 +41,14 @@
   "capabilities2": { "s": 8 },
   "note_number": "28\u2020",
   "notes": [ "A", "Gr", "N", "P" ],
+  "_id_": "alc/o:005",
   "_gpid_": 2199
 },
 { "name": "Bofors M34",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "29\u2020",
   "notes": [ "A", "B", "Gr", "Ne", "N" ],
+  "_id_": "alc/o:006",
   "_gpid_": 2200
 },
 { "name": "75M 19S",
@@ -49,12 +56,14 @@
   "capabilities2": { "s": 6, "AP": 5 },
   "note_number": "30\u2020",
   "notes": [ "A", "Gr", "P", "Y" ],
+  "_id_": "alc/o:007",
   "_gpid_": 2201
 },
 { "name": "C105 L 13 S",
   "capabilities": [ "NT" ],
   "note_number": "31\u2020",
   "notes": [ "B", "P", "Y" ],
+  "_id_": "alc/o:008",
   "_gpid_": 2202
 },
 { "name": "120mm wz. 09/31",
@@ -62,6 +71,7 @@
   "capabilities2": { "s": 6 },
   "note_number": "32\u2020",
   "notes": [ "N", "P" ],
+  "_id_": "alc/o:009",
   "_gpid_": 2203
 },
 { "name": "155mm 17 S",
@@ -69,12 +79,14 @@
   "capabilities2": { "s": 8 },
   "note_number": "33",
   "notes": [ "B", "Gr", "P", "Y" ],
+  "_id_": "alc/o:010",
   "_gpid_": 2204
 },
 { "name": "Mitrailleuse de 13.2 CAJ mle 30",
   "capabilities": [ "T", "2 TK DR\u2020", "Towing NA\u2020<sup>1</sup>" ],
   "note_number": "34\u2020",
   "notes": [ "T\u2020<sup>1</sup>", "B", "Gr", "Y" ],
+  "_id_": "alc/o:011",
   "_gpid_": 2205
 },
 { "name": "20mm Oerlikon",
@@ -82,6 +94,7 @@
   "capabilities2": { "LF": [ "NT", "20\u2020<sup>1</sup>", "2 ROF", "B11" ] },
   "note_number": "35\u2020",
   "notes": [ "C\u2020<sup>1</sup>", "Gr", "Ne", "Y" ],
+  "_id_": "alc/o:012",
   "_gpid_": 2206
 },
 { "name": "40mm Bofors AA",
@@ -89,6 +102,7 @@
   "capabilities2": { "LF": [ "40\u2020<sup>1</sup>", "2 ROF" ] },
   "note_number": "36\u2020",
   "notes": [ "C\u2020<sup>1</sup>", "B", "N", "Ne", "P" ],
+  "_id_": "alc/o:013",
   "_gpid_": 2207
 }
 

@@ -5,6 +5,7 @@
   "CS#": 2,
   "note_number": "29\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "E", "F", "G\u2020<sup>2</sup>", "H", "C", "B" ],
+  "_id_": "axc/v:000",
   "_gpid_": 3787
 },
 { "name": "FT-17M(f)",
@@ -13,6 +14,7 @@
   "no_if": true,
   "note_number": "30\u2020",
   "notes": [ "D", "R", "C" ],
+  "_id_": "axc/v:001",
   "_gpid_": 3789
 },
 { "name": "FT-17C(f)",
@@ -21,6 +23,7 @@
   "capabilities2": { "AP": 9 },
   "note_number": "30\u2020",
   "notes": [ "D", "R", "C" ],
+  "_id_": "axc/v:002",
   "_gpid_": 3791
 },
 { "name": "PzKpfw IB(g)",
@@ -28,6 +31,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "31\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "E", "H", "C" ],
+  "_id_": "axc/v:003",
   "_gpid_": 3827
 },
 { "name": "R-35(f)",
@@ -36,6 +40,7 @@
   "capabilities2": { "AP": 10 },
   "note_number": "32\u2020",
   "notes": [ "A\u2020<sup>1</sup>", "D", "E", "R", "H", "B" ],
+  "_id_": "axc/v:004",
   "_gpid_": [ 3795, 3906 ]
 },
 { "name": "H39(f)",
@@ -44,6 +49,7 @@
   "capabilities2": { "AP": 10 },
   "note_number": "33\u2020",
   "notes": [ "A\u2020<sup>1</sup>", "D", "E", "H", "C", "B" ],
+  "_id_": "axc/v:005",
   "_gpid_": 3793
 },
 { "name": "LT vz 35(g)",
@@ -51,6 +57,7 @@
   "capabilities2": { "sD": 5 },
   "note_number": "34\u2020",
   "notes": [ "E", "R", "S", "B" ],
+  "_id_": "axc/v:006",
   "_gpid_": 3825
 },
 { "name": "LT vz 38(t)A",
@@ -58,6 +65,7 @@
   "capabilities2": { "A": [ [3,1], [4,2], [3,3] ], "sD": 6 },
   "note_number": "35\u2020",
   "notes": [ "E", "R", "H", "S" ],
+  "_id_": "axc/v:007",
   "_gpid_": 3799
 },
 { "name": "LT vz 38(t)E",
@@ -65,12 +73,14 @@
   "capabilities2": { "A": [ [4,2], [3,3] ], "sD": 7 },
   "note_number": "35\u2020",
   "notes": [ "E", "H", "S", "B" ],
+  "_id_": "axc/v:008",
   "_gpid_": 3801
 },
 { "name": "S-35(f)",
   "CS#": 4,
   "note_number": "36\u2020",
   "notes": [ "A\u2020<sup>1</sup>", "D", "E", "H", "S" ],
+  "_id_": "axc/v:009",
   "_gpid_": 3797
 },
 { "name": "PzKpfw IIIL(g)",
@@ -78,6 +88,7 @@
   "capabilities2": { "A": [ [5,2], [4,3], [3,4] ], "sD": 5 },
   "note_number": "37\u2020",
   "notes": [ "E", "O\u2020<sup>1</sup>", "Q", "R", "H", "C" ],
+  "_id_": "axc/v:010",
   "_gpid_": [ 3829, 3831 ]
 },
 { "name": "PzKpfw IIIN(g)",
@@ -85,6 +96,7 @@
   "capabilities2": { "H": [ [8,"3+"] ], "s": 8, "sD": 7 },
   "note_number": "38\u2020",
   "notes": [ "E", "O\u2020<sup>1</sup>", "Q", "R", "S" ],
+  "_id_": "axc/v:011",
   "_gpid_": [ 3833, 3835 ]
 },
 { "name": "PzKpfw IVD(g)",
@@ -92,6 +104,7 @@
   "capabilities2": { "AP": 7, "H": [ [5,"3+"] ], "s": 8, "sD": 7 },
   "note_number": "39\u2020",
   "notes": [ "E", "Q", "R" ],
+  "_id_": "axc/v:012",
   "_gpid_": 3837
 },
 { "name": "PzKpfw IVF1(g)",
@@ -99,6 +112,7 @@
   "capabilities2": { "AP": 7, "H": [ [5,"3+"] ], "s": 8, "sD": 7 },
   "note_number": "39\u2020",
   "notes": [ "E", "Q", "R", "H", "B" ],
+  "_id_": "axc/v:013",
   "_gpid_": 3839
 },
 { "name": "PzKpfw IVH(g)",
@@ -106,6 +120,7 @@
   "capabilities2": { "A": [ [4,2], [3,3] ], "s": 7, "sD": 5 },
   "note_number": "39\u2020",
   "notes": [ "E", "O\u2020<sup>1</sup>", "Q", "R", "H", "B" ],
+  "_id_": "axc/v:014",
   "_gpid_": [ 3841, 3843 ]
 },
 { "name": "StuG IIIG(g)",
@@ -113,6 +128,7 @@
   "capabilities2": { "A": [ [3,4] ], "s": 8, "sD": 7 },
   "note_number": "40\u2020",
   "notes": [ "E", "Q", "R", "H", "B" ],
+  "_id_": "axc/v:015",
   "_gpid_": 3845
 },
 { "name": "JgdPz 38(t)",
@@ -120,18 +136,21 @@
   "capabilities2": { "A": [ [3,4] ], "HE": 7 },
   "note_number": "41\u2020",
   "notes": [ "E", "H", "B" ],
+  "_id_": "axc/v:016",
   "_gpid_": 3803
 },
 { "name": "SPW 250/1(g)",
   "CS#": 4,
   "note_number": "42\u2020",
   "notes": [ "E", "R" ],
+  "_id_": "axc/v:017",
   "_gpid_": 3847
 },
 { "name": "SPW 251/1(g)",
   "CS#": 5,
   "note_number": "42\u2020",
   "notes": [ "E", "R", "C" ],
+  "_id_": "axc/v:018",
   "_gpid_": 3849
 },
 { "name": "SPW 251/9(g)",
@@ -139,6 +158,7 @@
   "capabilities2": { "H": 5, "s": 8 },
   "note_number": "42\u2020",
   "notes": [ "E", "R" ],
+  "_id_": "axc/v:019",
   "_gpid_": 3851
 },
 { "name": "OA vz 30(t)",
@@ -146,12 +166,14 @@
   "CS#": 2,
   "note_number": "43\u2020",
   "notes": [ "E", "R", "S" ],
+  "_id_": "axc/v:020",
   "_gpid_": 3805
 },
 { "name": "AB 41(i)",
   "CS#": 4,
   "note_number": "44\u2020",
   "notes": [ "E", "R", "C" ],
+  "_id_": "axc/v:021",
   "_gpid_": 3807
 },
 { "name": "PSW 222(g)",
@@ -159,6 +181,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "45\u2020",
   "notes": [ "P\u2020<sup>1</sup>", "E", "M\u2020<sup>2</sup>", "R", "B" ],
+  "_id_": "axc/v:022",
   "_gpid_": 3853
 },
 { "name": "PSW 222(L)(g)",
@@ -166,6 +189,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "45\u2020",
   "notes": [ "P\u2020<sup>1</sup>", "E", "M\u2020<sup>2</sup>", "R", "B" ],
+  "_id_": "axc/v:023",
   "_gpid_": 3855
 },
 { "name": "PSW 223(g)",
@@ -173,54 +197,63 @@
   "capabilities2": { "sD": 6 },
   "note_number": "46\u2020",
   "notes": [ "E", "M\u2020<sup>1</sup>", "P\u2020<sup>2</sup>", "R", "B" ],
+  "_id_": "axc/v:024",
   "_gpid_": 3857
 },
 { "name": "Komsomolet(r)",
   "cs#": "2\u2020<sup>1</sup>",
   "note_number": "47\u2020",
   "notes": [ "E", "F", "I\u2020<sup>1</sup>", "J", "R", "H", "S", "C", "B" ],
+  "_id_": "axc/v:025",
   "_gpid_": [ 3809, 3811 ]
 },
 { "name": "RSO(g)",
   "cs#": 5,
   "note_number": "48",
   "notes": [ "S", "B" ],
+  "_id_": "axc/v:026",
   "_gpid_": 3859
 },
 { "name": "Light Tractor",
   "cs#": 4,
   "note_number": "49",
   "notes": [ "R", "H", "S", "C", "B" ],
+  "_id_": "axc/v:027",
   "_gpid_": 3813
 },
 { "name": "Medium Tractor",
   "cs#": 5,
   "note_number": "49",
   "notes": [ "R", "H", "S", "C", "B" ],
+  "_id_": "axc/v:028",
   "_gpid_": 3815
 },
 { "name": "Heavy Tractor",
   "cs#": 6,
   "note_number": "49",
   "notes": [ "R", "H", "S", "C", "B" ],
+  "_id_": "axc/v:029",
   "_gpid_": 3817
 },
 { "name": "Light Truck",
   "cs#": 4,
   "note_number": "50",
   "notes": [ "R", "H", "S", "C", "B" ],
+  "_id_": "axc/v:030",
   "_gpid_": 3819
 },
 { "name": "Medium Truck",
   "cs#": 5,
   "note_number": "50",
   "notes": [ "R", "H", "S", "C", "B" ],
+  "_id_": "axc/v:031",
   "_gpid_": 3821
 },
 { "name": "Heavy Truck",
   "cs#": 7,
   "note_number": "50",
   "notes": [ "R", "H", "S", "C", "B" ],
+  "_id_": "axc/v:032",
   "_gpid_": 3823
 }
 

@@ -5,6 +5,7 @@
   "capabilities2": { "WP": "6\u2020" },
   "capabilities_other": [ "4PP", "s7\u2020" ],
   "note_number": "1\u2020",
+  "_id_": "ja/o:000",
   "_gpid_": 3253
 },
 { "name": "Year-11 Type Curved-Fire Infantry Gun",
@@ -12,6 +13,7 @@
   "capabilities2": { "WP": 5 },
   "note_number": "2\u2020",
   "notes": [ "A", "B\u2020<sup>1</sup>" ],
+  "_id_": "ja/o:001",
   "_gpid_": 3277
 },
 { "name": "Type 97 Curved-Fire Infantry Gun",
@@ -19,6 +21,7 @@
   "capabilities2": { "WP": 5 },
   "note_number": "3\u2020",
   "notes": [ "A" ],
+  "_id_": "ja/o:002",
   "_gpid_": 3279
 },
 { "name": "Type 97 Light Close-Attack Gun",
@@ -26,35 +29,41 @@
   "capabilities2": { "WP": 5 },
   "note_number": "4\u2020",
   "notes": [ "A", "B\u2020<sup>1</sup>" ],
+  "_id_": "ja/o:003",
   "_gpid_": 3281
 },
 { "name": "Type 97 Medium Close-Attack Gun",
   "capabilities": [ "NT", "Towing NA\u2020<sup>1</sup>" ],
   "note_number": "5\u2020",
   "notes": [ "A", "C\u2020<sup>1</sup>" ],
+  "_id_": "ja/o:004",
   "_gpid_": 3283
 },
 { "name": "Type 97 Automatic Gun",
   "capabilities_other": [ "5PP", "crew\u2020" ],
   "note_number": "6\u2020",
   "notes": [ "A" ],
+  "_id_": "ja/o:005",
   "_gpid_": 3263
 },
 { "name": "Type 94 Rapid-Fire Gun",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "note_number": "7\u2020",
   "notes": [ "A" ],
+  "_id_": "ja/o:006",
   "_gpid_": 3285
 },
 { "name": "Type 1 Machine-Moved Gun",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "8\u2020",
+  "_id_": "ja/o:007",
   "_gpid_": 3286
 },
 { "name": "Year-11 Type Flat-Trajectory Infantry Gun",
   "capabilities_other": [ "5PP (3PP dm)", "crewed\u2020" ],
   "note_number": "9\u2020",
   "notes": [ "A" ],
+  "_id_": "ja/o:008",
   "_gpid_": 3252
 },
 { "name": "Type 92 Infantry Gun",
@@ -62,6 +71,7 @@
   "capabilities2": { "AP": 5, "WP": 5, "H": [ [6,5] ] },
   "note_number": "10\u2020",
   "notes": [ "A" ],
+  "_id_": "ja/o:009",
   "_gpid_": 3287
 },
 { "name": "Year-41 Type Mountain Gun",
@@ -69,6 +79,7 @@
   "capabilities2": { "WP": 7, "H": [ [6,"4+"], "\u2020" ] },
   "note_number": "11\u2020",
   "notes": [ "A" ],
+  "_id_": "ja/o:010",
   "_gpid_": 3288
 },
 { "name": "Year-38 Type Field Gun (Improved)",
@@ -76,29 +87,34 @@
   "capabilities2": { "WP": 6 },
   "capabilities_other": [ "\"12\" AP TK#\u2020" ],
   "note_number": "12\u2020",
+  "_id_": "ja/o:011",
   "_gpid_": 3291
 },
 { "name": "Type 90 Field Gun",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "WP": 6 },
   "note_number": "13\u2020",
+  "_id_": "ja/o:012",
   "_gpid_": 3292
 },
 { "name": "Type 91 10cm Field Howitzer",
   "capabilities": [ "NT" ],
   "note_number": "14\u2020",
+  "_id_": "ja/o:013",
   "_gpid_": 3293
 },
 { "name": "Type 92 10cm Cannon",
   "capabilities": [ "NT" ],
   "capabilities2": { "AP": 5, "WP": 5 },
   "note_number": "15\u2020",
+  "_id_": "ja/o:014",
   "_gpid_": 3294
 },
 { "name": "Year-38 Type 12cm Howitzer",
   "capabilities": [ "NT", "h-d" ],
   "capabilities2": { "AP": 5 },
   "note_number": "16\u2020",
+  "_id_": "ja/o:015",
   "_gpid_": 3295
 },
 { "name": "Year-3 Type 14cm Naval Seacoast Gun",
@@ -106,6 +122,7 @@
   "capabilities_other": [ "NM\u2020" ],
   "note_number": "17\u2020<sup>1</sup>",
   "notes": [ "D\u2020", "E" ],
+  "_id_": "ja/o:016",
   "_gpid_": 3296
 },
 { "name": "Year-4 Type 15cm Howitzer",
@@ -113,6 +130,7 @@
   "capabilities2": { "AP": 5, "WP": 5 },
   "capabilities_other": [ "Towing risk\u2020" ],
   "note_number": "18\u2020",
+  "_id_": "ja/o:017",
   "_gpid_": 3297
 },
 { "name": "Type 96 15cm Howitzer",
@@ -120,12 +138,14 @@
   "capabilities2": { "AP": 5, "WP": 5 },
   "note_number": "19\u2020",
   "notes": [ "E" ],
+  "_id_": "ja/o:018",
   "_gpid_": 3298
 },
 { "name": "Type 93 Twin-Mount High-Angle Machine Gun",
   "capabilities": [ "T", "2 TK DR\u2020", "Towing NA\u2020<sup>1</sup>" ],
   "note_number": "20\u2020",
   "notes": [ "A", "C\u2020<sup>1</sup>", "E" ],
+  "_id_": "ja/o:019",
   "_gpid_": 3301
 },
 { "name": "Type 98 High-Angle Machine Cannon",
@@ -133,6 +153,7 @@
   "capabilities2": { "LF": [ "NT", "20\u2020", "2 ROF" ] },
   "note_number": "21\u2020",
   "notes": [ "A" ],
+  "_id_": "ja/o:020",
   "_gpid_": 3302
 },
 { "name": "Type 96 Naval High-Angle Machine Cannon",
@@ -140,24 +161,28 @@
   "capabilities_other": [ "NM\u2020" ],
   "note_number": "22\u2020<sup>1</sup>",
   "notes": [ "D\u2020", "E" ],
+  "_id_": "ja/o:021",
   "_gpid_": 3303
 },
 { "name": "Type 96 Twin-Mount Naval High-Angle Machine Cannon",
   "capabilities": [ "T", "NM\u2020", "2 TK DR\u2020<sup>1</sup>" ],
   "note_number": "22\u2020<sup>1</sup>",
   "notes": [ "D\u2020", "E" ],
+  "_id_": "ja/o:022",
   "_gpid_": 3304
 },
 { "name": "Type 96 Triple-Mount Naval High-Angle Machine Cannon",
   "capabilities": [ "T", "NM\u2020", "3 TK DR\u2020<sup>1</sup>" ],
   "note_number": "22\u2020<sup>1</sup>",
   "notes": [ "D\u2020", "E" ],
+  "_id_": "ja/o:023",
   "_gpid_": 3305
 },
 { "name": "Type 88 7.5cm Mobile Field High-Angle Gun",
   "capabilities": [ "T" ],
   "note_number": "23\u2020",
   "notes": [ "E" ],
+  "_id_": "ja/o:024",
   "_gpid_": 3306
 },
 { "name": "Year-10 Type 12cm Naval High-Angle Gun",
@@ -165,12 +190,14 @@
   "capabilities_other": [ "NM\u2020" ],
   "note_number": "24\u2020<sup>1</sup>",
   "notes": [ "D\u2020", "E" ],
+  "_id_": "ja/o:025",
   "_gpid_": 3308
 },
 { "name": "Type 10 8cm Naval High-Angle Gun",
   "capabilities": [ "T", "NM\u2020", "\"13\" AP TK\u2020<sup>1</sup>" ],
   "note_number": "25\u2020<sup>1</sup>",
   "notes": [ "D\u2020", "E" ],
+  "_id_": "ja/o:026",
   "_gpid_": 3307
 }
 

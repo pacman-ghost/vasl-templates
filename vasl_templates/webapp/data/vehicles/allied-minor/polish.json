@@ -5,6 +5,7 @@
   "CS#": 2,
   "note_number": "1\u2020",
   "notes": [ "D" ],
+  "_id_": "po/v:000",
   "_gpid_": 2259
 },
 { "name": "TKS(L)",
@@ -12,6 +13,7 @@
   "CS#": 2,
   "note_number": "1\u2020",
   "notes": [ "D" ],
+  "_id_": "po/v:001",
   "_gpid_": 2261
 },
 { "name": "Vickers Edw(b)",
@@ -19,6 +21,7 @@
   "CS#": 3,
   "note_number": "2\u2020",
   "notes": [ "A", "K\u2020<sup>1</sup>" ],
+  "_id_": "po/v:002",
   "_gpid_": 2263
 },
 { "name": "Vickers Ejw(b)",
@@ -26,6 +29,7 @@
   "CS#": 3,
   "note_number": "2",
   "notes": [ "A" ],
+  "_id_": "po/v:003",
   "_gpid_": 2265
 },
 { "name": "7TPdw",
@@ -33,11 +37,13 @@
   "CS#": 3,
   "note_number": "3\u2020",
   "notes": [ "K\u2020<sup>1</sup>" ],
+  "_id_": "po/v:004",
   "_gpid_": 2267
 },
 { "name": "7TPjw",
   "CS#": 3,
   "note_number": "3",
+  "_id_": "po/v:005",
   "_gpid_": 2269
 },
 { "name": "H35(f)",
@@ -46,6 +52,7 @@
   "capabilities2": { "AP": 10 },
   "note_number": "4",
   "notes": [ "A", "E\u2020", "F" ],
+  "_id_": "po/v:006",
   "_gpid_": 2271
 },
 { "name": "Peugeot 1918(f)",
@@ -53,57 +60,67 @@
   "CS#": 4,
   "note_number": "5",
   "notes": [ "A", "D", "G\u2020" ],
+  "_id_": "po/v:007",
   "_gpid_": 2273
 },
 { "name": "wz.29 \"Ursus\"",
   "no_radio": "\u00ae",
   "CS#": 5,
   "note_number": "6\u2020",
+  "_id_": "po/v:008",
   "_gpid_": 2275
 },
 { "name": "wz.34-I",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "7",
+  "_id_": "po/v:009",
   "_gpid_": 2277
 },
 { "name": "wz.34-II",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "7",
+  "_id_": "po/v:010",
   "_gpid_": 2279
 },
 { "name": "De Dion-Bouton(f)",
   "CS#": 7,
   "note_number": "8\u2020",
   "notes": [ "A", "Q\u2020<sup>1</sup>", "AA\u2020<sup>2</sup>" ],
+  "_id_": "po/v:011",
   "_gpid_": 2281
 },
 { "name": "PF 621L SPAA",
   "CS#": 5,
   "note_number": "9\u2020",
   "notes": [ "G\u2020<sup>1</sup>", "Q\u2020<sup>2</sup>", "AA\u2020<sup>3</sup>" ],
+  "_id_": "po/v:012",
   "_gpid_": 2283
 },
 { "name": "302T",
   "CS#": 3,
   "note_number": "10\u2020",
+  "_id_": "po/v:013",
   "_gpid_": 2285
 },
 { "name": "C2P",
   "cs#": 4,
   "note_number": "11",
+  "_id_": "po/v:014",
   "_gpid_": 2287
 },
 { "name": "C4P",
   "cs#": 5,
   "note_number": "12",
+  "_id_": "po/v:015",
   "_gpid_": 2289
 },
 { "name": "\"Taczanka\"",
   "cs#": 3,
   "note_number": "13\u2020",
   "notes": [ "Q\u2020<sup>1</sup>" ],
+  "_id_": "po/v:016",
   "_gpid_": 2291
 }
 

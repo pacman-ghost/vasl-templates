@@ -5,12 +5,14 @@
   "CS#": 2,
   "note_number": "17\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "E", "F", "G\u2020<sup>2</sup>" ],
+  "_id_": "sl/v:000",
   "_gpid_": 3879
 },
 { "name": "LT vz 34",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "18",
+  "_id_": "sl/v:001",
   "_gpid_": 3881
 },
 { "name": "PzKpfw IIA(g)",
@@ -18,6 +20,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "19",
   "notes": [ "E" ],
+  "_id_": "sl/v:002",
   "_gpid_": 3883
 },
 { "name": "LT vz 40(t)",
@@ -25,6 +28,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "20\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "E" ],
+  "_id_": "sl/v:003",
   "_gpid_": 3885
 },
 { "name": "Marder III(t)H",
@@ -32,18 +36,21 @@
   "capabilities2": { "A": [ [4,3], [3,4] ], "HE": 7, "s": 7, "sD": 6 },
   "note_number": "21\u2020",
   "notes": [ "E" ],
+  "_id_": "sl/v:004",
   "_gpid_": 3887
 },
 { "name": "Kfz 1(g)",
   "cs#": "2\u2020<sup>1</sup>",
   "note_number": "22\u2020",
   "notes": [ "E", "L\u2020<sup>2</sup>", "I\u2020<sup>1</sup>" ],
+  "_id_": "sl/v:005",
   "_gpid_": 3889
 },
 { "name": "SdKfz 2(g)",
   "cs#": 2,
   "note_number": "23\u2020",
   "notes": [ "E", "L\u2020<sup>1</sup>" ],
+  "_id_": "sl/v:006",
   "_gpid_": 3891
 }
 

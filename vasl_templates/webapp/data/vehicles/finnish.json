@@ -5,12 +5,14 @@
   "CS#": 2,
   "note_number": "1\u2020",
   "notes": [ "D", "M" ],
+  "_id_": "fi/v:000",
   "_gpid_": 6841
 },
 { "name": "T-50(r)",
   "CS#": 4,
   "note_number": "2\u2020",
   "notes": [ "D" ],
+  "_id_": "fi/v:001",
   "_gpid_": 6849
 },
 { "name": "Vikkersi(b)",
@@ -18,6 +20,7 @@
   "CS#": 3,
   "note_number": "3\u2020",
   "notes": [ "B\u2020<sup>1</sup>", "D" ],
+  "_id_": "fi/v:002",
   "_gpid_": 6853
 },
 { "name": "T-26E(b)",
@@ -25,6 +28,7 @@
   "CS#": 3,
   "note_number": "4",
   "notes": [ "B\u2020", "D" ],
+  "_id_": "fi/v:003",
   "_gpid_": 6861
 },
 { "name": "T-26A(r)",
@@ -32,6 +36,7 @@
   "CS#": 3,
   "note_number": "5\u2020",
   "notes": [ "D", "M" ],
+  "_id_": "fi/v:004",
   "_gpid_": 6865
 },
 { "name": "T-26B(r)",
@@ -39,6 +44,7 @@
   "CS#": 3,
   "note_number": "6",
   "notes": [ "C\u2020", "D", "M" ],
+  "_id_": "fi/v:005",
   "_gpid_": [ 7220, 6869 ]
 },
 { "name": "T-26C(r)",
@@ -46,6 +52,7 @@
   "CS#": 3,
   "note_number": "7",
   "notes": [ "C\u2020", "D", "M" ],
+  "_id_": "fi/v:006",
   "_gpid_": 6873
 },
 { "name": "OT-133(r)",
@@ -53,6 +60,7 @@
   "CS#": 3,
   "note_number": "8",
   "notes": [ "D", "M" ],
+  "_id_": "fi/v:007",
   "_gpid_": 6877
 },
 { "name": "BT-5(r)",
@@ -60,6 +68,7 @@
   "CS#": 3,
   "note_number": "9",
   "notes": [ "D", "M" ],
+  "_id_": "fi/v:008",
   "_gpid_": 6881
 },
 { "name": "BT-7(r)",
@@ -67,6 +76,7 @@
   "CS#": 3,
   "note_number": "9",
   "notes": [ "D", "M" ],
+  "_id_": "fi/v:009",
   "_gpid_": 6885
 },
 { "name": "Postijuna(r)",
@@ -75,6 +85,7 @@
   "capabilities2": { "s": 8 },
   "note_number": "10",
   "notes": [ "D", "F\u2020", "M" ],
+  "_id_": "fi/v:010",
   "_gpid_": 6891
 },
 { "name": "Postijuna(L)(r)",
@@ -83,6 +94,7 @@
   "capabilities2": { "s": 8 },
   "note_number": "11",
   "notes": [ "D", "F\u2020", "M" ],
+  "_id_": "fi/v:011",
   "_gpid_": 6895
 },
 { "name": "Sotka(r)",
@@ -90,6 +102,7 @@
   "capabilities2": { "A": [ [3,"2+"] ] },
   "note_number": "12\u2020",
   "notes": [ "D", "E", "M" ],
+  "_id_": "fi/v:012",
   "_gpid_": 6903
 },
 { "name": "Sotka(L)(r)",
@@ -97,6 +110,7 @@
   "capabilities2": { "A": 3 },
   "note_number": "13\u2020",
   "notes": [ "D", "E" ],
+  "_id_": "fi/v:013",
   "_gpid_": 6907
 },
 { "name": "Pitk\u00e4putkinen Sotka(r)",
@@ -104,12 +118,14 @@
   "capabilities2": { "A": 3, "sD": "6\u2020" },
   "note_number": "14\u2020",
   "notes": [ "D" ],
+  "_id_": "fi/v:014",
   "_gpid_": 6911
 },
 { "name": "KV-1E(r)",
   "CS#": 6,
   "note_number": "15\u2020",
   "notes": [ "D", "E", "M" ],
+  "_id_": "fi/v:015",
   "_gpid_": 6917
 },
 { "name": "KV-1 M42(r)",
@@ -117,6 +133,7 @@
   "capabilities2": { "A": 3 },
   "note_number": "15\u2020",
   "notes": [ "D", "E", "M" ],
+  "_id_": "fi/v:016",
   "_gpid_": 6921
 },
 { "name": "BT-42(r)",
@@ -127,6 +144,7 @@
   "capabilities2": { "s": 6 },
   "note_number": "16\u2020",
   "notes": [ "D", "M" ],
+  "_id_": "fi/v:017",
   "_gpid_": 6925
 },
 { "name": "Sturmi(g)",
@@ -134,6 +152,7 @@
   "capabilities2": { "A": 3, "H": 4, "s": 8 },
   "note_number": "17\u2020",
   "notes": [ "D" ],
+  "_id_": "fi/v:018",
   "_gpid_": 6929
 },
 { "name": "Landsverk Anti II(s)",
@@ -141,22 +160,26 @@
   "CS#": 6,
   "note_number": "18",
   "notes": [ "A\u2020", "D" ],
+  "_id_": "fi/v:019",
   "_gpid_": 6933
 },
 { "name": "L182(s)",
   "CS#": 5,
   "note_number": "19\u2020",
+  "_id_": "fi/v:020",
   "_gpid_": 6937
 },
 { "name": "L182(L)(s)",
   "CS#": 5,
   "note_number": "19\u2020",
+  "_id_": "fi/v:021",
   "_gpid_": 6941
 },
 { "name": "BA-20(r)",
   "no_radio": "\u00ae",
   "CS#": 3,
   "note_number": "20\u2020",
+  "_id_": "fi/v:022",
   "_gpid_": 6945
 },
 { "name": "BA-6(r)",
@@ -164,50 +187,59 @@
   "CS#": 4,
   "note_number": "21",
   "notes": [ "D" ],
+  "_id_": "fi/v:023",
   "_gpid_": 6949
 },
 { "name": "GAZ-4M-AA(r)",
   "CS#": 4,
   "note_number": "22\u2020",
   "notes": [ "A\u2020<sup>1</sup>" ],
+  "_id_": "fi/v:024",
   "_gpid_": 6955
 },
 { "name": "T-20(r)",
   "CS#": "2\u2020",
   "note_number": "23\u2020",
   "notes": [ "D" ],
+  "_id_": "fi/v:025",
   "_gpid_": 6959
 },
 { "name": "RSO(g)",
   "cs#": 5,
   "note_number": "24",
   "notes": [ "D" ],
+  "_id_": "fi/v:026",
   "_gpid_": 6967
 },
 { "name": "STZ-3(r)",
   "cs#": 4,
   "note_number": "25",
   "notes": [ "D" ],
+  "_id_": "fi/v:027",
   "_gpid_": 6975
 },
 { "name": "Tempo G1200",
   "cs#": 2,
   "note_number": "26\u2020",
+  "_id_": "fi/v:028",
   "_gpid_": 6979
 },
 { "name": "Light Truck",
   "cs#": 6,
   "note_number": "27\u2020",
+  "_id_": "fi/v:029",
   "_gpid_": 6981
 },
 { "name": "Medium Truck",
   "cs#": 7,
   "note_number": "27\u2020",
+  "_id_": "fi/v:030",
   "_gpid_": 6985
 },
 { "name": "Heavy Truck",
   "cs#": 7,
   "note_number": "27",
+  "_id_": "fi/v:031",
   "_gpid_": 6991
 }
 

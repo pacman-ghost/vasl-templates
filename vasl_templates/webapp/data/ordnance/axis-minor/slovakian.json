@@ -4,6 +4,7 @@
   "capabilities": [ "NT", "QSU" ],
   "note_number": "28",
   "notes": [ "A" ],
+  "_id_": "sl/o:000",
   "_gpid_": 3761
 },
 { "name": "Kanon PUV vz. 36(t)",
@@ -11,6 +12,7 @@
   "capabilities2": { "A": [ [5,1], [4,2] ] },
   "note_number": "29",
   "notes": [ "E" ],
+  "_id_": "sl/o:001",
   "_gpid_": 3763
 },
 { "name": "leIG 18(g)",
@@ -18,12 +20,14 @@
   "capabilities2": { "H": [ ["7","3+"] ] },
   "note_number": "30",
   "notes": [ "A", "E" ],
+  "_id_": "sl/o:002",
   "_gpid_": 3764
 },
 { "name": "Skoda M37(K4)",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 6 },
   "note_number": "31",
+  "_id_": "sl/o:003",
   "_gpid_": 3765
 },
 { "name": "Skoda 47L40(t)",
@@ -31,17 +35,20 @@
   "capabilities_other": [ "AA Fire ROF 2\u2020" ],
   "note_number": "32\u2020",
   "notes": [ "E" ],
+  "_id_": "sl/o:004",
   "_gpid_": 3766
 },
 { "name": "Skoda PL vz. 37(t)",
   "capabilities": [ "T" ],
   "note_number": "33",
   "notes": [ "E" ],
+  "_id_": "sl/o:005",
   "_gpid_": 3767
 },
 { "name": "Kanon PL vz. 22/24",
   "capabilities_other": [ "ST" ],
   "note_number": "34\u2020",
+  "_id_": "sl/o:006",
   "_gpid_": 3768
 }
 
