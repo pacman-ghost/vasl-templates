@@ -3,10 +3,12 @@
 import re
 
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import \
     init_webapp, select_tab, set_template_params, find_child, find_children, \
     wait_for_clipboard, click_dialog_button
+from vasl_templates.webapp.config.constants import DATA_DIR as REAL_DATA_DIR
 
 # ---------------------------------------------------------------------
 
@@ -208,6 +210,64 @@ def test_variable_capabilities( webapp, webdriver ):
     do_test( 1, 1945, '"D7\u2020" "HE8\u2020" "sD6" "sM8\u2020"' )
     do_test( 12, 1945, '"D7\u2020" "HE8\u2020" "sD6" "sM8\u2020"' )
     do_test( 1, 1946, '"D7\u2020" "HE8\u2020" "sD6" "sM8\u2020"' )
+
+# ---------------------------------------------------------------------
+
+def test_html_names( webapp, webdriver, monkeypatch ):
+    """Test handling of vehicles/ordnance that have HTML in their name."""
+
+    # initialize
+    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
+    init_webapp( webapp, webdriver )
+
+    def get_available_ivfs():
+        """Get the PzKw IVF's available for selection."""
+        entries = find_children( "#select-vo .select2-results li" )
+        entries = [ e.text for e in entries ]
+        return [ e for e in entries if "IVF" in e ]
+
+    # start to add a vehicle - make sure the two PzKw IVF's are available
+    select_tab( "ob{}".format( 1 ) )
+    add_vehicle_btn = find_child( "#ob_vehicles-add_1" )
+    add_vehicle_btn.click()
+    assert get_available_ivfs() == [ "PzKpfw IVF\n1\n (MT)", "PzKpfw IVF\n2\n (MT)" ]
+
+    # add the PzKw IVF2
+    elem = find_child( ".ui-dialog .select2-search__field" )
+    elem.send_keys( "IVF2" )
+    elem.send_keys( Keys.RETURN )
+
+    # make sure it was added to the player's OB
+    entries = find_children( "#ob_vehicles-sortable_1 li" )
+    entries = [ e.text for e in entries ]
+    assert entries == [ "PzKpfw IVF2" ]
+
+    # start to add another vehicle - make sure only the PzKw IVF1 is present
+    add_vehicle_btn.click()
+    assert get_available_ivfs() == [ "PzKpfw IVF\n1\n (MT)" ]
+
+    # add the PzKw IVF1
+    elem = find_child( ".ui-dialog .select2-search__field" )
+    elem.send_keys( "IVF1" )
+    elem.send_keys( Keys.RETURN )
+
+    # make sure it was added to the player's OB
+    entries = find_children( "#ob_vehicles-sortable_1 li" )
+    entries = [ e.text for e in entries ]
+    assert entries == [ "PzKpfw IVF2", "PzKpfw IVF1" ]
+
+    # start to add another vehicle - make sure there are no PzKw IVF's present
+    add_vehicle_btn.click()
+    assert not get_available_ivfs()
+    elem = find_child( ".ui-dialog .select2-search__field" )
+    elem.send_keys( Keys.ESCAPE )
+
+    # delete the PzKw IVF2
+    delete_vo( "vehicles", 1, "PzKpfw IVF2" , webdriver )
+
+    # start to add another vehicle - make sure the PzKw IVF2 is available again
+    add_vehicle_btn.click()
+    assert get_available_ivfs() == [ "PzKpfw IVF\n2\n (MT)" ]
 
 # ---------------------------------------------------------------------
 

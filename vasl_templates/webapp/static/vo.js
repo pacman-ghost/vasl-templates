@@ -7,8 +7,9 @@ function add_vo( vo_type, player_no )
     var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
     var vo_present = [];
     $sortable2.children("li").each( function() {
-        vo_present.push( $(this).text() ) ;
-    } );
+        var vo_entry = $(this).data( "sortable2-data" ).vo_entry ;
+        vo_present.push( vo_entry._id_ ) ;
+    } ) ;
 
     // load the available vehicles/ordnance
     var nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
@@ -19,21 +20,21 @@ function add_vo( vo_type, player_no )
     }
     var buf = [] ;
     for ( var i=0 ; i < entries.length ; ++i ) {
-        if ( vo_present.indexOf( entries[i].name ) !== -1 )
+        if ( vo_present.indexOf( entries[i]._id_ ) !== -1 )
             continue ;
-        // TODO: It'd be nice to be able to use HTML in the option text (e.g. PzKpfw IVF 1/2)
         buf.push( "<option value='" + i + "'>" + entries[i].name + "</option>" ) ;
     }
     function format_vo_entry( opt ) {
         if ( ! opt.id )
             return opt.text ;
+        var vo_entry = entries[opt.id] ;
         var div_class = "vo-entry" ;
-        if ( is_small_vasl_piece( entries[opt.id] ) )
+        if ( is_small_vasl_piece( vo_entry ) )
             div_class += " small-piece" ;
         var buf2 = ["<div class='" + div_class + "'>",
-            "<img src='" + _get_vo_image_url(entries[opt.id]) + "'>",
-            opt.text,
-            entries[opt.id].type ? "&nbsp;<span class='vo-type'>("+entries[opt.id].type+")</span>" : "",
+            "<img src='" + _get_vo_image_url(vo_entry) + "'>",
+            vo_entry.name,
+            vo_entry.type ? "&nbsp;<span class='vo-type'>("+vo_entry.type+")</span>" : "",
             "</div>"
         ] ;
         return $( buf2.join("") ) ;
@@ -99,7 +100,7 @@ function add_vo( vo_type, player_no )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function do_add_vo( vo_type, player_no, entry )
+function do_add_vo( vo_type, player_no, vo_entry )
 {
     // add the specified vehicle/ordnance
     // NOTE: We set a fixed height for the sortable2 entries (based on the CSS settings in tabs-ob.css),
@@ -107,14 +108,14 @@ function do_add_vo( vo_type, player_no, entry )
     var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
     var div_tag = "<div" ;
     var fixed_height = 3.25 * gEmSize ;
-    if ( is_small_vasl_piece( entry ) ) {
+    if ( is_small_vasl_piece( vo_entry ) ) {
         div_tag += " class='small-piece'" ;
         fixed_height = 2.25 * gEmSize ;
     }
     div_tag += ">" ;
     $sortable2.sortable2( "add", {
-        content: $( div_tag + "<img src='"+_get_vo_image_url(entry)+"'>" + entry.name + "</div>" ),
-        data: { caption: entry.name, vo_entry: entry, fixed_height: fixed_height },
+        content: $( div_tag + "<img src='"+_get_vo_image_url(vo_entry)+"'>" + vo_entry.name + "</div>" ),
+        data: { caption: vo_entry.name, vo_entry: vo_entry, fixed_height: fixed_height },
     } ) ;
 }
 

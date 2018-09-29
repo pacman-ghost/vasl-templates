@@ -4,13 +4,15 @@
   "CS#": 7,
   "capabilities2": { "A": [ [5,"A4E"], [6,"5E"], "\u2020<sup>1</sup>" ], "s": [ [5,5] ], "sP": 5 },
   "note_number": "23\u2020",
-  "notes": [ "A\u2020<sup>1</sup>", "N", "Y" ]
+  "notes": [ "A\u2020<sup>1</sup>", "N", "Y" ],
+  "_id_": "am/v:024"
 },
 { "name": "M18 GMC",
   "CS#": 6,
   "capabilities2": { "A": [ [5,"4E"], [6,"5E"], "\u2020<sup>1</sup>" ], "s": [ [5,5] ], "sP": 5 },
   "note_number": "24\u2020",
-  "notes": [ "A\u2020<sup>1</sup>" ]
+  "notes": [ "A\u2020<sup>1</sup>" ],
+  "_id_": "am/v:025"
 }
 
 ]

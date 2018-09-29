@@ -5,13 +5,16 @@
   "capabilities2": { "A": 1, "H": 2 },
   "capabilities_other": [ "can do other stuff" ],
   "note_number": "1",
-  "notes": [ "A", "B\u2020" ]
+  "notes": [ "A", "B\u2020" ],
+  "_id_": "ge/o:990"
 },
 { "name": "another german ordnance",
   "capabilities": [ "QSU" ],
-  "note_number": "2"
+  "note_number": "2",
+  "_id_": "ge/o:991"
 },
-{ "name": "name only"
+{ "name": "name only",
+  "_id_": "ge/o:992"
 }
 
 ]
