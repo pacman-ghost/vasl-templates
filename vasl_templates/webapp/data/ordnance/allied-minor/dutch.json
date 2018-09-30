@@ -5,8 +5,8 @@
   "capabilities_other": [ "5PP" ],
   "note_number": "15",
   "notes": [ "A", "Ne" ],
-  "_id_": "du/o:000",
-  "_gpid_": 2179
+  "id": "du/o:000",
+  "gpid": 2179
 }
 
 ]

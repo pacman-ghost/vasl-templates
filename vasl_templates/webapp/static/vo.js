@@ -8,7 +8,7 @@ function add_vo( vo_type, player_no )
     var vo_present = [];
     $sortable2.children("li").each( function() {
         var vo_entry = $(this).data( "sortable2-data" ).vo_entry ;
-        vo_present.push( vo_entry._id_ ) ;
+        vo_present.push( vo_entry.id ) ;
     } ) ;
 
     // load the available vehicles/ordnance
@@ -20,7 +20,7 @@ function add_vo( vo_type, player_no )
     }
     var buf = [] ;
     for ( var i=0 ; i < entries.length ; ++i ) {
-        if ( vo_present.indexOf( entries[i]._id_ ) !== -1 )
+        if ( vo_present.indexOf( entries[i].id ) !== -1 )
             continue ;
         buf.push( "<option value='" + i + "'>" + entries[i].name + "</option>" ) ;
     }
@@ -137,16 +137,16 @@ function find_vo( vo_type, nat, name )
 
 function _get_vo_image_url( vo_entry )
 {
-    if ( $.isArray( vo_entry._gpid_ ) ) // FIXME! if > 1 image available, let the user pick which one
-        return "/counter/" + vo_entry._gpid_[0] + "/front" ;
-    if ( vo_entry._gpid_ )
-        return "/counter/" + vo_entry._gpid_ + "/front" ;
+    if ( $.isArray( vo_entry.gpid ) ) // FIXME! if > 1 image available, let the user pick which one
+        return "/counter/" + vo_entry.gpid[0] + "/front" ;
+    if ( vo_entry.gpid )
+        return "/counter/" + vo_entry.gpid + "/front" ;
     return gImagesBaseUrl + "/missing-image.png" ;
 }
 
 function is_small_vasl_piece( vo_entry )
 {
-    var gpid = vo_entry._gpid_ ;
+    var gpid = vo_entry.gpid ;
     if ( $.isArray( gpid ) ) // FIXME! if > 1 image available, need to be smarter here
         gpid = gpid[0] ;
     if ( !( gpid in gVaslPieceInfo ) )

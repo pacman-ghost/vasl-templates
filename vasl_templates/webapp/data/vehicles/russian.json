@@ -6,8 +6,8 @@
   "CS#": 2,
   "note_number": "1",
   "notes": [ "H\u2020", "M" ],
-  "_id_": "ru/v:000",
-  "_gpid_": 541
+  "id": "ru/v:000",
+  "gpid": 541
 },
 { "name": "T-27",
   "type": "Tt",
@@ -15,8 +15,8 @@
   "CS#": 2,
   "note_number": "1.1\u2020",
   "notes": [ "M", "Q" ],
-  "_id_": "ru/v:001",
-  "_gpid_": 7032
+  "id": "ru/v:001",
+  "gpid": 7032
 },
 { "name": "T-40",
   "type": "aTt",
@@ -24,8 +24,8 @@
   "CS#": 2,
   "note_number": "2\u2020",
   "notes": [ "H\u2020" ],
-  "_id_": "ru/v:002",
-  "_gpid_": 543
+  "id": "ru/v:002",
+  "gpid": 543
 },
 { "name": "T-50",
   "type": "Tt",
@@ -33,16 +33,16 @@
   "CS#": 4,
   "capabilities2": { "A": [ [4,2] ] },
   "note_number": "3",
-  "_id_": "ru/v:003",
-  "_gpid_": 545
+  "id": "ru/v:003",
+  "gpid": 545
 },
 { "name": "T-60 M40",
   "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "4",
-  "_id_": "ru/v:004",
-  "_gpid_": 547
+  "id": "ru/v:004",
+  "gpid": 547
 },
 { "name": "T-60 M42",
   "type": "Tt",
@@ -50,8 +50,8 @@
   "CS#": 2,
   "note_number": "4",
   "notes": [ "C\u2020" ],
-  "_id_": "ru/v:005",
-  "_gpid_": 549
+  "id": "ru/v:005",
+  "gpid": 549
 },
 { "name": "T-70",
   "type": "Tt",
@@ -60,8 +60,8 @@
   "capabilities2": { "A": [ [4,2] ] },
   "note_number": "5",
   "notes": [ "C\u2020" ],
-  "_id_": "ru/v:006",
-  "_gpid_": 551
+  "id": "ru/v:006",
+  "gpid": 551
 },
 { "name": "T-26 M33",
   "type": "LT",
@@ -69,8 +69,8 @@
   "CS#": 3,
   "note_number": "6",
   "notes": [ "D", "I\u2020", "M", "P" ],
-  "_id_": "ru/v:007",
-  "_gpid_": [ 553, 555, 557, 559, 561 ]
+  "id": "ru/v:007",
+  "gpid": [ 553, 555, 557, 559, 561 ]
 },
 { "name": "T-26 M37/39",
   "type": "LT",
@@ -78,8 +78,8 @@
   "CS#": 3,
   "note_number": "6",
   "notes": [ "D", "M", "P" ],
-  "_id_": "ru/v:008",
-  "_gpid_": [ 563, 565, 567, 569 ]
+  "id": "ru/v:008",
+  "gpid": [ 563, 565, 567, 569 ]
 },
 { "name": "T-26 M31",
   "type": "LT",
@@ -87,8 +87,8 @@
   "CS#": 3,
   "note_number": "6.1\u2020",
   "notes": [ "M", "P" ],
-  "_id_": "ru/v:009",
-  "_gpid_": 7036
+  "id": "ru/v:009",
+  "gpid": 7036
 },
 { "name": "T-26 M32",
   "type": "LT",
@@ -96,8 +96,8 @@
   "CS#": 3,
   "note_number": "6.2\u2020",
   "notes": [ "M", "P" ],
-  "_id_": "ru/v:010",
-  "_gpid_": 7040
+  "id": "ru/v:010",
+  "gpid": 7040
 },
 { "name": "OT-26",
   "type": "LTv",
@@ -105,16 +105,16 @@
   "CS#": "3:brewup",
   "note_number": "6.3\u2020",
   "notes": [ "M", "P" ],
-  "_id_": "ru/v:011",
-  "_gpid_": 7042
+  "id": "ru/v:011",
+  "gpid": 7042
 },
 { "name": "ST-26 Bridgelayer",
   "type": "LTv",
   "CS#": 3,
   "note_number": "6.4\u2020",
   "notes": [ "M" ],
-  "_id_": "ru/v:012",
-  "_gpid_": 7048
+  "id": "ru/v:012",
+  "gpid": 7048
 },
 { "name": "OT-133",
   "type": "LTv",
@@ -122,8 +122,8 @@
   "CS#": 3,
   "note_number": "7\u2020",
   "notes": [ "M", "P" ],
-  "_id_": "ru/v:013",
-  "_gpid_": 571
+  "id": "ru/v:013",
+  "gpid": 571
 },
 { "name": "BT-2A",
   "type": "LT",
@@ -131,8 +131,8 @@
   "CS#": 3,
   "note_number": "7.1\u2020",
   "notes": [ "M" ],
-  "_id_": "ru/v:014",
-  "_gpid_": 573
+  "id": "ru/v:014",
+  "gpid": 573
 },
 { "name": "BT-5 M34",
   "type": "LT",
@@ -140,8 +140,8 @@
   "CS#": 3,
   "note_number": "8\u2020",
   "notes": [ "M", "P" ],
-  "_id_": "ru/v:015",
-  "_gpid_": 575
+  "id": "ru/v:015",
+  "gpid": 575
 },
 { "name": "BT-7 M37",
   "type": "LT",
@@ -149,8 +149,8 @@
   "CS#": 3,
   "note_number": "9",
   "notes": [ "D", "I\u2020", "M", "P" ],
-  "_id_": "ru/v:016",
-  "_gpid_": [ 577, 579, 581, 583 ]
+  "id": "ru/v:016",
+  "gpid": [ 577, 579, 581, 583 ]
 },
 { "name": "BT-7A",
   "type": "LT",
@@ -158,8 +158,8 @@
   "capabilities2": { "AP": 7, "s": 9 },
   "note_number": "10",
   "notes": [ "M", "P" ],
-  "_id_": "ru/v:017",
-  "_gpid_": 585
+  "id": "ru/v:017",
+  "gpid": 585
 },
 { "name": "T-28 M34",
   "type": "MT",
@@ -168,8 +168,8 @@
   "capabilities2": { "s": 8 },
   "note_number": "11\u2020",
   "notes": [ "M" ],
-  "_id_": "ru/v:018",
-  "_gpid_": 587
+  "id": "ru/v:018",
+  "gpid": 587
 },
 { "name": "T-28 M34(L)",
   "type": "MT",
@@ -178,8 +178,8 @@
   "capabilities2": { "s": 8 },
   "note_number": "11.1\u2020",
   "notes": [ "M" ],
-  "_id_": "ru/v:019",
-  "_gpid_": 7418
+  "id": "ru/v:019",
+  "gpid": 7418
 },
 { "name": "T-28E M40",
   "type": "MT",
@@ -188,8 +188,8 @@
   "capabilities2": { "s": 8 },
   "note_number": "12\u2020",
   "notes": [ "M" ],
-  "_id_": "ru/v:020",
-  "_gpid_": 589
+  "id": "ru/v:020",
+  "gpid": 589
 },
 { "name": "T-28E M40(L)",
   "type": "MT",
@@ -198,8 +198,8 @@
   "capabilities2": { "s": 8 },
   "note_number": "12.1\u2020",
   "notes": [ "M" ],
-  "_id_": "ru/v:021",
-  "_gpid_": 7420
+  "id": "ru/v:021",
+  "gpid": 7420
 },
 { "name": "T-34 M40",
   "type": "MT",
@@ -207,8 +207,8 @@
   "CS#": 5,
   "note_number": "13",
   "notes": [ "M" ],
-  "_id_": "ru/v:022",
-  "_gpid_": 591
+  "id": "ru/v:022",
+  "gpid": 591
 },
 { "name": "T-34 M41",
   "type": "MT",
@@ -217,8 +217,8 @@
   "capabilities2": { "A": [ [4,2] ] },
   "note_number": "14\u2020",
   "notes": [ "C\u2020", "M" ],
-  "_id_": "ru/v:023",
-  "_gpid_": 593
+  "id": "ru/v:023",
+  "gpid": 593
 },
 { "name": "OT-34",
   "type": "MTv",
@@ -228,16 +228,16 @@
   "capabilities2": { "A": [ [2,2] ], "AP": 7 },
   "note_number": "15\u2020",
   "notes": [ "C\u2020", "M" ],
-  "_id_": "ru/v:024",
-  "_gpid_": 595
+  "id": "ru/v:024",
+  "gpid": 595
 },
 { "name": "T-34 M43",
   "type": "MT",
   "CS#": 5,
   "capabilities2": { "A": [ [4,2] ] },
   "note_number": "16\u2020",
-  "_id_": "ru/v:025",
-  "_gpid_": 597
+  "id": "ru/v:025",
+  "gpid": 597
 },
 { "name": "T-43",
   "type": "MT",
@@ -246,8 +246,8 @@
   "capabilities2": { "A": [ [4,2] ] },
   "note_number": "17",
   "notes": [ "C\u2020", "M" ],
-  "_id_": "ru/v:026",
-  "_gpid_": 599
+  "id": "ru/v:026",
+  "gpid": 599
 },
 { "name": "T-34/85",
   "type": "MT",
@@ -255,8 +255,8 @@
   "capabilities2": { "A": [ [5,4] ], "sD": "6\u2020" },
   "note_number": "18\u2020",
   "notes": [ "J\u2020" ],
-  "_id_": "ru/v:027",
-  "_gpid_": 601
+  "id": "ru/v:027",
+  "gpid": 601
 },
 { "name": "M4/76(a)",
   "type": "MT",
@@ -264,8 +264,8 @@
   "capabilities2": { "A": [ [3,4] ], "s": 8, "sM": 8 },
   "note_number": "19\u2020",
   "notes": [ "N" ],
-  "_id_": "ru/v:028",
-  "_gpid_": 603
+  "id": "ru/v:028",
+  "gpid": 603
 },
 { "name": "T-44",
   "type": "MT",
@@ -273,8 +273,8 @@
   "capabilities2": { "A": [ [6,5] ] },
   "note_number": "20",
   "notes": [ "B\u2020", "M" ],
-  "_id_": "ru/v:029",
-  "_gpid_": 605
+  "id": "ru/v:029",
+  "gpid": 605
 },
 { "name": "T-35",
   "type": "HT",
@@ -283,40 +283,40 @@
   "capabilities2": { "s": 9 },
   "note_number": "21\u2020",
   "notes": [ "M" ],
-  "_id_": "ru/v:030",
-  "_gpid_": 607
+  "id": "ru/v:030",
+  "gpid": 607
 },
 { "name": "SMK",
   "type": "HT",
   "CS#": 7,
   "note_number": "21.1",
   "notes": [ "M", "T\u2020" ],
-  "_id_": "ru/v:031",
-  "_gpid_": 7056
+  "id": "ru/v:031",
+  "gpid": 7056
 },
 { "name": "T-100",
   "type": "HT",
   "CS#": 7,
   "note_number": "22.1",
   "notes": [ "M", "T\u2020" ],
-  "_id_": "ru/v:032",
-  "_gpid_": 7060
+  "id": "ru/v:032",
+  "gpid": 7060
 },
 { "name": "KV-1 M39/40",
   "type": "HT",
   "CS#": 6,
   "note_number": "22\u2020",
   "notes": [ "M" ],
-  "_id_": "ru/v:033",
-  "_gpid_": 609
+  "id": "ru/v:033",
+  "gpid": 609
 },
 { "name": "KV-1E",
   "type": "HT",
   "CS#": 6,
   "note_number": "23",
   "notes": [ "D", "M" ],
-  "_id_": "ru/v:034",
-  "_gpid_": [ 611, 613 ]
+  "id": "ru/v:034",
+  "gpid": [ 611, 613 ]
 },
 { "name": "KV-1 M41",
   "type": "HT",
@@ -324,8 +324,8 @@
   "capabilities2": { "A": [ [4,2] ] },
   "note_number": "23",
   "notes": [ "D", "M" ],
-  "_id_": "ru/v:035",
-  "_gpid_": [ 615, 617 ]
+  "id": "ru/v:035",
+  "gpid": [ 615, 617 ]
 },
 { "name": "KV-1 M42",
   "type": "HT",
@@ -333,8 +333,8 @@
   "capabilities2": { "A": [ [4,2] ] },
   "note_number": "23",
   "notes": [ "D", "M" ],
-  "_id_": "ru/v:036",
-  "_gpid_": [ 619, 621 ]
+  "id": "ru/v:036",
+  "gpid": [ 619, 621 ]
 },
 { "name": "KV-2",
   "type": "HT",
@@ -343,8 +343,8 @@
   "capabilities2": { "AP": 9 },
   "note_number": "24\u2020",
   "notes": [ "M" ],
-  "_id_": "ru/v:037",
-  "_gpid_": 623
+  "id": "ru/v:037",
+  "gpid": 623
 },
 { "name": "KV-8",
   "type": "HTv",
@@ -352,16 +352,16 @@
   "capabilities2": { "A": [ [4,2] ], "AP": 7 },
   "note_number": "15\u2020",
   "notes": [ "D", "M" ],
-  "_id_": "ru/v:038",
-  "_gpid_": [ 625, 627 ]
+  "id": "ru/v:038",
+  "gpid": [ 625, 627 ]
 },
 { "name": "KV-1S",
   "type": "HT",
   "CS#": 6,
   "capabilities2": { "A": [ [4,2] ] },
   "note_number": "25\u2020",
-  "_id_": "ru/v:039",
-  "_gpid_": 629
+  "id": "ru/v:039",
+  "gpid": 629
 },
 { "name": "KV-85",
   "type": "HT",
@@ -369,8 +369,8 @@
   "capabilities2": { "A": [ [4,3], [5,4] ] },
   "note_number": "26",
   "notes": [ "B\u2020" ],
-  "_id_": "ru/v:040",
-  "_gpid_": 631
+  "id": "ru/v:040",
+  "gpid": 631
 },
 { "name": "IS-2",
   "type": "HT",
@@ -378,8 +378,8 @@
   "no_if": true,
   "note_number": "27",
   "notes": [ "B\u2020" ],
-  "_id_": "ru/v:041",
-  "_gpid_": 633
+  "id": "ru/v:041",
+  "gpid": 633
 },
 { "name": "IS-2m",
   "type": "HT",
@@ -387,8 +387,8 @@
   "no_if": true,
   "note_number": "28",
   "notes": [ "B\u2020", "G\u2020" ],
-  "_id_": "ru/v:042",
-  "_gpid_": [ 635, 637 ]
+  "id": "ru/v:042",
+  "gpid": [ 635, 637 ]
 },
 { "name": "IS-3",
   "type": "HT",
@@ -397,16 +397,16 @@
   "capabilities2": { "sD": "6\u2020" },
   "note_number": "29",
   "notes": [ "G\u2020", "J\u2020" ],
-  "_id_": "ru/v:043",
-  "_gpid_": [ 639, 641 ]
+  "id": "ru/v:043",
+  "gpid": [ 639, 641 ]
 },
 { "name": "SU-76M",
   "type": "AG",
   "CS#": "4:brewup",
   "capabilities2": { "A": [ [5,3] ] },
   "note_number": "30\u2020",
-  "_id_": "ru/v:044",
-  "_gpid_": 645
+  "id": "ru/v:044",
+  "gpid": 645
 },
 { "name": "SU-76i(g)",
   "type": "AG",
@@ -414,8 +414,8 @@
   "capabilities2": { "A": [ [5,3] ] },
   "note_number": "31",
   "notes": [ "K" ],
-  "_id_": "ru/v:045",
-  "_gpid_": 647
+  "id": "ru/v:045",
+  "gpid": 647
 },
 { "name": "SU-122",
   "type": "AG",
@@ -423,16 +423,16 @@
   "no_if": true,
   "capabilities2": { "H": 9, "s": 8 },
   "note_number": "32",
-  "_id_": "ru/v:046",
-  "_gpid_": 649
+  "id": "ru/v:046",
+  "gpid": 649
 },
 { "name": "SU-152",
   "type": "AG",
   "CS#": 6,
   "no_if": true,
   "note_number": "33\u2020",
-  "_id_": "ru/v:047",
-  "_gpid_": 651
+  "id": "ru/v:047",
+  "gpid": 651
 },
 { "name": "ISU-122",
   "type": "AG",
@@ -441,8 +441,8 @@
   "capabilities2": { "s": 8 },
   "note_number": "34",
   "notes": [ "G\u2020" ],
-  "_id_": "ru/v:048",
-  "_gpid_": [ 653, 655 ]
+  "id": "ru/v:048",
+  "gpid": [ 653, 655 ]
 },
 { "name": "ISU-152",
   "type": "AG",
@@ -450,24 +450,24 @@
   "no_if": true,
   "note_number": "34",
   "notes": [ "G\u2020" ],
-  "_id_": "ru/v:049",
-  "_gpid_": [ 657, 659 ]
+  "id": "ru/v:049",
+  "gpid": [ 657, 659 ]
 },
 { "name": "SU-85",
   "type": "TD",
   "CS#": 5,
   "capabilities2": { "A": [ [5,3] ], "HE": 7, "s": 7 },
   "note_number": "35",
-  "_id_": "ru/v:050",
-  "_gpid_": 661
+  "id": "ru/v:050",
+  "gpid": 661
 },
 { "name": "SU-100",
   "type": "TD",
   "CS#": 5,
   "capabilities2": { "HE": 7 },
   "note_number": "36",
-  "_id_": "ru/v:051",
-  "_gpid_": 663
+  "id": "ru/v:051",
+  "gpid": 663
 },
 { "name": "SU-57(a)",
   "type": "TDht",
@@ -475,16 +475,16 @@
   "capabilities2": { "A": [ [5,3] ], "HE": 7 },
   "note_number": "37",
   "notes": [ "K" ],
-  "_id_": "ru/v:052",
-  "_gpid_": 665
+  "id": "ru/v:052",
+  "gpid": 665
 },
 { "name": "BA-20",
   "type": "AC",
   "no_radio": "\u00ae",
   "CS#": 3,
   "note_number": "38",
-  "_id_": "ru/v:053",
-  "_gpid_": 669
+  "id": "ru/v:053",
+  "gpid": 669
 },
 { "name": "BA-6",
   "type": "AC",
@@ -492,24 +492,24 @@
   "CS#": 4,
   "capabilities2": { "A": [ [4,2] ] },
   "note_number": "39",
-  "_id_": "ru/v:054",
-  "_gpid_": 671
+  "id": "ru/v:054",
+  "gpid": 671
 },
 { "name": "BA-64B",
   "type": "AC",
   "CS#": 2,
   "note_number": "40\u2020",
   "notes": [ "A\u2020" ],
-  "_id_": "ru/v:055",
-  "_gpid_": 673
+  "id": "ru/v:055",
+  "gpid": 673
 },
 { "name": "ZSU-37",
   "type": "SPAA",
   "CS#": 4,
   "note_number": "41\u2020",
   "notes": [ "A\u2020" ],
-  "_id_": "ru/v:056",
-  "_gpid_": 677
+  "id": "ru/v:056",
+  "gpid": 677
 },
 { "name": "SU-12",
   "type": "SPAtr",
@@ -517,24 +517,24 @@
   "capabilities2": { "AP": 7, "s": 8 },
   "note_number": "42",
   "notes": [ "F\u2020" ],
-  "_id_": "ru/v:057",
-  "_gpid_": 679
+  "id": "ru/v:057",
+  "gpid": 679
 },
 { "name": "GAZ-4M-AA",
   "type": "AAtr",
   "CS#": 4,
   "note_number": "43\u2020",
   "notes": [ "A\u2020" ],
-  "_id_": "ru/v:058",
-  "_gpid_": 681
+  "id": "ru/v:058",
+  "gpid": 681
 },
 { "name": "ZIS-42-AA",
   "type": "AAtr",
   "CS#": 4,
   "note_number": "44",
   "notes": [ "A\u2020", "F\u2020" ],
-  "_id_": "ru/v:059",
-  "_gpid_": 683
+  "id": "ru/v:059",
+  "gpid": 683
 },
 { "name": "LANO AT",
   "type": "TDtr",
@@ -542,8 +542,8 @@
   "CS#": 5,
   "capabilities2": { "A": [ [4,"2+"] ] },
   "note_number": "44.1",
-  "_id_": "ru/v:060",
-  "_gpid_": 7064
+  "id": "ru/v:060",
+  "gpid": 7064
 },
 { "name": "LANO AA",
   "type": "AAtr",
@@ -551,8 +551,8 @@
   "CS#": 5,
   "note_number": "44.2\u2020",
   "notes": [ "A\u2020<sup>1</sup>" ],
-  "_id_": "ru/v:061",
-  "_gpid_": 7068
+  "id": "ru/v:061",
+  "gpid": 7068
 },
 { "name": "IAG-10-AA",
   "type": "AAtr",
@@ -560,90 +560,90 @@
   "capabilities2": { "AP": 7 },
   "note_number": "45",
   "notes": [ "A\u2020", "F\u2020" ],
-  "_id_": "ru/v:062",
-  "_gpid_": 685
+  "id": "ru/v:062",
+  "gpid": 685
 },
 { "name": "GAZ-67B",
   "type": "tr",
   "CS#": 2,
   "note_number": "46",
   "notes": [ "L\u2020" ],
-  "_id_": "ru/v:063",
-  "_gpid_": 693
+  "id": "ru/v:063",
+  "gpid": 693
 },
 { "name": "Komsomolet",
   "type": "APC",
   "CS#": "2\u2020",
   "note_number": "46.1\u2020",
-  "_id_": "ru/v:064",
-  "_gpid_": 687
+  "id": "ru/v:064",
+  "gpid": 687
 },
 { "name": "STZ-3",
   "type": "PC",
   "cs#": 4,
   "note_number": "46.2",
-  "_id_": "ru/v:065",
-  "_gpid_": 7072
+  "id": "ru/v:065",
+  "gpid": 7072
 },
 { "name": "STZ-5",
   "type": "PC",
   "cs#": 7,
   "note_number": "46.3",
-  "_id_": "ru/v:066",
-  "_gpid_": 7078
+  "id": "ru/v:066",
+  "gpid": 7078
 },
 { "name": "GAZ-MM",
   "type": "tr",
   "cs#": 6,
   "note_number": "47",
-  "_id_": "ru/v:067",
-  "_gpid_": 694
+  "id": "ru/v:067",
+  "gpid": 694
 },
 { "name": "ZIS-5",
   "type": "tr",
   "cs#": 7,
   "note_number": "47",
-  "_id_": "ru/v:068",
-  "_gpid_": 696
+  "id": "ru/v:068",
+  "gpid": 696
 },
 { "name": "IAG-6",
   "type": "tr",
   "cs#": 7,
   "note_number": "47",
-  "_id_": "ru/v:069",
-  "_gpid_": 698
+  "id": "ru/v:069",
+  "gpid": 698
 },
 { "name": "NKL-6",
   "type": "AS",
   "CS#": "2\u2020",
   "note_number": "47.1\u2020",
   "notes": [ "S\u2020<sup>1</sup>" ],
-  "_id_": "ru/v:070",
-  "_gpid_": 7082
+  "id": "ru/v:070",
+  "gpid": 7082
 },
 { "name": "NKL-16",
   "type": "AS",
   "cs#": 2,
   "note_number": "47.1\u2020",
   "notes": [ "S\u2020<sup>1</sup>" ],
-  "_id_": "ru/v:071",
-  "_gpid_": 7084
+  "id": "ru/v:071",
+  "gpid": 7084
 },
 { "name": "NKL-26",
   "type": "AS",
   "CS#": 2,
   "note_number": "47.2\u2020",
   "notes": [ "Q", "S\u2020<sup>1</sup>" ],
-  "_id_": "ru/v:072",
-  "_gpid_": 7085
+  "id": "ru/v:072",
+  "gpid": 7085
 },
 { "name": "RF-8-GAZ-98",
   "type": "AS",
   "CS#": 3,
   "note_number": "47.3\u2020",
   "notes": [ "S\u2020<sup>1</sup>" ],
-  "_id_": "ru/v:073",
-  "_gpid_": 7089
+  "id": "ru/v:073",
+  "gpid": 7089
 },
 { "name": "Stuart III(a)",
   "type": "LT",
@@ -651,8 +651,8 @@
   "capabilities2": { "C": 6 },
   "note_number": "48",
   "notes": [ "N", "O", "LL" ],
-  "_id_": "ru/v:074",
-  "_gpid_": [ 6362, 6364 ]
+  "id": "ru/v:074",
+  "gpid": [ 6362, 6364 ]
 },
 { "name": "Lee(a)",
   "type": "MT",
@@ -660,8 +660,8 @@
   "capabilities2": { "C": "4\u2020", "s": "8\u2020" },
   "note_number": "49\u2020",
   "notes": [ "B\u2020<sup>1</sup>", "N", "O", "LL" ],
-  "_id_": "ru/v:075",
-  "_gpid_": [ 704, 706, 7423 ]
+  "id": "ru/v:075",
+  "gpid": [ 704, 706, 7423 ]
 },
 { "name": "Sherman III(a)",
   "type": "MT",
@@ -669,8 +669,8 @@
   "capabilities2": { "s": 8, "WP": [ [6,"J4+"], "\u2020" ] },
   "note_number": "50\u2020",
   "notes": [ "N", "O", "R\u2020<sup>1</sup>", "LL" ],
-  "_id_": "ru/v:076",
-  "_gpid_": [ 708, 710, 7091 ]
+  "id": "ru/v:076",
+  "gpid": [ 708, 710, 7091 ]
 },
 { "name": "Sherman III(L)(a)",
   "type": "MT",
@@ -678,8 +678,8 @@
   "capabilities2": { "s": 5, "WP": 7, "sM": 8 },
   "note_number": "50.1",
   "notes": [ "N", "O", "R\u2020", "LL" ],
-  "_id_": "ru/v:077",
-  "_gpid_": [ 712, 714 ]
+  "id": "ru/v:077",
+  "gpid": [ 712, 714 ]
 },
 { "name": "Matilda II(b)",
   "type": "HT",
@@ -687,8 +687,8 @@
   "capabilities2": { "sD": 6 },
   "note_number": "51\u2020",
   "notes": [ "M\u2020<sup>1</sup>", "N", "LL" ],
-  "_id_": "ru/v:078",
-  "_gpid_": null
+  "id": "ru/v:078",
+  "gpid": null
 },
 { "name": "Valentine V(b)",
   "type": "HT",
@@ -696,8 +696,8 @@
   "capabilities2": { "sM": 8 },
   "note_number": "52.1",
   "notes": [ "N", "LL" ],
-  "_id_": "ru/v:079",
-  "_gpid_": null
+  "id": "ru/v:079",
+  "gpid": null
 },
 { "name": "Valentine VIII(b)",
   "type": "HT",
@@ -705,8 +705,8 @@
   "capabilities2": { "HE": 7, "sD": 6 },
   "note_number": "52.2",
   "notes": [ "N", "LL" ],
-  "_id_": "ru/v:080",
-  "_gpid_": null
+  "id": "ru/v:080",
+  "gpid": null
 },
 { "name": "Churchill III(b)",
   "type": "HT",
@@ -714,31 +714,31 @@
   "capabilities2": { "D": [ [6,"J4"], [7,5], "\u2020" ], "HE": [ [7,"F3"], [8,"4+"], "\u2020" ], "sD": [ [6,"4+"] ], "sM": "8\u2020" },
   "note_number": "53\u2020",
   "notes": [ "N", "LL" ],
-  "_id_": "ru/v:081",
-  "_gpid_": null
+  "id": "ru/v:081",
+  "gpid": null
 },
 { "name": "M3A1 Scout Car(a)",
   "type": "APC",
   "CS#": 4,
   "note_number": "54\u2020",
   "notes": [ "N", "LL" ],
-  "_id_": "ru/v:082",
-  "_gpid_": null
+  "id": "ru/v:082",
+  "gpid": null
 },
 { "name": "Jeep GPA(a)",
   "type": "atr",
   "cs#": 2,
   "note_number": "59",
   "notes": [ "H\u2020", "L\u2020<sup>1</sup>" ],
-  "_id_": "ru/v:083",
-  "_gpid_": 7119
+  "id": "ru/v:083",
+  "gpid": 7119
 },
 { "name": "DUKW(a)",
   "type": "atr",
   "cs#": 7,
   "note_number": "60\u2020",
-  "_id_": "ru/v:084",
-  "_gpid_": 7120
+  "id": "ru/v:084",
+  "gpid": 7120
 }
 
 ]

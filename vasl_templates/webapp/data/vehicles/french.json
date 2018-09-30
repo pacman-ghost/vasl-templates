@@ -6,8 +6,8 @@
   "CS#": 2,
   "note_number": "1\u2020",
   "notes": [ "C" ],
-  "_id_": "fr/v:000",
-  "_gpid_": 1713
+  "id": "fr/v:000",
+  "gpid": 1713
 },
 { "name": "FT-17C",
   "type": "Tt",
@@ -16,8 +16,8 @@
   "capabilities2": { "AP": 9 },
   "note_number": "1\u2020",
   "notes": [ "C" ],
-  "_id_": "fr/v:001",
-  "_gpid_": 1715
+  "id": "fr/v:001",
+  "gpid": 1715
 },
 { "name": "FT-17 75BS",
   "type": "Tt",
@@ -26,8 +26,8 @@
   "no_if": true,
   "note_number": "1\u2020",
   "notes": [ "C" ],
-  "_id_": "fr/v:002",
-  "_gpid_": 1717
+  "id": "fr/v:002",
+  "gpid": 1717
 },
 { "name": "AMR 33",
   "type": "Tt",
@@ -35,8 +35,8 @@
   "CS#": 2,
   "note_number": "2\u2020",
   "notes": [ "E" ],
-  "_id_": "fr/v:003",
-  "_gpid_": 1719
+  "id": "fr/v:003",
+  "gpid": 1719
 },
 { "name": "AMR 35",
   "type": "Tt",
@@ -44,8 +44,8 @@
   "CS#": 2,
   "note_number": "3\u2020",
   "notes": [ "E" ],
-  "_id_": "fr/v:004",
-  "_gpid_": 1721
+  "id": "fr/v:004",
+  "gpid": 1721
 },
 { "name": "AMR 35(L)",
   "type": "Tt",
@@ -53,8 +53,8 @@
   "CS#": 2,
   "note_number": "3\u2020",
   "notes": [ "E" ],
-  "_id_": "fr/v:005",
-  "_gpid_": 1723
+  "id": "fr/v:005",
+  "gpid": 1723
 },
 { "name": "R35",
   "type": "LT",
@@ -63,8 +63,8 @@
   "capabilities2": { "AP": 10 },
   "note_number": "4\u2020",
   "notes": [ "A\u2020<sup>1</sup>", "C" ],
-  "_id_": "fr/v:006",
-  "_gpid_": 1725
+  "id": "fr/v:006",
+  "gpid": 1725
 },
 { "name": "H35",
   "type": "LT",
@@ -73,8 +73,8 @@
   "capabilities2": { "AP": 10 },
   "note_number": "5\u2020",
   "notes": [ "A\u2020<sup>1</sup>", "C", "E" ],
-  "_id_": "fr/v:007",
-  "_gpid_": 1731
+  "id": "fr/v:007",
+  "gpid": 1731
 },
 { "name": "FCM 36",
   "type": "LT",
@@ -83,8 +83,8 @@
   "capabilities2": { "AP": 10 },
   "note_number": "6\u2020",
   "notes": [ "C", "E", "I\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:008",
-  "_gpid_": 1735
+  "id": "fr/v:008",
+  "gpid": 1735
 },
 { "name": "H39",
   "type": "LT",
@@ -93,8 +93,8 @@
   "capabilities2": { "AP": 10 },
   "note_number": "7\u2020",
   "notes": [ "A\u2020<sup>1</sup>", "C", "F" ],
-  "_id_": "fr/v:009",
-  "_gpid_": [ 1737, 1739 ]
+  "id": "fr/v:009",
+  "gpid": [ 1737, 1739 ]
 },
 { "name": "H39(L)",
   "type": "LT",
@@ -103,8 +103,8 @@
   "capabilities2": { "AP": 10 },
   "note_number": "8\u2020",
   "notes": [ "A\u2020<sup>1</sup>", "C", "E", "F" ],
-  "_id_": "fr/v:010",
-  "_gpid_": [ 1741, 1743 ]
+  "id": "fr/v:010",
+  "gpid": [ 1741, 1743 ]
 },
 { "name": "H35(L)",
   "type": "LT",
@@ -113,8 +113,8 @@
   "capabilities2": { "AP": 10 },
   "note_number": "8\u2020",
   "notes": [ "A\u2020<sup>1</sup>", "C", "E" ],
-  "_id_": "fr/v:011",
-  "_gpid_": 1733
+  "id": "fr/v:011",
+  "gpid": 1733
 },
 { "name": "R35(L)",
   "type": "LT",
@@ -123,8 +123,8 @@
   "capabilities2": { "AP": 10 },
   "note_number": "8\u2020",
   "notes": [ "A\u2020<sup>1</sup>", "C", "E", "F" ],
-  "_id_": "fr/v:012",
-  "_gpid_": [ 1727, 1729 ]
+  "id": "fr/v:012",
+  "gpid": [ 1727, 1729 ]
 },
 { "name": "R40",
   "type": "LT",
@@ -133,8 +133,8 @@
   "capabilities2": { "AP": 10 },
   "note_number": "9",
   "notes": [ "A\u2020<sup>1</sup>", "C", "E", "I\u2020" ],
-  "_id_": "fr/v:013",
-  "_gpid_": 1745
+  "id": "fr/v:013",
+  "gpid": 1745
 },
 { "name": "D1",
   "type": "MT",
@@ -142,8 +142,8 @@
   "CS#": 3,
   "note_number": "10\u2020",
   "notes": [ "B\u2020<sup>3</sup>", "C", "I\u2020<sup>2</sup>", "R\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:014",
-  "_gpid_": 1747
+  "id": "fr/v:014",
+  "gpid": 1747
 },
 { "name": "D2",
   "type": "MT",
@@ -151,8 +151,8 @@
   "CS#": 3,
   "note_number": "11\u2020",
   "notes": [ "B\u2020<sup>3</sup>", "C", "E", "I\u2020<sup>2</sup>", "R\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:015",
-  "_gpid_": 1749
+  "id": "fr/v:015",
+  "gpid": 1749
 },
 { "name": "D2(L)",
   "type": "MT",
@@ -160,8 +160,8 @@
   "CS#": 3,
   "note_number": "11\u2020",
   "notes": [ "A\u2020<sup>4</sup>", "B\u2020<sup>3</sup>", "C", "E", "I\u2020<sup>2</sup>", "R\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:016",
-  "_gpid_": 1751
+  "id": "fr/v:016",
+  "gpid": 1751
 },
 { "name": "S35",
   "type": "MT",
@@ -169,8 +169,8 @@
   "CS#": 4,
   "note_number": "12\u2020",
   "notes": [ "A\u2020<sup>3</sup>", "C", "F", "I\u2020<sup>2</sup>", "R\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:017",
-  "_gpid_": [ 1753, 1755 ]
+  "id": "fr/v:017",
+  "gpid": [ 1753, 1755 ]
 },
 { "name": "B1-bis",
   "type": "HT",
@@ -180,8 +180,8 @@
   "capabilities": [ "AP9<sup>75</sup>\u2020" ],
   "note_number": "13\u2020",
   "notes": [ "A\u2020<sup>4</sup>", "B\u2020<sup>3</sup>", "C", "E", "F", "I\u2020<sup>2</sup>", "R\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:018",
-  "_gpid_": [ 1757, 1759 ]
+  "id": "fr/v:018",
+  "gpid": [ 1757, 1759 ]
 },
 { "name": "Valentine V(b)",
   "type": "HT",
@@ -189,8 +189,8 @@
   "capabilities2": { "sM": 8 },
   "note_number": "14\u2020",
   "notes": [ "F" ],
-  "_id_": "fr/v:019",
-  "_gpid_": [ 1761, 1763 ]
+  "id": "fr/v:019",
+  "gpid": [ 1761, 1763 ]
 },
 { "name": "AM Dodge(a)",
   "type": "SC",
@@ -198,8 +198,8 @@
   "capabilities2": { "AP": 10 },
   "note_number": "15\u2020",
   "notes": [ "F" ],
-  "_id_": "fr/v:020",
-  "_gpid_": [ 1767, 1769, 1771 ]
+  "id": "fr/v:020",
+  "gpid": [ 1767, 1769, 1771 ]
 },
 { "name": "AMD 20 cv TOE",
   "type": "AC",
@@ -208,8 +208,8 @@
   "capabilities2": { "AP": 9 },
   "note_number": "16\u2020",
   "notes": [ "D\u2020<sup>2</sup>", "R\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:021",
-  "_gpid_": 1773
+  "id": "fr/v:021",
+  "gpid": 1773
 },
 { "name": "AMD 50 AM",
   "type": "AC",
@@ -218,8 +218,8 @@
   "capabilities2": { "AP": 9 },
   "note_number": "17\u2020",
   "notes": [ "D\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:022",
-  "_gpid_": 1775
+  "id": "fr/v:022",
+  "gpid": 1775
 },
 { "name": "AMD 80 AM",
   "type": "AC",
@@ -227,8 +227,8 @@
   "CS#": 4,
   "note_number": "17\u2020",
   "notes": [ "D\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:023",
-  "_gpid_": 1777
+  "id": "fr/v:023",
+  "gpid": 1777
 },
 { "name": "AMD 35",
   "type": "AC",
@@ -236,16 +236,16 @@
   "CS#": 4,
   "note_number": "18\u2020",
   "notes": [ "E" ],
-  "_id_": "fr/v:024",
-  "_gpid_": [ 1779, 1781 ]
+  "id": "fr/v:024",
+  "gpid": [ 1779, 1781 ]
 },
 { "name": "Laffly W15T CC",
   "type": "TDtr",
   "CS#": 3,
   "note_number": "19\u2020",
   "notes": [ "E", "J\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:025",
-  "_gpid_": 1785
+  "id": "fr/v:025",
+  "gpid": 1785
 },
 { "name": "Ac de 75 Conus(b)",
   "type": "SPAtr",
@@ -253,8 +253,8 @@
   "capabilities2": { "s": 8 },
   "note_number": "20\u2020",
   "notes": [ "F", "M\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:026",
-  "_gpid_": 1787
+  "id": "fr/v:026",
+  "gpid": 1787
 },
 { "name": "Ac de 75 mle 97",
   "type": "SPAtr",
@@ -262,55 +262,55 @@
   "capabilities2": { "s": 8 },
   "note_number": "20\u2020",
   "notes": [ "M\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:027",
-  "_gpid_": 1789
+  "id": "fr/v:027",
+  "gpid": 1789
 },
 { "name": "Camion de Mitrailleuse CA",
   "type": "AAtr",
   "CS#": 4,
   "note_number": "21\u2020",
-  "_id_": "fr/v:028",
-  "_gpid_": 1791
+  "id": "fr/v:028",
+  "gpid": 1791
 },
 { "name": "Camion de 13.2 CAJ",
   "type": "AAtr",
   "CS#": 4,
   "note_number": "21\u2020",
   "notes": [ "AA\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:029",
-  "_gpid_": 1793
+  "id": "fr/v:029",
+  "gpid": 1793
 },
 { "name": "Camion de 20 CA",
   "type": "AAtr",
   "CS#": 4,
   "note_number": "21\u2020",
   "notes": [ "AA\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:030",
-  "_gpid_": 1795
+  "id": "fr/v:030",
+  "gpid": 1795
 },
 { "name": "Ac de 25 CA",
   "type": "AAtr",
   "CS#": 4,
   "note_number": "21\u2020",
   "notes": [ "F", "AA\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:031",
-  "_gpid_": 1797
+  "id": "fr/v:031",
+  "gpid": 1797
 },
 { "name": "Ac de 40 CA(a)",
   "type": "AAtr",
   "CS#": 4,
   "note_number": "22",
   "notes": [ "E", "F", "M\u2020", "AA\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:032",
-  "_gpid_": 1801
+  "id": "fr/v:032",
+  "gpid": 1801
 },
 { "name": "Ac de 75 mle 13/34",
   "type": "AAtr",
   "CS#": 7,
   "note_number": "23\u2020",
   "notes": [ "D\u2020<sup>1</sup>", "F", "AA\u2020<sup>2</sup>" ],
-  "_id_": "fr/v:033",
-  "_gpid_": 1803
+  "id": "fr/v:033",
+  "gpid": 1803
 },
 { "name": "AMC 29",
   "type": "ht",
@@ -318,124 +318,124 @@
   "CS#": 3,
   "capabilities2": { "AP": 9 },
   "note_number": "24\u2020",
-  "_id_": "fr/v:034",
-  "_gpid_": 1807
+  "id": "fr/v:034",
+  "gpid": 1807
 },
 { "name": "C-K P17",
   "type": "ht",
   "cs#": 4,
   "note_number": "25\u2020",
-  "_id_": "fr/v:035",
-  "_gpid_": 1809
+  "id": "fr/v:035",
+  "gpid": 1809
 },
 { "name": "C-K P19",
   "type": "ht",
   "cs#": 5,
   "note_number": "25\u2020",
   "notes": [ "H\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:036",
-  "_gpid_": 1811
+  "id": "fr/v:036",
+  "gpid": 1811
 },
 { "name": "SOMUA MCG",
   "type": "ht",
   "cs#": 4,
   "note_number": "26\u2020",
-  "_id_": "fr/v:037",
-  "_gpid_": 1813
+  "id": "fr/v:037",
+  "gpid": 1813
 },
 { "name": "Unic P107",
   "type": "ht",
   "cs#": 5,
   "note_number": "27\u2020",
   "notes": [ "L\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:038",
-  "_gpid_": 1815
+  "id": "fr/v:038",
+  "gpid": 1815
 },
 { "name": "Renault UE",
   "type": "APC",
   "cs#": "2\u2020<sup>1</sup>",
   "note_number": "28\u2020",
   "notes": [ "G\u2020<sup>1</sup>", "K" ],
-  "_id_": "fr/v:039",
-  "_gpid_": [ 1817, 1819 ]
+  "id": "fr/v:039",
+  "gpid": [ 1817, 1819 ]
 },
 { "name": "Lorraine 38L",
   "type": "APC",
   "cs#": "3/2\u2020",
   "note_number": "29\u2020",
   "notes": [ "E", "H\u2020" ],
-  "_id_": "fr/v:040",
-  "_gpid_": 1821
+  "id": "fr/v:040",
+  "gpid": 1821
 },
 { "name": "Lorraine 37L 44",
   "type": "APC",
   "CS#": 3,
   "note_number": "30\u2020",
   "notes": [ "E", "K" ],
-  "_id_": "fr/v:041",
-  "_gpid_": 1824
+  "id": "fr/v:041",
+  "gpid": 1824
 },
 { "name": "Carrier AC(b)",
   "type": "APCv",
   "CS#": 3,
   "note_number": "31\u2020",
   "notes": [ "F", "M\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:042",
-  "_gpid_": 1826
+  "id": "fr/v:042",
+  "gpid": 1826
 },
 { "name": "Latil TAR H2",
   "type": "PC",
   "cs#": 5,
   "note_number": "32\u2020",
   "notes": [ "J\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:043",
-  "_gpid_": 1828
+  "id": "fr/v:043",
+  "gpid": 1828
 },
 { "name": "Laffly S15T",
   "type": "PC",
   "cs#": 5,
   "note_number": "33\u2020",
   "notes": [ "J\u2020<sup>1</sup>", "L\u2020<sup>2</sup>" ],
-  "_id_": "fr/v:044",
-  "_gpid_": 1830
+  "id": "fr/v:044",
+  "gpid": 1830
 },
 { "name": "Laffly S20TL",
   "type": "PC",
   "cs#": 5,
   "note_number": "34\u2020",
   "notes": [ "E", "J\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:045",
-  "_gpid_": 1832
+  "id": "fr/v:045",
+  "gpid": 1832
 },
 { "name": "Laffly V15T",
   "type": "PC",
   "cs#": 5,
   "note_number": "35",
   "notes": [ "E", "J\u2020" ],
-  "_id_": "fr/v:046",
-  "_gpid_": 1834
+  "id": "fr/v:046",
+  "gpid": 1834
 },
 { "name": "Peugeot 202",
   "type": "tr",
   "cs#": "2\u2020<sup>1</sup>",
   "note_number": "36\u2020",
   "notes": [ "G\u2020<sup>1</sup>" ],
-  "_id_": "fr/v:047",
-  "_gpid_": 1836
+  "id": "fr/v:047",
+  "gpid": 1836
 },
 { "name": "Citro\u00ebn 23",
   "type": "tr",
   "cs#": 5,
   "note_number": "36\u2020",
-  "_id_": "fr/v:048",
-  "_gpid_": 1837
+  "id": "fr/v:048",
+  "gpid": 1837
 },
 { "name": "Renault AGR2",
   "type": "tr",
   "cs#": 7,
   "note_number": "36\u2020",
-  "_id_": "fr/v:049",
-  "_gpid_": 1839
+  "id": "fr/v:049",
+  "gpid": 1839
 }
 
 ]

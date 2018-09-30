@@ -6,16 +6,16 @@
   "CS#": 2,
   "note_number": "1\u2020",
   "notes": [ "A\u2020<sup>1</sup>" ],
-  "_id_": "it/v:000",
-  "_gpid_": 3466
+  "id": "it/v:000",
+  "gpid": 3466
 },
 { "name": "L5/30",
   "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "1\u2020",
-  "_id_": "it/v:001",
-  "_gpid_": 3468
+  "id": "it/v:001",
+  "gpid": 3468
 },
 { "name": "L3/35",
   "type": "Tt",
@@ -23,8 +23,8 @@
   "CS#": 2,
   "note_number": "2\u2020",
   "notes": [ "A\u2020<sup>1</sup>", "B\u2020<sup>1</sup>", "E", "N", "R" ],
-  "_id_": "it/v:002",
-  "_gpid_": 3470
+  "id": "it/v:002",
+  "gpid": 3470
 },
 { "name": "L3 aa",
   "type": "Tt",
@@ -32,8 +32,8 @@
   "CS#": 2,
   "note_number": "3\u2020",
   "notes": [ "C", "E\u2020<sup>2</sup>", "F\u2020<sup>1</sup>", "N", "R" ],
-  "_id_": "it/v:003",
-  "_gpid_": 3472
+  "id": "it/v:003",
+  "gpid": 3472
 },
 { "name": "L3 cc",
   "type": "Tt",
@@ -41,8 +41,8 @@
   "CS#": 2,
   "note_number": "4\u2020",
   "notes": [ "E", "J\u2020<sup>1</sup>", "N" ],
-  "_id_": "it/v:004",
-  "_gpid_": 3474
+  "id": "it/v:004",
+  "gpid": 3474
 },
 { "name": "L3 Lf",
   "type": "Ttv",
@@ -50,16 +50,16 @@
   "CS#": 2,
   "note_number": "5\u2020",
   "notes": [ "E\u2020<sup>1</sup>", "N" ],
-  "_id_": "it/v:005",
-  "_gpid_": 3476
+  "id": "it/v:005",
+  "gpid": 3476
 },
 { "name": "L6/40",
   "type": "LT",
   "CS#": 2,
   "note_number": "6\u2020",
   "notes": [ "N", "R" ],
-  "_id_": "it/v:006",
-  "_gpid_": 3479
+  "id": "it/v:006",
+  "gpid": 3479
 },
 { "name": "M11/39",
   "type": "MT",
@@ -67,8 +67,8 @@
   "CS#": 3,
   "note_number": "7\u2020",
   "notes": [ "A\u2020<sup>1</sup>", "N" ],
-  "_id_": "it/v:007",
-  "_gpid_": 3481
+  "id": "it/v:007",
+  "gpid": 3481
 },
 { "name": "M13/40",
   "type": "MT",
@@ -76,32 +76,32 @@
   "CS#": 4,
   "note_number": "8\u2020",
   "notes": [ "B\u2020<sup>1</sup>", "C\u2020<sup>2</sup>", "N" ],
-  "_id_": "it/v:008",
-  "_gpid_": [ 3483, 3485 ]
+  "id": "it/v:008",
+  "gpid": [ 3483, 3485 ]
 },
 { "name": "M14/41",
   "type": "MT",
   "CS#": 4,
   "note_number": "9\u2020",
   "notes": [ "B\u2020<sup>1</sup>", "C\u2020<sup>2</sup>", "N" ],
-  "_id_": "it/v:009",
-  "_gpid_": [ 3487, 3489 ]
+  "id": "it/v:009",
+  "gpid": [ 3487, 3489 ]
 },
 { "name": "M15/42",
   "type": "MT",
   "CS#": 4,
   "note_number": "10\u2020",
   "notes": [ "B\u2020<sup>1</sup>", "C\u2020<sup>2</sup>" ],
-  "_id_": "it/v:010",
-  "_gpid_": [ 3491, 3493 ]
+  "id": "it/v:010",
+  "gpid": [ 3491, 3493 ]
 },
 { "name": "MR/35(f)",
   "type": "MT",
   "CS#": 2,
   "note_number": "11\u2020",
   "notes": [ "I\u2020<sup>1</sup>" ],
-  "_id_": "it/v:011",
-  "_gpid_": 3495
+  "id": "it/v:011",
+  "gpid": 3495
 },
 { "name": "SMV M40 75/18",
   "type": "AG",
@@ -109,8 +109,8 @@
   "capabilities2": { "H": [ [7,"S2+"], "\u2020<sup>2</sup>" ], "s": 8 },
   "note_number": "12",
   "notes": [ "C\u2020<sup>1</sup>", "F\u2020", "H\u2020<sup>2</sup>", "N" ],
-  "_id_": "it/v:012",
-  "_gpid_": [ 3499, 3501 ]
+  "id": "it/v:012",
+  "gpid": [ 3499, 3501 ]
 },
 { "name": "SMV M41 75/18",
   "type": "AG",
@@ -118,8 +118,8 @@
   "capabilities2": { "H": [ [7,"S2+"], "\u2020<sup>2</sup>" ], "s": 8 },
   "note_number": "12\u2020",
   "notes": [ "C\u2020<sup>1</sup>", "H\u2020<sup>2</sup>", "N" ],
-  "_id_": "it/v:013",
-  "_gpid_": [ 3503, 3505 ]
+  "id": "it/v:013",
+  "gpid": [ 3503, 3505 ]
 },
 { "name": "SMV M42 75/18",
   "type": "AG",
@@ -127,8 +127,8 @@
   "capabilities2": { "H": 7, "s": 8 },
   "note_number": "13",
   "notes": [ "C\u2020" ],
-  "_id_": "it/v:014",
-  "_gpid_": 3507
+  "id": "it/v:014",
+  "gpid": 3507
 },
 { "name": "SMV M42 75/32",
   "type": "AG",
@@ -136,8 +136,8 @@
   "capabilities2": { "H": 7, "s": 8 },
   "note_number": "13\u2020",
   "notes": [ "C\u2020<sup>1</sup>" ],
-  "_id_": "it/v:015",
-  "_gpid_": 3509
+  "id": "it/v:015",
+  "gpid": 3509
 },
 { "name": "SMV M43 105/25",
   "type": "AG",
@@ -146,16 +146,16 @@
   "capabilities2": { "H": 7, "s": 8 },
   "note_number": "14",
   "notes": [ "C\u2020" ],
-  "_id_": "it/v:016",
-  "_gpid_": 3511
+  "id": "it/v:016",
+  "gpid": 3511
 },
 { "name": "SMV L40 47/32",
   "type": "TD",
   "CS#": 3,
   "note_number": "15\u2020",
   "notes": [ "N<sup>T</sup>", "R" ],
-  "_id_": "it/v:017",
-  "_gpid_": 3513
+  "id": "it/v:017",
+  "gpid": 3513
 },
 { "name": "SMV M41M 90/53",
   "type": "TD",
@@ -163,40 +163,40 @@
   "capabilities2": { "HE": 7 },
   "note_number": "16\u2020",
   "notes": [ "D\u2020<sup>1</sup>" ],
-  "_id_": "it/v:018",
-  "_gpid_": 3515
+  "id": "it/v:018",
+  "gpid": 3515
 },
 { "name": "AS 42",
   "type": "SC",
   "CS#": 3,
   "note_number": "17\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "M", "N" ],
-  "_id_": "it/v:019",
-  "_gpid_": 3519
+  "id": "it/v:019",
+  "gpid": 3519
 },
 { "name": "AS 42 aa",
   "type": "SC",
   "CS#": 4,
   "note_number": "17\u2020",
   "notes": [ "G\u2020<sup>1</sup>", "L\u2020<sup>2</sup>", "M", "N", "AA\u2020<sup>1</sup>" ],
-  "_id_": "it/v:020",
-  "_gpid_": 3521
+  "id": "it/v:020",
+  "gpid": 3521
 },
 { "name": "AS 42 cc",
   "type": "SC",
   "CS#": 4,
   "note_number": "17\u2020",
   "notes": [ "G\u2020<sup>1</sup>", "J\u2020<sup>1</sup>", "L\u2020<sup>2</sup>", "M", "N" ],
-  "_id_": "it/v:021",
-  "_gpid_": 3523
+  "id": "it/v:021",
+  "gpid": 3523
 },
 { "name": "Lince",
   "type": "SC",
   "CS#": 2,
   "note_number": "18",
   "notes": [ "E" ],
-  "_id_": "it/v:022",
-  "_gpid_": 3525
+  "id": "it/v:022",
+  "gpid": 3525
 },
 { "name": "Lancia 1ZM",
   "type": "AC",
@@ -204,8 +204,8 @@
   "CS#": 6,
   "note_number": "19\u2020",
   "notes": [ "A\u2020<sup>2</sup>", "F\u2020<sup>3</sup>", "M\u2020<sup>1</sup>" ],
-  "_id_": "it/v:023",
-  "_gpid_": 3527
+  "id": "it/v:023",
+  "gpid": 3527
 },
 { "name": "Fiat 611A",
   "type": "AC",
@@ -213,8 +213,8 @@
   "CS#": 5,
   "note_number": "20\u2020",
   "notes": [ "A\u2020<sup>2</sup>", "F\u2020<sup>3</sup>", "M\u2020<sup>1</sup>" ],
-  "_id_": "it/v:024",
-  "_gpid_": 3529
+  "id": "it/v:024",
+  "gpid": 3529
 },
 { "name": "Fiat 611B",
   "type": "AC",
@@ -223,40 +223,40 @@
   "capabilities2": { "HE": 7 },
   "note_number": "20\u2020",
   "notes": [ "F\u2020<sup>2</sup>", "M\u2020<sup>1</sup>" ],
-  "_id_": "it/v:025",
-  "_gpid_": 3531
+  "id": "it/v:025",
+  "gpid": 3531
 },
 { "name": "AB 40",
   "type": "AC",
   "CS#": 4,
   "note_number": "21",
   "notes": [ "A\u2020", "I\u2020<sup>1</sup>", "N" ],
-  "_id_": "it/v:026",
-  "_gpid_": 3533
+  "id": "it/v:026",
+  "gpid": 3533
 },
 { "name": "AB 41",
   "type": "AC",
   "CS#": 4,
   "note_number": "21\u2020",
   "notes": [ "N", "R" ],
-  "_id_": "it/v:027",
-  "_gpid_": 3535
+  "id": "it/v:027",
+  "gpid": 3535
 },
 { "name": "Autoprot S37",
   "type": "APC",
   "CS#": 4,
   "note_number": "22\u2020",
   "notes": [ "R" ],
-  "_id_": "it/v:028",
-  "_gpid_": 3539
+  "id": "it/v:028",
+  "gpid": 3539
 },
 { "name": "Autocann 20/65(b)",
   "type": "AAtr",
   "CS#": 4,
   "note_number": "23\u2020",
   "notes": [ "G\u2020<sup>1</sup>", "N", "R", "AA\u2020" ],
-  "_id_": "it/v:029",
-  "_gpid_": 3545
+  "id": "it/v:029",
+  "gpid": 3545
 },
 { "name": "Autocann 65/17(b)",
   "type": "SPAtr",
@@ -264,8 +264,8 @@
   "capabilities2": { "H": [ [7,"S2+"], "\u2020<sup>2</sup>" ] },
   "note_number": "23\u2020",
   "notes": [ "G\u2020<sup>1</sup>", "H\u2020<sup>2</sup>", "N" ],
-  "_id_": "it/v:030",
-  "_gpid_": 3541
+  "id": "it/v:030",
+  "gpid": 3541
 },
 { "name": "Autocann 75/27",
   "type": "AAtr",
@@ -273,80 +273,80 @@
   "capabilities2": { "AP": 7 },
   "note_number": "24",
   "notes": [ "D\u2020", "N", "AA\u2020<sup>1</sup>" ],
-  "_id_": "it/v:031",
-  "_gpid_": 3547
+  "id": "it/v:031",
+  "gpid": 3547
 },
 { "name": "Autocann 90/53",
   "type": "AAtr",
   "CS#": 4,
   "note_number": "24",
   "notes": [ "D\u2020", "N", "AA\u2020<sup>1</sup>" ],
-  "_id_": "it/v:032",
-  "_gpid_": 3549
+  "id": "it/v:032",
+  "gpid": 3549
 },
 { "name": "TL 37",
   "type": "tr",
   "cs#": 5,
   "note_number": "25\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "M", "N", "R" ],
-  "_id_": "it/v:033",
-  "_gpid_": 3551
+  "id": "it/v:033",
+  "gpid": 3551
 },
 { "name": "TM 40",
   "type": "tr",
   "cs#": 5,
   "note_number": "25\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "M", "N", "R" ],
-  "_id_": "it/v:034",
-  "_gpid_": 3553
+  "id": "it/v:034",
+  "gpid": 3553
 },
 { "name": "TP 32",
   "type": "tr",
   "cs#": 5,
   "note_number": "25\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "M", "N", "R" ],
-  "_id_": "it/v:035",
-  "_gpid_": 3555
+  "id": "it/v:035",
+  "gpid": 3555
 },
 { "name": "Autocaretta",
   "type": "tr",
   "cs#": "5\u2020<sup>1</sup>",
   "note_number": "26\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N", "R" ],
-  "_id_": "it/v:036",
-  "_gpid_": [ 3557, 3559 ]
+  "id": "it/v:036",
+  "gpid": [ 3557, 3559 ]
 },
 { "name": "Fiat 508 MC",
   "type": "tr",
   "cs#": "2\u2020<sup>1</sup>",
   "note_number": "27\u2020",
   "notes": [ "A\u2020<sup>2</sup>", "K\u2020<sup>1</sup>", "N", "R" ],
-  "_id_": "it/v:037",
-  "_gpid_": [ 3561, 3562 ]
+  "id": "it/v:037",
+  "gpid": [ 3561, 3562 ]
 },
 { "name": "Autocarro L",
   "type": "tr",
   "cs#": 6,
   "note_number": "28\u2020",
   "notes": [ "N", "R" ],
-  "_id_": "it/v:038",
-  "_gpid_": 3563
+  "id": "it/v:038",
+  "gpid": 3563
 },
 { "name": "Autocarro M",
   "type": "tr",
   "cs#": 7,
   "note_number": "28\u2020",
   "notes": [ "N", "R" ],
-  "_id_": "it/v:039",
-  "_gpid_": 3565
+  "id": "it/v:039",
+  "gpid": 3565
 },
 { "name": "Autocarro P",
   "type": "tr",
   "cs#": 7,
   "note_number": "28\u2020",
   "notes": [ "N", "R" ],
-  "_id_": "it/v:040",
-  "_gpid_": 3567
+  "id": "it/v:040",
+  "gpid": 3567
 }
 
 ]

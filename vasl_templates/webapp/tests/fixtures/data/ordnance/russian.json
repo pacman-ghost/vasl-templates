@@ -6,15 +6,15 @@
   "capabilities_other": [ "twerking" ],
   "note_number": "1",
   "notes": [ "X", "Y\u2020" ],
-  "_id_": "ru/o:990"
+  "id": "ru/o:990"
 },
 { "name": "another russian ordnance",
   "capabilities": [ "RFNM" ],
   "note_number": "2",
-  "_id_": "ru/o:991"
+  "id": "ru/o:991"
 },
 { "name": "name only",
-  "_id_": "ru/o:992"
+  "id": "ru/o:992"
 }
 
 ]

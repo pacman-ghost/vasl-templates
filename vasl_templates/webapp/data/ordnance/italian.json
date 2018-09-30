@@ -5,8 +5,8 @@
   "capabilities_other": [ "4PP" ],
   "note_number": "1",
   "notes": [ "N" ],
-  "_id_": "it/o:000",
-  "_gpid_": 3422
+  "id": "it/o:000",
+  "gpid": 3422
 },
 { "name": "Mortaio da 81/14",
   "type": "MTR",
@@ -14,24 +14,24 @@
   "capabilities2": { "s": 8 },
   "note_number": "2\u2020",
   "notes": [ "N" ],
-  "_id_": "it/o:001",
-  "_gpid_": 3442
+  "id": "it/o:001",
+  "gpid": 3442
 },
 { "name": "Fucile-cc S",
   "type": "ATR",
   "capabilities_other": [ "5PP" ],
   "note_number": "3",
   "notes": [ "N" ],
-  "_id_": "it/o:002",
-  "_gpid_": 3428
+  "id": "it/o:002",
+  "gpid": 3428
 },
 { "name": "Cannone-cc da 37/45",
   "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "4\u2020",
   "notes": [ "C", "N", "<s>R</s>" ],
-  "_id_": "it/o:003",
-  "_gpid_": 3444
+  "id": "it/o:003",
+  "gpid": 3444
 },
 { "name": "Cannone da 47/32",
   "type": "AT",
@@ -39,8 +39,8 @@
   "capabilities2": { "Towed": [ [null,"A1+"], "\u2020" ] },
   "note_number": "5\u2020",
   "notes": [ "A", "C", "N" ],
-  "_id_": "it/o:004",
-  "_gpid_": 3445
+  "id": "it/o:004",
+  "gpid": 3445
 },
 { "name": "Cannone da 65/17",
   "type": "INF",
@@ -48,24 +48,24 @@
   "capabilities2": { "H": [ [6,"S2+"], "\u2020<sup>1</sup>" ] },
   "note_number": "6\u2020",
   "notes": [ "A", "C", "H\u2020<sup>1</sup>", "N" ],
-  "_id_": "it/o:005",
-  "_gpid_": 3446
+  "id": "it/o:005",
+  "gpid": 3446
 },
 { "name": "Cannone da 70/15",
   "type": "INF",
   "capabilities": [ "NT", "QSU", "Acq. NA\u2020<sup>1</sup>", "no Gunshield", "h-d" ],
   "note_number": "7\u2020",
   "notes": [ "A", "B\u2020<sup>1</sup>", "<s>R</s>" ],
-  "_id_": "it/o:006",
-  "_gpid_": 3447
+  "id": "it/o:006",
+  "gpid": 3447
 },
 { "name": "Obice da 75/13",
   "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "8\u2020",
   "notes": [ "A" ],
-  "_id_": "it/o:007",
-  "_gpid_": 3451
+  "id": "it/o:007",
+  "gpid": 3451
 },
 { "name": "Cannone da 75/27",
   "type": "ART",
@@ -73,8 +73,8 @@
   "capabilities2": { "H": [ [6,"S2+"], "\u2020<sup>1</sup>" ] },
   "note_number": "9\u2020",
   "notes": [ "A", "C", "H\u2020<sup>1</sup>", "N" ],
-  "_id_": "it/o:008",
-  "_gpid_": 3452
+  "id": "it/o:008",
+  "gpid": 3452
 },
 { "name": "Obice da 75/18",
   "type": "ART",
@@ -82,8 +82,8 @@
   "capabilities2": { "H": [ [6,"S2+"], "\u2020<sup>1</sup>" ], "s": 8 },
   "note_number": "10\u2020",
   "notes": [ "A", "H\u2020<sup>1</sup>", "N" ],
-  "_id_": "it/o:009",
-  "_gpid_": 3453
+  "id": "it/o:009",
+  "gpid": 3453
 },
 { "name": "Cannone da 75/32",
   "type": "ART",
@@ -91,8 +91,8 @@
   "capabilities2": { "H": [ [6,"S2+"], "\u2020<sup>1</sup>" ], "s": 8 },
   "note_number": "11\u2020",
   "notes": [ "H\u2020<sup>1</sup>" ],
-  "_id_": "it/o:010",
-  "_gpid_": 3454
+  "id": "it/o:010",
+  "gpid": 3454
 },
 { "name": "Obice da 100/17",
   "type": "ART",
@@ -100,8 +100,8 @@
   "capabilities2": { "H": [ [6,"S2+"], "\u2020<sup>1</sup>" ] },
   "note_number": "12\u2020",
   "notes": [ "A", "H\u2020<sup>1</sup>", "N" ],
-  "_id_": "it/o:011",
-  "_gpid_": 3455
+  "id": "it/o:011",
+  "gpid": 3455
 },
 { "name": "Cannone da 105/28",
   "type": "ART",
@@ -109,16 +109,16 @@
   "capabilities2": { "s": 8 },
   "note_number": "13\u2020",
   "notes": [ "N" ],
-  "_id_": "it/o:012",
-  "_gpid_": 3456
+  "id": "it/o:012",
+  "gpid": 3456
 },
 { "name": "Obice 149/13",
   "type": "ART",
   "capabilities": [ "NT" ],
   "note_number": "14\u2020",
   "notes": [ "N" ],
-  "_id_": "it/o:013",
-  "_gpid_": 3457
+  "id": "it/o:013",
+  "gpid": 3457
 },
 { "name": "Cannone da 149/35",
   "type": "ART",
@@ -126,16 +126,16 @@
   "capabilities2": { "s": 8 },
   "note_number": "15\u2020",
   "notes": [ "B\u2020<sup>1</sup>", "N", "<s>R</s>" ],
-  "_id_": "it/o:014",
-  "_gpid_": 3458
+  "id": "it/o:014",
+  "gpid": 3458
 },
 { "name": "Cannone da 149/40",
   "type": "ART",
   "capabilities": [ "NT", "RFNM" ],
   "note_number": "16\u2020",
   "notes": [ "N" ],
-  "_id_": "it/o:015",
-  "_gpid_": 3459
+  "id": "it/o:015",
+  "gpid": 3459
 },
 { "name": "Cannone-mitragliera da 20/65",
   "type": "AA",
@@ -143,32 +143,32 @@
   "capabilities2": { "LF": [ "NT", "20\u2020", "2 ROF" ] },
   "note_number": "17\u2020",
   "notes": [ "A", "C", "N" ],
-  "_id_": "it/o:016",
-  "_gpid_": 3461
+  "id": "it/o:016",
+  "gpid": 3461
 },
 { "name": "Cannone-aa da 75/39",
   "type": "AA",
   "capabilities": [ "T" ],
   "capabilities_other": [ "\"16\" AP TK#\u2020" ],
   "note_number": "18\u2020",
-  "_id_": "it/o:017",
-  "_gpid_": 3462
+  "id": "it/o:017",
+  "gpid": 3462
 },
 { "name": "Cannone-aa da 75/46",
   "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "19\u2020",
   "notes": [ "N" ],
-  "_id_": "it/o:018",
-  "_gpid_": 3463
+  "id": "it/o:018",
+  "gpid": 3463
 },
 { "name": "Cannone-aa da 90/53",
   "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "20\u2020",
   "notes": [ "N", "<s>R</s>" ],
-  "_id_": "it/o:019",
-  "_gpid_": 3464
+  "id": "it/o:019",
+  "gpid": 3464
 }
 
 ]

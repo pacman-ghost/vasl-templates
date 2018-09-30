@@ -6,8 +6,8 @@
   "CS#": 2,
   "note_number": "19",
   "notes": [ "D" ],
-  "_id_": "yu/v:000",
-  "_gpid_": 2302
+  "id": "yu/v:000",
+  "gpid": 2302
 },
 { "name": "M3A1(a)",
   "type": "LT",
@@ -15,8 +15,8 @@
   "capabilities2": { "C": "3\u2020" },
   "note_number": "20\u2020",
   "notes": [ "A", "B", "C", "L" ],
-  "_id_": "yu/v:001",
-  "_gpid_": 2304
+  "id": "yu/v:001",
+  "gpid": 2304
 },
 { "name": "M3A3(a)",
   "type": "LT",
@@ -24,24 +24,24 @@
   "capabilities2": { "C": "3\u2020", "sD": 3 },
   "note_number": "20\u2020",
   "notes": [ "A", "B", "C", "L" ],
-  "_id_": "yu/v:002",
-  "_gpid_": 2306
+  "id": "yu/v:002",
+  "gpid": 2306
 },
 { "name": "M3(a) PaK 40",
   "type": "TD",
   "CS#": 2,
   "note_number": "21\u2020",
   "notes": [ "A", "H\u2020<sup>1</sup>", "L" ],
-  "_id_": "yu/v:003",
-  "_gpid_": 2308
+  "id": "yu/v:003",
+  "gpid": 2308
 },
 { "name": "M3(a) FlaK 38",
   "type": "SPAA",
   "CS#": 2,
   "note_number": "22\u2020",
   "notes": [ "A", "H\u2020<sup>1</sup>", "L", "AA\u2020<sup>2</sup>" ],
-  "_id_": "yu/v:004",
-  "_gpid_": 2310
+  "id": "yu/v:004",
+  "gpid": 2310
 },
 { "name": "AEC II(b)",
   "type": "AC",
@@ -49,8 +49,8 @@
   "capabilities2": { "HE": 5, "D": 4, "sM": 8 },
   "note_number": "23",
   "notes": [ "A", "G\u2020", "L" ],
-  "_id_": "yu/v:005",
-  "_gpid_": 2312
+  "id": "yu/v:005",
+  "gpid": 2312
 }
 
 ]

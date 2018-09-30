@@ -7,16 +7,16 @@
   "CS#": 3,
   "note_number": "1",
   "notes": [ "X", "Y\u2020" ],
-  "_id_": "ru/v:990"
+  "id": "ru/v:990"
 },
 { "name": "another russian vehicle",
   "capabilities": [ "RFNM" ],
   "cs#": 4,
   "note_number": "2",
-  "_id_": "ru/v:991"
+  "id": "ru/v:991"
 },
 { "name": "name only",
-  "_id_": "ru/v:992"
+  "id": "ru/v:992"
 },
 
 { "name": "Churchill III(b)",
@@ -24,14 +24,14 @@
   "capabilities2": { "D": [ [6,"J4"], [7,5], "\u2020" ], "HE": [ [7,"F3"], [8,"4+"], "\u2020" ], "sD": [ [6,"4+"] ], "sM": "8\u2020" },
   "note_number": "53\u2020",
   "notes": [ "N", "LL" ],
-  "_id_": "ru/v:081"
+  "id": "ru/v:081"
 },
 { "name": "Sherman III(a)",
   "CS#": "5:brewup",
   "capabilities2": { "s": 8, "WP": [ [6,"J4+"], "\u2020" ] },
   "note_number": "50\u2020",
   "notes": [ "N", "O", "R\u2020<sup>1</sup>", "LL" ],
-  "_id_": "ru/v:076"
+  "id": "ru/v:076"
 }
 
 ]

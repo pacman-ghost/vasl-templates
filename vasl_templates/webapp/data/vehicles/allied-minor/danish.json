@@ -5,8 +5,8 @@
   "CS#": [ null, "\u2020" ],
   "capabilities": [ "M8\u2020" ],
   "note_number": "24\u2020",
-  "_id_": "da/v:000",
-  "_gpid_": 2314
+  "id": "da/v:000",
+  "gpid": 2314
 }
 
 ]

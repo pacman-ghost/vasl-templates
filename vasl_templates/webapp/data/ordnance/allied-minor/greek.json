@@ -6,24 +6,24 @@
   "capabilities2": { "s": 5 },
   "note_number": "16",
   "notes": [ "Gr" ],
-  "_id_": "gr/o:000",
-  "_gpid_": 2219
+  "id": "gr/o:000",
+  "gpid": 2219
 },
 { "name": "OR 105/19",
   "type": "ART",
   "capabilities": [ "NT", "h-d" ],
   "note_number": "17",
   "notes": [ "Gr" ],
-  "_id_": "gr/o:001",
-  "_gpid_": 2220
+  "id": "gr/o:001",
+  "gpid": 2220
 },
 { "name": "3.7cm Bofors AA",
   "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "18",
   "notes": [ "Gr" ],
-  "_id_": "gr/o:002",
-  "_gpid_": 2221
+  "id": "gr/o:002",
+  "gpid": 2221
 }
 
 ]

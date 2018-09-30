@@ -5,16 +5,16 @@
   "capabilities_other": [ "5PP" ],
   "note_number": "44",
   "notes": [ "A", "H", "S", "C", "B" ],
-  "_id_": "axc/o:000",
-  "_gpid_": 3680
+  "id": "axc/o:000",
+  "gpid": 3680
 },
 { "name": "50mm RM obr. 40",
   "type": "MTR",
   "capabilities_other": [ "4PP" ],
   "note_number": "45",
   "notes": [ "A", "R", "H", "S", "C" ],
-  "_id_": "axc/o:001",
-  "_gpid_": 3681
+  "id": "axc/o:001",
+  "gpid": 3681
 },
 { "name": "8cm GrW 34",
   "type": "MTR",
@@ -22,8 +22,8 @@
   "capabilities2": { "s": 7 },
   "note_number": "46\u2020",
   "notes": [ "A", "C", "B" ],
-  "_id_": "axc/o:002",
-  "_gpid_": 3709
+  "id": "axc/o:002",
+  "gpid": 3709
 },
 { "name": "Brandt M27/31",
   "type": "MTR",
@@ -31,8 +31,8 @@
   "capabilities2": { "s": 7 },
   "note_number": "47\u2020",
   "notes": [ "A", "R", "H", "S" ],
-  "_id_": "axc/o:003",
-  "_gpid_": 3711
+  "id": "axc/o:003",
+  "gpid": 3711
 },
 { "name": "PM obr. 38",
   "type": "MTR",
@@ -40,24 +40,24 @@
   "capabilities2": { "s": 8 },
   "note_number": "48\u2020",
   "notes": [ "R", "H" ],
-  "_id_": "axc/o:004",
-  "_gpid_": 3713
+  "id": "axc/o:004",
+  "gpid": 3713
 },
 { "name": "Ur wz. 35",
   "type": "ATR",
   "capabilities_other": [ "1PP" ],
   "note_number": "49",
   "notes": [ "R", "H", "S", "C", "B" ],
-  "_id_": "axc/o:005",
-  "_gpid_": null
+  "id": "axc/o:005",
+  "gpid": null
 },
 { "name": "s18-1100",
   "type": "ATR",
   "capabilities_other": [ "5PP" ],
   "note_number": "50",
   "notes": [ "A", "R", "H" ],
-  "_id_": "axc/o:006",
-  "_gpid_": null
+  "id": "axc/o:006",
+  "gpid": null
 },
 { "name": "Kanon PUV vz. 37(t)",
   "type": "AT",
@@ -65,16 +65,16 @@
   "capabilities2": { "A": [ [4,"1S"] ] },
   "note_number": "51\u2020",
   "notes": [ "E", "H", "S", "B" ],
-  "_id_": "axc/o:007",
-  "_gpid_": 3714
+  "id": "axc/o:007",
+  "gpid": 3714
 },
 { "name": "Bohler M35",
   "type": "AT",
   "capabilities": [ "NT", "QSU", "no Gunshield" ],
   "note_number": "52\u2020",
   "notes": [ "A", "R", "H", "S" ],
-  "_id_": "axc/o:008",
-  "_gpid_": 3715
+  "id": "axc/o:008",
+  "gpid": 3715
 },
 { "name": "5cm PaK 38(g)",
   "type": "AT",
@@ -82,8 +82,8 @@
   "capabilities2": { "A": [ [4,3], [3,4] ] },
   "note_number": "53\u2020",
   "notes": [ "E", "R", "H", "S", "B" ],
-  "_id_": "axc/o:009",
-  "_gpid_": 3716
+  "id": "axc/o:009",
+  "gpid": 3716
 },
 { "name": "7.5cm PaK 97/38(g)",
   "type": "AT",
@@ -91,8 +91,8 @@
   "capabilities2": { "H": [ [5,"3+"] ], "s": 6 },
   "note_number": "54\u2020",
   "notes": [ "E", "R", "B" ],
-  "_id_": "axc/o:010",
-  "_gpid_": 3717
+  "id": "axc/o:010",
+  "gpid": 3717
 },
 { "name": "7.5cm PaK 40(g)",
   "type": "AT",
@@ -100,16 +100,16 @@
   "capabilities2": { "A": [ [4,3], [3,4] ] },
   "note_number": "55\u2020",
   "notes": [ "E", "R", "H", "S", "B" ],
-  "_id_": "axc/o:011",
-  "_gpid_": 3718
+  "id": "axc/o:011",
+  "gpid": 3718
 },
 { "name": "Skoda M15",
   "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "56\u2020",
   "notes": [ "A", "R", "H", "S", "C", "B" ],
-  "_id_": "axc/o:012",
-  "_gpid_": 3719
+  "id": "axc/o:012",
+  "gpid": 3719
 },
 { "name": "Canon de 75 mle 1897",
   "type": "ART",
@@ -117,8 +117,8 @@
   "capabilities2": { "s": 7 },
   "note_number": "57",
   "notes": [ "R", "B" ],
-  "_id_": "axc/o:013",
-  "_gpid_": 3720
+  "id": "axc/o:013",
+  "gpid": 3720
 },
 { "name": "Skoda M29",
   "type": "ART",
@@ -126,24 +126,24 @@
   "capabilities2": { "AP": 6 },
   "note_number": "58\u2020",
   "notes": [ "A", "R", "S" ],
-  "_id_": "axc/o:014",
-  "_gpid_": 3721
+  "id": "axc/o:014",
+  "gpid": 3721
 },
 { "name": "Skoda M17",
   "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "59\u2020",
   "notes": [ "A", "R", "S", "C" ],
-  "_id_": "axc/o:015",
-  "_gpid_": 3722
+  "id": "axc/o:015",
+  "gpid": 3722
 },
 { "name": "Skoda M28(80)",
   "type": "ART",
   "capabilities": [ "T" ],
   "note_number": "60\u2020",
   "notes": [ "S", "C" ],
-  "_id_": "axc/o:016",
-  "_gpid_": 3723
+  "id": "axc/o:016",
+  "gpid": 3723
 },
 { "name": "Skoda M14/19",
   "type": "ART",
@@ -151,8 +151,8 @@
   "capabilities2": { "s": 8 },
   "note_number": "61\u2020",
   "notes": [ "A\u2020", "R", "H", "S", "C" ],
-  "_id_": "axc/o:017",
-  "_gpid_": 3724
+  "id": "axc/o:017",
+  "gpid": 3724
 },
 { "name": "leFH 18(g)",
   "type": "ART",
@@ -160,8 +160,8 @@
   "capabilities2": { "H": [ [4,"3+"] ], "s": 5 },
   "note_number": "62\u2020",
   "notes": [ "E", "H", "S", "B" ],
-  "_id_": "axc/o:018",
-  "_gpid_": 3725
+  "id": "axc/o:018",
+  "gpid": 3725
 },
 { "name": "Skoda M35",
   "type": "ART",
@@ -169,8 +169,8 @@
   "capabilities2": { "AP": 7, "C": [ [7,"CS"], "\u2020" ] },
   "note_number": "63\u2020",
   "notes": [ "R", "S", "C" ],
-  "_id_": "axc/o:019",
-  "_gpid_": 3726
+  "id": "axc/o:019",
+  "gpid": 3726
 },
 { "name": "G obr. 10/30",
   "type": "ART",
@@ -178,8 +178,8 @@
   "capabilities2": { "s": 7 },
   "note_number": "64\u2020",
   "notes": [ "R", "B" ],
-  "_id_": "axc/o:020",
-  "_gpid_": 3727
+  "id": "axc/o:020",
+  "gpid": 3727
 },
 { "name": "G obr. 38",
   "type": "ART",
@@ -187,16 +187,16 @@
   "capabilities2": { "s": [ [5,"1-2R"], "\u2020" ] },
   "note_number": "65",
   "notes": [ "R", "B" ],
-  "_id_": "axc/o:021",
-  "_gpid_": 3728
+  "id": "axc/o:021",
+  "gpid": 3728
 },
 { "name": "Skoda M14",
   "type": "ART",
   "capabilities": [ "NT" ],
   "note_number": "66\u2020",
   "notes": [ "R", "H", "S" ],
-  "_id_": "axc/o:022",
-  "_gpid_": 3729
+  "id": "axc/o:022",
+  "gpid": 3729
 },
 { "name": "Skoda M15/16",
   "type": "ART",
@@ -204,8 +204,8 @@
   "capabilities2": { "s": 6 },
   "note_number": "67\u2020",
   "notes": [ "S", "C" ],
-  "_id_": "axc/o:023",
-  "_gpid_": 3730
+  "id": "axc/o:023",
+  "gpid": 3730
 },
 { "name": "C mle 17 S",
   "type": "ART",
@@ -213,8 +213,8 @@
   "capabilities2": { "s": 7 },
   "note_number": "68\u2020",
   "notes": [ "R", "B" ],
-  "_id_": "axc/o:024",
-  "_gpid_": 3731
+  "id": "axc/o:024",
+  "gpid": 3731
 },
 { "name": "Mitrailleuse de 13.2 CAJ mle 30",
   "type": "AA",
@@ -222,8 +222,8 @@
   "capabilities_other": [ "2 TK DR\u2020" ],
   "note_number": "69\u2020",
   "notes": [ "T\u2020<sup>1</sup>", "R", "B" ],
-  "_id_": "axc/o:025",
-  "_gpid_": 3732
+  "id": "axc/o:025",
+  "gpid": 3732
 },
 { "name": "Oerlikon FF",
   "type": "AA",
@@ -231,8 +231,8 @@
   "capabilities2": { "LF": [ "NT", "20\u2020", "2 ROF", "B11" ] },
   "note_number": "70",
   "notes": [ "G\u2020", "R", "H", "S", "C", "B" ],
-  "_id_": "axc/o:026",
-  "_gpid_": 3733
+  "id": "axc/o:026",
+  "gpid": 3733
 },
 { "name": "2cm FlaK 30(g)",
   "type": "AA",
@@ -240,8 +240,8 @@
   "capabilities2": { "LF": [ "NT", "20\u2020<sup>1</sup>", "2 ROF", "B9" ] },
   "note_number": "71\u2020",
   "notes": [ "E", "G\u2020<sup>1</sup>", "R", "B" ],
-  "_id_": "axc/o:027",
-  "_gpid_": 3734
+  "id": "axc/o:027",
+  "gpid": 3734
 },
 { "name": "2cm FlaK 38(g)",
   "type": "AA",
@@ -249,16 +249,16 @@
   "capabilities2": { "LF": [ "NT", "20\u2020<sup>1</sup>", "2 ROF", "B10" ] },
   "note_number": "72\u2020",
   "notes": [ "E", "G\u2020<sup>1</sup>", "R", "B" ],
-  "_id_": "axc/o:028",
-  "_gpid_": 3735
+  "id": "axc/o:028",
+  "gpid": 3735
 },
 { "name": "3.7cm FlaK 36(g)",
   "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "73\u2020",
   "notes": [ "E", "R", "B" ],
-  "_id_": "axc/o:029",
-  "_gpid_": 3736
+  "id": "axc/o:029",
+  "gpid": 3736
 },
 { "name": "Bofors 40mm",
   "type": "AA",
@@ -266,16 +266,16 @@
   "capabilities2": { "LF": [ "40\u2020<sup>1</sup>", "2 ROF" ] },
   "note_number": "74\u2020",
   "notes": [ "G\u2020<sup>1</sup>", "R", "H", "S", "C" ],
-  "_id_": "axc/o:030",
-  "_gpid_": 3737
+  "id": "axc/o:030",
+  "gpid": 3737
 },
 { "name": "Skoda M33",
   "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "75R",
   "notes": [ "S" ],
-  "_id_": "axc/o:031",
-  "_gpid_": 3738
+  "id": "axc/o:031",
+  "gpid": 3738
 },
 { "name": "8.8cm FlaK 18 o. 36(g)",
   "type": "AA",
@@ -283,8 +283,8 @@
   "capabilities2": { "LF": [ "88\u2020<sup>1</sup>", "1 ROF", "B11" ] },
   "note_number": "76\u2020",
   "notes": [ "E", "G\u2020<sup>1</sup>", "R", "S", "B" ],
-  "_id_": "axc/o:032",
-  "_gpid_": 3739
+  "id": "axc/o:032",
+  "gpid": 3739
 }
 
 ]

@@ -7,16 +7,16 @@
   "CS#": 5,
   "note_number": "1",
   "notes": [ "A", "B\u2020" ],
-  "_id_": "ge/v:990"
+  "id": "ge/v:990"
 },
 { "name": "another german vehicle",
   "capabilities": [ "QSU" ],
   "cs#": "4:brewup",
   "note_number": "2",
-  "_id_": "ge/v:991"
+  "id": "ge/v:991"
 },
 { "name": "name only",
-  "_id_": "ge/v:992"
+  "id": "ge/v:992"
 }
 
 ]

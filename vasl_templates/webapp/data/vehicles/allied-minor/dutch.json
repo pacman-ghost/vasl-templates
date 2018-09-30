@@ -6,8 +6,8 @@
   "CS#": 2,
   "note_number": "25\u2020",
   "notes": [ "A", "V" ],
-  "_id_": "du/v:000",
-  "_gpid_": 2315
+  "id": "du/v:000",
+  "gpid": 2315
 },
 { "name": "CTLS-4(a)",
   "type": "Tt",
@@ -15,8 +15,8 @@
   "CS#": 2,
   "note_number": "26\u2020",
   "notes": [ "A", "V" ],
-  "_id_": "du/v:001",
-  "_gpid_": 2317
+  "id": "du/v:001",
+  "gpid": 2317
 },
 { "name": "M36",
   "type": "AC",
@@ -25,8 +25,8 @@
   "capabilities2": { "HE": 10 },
   "note_number": "27",
   "notes": [ "<s>V</s>" ],
-  "_id_": "du/v:002",
-  "_gpid_": 2319
+  "id": "du/v:002",
+  "gpid": 2319
 },
 { "name": "M38",
   "type": "AC",
@@ -35,8 +35,8 @@
   "capabilities2": { "HE": 10 },
   "note_number": "27",
   "notes": [ "<s>V</s>" ],
-  "_id_": "du/v:003",
-  "_gpid_": 2321
+  "id": "du/v:003",
+  "gpid": 2321
 },
 { "name": "M39",
   "type": "AC",
@@ -45,8 +45,8 @@
   "capabilities2": { "HE": 10 },
   "note_number": "28",
   "notes": [ "<s>V</s>" ],
-  "_id_": "du/v:004",
-  "_gpid_": 2323
+  "id": "du/v:004",
+  "gpid": 2323
 },
 { "name": "Marmon-Herrington III(b)",
   "type": "AC",
@@ -54,16 +54,16 @@
   "CS#": 4,
   "note_number": "29\u2020",
   "notes": [ "A", "V" ],
-  "_id_": "du/v:005",
-  "_gpid_": 2325
+  "id": "du/v:005",
+  "gpid": 2325
 },
 { "name": "Jeep(a)",
   "type": "tr",
   "cs#": "2\u2020",
   "note_number": "30\u2020",
   "notes": [ "A", "V" ],
-  "_id_": "du/v:006",
-  "_gpid_": [ 2327, 2328 ]
+  "id": "du/v:006",
+  "gpid": [ 2327, 2328 ]
 }
 
 ]

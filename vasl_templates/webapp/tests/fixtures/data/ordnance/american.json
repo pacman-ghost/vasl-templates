@@ -5,7 +5,7 @@
   "capabilities2": { "H": 6, "s": 7, "WP": 8, "C": [ [7,"4+P"], "\u2020<sup>1</sup>" ] },
   "note_number": "14\u2020",
   "notes": [ "C\u2020<sup>1</sup>", "N" ],
-  "_id_": "am/o:013"
+  "id": "am/o:013"
 },
 
 { "name": "M3 105mm Howitzer",
@@ -13,7 +13,7 @@
   "capabilities2": { "H": 7, "s": 7, "WP": 8, "C": [ [7,"P"], "\u2020<sup>1</sup>" ] },
   "note_number": "15\u2020",
   "notes": [ "C\u2020<sup>1</sup>" ],
-  "_id_": "am/o:014"
+  "id": "am/o:014"
 },
 
 { "name": "M3A1 37mm AT Gun",
@@ -21,14 +21,14 @@
   "capabilities2": { "C": [ [7,"A2+"], "\u2020<sup>1</sup>" ] },
   "note_number": "6\u2020",
   "notes": [ "C\u2020<sup>1</sup>", "N" ],
-  "_id_": "am/o:005"
+  "id": "am/o:005"
 },
 
 { "name": "M1 57mm AT Gun",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "HE": [ [7,"J4E"], [7,5], "\u2020" ], "D": [ [4,"J4+E"], "\u2020" ] },
   "note_number": "7\u2020",
-  "_id_": "am/o:006"
+  "id": "am/o:006"
 }
 
 ]

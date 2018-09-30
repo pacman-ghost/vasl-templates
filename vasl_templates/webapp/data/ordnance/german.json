@@ -5,8 +5,8 @@
   "capabilities_other": [ "5PP" ],
   "note_number": "1",
   "notes": [ "N" ],
-  "_id_": "ge/o:000",
-  "_gpid_": 2465
+  "id": "ge/o:000",
+  "gpid": 2465
 },
 { "name": "8cm GrW 34",
   "type": "MTR",
@@ -14,8 +14,8 @@
   "capabilities2": { "s": 8 },
   "note_number": "2\u2020",
   "notes": [ "N" ],
-  "_id_": "ge/o:001",
-  "_gpid_": 2488
+  "id": "ge/o:001",
+  "gpid": 2488
 },
 { "name": "10cm NbW 35",
   "type": "MTR",
@@ -23,16 +23,16 @@
   "capabilities2": { "s": 10 },
   "note_number": "3",
   "notes": [ "O" ],
-  "_id_": "ge/o:002",
-  "_gpid_": 2490
+  "id": "ge/o:002",
+  "gpid": 2490
 },
 { "name": "12cm GrW 42",
   "type": "MTR",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "s": 8 },
   "note_number": "4\u2020",
-  "_id_": "ge/o:003",
-  "_gpid_": 2491
+  "id": "ge/o:003",
+  "gpid": 2491
 },
 { "name": "2.8cm sPzB 41",
   "type": "AT",
@@ -40,8 +40,8 @@
   "capabilities_other": [ "uses APCR TK Table\u2020" ],
   "note_number": "5\u2020",
   "notes": [ "A\u2020", "N", "P" ],
-  "_id_": "ge/o:004",
-  "_gpid_": 2493
+  "id": "ge/o:004",
+  "gpid": 2493
 },
 { "name": "3.7cm PaK 35/36",
   "type": "AT",
@@ -49,8 +49,8 @@
   "capabilities2": { "A": [ [4,1], [5,2], [4,3], [3,4] ], "H": "6[9]\u2020" },
   "note_number": "6",
   "notes": [ "B\u2020", "N", "P" ],
-  "_id_": "ge/o:005",
-  "_gpid_": 2494
+  "id": "ge/o:005",
+  "gpid": 2494
 },
 { "name": "4.2cm lePaK 41",
   "type": "AT",
@@ -58,8 +58,8 @@
   "capabilities_other": [ "uses APCR TK Table\u2020" ],
   "note_number": "7",
   "notes": [ "A\u2020", "N<sup>T</sup>" ],
-  "_id_": "ge/o:006",
-  "_gpid_": 2495
+  "id": "ge/o:006",
+  "gpid": 2495
 },
 { "name": "5cm PaK 38",
   "type": "AT",
@@ -67,8 +67,8 @@
   "capabilities2": { "A": [ [5,1], [6,2], [5,3], [4,4] ] },
   "note_number": "8\u2020",
   "notes": [ "N" ],
-  "_id_": "ge/o:007",
-  "_gpid_": 2496
+  "id": "ge/o:007",
+  "gpid": 2496
 },
 { "name": "7.5cm PaK 97/38",
   "type": "AT",
@@ -76,8 +76,8 @@
   "capabilities2": { "H": 6, "s": 7 },
   "note_number": "9",
   "notes": [ "N<sup>T</sup>" ],
-  "_id_": "ge/o:008",
-  "_gpid_": 2497
+  "id": "ge/o:008",
+  "gpid": 2497
 },
 { "name": "7.5cm PaK 40",
   "type": "AT",
@@ -85,8 +85,8 @@
   "capabilities2": { "A": [ [5,2], [4,3], [3,4] ], "s": 7 },
   "note_number": "10\u2020",
   "notes": [ "N<sup>T</sup>" ],
-  "_id_": "ge/o:009",
-  "_gpid_": 2498
+  "id": "ge/o:009",
+  "gpid": 2498
 },
 { "name": "7.62cm PaK 36r",
   "type": "AT",
@@ -94,8 +94,8 @@
   "capabilities2": { "A": [ [5,2], [4,3], [3,4] ], "s": 6 },
   "note_number": "11\u2020",
   "notes": [ "N" ],
-  "_id_": "ge/o:010",
-  "_gpid_": 2499
+  "id": "ge/o:010",
+  "gpid": 2499
 },
 { "name": "8.8cm PaK 43",
   "type": "AT",
@@ -103,22 +103,22 @@
   "capabilities2": { "LF": [ "88\u2020", "1 ROF", "B11", "<b>M4</b>", "-1" ] },
   "note_number": "12",
   "notes": [ "C\u2020" ],
-  "_id_": "ge/o:011",
-  "_gpid_": 2500
+  "id": "ge/o:011",
+  "gpid": 2500
 },
 { "name": "8.8cm PaK 43/41",
   "type": "AT",
   "capabilities": [ "NT" ],
   "note_number": "13",
-  "_id_": "ge/o:012",
-  "_gpid_": 2501
+  "id": "ge/o:012",
+  "gpid": 2501
 },
 { "name": "12.8cm K 81/1",
   "type": "AT",
   "capabilities": [ "NT", "NM" ],
   "note_number": "14",
-  "_id_": "ge/o:013",
-  "_gpid_": 2502
+  "id": "ge/o:013",
+  "gpid": 2502
 },
 { "name": "7.5cm leIG 18",
   "type": "INF",
@@ -126,8 +126,8 @@
   "capabilities2": { "H": 7 },
   "note_number": "15",
   "notes": [ "N", "O" ],
-  "_id_": "ge/o:014",
-  "_gpid_": 2504
+  "id": "ge/o:014",
+  "gpid": 2504
 },
 { "name": "15cm sIG 33",
   "type": "INF",
@@ -135,8 +135,8 @@
   "capabilities2": { "H": 7, "s": 8 },
   "note_number": "16",
   "notes": [ "N" ],
-  "_id_": "ge/o:015",
-  "_gpid_": 2505
+  "id": "ge/o:015",
+  "gpid": 2505
 },
 { "name": "7.5cm LG 40",
   "type": "RCL",
@@ -144,8 +144,8 @@
   "capabilities2": { "H": 6 },
   "note_number": "17",
   "notes": [ "N<sup>T</sup>" ],
-  "_id_": "ge/o:016",
-  "_gpid_": 2506
+  "id": "ge/o:016",
+  "gpid": 2506
 },
 { "name": "10.5cm LG 42",
   "type": "RCL",
@@ -153,16 +153,16 @@
   "capabilities2": { "H": 6, "s": 6 },
   "note_number": "18\u2020",
   "notes": [ "N<sup>T</sup>" ],
-  "_id_": "ge/o:017",
-  "_gpid_": 2507
+  "id": "ge/o:017",
+  "gpid": 2507
 },
 { "name": "7.5cm leFK 16nA",
   "type": "ART",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities2": { "H": 5, "s": 8 },
   "note_number": "19",
-  "_id_": "ge/o:018",
-  "_gpid_": 2509
+  "id": "ge/o:018",
+  "gpid": 2509
 },
 { "name": "10.5cm leFH 18",
   "type": "ART",
@@ -170,8 +170,8 @@
   "capabilities2": { "H": 6, "s": 8 },
   "note_number": "20",
   "notes": [ "N" ],
-  "_id_": "ge/o:019",
-  "_gpid_": 2510
+  "id": "ge/o:019",
+  "gpid": 2510
 },
 { "name": "s 10cm K 18",
   "type": "ART",
@@ -179,8 +179,8 @@
   "capabilities2": { "H": 6, "s": 8 },
   "note_number": "21",
   "notes": [ "N" ],
-  "_id_": "ge/o:020",
-  "_gpid_": 2511
+  "id": "ge/o:020",
+  "gpid": 2511
 },
 { "name": "15cm sFH 18",
   "type": "ART",
@@ -188,8 +188,8 @@
   "capabilities2": { "H": 6, "s": 8 },
   "note_number": "22",
   "notes": [ "N" ],
-  "_id_": "ge/o:021",
-  "_gpid_": 2512
+  "id": "ge/o:021",
+  "gpid": 2512
 },
 { "name": "15cm K 18",
   "type": "ART",
@@ -197,8 +197,8 @@
   "capabilities2": { "AP": 6 },
   "note_number": "23",
   "notes": [ "N<sup>T</sup>" ],
-  "_id_": "ge/o:022",
-  "_gpid_": 2513
+  "id": "ge/o:022",
+  "gpid": 2513
 },
 { "name": "17cm K 18",
   "type": "ART",
@@ -206,8 +206,8 @@
   "capabilities2": { "AP": 6 },
   "note_number": "24",
   "notes": [ "N" ],
-  "_id_": "ge/o:023",
-  "_gpid_": 2514
+  "id": "ge/o:023",
+  "gpid": 2514
 },
 { "name": "2cm FlaK 30",
   "type": "AA",
@@ -215,8 +215,8 @@
   "capabilities2": { "LF": [ "20\u2020", "2 ROF", "B10", "NT" ] },
   "note_number": "25",
   "notes": [ "C\u2020", "N" ],
-  "_id_": "ge/o:024",
-  "_gpid_": 2516
+  "id": "ge/o:024",
+  "gpid": 2516
 },
 { "name": "2cm FlaK 38",
   "type": "AA",
@@ -224,8 +224,8 @@
   "capabilities2": { "LF": [ "20\u2020", "2 ROF", "B11", "NT" ] },
   "note_number": "26",
   "notes": [ "C\u2020", "N" ],
-  "_id_": "ge/o:025",
-  "_gpid_": 2517
+  "id": "ge/o:025",
+  "gpid": 2517
 },
 { "name": "2cm FlaKvierling 38",
   "type": "AA",
@@ -233,8 +233,8 @@
   "capabilities_other": [ "4TK DR\u2020" ],
   "note_number": "27\u2020",
   "notes": [ "N" ],
-  "_id_": "ge/o:026",
-  "_gpid_": 2518
+  "id": "ge/o:026",
+  "gpid": 2518
 },
 { "name": "3.7cm FlaK 36 o. 37",
   "type": "AA",
@@ -242,15 +242,15 @@
   "capabilities2": { "H": "5[9]\u2020" },
   "note_number": "28",
   "notes": [ "B\u2020", "N" ],
-  "_id_": "ge/o:027",
-  "_gpid_": 2519
+  "id": "ge/o:027",
+  "gpid": 2519
 },
 { "name": "3.7cm FlaK 43",
   "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "29",
-  "_id_": "ge/o:028",
-  "_gpid_": 2520
+  "id": "ge/o:028",
+  "gpid": 2520
 },
 { "name": "8.8cm FlaK 18 o. 36",
   "type": "AA",
@@ -258,8 +258,8 @@
   "capabilities2": { "A": [ [5,2], [4,3], [3,4] ], "LF": [ "88L\u2020", "1 ROF", "B11" ] },
   "note_number": "30",
   "notes": [ "C\u2020", "N" ],
-  "_id_": "ge/o:029",
-  "_gpid_": 2521
+  "id": "ge/o:029",
+  "gpid": 2521
 }
 
 ]

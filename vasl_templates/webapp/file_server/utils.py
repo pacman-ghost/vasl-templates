@@ -17,10 +17,10 @@ def get_vo_gpids( data_dir ):
                     continue
                 entries = json.load( open( os.path.join(root,fname), "r" ) )
                 for entry in entries:
-                    if isinstance( entry["_gpid_"], list):
-                        gpids.update( entry["_gpid_"] )
+                    if isinstance( entry["gpid"], list):
+                        gpids.update( entry["gpid"] )
                     else:
-                        gpids.add( entry["_gpid_"] )
+                        gpids.add( entry["gpid"] )
     gpids.remove( None )
 
     return gpids

@@ -4,24 +4,24 @@
   "type": "MTR",
   "capabilities_other": [ "4PP" ],
   "note_number": "1",
-  "_id_": "ru/o:000",
-  "_gpid_": 485
+  "id": "ru/o:000",
+  "gpid": 485
 },
 { "name": "37mm PM-39",
   "type": "MTR",
   "capabilities_other": [ "1PP", "Air Bursts & Acq. NA" ],
   "note_number": "1.1",
   "notes": [ "A" ],
-  "_id_": "ru/o:001",
-  "_gpid_": 6996
+  "id": "ru/o:001",
+  "gpid": 6996
 },
 { "name": "82mm BM obr. 37",
   "type": "MTR",
   "capabilities": [ "NT", "QSU", "IR" ],
   "capabilities2": { "s": 8 },
   "note_number": "2\u2020",
-  "_id_": "ru/o:002",
-  "_gpid_": 508
+  "id": "ru/o:002",
+  "gpid": 508
 },
 { "name": "107mm GVPM obr. 38",
   "type": "MTR",
@@ -29,68 +29,68 @@
   "capabilities2": { "s": 8 },
   "note_number": "3",
   "notes": [ "A" ],
-  "_id_": "ru/o:003",
-  "_gpid_": 510
+  "id": "ru/o:003",
+  "gpid": 510
 },
 { "name": "120mm PM obr. 38",
   "type": "MTR",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "s": 8 },
   "note_number": "4",
-  "_id_": "ru/o:004",
-  "_gpid_": 511
+  "id": "ru/o:004",
+  "gpid": 511
 },
 { "name": "160mm PM obr. 43",
   "type": "MTR",
   "capabilities": [ "NT", "no IF" ],
   "note_number": "5",
-  "_id_": "ru/o:005",
-  "_gpid_": 512
+  "id": "ru/o:005",
+  "gpid": 512
 },
 { "name": "37mm PTP obr. 30",
   "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "note_number": "6",
-  "_id_": "ru/o:006",
-  "_gpid_": 514
+  "id": "ru/o:006",
+  "gpid": 514
 },
 { "name": "45mm PTP obr. 32",
   "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "A": [ [4,2], [5,3], [6,4], [7,5] ] },
   "note_number": "7",
-  "_id_": "ru/o:007",
-  "_gpid_": 515
+  "id": "ru/o:007",
+  "gpid": 515
 },
 { "name": "45mm PTP obr. 42",
   "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "A": [ [4,2], [5,3], [6,4], [7,5] ] },
   "note_number": "8",
-  "_id_": "ru/o:008",
-  "_gpid_": 516
+  "id": "ru/o:008",
+  "gpid": 516
 },
 { "name": "57mm PTP obr. 43",
   "type": "AT",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "A": [ [4,3], [5,4], [6,5] ] },
   "note_number": "9\u2020",
-  "_id_": "ru/o:009",
-  "_gpid_": 517
+  "id": "ru/o:009",
+  "gpid": 517
 },
 { "name": "100mm PTP obr. 44",
   "type": "AT",
   "capabilities": [ "NT" ],
   "note_number": "10",
-  "_id_": "ru/o:010",
-  "_gpid_": 518
+  "id": "ru/o:010",
+  "gpid": 518
 },
 { "name": "37mm PP obr. 15R",
   "type": "INF",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "note_number": "11",
-  "_id_": "ru/o:011",
-  "_gpid_": 520
+  "id": "ru/o:011",
+  "gpid": 520
 },
 { "name": "76.2mm PP obr. 27",
   "type": "INF",
@@ -98,129 +98,129 @@
   "capabilities2": { "H": 6, "s": 8 },
   "note_number": "12",
   "notes": [ "A" ],
-  "_id_": "ru/o:012",
-  "_gpid_": 521
+  "id": "ru/o:012",
+  "gpid": 521
 },
 { "name": "76.2mm P obr. 00/02P",
   "type": "ART",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities2": { "s": 8 },
   "note_number": "13",
-  "_id_": "ru/o:013",
-  "_gpid_": 523
+  "id": "ru/o:013",
+  "gpid": 523
 },
 { "name": "76.2mm P obr. 02/30",
   "type": "ART",
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities2": { "s": 8 },
   "note_number": "14",
-  "_id_": "ru/o:014",
-  "_gpid_": 524
+  "id": "ru/o:014",
+  "gpid": 524
 },
 { "name": "76.2mm P obr. 39",
   "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "A": [ [4,2], [5,3], [6,4], [7,5] ], "s": 8 },
   "note_number": "15\u2020",
-  "_id_": "ru/o:015",
-  "_gpid_": 525
+  "id": "ru/o:015",
+  "gpid": 525
 },
 { "name": "76.2mm P obr. 36",
   "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "A": [ [4,2] ], "s": 8 },
   "note_number": "16\u2020",
-  "_id_": "ru/o:016",
-  "_gpid_": 526
+  "id": "ru/o:016",
+  "gpid": 526
 },
 { "name": "85mm P obr. 44",
   "type": "ART",
   "capabilities": [ "NT", "QSU" ],
   "capabilities2": { "A": [ [5,4], [6,5] ], "s": 8 },
   "note_number": "17",
-  "_id_": "ru/o:017",
-  "_gpid_": 527
+  "id": "ru/o:017",
+  "gpid": 527
 },
 { "name": "107mm P obr. 10/30",
   "type": "ART",
   "capabilities": [ "NT", "h-d" ],
   "capabilities2": { "s": 8 },
   "note_number": "18",
-  "_id_": "ru/o:018",
-  "_gpid_": 528
+  "id": "ru/o:018",
+  "gpid": 528
 },
 { "name": "122mm G obr. 10/30",
   "type": "ART",
   "capabilities": [ "NT", "h-d" ],
   "capabilities2": { "s": 8 },
   "note_number": "19",
-  "_id_": "ru/o:019",
-  "_gpid_": 529
+  "id": "ru/o:019",
+  "gpid": 529
 },
 { "name": "122mm G obr. 38",
   "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "H": 6, "s": 8 },
   "note_number": "20",
-  "_id_": "ru/o:020",
-  "_gpid_": 530
+  "id": "ru/o:020",
+  "gpid": 530
 },
 { "name": "122mm P obr. 31",
   "type": "ART",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 8 },
   "note_number": "21",
-  "_id_": "ru/o:021",
-  "_gpid_": 531
+  "id": "ru/o:021",
+  "gpid": 531
 },
 { "name": "152mm G obr. 38",
   "type": "ART",
   "capabilities": [ "NT" ],
   "note_number": "22",
-  "_id_": "ru/o:022",
-  "_gpid_": 532
+  "id": "ru/o:022",
+  "gpid": 532
 },
 { "name": "152mm GP obr. 37",
   "type": "ART",
   "capabilities": [ "NT" ],
   "note_number": "23",
-  "_id_": "ru/o:023",
-  "_gpid_": 533
+  "id": "ru/o:023",
+  "gpid": 533
 },
 { "name": "203mm B-4 obr. 1931",
   "type": "ART",
   "capabilities": [ "NT", "RFNM", "no IF" ],
   "note_number": "23.1",
-  "_id_": "ru/o:024",
-  "_gpid_": 6995
+  "id": "ru/o:024",
+  "gpid": 6995
 },
 { "name": "25mm ZP obr. 40",
   "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "24",
-  "_id_": "ru/o:025",
-  "_gpid_": 536
+  "id": "ru/o:025",
+  "gpid": 536
 },
 { "name": "37mm ZP obr. 39",
   "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "25\u2020",
-  "_id_": "ru/o:026",
-  "_gpid_": 537
+  "id": "ru/o:026",
+  "gpid": 537
 },
 { "name": "76.2mm ZP obr. 38",
   "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "26\u2020",
-  "_id_": "ru/o:027",
-  "_gpid_": 538
+  "id": "ru/o:027",
+  "gpid": 538
 },
 { "name": "85mm ZP obr. 39",
   "type": "AA",
   "capabilities": [ "T" ],
   "note_number": "27",
-  "_id_": "ru/o:028",
-  "_gpid_": 539
+  "id": "ru/o:028",
+  "gpid": 539
 }
 
 ]
