@@ -213,6 +213,7 @@ function unload_snippet_params( params, check_date_capabilities )
         $sortable2.children( "li" ).each( function() {
             var entry = $(this).data( "sortable2-data" ).vo_entry ;
             var obj = {
+                id: entry.id,
                 name: entry.name,
                 note_number: entry.note_number,
                 notes: entry.notes
@@ -729,12 +730,21 @@ function do_load_scenario_data( params )
             var nat = params[ "PLAYER_" + player_no ] ;
             var vo_type = (key.substring(0,12) === "OB_VEHICLES_") ? "vehicles" : "ordnance" ;
             for ( i=0 ; i < params[key].length ; ++i ) {
-                var vo_name = params[key][i].name ;
-                var entry = find_vo( vo_type, nat, vo_name ) ;
-                if ( entry )
-                    do_add_vo( vo_type, player_no, entry ) ;
+                var vo_id = params[key][i].id ;
+                var vo_entry ;
+                if ( vo_id )
+                    vo_entry = find_vo( vo_type, nat, vo_id ) ;
+                else {
+                    // FUDGE! Early versions stored vehicles/ordnance by name, but these are not unique (even within
+                    // a single nationality :-/), so we switched to manually-assigned unique ID's. For legacy save files,
+                    // if there is no ID field, we load vehicles/ordnance by name.
+                    vo_id = params[key][i].name ; // nb: we store the name in the ID variable, in case we have to log an error below
+                    vo_entry = find_vo_by_name( vo_type, nat, vo_id ) ;
+                }
+                if ( vo_entry )
+                    do_add_vo( vo_type, player_no, vo_entry ) ;
                 else
-                    unknown_vo.push( vo_name || "(not set)" ) ;
+                    unknown_vo.push( vo_id || "(not set)" ) ;
             }
             params_loaded[key] = true ;
             continue ;
@@ -834,13 +844,17 @@ function on_save_scenario()
 function unload_params_for_save()
 {
     // unload the template parameters
-    function extract_vo_names( key ) { // nb: we only need to save the vehicle/ordnance name
+    function extract_vo_entries( key ) {
         if ( !(key in params) )
             return ;
-        var names = [] ;
-        for ( var i=0 ; i < params[key].length ; ++i )
-            names.push( { name: params[key][i].name } ) ;
-        params[key] = names ;
+        var vo_entries = [] ;
+        for ( var i=0 ; i < params[key].length ; ++i ) {
+            vo_entries.push( {
+                id: params[key][i].id,
+                name: params[key][i].name, // nb: not necessary, but convenient
+            } ) ;
+        }
+        params[key] = vo_entries ;
     }
     var params = {} ;
     unload_snippet_params( params, false ) ;
@@ -849,10 +863,10 @@ function unload_params_for_save()
     params.OB_SETUPS_2 = $("#ob_setups-sortable_2").sortable2( "get-entry-data" ) ;
     params.OB_NOTES_1 = $("#ob_notes-sortable_1").sortable2( "get-entry-data" ) ;
     params.OB_NOTES_2 = $("#ob_notes-sortable_2").sortable2( "get-entry-data" ) ;
-    extract_vo_names( "OB_VEHICLES_1" ) ;
-    extract_vo_names( "OB_ORDNANCE_1" ) ;
-    extract_vo_names( "OB_VEHICLES_2" ) ;
-    extract_vo_names( "OB_ORDNANCE_2" ) ;
+    extract_vo_entries( "OB_VEHICLES_1" ) ;
+    extract_vo_entries( "OB_ORDNANCE_1" ) ;
+    extract_vo_entries( "OB_VEHICLES_2" ) ;
+    extract_vo_entries( "OB_ORDNANCE_2" ) ;
 
     // save the scenario date in ISO-8601 format
     var scenario_date = $("input[name='SCENARIO_DATE']").datepicker( "getDate" ) ;

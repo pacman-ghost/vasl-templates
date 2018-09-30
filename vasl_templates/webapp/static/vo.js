@@ -121,15 +121,25 @@ function do_add_vo( vo_type, player_no, vo_entry )
 
 // --------------------------------------------------------------------
 
-function find_vo( vo_type, nat, name )
+function find_vo( vo_type, nat, vo_id )
 {
     // find the specificed vehicle/ordnance
+    var entries = gVehicleOrdnanceListings[vo_type][nat] ;
+    for ( var i=0 ; i < entries.length ; ++i ) {
+        if ( entries[i].id === vo_id )
+            return entries[i] ;
+    }
+    return null ;
+}
+
+function find_vo_by_name( vo_type, nat, name )
+{
+    // find the specificed vehicle/ordnance by name
     var entries = gVehicleOrdnanceListings[vo_type][nat] ;
     for ( var i=0 ; i < entries.length ; ++i ) {
         if ( entries[i].name === name )
             return entries[i] ;
     }
-
     return null ;
 }
 

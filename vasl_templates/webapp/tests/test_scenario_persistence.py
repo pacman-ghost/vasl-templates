@@ -116,6 +116,10 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     }
     mo = re.search( r"^(\d{2})/(\d{2})/(\d{4})$", expected["SCENARIO_DATE"] )
     expected["SCENARIO_DATE"] = "{}-{}-{}".format( mo.group(3), mo.group(1), mo.group(2) ) # nb: convert from ISO-8601
+    for key in saved_scenario:
+        if re.search( r"^OB_(VEHICLES|ORDNANCE)_\d$", key ):
+            for vo_entry in saved_scenario[key]:
+                del vo_entry["id"]
     for key in expected:
         if re.search( r"^OB_(VEHICLES|ORDNANCE)_\d$", key ):
             expected[key] = [ { "name": name } for name in expected[key] ]
@@ -176,6 +180,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     select_tab( "ob1" )
     assert get_sortable_entry_text(ob_setups1) == [ obs["caption"] for obs in SCENARIO_PARAMS["ob1"]["OB_SETUPS_1"] ]
     assert get_sortable_entry_text(ob_notes1) == [ obs["caption"] for obs in SCENARIO_PARAMS["ob1"]["OB_NOTES_1"] ]
+    # NOTE: We deleted the "id" fields above, so we rely on the legacy handling of loading by name :-/
     assert get_sortable_entry_text(vehicles1) == SCENARIO_PARAMS["ob1"]["OB_VEHICLES_1"]
     assert get_sortable_entry_text(ordnance1) == SCENARIO_PARAMS["ob1"]["OB_ORDNANCE_1"]
     select_tab( "ob2" )
