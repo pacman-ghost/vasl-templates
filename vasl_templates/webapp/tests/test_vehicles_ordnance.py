@@ -7,6 +7,7 @@ import json
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import WebDriverException
 
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, save_scenario
 from vasl_templates.webapp.tests.utils import \
@@ -485,9 +486,13 @@ def add_vo( webdriver, vo_type, player_no, name ):
     assert len(matches) == 1
     elem = matches[0]
     webdriver.execute_script( "arguments[0].scrollIntoView()", elem )
+    # FUDGE! Selecting the required entry is flaky, and we sometimes need to do it twice (Firefox :-/).
     ActionChains( webdriver ).click( elem ).perform()
+    try:
+        ActionChains( webdriver ).click( elem ).perform()
+    except WebDriverException as ex:
+        assert "TypeError: rect is undefined" in str(ex)
     if find_child( "#select-vo" ).is_displayed():
-        # FUDGE! Clicking on the element sometimes make the dialog close :-/
         click_dialog_button( "OK" )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

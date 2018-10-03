@@ -31,7 +31,7 @@ function add_vo( vo_type, player_no )
         var div_class = "vo-entry" ;
         if ( is_small_vasl_piece( vo_entry ) )
             div_class += " small-piece" ;
-        var buf2 = [ "<div class='" + div_class + "'>",
+        var buf2 = [ "<div class='" + div_class + "' data-index='" + opt.id + "'>",
             "<img src='" + _get_vo_image_url(vo_entry,null) + "' class='vasl-image'>",
             "<div class='content'><div>",
             vo_entry.name,
@@ -101,12 +101,14 @@ function add_vo( vo_type, player_no )
         buttons: {
             OK: function() {
                 // add the new vehicle/ordnance
-                var data = $sel.select2( "data" ) ;
-                if ( ! data )
+                // FUDGE! $sel.select("data") returns the wrong thing if the entries are filtered?!?!
+                var $elem = $( "#select-vo .select2-results__option--highlighted" ) ;
+                if ( $elem.length === 0 )
                     return ;
-                var $img = $( "#"+data[0]._resultId ).find( "img[class='vasl-image']" ) ;
+                var sel_index = $elem.children( ".vo-entry" ).data( "index" ) ;
+                var $img = $elem.find( "img[class='vasl-image']" ) ;
                 var vo_image_id = $img.data( "vo-image-id" ) ;
-                do_add_vo( vo_type, player_no, entries[data[0].id], vo_image_id ) ;
+                do_add_vo( vo_type, player_no, entries[sel_index], vo_image_id ) ;
                 $(this).dialog( "close" ) ;
             },
             Cancel: function() { $(this).dialog( "close" ) ; },
