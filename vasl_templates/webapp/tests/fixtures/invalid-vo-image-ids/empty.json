@@ -1,0 +1,10 @@
+{
+    "PLAYER_1": "german",
+    "OB_VEHICLES_1": [
+        {
+            "id": "ge/v:990",
+            "name": "a german vehicle",
+            "image_id": ""
+        }
+    ]
+}

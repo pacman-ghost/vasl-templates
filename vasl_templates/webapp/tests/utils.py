@@ -6,6 +6,7 @@ import json
 import time
 import re
 import uuid
+import glob
 
 import pytest
 from PyQt5.QtWidgets import QApplication
@@ -13,6 +14,9 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
+
+from vasl_templates.webapp.file_server.vasl_mod import VaslMod
+from vasl_templates.webapp import files as webapp_files
 
 # standard templates
 _STD_TEMPLATES = {
@@ -41,6 +45,23 @@ def init_webapp( webapp, webdriver, **options ):
     _webdriver = webdriver
     webdriver.get( webapp.url_for( "main", **options ) )
     wait_for( 5, lambda: find_child("#_page-loaded_") is not None )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def load_vasl_mod( data_dir, monkeypatch ):
+    """Load a VASL module."""
+
+    if data_dir:
+        # NOTE: Some tests require a VASL module to be loaded, and since they should all
+        # should behave in the same way, it doesn't matter which one we load.
+        fspec = os.path.join( pytest.config.option.vasl_mods, "*.vmod" ) #pylint: disable=no-member
+        fname = glob.glob( fspec )[0]
+        vasl_mod = VaslMod( fname, data_dir )
+    else:
+        vasl_mod = None
+    monkeypatch.setattr( webapp_files, "vasl_mod", vasl_mod )
+
+    return vasl_mod
 
 # ---------------------------------------------------------------------
 
@@ -332,6 +353,7 @@ def _do_select_droplist( sel, val ):
         if e.text == val
     ]
     assert len(elems) == 1
+    _webdriver.execute_script( "arguments[0].scrollIntoView()", elems[0] )
     ActionChains(_webdriver).click( elems[0] ).perform()
 
 def get_droplist_vals_index( sel ):

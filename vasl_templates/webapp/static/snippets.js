@@ -211,19 +211,21 @@ function unload_snippet_params( params, check_date_capabilities )
         var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
         var objs = [] ;
         $sortable2.children( "li" ).each( function() {
-            var entry = $(this).data( "sortable2-data" ).vo_entry ;
+            var vo_entry = $(this).data( "sortable2-data" ).vo_entry ;
+            var vo_image_id = $(this).data( "sortable2-data" ).vo_image_id ;
             var obj = {
-                id: entry.id,
-                name: entry.name,
-                note_number: entry.note_number,
-                notes: entry.notes
+                id: vo_entry.id,
+                image_id: (vo_image_id !== null) ? vo_image_id[0]+"/"+vo_image_id[1] : null,
+                name: vo_entry.name,
+                note_number: vo_entry.note_number,
+                notes: vo_entry.notes
             } ;
-            if ( entry.no_radio )
-                obj.no_radio = entry.no_radio ;
-            if ( entry.no_if ) {
+            if ( vo_entry.no_radio )
+                obj.no_radio = vo_entry.no_radio ;
+            if ( vo_entry.no_if ) {
                 obj.no_if = "no IF" ;
-                if ( typeof(entry.no_if) === "string" ) { // nb: only for the French B1-bis :-/
-                    var no_if = entry.no_if ;
+                if ( typeof(vo_entry.no_if) === "string" ) { // nb: only for the French B1-bis :-/
+                    var no_if = vo_entry.no_if ;
                     if ( no_if.substring(no_if.length-1) == "\u2020" )
                         obj.no_if += "<sup>"+no_if.substring(0,no_if.length-1)+"</sup>\u2020" ;
                     else
@@ -239,7 +241,7 @@ function unload_snippet_params( params, check_date_capabilities )
             // get a lot of use :-/
             var nat = params[ "PLAYER_"+player_no ] ;
             var capabilities = make_capabilities(
-                entry,
+                vo_entry,
                 nat,
                 params.SCENARIO_THEATER,
                 params.SCENARIO_YEAR, params.SCENARIO_MONTH, check_date_capabilities,
@@ -248,7 +250,7 @@ function unload_snippet_params( params, check_date_capabilities )
             if ( capabilities )
                 obj.capabilities = capabilities ;
             capabilities = make_capabilities(
-                entry,
+                vo_entry,
                 nat,
                 params.SCENARIO_THEATER,
                 params.SCENARIO_YEAR, params.SCENARIO_MONTH, check_date_capabilities,
@@ -256,7 +258,7 @@ function unload_snippet_params( params, check_date_capabilities )
             ) ;
             if ( capabilities )
                 obj.raw_capabilities = capabilities ;
-            var crew_survival = make_crew_survival( entry ) ;
+            var crew_survival = make_crew_survival( vo_entry ) ;
             if ( crew_survival )
                 obj.crew_survival = crew_survival ;
             objs.push( obj ) ;
@@ -274,29 +276,29 @@ function unload_snippet_params( params, check_date_capabilities )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function make_capabilities( entry, nat, scenario_theater, scenario_year, scenario_month, check_date_capabilities, raw )
+function make_capabilities( vo_entry, nat, scenario_theater, scenario_year, scenario_month, check_date_capabilities, raw )
 {
     var capabilities = [] ;
 
     // extract the static capabilities
     var i ;
-    if ( "capabilities" in entry ) {
-        for ( i=0 ; i < entry.capabilities.length ; ++i )
-            capabilities.push( entry.capabilities[i] ) ;
+    if ( "capabilities" in vo_entry ) {
+        for ( i=0 ; i < vo_entry.capabilities.length ; ++i )
+            capabilities.push( vo_entry.capabilities[i] ) ;
     }
 
     // extract the variable capabilities
-    if ( "capabilities2" in entry ) {
+    if ( "capabilities2" in vo_entry ) {
         var indeterminate_caps=[], unexpected_caps=[], invalid_caps=[] ;
-        for ( var key in entry.capabilities2 ) {
+        for ( var key in vo_entry.capabilities2 ) {
             // check if the capability is dependent on the scenario date
-            if ( !( entry.capabilities2[key] instanceof Array ) ) {
-                capabilities.push( key + entry.capabilities2[key] ) ;
+            if ( !( vo_entry.capabilities2[key] instanceof Array ) ) {
+                capabilities.push( key + vo_entry.capabilities2[key] ) ;
                 continue ;
             }
             // check for LF
             if ( key == "LF" ) {
-                var caps = $.extend( true, [], entry.capabilities2[key] ) ;
+                var caps = $.extend( true, [], vo_entry.capabilities2[key] ) ;
                 if ( caps[caps.length-1] == "\u2020" ) {
                     caps.pop() ;
                     capabilities.push( "LF\u2020" ) ;
@@ -315,14 +317,14 @@ function make_capabilities( entry, nat, scenario_theater, scenario_year, scenari
                 raw = true ;
             }
             if ( raw ) {
-                capabilities.push( make_raw_capability( key, entry.capabilities2[key] ) ) ;
+                capabilities.push( make_raw_capability( key, vo_entry.capabilities2[key] ) ) ;
             }
             else {
-                var cap = _select_capability_by_date( entry.capabilities2[key], nat, scenario_theater, scenario_year, scenario_month ) ;
+                var cap = _select_capability_by_date( vo_entry.capabilities2[key], nat, scenario_theater, scenario_year, scenario_month ) ;
                 if ( cap === null )
                     continue ;
                 if ( cap == "<invalid>" ) {
-                    invalid_caps.push( entry.name + ": " + key + ": " + entry.capabilities2[key] ) ;
+                    invalid_caps.push( vo_entry.name + ": " + key + ": " + vo_entry.capabilities2[key] ) ;
                     continue ;
                 }
                 capabilities.push( key + cap ) ;
@@ -352,14 +354,14 @@ function make_capabilities( entry, nat, scenario_theater, scenario_year, scenari
     }
 
     // extract any other capabilities
-    if ( "capabilities_other" in entry ) {
-        for ( i=0 ; i < entry.capabilities_other.length ; ++i )
-            capabilities.push( entry.capabilities_other[i] ) ;
+    if ( "capabilities_other" in vo_entry ) {
+        for ( i=0 ; i < vo_entry.capabilities_other.length ; ++i )
+            capabilities.push( vo_entry.capabilities_other[i] ) ;
     }
 
     // include damage points (for Landing Craft)
-    if ( "damage_points" in entry )
-        capabilities.push( "DP " + entry.damage_points ) ;
+    if ( "damage_points" in vo_entry )
+        capabilities.push( "DP " + vo_entry.damage_points ) ;
 
     return capabilities.length > 0 ? capabilities : null ;
 }
@@ -510,7 +512,7 @@ function has_ref( val )
     return null ;
 }
 
-function make_crew_survival( entry )
+function make_crew_survival( vo_entry )
 {
     function make_cs_string( prefix, val ) {
         if ( val.length === 2 && val[0] === null && val[1] === "\u2020" )
@@ -521,10 +523,10 @@ function make_crew_survival( entry )
 
     // check if the vehicle has a crew survival field
     var crew_survival = null ;
-    if ( "CS#" in entry )
-        crew_survival = make_cs_string( "CS", entry["CS#"] ) ;
-    else if ( "cs#" in entry )
-        crew_survival = make_cs_string( "cs", entry["cs#"] ) ;
+    if ( "CS#" in vo_entry )
+        crew_survival = make_cs_string( "CS", vo_entry["CS#"] ) ;
+    else if ( "cs#" in vo_entry )
+        crew_survival = make_cs_string( "cs", vo_entry["cs#"] ) ;
     if ( crew_survival === null )
         return null ;
 
@@ -741,8 +743,16 @@ function do_load_scenario_data( params )
                     vo_id = params[key][i].name ; // nb: we store the name in the ID variable, in case we have to log an error below
                     vo_entry = find_vo_by_name( vo_type, nat, vo_id ) ;
                 }
+                var vo_image_id = null ;
+                if ( "image_id" in params[key][i] ) {
+                    var matches = params[key][i].image_id.match( /^(\d{3,4})\/(\d)$/ ) ;
+                    if ( matches )
+                        vo_image_id = [ parseInt(matches[1]), parseInt(matches[2]) ] ;
+                    else
+                        warnings.push( "Invalid V/O image ID for '" + params[key][i].name + "': " + params[key][i].image_id ) ;
+                }
                 if ( vo_entry )
-                    do_add_vo( vo_type, player_no, vo_entry ) ;
+                    do_add_vo( vo_type, player_no, vo_entry, vo_image_id ) ;
                 else
                     unknown_vo.push( vo_id || "(not set)" ) ;
             }
@@ -847,14 +857,17 @@ function unload_params_for_save()
     function extract_vo_entries( key ) {
         if ( !(key in params) )
             return ;
-        var vo_entries = [] ;
+        var entries = [] ;
         for ( var i=0 ; i < params[key].length ; ++i ) {
-            vo_entries.push( {
+            var entry = {
                 id: params[key][i].id,
                 name: params[key][i].name, // nb: not necessary, but convenient
-            } ) ;
+            } ;
+            if ( params[key][i].image_id !== null )
+                entry.image_id = params[key][i].image_id ;
+            entries.push( entry ) ;
         }
-        params[key] = vo_entries ;
+        params[key] = entries ;
     }
     var params = {} ;
     unload_snippet_params( params, false ) ;

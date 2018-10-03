@@ -122,12 +122,20 @@ button.edit-template img { height: 18px ; vertical-align: middle ; margin-right:
 #select-vo .select2-search { padding: 0 0 5px 0 ; }
 #select-vo .select2-results__options { max-height: none ; }
 #select-vo .select2-dropdown { border: none ; }
-#select-vo .select2-dropdown .vo-entry { display: flex ; align-items: center ; }
-#select-vo .select2-dropdown .vo-entry img { width: 3.5em ; margin-right: 0.5em ; }
-#select-vo .select2-dropdown .vo-entry.small-piece img { width: 2.7em ; margin-left: 0.4em ; margin-right: 0.9em ; }
+#select-vo .select2-dropdown .vo-entry { display: flex ; }
+#select-vo .select2-dropdown .vo-entry img { height: 3.5em ; margin-right: 0.5em ; }
+#select-vo .select2-dropdown .vo-entry .content { display: flex ; flex-direction: column ; justify-content: center ; }
+#select-vo .select2-dropdown .vo-entry.small-piece img { height: 2.7em ; margin-left: 0.4em ; margin-right: 0.9em ; }
 #select-vo .select2-dropdown .vo-entry .vo-type { font-size: 80% ; font-style: italic ; color: #888 ; }
-.ui-dialog.select-vo .ui-dialog-buttonpane { border: none ; padding: 0 ; font-size: 75% ; }
-.ui-dialog.select-vo button { margin: 0 0 0 5px ; padding: 0.1em 0.2em ; }
+#select-vo .select2-results__option--highlighted[aria-selected] .vo-type { color: #fff ; }
+#select-vo .select2-dropdown .vo-entry input.select-vo-image { width: 15px ; position: relative ; top: 10px ; }
+.ui-dialog.select-vo .ui-dialog-buttonpane { border: none ; padding: 0 ; }
+.ui-dialog.select-vo .ui-dialog-buttonpane button { margin: 0 0 0 5px ; padding: 0.1em 0.2em ; }
+
+.ui-dialog.select-vo-image { padding: 5px ; }
+.ui-dialog.select-vo-image .ui-dialog-titlebar { display: none ; }
+.ui-dialog.select-vo-image .ui-dialog-content { padding: 0 ; height: 100% !important ; overflow: hidden ; }
+.ui-dialog.select-vo-image .vo-images img { margin: 5px ; padding: 10px ; border: 1px dotted #ddd ; }
 
 .growl-title { display: none ; }
 .growl .pre { font-family: monospace ; }

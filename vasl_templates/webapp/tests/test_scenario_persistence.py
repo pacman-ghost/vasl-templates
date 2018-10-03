@@ -110,7 +110,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     assert lhs == rhs
 
     # save the scenario and check the results
-    saved_scenario = _save_scenario()
+    saved_scenario = save_scenario()
     expected = {
         k: v for tab in SCENARIO_PARAMS.values() for k,v in tab.items()
     }
@@ -136,7 +136,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     wait_for( 2, lambda: get_stored_msg("_last-info_") == "The scenario was reset." )
     check_window_title( "" )
     check_ob_tabs( "german", "russian" )
-    data = _save_scenario()
+    data = save_scenario()
     data2 = { k: v for k,v in data.items() if v }
     assert data2 == {
         "SCENARIO_THEATER": "ETO",
@@ -156,7 +156,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     }
 
     # load a scenario and make sure it was loaded into the UI correctly
-    _load_scenario( saved_scenario )
+    load_scenario( saved_scenario )
     check_window_title( "my test scenario" )
     check_ob_tabs( "russian", "german" )
     for tab_id in SCENARIO_PARAMS:
@@ -201,7 +201,7 @@ def test_loading_ssrs( webapp, webdriver ):
     select_tab( "scenario" )
     sortable = find_child( "#ssr-sortable" )
     def do_test( ssrs ): # pylint: disable=missing-docstring
-        _load_scenario( { "SSR": ssrs } )
+        load_scenario( { "SSR": ssrs } )
         assert get_sortable_entry_text(sortable) == ssrs
 
     # load a scenario that has SSR's into a UI with no SSR's
@@ -240,7 +240,7 @@ def test_unknown_vo( webapp, webdriver ):
         "OB_ORDNANCE_2": [ { "name": "unknown ordnance 2" } ],
     }
     _ = set_stored_msg_marker( "_last-warning_" )
-    _load_scenario( SCENARIO_PARAMS )
+    load_scenario( SCENARIO_PARAMS )
     last_warning = get_stored_msg( "_last-warning_" )
     assert last_warning.startswith( "Unknown vehicles/ordnance:" )
     for key,vals in SCENARIO_PARAMS.items():
@@ -250,14 +250,14 @@ def test_unknown_vo( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-def _load_scenario( scenario ):
+def load_scenario( scenario ):
     """Load a scenario into the UI."""
     set_stored_msg( "_scenario-persistence_", json.dumps(scenario) )
     _ = set_stored_msg_marker( "_last-info_" )
     select_menu_option( "load_scenario" )
     wait_for( 2, lambda: get_stored_msg("_last-info_") == "The scenario was loaded." )
 
-def _save_scenario():
+def save_scenario():
     """Save the scenario."""
     marker = set_stored_msg_marker( "_scenario-persistence_" )
     select_menu_option( "save_scenario" )

@@ -16,7 +16,7 @@ if app.config.get( "VASL_MOD" ):
 # ---------------------------------------------------------------------
 
 @app.route( "/counter/<gpid>/<side>/<int:index>" )
-@app.route( "/counter/<gpid>/<side>", defaults={"index":1} )
+@app.route( "/counter/<gpid>/<side>", defaults={"index":0} )
 def get_counter_image( gpid, side, index ):
     """Get a counter image."""
 
@@ -25,7 +25,7 @@ def get_counter_image( gpid, side, index ):
         return app.send_static_file( "images/missing-image.png" )
 
     # return the specified counter image
-    image_path, image_data = vasl_mod.get_piece_image( int(gpid), side, int(index)-1 )
+    image_path, image_data = vasl_mod.get_piece_image( int(gpid), side, int(index) )
     if not image_data:
         abort( 404 )
     return send_file(

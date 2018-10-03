@@ -143,10 +143,16 @@ function auto_dismiss_dialog( $dlg, evt, btn_text )
     // check if the user pressed Ctrl-Enter
     if ( evt.keyCode == 13 && evt.ctrlKey ) {
         // yup - locate the target button and click it
-        var $dlg2 = $( ".ui-dialog." + $dlg.dialog("option","dialogClass") ) ;
-        $( $dlg2.find( ".ui-dialog-buttonpane button:contains('" + btn_text + "')" ) ).click() ;
+        click_dialog_button( $dlg, btn_text ) ;
         evt.preventDefault() ;
     }
+}
+
+function click_dialog_button( $dlg, btn_text )
+{
+    // locate the target button and click it
+    var $dlg2 = $( ".ui-dialog." + $dlg.dialog("option","dialogClass") ) ;
+    $( $dlg2.find( ".ui-dialog-buttonpane button:contains('" + btn_text + "')" ) ).click() ;
 }
 
 // --------------------------------------------------------------------

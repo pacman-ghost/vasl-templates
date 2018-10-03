@@ -1,13 +1,18 @@
 """ Test generating vehicle/ordnance snippets. """
 
+import os
 import re
+import json
 
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 
+from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, save_scenario
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, select_tab, set_template_params, find_child, find_children, \
-    wait_for_clipboard, click_dialog_button
+    init_webapp, load_vasl_mod, select_tab, set_template_params, find_child, find_children, \
+    wait_for_clipboard, click_dialog_button, select_menu_option, select_droplist_val, \
+    set_stored_msg_marker, get_stored_msg
 from vasl_templates.webapp.config.constants import DATA_DIR as REAL_DATA_DIR
 
 # ---------------------------------------------------------------------
@@ -218,6 +223,7 @@ def test_html_names( webapp, webdriver, monkeypatch ):
 
     # initialize
     monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
+    load_vasl_mod( REAL_DATA_DIR, monkeypatch )
     init_webapp( webapp, webdriver )
 
     def get_available_ivfs():
@@ -230,7 +236,7 @@ def test_html_names( webapp, webdriver, monkeypatch ):
     select_tab( "ob{}".format( 1 ) )
     add_vehicle_btn = find_child( "#ob_vehicles-add_1" )
     add_vehicle_btn.click()
-    assert get_available_ivfs() == [ "PzKpfw IVF\n1\n (MT)", "PzKpfw IVF\n2\n (MT)" ]
+    assert get_available_ivfs() == [ "PzKpfw IVF1 (MT)", "PzKpfw IVF2 (MT)" ]
 
     # add the PzKw IVF2
     elem = find_child( ".ui-dialog .select2-search__field" )
@@ -244,7 +250,7 @@ def test_html_names( webapp, webdriver, monkeypatch ):
 
     # start to add another vehicle - make sure only the PzKw IVF1 is present
     add_vehicle_btn.click()
-    assert get_available_ivfs() == [ "PzKpfw IVF\n1\n (MT)" ]
+    assert get_available_ivfs() == [ "PzKpfw IVF1 (MT)" ]
 
     # add the PzKw IVF1
     elem = find_child( ".ui-dialog .select2-search__field" )
@@ -267,7 +273,201 @@ def test_html_names( webapp, webdriver, monkeypatch ):
 
     # start to add another vehicle - make sure the PzKw IVF2 is available again
     add_vehicle_btn.click()
-    assert get_available_ivfs() == [ "PzKpfw IVF\n2\n (MT)" ]
+    assert get_available_ivfs() == [ "PzKpfw IVF2 (MT)" ]
+
+# ---------------------------------------------------------------------
+
+def test_vo_images( webapp, webdriver, monkeypatch ): #pylint: disable=too-many-statements
+    """Test handling of vehicles/ordnance that have multiple images."""
+
+    # initialize
+    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
+    load_vasl_mod( REAL_DATA_DIR, monkeypatch )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
+
+    def check_sortable2_entries( player_no, expected ):
+        """Check the settings on the player's vehicles."""
+        entries = find_children( "#ob_vehicles-sortable_{} li".format( player_no ) )
+        for i,entry in enumerate(entries):
+            # check the displayed image
+            elem = find_child( "img", entry )
+            assert elem.get_attribute( "src" ).endswith( expected[i][0] )
+            # check the attached data
+            data = webdriver.execute_script( "return $(arguments[0]).data('sortable2-data')", entry )
+            assert data["vo_entry"]["id"] == expected[i][1]
+            assert data["vo_image_id"] == expected[i][2]
+
+    def check_save_scenario( player_no, expected ):
+        """Check the vo_entry and vo_image_id fields are saved correctly."""
+        data = save_scenario()
+        assert data[ "OB_VEHICLES_{}".format(player_no) ] == expected
+        return data
+
+    # start to add a PzKw VIB
+    select_tab( "ob{}".format( 1 ) )
+    add_vehicle_btn = find_child( "#ob_vehicles-add_1" )
+    add_vehicle_btn.click()
+    search_field = find_child( ".ui-dialog .select2-search__field" )
+    search_field.send_keys( "VIB" )
+
+    # make sure there is only 1 image available
+    elem = find_child( "#select-vo .select2-results li img[class='vasl-image']" )
+    assert elem.get_attribute( "src" ).endswith( "/counter/2602/front" )
+    vo_images = webdriver.execute_script( "return $(arguments[0]).data('vo-images')", elem )
+    assert vo_images is None
+    assert not find_child( "#select-vo .select2-results li input.select-vo-image" )
+
+    # add the PzKw VIB, make sure the sortable2 entry has its data set correctly
+    search_field.send_keys( Keys.RETURN )
+    check_sortable2_entries( 1, [
+        ( "/counter/2602/front", "ge/v:035", None )
+    ] )
+
+    # check that the vehicles are saved correctly
+    check_save_scenario( 1, [
+        { "id": "ge/v:035", "name": "PzKpfw VIB" },
+    ] )
+
+    # start to add a PzKw IVH (this has multiple GPID's)
+    add_vehicle_btn.click()
+    search_field = find_child( ".ui-dialog .select2-search__field" )
+    search_field.send_keys( "IVH" )
+
+    # make sure multiple images are available
+    elem = find_child( "#select-vo .select2-results li img[class='vasl-image']" )
+    assert elem.get_attribute( "src" ).endswith( "/counter/2584/front" )
+    vo_images = webdriver.execute_script( "return $(arguments[0]).data('vo-images')", elem )
+    assert vo_images == [ [2584,0], [2586,0], [2807,0], [2809,0] ]
+    assert find_child( "#select-vo .select2-results li input.select-vo-image" )
+
+    # add the PzKw IVH, make sure the sortable2 entry has its data set correctly
+    search_field.send_keys( Keys.RETURN )
+    check_sortable2_entries( 1, [
+        ( "/counter/2602/front", "ge/v:035", None ),
+        ( "/counter/2584/front", "ge/v:027", None ) # nb: there is no V/O image ID if it's not necessary
+    ] )
+
+    # check that the vehicles are saved correctly
+    check_save_scenario( 1, [
+        { "id": "ge/v:035", "name": "PzKpfw VIB" },
+        { "id": "ge/v:027", "name": "PzKpfw IVH" }, # nb: there is no V/O image ID if it's not necessary
+    ] )
+
+    # delete the PzKw IVH
+    delete_vo( "vehicles", 1, "PzKpfw IVH", webdriver )
+
+    # add the PzKw IVH, with a different image, make sure the sortable2 entry has its data set correctly
+    add_vehicle_btn.click()
+    search_field = find_child( ".ui-dialog .select2-search__field" )
+    search_field.send_keys( "IVH" )
+    elem = find_child( "#select-vo .select2-results li img[class='vasl-image']" )
+    assert elem.get_attribute( "src" ).endswith( "/counter/2584/front" )
+    btn = find_child( "#select-vo .select2-results li input.select-vo-image" )
+    btn.click()
+    images = find_children( ".ui-dialog.select-vo-image .vo-images img" )
+    assert len(images) == 4
+    images[2].click()
+    check_sortable2_entries( 1, [
+        ( "/counter/2602/front", "ge/v:035", None ),
+        ( "/counter/2807/front/0", "ge/v:027", [2807,0] )
+    ] )
+
+    # check that the vehicles are saved correctly
+    check_save_scenario( 1, [
+        { "id": "ge/v:035", "name": "PzKpfw VIB" },
+        { "id": "ge/v:027", "image_id": "2807/0", "name": "PzKpfw IVH" },
+    ] )
+
+    # set the British as player 2
+    select_tab("scenario" )
+    player2_sel = Select( find_child( "select[name='PLAYER_2']" ) )
+    select_droplist_val( player2_sel, "british" )
+
+    # start to add a 2pdr Portee (this has multiple images for a single GPID)
+    select_tab( "ob{}".format( 2 ) )
+    add_vehicle_btn = find_child( "#ob_vehicles-add_2" )
+    add_vehicle_btn.click()
+    search_field = find_child( ".ui-dialog .select2-search__field" )
+    search_field.send_keys( "2pdr" )
+
+    # make sure multiple images are available
+    elem = find_child( "#select-vo .select2-results li img[class='vasl-image']" )
+    assert elem.get_attribute( "src" ).endswith( "/counter/1555/front" )
+    vo_images = webdriver.execute_script( "return $(arguments[0]).data('vo-images')", elem )
+    assert vo_images == [ [1555,0], [1555,1] ]
+    assert find_child( "#select-vo .select2-results li input.select-vo-image" )
+
+    # add the 2pdr Portee, make sure the sortable2 entry has its data set correctly
+    search_field.send_keys( Keys.RETURN )
+    check_sortable2_entries( 2, [
+        ( "/counter/1555/front", "br/v:115", None ) # nb: there is no V/O image ID if it's not necessary
+    ] )
+
+    # check that the vehicles are saved correctly
+    check_save_scenario( 2, [
+        { "id": "br/v:115", "name": "2pdr Portee" }, # nb: there is no V/O image ID if it's not necessary
+    ] )
+
+    # delete the 2pdr Portee
+    delete_vo( "vehicles", 2, "2pdr Portee", webdriver )
+
+    # add the 2pdr Portee, with a different image, make sure the sortable2 entry has its data set correctly
+    add_vehicle_btn.click()
+    search_field = find_child( ".ui-dialog .select2-search__field" )
+    search_field.send_keys( "2pdr" )
+    elem = find_child( "#select-vo .select2-results li img[class='vasl-image']" )
+    assert elem.get_attribute( "src" ).endswith( "/counter/1555/front" )
+    btn = find_child( "#select-vo .select2-results li input.select-vo-image" )
+    btn.click()
+    images = find_children( ".ui-dialog.select-vo-image .vo-images img" )
+    assert len(images) == 2
+    images[1].click()
+    check_sortable2_entries( 2, [
+        ( "/counter/1555/front/1", "br/v:115", [1555,1] )
+    ] )
+
+    # check that the vehicles are saved correctly
+    saved_scenario = check_save_scenario( 2, [
+        { "id": "br/v:115", "image_id": "1555/1", "name": "2pdr Portee" },
+    ] )
+
+    # reset the scenario
+    select_menu_option( "new_scenario" )
+    check_sortable2_entries( 1, [] )
+    check_sortable2_entries( 2, [] )
+
+    # load the last saved scenario, make sure the correct images are displayed
+    load_scenario( saved_scenario )
+    check_sortable2_entries( 1, [
+        ( "/counter/2602/front", "ge/v:035", None ),
+        ( "/counter/2807/front/0", "ge/v:027", [2807,0] )
+    ] )
+    check_sortable2_entries( 2, [
+        ( "/counter/1555/front/1", "br/v:115", [1555,1] )
+    ] )
+
+# ---------------------------------------------------------------------
+
+def test_invalid_vo_image_ids( webapp, webdriver ):
+    """Test loading scenarios that contain invalid V/O image ID's."""
+
+    # initialize
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
+
+    # test each save file
+    dname = os.path.join( os.path.split(__file__)[0], "fixtures/invalid-vo-image-ids" )
+    for root,_,fnames in os.walk(dname):
+        for fname in fnames:
+            fname = os.path.join( root, fname )
+            if os.path.splitext( fname )[1] != ".json":
+                continue
+
+            # load the next scenario, make sure a warning was issued for the V/O image ID
+            data = json.load( open(fname,"r") )
+            set_stored_msg_marker( "_last-warning_" )
+            load_scenario( data )
+            last_warning = get_stored_msg( "_last-warning_" )
+            assert "Invalid V/O image ID" in last_warning
 
 # ---------------------------------------------------------------------
 

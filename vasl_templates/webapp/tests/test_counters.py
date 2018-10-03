@@ -8,10 +8,9 @@ import urllib.request
 import pytest
 import tabulate
 
-from vasl_templates.webapp.file_server.vasl_mod import VaslMod
 from vasl_templates.webapp.file_server.utils import get_vo_gpids
 from vasl_templates.webapp.config.constants import DATA_DIR
-from vasl_templates.webapp import files as webapp_files
+from vasl_templates.webapp.tests.utils import load_vasl_mod
 
 # ---------------------------------------------------------------------
 
@@ -44,7 +43,7 @@ def test_counter_images( webapp, monkeypatch ):
                 assert locals()["check_"+side]( resp_code, resp_data )
 
     # test counter images when no VASL module has been configured
-    monkeypatch.setattr( webapp_files, "vasl_mod", None )
+    load_vasl_mod( None, monkeypatch )
     fname = os.path.join( os.path.split(__file__)[0], "../static/images/missing-image.png" )
     missing_image_data = open( fname, "rb" ).read()
     check_images(
@@ -59,8 +58,7 @@ def test_counter_images( webapp, monkeypatch ):
     for fname in glob.glob(fspec):
 
         # install the VASL module file
-        vasl_mod = VaslMod( fname, DATA_DIR )
-        monkeypatch.setattr( webapp_files, "vasl_mod", vasl_mod )
+        vasl_mod = load_vasl_mod( DATA_DIR, monkeypatch )
 
         # check the pieces loaded
         buf = io.StringIO()

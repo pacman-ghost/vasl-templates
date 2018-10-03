@@ -195,7 +195,7 @@ $.fn.sortable2 = function( action, args )
         $entries.each( function() {
             var fixed_height = $(this).data( "sortable2-data" ).fixed_height ;
             if ( fixed_height )
-                $(this).css( "height", fixed_height+"px" ) ;
+                $(this).css( "height", fixed_height ) ;
             else
                 $(this).css({ "max-height": max_height+"px", "overflow-y": "hidden" }) ;
             // check for overflow

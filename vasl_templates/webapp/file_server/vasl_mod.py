@@ -48,8 +48,18 @@ class VaslMod:
 
     def get_piece_info( self ):
         """Get information about each piece."""
+        def image_count( piece, key ):
+            """Return the number of images the specified piece has."""
+            if not piece[key]:
+                return 0
+            return len(piece[key]) if isinstance( piece[key], list ) else 1
         return {
-            p["gpid"]: { "name": p["name"], "is_small": p["is_small"] }
+            p["gpid"]: {
+                "name": p["name"],
+                "front_images": image_count( p, "front_images" ),
+                "back_images": image_count( p, "back_images" ),
+                "is_small": p["is_small"],
+            }
             for p in self.pieces.values()
         }
 
