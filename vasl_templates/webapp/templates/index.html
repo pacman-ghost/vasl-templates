@@ -2,8 +2,10 @@
 <html lang="en">
 
 <head>
+
 <meta charset="utf-8">
 <title> {{APP_NAME}} </title>
+
 <link rel="shortcut icon" href="{{url_for('static', filename='images/app.ico')}}">
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='jquery-ui/jquery-ui.min.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='growl/jquery.growl.css')}}" />
@@ -13,7 +15,10 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/sortable.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/tabs-scenario.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/tabs-ob.css')}}" />
+
 </head>
+
+<!-- ----------------------------------------------------------------- -->
 
 <body>
 
@@ -23,7 +28,7 @@
 
 <img id="loader" src="{{url_for('static',filename='images/loader.gif')}}" style="position:fixed;top:50%;left:50%;margin-top:-16px;margin-left:-16px;z-index:999;">
 
-<!-- ----------------------------------------------------------------- -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 <div id="menu" style="display:none;">
     <input type="image" src="{{url_for('static',filename='images/menu.png')}}" value="actions">
@@ -31,265 +36,27 @@
     <input id="load-template-pack" type="file" accept=".zip,.j2" style="display:none;">
 </div>
 
-<!-- ----------------------------------------------------------------- -->
-
-<div id="tabs">
-
-<img src="{{url_for('static',filename='images/flags/german.png')}}" style="display:none;">
-<img src="{{url_for('static',filename='images/flags/russian.png')}}" style="display:none;">
-
-<ul>
-    <li> <a href="#tabs-scenario"><img src="{{url_for('static',filename='images/scenario.png')}}">&nbsp;Scenario</a>
-    <li> <a href="#tabs-ob1"><div style="width:7em;">&nbsp;</div></a>
-    <li> <a href="#tabs-ob2"><div style="width:7em;">&nbsp;</div></a>
-    <li style="display:none;"> <a href="#tabs-help"><img src="{{url_for('static',filename='images/help.png')}}">&nbsp;Help</a>
-</ul>
+{%include "tabs.html"%}
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-<div id="tabs-scenario">
-<div class="left">
-
-    <fieldset name="scenario" class="tl" style="display:none;"> <legend>S<u>c</u>enario</legend>
-        <div id="panel-scenario">
-            <div class='row'>
-                <label for="SCENARIO_NAME">Name:</label>
-                <input name="SCENARIO_NAME" type="text" class="param">
-                <input name="SCENARIO_ID" type="text" class="param" title="Scenario ID">
-            </div>
-            <div class='row'>
-                <label for="SCENARIO_LOCATION">Location:</label>
-                <input name="SCENARIO_LOCATION" type="text" class="param">
-                <select name="SCENARIO_THEATER" class="param" title="Scenario theater">
-                    <option value="ETO">ETO</option>
-                    <option value="PTO">PTO</option>
-                    <option value="Burma">Burma</option>
-                    <option value="other">other</option>
-                </select>
-            </div>
-            <div class='row'>
-                <label for="SCENARIO_DATE">Date:</label>
-                <input name="SCENARIO_DATE" type="text" size="10" class="param">
-                <span class="spacer"></span>
-                <span class="small">
-                    Width: <input type="text" class="param" name="SCENARIO_WIDTH" size="5">
-                    <button class="generate" data-id="scenario">Snippet</button>
-                </span>
-            </div>
-            <div class='row'>
-                <label></label>
-                <span style='width:7em'></span>
-                <label class="header">ELR</label>
-                <label class="header">SAN</label>
-            </div>
-            <div class='row'>
-                <label for="PLAYER_1"><u>P</u>layer 1:</label>
-                <select name="PLAYER_1" class="param"></select>
-                <select name="PLAYER_1_ELR" class="param"></select>
-                <select name="PLAYER_1_SAN" class="param"></select>
-            </div>
-            <div class='row'>
-                <label for="PLAYER_2">Player 2:</label>
-                <select name="PLAYER_2" class="param"></select>
-                <select name="PLAYER_2_ELR" class="param"></select>
-                <select name="PLAYER_2_SAN" class="param"></select>
-                &nbsp;
-                <span class="small">
-                    <button class="generate" data-id="players">Snippet</button>
-                </span>
-            </div>
-        </div>
-    </fieldset>
-
-    <fieldset name="scenario_notes" class="bl" style="display:none;"> <legend>Notes</legend>
-        <div id="panel-scenario_notes">
-            <div class="content">
-                <div id="scenario_notes-hint" class="sortable-hint"></div>
-                <ul id="scenario_notes-sortable" class="sortable" style="display:none;"></ul>
-            </div>
-            <div class="footer">
-                <button id="scenario_notes-add" class="sortable-add"></button>
-                <img id="scenario_notes-trash" class="sortable-trash">
-                <span class="spacer"></span>
-                <button class="edit-template" data-id="scenario_note"></button>
-            </div>
-        </div>
-    </fieldset>
-
-</div>
-
-<div class="right">
-
-    <fieldset name="vc" class="tr" style="display:none;"> <legend>Victor<u>y</u> Conditions</legend>
-        <div id="panel-vc">
-            <textarea name="VICTORY_CONDITIONS" type="text" class="param"></textarea>
-            <div class="footer">
-                <span class="spacer"></span>
-                <span class="small">
-                    <label for="VICTORY_CONDITIONS_WIDTH">Width:</label>
-                    <input type="text" class="param" name="VICTORY_CONDITIONS_WIDTH" size="5">
-                    <button class="generate" data-id="victory_conditions">Snippet</button>
-                </span>
-            </div>
-        </div>
-    </fieldset>
-
-    <fieldset name="ssr" class="br" style="display:none;"> <legend>SSR's</legend>
-        <div id="panel-ssr">
-            <div class="content">
-                <div id="ssr-hint" class="sortable-hint"></div>
-                <ul id="ssr-sortable" class="sortable" style="display:none;"></ul>
-            </div>
-            <div class="footer">
-                <button id="ssr-add" class="sortable-add"></button>
-                <img id="ssr-trash" class="sortable-trash">
-                <span class="spacer"></span>
-                <span class="small">
-                    <label for="SSR_WIDTH">Width:</label>
-                    <input type="text" class="param" name="SSR_WIDTH" size="5">
-                    <button class="generate" data-id="ssr">Snippet</button>
-                </span>
-            </div>
-        </div>
-    </fieldset>
-
-</div>
-
-</div>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-<div id="tabs-ob1" class="tabs-ob">
-
-<div class="left">
-
-    <fieldset name="ob_setups_1" class="tl"> <legend>OB setup</legend>
-        <div id="panel-ob_setups_1" class="panel-ob_setups">
-            <div class="content">
-                <div id="ob_setups-hint_1" class="sortable-hint"></div>
-                <ul id="ob_setups-sortable_1" class="sortable" style="display:none;"></ul>
-            </div>
-            <div class="footer">
-                <button id="ob_setups-add_1" class="sortable-add"></button>
-                <img id="ob_setups-trash_1" class="sortable-trash">
-                <span class="spacer"></span>
-                <button class="edit-template" data-id="ob_setup"></button>
-            </div>
-        </div>
-    </fieldset>
-
-    <fieldset name="ob_notes_1" class="bl"> <legend>Notes</legend>
-        <div id="panel-ob_notes_1" class="panel-ob_notes">
-            <div class="content">
-                <div id="ob_notes-hint_1" class="sortable-hint"></div>
-                <ul id="ob_notes-sortable_1" class="sortable" style="display:none;"></ul>
-            </div>
-            <div class="footer">
-                <button id="ob_notes-add_1" class="sortable-add"></button>
-                <img id="ob_notes-trash_1" class="sortable-trash">
-                <span class="spacer"></span>
-                <span class="small">
-                    <button class="generate" data-id="pf">PF</button>
-                    <button class="generate" data-id="atmm">ATMM</button>
-                    <button class="generate" data-id="psk">PSK</button>
-                    <button class="generate" data-id="mol">MOL</button>
-                    <button class="generate" data-id="mol-p">MOL-P</button>
-                    <button class="generate" data-id="baz">BAZ</button>
-                    <button class="generate" data-id="piat">PIAT</button>
-                    <button class="edit-template" data-id="ob_note"></button>
-                </span>
-            </div>
-        </div>
-    </fieldset>
-
-</div>
-
-<div class="right">
-
-    <fieldset name="ob_vehicles_1" class="tr"> <legend>Vehicles</legend>
-        <div id="panel-ob_vehicles_1" class="panel-ob_vehicles">
-            <div class="content">
-                <div id="ob_vehicles-hint_1" class="sortable-hint"></div>
-                <ul id="ob_vehicles-sortable_1" class="sortable" style="display:none;"></ul>
-            </div>
-            <div class="footer">
-                <button id="ob_vehicles-add_1" class="sortable-add"></button>
-                <img id="ob_vehicles-trash_1" class="sortable-trash">
-                <span class="spacer"></span>
-                <span class="small">
-                    <label for="OB_VEHICLES_WIDTH_1">Width:</label>
-                    <input type="text" class="param" name="OB_VEHICLES_WIDTH_1" size="5">
-                    <button class="generate" data-id="ob_vehicles_1">Snippet</button>
-                </span>
-            </div>
-        </div>
-    </fieldset>
-
-    <fieldset name="ob_vehicles_1" class="br"> <legend>Ordnance</legend>
-        <div id="panel-ob_ordnance_1" class="panel-ob_ordnance">
-            <div class="content">
-                <div id="ob_ordnance-hint_1" class="sortable-hint"></div>
-                <ul id="ob_ordnance-sortable_1" class="sortable" style="display:none;"></ul>
-            </div>
-            <div class="footer">
-                <button id="ob_ordnance-add_1" class="sortable-add"></button>
-                <img id="ob_ordnance-trash_1" class="sortable-trash">
-                <span class="spacer"></span>
-                <span class="small">
-                    <label for="OB_ORDNANCE_WIDTH_1">Width:</label>
-                    <input type="text" class="param" name="OB_ORDNANCE_WIDTH_1" size="5">
-                    <button class="generate" data-id="ob_ordnance_1">Snippet</button>
-                </span>
-            </div>
-        </div>
-    </fieldset>
-
-</div>
-
-</div>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-<div id="tabs-ob2"> <!-- nb: this will be created dynamically from the OB1 tab -->
-</div>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-<div id="tabs-help">
-    <iframe></iframe>
-</div>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-</div> <!-- #tabs -->
 
 <div id="watermark" style="display:none;">
     <img src="{{url_for('static',filename='images/watermark.png')}}">
 </div>
 
-<!-- ----------------------------------------------------------------- -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-<div id="edit-template" style="display:none;">
-    <textarea></textarea>
-</div>
+{%include "edit-template-dialog.html"%}
+{%include "edit-simple-note-dialog.html"%}
 
-<div id="edit-simple_note" style="display:none;">
-    <textarea></textarea>
-</div>
+{%include "select-vo-dialog.html"%}
+{%include "select-vo-image-dialog.html"%}
 
-<div id="select-vo" style="display:none;">
-    <select></select>
-</div>
-
-<div id="select-vo-image" style="display:none;">
-    <div class='vo-images'></div>
-</div>
-
-<div id="ask" style="display:none;"></div>
-
-<!-- ----------------------------------------------------------------- -->
+{%include "ask-dialog.html"%}
 
 </body>
+
+<!-- ----------------------------------------------------------------- -->
 
 <script src="{{url_for('static',filename='jquery/jquery-3.3.1.min.js')}}"></script>
 <script src="{{url_for('static',filename='jquery-ui/jquery-ui.min.js')}}"></script>
@@ -300,6 +67,7 @@
 <script src="{{url_for('static',filename='download/download.min.js')}}"></script>
 <script src="{{url_for('static',filename='jszip/jszip.min.js')}}"></script>
 <script src="{{url_for('static',filename='select2/select2.min.js')}}"></script>
+
 <script>
 gAppName = "{{APP_NAME}}" ;
 gAppVersion = "{{APP_VERSION}}" ;
@@ -311,6 +79,7 @@ gOrdnanceListingsUrl = "{{url_for('get_ordnance_listings',merge_common=1)}}" ;
 gGetVaslPieceInfoUrl = "{{url_for('get_vasl_piece_info')}}" ;
 gHelpUrl = "{{url_for('show_help')}}" ;
 </script>
+
 <script src="{{url_for('static',filename='main.js')}}"></script>
 <script src="{{url_for('static',filename='snippets.js')}}"></script>
 <script src="{{url_for('static',filename='simple_notes.js')}}"></script>
@@ -318,12 +87,6 @@ gHelpUrl = "{{url_for('show_help')}}" ;
 <script src="{{url_for('static',filename='sortable.js')}}"></script>
 <script src="{{url_for('static',filename='utils.js')}}"></script>
 
-<!-- these are for the test suite -->
-<textarea id="_last-info_" style="display:none;"></textarea>
-<textarea id="_last-warning_" style="display:none;"></textarea>
-<textarea id="_last-error_" style="display:none;"></textarea>
-<textarea id="_clipboard_" style="display:none;"></textarea>
-<textarea id="_template-pack-persistence_" style="display:none;"></textarea>
-<textarea id="_scenario-persistence_" style="display:none;"></textarea>
+{%include "testing.html"%}
 
 </html>

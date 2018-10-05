@@ -1,0 +1,110 @@
+<div id="tabs-scenario">
+
+<div class="left">
+
+    <fieldset name="scenario" class="tl" style="display:none;"> <legend>S<u>c</u>enario</legend>
+        <div id="panel-scenario">
+            <div class='row'>
+                <label for="SCENARIO_NAME">Name:</label>
+                <input name="SCENARIO_NAME" type="text" class="param">
+                <input name="SCENARIO_ID" type="text" class="param" title="Scenario ID">
+            </div>
+            <div class='row'>
+                <label for="SCENARIO_LOCATION">Location:</label>
+                <input name="SCENARIO_LOCATION" type="text" class="param">
+                <select name="SCENARIO_THEATER" class="param" title="Scenario theater">
+                    <option value="ETO">ETO</option>
+                    <option value="PTO">PTO</option>
+                    <option value="Burma">Burma</option>
+                    <option value="other">other</option>
+                </select>
+            </div>
+            <div class='row'>
+                <label for="SCENARIO_DATE">Date:</label>
+                <input name="SCENARIO_DATE" type="text" size="10" class="param">
+                <span class="spacer"></span>
+                <span class="small">
+                    Width: <input type="text" class="param" name="SCENARIO_WIDTH" size="5">
+                    <button class="generate" data-id="scenario">Snippet</button>
+                </span>
+            </div>
+            <div class='row'>
+                <label></label>
+                <span style='width:7em'></span>
+                <label class="header">ELR</label>
+                <label class="header">SAN</label>
+            </div>
+            <div class='row'>
+                <label for="PLAYER_1"><u>P</u>layer 1:</label>
+                <select name="PLAYER_1" class="param"></select>
+                <select name="PLAYER_1_ELR" class="param"></select>
+                <select name="PLAYER_1_SAN" class="param"></select>
+            </div>
+            <div class='row'>
+                <label for="PLAYER_2">Player 2:</label>
+                <select name="PLAYER_2" class="param"></select>
+                <select name="PLAYER_2_ELR" class="param"></select>
+                <select name="PLAYER_2_SAN" class="param"></select>
+                &nbsp;
+                <span class="small">
+                    <button class="generate" data-id="players">Snippet</button>
+                </span>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset name="scenario_notes" class="bl" style="display:none;"> <legend>Notes</legend>
+        <div id="panel-scenario_notes">
+            <div class="content">
+                <div id="scenario_notes-hint" class="sortable-hint"></div>
+                <ul id="scenario_notes-sortable" class="sortable" style="display:none;"></ul>
+            </div>
+            <div class="footer">
+                <button id="scenario_notes-add" class="sortable-add"></button>
+                <img id="scenario_notes-trash" class="sortable-trash">
+                <span class="spacer"></span>
+                <button class="edit-template" data-id="scenario_note"></button>
+            </div>
+        </div>
+    </fieldset>
+
+</div>
+
+<div class="right">
+
+    <fieldset name="vc" class="tr" style="display:none;"> <legend>Victor<u>y</u> Conditions</legend>
+        <div id="panel-vc">
+            <textarea name="VICTORY_CONDITIONS" type="text" class="param"></textarea>
+            <div class="footer">
+                <span class="spacer"></span>
+                <span class="small">
+                    <label for="VICTORY_CONDITIONS_WIDTH">Width:</label>
+                    <input type="text" class="param" name="VICTORY_CONDITIONS_WIDTH" size="5">
+                    <button class="generate" data-id="victory_conditions">Snippet</button>
+                </span>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset name="ssr" class="br" style="display:none;"> <legend>SSR's</legend>
+        <div id="panel-ssr">
+            <div class="content">
+                <div id="ssr-hint" class="sortable-hint"></div>
+                <ul id="ssr-sortable" class="sortable" style="display:none;"></ul>
+            </div>
+            <div class="footer">
+                <button id="ssr-add" class="sortable-add"></button>
+                <img id="ssr-trash" class="sortable-trash">
+                <span class="spacer"></span>
+                <span class="small">
+                    <label for="SSR_WIDTH">Width:</label>
+                    <input type="text" class="param" name="SSR_WIDTH" size="5">
+                    <button class="generate" data-id="ssr">Snippet</button>
+                </span>
+            </div>
+        </div>
+    </fieldset>
+
+</div>
+
+</div> <!-- tabs-scenario -->

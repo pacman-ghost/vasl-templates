@@ -1,0 +1,18 @@
+<div id="tabs">
+
+<img src="{{url_for('static',filename='images/flags/german.png')}}" style="display:none;">
+<img src="{{url_for('static',filename='images/flags/russian.png')}}" style="display:none;">
+
+<ul>
+    <li> <a href="#tabs-scenario"><img src="{{url_for('static',filename='images/scenario.png')}}">&nbsp;Scenario</a>
+    <li> <a href="#tabs-ob1"><div style="width:7em;">&nbsp;</div></a>
+    <li> <a href="#tabs-ob2"><div style="width:7em;">&nbsp;</div></a>
+    <li style="display:none;"> <a href="#tabs-help"><img src="{{url_for('static',filename='images/help.png')}}">&nbsp;Help</a>
+</ul>
+
+{%include "tabs-scenario.html"%}
+{%include "tabs-ob1.html"%}
+{%include "tabs-ob2.html"%}
+{%include "tabs-help.html"%}
+
+</div> <!-- #tabs -->
