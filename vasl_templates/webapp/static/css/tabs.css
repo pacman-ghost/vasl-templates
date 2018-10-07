@@ -1,0 +1,56 @@
+#tabs {
+    display: none ;
+    position: absolute ; top: 5px ; bottom: 5px ; left: 5px ; right: 5px ;
+    border: none ;
+    opacity: 0.9 ;
+}
+
+#tabs .ui-tabs-nav { background: white ; border: none ; }
+#tabs .ui-tabs-nav a { color: #888 ; }
+#tabs .ui-tabs-nav a:hover { color: #444 ; }
+#tabs .ui-tabs-tab.ui-state-active a { color: #444 ; }
+#tabs .ui-tabs-nav li img { position: relative ; top: 2px ; height: 1em ; }
+#tabs .ui-tabs-panel { background: #f6f6f6 ; }
+
+/* nb: these are managed in the code but we define them here for the initial load */
+#tabs .ui-tabs-tab.ui-state-active { background: #ddd ; border-color: #ccc ; }
+#tabs .ui-tabs-panel { border: 1px solid #ccc ; }
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+#tabs-scenario { display: flex ; }
+#tabs-scenario .left { width: 32em ; min-width: 32em ; }
+#tabs-scenario .right { flex-grow: 1 ; min-width: 25em ; }
+
+#tabs-scenario .left { display: flex ; flex-direction: column ; }
+#tabs-scenario .tl { flex-basis: content ; }
+#tabs-scenario .bl { height: 100% ; flex-grow: 1 ; }
+
+#tabs-scenario .right { display: flex ; flex-direction: column ; }
+#tabs-scenario .tr { height: 100% ; flex-grow: 1 ; }
+#tabs-scenario .br { height: 100% ; flex-grow: 1 ; }
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.ui-tabs-panel.tabs-ob { display: flex ; }
+.ui-tabs-panel.tabs-ob .left { flex-grow: 1 ; min-width: 32em ; }
+.ui-tabs-panel.tabs-ob .right { width: 25em ; min-width: 25em ; }
+
+.ui-tabs-panel.tabs-ob .left { display: flex ; flex-direction: column ; }
+.ui-tabs-panel.tabs-ob .tl { height: 100% ; flex-grow: 1 }
+.ui-tabs-panel.tabs-ob .bl { height: 100% ; flex-grow: 1 }
+
+.ui-tabs-panel.tabs-ob .right { display: flex ; flex-direction: column ; }
+.ui-tabs-panel.tabs-ob .tr { height: 100% ; flex-grow: 1 }
+.ui-tabs-panel.tabs-ob .br { height: 100% ; flex-grow: 1 }
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+#tabs-help.ui-tabs-panel { background: #fff ; }
+
+#tabs-help iframe { width: 100% ; height: 99% ; border: none ; }
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+fieldset { margin: 0 5px 5px 5px ; padding: 10px ; border: 1px solid #888 ; background: #ffffff ; border-radius: 0 10px 0 0 ; }
+fieldset legend { padding: 0 0.2em 0 0.2em ; font-style: italic ; font-weight: bold ; }

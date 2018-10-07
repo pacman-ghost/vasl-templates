@@ -1,0 +1,8 @@
+#edit-template { overflow: hidden ; padding: 2px ; }
+
+.ui-dialog.edit-template .ui-dialog-titlebar { background: #f8d868 ; }
+.ui-dialog.edit-template .ui-dialog-buttonpane { border: none ; padding: 0 ; font-size: 75% ; }
+
+.ui-dialog.edit-template textarea { resize: none ; width: calc(100% - 4px) ; height: 100% ; }
+.ui-dialog.edit-template textarea { font-family: monospace ; font-size: 90% ; }
+.ui-dialog.edit-template button { margin: 0 0 0 5px ; padding: 0.1em 0.2em ; }
