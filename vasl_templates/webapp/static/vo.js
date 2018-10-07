@@ -32,7 +32,7 @@ function add_vo( vo_type, player_no )
         if ( is_small_vasl_piece( vo_entry ) )
             div_class += " small-piece" ;
         var buf2 = [ "<div class='" + div_class + "' data-index='" + opt.id + "'>",
-            "<img src='" + _get_vo_image_url(vo_entry,null) + "' class='vasl-image'>",
+            "<img src='" + get_vo_image_url(vo_entry,null,true) + "' class='vasl-image'>",
             "<div class='content'><div>",
             vo_entry.name,
             vo_entry.type ? "&nbsp;<span class='vo-type'>("+vo_entry.type+")</span>" : "",
@@ -131,7 +131,7 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id )
         fixed_height = "2.5em" ;
     }
     div_tag += ">" ;
-    var url = _get_vo_image_url( vo_entry, vo_image_id ) ;
+    var url = get_vo_image_url( vo_entry, vo_image_id, true ) ;
     $sortable2.sortable2( "add", {
         content: $( div_tag + "<img src='"+url+"'>" + vo_entry.name + "</div>" ),
         data: { caption: vo_entry.name, vo_entry: vo_entry, vo_image_id: vo_image_id, fixed_height: fixed_height },
@@ -214,7 +214,7 @@ function on_select_vo_image( $btn ) {
         for ( var i=0 ; i < vo_images.length ; ++i ) {
             var $elem = $( "<img data-index='" + i + "'>" )
                 .bind( "load", on_image_loaded )
-                .attr( "src", _get_vo_image_url( null, vo_images[i] ) ) ;
+                .attr( "src", get_vo_image_url( null, vo_images[i], true ) ) ;
             $images.append( $elem ) ;
         }
 
@@ -240,7 +240,7 @@ function on_select_vo_image( $btn ) {
         // handle image selection
         $images.children( "img" ).click( function() {
             vo_image_id = vo_images[ $(this).data("index") ] ;
-            $img.attr( "src", _get_vo_image_url(vo_image_id) ) ;
+            $img.attr( "src", get_vo_image_url(vo_image_id,true) ) ;
             $img.data( "vo-image-id", vo_image_id ) ;
             $dlg.dialog( "close" ) ;
             // nb: if the user selected an image, we take that to mean they also want to add that vehicle/ordnance
@@ -262,7 +262,7 @@ function on_select_vo_image( $btn ) {
     } ) ;
 }
 
-function _get_vo_image_url( vo_entry, vo_image_id )
+function get_vo_image_url( vo_entry, vo_image_id, allow_missing_image )
 {
     if ( vo_image_id )
         return "/counter/" + vo_image_id[0] + "/front/" + vo_image_id[1] ;
@@ -273,7 +273,7 @@ function _get_vo_image_url( vo_entry, vo_image_id )
         if ( vo_entry.gpid )
             return "/counter/" + vo_entry.gpid + "/front" ;
     }
-    return gImagesBaseUrl + "/missing-image.png" ;
+    return allow_missing_image ? gImagesBaseUrl + "/missing-image.png" : null ;
 }
 
 function is_small_vasl_piece( vo_entry )

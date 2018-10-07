@@ -2,6 +2,8 @@
 
 import os
 import re
+import json
+import io
 import logging
 
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QMessageBox
@@ -161,7 +163,35 @@ class MainWindow( QWidget ):
 
     @pyqtSlot()
     @log_exceptions( caption="SLOT EXCEPTION" )
-    def on_new_scenario( self):
+    def on_app_loaded( self ):
+        """Called when the application has finished loading.
+
+        NOTE: This handler might be called multiple times.
+        """
+        # load and install the user settings
+        buf = io.StringIO()
+        buf.write( "{" )
+        for key in self.settings.allKeys():
+            if key.startswith( "UserSettings/" ):
+                buf.write( '"{}": {},'.format( key[13:], self.settings.value(key) ) )
+        buf.write( '"_dummy_": null }' )
+        buf = buf.getvalue()
+        user_settings = {}
+        try:
+            user_settings = json.loads( buf )
+        except Exception as ex: #pylint: disable=broad-except
+            self.showErrorMsg( "Couldn't load the user settings:\n\n{}".format( ex ) )
+            logging.error( "Couldn't load the user settings: %s", ex )
+            logging.error( buf )
+            return
+        del user_settings["_dummy_"]
+        self._view.page().runJavaScript(
+            "install_user_settings('{}')".format( json.dumps( user_settings ) )
+        )
+
+    @pyqtSlot()
+    @log_exceptions( caption="SLOT EXCEPTION" )
+    def on_new_scenario( self ):
         """Called when the user wants to load a scenario."""
         self._web_channel_handler.on_new_scenario()
 
@@ -176,6 +206,19 @@ class MainWindow( QWidget ):
     def save_scenario( self, data ):
         """Called when the user wants to save a scenario."""
         return self._web_channel_handler.save_scenario( data )
+
+    @pyqtSlot( str )
+    @log_exceptions( caption="SLOT EXCEPTION" )
+    def on_user_settings_change( self, user_settings ):
+        """Called when the user changes the user settings."""
+        # delete all existing keys
+        for key in self.settings.allKeys():
+            if key.startswith( "UserSettings/" ):
+                self.settings.remove( key )
+        # save the new user settings
+        user_settings = json.loads( user_settings )
+        for key,val in user_settings.items():
+            self.settings.setValue( "UserSettings/{}".format(key) , val )
 
     @pyqtSlot( str )
     @log_exceptions( caption="SLOT EXCEPTION" )

@@ -3,7 +3,7 @@
 <head>
 <style>
 td { margin: 0 ; padding: 0 ; }
-.note { font-size: 90% ; font-style: italic ; color: #808080 ; }
+.note { margin-top: 2px ; font-size: 90% ; font-style: italic ; color: #808080 ; }
 sup { font-size: 75% ; }
 </style>
 </head>
@@ -23,8 +23,9 @@ sup { font-size: 75% ; }
 
 {%for veh in OB_VEHICLES%}
 <tr style="border-bottom:1px dotted #e0e0e0;">
-<td valign="top" style="padding:2px 5px;">
+<td valign="top" style="padding:2px 5px 5px;">
     <b> {{veh.name}} </b>
+    {%if veh.image%} <br> <img src="{{veh.image}}"> {%endif%}
     <div class="note">
         {%if veh.notes%}
             {{veh.note_number}}, {{veh.notes | join(", ")}}

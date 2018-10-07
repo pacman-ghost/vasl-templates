@@ -220,6 +220,11 @@ function unload_snippet_params( params, check_date_capabilities )
                 note_number: vo_entry.note_number,
                 notes: vo_entry.notes
             } ;
+            if ( gUserSettings["include-vasl-images-in-snippets"] ) {
+                var url = get_vo_image_url( vo_entry, vo_image_id ) ;
+                if ( url )
+                    obj.image = APP_URL_BASE + url ;
+            }
             if ( vo_entry.no_radio )
                 obj.no_radio = vo_entry.no_radio ;
             if ( vo_entry.no_if ) {

@@ -52,6 +52,8 @@
 {%include "select-vo-dialog.html"%}
 {%include "select-vo-image-dialog.html"%}
 
+{%include "user-settings-dialog.html"%}
+
 {%include "ask-dialog.html"%}
 
 </body>
@@ -67,6 +69,7 @@
 <script src="{{url_for('static',filename='download/download.min.js')}}"></script>
 <script src="{{url_for('static',filename='jszip/jszip.min.js')}}"></script>
 <script src="{{url_for('static',filename='select2/select2.min.js')}}"></script>
+<script src="{{url_for('static',filename='js-cookie/js.cookie.js')}}"></script>
 
 <script>
 gAppName = "{{APP_NAME}}" ;
@@ -85,6 +88,7 @@ gHelpUrl = "{{url_for('show_help')}}" ;
 <script src="{{url_for('static',filename='simple_notes.js')}}"></script>
 <script src="{{url_for('static',filename='vo.js')}}"></script>
 <script src="{{url_for('static',filename='sortable.js')}}"></script>
+<script src="{{url_for('static',filename='user_settings.js')}}"></script>
 <script src="{{url_for('static',filename='utils.js')}}"></script>
 
 {%include "testing.html"%}

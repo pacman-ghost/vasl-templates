@@ -1,3 +1,5 @@
+APP_URL_BASE = window.location.origin ;
+
 gTemplatePack = {} ;
 gDefaultNationalities = {} ;
 gValidTemplateIds = [] ;
@@ -24,6 +26,9 @@ $(document).ready( function () {
             // connect to the web channel
             new QWebChannel( qt.webChannelTransport, function(channel) {
                 gWebChannelHandler = channel.objects.handler ;
+                // FUDGE! If the page finishes loading before the web channel is ready,
+                // the desktop won't get this notification. To be sure, we issue it again...
+                gWebChannelHandler.on_app_loaded() ;
             } ) ;
         } ) ;
     }
@@ -37,6 +42,7 @@ $(document).ready( function () {
         separator: { type: "separator" },
         template_pack: { label: "Load template pack", action: on_template_pack },
         separator2: { type: "separator" },
+        user_settings: { label: "Settings", action: user_settings },
         show_help: { label: "Help", action: show_help },
     } ) ;
     // nb: we only show the popmenu on left click (not the normal right-click)
@@ -402,6 +408,9 @@ function update_page_load_status( id )
         $("#watermark").fadeIn( 5*1000 ) ;
         // notify the test suite
         $("body").append( $("<div id='_page-loaded_'></div>") ) ;
+        // notify the PyQT desktop application
+        if ( gWebChannelHandler )
+            gWebChannelHandler.on_app_loaded() ;
     }
 }
 
