@@ -3,6 +3,7 @@
 import os
 import json
 import zipfile
+import re
 import xml.etree.ElementTree
 
 import logging
@@ -42,6 +43,7 @@ class VaslMod:
 
         # load the image data
         image_path = os.path.join( "images", image_path )
+        image_path = re.sub( r"[\\/]+", "/", image_path ) # nb: in case we're on Windows :-/
         image_data = self.zip_file.read( image_path )
 
         return image_path, image_data
