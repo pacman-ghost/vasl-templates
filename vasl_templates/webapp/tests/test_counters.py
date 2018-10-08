@@ -25,6 +25,8 @@ from vasl_templates.webapp.tests.utils import load_vasl_mod
 def test_counter_images( webapp, monkeypatch ):
     """Test that counter images are served correctly."""
 
+    # NOTE: This is ridiculously slow on Windows :-/
+
     # figure out which pieces we're interested in
     gpids = get_vo_gpids( DATA_DIR )
 

@@ -4,6 +4,7 @@ import os
 import re
 import json
 
+import pytest
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
@@ -219,6 +220,10 @@ def test_variable_capabilities( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_mods, #pylint: disable=no-member
+    reason = "--vasl-mods not specified"
+)
 def test_html_names( webapp, webdriver, monkeypatch ):
     """Test handling of vehicles/ordnance that have HTML in their name."""
 
@@ -278,6 +283,10 @@ def test_html_names( webapp, webdriver, monkeypatch ):
 
 # ---------------------------------------------------------------------
 
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_mods, #pylint: disable=no-member
+    reason = "--vasl-mods not specified"
+) #pylint: disable=too-many-statements
 def test_vo_images( webapp, webdriver, monkeypatch ): #pylint: disable=too-many-statements
     """Test handling of vehicles/ordnance that have multiple images."""
 
