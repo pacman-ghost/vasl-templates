@@ -6,13 +6,14 @@ import json
 import io
 import logging
 
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QMessageBox
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QMenuBar, QAction, QLabel, QMessageBox
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage
 from PyQt5.QtWebChannel import QWebChannel
 from PyQt5.QtGui import QDesktopServices, QIcon
 from PyQt5.QtCore import Qt, QUrl, pyqtSlot
 
 from vasl_templates.webapp.config.constants import APP_NAME
+from vasl_templates.main import app_settings
 from vasl_templates.web_channel import WebChannelHandler
 from vasl_templates.utils import log_exceptions
 
@@ -42,11 +43,12 @@ class AppWebPage( QWebEnginePage ):
 class MainWindow( QWidget ):
     """Main application window."""
 
-    def __init__( self, settings, url, disable_browser ):
+    instance = None
+
+    def __init__( self, url, disable_browser ):
 
         # initialize
         super().__init__()
-        self.settings = settings
         self._view = None
         self._is_closing = False
 
@@ -56,12 +58,23 @@ class MainWindow( QWidget ):
             os.path.join( os.path.split(__file__)[0], "webapp/static/images/app.ico" )
         ) )
 
+        # create the menu
+        menu_bar = QMenuBar( self )
+        file_menu = menu_bar.addMenu( "&File" )
+        def add_action( caption, handler ):
+            """Add a menu action."""
+            action = QAction( caption, self )
+            action.triggered.connect( handler )
+            file_menu.addAction( action )
+        add_action( "&Settings", self.on_settings )
+        add_action( "E&xit", self.on_exit )
+
         # set the window geometry
         if disable_browser:
             self.setFixedSize( 300, 100 )
         else:
             # restore it from the previous session
-            val = self.settings.value( "MainWindow/geometry" )
+            val = app_settings.value( "MainWindow/geometry" )
             if val :
                 self.restoreGeometry( val )
             else :
@@ -69,12 +82,13 @@ class MainWindow( QWidget ):
             self.setMinimumSize( 800, 500 )
 
         # initialize the layout
+        layout = QVBoxLayout( self )
+        layout.addWidget( menu_bar )
         # FUDGE! We offer the option to disable the QWebEngineView since getting it to run
         # under Windows (especially older versions) is unreliable (since it uses OpenGL).
         # By disabling it, the program will at least start (in particular, the webapp server),
         # and non-technical users can then open an external browser and connect to the webapp
         # that way. Sigh...
-        layout = QVBoxLayout( self )
         if not disable_browser:
 
             # initialize the web view
@@ -115,6 +129,10 @@ class MainWindow( QWidget ):
             label.setOpenExternalLinks( True )
             layout.addWidget( label )
 
+        # register the instance
+        assert MainWindow.instance is None
+        MainWindow.instance = self
+
     def closeEvent( self, evt ) :
         """Handle requests to close the window (i.e. exit the application)."""
 
@@ -125,7 +143,7 @@ class MainWindow( QWidget ):
         def close_window():
             """Close the main window."""
             if self._view:
-                self.settings.setValue( "MainWindow/geometry" , self.saveGeometry() )
+                app_settings.setValue( "MainWindow/geometry", self.saveGeometry() )
             self.close()
 
         # check if the scenario is dirty
@@ -137,7 +155,7 @@ class MainWindow( QWidget ):
                 close_window()
                 return
             # yup - ask the user to confirm the close
-            rc = self.ask(
+            rc = MainWindow.ask(
                 "This scenario has been changed\n\nDo you want to close the program, and lose your changes?",
                 QMessageBox.Yes | QMessageBox.No,
                 QMessageBox.No
@@ -149,17 +167,30 @@ class MainWindow( QWidget ):
         self._view.page().runJavaScript( "is_scenario_dirty()", callback )
         evt.ignore() # nb: we wait until the Javascript finishes to process the event
 
-    def showInfoMsg( self, msg ):
+    @staticmethod
+    def showInfoMsg( msg ):
         """Show an informational message."""
-        QMessageBox.information( self , APP_NAME , msg )
+        QMessageBox.information( MainWindow.instance, APP_NAME, msg )
 
-    def showErrorMsg( self, msg ):
+    @staticmethod
+    def showErrorMsg( msg ):
         """Show an error message."""
-        QMessageBox.warning( self , APP_NAME , msg )
+        QMessageBox.warning( MainWindow.instance, APP_NAME, msg )
 
-    def ask( self, msg , buttons , default ) :
+    @staticmethod
+    def ask( msg, buttons, default ) :
         """Ask the user a question."""
-        return QMessageBox.question( self , APP_NAME , msg , buttons , default )
+        return QMessageBox.question( MainWindow.instance, APP_NAME, msg, buttons, default )
+
+    def on_exit( self ):
+        """Menu action handler."""
+        self.close()
+
+    def on_settings( self ):
+        """Menu action handler."""
+        from vasl_templates.server_settings import ServerSettingsDialog #pylint: disable=cyclic-import
+        dlg = ServerSettingsDialog( self )
+        dlg.exec_()
 
     @pyqtSlot()
     @log_exceptions( caption="SLOT EXCEPTION" )
@@ -171,16 +202,16 @@ class MainWindow( QWidget ):
         # load and install the user settings
         buf = io.StringIO()
         buf.write( "{" )
-        for key in self.settings.allKeys():
+        for key in app_settings.allKeys():
             if key.startswith( "UserSettings/" ):
-                buf.write( '"{}": {},'.format( key[13:], self.settings.value(key) ) )
+                buf.write( '"{}": {},'.format( key[13:], app_settings.value(key) ) )
         buf.write( '"_dummy_": null }' )
         buf = buf.getvalue()
         user_settings = {}
         try:
             user_settings = json.loads( buf )
         except Exception as ex: #pylint: disable=broad-except
-            self.showErrorMsg( "Couldn't load the user settings:\n\n{}".format( ex ) )
+            MainWindow.showErrorMsg( "Couldn't load the user settings:\n\n{}".format( ex ) )
             logging.error( "Couldn't load the user settings: %s", ex )
             logging.error( buf )
             return
@@ -209,16 +240,16 @@ class MainWindow( QWidget ):
 
     @pyqtSlot( str )
     @log_exceptions( caption="SLOT EXCEPTION" )
-    def on_user_settings_change( self, user_settings ):
+    def on_user_settings_change( self, user_settings ): #pylint: disable=no-self-use
         """Called when the user changes the user settings."""
         # delete all existing keys
-        for key in self.settings.allKeys():
+        for key in app_settings.allKeys():
             if key.startswith( "UserSettings/" ):
-                self.settings.remove( key )
+                app_settings.remove( key )
         # save the new user settings
         user_settings = json.loads( user_settings )
         for key,val in user_settings.items():
-            self.settings.setValue( "UserSettings/{}".format(key) , val )
+            app_settings.setValue( "UserSettings/{}".format(key), val )
 
     @pyqtSlot( str )
     @log_exceptions( caption="SLOT EXCEPTION" )

@@ -9,15 +9,17 @@ import traceback
 import logging
 import urllib.request
 
+import PyQt5.QtWebEngineWidgets
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import Qt, QSettings, QDir
 import PyQt5.QtCore
 import click
 
-from vasl_templates.main_window import MainWindow
 from vasl_templates.webapp import app as webapp
 from vasl_templates.webapp import load_debug_config
 from vasl_templates.webapp import main as webapp_main, snippets as webapp_snippets
+
+app_settings = None
 
 # ---------------------------------------------------------------------
 
@@ -44,7 +46,7 @@ def qtMessageHandler( msg_type, context, msg ):# pylint: disable=unused-argument
 @click.option( "--default-scenario", help="Default scenario settings." )
 @click.option( "--remote-debugging", help="Chrome DevTools port number." )
 @click.option( "--debug", help="Debug config file." )
-def main( template_pack, default_scenario, remote_debugging, debug ): #pylint: disable=too-many-locals
+def main( template_pack, default_scenario, remote_debugging, debug ): #pylint: disable=too-many-locals,too-many-branches
     """Main entry point for the application."""
 
     # configure the default template pack
@@ -70,10 +72,12 @@ def main( template_pack, default_scenario, remote_debugging, debug ): #pylint: d
         os.environ["QTWEBENGINE_REMOTE_DEBUGGING"] = remote_debugging
 
     # load the application settings
-    fname = "vasl-templates.ini" if sys.platform == "win32" else ".vasl-templates.conf"
-    if not os.path.isfile( fname ) :
-        fname = os.path.join( QDir.homePath(), fname  )
-    settings = QSettings( fname, QSettings.IniFormat )
+    app_settings_fname = "vasl-templates.ini" if sys.platform == "win32" else ".vasl-templates.conf"
+    if not os.path.isfile( app_settings_fname ) :
+        app_settings_fname = os.path.join( QDir.homePath(), app_settings_fname  )
+    # FUDGE! Declaring app_settings as global here doesn't work on Windows (?!), we have to do this weird import :-/
+    import vasl_templates.main #pylint: disable=import-self
+    vasl_templates.main.app_settings = QSettings( app_settings_fname, QSettings.IniFormat )
 
     # install the debug config file
     if debug:
@@ -81,6 +85,22 @@ def main( template_pack, default_scenario, remote_debugging, debug ): #pylint: d
 
     # connect PyQt's logging to Python logging
     PyQt5.QtCore.qInstallMessageHandler( qtMessageHandler )
+
+    # FUDGE! We need to do this before showing any UI elements e.g. an error message box.
+    app = QApplication( sys.argv )
+
+    # install the server settings
+    try:
+        from vasl_templates.server_settings import install_server_settings #pylint: disable=cyclic-import
+        install_server_settings()
+    except Exception as ex: #pylint: disable=broad-except
+        from vasl_templates.main_window import MainWindow #pylint: disable=cyclic-import
+        MainWindow.showErrorMsg(
+            "Couldn't install the server settings:\n    {}\n\n"
+            "Please correct them in the \"Server settings\" dialog, or in the config file:\n    {}".format(
+                ex, app_settings_fname
+            )
+        )
 
     # disable the Flask "do not use in a production environment" warning
     import flask.cli
@@ -125,9 +145,9 @@ def main( template_pack, default_scenario, remote_debugging, debug ): #pylint: d
     disable_browser = webapp.config.get( "DISABLE_WEBENGINEVIEW" )
 
     # run the application
-    app = QApplication( sys.argv )
     url = "http://localhost:{}".format( port )
-    main_window = MainWindow( settings, url, disable_browser )
+    from vasl_templates.main_window import MainWindow #pylint: disable=cyclic-import
+    main_window = MainWindow( url, disable_browser )
     main_window.show()
     ret_code = app.exec_()
 

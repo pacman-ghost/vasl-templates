@@ -15,6 +15,13 @@ if app.config.get( "VASL_MOD" ):
 
 # ---------------------------------------------------------------------
 
+def install_vasl_mod( new_vasl_mod ):
+    """Install a new VASL module."""
+    global vasl_mod
+    vasl_mod = new_vasl_mod
+
+# ---------------------------------------------------------------------
+
 @app.route( "/counter/<gpid>/<side>/<int:index>" )
 @app.route( "/counter/<gpid>/<side>", defaults={"index":0} )
 def get_counter_image( gpid, side, index ):
