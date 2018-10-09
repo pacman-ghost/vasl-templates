@@ -153,6 +153,22 @@ We can also add ad-hoc notes describing where and how units should setup.
 <p> <img src="images/pf.png" class="preview" style="width:15em;float:right;">
 Finally, if special support weapons such as PF and BAZ are in play, snippets are available with information for them, and as with vehicles/ordnance, they are date-aware and update themselves accordingly.
 
+<h2> Configuring the program </h2>
+
+<h4> Showing VASL counter images in the UI </h4>
+
+<p> If you want VASL counter images to appear in the UI, you need to tell the program where to find the VASL module (i.e. the <tt>vasl-X.X.X.vmod</tt> file you load into VASSAL):
+<ul>
+<li> If you are running the Windows desktop application, open the <em>Server settings</em> dialog from the <em>File</em> menu and configure it there.
+<li> If you are running the web server directly, create a file called <tt>site.cfg</tt> in the <tt>$/vasl_templates/webapp/config/</tt> directory and configure it there (there is an example file you can rename and edit).
+</ul>
+<div class="info"> You should configure version 6.3.3, or 6.4.0 thru 6.4.2, of the VASL module. </div>
+
+<h4> Showing VASL counter images in OB snippets </h4>
+
+<p> Once you've configured the VASL module, if you want to also show VASL counter images in the OB snippets that you copy in the VASL scenario, turn this on in the <em>User settings</em> dialog from the main application menu.
+<div class="info"> If you turn this feature on, the program must be running every time you load the scenario into VASL. </div>
+
 </div>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -246,7 +262,7 @@ Note that if they enter HTML into the SSR text, it will be inserted verbatim int
 <p> If you want to customize how the HTML snippets are generated, you could just edit the files directly, but the down-side of doing this is that if you install a new version of the program, you will lose your changes.
 <p><img src="images/load-template-pack.png" class="preview" style="width:10em;float:right;">
 A better way is to create your own set of template files, ZIP them up and load it as a <em>template pack</em>.
-<p> If you're running the desktop program, you can specify the template pack to start with, so that you don't have to manually upload it each time i.e.
+<p> If you're running the desktop application, you can specify the template pack to start with, so that you don't have to manually upload it each time i.e.
 <div class="code">
 vasl-template.exe --template-pack my-template-pack.zip
 </div>
