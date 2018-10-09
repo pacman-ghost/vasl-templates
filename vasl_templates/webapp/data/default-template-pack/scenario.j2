@@ -1,5 +1,11 @@
 <html>
 
+<head>
+<style>
+td { padding: 5px 10px 5px 10px ; }
+</style>
+</head>
+
 <table style="
   {%if SCENARIO_WIDTH%} width: {{SCENARIO_WIDTH}} ; {%endif%}
 ">
@@ -8,7 +14,6 @@
 <td style="
   background: #f0f0f0 ;
   border-bottom: 1px solid #c0c0c0 ;
-  padding: 5px 10px 5px 10px ;
 ">
     <div style="font-size:115%;">
         <b> {%if SCENARIO_NAME%} {{SCENARIO_NAME}} {%else%} Untitled scenario {%endif%} </b>
