@@ -12,7 +12,7 @@ from selenium.common.exceptions import WebDriverException
 
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, save_scenario
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, load_vasl_mod, select_tab, set_template_params, find_child, find_children, \
+    init_webapp, load_vasl_mod, get_nationalities, select_tab, set_template_params, find_child, find_children, \
     wait_for_clipboard, click_dialog_button, select_menu_option, select_droplist_val, \
     set_stored_msg_marker, get_stored_msg
 from vasl_templates.webapp.config.constants import DATA_DIR as REAL_DATA_DIR
@@ -280,6 +280,129 @@ def test_html_names( webapp, webdriver, monkeypatch ):
     # start to add another vehicle - make sure the PzKw IVF2 is available again
     add_vehicle_btn.click()
     assert get_available_ivfs() == [ "PzKpfw IVF2 (MT)" ]
+
+# ---------------------------------------------------------------------
+
+@pytest.mark.skipif(
+    pytest.config.option.short_tests, #pylint: disable=no-member
+    reason = "--short-tests specified"
+) #pylint: disable=too-many-locals,too-many-branches
+def test_common_vo( webapp, webdriver, monkeypatch ):
+    """Test loading of common vehicles/ordnance and landing craft."""
+
+    # initialize
+    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
+    init_webapp( webapp, webdriver )
+
+    # initialize
+    ALLIED_MINOR = [ "belgian", "danish", "dutch", "greek", "polish", "yugoslavian" ]
+    AXIS_MINOR = [ "bulgarian", "croatian", "hungarian", "romanian", "slovakian" ]
+
+    # get the common vehicles/ordnance
+    def get_common_vo( fname ):
+        """Get the vehicle/ordnance information from the specified file."""
+        fname = os.path.join( REAL_DATA_DIR, fname )
+        data = json.load( open( fname, "r" ) )
+        def get_gpid( val ): #pylint: disable=missing-docstring
+            if isinstance( val, list ):
+                val = val[0]
+            assert isinstance(val,int) or val is None
+            return val
+        return [ ( vo["name"], get_gpid(vo["gpid"]) ) for vo in data ]
+    common_vo = {
+        "vehicles": {
+            "allied": get_common_vo( "vehicles/allied-minor/common.json" ),
+            "axis": get_common_vo( "vehicles/axis-minor/common.json" ),
+        },
+        "ordnance": {
+            "allied": get_common_vo( "ordnance/allied-minor/common.json" ),
+            "axis": get_common_vo( "ordnance/axis-minor/common.json" ),
+        },
+    }
+    landing_craft = get_common_vo( "vehicles/landing-craft.json" )
+
+    tidy_vo_name_regex = re.compile( r" \([A-Za-z]+\)$" ) # nb: removes the trailing vehicle/ordnance type
+    gpid_regex = re.compile( r"/counter/(\d+)/front" )
+    def get_vo_entry( elem ):
+        """Get the vehicle/ordnance information from the Selenium element."""
+        vo_name = tidy_vo_name_regex.sub( "", elem.text )
+        image_url = find_child( "img", elem ).get_attribute( "src" )
+        mo = gpid_regex.search( image_url )
+        return ( vo_name, int(mo.group(1)) if mo else None )
+
+    def is_valid_vo_entry( vo_entry ):
+        """Check if a V/O entry is valid."""
+        return isinstance( vo_entry, tuple ) and len(vo_entry) == 2 \
+               and isinstance( vo_entry[0], str ) \
+               and isinstance( vo_entry[1], (int,type(None)) )
+    def is_same_vo( lhs, rhs ):
+        """Check if two V/O entries are the same."""
+        assert is_valid_vo_entry(lhs) and is_valid_vo_entry(rhs)
+        return lhs == rhs
+    def is_vo_entry_in_list( vo_entry, vo_entries ):
+        """Check if a V/O entry appears in a list of V/O entries."""
+        assert is_valid_vo_entry( vo_entry )
+        return any( is_same_vo(vo_entry,e) for e in vo_entries )
+
+    # check the vehicles/ordnance for each nationality
+    nationalities = get_nationalities( webapp )
+    player1_sel = Select( find_child( "select[name='PLAYER_1']" ) )
+    for nat in nationalities: #pylint: disable=too-many-nested-blocks
+
+        # select the next nationality
+        select_tab( "scenario" )
+        select_droplist_val( player1_sel, nat )
+
+        select_tab( "ob1" )
+        for vo_type in ("vehicles","ordnance"):
+
+            # get the vehicles/ordnance
+            elem = find_child( "#ob_{}-add_1".format( vo_type ) )
+            elem.click()
+            vo_entries = find_children( "#select-vo .select2-results li" )
+            vo_entries = [ get_vo_entry(e) for e in vo_entries ]
+            click_dialog_button( "Cancel" )
+
+            # check that the common vehicles/ordnance are present/absent
+            if nat in ALLIED_MINOR:
+                assert all(
+                    is_vo_entry_in_list( vo_entry, vo_entries )
+                    for vo_entry in common_vo[vo_type]["allied"]
+                )
+            elif nat in AXIS_MINOR:
+                assert all(
+                    is_vo_entry_in_list( vo_entry, vo_entries )
+                    for vo_entry in common_vo[vo_type]["axis"]
+                )
+            else:
+                assert all(
+                    not is_vo_entry_in_list( vo_entry, vo_entries )
+                    for vo_entry in common_vo[vo_type]["allied"]
+                )
+                assert all(
+                    not is_vo_entry_in_list( vo_entry, vo_entries )
+                    for vo_entry in common_vo[vo_type]["axis"]
+                )
+
+            # check that the landing craft are present/absent
+            if vo_type == "vehicles":
+                if nat in ("british","american"):
+                    for vo_entry in landing_craft:
+                        if vo_entry[0] in ("Daihatsu","Shohatsu"):
+                            assert not is_vo_entry_in_list( vo_entry, vo_entries )
+                        else:
+                            assert is_vo_entry_in_list( vo_entry, vo_entries )
+                elif nat == "japanese":
+                    for vo_entry in landing_craft:
+                        if vo_entry[0] in ("Daihatsu","Shohatsu"):
+                            assert is_vo_entry_in_list( vo_entry, vo_entries )
+                        else:
+                            assert not is_vo_entry_in_list( vo_entry, vo_entries )
+                else:
+                    assert all(
+                        not is_vo_entry_in_list( vo_entry, vo_entries )
+                        for vo_entry in landing_craft
+                    )
 
 # ---------------------------------------------------------------------
 
