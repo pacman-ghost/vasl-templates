@@ -5,6 +5,7 @@ SORTABLE_DISPLAY_NAMES = {
     ob_notes: [ "OB setup note", "OB setup notes", "an" ],
     ob_vehicles: [ "vehicle", "vehicles", "a" ],
     ob_ordnance: [ "ordnance", "ordnance", "an" ],
+    vo_capabilities: [ "capability", "capabilities", "a" ],
 } ;
 
 SORTABLE_HINTS = {
@@ -35,6 +36,7 @@ $.fn.sortable2 = function( action, args )
             adjust_entry_heights( $sortable2 ) ;
             // update the hint
             update_hint( $sortable2 ) ;
+            return $entry ;
         },
 
         "delete": function( $sortable2 ) {
@@ -71,6 +73,7 @@ $.fn.sortable2 = function( action, args )
         var display_name = SORTABLE_DISPLAY_NAMES[ get_sortable2_type($sortable2) ] ;
 
         // initialize the sortable2 and support elements
+        $sortable2.data( "no_confirm_delete", args.no_confirm_delete ) ;
         $sortable2.data( "on_edit", args.edit ) ;
         var $add_btn = find_helper( $sortable2, "add" ) ;
         $add_btn.prepend( $( "<div><img src='" + gImagesBaseUrl + "/sortable-add.png' class='sortable-add'> Add</div>" ) )
@@ -137,6 +140,16 @@ $.fn.sortable2 = function( action, args )
 
     function delete_entry( $sortable2, $entry )
     {
+        function do_delete_entry() {
+            $entry.remove() ;
+            adjust_entry_heights( $sortable2 ) ;
+            update_hint( $sortable2 ) ;
+        }
+        if ( $sortable2.data( "no_confirm_delete" ) ) {
+            do_delete_entry() ;
+            return ;
+        }
+
         // ask if it's OK to delete the entry
         set_entry_colors( $entry, true ) ;
         var caption = $entry.data( "sortable2-data" ).caption ;
@@ -150,12 +163,7 @@ $.fn.sortable2 = function( action, args )
             "</div>"
         ] ;
         ask( "Delete "+display_name[0], buf.join(""), {
-            ok: function() {
-                // yup - make it so
-                $entry.remove() ;
-                adjust_entry_heights( $sortable2 ) ;
-                update_hint( $sortable2 ) ;
-            },
+            ok: do_delete_entry,
             close: function() { set_entry_colors( $entry, false ) ; },
         } ) ;
     }
@@ -163,6 +171,8 @@ $.fn.sortable2 = function( action, args )
     function update_hint( $sortable2 ) {
         // show/hide the hint
         var $hint = find_helper( $sortable2, "hint" ) ;
+        if ( $hint.length === 0 )
+            return ;
         if ( $sortable2.children("li").length === 0 ) {
             $sortable2.hide() ;
             var display_name = SORTABLE_DISPLAY_NAMES[ get_sortable2_type($sortable2) ] ;

@@ -1,25 +1,25 @@
 === vehicles/chinese/1942 ===
 
-Name                   Radio    IF    Crew survival                         Capabilities    (effective)    #       Notes
----------------------  -------  ----  ------------------------------------  --------------  -------------  ------  ----------------------------------------
-VCL M1931(b)           ®        yes   CS 2                                  n/a             n/a            1†      A <s>B</s>
-L3/35(i)               ®        yes   CS 2†                                 n/a             n/a            2†      A <s>B</s> D†<sup>1</sup>
-PzKpfw IA(g)           ®        yes   CS 2                                  n/a             n/a            3†      A <s>B</s> D†<sup>1</sup>
-Vickers 6-Ton Mk E(b)  ®        yes   CS 3                                  C5†[2]          C5†[2]         4†      A <s>B</s> C†<sup>2</sup> E†<sup>1</sup>
-T-26TU M33(r)          n/a      yes   CS 3                                  n/a             n/a            5†      A E†<sup>1</sup>
-M3A3(a)                n/a      yes   CS 4                                  C9†[1]          C9†[1]         6†      A B C†<sup>1</sup> E†<sup>2</sup> G
-M4A4(a)                n/a      yes   CS 5 <small><i>(brew up)</i></small>  WP7[J4+]† s8    s8             7†      A B E†<sup>1</sup> G
-M3A1(a)                n/a      yes   CS 4                                  n/a             n/a            8†      A B E†<sup>1</sup>
-Stuart Recon(a)        n/a      yes   CS 5                                  n/a             n/a            9†      A B D†<sup>1</sup> E†<sup>2</sup>
-Type 22                ®        yes   CS 4                                  n/a             n/a            10†[1]  <s>B</s> E†<sup>2</sup> F†
-PSW 221(g)             n/a      yes   CS 2                                  n/a             n/a            11†     A <s>B</s> F†
-PSW 222(g)             n/a      yes   CS 3                                  n/a             n/a            11†     A <s>B</s> E†<sup>1</sup> F†
-BA-20(r)               ®        yes   CS 3                                  n/a             n/a            12      A <s>B</s> F†
-BA-6(r)                ®        yes   CS 4                                  n/a             n/a            12      A <s>B</s> E†<sup>1</sup> F†
-VCL Mk VI Carrier(b)   n/a      yes   CS 2†                                 n/a             n/a            13†     A <s>B</s> H†<sup>1</sup>
-Carrier A(b)           n/a      yes   CS 3                                  n/a             n/a            14†     A
-Carrier B(b)           n/a      yes   CS 3                                  n/a             n/a            14†     A E†<sup>1</sup>
-Carrier C(b)           n/a      yes   CS 3                                  n/a             n/a            14†     A E†<sup>1</sup>
-Henschel 33(g)         n/a      yes   cs 7                                  n/a             n/a            15†[1]  A F†
-Jeep(a)                n/a      yes   cs 2†                                 n/a             n/a            16†     A H†<sup>1</sup>
-2&#189;-Ton(a)         n/a      yes   cs 7                                  n/a             n/a            16†     A
+Name                   Capabilities               (effective)      #       Notes
+---------------------  -------------------------  ---------------  ------  ----------------------------------------
+VCL M1931(b)           ® CS 2                     ® CS 2           1†      A <s>B</s>
+L3/35(i)               ® CS 2†                    ® CS 2†          2†      A <s>B</s> D†<sup>1</sup>
+PzKpfw IA(g)           ® CS 2                     ® CS 2           3†      A <s>B</s> D†<sup>1</sup>
+Vickers 6-Ton Mk E(b)  ® C5†[2] CS 3              ® C5†[2] CS 3    4†      A <s>B</s> C†<sup>2</sup> E†<sup>1</sup>
+T-26TU M33(r)          CS 3                       CS 3             5†      A E†<sup>1</sup>
+M3A3(a)                C9†[1] CS 4                C9†[1] CS 4      6†      A B C†<sup>1</sup> E†<sup>2</sup> G
+M4A4(a)                WP7[J4+]† s8 CS 5[brewup]  s8 CS 5[brewup]  7†      A B E†<sup>1</sup> G
+M3A1(a)                CS 4                       CS 4             8†      A B E†<sup>1</sup>
+Stuart Recon(a)        CS 5                       CS 5             9†      A B D†<sup>1</sup> E†<sup>2</sup>
+Type 22                ® CS 4                     ® CS 4           10†[1]  <s>B</s> E†<sup>2</sup> F†
+PSW 221(g)             CS 2                       CS 2             11†     A <s>B</s> F†
+PSW 222(g)             CS 3                       CS 3             11†     A <s>B</s> E†<sup>1</sup> F†
+BA-20(r)               ® CS 3                     ® CS 3           12      A <s>B</s> F†
+BA-6(r)                ® CS 4                     ® CS 4           12      A <s>B</s> E†<sup>1</sup> F†
+VCL Mk VI Carrier(b)   CS 2†                      CS 2†            13†     A <s>B</s> H†<sup>1</sup>
+Carrier A(b)           CS 3                       CS 3             14†     A
+Carrier B(b)           CS 3                       CS 3             14†     A E†<sup>1</sup>
+Carrier C(b)           CS 3                       CS 3             14†     A E†<sup>1</sup>
+Henschel 33(g)         cs 7                       cs 7             15†[1]  A F†
+Jeep(a)                cs 2†                      cs 2†            16†     A H†<sup>1</sup>
+2&#189;-Ton(a)         cs 7                       cs 7             16†     A

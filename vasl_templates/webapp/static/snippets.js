@@ -22,25 +22,9 @@ var gLastSavedScenarioFilename = null;
 
 function generate_snippet( $btn, extra_params )
 {
-    // extract the scenario date components
-    var params = {} ;
-    var scenario_date = $("input[name='SCENARIO_DATE']").datepicker( "getDate" ) ;
-    if ( scenario_date ) {
-        params.SCENARIO_DAY_OF_MONTH = scenario_date.getDate() ;
-        var postfix ;
-        if ( params.SCENARIO_DAY_OF_MONTH in _DAY_OF_MONTH_POSTFIXES )
-            postfix = _DAY_OF_MONTH_POSTFIXES[ params.SCENARIO_DAY_OF_MONTH ] ;
-        else
-            postfix = _DAY_OF_MONTH_POSTFIXES[ params.SCENARIO_DAY_OF_MONTH % 10 ] ;
-        params.SCENARIO_DAY_OF_MONTH_POSTFIX = params.SCENARIO_DAY_OF_MONTH + postfix ;
-        params.SCENARIO_MONTH = 1 + scenario_date.getMonth() ;
-        params.SCENARIO_MONTH_NAME = _MONTH_NAMES[scenario_date.getMonth()] ;
-        params.SCENARIO_YEAR = scenario_date.getFullYear() ;
-    }
-
     // unload the template parameters
     var template_id = $btn.data( "id" ) ;
-    unload_snippet_params( params, true ) ;
+    var params = unload_snippet_params( true ) ;
 
     // set player-specific parameters
     var curr_tab = $("#tabs .ui-tabs-active a").attr( "href" ) ;
@@ -192,8 +176,27 @@ function generate_snippet( $btn, extra_params )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function unload_snippet_params( params, check_date_capabilities )
+function unload_snippet_params( check_date_capabilities )
 {
+    var params = {} ;
+
+    // extract the scenario date components
+    if ( check_date_capabilities ) {
+        var scenario_date = $( "input[name='SCENARIO_DATE']" ).datepicker( "getDate" ) ;
+        if ( scenario_date ) {
+            params.SCENARIO_DAY_OF_MONTH = scenario_date.getDate() ;
+            var postfix ;
+            if ( params.SCENARIO_DAY_OF_MONTH in _DAY_OF_MONTH_POSTFIXES )
+                postfix = _DAY_OF_MONTH_POSTFIXES[ params.SCENARIO_DAY_OF_MONTH ] ;
+            else
+                postfix = _DAY_OF_MONTH_POSTFIXES[ params.SCENARIO_DAY_OF_MONTH % 10 ] ;
+            params.SCENARIO_DAY_OF_MONTH_POSTFIX = params.SCENARIO_DAY_OF_MONTH + postfix ;
+            params.SCENARIO_MONTH = 1 + scenario_date.getMonth() ;
+            params.SCENARIO_MONTH_NAME = _MONTH_NAMES[scenario_date.getMonth()] ;
+            params.SCENARIO_YEAR = scenario_date.getFullYear() ;
+        }
+    }
+
     // collect all the template parameters
     add_param = function($elem) { params[ $elem.attr("name") ] = $elem.val() ; } ;
     $("input[type='text'].param").each( function() { add_param($(this)) ; } ) ;
@@ -225,18 +228,6 @@ function unload_snippet_params( params, check_date_capabilities )
                 if ( url )
                     obj.image = APP_URL_BASE + url ;
             }
-            if ( vo_entry.no_radio )
-                obj.no_radio = vo_entry.no_radio ;
-            if ( vo_entry.no_if ) {
-                obj.no_if = "no IF" ;
-                if ( typeof(vo_entry.no_if) === "string" ) { // nb: only for the French B1-bis :-/
-                    var no_if = vo_entry.no_if ;
-                    if ( no_if.substring(no_if.length-1) == "\u2020" )
-                        obj.no_if += "<sup>"+no_if.substring(0,no_if.length-1)+"</sup>\u2020" ;
-                    else
-                        obj.no_if += "<sup>"+no_if+"</sup>" ;
-                }
-            }
             // NOTE: It would be nice to have a Jinja2 filter that inserted the raw capabilities or selected
             // the correct one for the scenario date e.g.
             //   {% for c in veh.capabilities %} {{c|selcap}} {%endif%}}
@@ -245,15 +236,21 @@ function unload_snippet_params( params, check_date_capabilities )
             // parameter that people can use in their templates - ugly, but probably not something that will
             // get a lot of use :-/
             var nat = params[ "PLAYER_"+player_no ] ;
-            var capabilities = make_capabilities(
-                vo_entry,
-                nat,
-                params.SCENARIO_THEATER,
-                params.SCENARIO_YEAR, params.SCENARIO_MONTH, check_date_capabilities,
-                false
-            ) ;
-            if ( capabilities )
+            var capabilities = $(this).data( "sortable2-data" ).custom_capabilities ;
+            if ( capabilities ) {
                 obj.capabilities = capabilities ;
+                obj.custom_capabilities = capabilities.slice() ;
+            } else {
+                capabilities = make_capabilities(
+                    vo_entry,
+                    nat,
+                    params.SCENARIO_THEATER,
+                    params.SCENARIO_YEAR, params.SCENARIO_MONTH, check_date_capabilities,
+                    false
+                ) ;
+                if ( capabilities )
+                    obj.capabilities = capabilities ;
+            }
             capabilities = make_capabilities(
                 vo_entry,
                 nat,
@@ -263,9 +260,6 @@ function unload_snippet_params( params, check_date_capabilities )
             ) ;
             if ( capabilities )
                 obj.raw_capabilities = capabilities ;
-            var crew_survival = make_crew_survival( vo_entry ) ;
-            if ( crew_survival )
-                obj.crew_survival = crew_survival ;
             objs.push( obj ) ;
         } ) ;
         if ( objs.length > 0 )
@@ -284,6 +278,23 @@ function unload_snippet_params( params, check_date_capabilities )
 function make_capabilities( vo_entry, nat, scenario_theater, scenario_year, scenario_month, check_date_capabilities, raw )
 {
     var capabilities = [] ;
+
+    // check if the vehicle has no radio
+    if ( vo_entry.no_radio )
+        capabilities.push( vo_entry.no_radio ) ;
+
+    // check if the vehicle has no intensive fire
+    if ( vo_entry.no_if ) {
+        var no_if = "no IF" ;
+        if ( typeof(vo_entry.no_if) === "string" ) { // nb: only for the French B1-bis :-/
+            no_if = vo_entry.no_if ;
+            if ( no_if.substring(no_if.length-1) == "\u2020" )
+                no_if = "no IF<sup>"+no_if.substring(0,no_if.length-1)+"</sup>\u2020" ;
+            else
+                no_if = "no IF<sup>"+no_if+"</sup>" ;
+        }
+        capabilities.push( no_if ) ;
+    }
 
     // extract the static capabilities
     var i ;
@@ -368,7 +379,12 @@ function make_capabilities( vo_entry, nat, scenario_theater, scenario_year, scen
     if ( "damage_points" in vo_entry )
         capabilities.push( "DP " + vo_entry.damage_points ) ;
 
-    return capabilities.length > 0 ? capabilities : null ;
+    // include crew survival
+    var crew_survival = make_crew_survival( vo_entry ) ;
+    if ( crew_survival )
+        capabilities.push( crew_survival ) ;
+
+    return capabilities ;
 }
 
 function make_raw_capability( name, capability )
@@ -757,7 +773,7 @@ function do_load_scenario_data( params )
                         warnings.push( "Invalid V/O image ID for '" + params[key][i].name + "': " + params[key][i].image_id ) ;
                 }
                 if ( vo_entry )
-                    do_add_vo( vo_type, player_no, vo_entry, vo_image_id ) ;
+                    do_add_vo( vo_type, player_no, vo_entry, vo_image_id, params[key][i].custom_capabilities ) ;
                 else
                     unknown_vo.push( vo_id || "(not set)" ) ;
             }
@@ -858,7 +874,6 @@ function on_save_scenario()
 
 function unload_params_for_save()
 {
-    // unload the template parameters
     function extract_vo_entries( key ) {
         if ( !(key in params) )
             return ;
@@ -870,12 +885,15 @@ function unload_params_for_save()
             } ;
             if ( params[key][i].image_id !== null )
                 entry.image_id = params[key][i].image_id ;
+            if ( params[key][i].custom_capabilities )
+                entry.custom_capabilities = params[key][i].custom_capabilities ;
             entries.push( entry ) ;
         }
         params[key] = entries ;
     }
-    var params = {} ;
-    unload_snippet_params( params, false ) ;
+
+    // unload the template parameters
+    var params = unload_snippet_params( false ) ;
     params.SCENARIO_NOTES = $("#scenario_notes-sortable").sortable2( "get-entry-data" ) ;
     params.OB_SETUPS_1 = $("#ob_setups-sortable_1").sortable2( "get-entry-data" ) ;
     params.OB_SETUPS_2 = $("#ob_setups-sortable_2").sortable2( "get-entry-data" ) ;

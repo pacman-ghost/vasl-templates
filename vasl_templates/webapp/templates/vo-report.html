@@ -61,15 +61,6 @@ function load_vo_listings( objs )
     var buf = [] ;
     buf.push( "<table>" ) ;
     buf.push( "<tr>", "<th>Name" ) ;
-    if ( "{{VO_TYPE}}" === "vehicles" ) {
-        buf.push( "<th>Radio" ) ;
-        buf.push( "<th>IF" ) ;
-        buf.push( "<th>Crew survival" ) ;
-    }
-    if ( "{{VO_TYPE}}" === "landing-craft" ) {
-        buf.push( "<th>Damage points" ) ;
-        buf.push( "<th>Crew survival" ) ;
-    }
     buf.push( "<th colspan='2'>Capabilities", "<th colspan='2'>Notes" ) ;
     for ( var i=0 ; i < objs[nat].length ; ++i ) {
         var obj = objs[nat][i] ;
@@ -77,20 +68,6 @@ function load_vo_listings( objs )
             continue ;
         buf.push( "<tr>" ) ;
         buf.push( "<td>", fmtval(obj.name) ) ;
-        if ( "{{VO_TYPE}}" === "vehicles" ) {
-            buf.push( "<td>", fmtval(obj.no_radio) ) ;
-            var has_if = "&#10003;" ;
-            if ( typeof(obj.no_if) === "string" ) // nb: only for the French B1-bis :-/
-                has_if = "(" + obj.no_if + ")" ;
-            else if ( obj.no_if )
-                has_if = null ;
-            buf.push( "<td>", fmtval(has_if) ) ;
-            buf.push( "<td>", fmtval(make_crew_survival(obj)) ) ;
-        }
-        if ( "{{VO_TYPE}}" === "landing-craft" ) {
-            buf.push( "<td>", fmtval(obj.damage_points) ) ;
-            buf.push( "<td>", fmtval(make_crew_survival(obj)) ) ;
-        }
         var capabilities = make_capabilities( obj, nat, theater, year, month, true, true ) ;
         buf.push( "<td>", listval(capabilities) ) ;
         var capabilities = make_capabilities( obj, nat, theater, year, month, true, false ) ;

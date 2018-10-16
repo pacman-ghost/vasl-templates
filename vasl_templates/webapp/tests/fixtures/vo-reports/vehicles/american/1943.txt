@@ -1,67 +1,67 @@
 === vehicles/american/1943 ===
 
-Name                 Radio    IF    Crew survival                         Capabilities                  (effective)    #       Notes
--------------------  -------  ----  ------------------------------------  ----------------------------  -------------  ------  ---------------------------------------------------
-M2A4                 n/a      yes   CS 4                                  C10[P]†[1]                    n/a            1       B† C†<sup>1</sup> P
-M3                   n/a      yes   CS 4                                  C7[A2+]†[2]                   C7†[2]         2†      B†<sup>1</sup> C†<sup>2</sup> N
-M3A1                 n/a      yes   CS 4                                  C7†[2]                        C7†[2]         3†      C†<sup>2</sup> F†<sup>1</sup> G N
-M3A1 Satan           n/a      yes   CS 4                                  n/a                           n/a            4       P
-M5A1                 n/a      yes   CS 4                                  C7†[2]                        C7†[2]         5†      C†<sup>2</sup> F†<sup>1</sup> G N Y
-M24                  n/a      yes   CS 5                                  WP7 s5 sM8                    WP7 s5 sM8     6†      G <s>P</s> R†<sup>1</sup>
-M3                   n/a      yes   CS 7                                  C5†[2]                        C5†[2]         7†      B†<sup>1</sup> C†<sup>2</sup> G N
-M4                   n/a      yes   CS 5 <small><i>(brew up)</i></small>  WP7[J4+]†[3] s5[J4+] sM5[4+]  n/a            8†      F†<sup>2</sup> G R†<sup>1</sup> Y BB†<sup>3</sup>
-M4A1                 n/a      yes   CS 5 <small><i>(brew up)</i></small>  WP7[J4+]†[3] s5[J4+] sM5[4+]  n/a            9†      F†<sup>2</sup> G N R†<sup>1</sup> Y BB†<sup>3</sup>
-M4A2                 n/a      yes   CS 5 <small><i>(brew up)</i></small>  WP7[J4+]†[2] s5[J4+] sM5[4+]  n/a            10      F†<sup>1</sup> G P R† BB†<sup>2</sup>
-M4A2 (L)             n/a      yes   CS 6 <small><i>(brew up)</i></small>  WP7 s5 sM8                    WP7 s5 sM8     11      F†<sup>1</sup> G P R†
-M4A3                 n/a      yes   CS 5 <small><i>(brew up)</i></small>  WP7[J4+]†[3] s5[J4+] sM4[4+]  n/a            12†     F†<sup>2</sup> G R†<sup>1</sup> Y BB†<sup>3</sup>
-M4A3(75)W            n/a      yes   CS 6                                  WP7 s5 sM8                    WP7 s5 sM8     13†     F†<sup>2</sup> G R†<sup>1</sup> Y
-M4A3E2               n/a      yes   CS 6                                  WP7 s5 sM8                    WP7 s5 sM8     14      F†<sup>1</sup> G <s>P</s> R†
-M4A3E2 (L)           n/a      yes   CS 6                                  A4[4]5[5] s5[5] sM8           sM8            14†     F†<sup>1</sup> G <s>P</s>
-M4A1(76)W            n/a      yes   CS 6                                  A4[A4]5[5]†[2] s5[5] sM8      sM8            15†     A†<sup>2</sup> F†<sup>1</sup> G <s>P</s> Y
-M4A3(76)W            n/a      yes   CS 6                                  A4[A4]5[5]†[2] s5[5] sM8      sM8            16†     A†<sup>2</sup> F†<sup>1</sup> G <s>P</s> Y
-M4(105)              n/a      yes   CS 6                                  C7[P]†[1] H9 WP9 s7 sM8       H9 WP9 s7 sM8  17†     C†<sup>1</sup> Y
-M4A3(105)            n/a      yes   CS 6                                  C7[P]†[1] H9 WP9 s7 sM8       H9 WP9 s7 sM8  17†     C†<sup>1</sup> Y
-M4 Tankdozer         n/a      yes   CS 5 <small><i>(brew up)</i></small>  WP7 s5 sM6                    WP7 s5 sM6     18†     G R†<sup>1</sup>
-T1E3                 n/a      yes   CS 5 <small><i>(brew up)</i></small>  WP7 s5 sM6                    WP7 s5 sM6     19†     G <s>P</s> R†<sup>1</sup>
-Sherman Crab         n/a      yes   CS 5 <small><i>(brew up)</i></small>  WP7[J4+]†[2] s5[J4+] sM4      sM4            20†     G R†<sup>1</sup> BB†<sup>2</sup>
-POA-CWS-H1           n/a      yes   CS 6                                  sM8                           sM8            21†     P
-M26                  n/a      yes   CS 6                                  A7                            A7             22†     <s>P</s>
-M10 GMC              n/a      yes   CS 7                                  A5[A4E]6[5E]†[1] s5[5] sP5    sP5            23†     A†<sup>1</sup> N Y
-M18 GMC              n/a      yes   CS 6                                  A5[4E]6[5E]†[1] s5[5] sP5     sP5            24†     A†<sup>1</sup>
-M36 GMC              n/a      yes   CS 7                                  A5[5] sP5                     sP5            25†     <s>P</s>
-M36B1 GMC            n/a      yes   CS 7                                  A5 sP5                        A5 sP5         26      <s>P</s>
-M2                   n/a      yes   CS 4                                  n/a                           n/a            27†[1]  E† H I† N
-M3                   n/a      yes   CS 5                                  n/a                           n/a            28†     N
-M3A1                 n/a      yes   CS 5                                  n/a                           n/a            29†[1]  E† H I† Z
-M3(MMG)              n/a      yes   CS 5                                  n/a                           n/a            30†     E† H N <s>P</s>
-M3(HMG)              n/a      yes   CS 5                                  n/a                           n/a            30†     E† H N <s>P</s>
-M4 MC                n/a      yes   CS 4 <small><i>(brew up)</i></small>  WP8                           WP8            31†     J† M†<sup>1</sup> N O†<sup>2</sup> <s>P</s>
-M4A1 MC              n/a      yes   CS 4 <small><i>(brew up)</i></small>  WP8                           WP8            32†     J†<sup>1</sup> M†<sup>2</sup> O†<sup>3</sup>
-M21 MC               n/a      yes   CS 4 <small><i>(brew up)</i></small>  WP8                           WP8            33      M O† <s>P</s>
-M3 GMC               n/a      yes   CS 4                                  n/a                           n/a            34†     N U
-T30 HMC              n/a      yes   CS 4                                  AP7 H5 WP9                    AP7 H5 WP9     35†[1]  K† N O† <s>P</s> U
-T19 HMC              n/a      yes   CS 4                                  H5 WP8 s7                     H5 WP8 s7      36†     K†<sup>1</sup> N O†<sup>1</sup> <s>P</s>
-M15A1 MGMC           n/a      yes   CS 4                                  n/a                           n/a            37†     N V† AA†<sup>1</sup>
-M16 MGMC             n/a      yes   CS 4                                  n/a                           n/a            38†     V† AA†<sup>1</sup>
-M3A1                 n/a      yes   CS 4                                  n/a                           n/a            39†[1]  E† H I† N
-M20                  n/a      yes   CS 4                                  sP5                           sP5            40†     D†<sup>3</sup> O†<sup>2</sup> W†<sup>1</sup> Z
-T8                   n/a      yes   CS 5                                  n/a                           n/a            41†     O†<sup>1</sup> <s>P</s>
-M8                   n/a      yes   CS 4                                  C7†[2] sP5                    C7†[2] sP5     42†     C†<sup>2</sup> G W†<sup>1</sup>
-M8 HMC               n/a      yes   CS 5                                  C4[4+]†[1] H9 WP9             H9 WP9         43†     C†<sup>1</sup> Y
-M7 HMC               n/a      yes   CS 7                                  C7[P]†[1] H7 WP8 s7           H7 WP8 s7      44†     C†<sup>1</sup> N
-M12 GMC              n/a      n/a   CS 9                                  AP6 WP8                       AP6 WP8        45†     <s>P</s>
-LVT(A)1              n/a      yes   CS 6                                  C10[P]†[2]                    n/a            46†[1]  C†<sup>2</sup> G H P T†
-LVT(A)4              n/a      yes   CS 6                                  C7[P]†[3] H8 WP9              H8 WP9         47†     C†<sup>3</sup> P T†<sup>1</sup> X†<sup>2</sup>
-M4 DD                n/a      yes   CS 6 <small><i>(brew up)</i></small>  WP7 s5 sM5                    WP7 s5 sM5     48      G <s>P</s> R†
-LVT2                 n/a      yes   CS 6                                  n/a                           n/a            49†     D†<sup>3</sup> H Q†<sup>2</sup> T†<sup>1</sup>
-LVT2(m)              n/a      yes   CS 7                                  n/a                           n/a            49.1†   D†<sup>3</sup> H P Q†<sup>2</sup> T†<sup>1</sup>
-LVT(A)2              n/a      yes   CS 7                                  n/a                           n/a            50†     D†<sup>3</sup> H Q†<sup>2</sup> T†<sup>1</sup>
-LVT4                 n/a      yes   CS 7                                  n/a                           n/a            51†     D H T†<sup>1</sup> X†<sup>2</sup>
-M4 hst               n/a      yes   CS 6                                  n/a                           n/a            51.1†   n/a
-DUKW                 n/a      yes   cs 7†<sup>1</sup>                     n/a                           n/a            52†     D†<sup>3</sup> O†<sup>2</sup> CC†<sup>1</sup>
-&#188;-Ton Jeep GPA  n/a      yes   cs 2                                  n/a                           n/a            53†     L†<sup>1</sup>
-&#188;-Ton Jeep      n/a      yes   cs 2†<sup>1</sup>                     n/a                           n/a            54†     L†<sup>2</sup> N O†<sup>3</sup> CC†<sup>1</sup>
-&#190;-Ton           n/a      yes   cs 4                                  n/a                           n/a            55†     N
-1&#189;-Ton          n/a      yes   cs 6                                  n/a                           n/a            56†     N
-2&#189;-Ton          n/a      yes   cs 7                                  n/a                           n/a            57†     N
-7&#189;-Ton          n/a      yes   cs 7                                  n/a                           n/a            58†     N
+Name                 Capabilities                               (effective)              #       Notes
+-------------------  -----------------------------------------  -----------------------  ------  ---------------------------------------------------
+M2A4                 C10[P]†[1] CS 4                            CS 4                     1       B† C†<sup>1</sup> P
+M3                   C7[A2+]†[2] CS 4                           C7†[2] CS 4              2†      B†<sup>1</sup> C†<sup>2</sup> N
+M3A1                 C7†[2] CS 4                                C7†[2] CS 4              3†      C†<sup>2</sup> F†<sup>1</sup> G N
+M3A1 Satan           CS 4                                       CS 4                     4       P
+M5A1                 C7†[2] CS 4                                C7†[2] CS 4              5†      C†<sup>2</sup> F†<sup>1</sup> G N Y
+M24                  WP7 s5 sM8 CS 5                            WP7 s5 sM8 CS 5          6†      G <s>P</s> R†<sup>1</sup>
+M3                   C5†[2] CS 7                                C5†[2] CS 7              7†      B†<sup>1</sup> C†<sup>2</sup> G N
+M4                   WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  CS 5[brewup]             8†      F†<sup>2</sup> G R†<sup>1</sup> Y BB†<sup>3</sup>
+M4A1                 WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  CS 5[brewup]             9†      F†<sup>2</sup> G N R†<sup>1</sup> Y BB†<sup>3</sup>
+M4A2                 WP7[J4+]†[2] s5[J4+] sM5[4+] CS 5[brewup]  CS 5[brewup]             10      F†<sup>1</sup> G P R† BB†<sup>2</sup>
+M4A2 (L)             WP7 s5 sM8 CS 6[brewup]                    WP7 s5 sM8 CS 6[brewup]  11      F†<sup>1</sup> G P R†
+M4A3                 WP7[J4+]†[3] s5[J4+] sM4[4+] CS 5[brewup]  CS 5[brewup]             12†     F†<sup>2</sup> G R†<sup>1</sup> Y BB†<sup>3</sup>
+M4A3(75)W            WP7 s5 sM8 CS 6                            WP7 s5 sM8 CS 6          13†     F†<sup>2</sup> G R†<sup>1</sup> Y
+M4A3E2               WP7 s5 sM8 CS 6                            WP7 s5 sM8 CS 6          14      F†<sup>1</sup> G <s>P</s> R†
+M4A3E2 (L)           A4[4]5[5] s5[5] sM8 CS 6                   sM8 CS 6                 14†     F†<sup>1</sup> G <s>P</s>
+M4A1(76)W            A4[A4]5[5]†[2] s5[5] sM8 CS 6              sM8 CS 6                 15†     A†<sup>2</sup> F†<sup>1</sup> G <s>P</s> Y
+M4A3(76)W            A4[A4]5[5]†[2] s5[5] sM8 CS 6              sM8 CS 6                 16†     A†<sup>2</sup> F†<sup>1</sup> G <s>P</s> Y
+M4(105)              C7[P]†[1] H9 WP9 s7 sM8 CS 6               H9 WP9 s7 sM8 CS 6       17†     C†<sup>1</sup> Y
+M4A3(105)            C7[P]†[1] H9 WP9 s7 sM8 CS 6               H9 WP9 s7 sM8 CS 6       17†     C†<sup>1</sup> Y
+M4 Tankdozer         WP7 s5 sM6 CS 5[brewup]                    WP7 s5 sM6 CS 5[brewup]  18†     G R†<sup>1</sup>
+T1E3                 WP7 s5 sM6 CS 5[brewup]                    WP7 s5 sM6 CS 5[brewup]  19†     G <s>P</s> R†<sup>1</sup>
+Sherman Crab         WP7[J4+]†[2] s5[J4+] sM4 CS 5[brewup]      sM4 CS 5[brewup]         20†     G R†<sup>1</sup> BB†<sup>2</sup>
+POA-CWS-H1           sM8 CS 6                                   sM8 CS 6                 21†     P
+M26                  A7 CS 6                                    A7 CS 6                  22†     <s>P</s>
+M10 GMC              A5[A4E]6[5E]†[1] s5[5] sP5 CS 7            sP5 CS 7                 23†     A†<sup>1</sup> N Y
+M18 GMC              A5[4E]6[5E]†[1] s5[5] sP5 CS 6             sP5 CS 6                 24†     A†<sup>1</sup>
+M36 GMC              A5[5] sP5 CS 7                             sP5 CS 7                 25†     <s>P</s>
+M36B1 GMC            A5 sP5 CS 7                                A5 sP5 CS 7              26      <s>P</s>
+M2                   CS 4                                       CS 4                     27†[1]  E† H I† N
+M3                   CS 5                                       CS 5                     28†     N
+M3A1                 CS 5                                       CS 5                     29†[1]  E† H I† Z
+M3(MMG)              CS 5                                       CS 5                     30†     E† H N <s>P</s>
+M3(HMG)              CS 5                                       CS 5                     30†     E† H N <s>P</s>
+M4 MC                WP8 CS 4[brewup]                           WP8 CS 4[brewup]         31†     J† M†<sup>1</sup> N O†<sup>2</sup> <s>P</s>
+M4A1 MC              WP8 CS 4[brewup]                           WP8 CS 4[brewup]         32†     J†<sup>1</sup> M†<sup>2</sup> O†<sup>3</sup>
+M21 MC               WP8 CS 4[brewup]                           WP8 CS 4[brewup]         33      M O† <s>P</s>
+M3 GMC               CS 4                                       CS 4                     34†     N U
+T30 HMC              AP7 H5 WP9 CS 4                            AP7 H5 WP9 CS 4          35†[1]  K† N O† <s>P</s> U
+T19 HMC              H5 WP8 s7 CS 4                             H5 WP8 s7 CS 4           36†     K†<sup>1</sup> N O†<sup>1</sup> <s>P</s>
+M15A1 MGMC           CS 4                                       CS 4                     37†     N V† AA†<sup>1</sup>
+M16 MGMC             CS 4                                       CS 4                     38†     V† AA†<sup>1</sup>
+M3A1                 CS 4                                       CS 4                     39†[1]  E† H I† N
+M20                  sP5 CS 4                                   sP5 CS 4                 40†     D†<sup>3</sup> O†<sup>2</sup> W†<sup>1</sup> Z
+T8                   CS 5                                       CS 5                     41†     O†<sup>1</sup> <s>P</s>
+M8                   C7†[2] sP5 CS 4                            C7†[2] sP5 CS 4          42†     C†<sup>2</sup> G W†<sup>1</sup>
+M8 HMC               C4[4+]†[1] H9 WP9 CS 5                     H9 WP9 CS 5              43†     C†<sup>1</sup> Y
+M7 HMC               C7[P]†[1] H7 WP8 s7 CS 7                   H7 WP8 s7 CS 7           44†     C†<sup>1</sup> N
+M12 GMC              no IF AP6 WP8 CS 9                         no IF AP6 WP8 CS 9       45†     <s>P</s>
+LVT(A)1              C10[P]†[2] CS 6                            CS 6                     46†[1]  C†<sup>2</sup> G H P T†
+LVT(A)4              C7[P]†[3] H8 WP9 CS 6                      H8 WP9 CS 6              47†     C†<sup>3</sup> P T†<sup>1</sup> X†<sup>2</sup>
+M4 DD                WP7 s5 sM5 CS 6[brewup]                    WP7 s5 sM5 CS 6[brewup]  48      G <s>P</s> R†
+LVT2                 CS 6                                       CS 6                     49†     D†<sup>3</sup> H Q†<sup>2</sup> T†<sup>1</sup>
+LVT2(m)              CS 7                                       CS 7                     49.1†   D†<sup>3</sup> H P Q†<sup>2</sup> T†<sup>1</sup>
+LVT(A)2              CS 7                                       CS 7                     50†     D†<sup>3</sup> H Q†<sup>2</sup> T†<sup>1</sup>
+LVT4                 CS 7                                       CS 7                     51†     D H T†<sup>1</sup> X†<sup>2</sup>
+M4 hst               CS 6                                       CS 6                     51.1†   n/a
+DUKW                 cs 7†[1]                                   cs 7†[1]                 52†     D†<sup>3</sup> O†<sup>2</sup> CC†<sup>1</sup>
+&#188;-Ton Jeep GPA  cs 2                                       cs 2                     53†     L†<sup>1</sup>
+&#188;-Ton Jeep      cs 2†[1]                                   cs 2†[1]                 54†     L†<sup>2</sup> N O†<sup>3</sup> CC†<sup>1</sup>
+&#190;-Ton           cs 4                                       cs 4                     55†     N
+1&#189;-Ton          cs 6                                       cs 6                     56†     N
+2&#189;-Ton          cs 7                                       cs 7                     57†     N
+7&#189;-Ton          cs 7                                       cs 7                     58†     N

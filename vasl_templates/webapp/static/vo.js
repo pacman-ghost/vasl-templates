@@ -48,7 +48,10 @@ function add_vo( vo_type, player_no )
             $entry.children( ".content" ).append( $btn ) ;
             $btn.click( function() {
                 $(this).blur() ;
-                on_select_vo_image( $(this) ) ;
+                on_select_vo_image(
+                    $(this),
+                    function() { click_dialog_button( $("#select-vo"), "OK" ) ; }
+                ) ;
             } ) ;
         }
         return $entry ;
@@ -108,7 +111,7 @@ function add_vo( vo_type, player_no )
                 var sel_index = $elem.children( ".vo-entry" ).data( "index" ) ;
                 var $img = $elem.find( "img[class='vasl-image']" ) ;
                 var vo_image_id = $img.data( "vo-image-id" ) ;
-                do_add_vo( vo_type, player_no, entries[sel_index], vo_image_id ) ;
+                do_add_vo( vo_type, player_no, entries[sel_index], vo_image_id, null ) ;
                 $(this).dialog( "close" ) ;
             },
             Cancel: function() { $(this).dialog( "close" ) ; },
@@ -118,7 +121,7 @@ function add_vo( vo_type, player_no )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function do_add_vo( vo_type, player_no, vo_entry, vo_image_id )
+function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, custom_capabilities )
 {
     // add the specified vehicle/ordnance
     // NOTE: We set a fixed height for the sortable2 entries (based on the CSS settings in tabs-ob.css),
@@ -132,9 +135,17 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id )
     }
     div_tag += ">" ;
     var url = get_vo_image_url( vo_entry, vo_image_id, true ) ;
+    var data = {
+        caption: vo_entry.name,
+        vo_entry: vo_entry,
+        vo_image_id: vo_image_id,
+        fixed_height: fixed_height
+    } ;
+    if ( custom_capabilities )
+        data.custom_capabilities = custom_capabilities ;
     $sortable2.sortable2( "add", {
-        content: $( div_tag + "<img src='"+url+"'>" + vo_entry.name + "</div>" ),
-        data: { caption: vo_entry.name, vo_entry: vo_entry, vo_image_id: vo_image_id, fixed_height: fixed_height },
+        content: $( div_tag + "<img src='"+url+"' class='vasl-image'>" + vo_entry.name + "</div>" ),
+        data: data,
     } ) ;
 }
 
@@ -186,7 +197,7 @@ function get_vo_images( vo_entry )
     return images ;
 }
 
-function on_select_vo_image( $btn ) {
+function on_select_vo_image( $btn, on_ok ) {
 
     // initialize
     var $img = $btn.parent().parent().find( "img.vasl-image" ) ;
@@ -219,7 +230,7 @@ function on_select_vo_image( $btn ) {
         }
 
         // highlight the currently-selected image
-        var sel_index = (vo_image_id === null) ? 0 : vo_images.indexOf(vo_image_id) ;
+        var sel_index = _find_vo_image_id( vo_images, vo_image_id ) ;
         if ( sel_index === -1 ) {
             console.log( "Couldn't find V/O image ID '" + vo_image_id + "' in V/O images: " + vo_images ) ;
             sel_index = 0 ;
@@ -240,11 +251,11 @@ function on_select_vo_image( $btn ) {
         // handle image selection
         $images.children( "img" ).click( function() {
             vo_image_id = vo_images[ $(this).data("index") ] ;
-            $img.attr( "src", get_vo_image_url(vo_image_id,true) ) ;
+            $img.attr( "src", get_vo_image_url(null,vo_image_id,true) ) ;
             $img.data( "vo-image-id", vo_image_id ) ;
             $dlg.dialog( "close" ) ;
-            // nb: if the user selected an image, we take that to mean they also want to add that vehicle/ordnance
-            click_dialog_button( $("#select-vo"), "OK" ) ;
+            if ( on_ok )
+                on_ok() ;
         } ) ;
 
     }
@@ -260,6 +271,19 @@ function on_select_vo_image( $btn ) {
         resizable: false,
         "open": on_open_dialog,
     } ) ;
+}
+
+function _find_vo_image_id( vo_images, vo_image_id )
+{
+    // find the specified V/O image ID (because indexOf() doesn't handle arrays :-/)
+    if ( vo_image_id === null )
+        return 0 ;
+    vo_image_id = vo_image_id.join(":") ;
+    for ( var i=0 ; i < vo_images.length ; ++i ) {
+        if ( vo_images[i].join(":") == vo_image_id )
+            return i ;
+    }
+    return -1 ;
 }
 
 function get_vo_image_url( vo_entry, vo_image_id, allow_missing_image )

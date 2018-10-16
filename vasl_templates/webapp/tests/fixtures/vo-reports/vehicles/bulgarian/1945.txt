@@ -1,5 +1,5 @@
 === vehicles/bulgarian/1945 ===
 
-Name                Radio    IF    Crew survival    Capabilities    (effective)    #    Notes
-------------------  -------  ----  ---------------  --------------  -------------  ---  -------
-Vickers 6-Ton Mk E  ®        yes   CS 3             C5†             C5†            28†  n/a
+Name                Capabilities    (effective)    #    Notes
+------------------  --------------  -------------  ---  -------
+Vickers 6-Ton Mk E  ® C5† CS 3      ® C5† CS 3     28†  n/a

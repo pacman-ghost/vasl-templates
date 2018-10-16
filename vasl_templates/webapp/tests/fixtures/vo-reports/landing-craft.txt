@@ -1,13 +1,13 @@
 === landing craft ===
 
-Name        Damage points  Crew survival    Capabilities    (effective)    #    Notes
---------  ---------------  ---------------  --------------  -------------  ---  ------------------------------------------------
-LCP(L)                  2  CS 4             DP 2            DP 2           1†   A†<sup>1</sup> B†<sup>3</sup> C†<sup>2</sup> D
-LCA                     3  CS 6             DP 3            DP 3           2†   n/a
-LCVP                    3  CS 5             DP 3            DP 3           3†   B†<sup>2</sup> C†<sup>1</sup>
-LCV                     3  CS 5             DP 3            DP 3           3†   n/a
-LCM(3)                  5  CS 6             DP 5            DP 5           4†   B†<sup>2</sup> C†<sup>1</sup>
-LCI(S)                 14  CS 10            DP 14           DP 14          5†   C†<sup>3</sup> D E†<sup>2</sup> F†<sup>1</sup> G
-LCT(4)                 10  CS 9             DP 10           DP 10          6†   C†<sup>3</sup> E†<sup>2</sup> F†<sup>1</sup> G
-Daihatsu                3  CS 4             DP 3            DP 3           7†   A†<sup>1</sup>
-Shohatsu                2  CS 3             DP 2            DP 2           8†   A† D
+Name      Capabilities    (effective)    #    Notes
+--------  --------------  -------------  ---  ------------------------------------------------
+LCP(L)    DP 2 CS 4       DP 2 CS 4      1†   A†<sup>1</sup> B†<sup>3</sup> C†<sup>2</sup> D
+LCA       DP 3 CS 6       DP 3 CS 6      2†   n/a
+LCVP      DP 3 CS 5       DP 3 CS 5      3†   B†<sup>2</sup> C†<sup>1</sup>
+LCV       DP 3 CS 5       DP 3 CS 5      3†   n/a
+LCM(3)    DP 5 CS 6       DP 5 CS 6      4†   B†<sup>2</sup> C†<sup>1</sup>
+LCI(S)    DP 14 CS 10     DP 14 CS 10    5†   C†<sup>3</sup> D E†<sup>2</sup> F†<sup>1</sup> G
+LCT(4)    DP 10 CS 9      DP 10 CS 9     6†   C†<sup>3</sup> E†<sup>2</sup> F†<sup>1</sup> G
+Daihatsu  DP 3 CS 4       DP 3 CS 4      7†   A†<sup>1</sup>
+Shohatsu  DP 2 CS 3       DP 2 CS 3      8†   A† D

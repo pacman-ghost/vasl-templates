@@ -1,54 +1,54 @@
 === vehicles/french/1945 ===
 
-Name                       Radio            IF     Crew survival                         Capabilities    (effective)    #    Notes
--------------------------  ---------------  -----  ------------------------------------  --------------  -------------  ---  -----------------------------------------------------------------
-FT-17M                     ®                yes    CS 2                                  n/a             n/a            1†   C
-FT-17C                     ®                yes    CS 2                                  AP9             AP9            1†   C
-FT-17 75BS                 ®                n/a    CS 3 <small><i>(brew up)</i></small>  n/a             n/a            1†   C
-AMR 33                     ®                yes    CS 2                                  n/a             n/a            2†   E
-AMR 35                     ®                yes    CS 2                                  n/a             n/a            3†   E
-AMR 35(L)                  ®                yes    CS 2                                  n/a             n/a            3†   E
-R35                        ®                yes    CS 2                                  AP10            AP10           4†   A†<sup>1</sup> C
-H35                        ®                yes    CS 2                                  AP10            AP10           5†   A†<sup>1</sup> C E
-FCM 36                     ®                yes    CS 2                                  AP10            AP10           6†   C E I†<sup>1</sup>
-H39                        ®                yes    CS 2                                  AP10            AP10           7†   A†<sup>1</sup> C F
-H39(L)                     ®                yes    CS 2                                  AP10            AP10           8†   A†<sup>1</sup> C E F
-H35(L)                     ®                yes    CS 2                                  AP10            AP10           8†   A†<sup>1</sup> C E
-R35(L)                     ®                yes    CS 2                                  AP10            AP10           8†   A†<sup>1</sup> C E F
-R40                        ®                yes    CS 2                                  AP10            AP10           9    A†<sup>1</sup> C E I†
-D1                         ®9†<sup>1</sup>  yes    CS 3                                  n/a             n/a            10†  B†<sup>3</sup> C I†<sup>2</sup> R†<sup>1</sup>
-D2                         ®9†<sup>1</sup>  yes    CS 3                                  n/a             n/a            11†  B†<sup>3</sup> C E I†<sup>2</sup> R†<sup>1</sup>
-D2(L)                      ®9†<sup>1</sup>  yes    CS 3                                  n/a             n/a            11†  A†<sup>4</sup> B†<sup>3</sup> C E I†<sup>2</sup> R†<sup>1</sup>
-S35                        ®9†<sup>1</sup>  yes    CS 4                                  n/a             n/a            12†  A†<sup>3</sup> C F I†<sup>2</sup> R†<sup>1</sup>
-B1-bis                     ®9†<sup>1</sup>  (75†)  CS 5 <small><i>(brew up)</i></small>  AP9[75]†        AP9[75]†       13†  A†<sup>4</sup> B†<sup>3</sup> C E F I†<sup>2</sup> R†<sup>1</sup>
-Valentine V(b)             n/a              yes    CS 4                                  sM8             sM8            14†  F
-AM Dodge(a)                n/a              yes    CS 6†                                 AP10            AP10           15†  F
-AMD 20 cv TOE              ®9†<sup>1</sup>  yes    CS 4                                  AP9             AP9            16†  D†<sup>2</sup> R†<sup>1</sup>
-AMD 50 AM                  ®                yes    CS 4                                  AP9             AP9            17†  D†<sup>1</sup>
-AMD 80 AM                  ®                yes    CS 4                                  n/a             n/a            17†  D†<sup>1</sup>
-AMD 35                     ®                yes    CS 4                                  n/a             n/a            18†  E
-Laffly W15T CC             n/a              yes    CS 3                                  n/a             n/a            19†  E J†<sup>1</sup>
-Ac de 75 Conus(b)          n/a              yes    CS 5                                  s8              s8             20†  F M†<sup>1</sup>
-Ac de 75 mle 97            n/a              yes    CS 4                                  s8              s8             20†  M†<sup>1</sup>
-Camion de Mitrailleuse CA  n/a              yes    CS 4                                  n/a             n/a            21†  n/a
-Camion de 13.2 CAJ         n/a              yes    CS 4                                  n/a             n/a            21†  AA†<sup>1</sup>
-Camion de 20 CA            n/a              yes    CS 4                                  n/a             n/a            21†  AA†<sup>1</sup>
-Ac de 25 CA                n/a              yes    CS 4                                  n/a             n/a            21†  F AA†<sup>1</sup>
-Ac de 40 CA(a)             n/a              yes    CS 4                                  n/a             n/a            22   E F M† AA†<sup>1</sup>
-Ac de 75 mle 13/34         n/a              yes    CS 7                                  n/a             n/a            23†  D†<sup>1</sup> F AA†<sup>2</sup>
-AMC 29                     ®                yes    CS 3                                  AP9             AP9            24†  n/a
-C-K P17                    n/a              yes    cs 4                                  n/a             n/a            25†  n/a
-C-K P19                    n/a              yes    cs 5                                  n/a             n/a            25†  H†<sup>1</sup>
-SOMUA MCG                  n/a              yes    cs 4                                  n/a             n/a            26†  n/a
-Unic P107                  n/a              yes    cs 5                                  n/a             n/a            27†  L†<sup>1</sup>
-Renault UE                 n/a              yes    cs 2†<sup>1</sup>                     n/a             n/a            28†  G†<sup>1</sup> K
-Lorraine 38L               n/a              yes    cs 3/2†                               n/a             n/a            29†  E H†
-Lorraine 37L 44            n/a              yes    CS 3                                  n/a             n/a            30†  E K
-Carrier AC(b)              n/a              yes    CS 3                                  n/a             n/a            31†  F M†<sup>1</sup>
-Latil TAR H2               n/a              yes    cs 5                                  n/a             n/a            32†  J†<sup>1</sup>
-Laffly S15T                n/a              yes    cs 5                                  n/a             n/a            33†  J†<sup>1</sup> L†<sup>2</sup>
-Laffly S20TL               n/a              yes    cs 5                                  n/a             n/a            34†  E J†<sup>1</sup>
-Laffly V15T                n/a              yes    cs 5                                  n/a             n/a            35   E J†
-Peugeot 202                n/a              yes    cs 2†<sup>1</sup>                     n/a             n/a            36†  G†<sup>1</sup>
-Citro&#235;n 23            n/a              yes    cs 5                                  n/a             n/a            36†  n/a
-Renault AGR2               n/a              yes    cs 7                                  n/a             n/a            36†  n/a
+Name                       Capabilities                             (effective)                              #    Notes
+-------------------------  ---------------------------------------  ---------------------------------------  ---  -----------------------------------------------------------------
+FT-17M                     ® CS 2                                   ® CS 2                                   1†   C
+FT-17C                     ® AP9 CS 2                               ® AP9 CS 2                               1†   C
+FT-17 75BS                 ® no IF CS 3[brewup]                     ® no IF CS 3[brewup]                     1†   C
+AMR 33                     ® CS 2                                   ® CS 2                                   2†   E
+AMR 35                     ® CS 2                                   ® CS 2                                   3†   E
+AMR 35(L)                  ® CS 2                                   ® CS 2                                   3†   E
+R35                        ® AP10 CS 2                              ® AP10 CS 2                              4†   A†<sup>1</sup> C
+H35                        ® AP10 CS 2                              ® AP10 CS 2                              5†   A†<sup>1</sup> C E
+FCM 36                     ® AP10 CS 2                              ® AP10 CS 2                              6†   C E I†<sup>1</sup>
+H39                        ® AP10 CS 2                              ® AP10 CS 2                              7†   A†<sup>1</sup> C F
+H39(L)                     ® AP10 CS 2                              ® AP10 CS 2                              8†   A†<sup>1</sup> C E F
+H35(L)                     ® AP10 CS 2                              ® AP10 CS 2                              8†   A†<sup>1</sup> C E
+R35(L)                     ® AP10 CS 2                              ® AP10 CS 2                              8†   A†<sup>1</sup> C E F
+R40                        ® AP10 CS 2                              ® AP10 CS 2                              9    A†<sup>1</sup> C E I†
+D1                         ®9†[1] CS 3                              ®9†[1] CS 3                              10†  B†<sup>3</sup> C I†<sup>2</sup> R†<sup>1</sup>
+D2                         ®9†[1] CS 3                              ®9†[1] CS 3                              11†  B†<sup>3</sup> C E I†<sup>2</sup> R†<sup>1</sup>
+D2(L)                      ®9†[1] CS 3                              ®9†[1] CS 3                              11†  A†<sup>4</sup> B†<sup>3</sup> C E I†<sup>2</sup> R†<sup>1</sup>
+S35                        ®9†[1] CS 4                              ®9†[1] CS 4                              12†  A†<sup>3</sup> C F I†<sup>2</sup> R†<sup>1</sup>
+B1-bis                     ®9†[1] no IF[75]† AP9[75]† CS 5[brewup]  ®9†[1] no IF[75]† AP9[75]† CS 5[brewup]  13†  A†<sup>4</sup> B†<sup>3</sup> C E F I†<sup>2</sup> R†<sup>1</sup>
+Valentine V(b)             sM8 CS 4                                 sM8 CS 4                                 14†  F
+AM Dodge(a)                AP10 CS 6†                               AP10 CS 6†                               15†  F
+AMD 20 cv TOE              ®9†[1] AP9 CS 4                          ®9†[1] AP9 CS 4                          16†  D†<sup>2</sup> R†<sup>1</sup>
+AMD 50 AM                  ® AP9 CS 4                               ® AP9 CS 4                               17†  D†<sup>1</sup>
+AMD 80 AM                  ® CS 4                                   ® CS 4                                   17†  D†<sup>1</sup>
+AMD 35                     ® CS 4                                   ® CS 4                                   18†  E
+Laffly W15T CC             CS 3                                     CS 3                                     19†  E J†<sup>1</sup>
+Ac de 75 Conus(b)          s8 CS 5                                  s8 CS 5                                  20†  F M†<sup>1</sup>
+Ac de 75 mle 97            s8 CS 4                                  s8 CS 4                                  20†  M†<sup>1</sup>
+Camion de Mitrailleuse CA  CS 4                                     CS 4                                     21†  n/a
+Camion de 13.2 CAJ         CS 4                                     CS 4                                     21†  AA†<sup>1</sup>
+Camion de 20 CA            CS 4                                     CS 4                                     21†  AA†<sup>1</sup>
+Ac de 25 CA                CS 4                                     CS 4                                     21†  F AA†<sup>1</sup>
+Ac de 40 CA(a)             CS 4                                     CS 4                                     22   E F M† AA†<sup>1</sup>
+Ac de 75 mle 13/34         CS 7                                     CS 7                                     23†  D†<sup>1</sup> F AA†<sup>2</sup>
+AMC 29                     ® AP9 CS 3                               ® AP9 CS 3                               24†  n/a
+C-K P17                    cs 4                                     cs 4                                     25†  n/a
+C-K P19                    cs 5                                     cs 5                                     25†  H†<sup>1</sup>
+SOMUA MCG                  cs 4                                     cs 4                                     26†  n/a
+Unic P107                  cs 5                                     cs 5                                     27†  L†<sup>1</sup>
+Renault UE                 cs 2†[1]                                 cs 2†[1]                                 28†  G†<sup>1</sup> K
+Lorraine 38L               cs 3/2†                                  cs 3/2†                                  29†  E H†
+Lorraine 37L 44            CS 3                                     CS 3                                     30†  E K
+Carrier AC(b)              CS 3                                     CS 3                                     31†  F M†<sup>1</sup>
+Latil TAR H2               cs 5                                     cs 5                                     32†  J†<sup>1</sup>
+Laffly S15T                cs 5                                     cs 5                                     33†  J†<sup>1</sup> L†<sup>2</sup>
+Laffly S20TL               cs 5                                     cs 5                                     34†  E J†<sup>1</sup>
+Laffly V15T                cs 5                                     cs 5                                     35   E J†
+Peugeot 202                cs 2†[1]                                 cs 2†[1]                                 36†  G†<sup>1</sup>
+Citro&#235;n 23            cs 5                                     cs 5                                     36†  n/a
+Renault AGR2               cs 7                                     cs 7                                     36†  n/a

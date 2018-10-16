@@ -20,6 +20,7 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/edit-simple-note-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/ask-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/select-vo-dialog.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/edit-vo-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/user-settings-dialog.css')}}" />
 
 </head>
@@ -57,6 +58,7 @@
 
 {%include "select-vo-dialog.html"%}
 {%include "select-vo-image-dialog.html"%}
+{%include "edit-vo-dialog.html"%}
 
 {%include "user-settings-dialog.html"%}
 
@@ -93,6 +95,7 @@ gHelpUrl = "{{url_for('show_help')}}" ;
 <script src="{{url_for('static',filename='snippets.js')}}"></script>
 <script src="{{url_for('static',filename='simple_notes.js')}}"></script>
 <script src="{{url_for('static',filename='vo.js')}}"></script>
+<script src="{{url_for('static',filename='vo2.js')}}"></script>
 <script src="{{url_for('static',filename='sortable.js')}}"></script>
 <script src="{{url_for('static',filename='user_settings.js')}}"></script>
 <script src="{{url_for('static',filename='utils.js')}}"></script>

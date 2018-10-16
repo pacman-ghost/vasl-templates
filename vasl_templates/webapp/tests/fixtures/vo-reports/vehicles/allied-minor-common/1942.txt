@@ -1,18 +1,18 @@
 === vehicles/allied-minor-common/1942 ===
 
-Name              Radio    IF    Crew survival    Capabilities    (effective)    #    Notes
-----------------  -------  ----  ---------------  --------------  -------------  ---  ------------------
-L5/30(i)          ®        yes   CS 2             n/a             n/a            31   A
-L3/35(i)          ®        yes   CS 2             n/a             n/a            31†  A D
-L6/40(i)          n/a      yes   CS 2             n/a             n/a            31†  A
-M13/40(i)         n/a      yes   CS 4             n/a             n/a            31†  A
-FT-17M(f)         ®        yes   CS 2             n/a             n/a            32†  A F
-FT-17C(f)         ®        n/a   CS 2             AP9             AP9            32†  A F
-R-35(f)           ®        yes   CS 2             AP10            AP10           33†  A E†<sup>1</sup> F
-M3A1(a)           n/a      yes   CS 4             n/a             n/a            34†  A V
-C-K P17(f)        n/a      yes   cs 4             n/a             n/a            35   A
-C-K P19(f)        n/a      yes   cs 5             n/a             n/a            35†  A
-VCL Utility B(b)  n/a      yes   cs 2             n/a             n/a            36†  A H†<sup>1</sup> V
-Light Truck       n/a      yes   cs 4             n/a             n/a            37   n/a
-Medium Truck      n/a      yes   cs 5             n/a             n/a            37   n/a
-Heavy Truck       n/a      yes   cs 7             n/a             n/a            37   n/a
+Name              Capabilities      (effective)       #    Notes
+----------------  ----------------  ----------------  ---  ------------------
+L5/30(i)          ® CS 2            ® CS 2            31   A
+L3/35(i)          ® CS 2            ® CS 2            31†  A D
+L6/40(i)          CS 2              CS 2              31†  A
+M13/40(i)         CS 4              CS 4              31†  A
+FT-17M(f)         ® CS 2            ® CS 2            32†  A F
+FT-17C(f)         ® no IF AP9 CS 2  ® no IF AP9 CS 2  32†  A F
+R-35(f)           ® AP10 CS 2       ® AP10 CS 2       33†  A E†<sup>1</sup> F
+M3A1(a)           CS 4              CS 4              34†  A V
+C-K P17(f)        cs 4              cs 4              35   A
+C-K P19(f)        cs 5              cs 5              35†  A
+VCL Utility B(b)  cs 2              cs 2              36†  A H†<sup>1</sup> V
+Light Truck       cs 4              cs 4              37   n/a
+Medium Truck      cs 5              cs 5              37   n/a
+Heavy Truck       cs 7              cs 7              37   n/a

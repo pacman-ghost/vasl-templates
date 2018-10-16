@@ -1,10 +1,10 @@
 === vehicles/yugoslavian/1941 ===
 
-Name           Radio    IF    Crew survival    Capabilities    (effective)    #    Notes
--------------  -------  ----  ---------------  --------------  -------------  ---  ----------------------------------
-T-32           ®        yes   CS 2             n/a             n/a            19   D
-M3A1(a)        n/a      yes   CS 4             C3†             C3†            20†  A B C L
-M3A3(a)        n/a      yes   CS 4             C3† sD3         C3† sD3        20†  A B C L
-M3(a) PaK 40   n/a      yes   CS 2             n/a             n/a            21†  A H†<sup>1</sup> L
-M3(a) FlaK 38  n/a      yes   CS 2             n/a             n/a            22†  A H†<sup>1</sup> L AA†<sup>2</sup>
-AEC II(b)      n/a      yes   CS 4             D4 HE5 sM8      D4 HE5 sM8     23   A G† L
+Name           Capabilities     (effective)      #    Notes
+-------------  ---------------  ---------------  ---  ----------------------------------
+T-32           ® CS 2           ® CS 2           19   D
+M3A1(a)        C3† CS 4         C3† CS 4         20†  A B C L
+M3A3(a)        C3† sD3 CS 4     C3† sD3 CS 4     20†  A B C L
+M3(a) PaK 40   CS 2             CS 2             21†  A H†<sup>1</sup> L
+M3(a) FlaK 38  CS 2             CS 2             22†  A H†<sup>1</sup> L AA†<sup>2</sup>
+AEC II(b)      D4 HE5 sM8 CS 4  D4 HE5 sM8 CS 4  23   A G† L

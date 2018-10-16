@@ -34,6 +34,7 @@ def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
                 lambda mo: "[{}]".format( mo.group(1) ),
                 results[i][col]
             )
+            results[i][col] = results[i][col].replace( " <small><i>(brew up)</i></small>", "[brewup]" )
 
     # check each vehicle/ordnance report
     nationalities = [
@@ -148,6 +149,8 @@ def _parse_report( buf ):
     def tidy( cell ):
         """Tidy up a cell value."""
         val = lxml.etree.tostring( cell ).decode( "utf-8" ) #pylint: disable=c-extension-no-member
+        if val in ("<td/>","<th/>"):
+            return ""
         mo = re.search( r"^<(th|td).*?>(.*)</\1>$", val )
         val = mo.group(2)
         if val == "<small><em>n/a</em></small>":

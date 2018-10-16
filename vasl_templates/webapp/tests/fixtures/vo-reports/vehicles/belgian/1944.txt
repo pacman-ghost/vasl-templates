@@ -1,9 +1,9 @@
 === vehicles/belgian/1944 ===
 
-Name              Radio    IF    Crew survival                          Capabilities    (effective)    #    Notes
-----------------  -------  ----  -------------------------------------  --------------  -------------  ---  ----------------
-VCL Mk VI/c47(b)  ®        yes   CS 2                                   n/a             n/a            14†  A Q†<sup>1</sup>
-T-13 II(b)        ®        yes   CS 4 <small><i>(brew up)</i></small>†  n/a             n/a            15†  A
-T-13 III(b)       ®        yes   CS 4 <small><i>(brew up)</i></small>   n/a             n/a            16   A
-T-15(b)           ®        yes   CS 2                                   n/a             n/a            17   A
-ACG1(f)           ®        yes   CS 3 <small><i>(brew up)</i></small>   n/a             n/a            18†  A
+Name              Capabilities     (effective)      #    Notes
+----------------  ---------------  ---------------  ---  ----------------
+VCL Mk VI/c47(b)  ® CS 2           ® CS 2           14†  A Q†<sup>1</sup>
+T-13 II(b)        ® CS 4[brewup]†  ® CS 4[brewup]†  15†  A
+T-13 III(b)       ® CS 4[brewup]   ® CS 4[brewup]   16   A
+T-15(b)           ® CS 2           ® CS 2           17   A
+ACG1(f)           ® CS 3[brewup]   ® CS 3[brewup]   18†  A

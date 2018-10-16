@@ -143,15 +143,16 @@ def test_snippets( webapp, webdriver ):
         add_vo( webdriver, vo_type, 1, "a german {}".format(vo_type) )
         btn = find_child( "button[data-id='ob_{}_1']".format( vo_type ) )
         btn.click()
+        caps = '"QSU" "IR" "A1" "H2" "can do other stuff"'
+        if vo_type == "vehicles":
+            caps += ' "CS 5"'
         expected = [
             '[German] ; width=',
             '[*] a german {}: #=1'.format( vo_type0 ),
             '- notes: "A" "B†"',
-            '- capabilities: "QSU" "IR" "A1" "H2" "can do other stuff"',
-            '- raw capabilities: "QSU" "IR" "A1" "H2" "can do other stuff"'
+            '- capabilities: {}'.format( caps ),
+            '- raw capabilities: {}'.format( caps ),
         ]
-        if vo_type == "vehicles":
-            expected.insert( 3, "- CS 5" )
         wait_for_clipboard( 2, "\n".join(expected) )
         delete_vo( vo_type, 1, "a german {}".format(vo_type0), webdriver )
 
@@ -159,14 +160,15 @@ def test_snippets( webapp, webdriver ):
         add_vo( webdriver, vo_type, 1, "another german {}".format(vo_type) )
         btn = find_child( "button[data-id='ob_{}_1']".format( vo_type ) )
         btn.click()
+        caps = '"QSU"'
+        if vo_type == "vehicles":
+            caps += ' "cs 4 <small><i>(brew up)</i></small>"'
         expected = [
             '[German] ; width=',
             '[*] another german {}: #=2'.format( vo_type0 ),
-            '- capabilities: "QSU"',
-            '- raw capabilities: "QSU"'
+            '- capabilities: {}'.format( caps ),
+            '- raw capabilities: {}'.format( caps ),
         ]
-        if vo_type == "vehicles":
-            expected.insert( 2, '- cs 4 <small><i>(brew up)</i></small>' )
         wait_for_clipboard( 2, "\n".join(expected) )
         delete_vo( vo_type, 1, "another german {}".format(vo_type0), webdriver )
 
@@ -174,10 +176,13 @@ def test_snippets( webapp, webdriver ):
         add_vo( webdriver, vo_type, 1, "name only" )
         btn = find_child( "button[data-id='ob_{}_1']".format( vo_type ) )
         btn.click()
-        wait_for_clipboard( 2, \
-'''[German] ; width=
-[*] name only: #='''
-        )
+        expected = [
+            '[German] ; width=',
+            '[*] name only: #=',
+            '- capabilities:',
+            '- raw capabilities:',
+        ]
+        wait_for_clipboard( 2, "\n".join(expected) )
 
     # do the test
     do_test( "vehicles" )
@@ -206,17 +211,17 @@ def test_variable_capabilities( webapp, webdriver ):
             mo = re.search( r"^- capabilities: (.*)$", clipboard, re.MULTILINE )
             return mo.group( 1 )
         wait_for_clipboard( 2, expected, transform=reformat )
-    do_test( 1, 1940, '"sM8\u2020"' )
-    do_test( 1, 1943, '"sM8\u2020"' )
-    do_test( 2, 1943, '"HE7\u2020" "sM8\u2020"' )
-    do_test( 12, 1943, '"HE7\u2020" "sM8\u2020"' )
-    do_test( 1, 1944, '"HE8\u2020" "sD6" "sM8\u2020"' )
-    do_test( 5, 1944, '"HE8\u2020" "sD6" "sM8\u2020"' )
-    do_test( 6, 1944, '"D6\u2020" "HE8\u2020" "sD6" "sM8\u2020"' )
-    do_test( 12, 1944, '"D6\u2020" "HE8\u2020" "sD6" "sM8\u2020"' )
-    do_test( 1, 1945, '"D7\u2020" "HE8\u2020" "sD6" "sM8\u2020"' )
-    do_test( 12, 1945, '"D7\u2020" "HE8\u2020" "sD6" "sM8\u2020"' )
-    do_test( 1, 1946, '"D7\u2020" "HE8\u2020" "sD6" "sM8\u2020"' )
+    do_test( 1, 1940, '"sM8\u2020" "CS 7"' )
+    do_test( 1, 1943, '"sM8\u2020" "CS 7"' )
+    do_test( 2, 1943, '"HE7\u2020" "sM8\u2020" "CS 7"' )
+    do_test( 12, 1943, '"HE7\u2020" "sM8\u2020" "CS 7"' )
+    do_test( 1, 1944, '"HE8\u2020" "sD6" "sM8\u2020" "CS 7"' )
+    do_test( 5, 1944, '"HE8\u2020" "sD6" "sM8\u2020" "CS 7"' )
+    do_test( 6, 1944, '"D6\u2020" "HE8\u2020" "sD6" "sM8\u2020" "CS 7"' )
+    do_test( 12, 1944, '"D6\u2020" "HE8\u2020" "sD6" "sM8\u2020" "CS 7"' )
+    do_test( 1, 1945, '"D7\u2020" "HE8\u2020" "sD6" "sM8\u2020" "CS 7"' )
+    do_test( 12, 1945, '"D7\u2020" "HE8\u2020" "sD6" "sM8\u2020" "CS 7"' )
+    do_test( 1, 1946, '"D7\u2020" "HE8\u2020" "sD6" "sM8\u2020" "CS 7"' )
 
 # ---------------------------------------------------------------------
 
@@ -578,6 +583,103 @@ def test_vo_images( webapp, webdriver, monkeypatch ): #pylint: disable=too-many-
     check_sortable2_entries( 2, [
         ( "/counter/1555/front/1", "br/v:115", [1555,1] )
     ] )
+
+# ---------------------------------------------------------------------
+
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_mods, #pylint: disable=no-member
+    reason = "--vasl-mods not specified"
+    ) #pylint: disable=too-many-statements
+def test_change_vo_image( webapp, webdriver, monkeypatch ):
+    """Test changing a V/O image."""
+
+    # initialize
+    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
+    load_vasl_mod( REAL_DATA_DIR, monkeypatch )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
+
+    # add an ISU-152
+    add_vo( webdriver, "vehicles", 2, "ISU-152 (AG)" )
+
+    # save the scenario
+    saved_scenario = save_scenario()
+    assert saved_scenario["OB_VEHICLES_2"] ==  [ { "id": "ru/v:049", "name": "ISU-152" } ]
+
+    # change the vehicle's image
+    vehicles_sortable = find_child( "#ob_vehicles-sortable_2" )
+    elems = find_children( "li", vehicles_sortable )
+    assert len(elems) == 1
+    ActionChains(webdriver).double_click( elems[0] ).perform()
+    img = find_child( "#edit-vo img.vasl-image" )
+    assert img.get_attribute( "src" ).endswith( "/counter/657/front" )
+    btn = find_child( "#edit-vo input.select-vo-image" )
+    btn.click()
+    images = find_children( ".ui-dialog.select-vo-image .vo-images img" )
+    assert len(images) == 2
+    images[1].click()
+    assert img.get_attribute( "src" ).endswith( "/counter/659/front/0" )
+    click_dialog_button( "OK" )
+    elems = find_children( "img.vasl-image", vehicles_sortable )
+    assert len(elems) == 1
+    assert elems[0].get_attribute( "src" ).endswith( "/counter/659/front/0" )
+
+    # save the scenario
+    saved_scenario = save_scenario()
+    assert saved_scenario["OB_VEHICLES_2"] ==  [ { "id": "ru/v:049", "image_id": "659/0", "name": "ISU-152" } ]
+
+    # reload the scenario, and check the vehicle's image
+    select_menu_option( "new_scenario" )
+    load_scenario( saved_scenario )
+    select_tab( "ob2" )
+    elems = find_children( "img.vasl-image", vehicles_sortable )
+    assert len(elems) == 1
+    assert elems[0].get_attribute( "src" ).endswith( "/counter/659/front/0" )
+
+    # change the vehicle's image back to the default
+    elems = find_children( "li", vehicles_sortable )
+    assert len(elems) == 1
+    ActionChains(webdriver).double_click( elems[0] ).perform()
+    img = find_child( "#edit-vo img.vasl-image" )
+    assert img.get_attribute( "src" ).endswith( "/counter/659/front/0" )
+    btn = find_child( "#edit-vo input.select-vo-image" )
+    btn.click()
+    images = find_children( ".ui-dialog.select-vo-image .vo-images img" )
+    assert len(images) == 2
+    images[0].click()
+    assert img.get_attribute( "src" ).endswith( "/counter/657/front/0" )
+    click_dialog_button( "OK" )
+    elems = find_children( "img.vasl-image", vehicles_sortable )
+    assert len(elems) == 1
+    assert elems[0].get_attribute( "src" ).endswith( "/counter/657/front/0" )
+
+    # save the scenario
+    saved_scenario = save_scenario()
+    assert saved_scenario["OB_VEHICLES_2"] ==  [ { "id": "ru/v:049", "image_id": "657/0", "name": "ISU-152" } ]
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_mods, #pylint: disable=no-member
+    reason = "--vasl-mods not specified"
+)
+def test_change_vo_image2( webapp, webdriver, monkeypatch ):
+    """Test changing the image for a V/O that has no alternative images."""
+
+    # initialize
+    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
+    load_vasl_mod( REAL_DATA_DIR, monkeypatch )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
+
+    # add an 107mm GVPM
+    add_vo( webdriver, "ordnance", 2, "107mm GVPM obr. 38 (MTR)" )
+
+    # make sure the "change image" button is not present
+    ordnance_sortable = find_child( "#ob_ordnance-sortable_2" )
+    elems = find_children( "li", ordnance_sortable )
+    assert len(elems) == 1
+    ActionChains(webdriver).double_click( elems[0] ).perform()
+    btn = find_child( "#edit-vo input.select-vo-image" )
+    assert btn is None
 
 # ---------------------------------------------------------------------
 

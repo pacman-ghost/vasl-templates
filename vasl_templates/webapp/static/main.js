@@ -147,17 +147,21 @@ $(document).ready( function () {
     // initialize the OB vehicles
     $("#ob_vehicles-sortable_1").sortable2( "init", {
         add: function() { add_vo( "vehicles", 1 ) ; },
+        edit: function( $sortable2, $entry ) { edit_ob_vehicle( $entry, 1 ) ; },
     } ) ;
     $("#ob_vehicles-sortable_2").sortable2( "init", {
         add: function() { add_vo( "vehicles", 2 ) ; },
+        edit: function( $sortable2, $entry ) { edit_ob_vehicle( $entry, 2 ) ; },
     } ) ;
 
     // initialize the OB ordnance
     $("#ob_ordnance-sortable_1").sortable2( "init", {
         add: function() { add_vo( "ordnance", 1 ) ; },
+        edit: function( $sortable2, $entry ) { edit_ob_ordnance( $entry, 1 ) ; },
     } ) ;
     $("#ob_ordnance-sortable_2").sortable2( "init", {
         add: function() { add_vo( "ordnance", 2 ) ; },
+        edit: function( $sortable2, $entry ) { edit_ob_ordnance( $entry, 2 ) ; },
     } ) ;
 
     // handle ENTER and double-clicks in the "select vehicle/ordnance" dialog
