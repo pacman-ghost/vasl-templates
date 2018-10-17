@@ -6,19 +6,22 @@ function edit_ob_ordnance( $entry, player_no ) { _do_edit_ob_vo( $entry, player_
 
 function _do_edit_ob_vo( $entry, player_no, vo_type )
 {
+    function get_default_capabilities( show_warnings ) {
+        return make_capabilities(
+            false,
+            vo_entry,
+            params[ "PLAYER_"+player_no ],
+            params.SCENARIO_THEATER, params.SCENARIO_YEAR, params.SCENARIO_MONTH,
+            show_warnings
+        ) ;
+    }
+
     // get the vehicle/ordnance's capabilities
     var params = unload_snippet_params( true, false ) ;
     var vo_entry = $entry.data( "sortable2-data" ).vo_entry ;
-    var default_capabilities = make_capabilities(
-        false,
-        vo_entry,
-        params[ "PLAYER_"+player_no ],
-        params.SCENARIO_THEATER, params.SCENARIO_YEAR, params.SCENARIO_MONTH,
-        true
-    ) ;
     var capabilities = $entry.data( "sortable2-data" ).custom_capabilities ;
     if ( ! capabilities )
-        capabilities = default_capabilities.slice() ;
+        capabilities = get_default_capabilities( true ).slice() ;
 
     // load the dialog
     var vo_image_id = $entry.data( "sortable2-data" ).vo_image_id ;
@@ -110,7 +113,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
                         capabilities.push( val ) ;
                 } ) ;
                 if ( capabilities.length > 0 ) {
-                    if ( capabilities.join() !== default_capabilities.join() )
+                    if ( capabilities.join() !== get_default_capabilities( false ).join() )
                         $entry.data( "sortable2-data" ).custom_capabilities = capabilities ;
                     else {
                         // the capabilities are the same as the default - no need to retain these custom settings
