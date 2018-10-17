@@ -8,10 +8,11 @@ from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import \
     init_webapp, select_menu_option, select_tab, click_dialog_button, \
-    find_child, find_children, wait_for_clipboard
+    load_vasl_mod, find_child, find_children, wait_for_clipboard
 from vasl_templates.webapp.tests.test_vo_reports import get_vo_report
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
+from vasl_templates.webapp.config.constants import DATA_DIR as REAL_DATA_DIR
 
 # ---------------------------------------------------------------------
 
@@ -531,6 +532,138 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     saved_scenario = save_scenario()
     assert len(saved_scenario["OB_VEHICLES_1"]) == 1
     assert "custom_capabilities" not in saved_scenario["OB_VEHICLES_1"][0]
+
+# ---------------------------------------------------------------------
+
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_mods, #pylint: disable=no-member
+    reason = "--vasl-mods not specified"
+    ) #pylint: disable=too-many-statements
+def test_capability_updates_in_ui( webapp, webdriver, monkeypatch ):
+    """Ensure that capabilities are updated in the UI correctly."""
+
+    # initialize
+    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
+    load_vasl_mod( REAL_DATA_DIR, monkeypatch )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
+
+    # load the scenario
+    scenario_data = {
+        "PLAYER_1": "german",
+        "OB_VEHICLES_1": [ { "name": "PzKpfw 38(t)A" } ], # A4[1]/5[2] ; sD6 ; CS 4
+        "OB_ORDNANCE_1": [ { "name": "3.7cm PaK 35/36" } ], # NT ; QSU ; A4[1]/5[2]/4[3]/3[4] ; H6[9]†
+        "PLAYER_2": "russian",
+        "OB_VEHICLES_2": [ { "name": "Churchill III(b)" } ], # D6[J4]/7[5]† ; HE7[F3]/8[4+]† ; sD6[4+] ; sM8† ; CS 7
+        "OB_ORDNANCE_2": [ { "name": "45mm PTP obr. 32" } ], # NT ; QSU ; A4[2]/5[3]/6[4]/7[5]
+    }
+    scenario_data["OB_VEHICLES_1"].append( { "name": "PzJg I" } ) # A5[1]; HE7 ; CS 3
+    load_scenario( scenario_data )
+
+    sortables = [
+        find_child( "#ob_vehicles-sortable_1" ),
+        find_child( "#ob_ordnance-sortable_1" ),
+        find_child( "#ob_vehicles-sortable_2" ),
+        find_child( "#ob_ordnance-sortable_2" ),
+    ]
+    def check_capabilities( scenario_date, expected ):
+        """Get the vehicle/ordnance capabilities from the UI."""
+        # set the scenario date
+        if scenario_date:
+            elem = find_child( "input[name='SCENARIO_DATE']" )
+            elem.clear()
+            elem.send_keys( scenario_date )
+            elem.send_keys( Keys.TAB )
+        # check the vehicle/ordnance capabilities
+        results = []
+        for sortable in sortables:
+            results.append( [] )
+            vo_entries = find_children( "li", sortable )
+            for vo_entry in vo_entries:
+                capabilities = find_children( "span.vo-capability", vo_entry )
+                results[-1].append( [ c.get_attribute("innerHTML") for c in capabilities ] )
+        assert results == expected
+
+    # no scenario date => we should be showing the raw capabilities
+    check_capabilities( None, [
+        [
+            [ "A4<sup>1</sup>5<sup>2</sup>", "sD6", "CS 4" ],
+            [ "A5<sup>1</sup>", "HE7", "CS 3" ]
+        ],
+        [ [ "NT", "QSU", "A4<sup>1</sup>5<sup>2</sup>4<sup>3</sup>3<sup>4</sup>", "H6[9]\u2020" ] ],
+        [ [ "D6<sup>J4</sup>7<sup>5</sup>†", "HE7<sup>F3</sup>8<sup>4+</sup>\u2020", "sD6<sup>4+</sup>", "sM8\u2020", "CS 7" ] ], #pylint: disable=line-too-long
+        [ [ "NT", "QSU", "A4<sup>2</sup>5<sup>3</sup>6<sup>4</sup>7<sup>5</sup>" ] ]
+    ] )
+
+    # edit the PzJg I's capabilities (nb: this locks them in, and they should not change
+    # regardless of what the scenario date is set to)
+    select_tab( "ob1" )
+    vehicles_sortable = find_child( "#ob_vehicles-sortable_1" )
+    elems = find_children( "li", vehicles_sortable )
+    assert len(elems) == 2
+    ActionChains(webdriver).double_click( elems[1] ).perform()
+    elem = find_child( "#vo_capabilities-add" )
+    elem.click()
+    elems = find_children( "#vo_capabilities-sortable input[type='text']" )
+    assert len(elems) == 4
+    elems[3].send_keys( "foo!" )
+    click_dialog_button( "OK" )
+
+    # change the scenario date, check the capabilities
+    select_tab( "scenario" )
+    check_capabilities( "01/01/1940", [
+        [
+            [ "sD6", "CS 4" ],
+            [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
+        ],
+        [ [ "NT", "QSU", "H6[9]\u2020" ] ],
+        [ [ "sM8\u2020", "CS 7" ] ],
+        [ [ "NT", "QSU" ] ]
+    ] )
+    check_capabilities( "01/01/1941", [
+        [
+            [ "A4", "sD6", "CS 4" ] ,
+            [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
+        ],
+        [ [ "NT", "QSU", "A4", "H6[9]\u2020" ] ],
+        [ [ "sM8\u2020", "CS 7" ] ],
+        [ [ "NT", "QSU" ] ]
+    ] )
+    check_capabilities( "01/01/1942", [
+        [
+            [ "A5", "sD6", "CS 4" ],
+            [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
+        ],
+        [ [ "NT", "QSU", "A5", "H6[9]\u2020" ] ],
+        [ [ "sM8\u2020", "CS 7" ] ],
+        [ [ "NT", "QSU", "A4" ] ]
+    ] )
+    check_capabilities( "01/01/1943", [
+        [
+            [ "A5", "sD6", "CS 4" ],
+            [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
+        ],
+        [ [ "NT", "QSU", "A4", "H6[9]\u2020" ] ],
+        [ [ "sM8\u2020", "CS 7" ] ],
+        [ [ "NT", "QSU", "A5" ] ]
+    ] )
+    check_capabilities( "01/01/1944", [
+        [
+            [ "A5", "sD6", "CS 4" ],
+            [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
+        ],
+        [ [ "NT", "QSU", "A3", "H6[9]\u2020" ] ],
+        [ [ "HE8\u2020", "sD6", "sM8\u2020", "CS 7" ] ],
+        [ [ "NT", "QSU", "A6" ] ]
+    ] )
+    check_capabilities( "01/01/1945", [
+        [
+            [ "A5", "sD6", "CS 4" ],
+            [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
+        ],
+        [ [ "NT", "QSU", "A3", "H6[9]\u2020" ] ],
+        [ [ "D7\u2020", "HE8\u2020", "sD6", "sM8\u2020", "CS 7" ] ],
+        [ [ "NT", "QSU", "A7" ] ]
+    ] )
 
 # ---------------------------------------------------------------------
 

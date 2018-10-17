@@ -9,7 +9,8 @@ from selenium.webdriver.support.ui import Select
 from vasl_templates.webapp.config.constants import APP_NAME
 from vasl_templates.webapp.tests.utils import \
     init_webapp, get_nationality_display_name, load_scenario_params, select_tab, select_menu_option, \
-    get_sortable_entry_text, get_stored_msg, set_stored_msg, set_stored_msg_marker, find_child, find_children, wait_for
+    get_sortable_entry_text, get_sortable_vo_names, get_stored_msg, set_stored_msg, set_stored_msg_marker, \
+    find_child, find_children, wait_for
 
 # this table lists all parameters stored in a scenario
 ALL_SCENARIO_PARAMS = {
@@ -181,13 +182,13 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     assert get_sortable_entry_text(ob_setups1) == [ obs["caption"] for obs in SCENARIO_PARAMS["ob1"]["OB_SETUPS_1"] ]
     assert get_sortable_entry_text(ob_notes1) == [ obs["caption"] for obs in SCENARIO_PARAMS["ob1"]["OB_NOTES_1"] ]
     # NOTE: We deleted the "id" fields above, so we rely on the legacy handling of loading by name :-/
-    assert get_sortable_entry_text(vehicles1) == SCENARIO_PARAMS["ob1"]["OB_VEHICLES_1"]
-    assert get_sortable_entry_text(ordnance1) == SCENARIO_PARAMS["ob1"]["OB_ORDNANCE_1"]
+    assert get_sortable_vo_names(vehicles1) == SCENARIO_PARAMS["ob1"]["OB_VEHICLES_1"]
+    assert get_sortable_vo_names(ordnance1) == SCENARIO_PARAMS["ob1"]["OB_ORDNANCE_1"]
     select_tab( "ob2" )
     assert get_sortable_entry_text(ob_setups2) == [ obs["caption"] for obs in SCENARIO_PARAMS["ob2"]["OB_SETUPS_2"] ]
     assert get_sortable_entry_text(ob_notes2) == [ obs["caption"] for obs in SCENARIO_PARAMS["ob2"]["OB_NOTES_2"] ]
-    assert get_sortable_entry_text(vehicles2) == SCENARIO_PARAMS["ob2"]["OB_VEHICLES_2"]
-    assert get_sortable_entry_text(ordnance2) == SCENARIO_PARAMS["ob2"]["OB_ORDNANCE_2"]
+    assert get_sortable_vo_names(vehicles2) == SCENARIO_PARAMS["ob2"]["OB_VEHICLES_2"]
+    assert get_sortable_vo_names(ordnance2) == SCENARIO_PARAMS["ob2"]["OB_ORDNANCE_2"]
 
 # ---------------------------------------------------------------------
 

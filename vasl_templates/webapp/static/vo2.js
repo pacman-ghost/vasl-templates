@@ -7,14 +7,14 @@ function edit_ob_ordnance( $entry, player_no ) { _do_edit_ob_vo( $entry, player_
 function _do_edit_ob_vo( $entry, player_no, vo_type )
 {
     // get the vehicle/ordnance's capabilities
-    var params = unload_snippet_params( true ) ;
+    var params = unload_snippet_params( true, false ) ;
     var vo_entry = $entry.data( "sortable2-data" ).vo_entry ;
     var default_capabilities = make_capabilities(
+        false,
         vo_entry,
         params[ "PLAYER_"+player_no ],
-        params.SCENARIO_THEATER,
-        params.SCENARIO_YEAR, params.SCENARIO_MONTH, false,
-        false
+        params.SCENARIO_THEATER, params.SCENARIO_YEAR, params.SCENARIO_MONTH,
+        true
     ) ;
     var capabilities = $entry.data( "sortable2-data" ).custom_capabilities ;
     if ( ! capabilities )
@@ -124,7 +124,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
                     delete $entry.data( "sortable2-data" ).custom_capabilities ;
                 }
                 // update the original V/O entry to reflect the changes
-                $entry.find( "img.vasl-image" ).attr( "src", $img.attr("src") ) ;
+                update_vo_sortable2_entry( $entry ) ;
                 $(this).dialog( "close" ) ;
             },
             Cancel: function() { $(this).dialog( "close" ) ; },

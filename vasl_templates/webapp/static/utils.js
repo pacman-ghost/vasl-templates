@@ -17,10 +17,19 @@ function get_player_colors( player_no )
 function get_player_colors_for_element( $elem )
 {
     // get the player colors (if any) for the specified element
+    var player_no = get_player_no_for_element(  $elem ) ;
+    if ( player_no === null )
+        return null ;
+    return get_player_colors( player_no ) ;
+}
+
+function get_player_no_for_element( $elem )
+{
+    // get the player colors (if any) for the specified element
     if ( $.contains( $("#tabs-ob1")[0], $elem[0] ) )
-        return get_player_colors( 1 ) ;
-    else if ( $.contains( $("#tabs-ob2")[0], $elem[0] ) )
-        return get_player_colors( 2 ) ;
+        return 1 ;
+    if ( $.contains( $("#tabs-ob2")[0], $elem[0] ) )
+        return 2 ;
     return null ;
 }
 

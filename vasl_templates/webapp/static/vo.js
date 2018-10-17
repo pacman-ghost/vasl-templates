@@ -127,14 +127,13 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, custom_capabiliti
     // NOTE: We set a fixed height for the sortable2 entries (based on the CSS settings in tabs-ob.css),
     // so that the vehicle/ordnance images won't get truncated if there are a lot of them.
     var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
-    var div_tag = "<div" ;
-    var fixed_height = "3.75em" ;
+    var div_tag = "<div class='vo-entry" ;
+    var fixed_height = "3.25em" ;
     if ( is_small_vasl_piece( vo_entry ) ) {
-        div_tag += " class='small-piece'" ;
-        fixed_height = "2.5em" ;
+        div_tag += " small-piece" ;
+        fixed_height = "2.25em" ;
     }
-    div_tag += ">" ;
-    var url = get_vo_image_url( vo_entry, vo_image_id, true ) ;
+    div_tag += "'>" ;
     var data = {
         caption: vo_entry.name,
         vo_entry: vo_entry,
@@ -143,10 +142,49 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, custom_capabiliti
     } ;
     if ( custom_capabilities )
         data.custom_capabilities = custom_capabilities ;
-    $sortable2.sortable2( "add", {
-        content: $( div_tag + "<img src='"+url+"' class='vasl-image'>" + vo_entry.name + "</div>" ),
+    var buf = [ div_tag,
+        "<img class='vasl-image'>",
+        "<div class='detail'>",
+            "<div class='vo-name'></div>",
+            "<div class='vo-capabilities'></div>",
+        "</div>",
+    "</div>" ] ;
+    var $entry = $sortable2.sortable2( "add", {
+        content: $( buf.join("") ),
         data: data,
     } ) ;
+    update_vo_sortable2_entry( $entry ) ;
+}
+
+function update_vo_sortable2_entry( $entry, snippet_params )
+{
+    // initialize
+    if ( ! snippet_params )
+        snippet_params = unload_snippet_params( true, false ) ;
+    var vo_entry = $entry.data( "sortable2-data" ).vo_entry ;
+    var vo_image_id = $entry.data( "sortable2-data" ).vo_image_id ;
+    var capabilities = $entry.data( "sortable2-data" ).custom_capabilities ;
+    if ( capabilities )
+        capabilities = capabilities.slice() ;
+    else {
+        var player_no = get_player_no_for_element( $entry ) ;
+        capabilities = make_capabilities(
+            false,
+            vo_entry,
+            snippet_params[ "PLAYER_"+player_no ],
+            snippet_params.SCENARIO_THEATER, snippet_params.SCENARIO_YEAR, snippet_params.SCENARIO_MONTH,
+            false
+        ) ;
+    }
+
+    // update the vehicle/ordnance's sortable2 entry
+    var url = get_vo_image_url( vo_entry, vo_image_id, true ) ;
+    var $content = $entry.children( ".vo-entry" ) ;
+    $content.find( "img.vasl-image" ).attr( "src", url ) ;
+    $content.find( "div.vo-name" ).html( vo_entry.name ) ;
+    for ( var i=0 ; i < capabilities.length ; ++i )
+        capabilities[i] = "<span class='vo-capability'>" + capabilities[i] + "</span>" ;
+    $content.find( "div.vo-capabilities" ).html( capabilities.join("") ) ;
 }
 
 // --------------------------------------------------------------------

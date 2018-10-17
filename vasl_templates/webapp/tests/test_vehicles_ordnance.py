@@ -14,7 +14,7 @@ from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario,
 from vasl_templates.webapp.tests.utils import \
     init_webapp, load_vasl_mod, get_nationalities, select_tab, set_template_params, find_child, find_children, \
     wait_for_clipboard, click_dialog_button, select_menu_option, select_droplist_val, \
-    set_stored_msg_marker, get_stored_msg
+    set_stored_msg_marker, get_stored_msg, get_sortable_vo_names
 from vasl_templates.webapp.config.constants import DATA_DIR as REAL_DATA_DIR
 
 # ---------------------------------------------------------------------
@@ -255,9 +255,8 @@ def test_html_names( webapp, webdriver, monkeypatch ):
     elem.send_keys( Keys.RETURN )
 
     # make sure it was added to the player's OB
-    entries = find_children( "#ob_vehicles-sortable_1 li" )
-    entries = [ e.text for e in entries ]
-    assert entries == [ "PzKpfw IVF2" ]
+    vehicles_sortable = find_child( "#ob_vehicles-sortable_1" )
+    assert get_sortable_vo_names( vehicles_sortable ) == [ "PzKpfw IVF2" ]
 
     # start to add another vehicle - make sure only the PzKw IVF1 is present
     add_vehicle_btn.click()
@@ -269,9 +268,7 @@ def test_html_names( webapp, webdriver, monkeypatch ):
     elem.send_keys( Keys.RETURN )
 
     # make sure it was added to the player's OB
-    entries = find_children( "#ob_vehicles-sortable_1 li" )
-    entries = [ e.text for e in entries ]
-    assert entries == [ "PzKpfw IVF2", "PzKpfw IVF1" ]
+    assert get_sortable_vo_names( vehicles_sortable ) == [ "PzKpfw IVF2", "PzKpfw IVF1" ]
 
     # start to add another vehicle - make sure there are no PzKw IVF's present
     add_vehicle_btn.click()
@@ -736,8 +733,9 @@ def delete_vo( vo_type, player_no, name, webdriver ):
 
     # delete the vehicle/ordnance
     select_tab( "ob{}".format( player_no ) )
+    sortable = find_child( "#ob_{}-sortable_{}".format( vo_type, player_no ) )
     elems = [
-        c for c in find_children( "#ob_{}-sortable_{} li".format( vo_type, player_no ) )
+        c for c in find_children( "li .vo-name", sortable )
         if c.text == name
     ]
     assert len(elems) == 1

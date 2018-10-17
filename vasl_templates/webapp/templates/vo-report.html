@@ -68,9 +68,9 @@ function load_vo_listings( objs )
             continue ;
         buf.push( "<tr>" ) ;
         buf.push( "<td>", fmtval(obj.name) ) ;
-        var capabilities = make_capabilities( obj, nat, theater, year, month, true, true ) ;
+        var capabilities = make_capabilities( true, obj, nat, theater, year, month, true ) ;
         buf.push( "<td>", listval(capabilities) ) ;
-        var capabilities = make_capabilities( obj, nat, theater, year, month, true, false ) ;
+        var capabilities = make_capabilities( false, obj, nat, theater, year, month, true ) ;
         buf.push( "<td>", listval(capabilities) ) ;
         buf.push( "<td>", "<span class='val'>" + fmtval(obj.note_number) + "</span>" ) ;
         buf.push( "<td>", listval(obj.notes) ) ;

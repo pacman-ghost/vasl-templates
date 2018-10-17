@@ -203,7 +203,7 @@ def set_template_params( params ): #pylint: disable=too-many-branches
             if val:
                 elem.send_keys( val )
                 if key == "SCENARIO_DATE":
-                    elem.send_keys( Keys.ESCAPE ) # nb: force the calendar popup to close :-/
+                    elem.send_keys( Keys.TAB ) # nb: force the calendar popup to close :-/
                     wait_for( 5, lambda: find_child("#ui-datepicker-div").value_of_css_property("display") == "none" )
                     time.sleep( 0.25 )
 
@@ -266,6 +266,10 @@ def get_sortable_entry_text( sortable ):
 def get_sortable_entry_count( sortable ):
     """Return the number of entries in a sortable."""
     return len( find_children( "li", sortable ) )
+
+def get_sortable_vo_names( sortable ):
+    """Return the vehicle/ordnance names from a sortable."""
+    return [ c.text for c in find_children("li .vo-name",sortable) ]
 
 def generate_sortable_entry_snippet( sortable, entry_no ):
     """Generate the snippet for a sortable entry."""

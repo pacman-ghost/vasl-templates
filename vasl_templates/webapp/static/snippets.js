@@ -24,7 +24,7 @@ function generate_snippet( $btn, extra_params )
 {
     // unload the template parameters
     var template_id = $btn.data( "id" ) ;
-    var params = unload_snippet_params( true ) ;
+    var params = unload_snippet_params( true, true ) ;
 
     // set player-specific parameters
     var curr_tab = $("#tabs .ui-tabs-active a").attr( "href" ) ;
@@ -176,12 +176,12 @@ function generate_snippet( $btn, extra_params )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function unload_snippet_params( check_date_capabilities )
+function unload_snippet_params( unpack_scenario_date, show_warnings )
 {
     var params = {} ;
 
     // extract the scenario date components
-    if ( check_date_capabilities ) {
+    if ( unpack_scenario_date ) {
         var scenario_date = $( "input[name='SCENARIO_DATE']" ).datepicker( "getDate" ) ;
         if ( scenario_date ) {
             params.SCENARIO_DAY_OF_MONTH = scenario_date.getDate() ;
@@ -241,22 +241,22 @@ function unload_snippet_params( check_date_capabilities )
                 obj.capabilities = capabilities ;
                 obj.custom_capabilities = capabilities.slice() ;
             } else {
+                // NOTE: We don't show warnings here; if there's something wrong,
+                // we will show the warnings when we make the raw capabilities.
                 capabilities = make_capabilities(
-                    vo_entry,
-                    nat,
-                    params.SCENARIO_THEATER,
-                    params.SCENARIO_YEAR, params.SCENARIO_MONTH, check_date_capabilities,
+                    false,
+                    vo_entry, nat,
+                    params.SCENARIO_THEATER, params.SCENARIO_YEAR, params.SCENARIO_MONTH,
                     false
                 ) ;
                 if ( capabilities )
                     obj.capabilities = capabilities ;
             }
             capabilities = make_capabilities(
-                vo_entry,
-                nat,
-                params.SCENARIO_THEATER,
-                params.SCENARIO_YEAR, params.SCENARIO_MONTH, check_date_capabilities,
-                true
+                true,
+                vo_entry, nat,
+                params.SCENARIO_THEATER, params.SCENARIO_YEAR, params.SCENARIO_MONTH,
+                show_warnings
             ) ;
             if ( capabilities )
                 obj.raw_capabilities = capabilities ;
@@ -275,7 +275,7 @@ function unload_snippet_params( check_date_capabilities )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function make_capabilities( vo_entry, nat, scenario_theater, scenario_year, scenario_month, check_date_capabilities, raw )
+function make_capabilities( raw, vo_entry, nat, scenario_theater, scenario_year, scenario_month, show_warnings )
 {
     var capabilities = [] ;
 
@@ -347,7 +347,7 @@ function make_capabilities( vo_entry, nat, scenario_theater, scenario_year, scen
             }
         }
         // check if there were any capabilities not set
-        if ( check_date_capabilities && indeterminate_caps.length > 0 ) {
+        if ( show_warnings && indeterminate_caps.length > 0 ) {
             showWarningMsg( makeBulletListMsg(
                 "Can't determine capabilities without a scenario year:",
                 indeterminate_caps
@@ -893,7 +893,7 @@ function unload_params_for_save()
     }
 
     // unload the template parameters
-    var params = unload_snippet_params( false ) ;
+    var params = unload_snippet_params( false, false ) ;
     params.SCENARIO_NOTES = $("#scenario_notes-sortable").sortable2( "get-entry-data" ) ;
     params.OB_SETUPS_1 = $("#ob_setups-sortable_1").sortable2( "get-entry-data" ) ;
     params.OB_SETUPS_2 = $("#ob_setups-sortable_2").sortable2( "get-entry-data" ) ;
@@ -1173,7 +1173,6 @@ function is_atmm_available() { return _is_scenario_after( 0, 1944 ) ; }
 
 function on_scenario_date_change()
 {
-    // update the UI
     // NOTE: We update the visual appearance of the buttons to indicate whether
     // the support weapons are available, but leave the buttons active since
     // the date restrictions are not strict, and the SW are sometimes available
@@ -1189,6 +1188,17 @@ function on_scenario_date_change()
     update_ui( "psk", is_psk_available() ) ;
     update_ui( "baz", is_baz_available() ) ;
     update_ui( "atmm", is_atmm_available() ) ;
+
+    var snippet_params = unload_snippet_params( true, false ) ;
+    function update_vo( $sortable2 ) {
+        $sortable2.children( "li" ).each( function() {
+            update_vo_sortable2_entry( $(this), snippet_params ) ;
+        } ) ;
+    }
+    for ( var player_no=1 ; player_no <= 2 ; ++player_no ) {
+        update_vo( $( "#ob_vehicles-sortable_" + player_no ) ) ;
+        update_vo( $( "#ob_ordnance-sortable_" + player_no ) ) ;
+    }
 }
 
 // --------------------------------------------------------------------
