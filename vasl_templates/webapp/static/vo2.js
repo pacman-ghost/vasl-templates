@@ -65,6 +65,13 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
         } ) ;
     }
 
+    function on_reset_capabilities() {
+        $capabilities.sortable2( "delete-all" ) ;
+        var capabilities = get_default_capabilities() ;
+        for ( var i=0 ; i < capabilities.length ; ++i )
+            add_capability( capabilities[i] ) ;
+    }
+
     // show the dialog
     var $dlg = $( "#edit-vo" ).dialog( {
         dialogClass: "edit-vo",
@@ -81,6 +88,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
                     $elem.find( "input[type='text']" ).focus() ;
                     $elem[0].scrollIntoView() ;
                 },
+                reset: on_reset_capabilities,
                 no_confirm_delete: true,
             } ) ;
         },
@@ -112,18 +120,10 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
                     if ( val )
                         capabilities.push( val ) ;
                 } ) ;
-                if ( capabilities.length > 0 ) {
-                    if ( capabilities.join() !== get_default_capabilities( false ).join() )
-                        $entry.data( "sortable2-data" ).custom_capabilities = capabilities ;
-                    else {
-                        // the capabilities are the same as the default - no need to retain these custom settings
-                        delete $entry.data( "sortable2-data" ).custom_capabilities ;
-                    }
-                } else {
-                    // NOTE: We treat "no capabilities" as meaning "revert back to the default capabilities".
-                    // This means that the user can never have a V/O that actually has no capabilities, but then
-                    // why would they want to include that V/O in a label in the scenario? :shrug: If they
-                    // really want it there, they can always include a dummy capability of "none" or "-"...
+                if ( capabilities.join() !== get_default_capabilities( false ).join() )
+                    $entry.data( "sortable2-data" ).custom_capabilities = capabilities ;
+                else {
+                    // the capabilities are the same as the default - no need to retain these custom settings
                     delete $entry.data( "sortable2-data" ).custom_capabilities ;
                 }
                 // update the original V/O entry to reflect the changes

@@ -445,7 +445,7 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     def extract_capabilities( clipboard ):
         """Extract the capabilities."""
         mo = re.search( r"^- capabilities: (.*)$", clipboard, re.MULTILINE )
-        return mo.group(1)
+        return mo.group(1) if mo else ""
     def check_snippet( expected ):
         """Check the vehicle's snippet."""
         snippet_btn.click()
@@ -503,18 +503,34 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     ActionChains(webdriver).double_click( elems[0] ).perform()
     elems = check_capabilities_in_dialog( [ "QSU (modified)", "a <i>new</i> capability" ] )
 
-    # delete all capabilities (this will revert the capabilities back to default)
+    # delete all capabilities
     for elem in elems:
         ActionChains(webdriver).key_down( Keys.CONTROL ).click( elem ).key_up( Keys.CONTROL ).perform()
     click_dialog_button( "OK" )
-    check_snippet( '"QSU" "cs 4 <small><i>(brew up)</i></small>"')
+    check_snippet( "" )
+
+    # save the scenario
+    saved_scenario2 = save_scenario()
+    assert len(saved_scenario2["OB_VEHICLES_1"]) == 1
+    assert saved_scenario2["OB_VEHICLES_1"][0]["custom_capabilities"] == []
+
+    # reload the scenario, and reset the vehicle's capabilities back to the default
+    load_scenario( saved_scenario )
+    select_tab( "ob1" )
+    elems = find_children( "li", vehicles_sortable )
+    assert len(elems) == 1
+    ActionChains(webdriver).double_click( elems[0] ).perform()
+    btn = find_child( "#vo_capabilities-reset" )
+    btn.click()
+    click_dialog_button( "OK" )
+    check_snippet( '"QSU" "cs 4 <small><i>(brew up)</i></small>"' )
 
     # make sure the custom capabilities are no longer saved in the scenario
     saved_scenario2 = save_scenario()
     assert len(saved_scenario2["OB_VEHICLES_1"]) == 1
     assert "custom_capabilities" not in saved_scenario2["OB_VEHICLES_1"][0]
 
-    # reload the scenario, and edit the vehicle's capabilities to be the default
+    # reload the scenario, and manually set the vehicle's capabilities to be the same as the default
     load_scenario( saved_scenario )
     select_tab( "ob1" )
     elems = find_children( "li", vehicles_sortable )

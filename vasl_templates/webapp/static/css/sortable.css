@@ -1,5 +1,7 @@
 button.sortable-add { vertical-align: top ; height: 30px ; padding: 4px 10px ; }
 img.sortable-add { vertical-align: middle ; height: 15px ; margin-right: 0.25em ; }
+button.sortable-reset { vertical-align: top ; height: 30px ; padding: 4px 10px ; }
+img.sortable-reset { vertical-align: middle ; height: 15px ; margin-right: 0.25em ; }
 
 .sortable { list-style-type: none ; margin: 0 ; padding: 0 ; }
 

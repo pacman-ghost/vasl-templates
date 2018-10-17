@@ -81,6 +81,15 @@ $.fn.sortable2 = function( action, args )
         var $add = find_helper( $sortable2, "add" ) ;
         $add.prop( "title", "Add a new " + display_name[0] )
             .click( args.add ) ;
+        if ( args.reset ) {
+            $sortable2.data( "on_reset", args.reset ) ;
+            var $reset_btn = find_helper( $sortable2, "reset" ) ;
+            $reset_btn.prepend( $( "<div><img src='" + gImagesBaseUrl + "/sortable-reset.png' class='sortable-reset'> Reset</div>" ) )
+                .addClass( "ui-button" ) ;
+            var $reset = find_helper( $sortable2, "reset" ) ;
+            $reset.prop( "title", "Reset the " + display_name[1] )
+                .click( args.reset ) ;
+        }
 
         // handle overflow when there are too many entries
         // NOTE: We do this by setting the height of the entry list fairly low; if there are
