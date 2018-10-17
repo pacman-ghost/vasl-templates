@@ -24,7 +24,7 @@ function generate_snippet( $btn, extra_params )
 {
     // unload the template parameters
     var template_id = $btn.data( "id" ) ;
-    var params = unload_snippet_params( true, true ) ;
+    var params = unload_snippet_params( true, template_id ) ;
 
     // set player-specific parameters
     var curr_tab = $("#tabs .ui-tabs-active a").attr( "href" ) ;
@@ -176,7 +176,7 @@ function generate_snippet( $btn, extra_params )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function unload_snippet_params( unpack_scenario_date, show_warnings )
+function unload_snippet_params( unpack_scenario_date, show_warnings_for )
 {
     var params = {} ;
 
@@ -210,7 +210,7 @@ function unload_snippet_params( unpack_scenario_date, show_warnings )
         params.SSR.push( data[i].caption ) ;
 
     // collect the vehicles/ordnance
-    function get_vo( vo_type, player_no, key ) {
+    function get_vo( vo_type, player_no, key, show_warnings ) {
         var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
         var objs = [] ;
         $sortable2.children( "li" ).each( function() {
@@ -265,10 +265,10 @@ function unload_snippet_params( unpack_scenario_date, show_warnings )
         if ( objs.length > 0 )
             params[key] = objs ;
     }
-    get_vo( "vehicles", 1, "OB_VEHICLES_1" ) ;
-    get_vo( "vehicles", 2, "OB_VEHICLES_2" ) ;
-    get_vo( "ordnance", 1, "OB_ORDNANCE_1" ) ;
-    get_vo( "ordnance", 2, "OB_ORDNANCE_2" ) ;
+    get_vo( "vehicles", 1, "OB_VEHICLES_1", show_warnings_for === "ob_vehicles_1" ) ;
+    get_vo( "vehicles", 2, "OB_VEHICLES_2", show_warnings_for === "ob_vehicles_2" ) ;
+    get_vo( "ordnance", 1, "OB_ORDNANCE_1", show_warnings_for === "ob_ordnance_1" ) ;
+    get_vo( "ordnance", 2, "OB_ORDNANCE_2", show_warnings_for === "ob_ordnance_2" ) ;
 
     return params ;
 }
@@ -289,9 +289,9 @@ function make_capabilities( raw, vo_entry, nat, scenario_theater, scenario_year,
         if ( typeof(vo_entry.no_if) === "string" ) { // nb: only for the French B1-bis :-/
             no_if = vo_entry.no_if ;
             if ( no_if.substring(no_if.length-1) == "\u2020" )
-                no_if = "no IF<sup>"+no_if.substring(0,no_if.length-1)+"</sup>\u2020" ;
+                no_if = "no IF<sup>" + no_if.substring(0,no_if.length-1) + "</sup>\u2020" ;
             else
-                no_if = "no IF<sup>"+no_if+"</sup>" ;
+                no_if = "no IF<sup>" + no_if + "</sup>" ;
         }
         capabilities.push( no_if ) ;
     }
@@ -349,21 +349,21 @@ function make_capabilities( raw, vo_entry, nat, scenario_theater, scenario_year,
         // check if there were any capabilities not set
         if ( show_warnings && indeterminate_caps.length > 0 ) {
             showWarningMsg( makeBulletListMsg(
-                "Can't determine capabilities without a scenario year:",
+                "Can't determine capabilities for " + vo_entry.name + " without a scenario year:",
                 indeterminate_caps
             ) ) ;
         }
         // check if there were any unexpected capabilities
         if ( unexpected_caps.length > 0 ) {
             showErrorMsg( makeBulletListMsg(
-                "Internal error: unexpected date-based capabilities:",
+                "Internal error (" + vo_entry.name + "): unexpected date-based capabilities:",
                 unexpected_caps
             ) ) ;
         }
         // check if there were any invalid capabilities
         if ( invalid_caps.length > 0 ) {
             showErrorMsg( makeBulletListMsg(
-                "Internal error: invalid date-based capabilities:",
+                "Internal error (" + vo_entry.name + "): invalid date-based capabilities:",
                 invalid_caps
             ) ) ;
         }
@@ -893,7 +893,7 @@ function unload_params_for_save()
     }
 
     // unload the template parameters
-    var params = unload_snippet_params( false, false ) ;
+    var params = unload_snippet_params( false, null ) ;
     params.SCENARIO_NOTES = $("#scenario_notes-sortable").sortable2( "get-entry-data" ) ;
     params.OB_SETUPS_1 = $("#ob_setups-sortable_1").sortable2( "get-entry-data" ) ;
     params.OB_SETUPS_2 = $("#ob_setups-sortable_2").sortable2( "get-entry-data" ) ;
@@ -1189,7 +1189,7 @@ function on_scenario_date_change()
     update_ui( "baz", is_baz_available() ) ;
     update_ui( "atmm", is_atmm_available() ) ;
 
-    var snippet_params = unload_snippet_params( true, false ) ;
+    var snippet_params = unload_snippet_params( true, null ) ;
     function update_vo( $sortable2 ) {
         $sortable2.children( "li" ).each( function() {
             update_vo_sortable2_entry( $(this), snippet_params ) ;

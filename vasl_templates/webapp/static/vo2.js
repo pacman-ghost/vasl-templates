@@ -17,7 +17,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
     }
 
     // get the vehicle/ordnance's capabilities
-    var params = unload_snippet_params( true, false ) ;
+    var params = unload_snippet_params( true, null ) ;
     var vo_entry = $entry.data( "sortable2-data" ).vo_entry ;
     var capabilities = $entry.data( "sortable2-data" ).custom_capabilities ;
     if ( ! capabilities )

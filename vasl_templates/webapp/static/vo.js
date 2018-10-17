@@ -160,7 +160,7 @@ function update_vo_sortable2_entry( $entry, snippet_params )
 {
     // initialize
     if ( ! snippet_params )
-        snippet_params = unload_snippet_params( true, false ) ;
+        snippet_params = unload_snippet_params( true, null ) ;
     var vo_entry = $entry.data( "sortable2-data" ).vo_entry ;
     var vo_image_id = $entry.data( "sortable2-data" ).vo_image_id ;
     var capabilities = $entry.data( "sortable2-data" ).custom_capabilities ;
