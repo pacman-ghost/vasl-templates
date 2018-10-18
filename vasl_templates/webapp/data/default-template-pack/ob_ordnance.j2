@@ -19,7 +19,7 @@ sup { font-size: 75% ; }
   padding: 2px 5px ;
   font-weight: bold ;
 ">
-    {{PLAYER_NAME}} Ordnance
+    {%if PLAYER_FLAG%}<img src="{{PLAYER_FLAG}}" height=15 width=15>&nbsp;{%endif%}{{PLAYER_NAME}} Ordnance
 
 {%for ord in OB_ORDNANCE%}
 <tr style="border-bottom:1px dotted #e0e0e0;">

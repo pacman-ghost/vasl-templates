@@ -2,6 +2,7 @@
 
 import os
 import json
+import re
 import zipfile
 
 from flask import jsonify, abort
@@ -85,3 +86,12 @@ def _do_get_template_pack( dname ):
                 if words[1] == ".j2":
                     templates[words[0]] = fp.read()
     return nationalities, templates
+
+# ---------------------------------------------------------------------
+
+@app.route( "/flags/<nat>" )
+def get_flag( nat ):
+    """Get a flag image."""
+    if not re.search( "^[-a-z]+$", nat ):
+        abort( 404 )
+    return app.send_static_file( "images/flags/{}.png".format( nat ) )

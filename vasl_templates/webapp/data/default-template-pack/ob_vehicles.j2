@@ -19,7 +19,7 @@ sup { font-size: 75% ; }
   padding: 2px 5px ;
   font-weight: bold ;
 ">
-    {{PLAYER_NAME}} Vehicles
+    {%if PLAYER_FLAG%}<img src="{{PLAYER_FLAG}}" height=15 width=15>&nbsp;{%endif%}{{PLAYER_NAME}} Vehicles
 
 {%for veh in OB_VEHICLES%}
 <tr style="border-bottom:1px dotted #e0e0e0;">

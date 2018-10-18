@@ -2,6 +2,7 @@ gUserSettings = Cookies.getJSON( "user-settings" ) || {} ;
 
 USER_SETTINGS = {
     "include-vasl-images-in-snippets": "checkbox",
+    "include-flags-in-snippets": "checkbox",
 } ;
 
 // --------------------------------------------------------------------
@@ -36,9 +37,10 @@ function user_settings()
     function update_ui() {
         // update the UI
         var $dlg = $( ".ui-dialog.user-settings" ) ;
-        var is_checked = $dlg.find( "input[name='include-vasl-images-in-snippets']" ).prop( "checked" ) ;
+        var is_server = $dlg.find( "input[name='include-vasl-images-in-snippets']" ).prop( "checked" ) ||
+                        $dlg.find( "input[name='include-flags-in-snippets']" ).prop( "checked" ) ;
         $dlg.find( ".include-vasl-images-in-snippets-hint" ).css(
-            "color", is_checked ? "#444" : "#aaa"
+            "color", is_server ? "#444" : "#aaa"
         ) ;
     }
 
@@ -53,6 +55,7 @@ function user_settings()
         create: function() {
             init_dialog( $(this), "OK", false ) ;
             $(this).find( "input[name='include-vasl-images-in-snippets']" ).change( update_ui ) ;
+            $(this).find( "input[name='include-flags-in-snippets']" ).change( update_ui ) ;
         },
         open: function() {
             // load the current user settings
