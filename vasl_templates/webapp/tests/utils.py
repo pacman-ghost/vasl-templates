@@ -426,7 +426,7 @@ def wait_for_elem( timeout, elem_id, parent=None ):
     wait_for( timeout, check_elem )
     return args["elem"]
 
-def wait_for_clipboard( timeout, expected, contains=False, transform=None ):
+def wait_for_clipboard( timeout, expected, contains=None, transform=None ):
     """Wait for the clipboard to hold an expected value."""
     args = { "last-clipboard": "" }
     def check_clipboard(): #pylint: disable=missing-docstring
@@ -434,7 +434,14 @@ def wait_for_clipboard( timeout, expected, contains=False, transform=None ):
         args["last-clipboard"] = clipboard
         if transform:
             clipboard = transform( clipboard )
-        return expected in clipboard if contains else expected == clipboard
+        if contains is None:
+            return expected == clipboard
+        elif contains is True:
+            return expected in clipboard
+        elif contains is False:
+            return expected not in clipboard
+        assert False
+        return False
     try:
         wait_for( timeout, check_clipboard )
         return args["last-clipboard"]

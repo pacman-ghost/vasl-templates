@@ -3,9 +3,8 @@
 import json
 
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, find_child, _get_clipboard, \
-    wait_for, wait_for_clipboard, select_tab, select_menu_option, click_dialog_button, \
-    add_simple_note
+    init_webapp, find_child, wait_for_clipboard, \
+    select_tab, select_menu_option, click_dialog_button, add_simple_note
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.config.constants import DATA_DIR as REAL_DATA_DIR
 
@@ -44,7 +43,7 @@ def test_include_vasl_images_in_snippets( webapp, webdriver, monkeypatch ):
 
     # make sure that it took effect
     snippet_btn.click()
-    wait_for( 2, lambda: "/counter/2524/front" not in _get_clipboard() )
+    wait_for_clipboard( 2, "/counter/2524/front", contains=False )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -91,13 +90,13 @@ def test_include_flags_in_snippets( webapp, webdriver, monkeypatch ):
 
     # make sure that it took effect
     ob_setup_snippet_btn.click()
-    wait_for( 2, lambda: "/flags/german" not in _get_clipboard() )
+    wait_for_clipboard( 2, "/flags/german", contains=False )
 
     # make sure it also affects vehicle/ordnance snippets
     ob_vehicles_snippet_btn.click()
-    wait_for( 2, lambda: "/flags/german" not in _get_clipboard() )
+    wait_for_clipboard( 2, "/flags/german", contains=False )
     ob_ordnance_snippet_btn.click()
-    wait_for( 2, lambda: "/flags/german" not in _get_clipboard() )
+    wait_for_clipboard( 2, "/flags/german", contains=False )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
