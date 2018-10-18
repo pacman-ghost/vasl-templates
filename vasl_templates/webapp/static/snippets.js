@@ -192,6 +192,7 @@ function unload_snippet_params( unpack_scenario_date, show_warnings_for )
     if ( unpack_scenario_date ) {
         var scenario_date = $( "input[name='SCENARIO_DATE']" ).datepicker( "getDate" ) ;
         if ( scenario_date ) {
+            scenario_date.setMinutes( scenario_date.getMinutes() - scenario_date.getTimezoneOffset() ) ;
             params.SCENARIO_DAY_OF_MONTH = scenario_date.getDate() ;
             var postfix ;
             if ( params.SCENARIO_DAY_OF_MONTH in _DAY_OF_MONTH_POSTFIXES )
