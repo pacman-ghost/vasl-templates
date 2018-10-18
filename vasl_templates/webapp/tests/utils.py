@@ -335,30 +335,20 @@ def find_children( sel, parent=None ):
 
 def select_droplist_val( sel, val ):
     """Select a droplist option by value."""
-    options = get_droplist_vals_index( sel )
-    _do_select_droplist( sel, options[val] )
+    _do_select_droplist( sel, val )
 
 def select_droplist_index( sel, index ):
     """Select a droplist option by index."""
     options = get_droplist_vals( sel )
-    _do_select_droplist( sel, options[index][1] )
+    _do_select_droplist( sel, options[index][0] )
 
 def _do_select_droplist( sel, val ):
     """Select a droplist option."""
-
-    # open the jQuery droplist
-    sel_id = sel._el.get_attribute( "id" ) #pylint: disable=protected-access
-    elem = find_child( "#{}-button .ui-selectmenu-icon".format( sel_id ) )
-    elem.click()
-
-    # select the requested option
-    elems = [
-        e for e in find_children( "#{}-menu.ui-menu .ui-menu-item-wrapper".format( sel_id ) )
-        if e.text == val
-    ]
-    assert len(elems) == 1
-    _webdriver.execute_script( "arguments[0].scrollIntoView()", elems[0] )
-    ActionChains(_webdriver).click( elems[0] ).perform()
+    sel_name = sel._el.get_attribute( "name" ) #pylint: disable=protected-access
+    _webdriver.execute_script(
+        "$(arguments[0]).val( '{}' ).trigger( 'change' )".format( val ),
+        find_child( "select[name='{}']".format( sel_name ) )
+    )
 
 def get_droplist_vals_index( sel ):
     """Get the value/text for each option in a droplist."""

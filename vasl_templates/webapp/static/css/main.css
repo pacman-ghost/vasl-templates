@@ -2,9 +2,11 @@
 html { height: 100% ; }
 body { height: 100% ; overflow: hidden ; }
 
+body { font-family: Arial, Helvetica, sans-serif ; font-size: 16px ; }
+
 ul, ol { margin: 0.5em 0 0 1.25em ; }
 
-input[type="text"] { height: 1.25em ; border: 1px solid #c5c5c5 ; }
+input[type="text"] { height: 20px ; border: 1px solid #c5c5c5 ; }
 label { height: 1.25em ; margin-top: -3px ; }
 
 /* -------------------------------------------------------------------- */
@@ -22,7 +24,7 @@ label { height: 1.25em ; margin-top: -3px ; }
 
 /* -------------------------------------------------------------------- */
 
-.ui-selectmenu-button { padding: 2px 5px ; }
+.select2-dropdown { color: #444 ; }
 
 .snippet-control button.generate { height: 26px ; padding: 2px 10px 2px 5px ; }
 .snippet-control button.generate img { height: 20px ; margin-right: 5px ; vertical-align: middle ; }

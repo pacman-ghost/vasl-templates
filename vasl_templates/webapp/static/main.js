@@ -99,9 +99,7 @@ $(document).ready( function () {
     $("#tabs .ui-tabs-nav a").click( function() { $(this).blur() ; } ) ;
 
     // initialize the scenario theater
-    $( "select[name='SCENARIO_THEATER']" ).selectmenu( {
-        classes: { "ui-selectmenu-button": "scenario_theater" },
-    } ) ;
+    init_select2( $("select[name='SCENARIO_THEATER']"), "5em", false, null ) ;
 
     // initialize the scenario date picker
     $("input[name='SCENARIO_DATE']").datepicker( {
@@ -177,22 +175,33 @@ $(document).ready( function () {
     } ) ;
     $("#select-vo").dblclick( function(evt) { auto_select_vo(evt) ; } ) ;
 
-    // add player change handlers
+    // initialize the player droplists
     function on_player_droplist_open( $sel ) {
         // remember the current selection
         $sel.data( "prev-val", $sel.val() ) ;
         // limit the droplist's height to the available space
         restrict_droplist_height( $sel ) ;
     }
-    $("select[name='PLAYER_1']").selectmenu( {
-        width: "7.5em",
-        open: function(evt,ui) { on_player_droplist_open($(this)) ; },
-        select: function() { on_player_change_with_confirm( 1 ) ; },
+    function format_player_droplist_item( opt ) {
+        var url = gImagesBaseUrl + "/flags/" + opt.id + ".png" ;
+        return $( "<div style='display:flex;align-items:center;'>" +
+            "<img src='" + url + "' style='height:0.9em;margin-right:0.25em;'>" +
+            " " + opt.text +
+        "</div>" ) ;
+    }
+    init_select2( $( "select[name='PLAYER_1']" ),
+        "9em", false, format_player_droplist_item
+    ).on( "select2:open", function() {
+        on_player_droplist_open( $(this) ) ;
+    } ).on( "change", function() {
+        on_player_change_with_confirm( 1 ) ;
     } ) ;
-    $("select[name='PLAYER_2']").selectmenu( {
-        width: "7.5em",
-        open: function(evt,ui) { on_player_droplist_open($(this)) ; },
-        select: function() { on_player_change_with_confirm( 2 ) ; },
+    init_select2( $( "select[name='PLAYER_2']" ),
+        "9em", false, format_player_droplist_item
+    ).on( "select2:open", function() {
+        on_player_droplist_open( $(this) ) ;
+    } ).on( "change", function() {
+        on_player_change_with_confirm( 2 ) ;
     } ) ;
 
     // load the ELR's and SAN's
@@ -200,21 +209,21 @@ $(document).ready( function () {
     for ( var i=0 ; i <= 5 ; ++i ) // nb: A19.1: ELR is 0-5
         buf.push( "<option value='" + i + "'>" + i + "</option>" ) ;
     buf = buf.join( "" ) ;
-    for ( var player_no=1 ; player_no <= 2 ; ++player_no ) {
-        $( "select[name='PLAYER_" + player_no + "_ELR']" ).html( buf ).selectmenu( {
-            classes: { "ui-selectmenu-button": "player" + player_no + "_elr" },
-            width: "3em"
-        } ) ;
+    var player_no, $sel ;
+    for ( player_no=1 ; player_no <= 2 ; ++player_no ) {
+        init_select2( $( "select[name='PLAYER_" + player_no + "_ELR']" ),
+            "3em", false, null
+        ).html( buf ) ;
     }
-    buf = [ "<option value=''></option>" ] ; // nb: allow scenarios that have no SAN
+    buf = [ "<option value=''>-</option>" ] ; // nb: allow scenarios that have no SAN
     for ( i=2 ; i <= 7 ; ++i ) // nb: A14.1: SAN is 2-7
         buf.push( "<option value='" + i + "'>" + i + "</option>" ) ;
     buf = buf.join( "" ) ;
     for ( player_no=1 ; player_no <= 2 ; ++player_no ) {
-        $( "select[name='PLAYER_" + player_no + "_SAN']" ).html( buf ).selectmenu( {
-            classes: { "ui-selectmenu-button": "player" + player_no + "_san" },
-            width: "3em"
-        } ) ;
+        $sel = init_select2( $( "select[name='PLAYER_" + player_no + "_SAN']" ),
+            "3em", false, null
+        ).html( buf ) ;
+        $sel.data( "select2" ).$results.css( "max-height", "15em" ) ;
     }
 
     // get the vehicle/ordnance listings
@@ -471,11 +480,9 @@ function install_template_pack( data )
     buf = buf.join( "" ) ;
     for ( var player_no=1 ; player_no <= 2 ; ++player_no ) {
         var $sel = $( "select[name='PLAYER_" + player_no + "']" ) ;
-        $sel.html( buf ).selectmenu( {
-            classes: { "ui-selectmenu-button": "player" + player_no },
-        } ) ;
+        $sel.html( buf ) ;
         if ( curSel[player_no] )
-            $sel.val( curSel[player_no] ).selectmenu( "refresh" ) ;
+            $sel.val( curSel[player_no] ) ; // nb: we don't trigger a "change" event
     }
 
     // update the OB tab headers
@@ -510,7 +517,7 @@ function on_player_change_with_confirm( player_no )
             "<p>Do you want to change this player's nationality?<p>You will lose changes made to their OB.", {
             ok: function() { on_player_change( player_no ) ; },
             cancel: function() {
-                $select.val( $select.data("prev-val") ).selectmenu( "refresh" ) ;
+                $select.val( $select.data("prev-val") ).trigger( "change" ) ;
             },
         } ) ;
     }

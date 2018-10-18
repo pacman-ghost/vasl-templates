@@ -252,24 +252,36 @@ function makeBulletListMsg( caption, items, li_class )
 
 // --------------------------------------------------------------------
 
+function init_select2( $sel, width, search_box, format )
+{
+    // initialize the select2 droplist
+    var name = $sel.attr( "name" ) ;
+    args = { width: width, height: "22px" } ;
+    if ( ! search_box )
+        args.minimumResultsForSearch = Infinity ; // nb: this disables the search box :-/
+    if ( format ) {
+        args.templateResult = format ;
+        args.templateSelection = format ;
+    }
+    $sel = $sel.select2( args ) ;
+    $sel.data( "select2" ).$container.attr( "name", name ) ;
+
+    return $sel ;
+}
+
 function restrict_droplist_height( $sel )
 {
-    // restrict the selectmenu's droplist height to the available space
+    // restrict the select2's droplist height to the available space
     // NOTE: The user can circumvent this by resizing the window after opening
     // the droplist, but we can live with that... :-/
 
     // figure out how much space is available
-    var $droplist = $( "#" + $sel.attr("id") + "-menu" ) ;
+    var $droplist = $sel.data( "select2" ).$dropdown ;
     var avail = $(window).height() - $droplist.offset().top - 5 ;
 
-    // make sure the currently-selected item will be visible
-    $droplist.css( "max-height", "" );
-    var $elem = $droplist.find( ".ui-menu-item-wrapper.ui-state-active" ) ;
-    var offset = $elem.offset().top - $droplist.offset().top - avail/3 ;
-
     // set the max-height for the droplist
-    $droplist.css( "max-height", Math.floor(avail)+"px" ) ;
-    $droplist.animate({ scrollTop: offset }, 0 ) ;
+    var $results = $sel.data( "select2" ).$results ;
+    $results.css( "max-height", Math.floor(avail)+"px" ) ;
 }
 
 // --------------------------------------------------------------------

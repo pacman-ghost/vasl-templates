@@ -5,7 +5,6 @@
 #panel-scenario .row { display: flex ; align-items: center ; }
 #panel-scenario input { flex-grow: 1 ; }
 #panel-scenario input[name='SCENARIO_ID'] { margin-left: 0.25em ; width: 80px ; flex-grow: 0 ; }
-#panel-scenario .ui-selectmenu-button.scenario_theater { margin: -3px 0 0 0.25em ; width: 70px ; flex-grow: 0 ; }
 #panel-scenario input[name='SCENARIO_DATE'] { width: 6em ; flex-grow: 0 ; }
 
 #panel-scenario label[for='PLAYER_1'], label[for='PLAYER_2'] { margin-top: 2px ; }
@@ -13,6 +12,14 @@
 #panel-scenario label { font-weight: bold ; width: 5em ; }
 #panel-scenario label.header { font-weight: bold ; width: 3em ; text-align: center ; }
 #panel-scenario input { margin-bottom: 0.25em ; }
+
+#panel-scenario .select2-container { margin: 2px ; }
+#panel-scenario .select2-selection__rendered { height: 24px ; margin-top: -3px ; }
+#panel-scenario .select2-selection__arrow { margin-top: -2px ; }
+#panel-scenario .select2-selection { height: 24px !important ; border-radius: 0 !important ; }
+
+#panel-scenario .select2-container[name="SCENARIO_THEATER"] .select2-selection { height: 22px !important ; margin-top: -4px ;}
+#panel-scenario .select2-container[name="SCENARIO_THEATER"] .select2-selection__arrow { margin-top: -6px ; }
 
 /* -------------------------------------------------------------------- */
 

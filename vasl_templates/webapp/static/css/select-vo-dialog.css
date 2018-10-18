@@ -6,7 +6,7 @@
 #select-vo .select2-search { padding: 0 0 5px 0 ; }
 #select-vo .select2-results__options { max-height: none ; }
 #select-vo .select2-dropdown { border: none ; }
-#select-vo .select2-dropdown .vo-entry { display: flex ; }
+#select-vo .select2-dropdown .vo-entry { display: flex ; color: #444 ; }
 #select-vo .select2-dropdown .vo-entry img { height: 3.5em ; margin-right: 0.5em ; }
 #select-vo .select2-dropdown .vo-entry .content { display: flex ; flex-direction: column ; justify-content: center ; }
 #select-vo .select2-dropdown .vo-entry.small-piece img { height: 2.7em ; margin-left: 0.4em ; margin-right: 0.9em ; }
