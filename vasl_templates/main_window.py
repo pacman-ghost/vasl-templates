@@ -204,7 +204,11 @@ class MainWindow( QWidget ):
         buf.write( "{" )
         for key in app_settings.allKeys():
             if key.startswith( "UserSettings/" ):
-                buf.write( '"{}": {},'.format( key[13:], app_settings.value(key) ) )
+                val = app_settings.value(key)
+                if val in ("true","false") or val.isdigit():
+                    buf.write( '"{}": {},'.format( key[13:], val ) )
+                else:
+                    buf.write( '"{}": "{}",'.format( key[13:], val ) )
         buf.write( '"_dummy_": null }' )
         buf = buf.getvalue()
         user_settings = {}

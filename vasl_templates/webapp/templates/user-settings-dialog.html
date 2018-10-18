@@ -1,5 +1,18 @@
 <div id="user-settings" style="display:none;">
-    <input type="checkbox" name="include-vasl-images-in-snippets">&nbsp;Include VASL images in snippets <br>
-    <input type="checkbox" name="include-flags-in-snippets">&nbsp;Include flags in snippets
-    <div class="note include-vasl-images-in-snippets-hint" style="margin-left:20px;">This program must be running before you load the scenario in VASL.</div>
+
+    <label for="">Date format:</label>
+    <select name="date-format">
+        <option value="mm/dd/yy">MM/DD/YYYY</option>
+        <option value="dd/mm/yy">DD/MM/YYYY</option>
+        <option value="yy-mm-dd">YYYY-MM-DD</option>
+    </select>
+
+    <br><br>
+
+    <div>
+        <input type="checkbox" name="include-vasl-images-in-snippets">&nbsp;Include VASL images in snippets <br>
+        <input type="checkbox" name="include-flags-in-snippets">&nbsp;Include flags in snippets
+        <div class="note include-vasl-images-in-snippets-hint" style="margin-left:20px;">This program must be running before you load the scenario in VASL.</div>
+    </div>
+
 </div>

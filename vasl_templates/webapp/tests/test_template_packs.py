@@ -25,18 +25,18 @@ def test_individual_files( webapp, webdriver ):
     def test_template( template_id, orig_template_id ):
         """Test uploading a customized version of the template."""
         # upload a new template
-        _ = _upload_template_pack_file( template_id+".j2", "UPLOADED TEMPLATE", False )
+        _ = upload_template_pack_file( template_id+".j2", "UPLOADED TEMPLATE", False )
         # make sure generating a snippet returns the new version
         _ = _generate_snippet( template_id, orig_template_id )
         wait_for_clipboard( 2, "UPLOADED TEMPLATE" )
     for_each_template( test_template )
 
     # try uploading a template with an incorrect filename extension
-    _ = _upload_template_pack_file( "filename.xyz", "UPLOADED TEMPLATE", True )
+    _ = upload_template_pack_file( "filename.xyz", "UPLOADED TEMPLATE", True )
     assert "Invalid template extension" in get_stored_msg( "_last-error_" )
 
     # try uploading a template with an unknown filename
-    _ = _upload_template_pack_file( "unknown.j2", "UPLOADED TEMPLATE", True )
+    _ = upload_template_pack_file( "unknown.j2", "UPLOADED TEMPLATE", True )
     assert "Invalid template filename" in get_stored_msg( "_last-error_" )
 
 # ---------------------------------------------------------------------
@@ -196,7 +196,7 @@ def _upload_template_pack_zip( zip_data, error_expected ):
         error_expected
     )
 
-def _upload_template_pack_file( fname, data, error_expected ):
+def upload_template_pack_file( fname, data, error_expected ):
     """Upload a template pack file."""
     return _do_upload_template_pack(
         "{} | {}".format( fname, data ),

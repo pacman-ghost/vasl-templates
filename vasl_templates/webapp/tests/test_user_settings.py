@@ -2,16 +2,21 @@
 
 import json
 
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.keys import Keys
+
 from vasl_templates.webapp.tests.utils import \
     init_webapp, find_child, wait_for_clipboard, \
     select_tab, select_menu_option, click_dialog_button, add_simple_note
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
+from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
+from vasl_templates.webapp.tests.test_template_packs import upload_template_pack_file
 from vasl_templates.webapp.config.constants import DATA_DIR as REAL_DATA_DIR
 
 # ---------------------------------------------------------------------
 
 def test_include_vasl_images_in_snippets( webapp, webdriver, monkeypatch ):
-    """Test the user settings."""
+    """Test including VASL counter images in snippets."""
 
     # initialize
     monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
@@ -45,10 +50,10 @@ def test_include_vasl_images_in_snippets( webapp, webdriver, monkeypatch ):
     snippet_btn.click()
     wait_for_clipboard( 2, "/counter/2524/front", contains=False )
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# ---------------------------------------------------------------------
 
 def test_include_flags_in_snippets( webapp, webdriver, monkeypatch ):
-    """Test the user settings."""
+    """Test including flags in snippets."""
 
     # initialize
     monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
@@ -98,13 +103,82 @@ def test_include_flags_in_snippets( webapp, webdriver, monkeypatch ):
     ob_ordnance_snippet_btn.click()
     wait_for_clipboard( 2, "/flags/german", contains=False )
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# ---------------------------------------------------------------------
+
+def test_date_format( webapp, webdriver ):
+    """Test changing the date format."""
+
+    # initialize
+    init_webapp( webapp, webdriver, template_pack_persistence=1, scenario_persistence=1 )
+
+    # customize the SCENARIO template
+    upload_template_pack_file( "scenario.j2",
+        "{{SCENARIO_YEAR}}-{{SCENARIO_MONTH}}-{{SCENARIO_DAY_OF_MONTH}}",
+        False
+    )
+
+    scenario_date = find_child( "input[name='SCENARIO_DATE']" )
+    snippet_btn = find_child( "button.generate[data-id='scenario']" )
+    def set_scenario_date( date_string ):
+        """Set the scenario date."""
+        scenario_date.clear()
+        scenario_date.send_keys( date_string )
+        scenario_date.send_keys( Keys.TAB )
+        assert scenario_date.get_attribute( "value" ) == date_string
+    def check_scenario_date( expected ):
+        """Check the scenario date is being interpreted correctly."""
+        assert isinstance(expected,tuple) and len(expected) == 3
+        assert 1 <= expected[0] <= 31 and 1 <= expected[1] <= 12 and 1940 <= expected[2] <= 1945
+        # check the snippet
+        snippet_btn.click()
+        wait_for_clipboard( 2, "{}-{}-{}".format( expected[2], expected[0], expected[1] ) )
+        # check the save file (should always be ISO-8601 format)
+        saved_scenario = save_scenario()
+        assert saved_scenario["SCENARIO_DATE"] == "{:04}-{:02}-{:02}".format( expected[2], expected[0], expected[1] )
+
+    # check the default format (MM/DD/YYYY)
+    set_scenario_date( "01/02/1940" )
+    check_scenario_date( (1,2,1940) )
+    saved_scenario = save_scenario()
+
+    # change the date format to YYYY-MM-DD
+    select_menu_option( "user_settings" )
+    date_format_sel = Select( find_child( ".ui-dialog.user-settings select[name='date-format']" ) )
+    date_format_sel.select_by_visible_text( "YYYY-MM-DD" )
+    click_dialog_button( "OK" )
+    _check_cookies( webdriver, "date-format", "yy-mm-dd" )
+
+    # make sure that it took effect
+    assert scenario_date.get_attribute( "value" ) == "1940-01-02"
+    check_scenario_date( (1,2,1940) )
+
+    # clear the scenario date, set the date format to DD-MM-YYY
+    set_scenario_date( "" )
+    select_menu_option( "user_settings" )
+    date_format_sel.select_by_visible_text( "DD/MM/YYYY" )
+    click_dialog_button( "OK" )
+    _check_cookies( webdriver, "date-format", "dd/mm/yy" )
+
+    # set the scenario date
+    set_scenario_date( "03/04/1945" ) # nb: this will be interpreted as DD/MM/YYYY
+    check_scenario_date( (4,3,1945) )
+
+    # load the scenario we saved before and check the date
+    load_scenario( saved_scenario )
+    check_scenario_date( (1,2,1940) )
+    assert scenario_date.get_attribute( "value" ) == "02/01/1940"
+
+    # restore the date format back to default (for the rest of the tests :-/)
+    select_menu_option( "user_settings" )
+    date_format_sel.select_by_visible_text( "MM/DD/YYYY" )
+    click_dialog_button( "OK" )
+
+# ---------------------------------------------------------------------
 
 def _check_cookies( webdriver, name, expected ):
     """Check that a user setting was stored in the cookies correctly."""
     cookies = [ c for c in webdriver.get_cookies() if c["name"] == "user-settings" ]
     assert len(cookies) == 1
     val = cookies[0]["value"].replace( "%22", '"' ).replace( "%2C", "," )
-    print( val )
     user_settings = json.loads( val )
     assert user_settings[name] == expected

@@ -105,7 +105,6 @@ $(document).ready( function () {
     $("input[name='SCENARIO_DATE']").datepicker( {
         showAnim: "slideDown",
         changeMonth: true, changeYear: true,
-        defaultDate: "01/01/1940",
         onClose: on_scenario_date_change,
     } ) ;
 
@@ -413,6 +412,7 @@ function update_page_load_status( id )
     // check if the page has finished loading
     if ( gPageLoadStatus.length === 0 ) {
         // yup - update the UI
+        apply_user_settings() ;
         $("#tabs").tabs({ disabled: [] }) ;
         $("#loader").fadeOut( 500 ) ;
         adjust_footer_vspacers() ;

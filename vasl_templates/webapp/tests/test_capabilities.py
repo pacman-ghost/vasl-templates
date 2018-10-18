@@ -305,7 +305,6 @@ def test_month_capabilities( webapp, webdriver ):
         assert "H6" not in val
         assert _get_capabilities( webdriver, webapp, *ordnance, "ETO", "07/1944" ) == val
         val = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "08/1944" )
-        print(vo_name)
         assert "H6[!]" in val
         assert _get_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1945" ) == val
 
