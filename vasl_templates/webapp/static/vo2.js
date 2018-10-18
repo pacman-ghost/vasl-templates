@@ -95,6 +95,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
         open: function() {
             // initialize
             on_dialog_open( $(this) ) ;
+            add_flag_to_dialog_titlebar( $(this), player_no ) ;
             // set the titlebar color
             var colors = get_player_colors( player_no ) ;
             $( ".ui-dialog.edit-vo .ui-dialog-titlebar" ).css( {

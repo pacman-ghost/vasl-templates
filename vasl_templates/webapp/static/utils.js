@@ -7,10 +7,18 @@ function get_nationality_display_name( nat_id )
     return gTemplatePack.nationalities[ nat_id ].display_name ;
 }
 
+function get_player_nat( player_no )
+{
+    // get the player's nationality
+    if ( player_no === null )
+        return null ;
+    return $( "select[name='PLAYER_" + player_no + "']" ).val() ;
+}
+
 function get_player_colors( player_no )
 {
     // get the colors for the specified player
-    var player_nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
+    var player_nat = get_player_nat( player_no ) ;
     return gTemplatePack.nationalities[ player_nat ].ob_colors ;
 }
 
@@ -282,6 +290,21 @@ function restrict_droplist_height( $sel )
     // set the max-height for the droplist
     var $results = $sel.data( "select2" ).$results ;
     $results.css( "max-height", Math.floor(avail)+"px" ) ;
+}
+
+// --------------------------------------------------------------------
+
+function add_flag_to_dialog_titlebar( $dlg, player_no )
+{
+    // add a flag to the dialog's titlebar
+    var player_nat = get_player_nat( player_no ) ;
+    if ( ! player_nat )
+        return ;
+    var $titlebar = $dlg.dialog( "instance" ).uiDialogTitlebar ;
+    var url = gImagesBaseUrl + "/flags/" + player_nat + ".png" ;
+    $titlebar.find( ".ui-dialog-title" ).prepend(
+        $( "<img src='" + url + "' class='flag'>" )
+    ).css( { display: "flex", "align-items": "center" } ) ;
 }
 
 // --------------------------------------------------------------------

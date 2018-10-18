@@ -90,6 +90,7 @@ function add_vo( vo_type, player_no )
         open: function() {
             // initialize
             on_dialog_open( $(this) ) ;
+            add_flag_to_dialog_titlebar( $(this), get_player_no_for_element($sortable2) ) ;
             $sel.select2( "open" ) ;
             // set the titlebar color
             var colors = get_player_colors_for_element( $sortable2 ) ;

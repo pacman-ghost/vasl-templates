@@ -37,6 +37,7 @@ button.edit-template { height: 30px ; padding: 4px 10px ; }
 button.edit-template img { height: 18px ; vertical-align: middle ; margin-right: 0.25em ; }
 
 .ui-dialog-titlebar { padding: 0.2em 0.5em 0.2em 0.5em !important ; }
+.ui-dialog-titlebar img.flag { height: 1em ; margin-right: 0.25em ; }
 .ui-dialog-titlebar-close { margin-top: -10px !important ; }
 .ui-dialog-content p { margin-bottom: 0.5em ; }
 .ui-dialog-buttonpane button.ok { background: #ddd ; }

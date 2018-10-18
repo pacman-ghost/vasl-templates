@@ -42,6 +42,7 @@ function _do_edit_simple_note( $sortable2, $entry, default_width )
         open: function() {
             // initialize
             on_dialog_open( $(this) ) ;
+            add_flag_to_dialog_titlebar( $(this), get_player_no_for_element($sortable2) ) ;
             $caption = $(this).children( "textarea" ) ;
             var $btn_pane = $(".ui-dialog.edit-simple_note .ui-dialog-buttonpane") ;
             $width = $btn_pane.children( "input[name='width']" ) ;
