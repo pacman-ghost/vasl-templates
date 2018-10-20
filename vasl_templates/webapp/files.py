@@ -3,7 +3,7 @@
 import os
 import io
 
-from flask import send_file, jsonify, abort
+from flask import send_file, jsonify, redirect, url_for, abort
 
 from vasl_templates.webapp import app
 from vasl_templates.webapp.file_server.vasl_mod import VaslMod
@@ -29,7 +29,7 @@ def get_counter_image( gpid, side, index ):
 
     # check if a VASL module has been configured
     if not vasl_mod:
-        return app.send_static_file( "images/missing-image.png" )
+        return redirect( url_for( "static", filename="images/missing-image.png" ), code=302 )
 
     # return the specified counter image
     image_path, image_data = vasl_mod.get_piece_image( int(gpid), side, int(index) )
