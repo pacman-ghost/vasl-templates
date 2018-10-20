@@ -258,7 +258,6 @@ $(document).ready( function () {
             }
         }
         install_template_pack( data ) ;
-        do_on_new_scenario() ;
         gDefaultNationalities = $.extend( true, {}, data.nationalities ) ;
         // NOTE: If we are loading a user-defined template pack, then what we think
         // is the set of valid template ID's will depend on what's in it :-/
@@ -408,6 +407,14 @@ function update_page_load_status( id )
     gPageLoadStatus.splice( gPageLoadStatus.indexOf(id), 1 ) ;
     if ( id === "template-pack" )
         $("fieldset[name='scenario']").fadeIn( 2*1000 ) ;
+
+    // check if the vehicle/ordnance listings have finished loading
+    if ( gPageLoadStatus.indexOf( "vehicle-listings" ) === -1 && gPageLoadStatus.indexOf( "ordnance-listings" ) === -1 ) {
+        // NOTE: If the default scanerio contains any vehicles or ordnance, it will look up the V/O listings,
+        // so we need to wait until those have arrived. Note that while the default scenario will normally
+        // be empty, having stuff in it is very useful during development.
+        do_on_new_scenario() ;
+    }
 
     // check if the page has finished loading
     if ( gPageLoadStatus.length === 0 ) {
