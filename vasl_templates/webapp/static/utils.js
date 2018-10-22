@@ -31,6 +31,10 @@ function get_player_colors_for_element( $elem )
     return get_player_colors( player_no ) ;
 }
 
+function make_player_flag_url( player_nat ) {
+    return APP_URL_BASE + "/flags/" + player_nat ;
+}
+
 function get_player_no_for_element( $elem )
 {
     // get the player colors (if any) for the specified element

@@ -1,7 +1,7 @@
 APP_URL_BASE = window.location.origin ;
 
+gDefaultTemplatePack = null ;
 gTemplatePack = {} ;
-gDefaultNationalities = {} ;
 gValidTemplateIds = [] ;
 gVehicleOrdnanceListings = {} ;
 gVaslPieceInfo = {} ;
@@ -92,7 +92,7 @@ $(document).ready( function () {
     // initialize the tabs
     $("#tabs").tabs( {
         heightStyle: "fill",
-        disabled: [1, 2], // nb: we enable these when the page has finished loading
+        disabled: [1, 2, 3], // nb: we enable these when the page has finished loading
         activate: on_tab_activate,
     } ).show() ;
     var navHeight = $("#tabs .ui-tabs-nav").height() ;
@@ -257,8 +257,8 @@ $(document).ready( function () {
                 delete data._path_ ;
             }
         }
+        gDefaultTemplatePack = $.extend( true, {}, data ) ;
         install_template_pack( data ) ;
-        gDefaultNationalities = $.extend( true, {}, data.nationalities ) ;
         // NOTE: If we are loading a user-defined template pack, then what we think
         // is the set of valid template ID's will depend on what's in it :-/
         gValidTemplateIds = Object.keys( data.templates ) ;
@@ -291,49 +291,7 @@ $(document).ready( function () {
     $(window).trigger( "resize" ) ;
 
     // replace all the "generate" buttons with "generate/edit" button/droplist's
-    $("button.generate").each( function() {
-        var template_id = $(this).attr( "data-id" ) ;
-        var template_id2 ;
-        if ( template_id.substring(0,9) === "ob_setup_" )
-            template_id2 = "ob_setup" ;
-        else if ( template_id.substring(0,12) == "ob_vehicles_" )
-            template_id2 = "ob_vehicles" ;
-        else if ( template_id.substring(0,12) == "ob_ordnance_" )
-            template_id2 = "ob_ordnance" ;
-        else
-            template_id2 = template_id ;
-        var buf = [ "<div class='snippet-control' data-id='" + template_id + "'>",
-            $(this).prop( "outerHTML" ),
-            "<select data-id='" + template_id2 + "'>",
-            "<option value='edit' class='edit-template' title='Edit the template that will generate this snippet.'>Edit</option>",
-            "</select>",
-            "</div>"
-        ] ;
-        var $newElem = $( buf.join("") ) ;
-        $newElem.find( "button" ).prepend(
-            $( "<img src='" + gImagesBaseUrl + "/snippet.png'>" )
-        ) ;
-        $newElem.controlgroup() ;
-        $newElem.children("select").each( function() {
-            $(this).selectmenu( {
-                classes: {
-                    "ui-selectmenu-button": "ui-button-icon-only",
-                    "ui-selectmenu-menu": "snippet-control-menu-item",
-                },
-            } ) ;
-        } ) ;
-        $newElem.children(".ui-button-icon-only").css( "width", "1em" ) ;
-        $newElem.children(".ui-selectmenu-button").click( function() {  $(this).blur() ; } ) ;
-        $(this).replaceWith( $newElem ) ;
-    } ) ;
-
-    // handle requests to generate/edit HTML snippets
-    $("button.generate").click( function() {
-        generate_snippet( $(this), null ) ;
-    } ).attr( "title", "Generate a snippet." ) ;
-    $("div.snippet-control select").on( "selectmenuselect", function() {
-        edit_template( $(this).attr("data-id") ) ;
-    } ) ;
+    $("button.generate").each( function() { init_snippet_button( $(this) ) ; } ) ;
 
     // handle requests to edit the templates
     $("button.edit-template").click( function() {
@@ -399,6 +357,59 @@ $(document).ready( function () {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+function init_snippet_button( $btn )
+{
+    // figure out what template we're dealing with
+    var template_id = $btn.attr( "data-id" ) ;
+    var template_id2 ;
+    if ( template_id.substring(0,9) === "ob_setup_" )
+        template_id2 = "ob_setup" ;
+    else if ( template_id.substring(0,12) == "ob_vehicles_" )
+        template_id2 = "ob_vehicles" ;
+    else if ( template_id.substring(0,12) == "ob_ordnance_" )
+        template_id2 = "ob_ordnance" ;
+    else
+        template_id2 = template_id ;
+
+    // create the new button
+    var buf = [ "<div class='snippet-control' data-id='" + template_id + "'>",
+        $btn.prop( "outerHTML" ),
+        "<select data-id='" + template_id2 + "'>",
+        "<option value='edit' class='edit-template' title='Edit the template that will generate this snippet.'>Edit</option>",
+        "</select>",
+        "</div>"
+    ] ;
+    var $newBtn = $( buf.join("") ) ;
+    $newBtn.find( "button" ).prepend(
+        $( "<img src='" + gImagesBaseUrl + "/snippet.png'>" )
+    ).click( function() {
+        generate_snippet( $(this), null ) ;
+    } ).attr( "title", "Generate a snippet." ) ;
+
+    // add in the droplist
+    $newBtn.controlgroup() ;
+    $newBtn.children( "select" ).each( function() {
+        $(this).selectmenu( {
+            classes: {
+                "ui-selectmenu-button": "ui-button-icon-only",
+                "ui-selectmenu-menu": "snippet-control-menu-item",
+            },
+        } ) ;
+    } ) ;
+    $newBtn.children( ".ui-button-icon-only" ).css( "width", "1em" ) ;
+    $newBtn.children( ".ui-selectmenu-button" ).click( function() { $btn.blur() ; } ) ;
+
+    // handle requests to edit the template
+    $newBtn.children( "select" ).on( "selectmenuselect", function() {
+        edit_template( $(this).attr("data-id") ) ;
+    } ) ;
+
+    // replace the existing button with the new replacement button
+    $btn.replaceWith( $newBtn ) ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 gPageLoadStatus = [ "main", "vehicle-listings", "ordnance-listings", "vasl-piece-info", "template-pack", "default-scenario" ] ;
 
 function update_page_load_status( id )
@@ -420,6 +431,9 @@ function update_page_load_status( id )
     if ( gPageLoadStatus.length === 0 ) {
         // yup - update the UI
         apply_user_settings() ;
+        $( "a[href='#tabs-extras'] div" ).html(
+            "<img src='" + gImagesBaseUrl + "/extras.png'>&nbsp;Extras"
+        ) ;
         $("#tabs").tabs({ disabled: [] }) ;
         $("#loader").fadeOut( 500 ) ;
         adjust_footer_vspacers() ;
@@ -447,7 +461,8 @@ function init_hotkeys()
         var curr_tab = $("#tabs .ui-tabs-active a").attr( "href" ) ;
         if ( curr_tab !== tab )
             $("#tabs .ui-tabs-nav a[href='"+tab+"']").trigger( "click" ) ;
-        $ctrl.focus() ;
+        if ( $ctrl )
+            $ctrl.focus() ;
     }
     $(document).bind( "keydown", "alt+c", function() {
         set_focus_to( "#tabs-scenario", $("input[name='SCENARIO_NAME']") ) ;
@@ -467,6 +482,9 @@ function init_hotkeys()
     $(document).bind( "keydown", "alt+2", function() {
         set_focus_to( "#tabs-ob2", $("textarea[name='OB_SETUP_2']") ) ;
     } ) ;
+    $(document).bind( "keydown", "alt+x", function() {
+        set_focus_to( "#tabs-extras" ) ;
+    } ) ;
 }
 
 // --------------------------------------------------------------------
@@ -475,6 +493,7 @@ function install_template_pack( data )
 {
     // install the template pack
     gTemplatePack = data ;
+    init_extras() ;
 
     // update the player droplists
     var curSel = {

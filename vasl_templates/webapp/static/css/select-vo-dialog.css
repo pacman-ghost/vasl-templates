@@ -11,7 +11,7 @@
 #select-vo .select2-dropdown .vo-entry .content { display: flex ; flex-direction: column ; justify-content: center ; }
 #select-vo .select2-dropdown .vo-entry.small-piece img { height: 2.7em ; margin-left: 0.4em ; margin-right: 0.9em ; }
 #select-vo .select2-dropdown .vo-entry .vo-type { font-size: 80% ; font-style: italic ; color: #888 ; }
-#select-vo .select2-results__option--highlighted[aria-selected] .vo-type { color: #fff ; }
+#select-vo .select2-results__option--highlighted[aria-selected] .vo-type { color: #eee ; }
 #select-vo .select2-dropdown .vo-entry input.select-vo-image { width: 15px ; position: relative ; top: 10px ; }
 
 .ui-dialog.select-vo .ui-dialog-buttonpane { border: none ; padding: 0 ; }

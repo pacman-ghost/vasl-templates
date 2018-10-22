@@ -48,22 +48,22 @@ def test_zip_files( webapp, webdriver ):
     init_webapp( webapp, webdriver, template_pack_persistence=1 )
 
     # upload a template pack that contains a full set of templates
-    zip_data = _make_zip_from_files( "full" )
-    _, marker = _upload_template_pack_zip( zip_data, False )
+    zip_data = make_zip_from_files( "full" )
+    _, marker = upload_template_pack_zip( zip_data, False )
     assert get_stored_msg( "_last-error_" ) == marker
 
     # check that the uploaded templates are being used
     _check_snippets( lambda tid: "Customized {}.".format( tid.upper() ) )
 
     # upload only part of template pack
-    _ = _upload_template_pack_zip(
+    _ = upload_template_pack_zip(
         zip_data[ : int(len(zip_data)/2) ],
         True
     )
     assert get_stored_msg( "_last-error_" ).startswith( "Can't unpack the ZIP:" )
 
     # try uploading an empty template pack
-    _ = _upload_template_pack_zip( b"", True )
+    _ = upload_template_pack_zip( b"", True )
     assert get_stored_msg( "_last-error_" ).startswith( "Can't unpack the ZIP:" )
 
     # NOTE: We can't test the limit on template pack size, since it happens after the browser's
@@ -107,8 +107,8 @@ def test_nationality_data( webapp, webdriver ):
     assert droplist_vals["british"] == "British"
 
     # upload a template pack that contains nationality data
-    zip_data = _make_zip_from_files( "with-nationality-data" )
-    _, marker = _upload_template_pack_zip( zip_data, False )
+    zip_data = make_zip_from_files( "with-nationality-data" )
+    _, marker = upload_template_pack_zip( zip_data, False )
     assert get_stored_msg( "_last-error_" ) == marker
 
     # check that the UI was updated correctly
@@ -136,10 +136,11 @@ def _make_zip( files ):
                 zip_file.writestr( fname, fdata )
         return open( temp_file.name, "rb" ).read()
 
-def _make_zip_from_files( dname ):
+def make_zip_from_files( dname ):
     """Generate a ZIP file from files in a directory."""
     files = {}
     dname = os.path.join( os.path.split(__file__)[0], "fixtures/template-packs/"+dname )
+    assert os.path.isdir( dname )
     for root,_,fnames in os.walk(dname):
         for fname in fnames:
             fname = os.path.join( root, fname )
@@ -186,7 +187,7 @@ def _generate_snippet( template_id, orig_template_id ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def _upload_template_pack_zip( zip_data, error_expected ):
+def upload_template_pack_zip( zip_data, error_expected ):
     """Upload a template pack ZIP."""
     return _do_upload_template_pack(
         "{} | {}".format(

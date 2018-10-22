@@ -27,10 +27,6 @@ function generate_snippet( $btn, extra_params )
     var params = unload_snippet_params( true, template_id ) ;
 
     // set player-specific parameters
-    function make_player_flag_url( player_no ) {
-        var player_nat = get_player_nat( player_no ) ;
-        return APP_URL_BASE + "/flags/" + player_nat ;
-    }
     var curr_tab = $("#tabs .ui-tabs-active a").attr( "href" ) ;
     var colors ;
     if ( curr_tab === "#tabs-ob1" ) {
@@ -39,14 +35,14 @@ function generate_snippet( $btn, extra_params )
         params.OB_COLOR = colors[0] ;
         params.OB_COLOR_2 = colors[2] ;
         if ( gUserSettings["include-flags-in-snippets"] )
-            params.PLAYER_FLAG = make_player_flag_url( 1 ) ;
+            params.PLAYER_FLAG = make_player_flag_url( get_player_nat( 1 ) ) ;
     } else if ( curr_tab === "#tabs-ob2" ) {
         params.PLAYER_NAME = get_nationality_display_name( params.PLAYER_2 ) ;
         colors = get_player_colors( 2 ) ;
         params.OB_COLOR = colors[0] ;
         params.OB_COLOR_2 = colors[2] ;
         if ( gUserSettings["include-flags-in-snippets"] )
-            params.PLAYER_FLAG = make_player_flag_url( 2 ) ;
+            params.PLAYER_FLAG = make_player_flag_url( get_player_nat( 2 ) ) ;
     }
 
     // set player-specific parameters
@@ -72,6 +68,17 @@ function generate_snippet( $btn, extra_params )
     // include the player display names
     params.PLAYER_1_NAME = get_nationality_display_name( params.PLAYER_1 ) ;
     params.PLAYER_2_NAME = get_nationality_display_name( params.PLAYER_2 ) ;
+
+    // pass through all the player colors and names
+    params.PLAYER_NAMES = {} ;
+    params.PLAYER_COLORS = {} ;
+    params.PLAYER_FLAGS = {} ;
+    $.each( gTemplatePack.nationalities, function( nat ) {
+        params.PLAYER_NAMES[nat] = gTemplatePack.nationalities[nat].display_name ;
+        params.PLAYER_COLORS[nat] = gTemplatePack.nationalities[nat].ob_colors ;
+        if ( gUserSettings["include-flags-in-snippets"] )
+            params.PLAYER_FLAGS[nat] = make_player_flag_url( nat ) ;
+    } ) ;
 
     // generate PF parameters
     if ( params.SCENARIO_YEAR < 1944 || (params.SCENARIO_YEAR == 1944 && params.SCENARIO_MONTH < 6) )
@@ -140,7 +147,7 @@ function generate_snippet( $btn, extra_params )
         showWarningMsg( "Both players have the same nationality!" ) ;
 
     // get the template to generate the snippet from
-    var templ = get_template( template_id ) ;
+    var templ = get_template( template_id, true ) ;
     if ( templ === null )
         return ;
     var func ;
@@ -184,7 +191,7 @@ function generate_snippet( $btn, extra_params )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function unload_snippet_params( unpack_scenario_date, show_warnings_for )
+function unload_snippet_params( unpack_scenario_date, template_id )
 {
     var params = {} ;
 
@@ -208,7 +215,14 @@ function unload_snippet_params( unpack_scenario_date, show_warnings_for )
 
     // collect all the template parameters
     add_param = function($elem) { params[ $elem.attr("name") ] = $elem.val() ; } ;
-    $("input[type='text'].param").each( function() { add_param($(this)) ; } ) ;
+    $("input[type='text'].param").each( function() {
+        // NOTE: We only unload parameters on the EXTRAS tab if we're processing an extras template.
+        if ( $.contains( $("#tabs-extras")[0], $(this)[0] ) ) {
+            if ( template_id === null || template_id.substr(0,7) !== "extras/" )
+                return ;
+        }
+        add_param( $(this) ) ;
+    } ) ;
     $("textarea.param").each( function() { add_param($(this)) ; } ) ;
     $("select.param").each( function() { add_param($(this)) ; } ) ;
 
@@ -274,10 +288,10 @@ function unload_snippet_params( unpack_scenario_date, show_warnings_for )
         if ( objs.length > 0 )
             params[key] = objs ;
     }
-    get_vo( "vehicles", 1, "OB_VEHICLES_1", show_warnings_for === "ob_vehicles_1" ) ;
-    get_vo( "vehicles", 2, "OB_VEHICLES_2", show_warnings_for === "ob_vehicles_2" ) ;
-    get_vo( "ordnance", 1, "OB_ORDNANCE_1", show_warnings_for === "ob_ordnance_1" ) ;
-    get_vo( "ordnance", 2, "OB_ORDNANCE_2", show_warnings_for === "ob_ordnance_2" ) ;
+    get_vo( "vehicles", 1, "OB_VEHICLES_1", template_id === "ob_vehicles_1" ) ;
+    get_vo( "vehicles", 2, "OB_VEHICLES_2", template_id === "ob_vehicles_2" ) ;
+    get_vo( "ordnance", 1, "OB_ORDNANCE_1", template_id === "ob_ordnance_1" ) ;
+    get_vo( "ordnance", 2, "OB_ORDNANCE_2", template_id === "ob_ordnance_2" ) ;
 
     return params ;
 }
@@ -570,11 +584,17 @@ function make_crew_survival( vo_entry )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function get_template( template_id )
+function get_template( template_id, fixup )
 {
     // get the specified template
-    if ( template_id in gTemplatePack.templates )
-        return gTemplatePack.templates[template_id] ;
+    if ( template_id in gTemplatePack.templates ) {
+        var template = gTemplatePack.templates[ template_id ] ;
+        if ( fixup ) {
+            if ( template_id.substr(0,7) === "extras/" )
+                template = fixup_template_parameters( template ) ;
+        }
+        return template ;
+    }
     showErrorMsg( "Unknown template: <span class='pre'>" + escapeHTML(template_id) + "</span>" ) ;
     return null ;
 }
@@ -588,7 +608,7 @@ function edit_template( template_id )
         template_id = "ob_ordnance" ;
     else if ( template_id.substring(0,12) == "ob_vehicles_" )
         template_id = "ob_vehicles" ;
-    var template = get_template( template_id ) ;
+    var template = get_template( template_id, false ) ;
     if ( template === null )
         return ;
 
@@ -967,7 +987,10 @@ function do_on_new_scenario( verbose ) {
 function reset_scenario()
 {
     // reset all the template parameters
-    $("input[type='text'].param").each( function() { $(this).val("") ; } ) ;
+    $("input[type='text'].param").each( function() {
+        if ( ! $.contains( $("#tabs-extras")[0], $(this)[0] ) )
+            $(this).val( "" ) ;
+    } ) ;
     $("textarea.param").each( function() { $(this).val("") ; } ) ;
 
     // reset all the template parameters
@@ -1047,9 +1070,16 @@ function do_load_template_pack( fname, data )
     var invalid_filename_extns = [] ;
     var unknown_template_ids = [] ;
     var template_pack = {
-        nationalities: $.extend( true, {}, gDefaultNationalities ),
+        nationalities: $.extend( true, {}, gDefaultTemplatePack.nationalities ),
         templates: {},
     } ;
+
+    // NOTE: We always start with the default extras templates; user-defined template packs
+    // can add to them, or modify existing ones, but not remove them.
+    for ( var template_id in gDefaultTemplatePack.templates ) {
+        if ( template_id.substr( 0, 7 ) === "extras/" )
+            template_pack.templates[template_id] = gDefaultTemplatePack.templates[template_id].slice() ;
+    }
 
     // initialize
     function on_template_pack_file( fname, data ) {
@@ -1070,7 +1100,7 @@ function do_load_template_pack( fname, data )
             return ;
         }
         var template_id = fname.substring( 0, fname.length-3 ).toLowerCase() ;
-        if ( gValidTemplateIds.indexOf( template_id ) === -1 ) {
+        if ( gValidTemplateIds.indexOf( template_id ) === -1 && template_id.substr(0,7) !== "extras/" ) {
             unknown_template_ids.push( fname ) ;
             return ;
         }
@@ -1136,7 +1166,7 @@ function do_load_template_pack( fname, data )
                     var pos = Math.max( fname.lastIndexOf("/"), fname.lastIndexOf("\\") ) ;
                     if ( pos === fname.length-1 )
                         return ; // nb: ignore directory entries
-                    if ( pos !== -1 )
+                    if ( pos !== -1 && fname.substr(0,7) !== "extras/" )
                         fname = fname.substring( pos+1 ) ;
                     on_template_pack_file( fname, data ) ;
                 } ).then( function() {

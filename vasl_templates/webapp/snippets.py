@@ -36,6 +36,14 @@ def get_template_pack():
     with open(fname,"r") as fp:
         data["nationalities"] = json.load( fp )
 
+    # NOTE: Similarly, we always load the default extras templates, and user-defined template packs
+    # can add to them, or modify existing ones, but not remove them.
+    dname = os.path.join( base_dir, "extras" )
+    if os.path.isdir( dname ):
+        _, extra_templates = _do_get_template_pack( dname )
+        for key,val in extra_templates.items():
+            data["templates"]["extras/"+key] = val
+
     # check if a default template pack has been configured
     if default_template_pack:
         dname = default_template_pack
@@ -60,11 +68,13 @@ def get_template_pack():
                 if fname.endswith( "/" ):
                     continue
                 fdata = zip_file.read( fname ).decode( "utf-8" )
-                fname = os.path.split(fname)[1]
-                if fname.lower() == "nationalities.json":
+                fname2 = os.path.split(fname)[1]
+                if fname2.lower() == "nationalities.json":
                     data["nationalities"].update( json.loads( fdata ) )
                     continue
-                data["templates"][ os.path.splitext(fname)[0] ] = fdata
+                if fname.startswith( "extras" + os.sep ):
+                    fname2 = "extras/" + fname2
+                data["templates"][ fname2 ] = fdata
 
     return jsonify( data )
 
@@ -72,19 +82,25 @@ def get_template_pack():
 
 def _do_get_template_pack( dname ):
     """Get the specified template pack."""
+    dname = os.path.abspath( dname )
     if not os.path.isdir( dname ):
         abort( 404 )
     nationalities, templates = {}, {}
     for root,_,fnames in os.walk(dname):
         for fname in fnames:
             # add the next file to the results
-            with open( os.path.join(root,fname), "r" ) as fp:
+            words = os.path.splitext( fname )
+            fname = os.path.join( root, fname )
+            with open( fname, "r" ) as fp:
                 if fname.lower() == "nationalities.json":
                     nationalities = json.load( fp )
                     continue
-                words = os.path.splitext( fname )
                 if words[1] == ".j2":
-                    templates[words[0]] = fp.read()
+                    fname2 = words[0]
+                    relpath = os.path.relpath( os.path.abspath(fname), dname )
+                    if relpath.startswith( "extras" + os.sep ):
+                        fname2 = "extras/" + fname2
+                    templates[fname2] = fp.read()
     return nationalities, templates
 
 # ---------------------------------------------------------------------

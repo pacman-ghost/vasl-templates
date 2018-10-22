@@ -1,0 +1,182 @@
+""" Test the extras templates. """
+
+from selenium.webdriver.common.keys import Keys
+
+from vasl_templates.webapp.tests.utils import \
+    init_webapp, find_child, find_children, wait_for, wait_for_clipboard, select_tab
+from vasl_templates.webapp.tests.test_template_packs import make_zip_from_files, upload_template_pack_zip
+
+# ---------------------------------------------------------------------
+
+def test_extras_templates( webapp, webdriver ):
+    """Test the extras templates."""
+
+    # initialize
+    init_webapp( webapp, webdriver )
+    select_tab( "extras" )
+
+    # check that the extras templates were loaded correctly
+    assert _get_extras_template_index() == [
+        ( "extras/minimal", None ),
+        ( "Full template", "This is the caption." )
+    ]
+
+    # check that the "full" template was loaded correctly
+    _select_extras_template( webdriver, "extras/full" )
+    content = find_child( "#tabs-extras .right-panel" )
+    assert find_child( "div.name", content ).text == "Full template"
+    assert find_child( "div.caption", content ).text == "This is the caption."
+    assert find_child( "div.description", content ).text == "This is the description."
+    params = find_children( "tr", content )
+    assert len(params) == 1
+    assert find_child( "td.caption", params[0] ).text == "The parameter:"
+    textbox = find_child( "td.value input", params[0] )
+    assert textbox.get_attribute( "value" ) == "default-val"
+    assert textbox.get_attribute( "size" ) == "10"
+    assert textbox.get_attribute( "title" ) == "This is the parameter description."
+
+    # generate the snippet
+    snippet_btn = find_child( "button.generate", content )
+    snippet_btn.click()
+    clipboard = wait_for_clipboard( 2, "param = default-val", contains=True )
+    assert "vasl-templates:comment" not in clipboard # nb: check that the comment was removed
+
+    # check that the "minimal" template was loaded correctly
+    _select_extras_template( webdriver, "extras/minimal" )
+    assert find_child( "div.name", content ).text == "extras/minimal"
+    assert find_child( "div.caption", content ) is None
+    assert find_child( "div.description", content ) is None
+    params = find_children( "tr", content )
+    assert len(params) == 1
+    assert find_child( "td.caption", params[0] ).text == "PARAM:"
+    textbox = find_child( "td.value input", params[0] )
+    assert textbox.get_attribute( "value" ) == ""
+
+    # generate the snippet
+    textbox.send_keys( "boo!" )
+    snippet_btn = find_child( "button.generate", content )
+    snippet_btn.click()
+    clipboard = wait_for_clipboard( 2, "param = boo!", contains=True )
+
+# ---------------------------------------------------------------------
+
+def test_template_pack( webapp, webdriver ):
+    """Test uploading a template pack that contains extras templates."""
+
+    # initialize
+    init_webapp( webapp, webdriver, template_pack_persistence=1 )
+    select_tab( "extras" )
+
+    # check that the extras templates were loaded correctly
+    assert _get_extras_template_index() == [
+        ( "extras/minimal", None ),
+        ( "Full template", "This is the caption." )
+    ]
+
+    # upload the template pack
+    zip_data = make_zip_from_files( "extras" )
+    upload_template_pack_zip( zip_data, False )
+
+    # check that the templates were updated correctly
+    assert _get_extras_template_index() == [
+        ( "extras/minimal", None ),
+        ( "Full template (modified)", "This is the caption (modified)." ),
+        ( "New template", None ),
+    ]
+
+    # check that the modified "full" template is being used
+    _select_extras_template( webdriver, "extras/full" )
+    content = find_child( "#tabs-extras .right-panel" )
+    assert find_child( "div.name", content ).text == "Full template (modified)"
+    assert find_child( "div.caption", content ).text == "This is the caption (modified)."
+    params = find_children( "tr", content )
+    assert len(params) == 2
+    assert find_child( "td.caption", params[0] ).text == "The modified parameter:"
+    textbox = find_child( "td.value input", params[0] )
+    assert textbox.get_attribute( "value" ) == "modified-default-val"
+    assert textbox.get_attribute( "size" ) == "10"
+    assert textbox.get_attribute( "title" ) == "This is the modified parameter description."
+    assert find_child( "td.caption", params[1] ).text == "NEW-PARAM:"
+    textbox = find_child( "td.value input", params[1] )
+
+# ---------------------------------------------------------------------
+
+def test_edit_extras_template( webapp, webdriver ):
+    """Test editing an extras templates."""
+
+    # initialize
+    init_webapp( webapp, webdriver )
+    select_tab( "extras" )
+
+    # edit the "minimal" template
+    _select_extras_template( webdriver, "extras/minimal" )
+    content = find_child( "#tabs-extras .right-panel" )
+    assert find_child( "div.caption", content ) is None
+    webdriver.execute_script( "edit_template('extras/minimal')", content )
+    textarea = find_child( "#edit-template textarea" )
+    template = textarea.get_attribute( "value" ) \
+        .replace( "<html>", "<html>\n<!-- vasl-templates:caption Modified minimal. -->" ) \
+        .replace( "<div>", "<div>\nadded = {{ADDED:added-val}}" )
+    textarea.clear()
+    textarea.send_keys( template )
+    textarea.send_keys( Keys.ESCAPE )
+
+    # generate the template (we should still be using the old template)
+    snippet_btn = find_child( "button.generate", content )
+    snippet_btn.click()
+    wait_for_clipboard( 2, "param = ", contains=True )
+
+    # switch to another template, then back again
+    _select_extras_template( webdriver, "extras/full" )
+    _select_extras_template( webdriver, "extras/minimal" )
+
+    # make sure the new template was loaded
+    assert find_child( "div.caption", content ).text == "Modified minimal."
+    params = find_children( "tr", content )
+    assert len(params) == 2
+    assert find_child( "td.caption", params[0] ).text == "ADDED:"
+    textbox = find_child( "td.value input", params[0] )
+    assert textbox.get_attribute( "value" ) == "added-val"
+
+    # generate the template (we should be using the new template)
+    snippet_btn = find_child( "button.generate", content )
+    snippet_btn.click()
+    wait_for_clipboard( 2, "added = added-val\nparam = ", contains=True )
+
+# ---------------------------------------------------------------------
+
+def _get_extras_template_index():
+    """Get the list of extras templates from the sidebar."""
+    def get_child_text( child_class, elem ): #pylint: disable=missing-docstring
+        elem = find_child( child_class, elem )
+        return elem.text if elem else None
+    return [
+        ( get_child_text(".name",elem), get_child_text(".caption",elem) )
+        for elem in _get_extras_templates()
+    ]
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def _get_extras_templates():
+    """Get the available extras templates."""
+    return find_children( "#tabs-extras .left-panel li" )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def _select_extras_template( webdriver, template_id ):
+    """Select the specified extras template."""
+
+    # find the specified template in the index
+    elems = [
+        e for e in _get_extras_templates()
+        if webdriver.execute_script( "return $(arguments[0]).data('template_id')", e ) == template_id
+    ]
+    assert len(elems) == 1
+    template_name = find_child( ".name", elems[0] ).text
+
+    # select the template and wait for it to load
+    elems[0].click()
+    def is_template_loaded(): #pylint: disable=missing-docstring
+        elem = find_child( "#tabs-extras .right-panel .name" )
+        return elem and elem.text == template_name
+    wait_for( 2, is_template_loaded )

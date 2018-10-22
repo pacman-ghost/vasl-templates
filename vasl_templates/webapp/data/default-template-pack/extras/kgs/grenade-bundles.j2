@@ -1,0 +1,42 @@
+<html>
+
+<!-- vasl-templates:name KGS Grenade Bundles -->
+<!-- vasl-templates:description Data chart for Grenade Bundles in <i>Kampfgruppe Scherer</i>. -->
+
+<head>
+<meta charset="utf-8">
+<style>
+td { margin: 0 ; padding: 0 ; }
+</style>
+</head>
+
+<table>
+
+<tr>
+<td colspan="2" style="background: {{PLAYER_COLORS["german"][0]}} ; border-bottom: 1px solid {{PLAYER_COLORS["german"][2]}} ; padding: 2px 5px ; font-weight: bold ;">
+    {%if PLAYER_FLAGS["german"]%}<img src="{{PLAYER_FLAGS["german"]}}" height=15 width=15>&nbsp;{%endif%}Grenade Bundles
+
+<tr>
+<td style="padding:2px 5px;">
+    -2 CC Attack DRM <br>
+    ATMM check: dr &le; 3 (&#9651;) <br>
+    <table style="margin-left:10px;">
+        <tr>
+            <td style="width:20px;"> +1
+            <td> HS/crew
+        <tr>
+            <td> +2
+            <td> SMC
+        <tr>
+            <td> +1
+            <td> CX
+        <tr>
+            <td> +1
+            <td> vs. non-armored vehicle
+    </table>
+    original 6 = pinned (CCV reduced by 1)
+
+</table>
+
+</html>
+
