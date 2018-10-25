@@ -1,5 +1,6 @@
 """ Main application window. """
 
+import sys
 import os
 import re
 import json
@@ -54,8 +55,12 @@ class MainWindow( QWidget ):
 
         # initialize the main window
         self.setWindowTitle( APP_NAME )
+        if getattr( sys, "frozen", False ):
+            dname = sys._MEIPASS #pylint: disable=no-member,protected-access
+        else:
+            dname = os.path.join( os.path.split(__file__)[0], "webapp" )
         self.setWindowIcon( QIcon(
-            os.path.join( os.path.split(__file__)[0], "webapp/static/images/app.ico" )
+            os.path.join( dname, "static/images/app.ico" )
         ) )
 
         # create the menu

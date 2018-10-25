@@ -31,7 +31,7 @@ setup(
             "lxml==4.2.4",
             "pylint==1.9.2",
             "pytest-pylint==0.9.0",
-            "cx-Freeze==5.1.1",
+            "PyInstaller==3.4",
         ],
     },
     include_package_data = True,
