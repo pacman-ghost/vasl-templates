@@ -1,0 +1,8 @@
+{
+    "SCENARIO_NAME": "GPID remapping test",
+    "PLAYER_1": "german",
+    "OB_VEHICLES_1": [
+        { "id":"ge/v:106", "name":"SdKfz 10/5", "image_id":"7140/0" },
+        { "id":"ge/v:105", "name":"SdKfz 10/4" }
+    ]
+}

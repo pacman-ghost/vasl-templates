@@ -7,6 +7,7 @@ import time
 import re
 import uuid
 import glob
+import random
 
 import pytest
 from PyQt5.QtWidgets import QApplication
@@ -48,14 +49,18 @@ def init_webapp( webapp, webdriver, **options ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def load_vasl_mod( data_dir, monkeypatch ):
+def load_vasl_mod( data_dir, monkeypatch, fname=None ):
     """Load a VASL module."""
 
     if data_dir:
-        # NOTE: Some tests require a VASL module to be loaded, and since they should all
-        # should behave in the same way, it doesn't matter which one we load.
-        fspec = os.path.join( pytest.config.option.vasl_mods, "*.vmod" ) #pylint: disable=no-member
-        fname = glob.glob( fspec )[0]
+        vasl_mods_dir = pytest.config.option.vasl_mods #pylint: disable=no-member
+        if fname:
+            fname = os.path.join( vasl_mods_dir, fname )
+        else:
+            # NOTE: Some tests require a VASL module to be loaded, and since they should all
+            # should behave in the same way, it doesn't matter which one we load.
+            fspec = os.path.join( vasl_mods_dir, "*.vmod" )
+            fname = random.choice( glob.glob( fspec ) )
         vasl_mod = VaslMod( fname, data_dir )
     else:
         vasl_mod = None

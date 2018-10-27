@@ -9,9 +9,9 @@ import xml.etree.ElementTree
 import logging
 _logger = logging.getLogger( "vasl_mod" )
 
-from vasl_templates.webapp.file_server.utils import get_vo_gpids
+from vasl_templates.webapp.file_server.utils import get_vo_gpids, get_effective_gpid
 
-SUPPORTED_VASL_MOD_VERSIONS = [ "6.3.3", "6.4.0", "6.4.1", "6.4.2" ]
+SUPPORTED_VASL_MOD_VERSIONS = [ "6.3.3", "6.4.0", "6.4.1", "6.4.2", "6.4.3" ]
 
 # ---------------------------------------------------------------------
 
@@ -30,7 +30,10 @@ class VaslMod:
         """Get the image for the specified piece."""
 
         # get the image path
-        entry = self.pieces[ gpid ]
+        gpid = get_effective_gpid( gpid )
+        if gpid not in self.pieces:
+            return None, None
+        entry = self.pieces[ get_effective_gpid( gpid ) ]
         assert side in ("front","back")
         image_paths = entry[ side+"_images" ]
         if not image_paths:
@@ -93,6 +96,9 @@ class VaslMod:
         for node in doc.iter( "VASSAL.build.widget.PieceSlot" ):
 
             # load the next entry
+            # FUDGE! 6.4.3 introduced weird GPID's for "Hex Grid" pieces :-/
+            if node.attrib["gpid"].startswith( "4d0:" ):
+                continue
             gpid = int( node.attrib["gpid"] )
             if gpid not in target_gpids:
                 continue

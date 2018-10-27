@@ -1198,8 +1198,6 @@
   7128  FT-17 730(f)                  ge/veh/geFT-17 37.png
   7132  38H 735(f)                    ge/veh/ge38H 735.png
   7136  35-S 739(f)                   ge/veh/ge35S 739.png
-  7140  SdKfz 10/5                    ge/veh/sdkfz105.gif                            ge/veh/sdkfz105b.gif
-  7146  SdKfz 10/4                    ge/veh/sdkfz104.gif                            ge/veh/sdkfz104b.gif
   7220  T-26B (r)                     fi/veh/fiT-26b2(r).png
   7409  76 ItK/28 B(s)                fiAA76L.png                                    fiAA76LB.png
   7418  T-28 M34(L)                   T28M34L.gif
