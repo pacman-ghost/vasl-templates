@@ -37,33 +37,20 @@ function user_settings()
         unload_droplist: function( $elem ) { return $elem.children(":selected").val() ; },
     } ;
 
-    function update_ui() {
-        // update the UI
-        var $dlg = $( ".ui-dialog.user-settings" ) ;
-        var is_server = $dlg.find( "input[name='include-vasl-images-in-snippets']" ).prop( "checked" ) ||
-                        $dlg.find( "input[name='include-flags-in-snippets']" ).prop( "checked" ) ;
-        $dlg.find( ".include-vasl-images-in-snippets-hint" ).css(
-            "color", is_server ? "#444" : "#aaa"
-        ) ;
-    }
-
     // show the "user settings" dialog
     $( "#user-settings" ).dialog( {
         title: "User settings",
         dialogClass: "user-settings",
         modal: true,
-        width: 450,
-        height: 200,
+        width: 400,
+        height: 270,
         resizable: false,
         create: function() {
             init_dialog( $(this), "OK", false ) ;
-            $(this).find( "input[name='include-vasl-images-in-snippets']" ).change( update_ui ) ;
-            $(this).find( "input[name='include-flags-in-snippets']" ).change( update_ui ) ;
         },
         open: function() {
             // load the current user settings
             load_settings( $(this) ) ;
-            update_ui() ;
         },
         buttons: {
             OK: function() {

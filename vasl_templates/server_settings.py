@@ -9,7 +9,7 @@ from PyQt5.QtGui import QIcon
 from vasl_templates.main import app_settings
 from vasl_templates.main_window import MainWindow
 from vasl_templates.webapp.config.constants import DATA_DIR
-from vasl_templates.webapp.file_server.vasl_mod import VaslMod
+from vasl_templates.webapp.file_server.vasl_mod import VaslMod, SUPPORTED_VASL_MOD_VERSIONS_DISPLAY
 from vasl_templates.webapp.files import install_vasl_mod
 
 # ---------------------------------------------------------------------
@@ -38,6 +38,9 @@ class ServerSettingsDialog( QDialog ):
 
         # load the current server settings
         self.vasl_mod.setText( app_settings.value( "ServerSettings/vasl-mod" ) )
+        self.vasl_mod.setToolTip(
+            "Supported versions: {}".format( SUPPORTED_VASL_MOD_VERSIONS_DISPLAY )
+        )
 
     def on_select_vasl_mod( self ):
         """Let the user select a VASL module."""

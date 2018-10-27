@@ -48,7 +48,7 @@ function _do_edit_simple_note( $sortable2, $entry, default_width )
             $width = $btn_pane.children( "input[name='width']" ) ;
             if ( $width.length === 0 ) {
                 // create the width controls
-                $btn_pane.prepend( $("<label for='width'>Width:</label>&nbsp;<input name='width' size='5'>") ) ;
+                $btn_pane.prepend( $("<label for='width'>Width:</label>&nbsp;<input type='text' name='width' size='5'>") ) ;
                 $width = $btn_pane.children( "input[name='width']" ) ;
             }
             // show/hide the width controls (nb: SSR's have a separate width setting that affects all of them)

@@ -6,7 +6,7 @@ body { font-family: Arial, Helvetica, sans-serif ; font-size: 16px ; }
 
 ul, ol { margin: 0.5em 0 0 1.25em ; }
 
-input[type="text"] { height: 20px ; border: 1px solid #c5c5c5 ; }
+input[type="text"] { height: 20px ; border: 1px solid #c5c5c5 ; padding: 0 2px ; }
 label { height: 1.25em ; margin-top: -3px ; }
 
 /* -------------------------------------------------------------------- */
@@ -37,7 +37,7 @@ button.edit-template { height: 30px ; padding: 4px 10px ; }
 button.edit-template img { height: 18px ; vertical-align: middle ; margin-right: 0.25em ; }
 
 .ui-dialog-titlebar { padding: 0.2em 0.5em 0.2em 0.5em !important ; }
-.ui-dialog-titlebar img.flag { height: 1em ; margin-right: 0.25em ; }
+.ui-dialog-titlebar img.flag { height: 0.9em ; margin-right: 0.25em ; }
 .ui-dialog-titlebar-close { margin-top: -10px !important ; }
 .ui-dialog-content p { margin-bottom: 0.5em ; }
 .ui-dialog-buttonpane button.ok { background: #ddd ; }

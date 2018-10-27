@@ -9,10 +9,13 @@
 
     <br><br>
 
-    <div>
+    <fieldset> <legend> Provide services to VASL </legend>
+        <div class="run-as-server-note">
+            <img src="{{url_for('static',filename='images/info.gif')}}">
+            If you enable any of these options, this program must be running before you load the scenario in VASL.
+        </div>
         <input type="checkbox" name="include-vasl-images-in-snippets">&nbsp;Include VASL images in snippets <br>
         <input type="checkbox" name="include-flags-in-snippets">&nbsp;Include flags in snippets
-        <div class="note include-vasl-images-in-snippets-hint" style="margin-left:20px;">This program must be running before you load the scenario in VASL.</div>
-    </div>
+    </fieldset>
 
 </div>

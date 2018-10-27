@@ -12,6 +12,7 @@ _logger = logging.getLogger( "vasl_mod" )
 from vasl_templates.webapp.file_server.utils import get_vo_gpids, get_effective_gpid
 
 SUPPORTED_VASL_MOD_VERSIONS = [ "6.3.3", "6.4.0", "6.4.1", "6.4.2", "6.4.3" ]
+SUPPORTED_VASL_MOD_VERSIONS_DISPLAY = "6.3.3, 6.4.0-6.4.3"
 
 # ---------------------------------------------------------------------
 
