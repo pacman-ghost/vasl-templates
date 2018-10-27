@@ -6,7 +6,7 @@ function edit_ob_ordnance( $entry, player_no ) { _do_edit_ob_vo( $entry, player_
 
 function _do_edit_ob_vo( $entry, player_no, vo_type )
 {
-    function get_default_capabilities( show_warnings ) {
+    function get_default_capabilities( vo_entry, params, show_warnings ) {
         return make_capabilities(
             false,
             vo_entry,
@@ -21,7 +21,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
     var vo_entry = $entry.data( "sortable2-data" ).vo_entry ;
     var capabilities = $entry.data( "sortable2-data" ).custom_capabilities ;
     if ( ! capabilities )
-        capabilities = get_default_capabilities( true ).slice() ;
+        capabilities = get_default_capabilities( vo_entry, params, true ).slice() ;
 
     // load the dialog
     var vo_image_id = $entry.data( "sortable2-data" ).vo_image_id ;
@@ -65,9 +65,13 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
         } ) ;
     }
 
+    // NOTE: on_reset_capabilities() gets bound when the sortable2 is *created*, so it needs some way
+    // to get the *current* vo_entry and params, otherwise it will use the values active when it was bound.
+    var $reset = $( "#vo_capabilities-reset" ) ;
+    $reset.data( { vo_entry: vo_entry, params: params } ) ;
     function on_reset_capabilities() {
         $capabilities.sortable2( "delete-all" ) ;
-        var capabilities = get_default_capabilities() ;
+        var capabilities = get_default_capabilities( $reset.data("vo_entry"), $reset.data("params"), false ) ;
         for ( var i=0 ; i < capabilities.length ; ++i )
             add_capability( capabilities[i] ) ;
     }
@@ -121,7 +125,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
                     if ( val )
                         capabilities.push( val ) ;
                 } ) ;
-                if ( capabilities.join() !== get_default_capabilities( false ).join() )
+                if ( capabilities.join() !== get_default_capabilities( vo_entry, params, false ).join() )
                     $entry.data( "sortable2-data" ).custom_capabilities = capabilities ;
                 else {
                     // the capabilities are the same as the default - no need to retain these custom settings
