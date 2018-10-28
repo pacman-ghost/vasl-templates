@@ -1,6 +1,6 @@
-#edit-simple_note { overflow: hidden ; padding: 2px ; }
-
-.ui-dialog.edit-simple_note .ui-dialog-buttonpane { border: none ; padding: 0 ; font-size: 75% ; }
+#edit-simple_note { overflow: hidden ; }
+.ui-dialog.edit-simple_note .ui-dialog-buttonpane { border: none ; margin-top: 0 !important ; padding-top: 0 !important ; }
 
 .ui-dialog.edit-simple_note textarea { resize: none ; width: calc(100% - 4px) ; height: 100% ; }
-.ui-dialog.edit-simple_note button { margin: 0 0 0 5px ; padding: 0.1em 0.2em ; }
+.ui-dialog.edit-simple_note label[for="width"] { color: #444 ; }
+.ui-dialog.edit-simple_note input[name="width"] { color: #444 ; }

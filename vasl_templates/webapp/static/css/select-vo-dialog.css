@@ -1,9 +1,12 @@
-#select-vo { overflow: hidden ; padding: 2px ; }
+#select-vo { overflow: hidden ; }
+.ui-dialog.select-vo .ui-dialog-content { padding-top: 0 !important ; }
+.ui-dialog.select-vo .ui-dialog-buttonpane { border: none ; margin-top: 0 !important ; padding-top: 0 !important ; }
 
 #select-vo .header { height: 1.75em ; margin-top: 0.25em ; font-size: 80% ; }
 
 #select-vo .select2-selection { display: none ; }
 #select-vo .select2-search { padding: 0 0 5px 0 ; }
+#select-vo .select2-results { border: 1px solid #ccc ; }
 #select-vo .select2-results__options { max-height: none ; }
 #select-vo .select2-dropdown { border: none ; }
 #select-vo .select2-dropdown .vo-entry { display: flex ; color: #444 ; }
@@ -14,13 +17,9 @@
 #select-vo .select2-results__option--highlighted[aria-selected] .vo-type { color: #eee ; }
 #select-vo .select2-dropdown .vo-entry input.select-vo-image { width: 15px ; position: relative ; top: 10px ; }
 
-.ui-dialog.select-vo .ui-dialog-buttonpane { border: none ; padding: 0 ; }
-.ui-dialog.select-vo .ui-dialog-buttonpane button { margin: 0 0 0 5px ; padding: 0.1em 0.2em ; }
-
 /* -------------------------------------------------------------------- */
 
-.ui-dialog.select-vo-image { padding: 5px ; }
 .ui-dialog.select-vo-image .ui-dialog-titlebar { display: none ; }
-.ui-dialog.select-vo-image .ui-dialog-content { padding: 0 ; height: 100% !important ; overflow: hidden ; }
+.ui-dialog.select-vo-image .ui-dialog-content { padding: 0 !important ; height: 100% !important ; overflow: hidden ; }
 
 .ui-dialog.select-vo-image .vo-images img { margin: 5px ; padding: 10px ; border: 1px dotted #ddd ; }
