@@ -143,6 +143,7 @@ Once they're all in, click on the <em>Snippet</em> button to get a nicely format
 <p> <img src="images/ob_vehicles.png" class="preview" style="width:20em;float:right;">
 Adding each vehicle and ordnance for each player is just a matter of selecting them from a list, and the generated HTML snippet will produce a table of information for each one (see right). Very handy if you have a menagerie of armor and you're, say, looking for something that can fire Smoke.
 <p> The scenario date is taken into account when generating these tables e.g. APCR for the Pz IVH is A5<sup>2</sup>, but since the program knows the scenario is set in 1944, it just shows A5. Had the scenario been set in 1941, it wouldn't be shown at all.
+<p> Double-click on an entry to make changes to it e.g. because an SSR changes its capabilities, or you'd like to add a note.
 <br clear="all">
 
 <p> <img src="images/ob_setup.png" class="preview" style="width:15em;float:left;">
@@ -153,6 +154,11 @@ We can also add ad-hoc notes describing where and how units should setup.
 <p> <img src="images/pf.png" class="preview" style="width:15em;float:right;">
 Finally, if special support weapons such as PF and BAZ are in play, snippets are available with information for them, and as with vehicles/ordnance, they are date-aware and update themselves accordingly.
 
+<h2> Extra templates </h2>
+
+<p> <img src="images/extras-templates.png" class="preview" style="width:15em;float:right;">
+<p> Extra templates are also available to generate ad-hoc snippets e.g. to keep track of how many PF shots you have left, or to generate a shaded box that can be inserted behind the Turn Track to indicate an LV Hindrance.
+
 <h2> Configuring the program </h2>
 
 <h4> Showing VASL counter images in the UI </h4>
@@ -162,10 +168,7 @@ Finally, if special support weapons such as PF and BAZ are in play, snippets are
 <li> If you are running the Windows desktop application, open the <em>Server settings</em> dialog from the <em>File</em> menu and configure it there.
 <li> If you are running the web server directly, create a file called <tt>site.cfg</tt> in the <tt>$/vasl_templates/webapp/config/</tt> directory and configure it there (there is an example file you can rename and edit).
 </ul>
-<div class="info"> You should configure version 6.3.3, or 6.4.0 thru 6.4.2, of the VASL module. </div>
-
-<h4> Showing VASL counter images in OB snippets </h4>
-
+<div class="info"> You should configure version 6.3.3, or 6.4.0 thru 6.4.3, of the VASL module. </div>
 <p> Once you've configured the VASL module, if you want to also show VASL counter images in the OB snippets that you copy in the VASL scenario, turn this on in the <em>User settings</em> dialog from the main application menu.
 <div class="info"> If you turn this feature on, the program must be running every time you load the scenario into VASL. </div>
 
