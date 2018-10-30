@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QMenuBar, QAction, QLabel, QMe
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage
 from PyQt5.QtWebChannel import QWebChannel
 from PyQt5.QtGui import QDesktopServices, QIcon
-from PyQt5.QtCore import Qt, QUrl, pyqtSlot
+from PyQt5.QtCore import Qt, QUrl, QMargins, pyqtSlot
 
 from vasl_templates.webapp.config.constants import APP_NAME
 from vasl_templates.main import app_settings
@@ -76,7 +76,7 @@ class MainWindow( QWidget ):
 
         # set the window geometry
         if disable_browser:
-            self.setFixedSize( 300, 100 )
+            self.setFixedSize( 300, 108 )
         else:
             # restore it from the previous session
             val = app_settings.value( "MainWindow/geometry" )
@@ -131,8 +131,10 @@ class MainWindow( QWidget ):
                 "<p> Close this window when you're done.".format(
                 APP_NAME, url
             ) )
+            label.setStyleSheet( "QLabel { background-color: white ; padding: 0.5em ; }" )
             label.setOpenExternalLinks( True )
             layout.addWidget( label )
+            layout.setContentsMargins( QMargins(0,0,0,0) )
 
         # register the instance
         assert MainWindow.instance is None
