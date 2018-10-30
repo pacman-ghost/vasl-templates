@@ -10,14 +10,13 @@ import logging
 import urllib.request
 
 import PyQt5.QtWebEngineWidgets
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QApplication, QMessageBox
 from PyQt5.QtCore import Qt, QSettings, QDir
 import PyQt5.QtCore
 import click
 
-from vasl_templates.webapp import app as webapp
-from vasl_templates.webapp import load_debug_config
-from vasl_templates.webapp import main as webapp_main, snippets as webapp_snippets
+# FUDGE! This needs to be created before showing any UI elements e.g. an error message box.
+qt_app = QApplication( sys.argv )
 
 app_settings = None
 
@@ -46,8 +45,32 @@ def qtMessageHandler( msg_type, context, msg ):# pylint: disable=unused-argument
 @click.option( "--default-scenario", help="Default scenario settings." )
 @click.option( "--remote-debugging", help="Chrome DevTools port number." )
 @click.option( "--debug", help="Debug config file." )
-def main( template_pack, default_scenario, remote_debugging, debug ): #pylint: disable=too-many-locals,too-many-branches
+def main( template_pack, default_scenario, remote_debugging, debug ):
     """Main entry point for the application."""
+    try:
+        return _do_main( template_pack, default_scenario, remote_debugging, debug )
+    except Exception as ex: #pylint: disable=broad-except
+        # log the error
+        # NOTE: If we get here, there was probably an error during startup, so we can't
+        # assume too much about how much of our expected environment has been set up.
+        try:
+            fname = os.path.join( QDir.homePath(), "vasl-templates.log"  )
+            with open( fname, "w" ) as fp:
+                traceback.print_exc( file=fp )
+        except: #pylint: disable=bare-except
+            pass
+        QMessageBox.warning( None, "Unexpected error", str(ex) )
+        return -1
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def _do_main( template_pack, default_scenario, remote_debugging, debug ): #pylint: disable=too-many-locals,too-many-branches
+    """Do main processing."""
+
+    # NOTE: We do these imports here (instead of at the top of the file) so that we can catch errors.
+    from vasl_templates.webapp import app as webapp
+    from vasl_templates.webapp import load_debug_config
+    from vasl_templates.webapp import main as webapp_main, snippets as webapp_snippets
 
     # configure the default template pack
     if template_pack:
@@ -85,9 +108,6 @@ def main( template_pack, default_scenario, remote_debugging, debug ): #pylint: d
 
     # connect PyQt's logging to Python logging
     PyQt5.QtCore.qInstallMessageHandler( qtMessageHandler )
-
-    # FUDGE! We need to do this before showing any UI elements e.g. an error message box.
-    app = QApplication( sys.argv )
 
     # install the server settings
     try:
@@ -149,7 +169,7 @@ def main( template_pack, default_scenario, remote_debugging, debug ): #pylint: d
     from vasl_templates.main_window import MainWindow #pylint: disable=cyclic-import
     main_window = MainWindow( url, disable_browser )
     main_window.show()
-    ret_code = app.exec_()
+    ret_code = qt_app.exec_()
 
     # shutdown the webapp server
     url = "http://localhost:{}/shutdown".format( port )
