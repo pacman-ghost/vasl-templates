@@ -4,8 +4,10 @@ import os
 import json
 import re
 import zipfile
+import io
 
-from flask import jsonify, abort
+from flask import request, jsonify, send_file, abort
+from PIL import Image
 
 from vasl_templates.webapp import app
 from vasl_templates.webapp.config.constants import DATA_DIR
@@ -108,6 +110,30 @@ def _do_get_template_pack( dname ):
 @app.route( "/flags/<nat>" )
 def get_flag( nat ):
     """Get a flag image."""
+
+    # validate the nationality
     if not re.search( "^[-a-z]+$", nat ):
         abort( 404 )
-    return app.send_static_file( "images/flags/{}.png".format( nat ) )
+
+    fname = "static/images/flags/{}.png".format( nat )
+    with app.open_resource( fname, "rb" ) as fp:
+
+        # load the image
+        img = Image.open( fp )
+
+        # check if we should resize the image
+        # NOTE: Resizing images in the HTML snippets looks dreadful (presumably
+        # because VASSAL's HTML engine is so ancient), so we do it ourself :-/
+        height = request.args.get( "height" )
+        if height:
+            height = int( height )
+            if height > 0:
+                width = img.size[0] / ( float(img.size[1]) / height )
+                width = int( width + 0.5 )
+                img = img.resize( (width,height), Image.ANTIALIAS )
+
+        # return the image
+        buf = io.BytesIO()
+        img.save( buf, format="PNG" )
+        buf.seek( 0 )
+        return send_file( buf, mimetype="image/png" )

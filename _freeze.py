@@ -79,8 +79,8 @@ def map_dir( src, dest ): #pylint: disable=missing-docstring
     args.extend( [ "--add-data", src + os.pathsep + dest ] )
 map_dir( "vasl_templates/ui", "vasl_templates/ui" )
 map_dir( "vasl_templates/resources", "vasl_templates/resources" )
-map_dir( "vasl_templates/webapp/static", "static" )
-map_dir( "vasl_templates/webapp/templates", "templates" )
+map_dir( "vasl_templates/webapp/static", "vasl_templates/webapp/static" )
+map_dir( "vasl_templates/webapp/templates", "vasl_templates/webapp/templates" )
 if sys.platform == "win32":
     args.append( "--noconsole" )
     args.extend( [ "--icon", APP_ICON ] )

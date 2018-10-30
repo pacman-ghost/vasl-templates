@@ -29,15 +29,7 @@ def load_debug_config( fname ):
 # ---------------------------------------------------------------------
 
 # initialize Flask
-if getattr( sys, "frozen", False ):
-    # NOTE: The support directories must have been set up by pyinstaller (via --add-data).
-    meipass = sys._MEIPASS #pylint: disable=no-member,protected-access
-    app = Flask( __name__,
-        template_folder = os.path.join( meipass, "templates" ),
-        static_folder = os.path.join( meipass, "static" )
-    )
-else:
-    app = Flask( __name__ )
+app = Flask( __name__ )
 
 # load the application configuration
 config_dir = os.path.join( BASE_DIR, "config" )

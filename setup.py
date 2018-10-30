@@ -21,6 +21,7 @@ setup(
         # nb: WebEngine seems to be broken in 5.10.1 :-/
         "PyQT5==5.10.0",
         "pyyaml==3.13",
+        "pillow==5.3.0",
         "click==6.7",
     ],
     extras_require = {
