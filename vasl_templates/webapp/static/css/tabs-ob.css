@@ -9,6 +9,7 @@
 
 .panel-ob_notes { height: 100% ;  display: flex ; flex-direction: column ; }
 .panel-ob_notes .content { flex-grow: 1 ; }
+.panel-ob_notes .sortable { font-size: 90% ; }
 .panel-ob_notes .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
 
 /* -------------------------------------------------------------------- */
@@ -18,6 +19,11 @@
 .panel-ob_vehicles .sortable { font-size: 90% ; }
 .panel-ob_vehicles .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
 
+.panel-ob_ordnance { height: 100% ;  display: flex ; flex-direction: column ; }
+.panel-ob_ordnance .content { flex-grow: 1 ; }
+.panel-ob_ordnance .sortable { font-size: 90% ; }
+.panel-ob_ordnance .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
+
 /* nb: the following CSS is shared by vehicles and ordnance */
 .panel-ob_vo .sortable .vo-entry { display: flex ; font-size: 90% ; }
 .panel-ob_vo .sortable .vo-entry img.vasl-image { display: inline-block ; vertical-align: middle ; height: 3.5em ; margin-right: 0.5em ; }
@@ -26,9 +32,3 @@
 .panel-ob_vo .sortable .vo-entry .detail .vo-name { font-size: 110% ; }
 .panel-ob_vo .sortable .vo-entry .detail .vo-capabilities { max-height: 2.5em ; overflow: hidden ; font-size: 90% ; font-style: italic ; }
 .panel-ob_vo .sortable .vo-entry .detail .vo-capability { margin-right: 0.5em ; color: #444 ; }
-
-/* -------------------------------------------------------------------- */
-
-.panel-ob_ordnance { height: 100% ;  display: flex ; flex-direction: column ; }
-.panel-ob_ordnance .content { flex-grow: 1 ; }
-.panel-ob_ordnance .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
