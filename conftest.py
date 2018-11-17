@@ -170,7 +170,7 @@ def webdriver( request ):
     driver.set_window_size( int(words[0]), int(words[1]) )
 
     # return the webdriver to the caller
-    yield driver
-
-    # clean up
-    driver.close()
+    try:
+        yield driver
+    finally:
+        driver.quit()
