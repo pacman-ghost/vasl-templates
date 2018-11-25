@@ -1,4 +1,5 @@
 _work_/
+_releases_/
 
 .venv*
 *.pyc

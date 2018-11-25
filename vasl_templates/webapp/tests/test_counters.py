@@ -20,7 +20,7 @@ from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
 
 @pytest.mark.skipif(
     not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods-tests not specified"
+    reason = "--vasl-mods not specified"
 )
 @pytest.mark.skipif(
     pytest.config.option.short_tests, #pylint: disable=no-member
@@ -94,7 +94,7 @@ def _dump_pieces( vasl_mod, out ):
 
 @pytest.mark.skipif(
     not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods-tests not specified"
+    reason = "--vasl-mods not specified"
 )
 def test_gpid_remapping( webapp, webdriver, monkeypatch ):
     """Test GPID remapping."""

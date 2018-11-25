@@ -38,7 +38,7 @@ ALL_SCENARIO_PARAMS = {
 
 # ---------------------------------------------------------------------
 
-def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-statements,too-many-locals
+def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-statements,too-many-locals,too-many-branches
     """Test loading/saving scenarios."""
 
     # initialize
@@ -104,11 +104,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     load_scenario_params( SCENARIO_PARAMS )
     check_window_title( "my test scenario" )
     check_ob_tabs( "russian", "german" )
-
-    # make sure that our test scenario includes everything
-    lhs = { k: set(v) for k,v in SCENARIO_PARAMS.items() }
-    rhs = { k: set(v) for k,v in ALL_SCENARIO_PARAMS.items() }
-    assert lhs == rhs
+    assert_scenario_params_complete( SCENARIO_PARAMS )
 
     # save the scenario and check the results
     saved_scenario = save_scenario()
@@ -124,6 +120,13 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     for key in expected:
         if re.search( r"^OB_(VEHICLES|ORDNANCE)_\d$", key ):
             expected[key] = [ { "name": name } for name in expected[key] ]
+    for player_no in (1,2):
+        for vo_type in ("OB_SETUPS","OB_NOTES"):
+            entries = expected[ "{}_{}".format( vo_type, player_no ) ]
+            for i,entry in enumerate(entries):
+                entry["id"] = 1+i
+    for i,entry in enumerate(expected["SCENARIO_NOTES"]):
+        entry["id"] = 1+i
     assert saved_scenario == expected
 
     # make sure that our list of scenario parameters is correct
@@ -189,6 +192,12 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     assert get_sortable_entry_text(ob_notes2) == [ obs["caption"] for obs in SCENARIO_PARAMS["ob2"]["OB_NOTES_2"] ]
     assert get_sortable_vo_names(vehicles2) == SCENARIO_PARAMS["ob2"]["OB_VEHICLES_2"]
     assert get_sortable_vo_names(ordnance2) == SCENARIO_PARAMS["ob2"]["OB_ORDNANCE_2"]
+
+def assert_scenario_params_complete( scenario_params ):
+    """Check that a set of scenario parameters is complete."""
+    lhs = { k: set(v) for k,v in scenario_params.items() }
+    rhs = { k: set(v) for k,v in ALL_SCENARIO_PARAMS.items() }
+    assert lhs == rhs
 
 # ---------------------------------------------------------------------
 

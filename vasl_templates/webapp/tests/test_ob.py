@@ -9,7 +9,7 @@ from vasl_templates.webapp.tests.utils import \
     get_nationalities, wait_for_clipboard, get_stored_msg, set_stored_msg_marker, select_tab, \
     find_child, find_children, \
     add_simple_note, edit_simple_note, get_sortable_entry_count, drag_sortable_entry_to_trash, \
-    select_droplist_val, init_webapp, wait_for, adjust_html
+    select_droplist_val, init_webapp, wait_for, adjust_html, set_scenario_date
 
 # ---------------------------------------------------------------------
 
@@ -96,19 +96,18 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
     init_webapp( webapp, webdriver )
     nationalities = get_nationalities( webapp )
 
-    # initialize
-    scenario_date = find_child( "#panel-scenario input[name='SCENARIO_DATE']" )
-    def set_scenario_date( date ):
-        """Set the scenario date."""
-        select_tab( "scenario" )
-        scenario_date.clear()
-        scenario_date.send_keys( "{:02}/01/{:04}".format( date[1], date[0] ) )
-
     def do_check_snippets( btn, date, expected, warning ):
         """Check that snippets are being generated correctly."""
-        # test snippet generation
-        set_scenario_date( date )
+        # change the scenario date, check that the button is displayed correctly
+        set_scenario_date( "{:02}/01/{:04}".format( date[1], date[0] ) )
         select_tab( "ob1" )
+        classes = btn.get_attribute( "class" )
+        classes = classes.split() if classes else []
+        if warning:
+            assert "inactive" in classes
+        else:
+            assert "inactive" not in classes
+        # test snippet generation
         marker = set_stored_msg_marker( "_last-warning_" )
         btn.click()
         wait_for_clipboard( 2, expected )

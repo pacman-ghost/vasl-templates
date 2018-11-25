@@ -296,6 +296,16 @@ pytest --webdriver chrome --headless
 
 <p> <small><em>NOTE: Internet Explorer is also supported as a WebDriver, but due to differences in the way it works, some tests are currently failing for this.</em></small>
 
+<h2> Compiling the VASSAL shim </h2>
+
+<p> The program uses VASSAL to update VASL scenarios (<tt>.vsav</tt> files), and since this is written in Java, a helper program has been written in Java to do this.
+<p> To compile the program, go to the <tt>$/vassal-shim</tt> directory and type:
+<div class="code">
+make all VASSAL_DIR=...
+</div>
+where <tt>VASSAL_DIR</tt> points to VASSAL's <tt>lib/</tt> directory (the program needs <tt>Vengine.jar</tt>).
+<p> Since this program doesn't change very often, the resulting artifact (<tt>vassal-shim.jar</tt>) is checked into source control, so that it can be used without needing to install a JDK and compiling it first.
+
 <h2> Code lint'ing </h2>
 
 <p> Python code is checked using <a href="https://pylint.readthedocs.io/en/latest/"><tt>pylint</tt></a> (installed during the <tt>pip install</tt> above), which should be run from the root directory of the repo.

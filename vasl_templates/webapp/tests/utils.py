@@ -125,6 +125,16 @@ def select_tab( tab_id ):
     elem = find_child( "#tabs .ui-tabs-nav a[href='#tabs-{}']".format( tab_id ) )
     elem.click()
 
+def select_tab_for_elem( elem ):
+    """Select the tab that contains the specified element."""
+    while True:
+        elem = elem.find_element_by_xpath( ".." )
+        if elem.tag_name == "div":
+            div_id = elem.get_attribute( "id" )
+            if div_id.startswith( "tabs-" ):
+                select_tab( div_id[5:] )
+                break
+
 def select_menu_option( menu_id ):
     """Select a menu option."""
     elem = find_child( "#menu" )
@@ -211,6 +221,18 @@ def set_template_params( params ): #pylint: disable=too-many-branches
                     elem.send_keys( Keys.TAB ) # nb: force the calendar popup to close :-/
                     wait_for( 5, lambda: find_child("#ui-datepicker-div").value_of_css_property("display") == "none" )
                     time.sleep( 0.25 )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def set_scenario_date( scenario_date ):
+    """Set the scenario date."""
+    if scenario_date is None:
+        return
+    select_tab( "scenario" )
+    elem = find_child( "input[name='SCENARIO_DATE']" )
+    elem.clear()
+    elem.send_keys( scenario_date )
+    elem.send_keys( Keys.TAB ) # nb: force the calendar popup to close :-/
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

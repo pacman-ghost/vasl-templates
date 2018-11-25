@@ -37,7 +37,7 @@ function make_player_flag_url( player_nat ) {
 
 function get_player_no_for_element( $elem )
 {
-    // get the player colors (if any) for the specified element
+    // get the player that owns the specified element
     if ( $.contains( $("#tabs-ob1")[0], $elem[0] ) )
         return 1 ;
     if ( $.contains( $("#tabs-ob2")[0], $elem[0] ) )

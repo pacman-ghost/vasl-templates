@@ -73,6 +73,7 @@ args = [
     "--onefile",
     "--name", target_name,
 ]
+args.extend( [ "--add-data", "vassal-shim/release/vassal-shim.jar" + os.pathsep + "vasl_templates/webapp" ] )
 # NOTE: We also need to include the config/ and data/ subdirectories, but we would like to
 # make them available to the user, so we include them ourself in the final release archive.
 def map_dir( src, dest ): #pylint: disable=missing-docstring

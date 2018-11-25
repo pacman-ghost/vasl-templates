@@ -88,6 +88,13 @@ function _do_edit_simple_note( $sortable2, $entry, default_width )
                     // create a new note
                     if ( caption !== "" ) {
                         data = { caption: caption, width: width } ;
+                        if ( note_type === "scenario_notes" || note_type === "ob_setups" || note_type === "ob_notes" ) {
+                            var usedIds = {} ;
+                            $sortable2.find( "li" ).each( function() {
+                                usedIds[ $(this).data("sortable2-data").id ] = true ;
+                            } ) ;
+                            data.id = auto_assign_id( usedIds ) ;
+                        }
                         _do_add_simple_note( $sortable2, data ) ;
                     }
                 }
@@ -132,21 +139,30 @@ function _make_simple_note( note_type, caption )
 
     // add a handler for the snippet button
     $content.children("img.snippet").click( function() {
-        var data = $(this).parent().parent().data( "sortable2-data" ) ;
-        var key ;
-        if ( note_type === "scenario_notes" )
-            key = "SCENARIO_NOTE" ;
-        else if ( note_type === "ob_setups" )
-            key = "OB_SETUP" ;
-        else if ( note_type == "ob_notes" )
-            key = "OB_NOTE" ;
-        var extra_params = {} ;
-        extra_params[key] = data.caption ;
-        extra_params[key+"_WIDTH"] = data.width ;
+        var extra_params = get_simple_note_snippet_extra_params( $(this) ) ;
         generate_snippet( $(this), extra_params ) ;
     } ) ;
 
     return $content ;
+}
+
+function get_simple_note_snippet_extra_params( $img )
+{
+    // get the extra parameters needed to generate the simple note's snippet
+    var extra_params = {} ;
+    var $sortable2 = $img.closest( ".sortable" ) ;
+    var note_type = _get_note_type_for_sortable( $sortable2 ) ;
+    var key ;
+    if ( note_type === "scenario_notes" )
+        key = "SCENARIO_NOTE" ;
+    else if ( note_type === "ob_setups" )
+        key = "OB_SETUP" ;
+    else if ( note_type == "ob_notes" )
+        key = "OB_NOTE" ;
+    var data = $img.parent().parent().data( "sortable2-data" ) ;
+    extra_params[key] = data.caption ;
+    extra_params[key+"_WIDTH"] = data.width ;
+    return extra_params ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

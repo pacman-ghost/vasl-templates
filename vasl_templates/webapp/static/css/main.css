@@ -14,7 +14,7 @@ label { height: 1.25em ; margin-top: -3px ; }
 #menu { position: absolute ; top: 15px ; right: 8px ; z-index: 1 ; }
 #menu input[type='image'] { height: 30px ; }
 
-.PopMenu-Item { width: 11em ; }
+.PopMenu-Item { width: 12em ; }
 .PopMenu-Item a { padding: 5px 10px 5px 10px ; }
 .PopMenu-Icon { display: none ; }
 
@@ -26,7 +26,8 @@ label { height: 1.25em ; margin-top: -3px ; }
 
 .select2-dropdown { color: #444 ; }
 
-.snippet-control button.generate { height: 26px ; padding: 2px 10px 2px 5px ; }
+.snippet-control button.generate { height: 26px ; padding: 2px 10px 2px 5px ; color: #000 ; }
+.snippet-control button.generate.inactive { color: #aaa ; }
 .snippet-control button.generate img { height: 20px ; margin-right: 5px ; vertical-align: middle ; }
 .snippet-control .ui-selectmenu-button { padding: 2px 10px ; }
 .snippet-control-menu-item { font-size: 75% ; font-style: italic ; }

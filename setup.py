@@ -22,13 +22,13 @@ setup(
         "PyQT5==5.10.0",
         "pyyaml==3.13",
         "pillow==5.3.0",
+        "selenium==3.12.0",
         "click==6.7",
     ],
     extras_require = {
         "dev": [
             "pytest==3.6.0",
             "tabulate==0.8.2",
-            "selenium==3.12.0",
             "lxml==4.2.4",
             "pylint==1.9.2",
             "pytest-pylint==0.9.0",

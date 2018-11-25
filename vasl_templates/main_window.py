@@ -5,15 +5,16 @@ import os
 import re
 import json
 import io
+import base64
 import logging
 
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QMenuBar, QAction, QLabel, QMessageBox
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage
 from PyQt5.QtWebChannel import QWebChannel
 from PyQt5.QtGui import QDesktopServices, QIcon
-from PyQt5.QtCore import Qt, QUrl, QMargins, pyqtSlot
+from PyQt5.QtCore import Qt, QUrl, QMargins, pyqtSlot, QVariant
 
-from vasl_templates.webapp.config.constants import APP_NAME
+from vasl_templates.webapp.config.constants import APP_NAME, IS_FROZEN
 from vasl_templates.main import app_settings
 from vasl_templates.web_channel import WebChannelHandler
 from vasl_templates.utils import log_exceptions
@@ -55,7 +56,7 @@ class MainWindow( QWidget ):
 
         # initialize the main window
         self.setWindowTitle( APP_NAME )
-        if getattr( sys, "frozen", False ):
+        if IS_FROZEN:
             dname = sys._MEIPASS #pylint: disable=no-member,protected-access
         else:
             dname = os.path.join( os.path.split(__file__)[0], "webapp" )
@@ -248,6 +249,25 @@ class MainWindow( QWidget ):
     def save_scenario( self, data ):
         """Called when the user wants to save a scenario."""
         return self._web_channel_handler.save_scenario( data )
+
+    @pyqtSlot( result=QVariant )
+    @log_exceptions( caption="SLOT EXCEPTION" )
+    def load_vsav( self ):
+        """Called when the user wants to update a VASL scenario."""
+        fname, data = self._web_channel_handler.load_vsav()
+        if data is None:
+            return None
+        return QVariant( {
+            "filename": fname,
+            "data": base64.b64encode( data ).decode( "utf-8" )
+        } )
+
+    @pyqtSlot( str, str, result=bool )
+    @log_exceptions( caption="SLOT EXCEPTION" )
+    def save_updated_vsav( self, fname, data ):
+        """Called when a VASL scenario has been updated and is ready to be saved."""
+        data = base64.b64decode( data )
+        return self._web_channel_handler.save_updated_vsav( fname, data )
 
     @pyqtSlot( str )
     @log_exceptions( caption="SLOT EXCEPTION" )

@@ -1,0 +1,574 @@
+""" Test VASSAL integration. """
+
+import os
+import glob
+import re
+import json
+import base64
+import random
+import typing.re #pylint: disable=import-error
+
+import pytest
+
+from vasl_templates.webapp.config.constants import DATA_DIR as REAL_DATA_DIR
+from vasl_templates.webapp.vassal import VassalShim
+from vasl_templates.webapp.utils import TempFile, change_extn
+from vasl_templates.webapp.tests.utils import \
+    init_webapp, select_menu_option, get_stored_msg, set_stored_msg, set_stored_msg_marker, wait_for
+from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, load_scenario_params, \
+    assert_scenario_params_complete
+
+# ---------------------------------------------------------------------
+
+@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+def test_full_update( webapp, webdriver, monkeypatch ):
+    """Test updating a scenario that contains the full set of snippets."""
+
+    # initialize
+    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
+    init_webapp( webapp, webdriver, vsav_persistence=1 )
+
+    # NOTE: We disable this for speed, since we don't care about label positioning.
+    monkeypatch.setitem( webapp.config, "DISABLE_UPDATE_VSAV_SCREENSHOTS", True )
+
+    # load the scenario fields
+    SCENARIO_PARAMS = {
+        "scenario": {
+            "SCENARIO_NAME": "Modified scenario name (<>{}\"'\\)",
+            "SCENARIO_ID": "xyz123",
+            "SCENARIO_LOCATION": "Right here",
+            "SCENARIO_THEATER": "PTO",
+            "SCENARIO_DATE": "12/31/1945",
+            "SCENARIO_WIDTH": "101",
+            "PLAYER_1": "russian", "PLAYER_1_ELR": "5", "PLAYER_1_SAN": "4",
+            "PLAYER_2": "german", "PLAYER_2_ELR": "3", "PLAYER_2_SAN": "2",
+            "VICTORY_CONDITIONS": "Just do it!", "VICTORY_CONDITIONS_WIDTH": "102",
+            "SCENARIO_NOTES": [
+                { "caption": "Modified scenario note #1", "width": "" },
+                { "caption": "Modified scenario note #2", "width": "100px" }
+            ],
+            "SSR": [ "Modified SSR #1", "Modified SSR #2" ],
+            "SSR_WIDTH": "103",
+        },
+        "ob1": {
+            "OB_SETUPS_1": [
+                { "caption": "Modified Russian setup #1", "width": "" },
+                { "caption": "Modified Russian setup #2", "width": "200px" },
+                { "caption": "Modified Russian setup #3", "width": "" },
+                { "caption": "Modified Russian setup #4", "width": "" },
+                { "caption": "Modified Russian setup #5", "width": "" },
+            ],
+            "OB_NOTES_1": [
+                { "caption": "Modified Russian note #1", "width": "10em" },
+            ],
+            "OB_VEHICLES_1": [ "T-34/85 (MT)" ],
+            "OB_VEHICLES_WIDTH_1": "202",
+            "OB_ORDNANCE_1": [ "82mm BM obr. 37 (MTR)" ],
+            "OB_ORDNANCE_WIDTH_1": "203",
+        },
+        "ob2": {
+            "OB_SETUPS_2": [ { "caption": "Modified German setup #1", "width": "" } ],
+            "OB_NOTES_2": [
+                { "caption": "Modified German note #1", "width": "" },
+                { "caption": "Modified German note #2", "width": "" },
+                { "caption": "Modified German note #3", "width": "" },
+                { "caption": "Modified German note #4", "width": "" },
+                { "caption": "Modified German note #5", "width": "" },
+            ],
+            "OB_VEHICLES_2": [ "PzKpfw VG (MT)" ],
+            "OB_VEHICLES_WIDTH_2": "302",
+            "OB_ORDNANCE_2": [ "3.7cm PaK 35/36 (AT)" ],
+            "OB_ORDNANCE_WIDTH_2": "303",
+        },
+    }
+    load_scenario_params( SCENARIO_PARAMS )
+    assert_scenario_params_complete( SCENARIO_PARAMS )
+
+    def do_test(): #pylint: disable=missing-docstring
+
+        # dump the original VASL scenario
+        # NOTE: We could arguably only do this once, but updating scenarios is the key functionality of the VASSAL shim,
+        # and so it's worth checking that every VASSAL+VASL combination understands its input correctly.
+        fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/full.vsav" )
+        vassal_shim = VassalShim()
+        vsav_dump = vassal_shim.dump_scenario( fname )
+        _check_vsav_dump( vsav_dump, {
+            "scenario": "Somewhere",
+            "players": re.compile( r"American:.*Belgian:" ),
+            "victory_conditions": "Make the other guy",
+            "ssr": re.compile( r"SSR #1.*SSR #2.*SSR #3" ),
+            "scenario_note.1": "scenario note #1",
+            "ob_setup_1.1": "U.S. setup #1", "ob_setup_1.2": "U.S. setup #2", "ob_setup_1.3": "U.S. setup #3",
+            "ob_note_1.1": "U.S. note #1", "ob_note_1.2": "U.S. note #2",
+            "ob_vehicles_1": re.compile( r"M4A1.*Sherman Crab" ),
+            "ob_ordnance_1": "M1 81mm Mortar",
+            "baz": "Bazooka",
+            "ob_setup_2.1": "Belgian setup #1", "ob_setup_2.2": "Belgian setup #2", "ob_setup_2.3": "Belgian setup #3",
+            "ob_note_2.1": "Belgian note #1", "ob_note_2.2": "Belgian note #2",
+            "ob_vehicles_2": re.compile( r"R-35\(f\).*Medium Truck" ),
+            "ob_ordnance_2": re.compile( r"Bofors M34.*DBT" ),
+        } )
+
+        # update the VASL scenario with the new snippets
+        updated_vsav_data = _update_vsav( fname, { "created": 8, "updated": 16, "deleted": 4 } )
+        with TempFile() as temp_file:
+            # check the results
+            temp_file.write( updated_vsav_data )
+            temp_file.close()
+            updated_vsav_dump = vassal_shim.dump_scenario( temp_file.name )
+            _check_vsav_dump( updated_vsav_dump, {
+                "scenario":  "Modified scenario name (<>{}\"'\\)",
+                "players": re.compile( r"Russian:.*German:" ),
+                "victory_conditions": "Just do it!",
+                "ssr": re.compile( r"Modified SSR #1.*Modified SSR #2" ),
+                "scenario_note.1": "Modified scenario note #1",
+                "scenario_note.2": "Modified scenario note #2",
+                "ob_setup_1.1": "Modified Russian setup #1", "ob_setup_1.2": "Modified Russian setup #2",
+                "ob_setup_1.3": "Modified Russian setup #3", "ob_setup_1.4": "Modified Russian setup #4",
+                "ob_setup_1.5": "Modified Russian setup #5",
+                "ob_note_1.1": "Modified Russian note #1",
+                "ob_vehicles_1": "T-34/85",
+                "ob_ordnance_1": "82mm BM obr. 37",
+                "ob_setup_2.1": "Modified German setup #1",
+                "ob_note_2.1": "Modified German note #1", "ob_note_2.2": "Modified German note #2",
+                "ob_note_2.3": "Modified German note #3", "ob_note_2.4": "Modified German note #4",
+                "ob_note_2.5": "Modified German note #5",
+                "pf": "Panzerfaust", "atmm": "Anti-Tank Magnetic Mines",
+                "ob_vehicles_2": "PzKpfw VG",
+                "ob_ordnance_2": "3.7cm PaK 35/36",
+            } )
+            # update the VASL scenario again (nothing should change)
+            updated_vsav_data = _update_vsav( temp_file.name, {} )
+            assert updated_vsav_data == b"No changes."
+
+    # run the test against all versions of VASSAL+VASL
+    _run_tests( webapp, monkeypatch, do_test, True )
+
+# ---------------------------------------------------------------------
+
+@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+def test_latw_autocreate( webapp, webdriver, monkeypatch ):
+    """Test auto-creation of LATW labels."""
+
+    # initialize
+    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
+    init_webapp( webapp, webdriver, vsav_persistence=1 )
+
+    # NOTE: We disable this for speed, since we don't care about label positioning.
+    monkeypatch.setitem( webapp.config, "DISABLE_UPDATE_VSAV_SCREENSHOTS", True )
+
+    # NOTE: We're only interested in what happens with the LATW labels, we ignore everything else.
+    ignore_labels = [ "scenario", "players", "victory_conditions" ]
+
+    def do_test(): #pylint: disable=missing-docstring
+
+        # check the VASL scenario
+        fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/empty.vsav" )
+        vassal_shim = VassalShim()
+        vsav_dump = vassal_shim.dump_scenario( fname )
+        _check_vsav_dump( vsav_dump, {}, ignore_labels )
+
+        # update the scenario (German/Russian, no date)
+        load_scenario_params( { "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "" } } )
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3 } )
+        _check_vsav_dump( updated_vsav_dump, {
+            # nb: no LATW labels should have been created
+        }, ignore_labels )
+
+        # update the scenario (German/Russian, OCT/43)
+        load_scenario_params( {
+            "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "10/01/1943" }
+        } )
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 4 } )
+        _check_vsav_dump( updated_vsav_dump, {
+            "pf": "Panzerfaust",
+        }, ignore_labels )
+
+        # update the scenario (German/Russian, JAN/44)
+        load_scenario_params( {
+            "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "01/01/1944" }
+        } )
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 5 } )
+        _check_vsav_dump( updated_vsav_dump, {
+            "pf": "Panzerfaust", "atmm": "ATMM check:",
+        }, ignore_labels )
+
+        # update the scenario (British/American, no date)
+        load_scenario_params( { "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "" } } )
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3 } )
+        _check_vsav_dump( updated_vsav_dump, {
+            # nb: no LATW labels should have been created
+        }, ignore_labels )
+
+        # update the scenario (British/American, DEC/45)
+        load_scenario_params( {
+            "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "12/31/1945" }
+        } )
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3 } )
+        _check_vsav_dump( updated_vsav_dump, {
+            # nb: no LATW labels should have been created
+        }, ignore_labels )
+
+    # run the test
+    # NOTE: We're testing the logic in the front/back-ends that determine whether LATW labels
+    # get created/updated/deleted, not the interaction with VASSAL, so we don't need to test
+    # against every VASSAL+VASL combination (although we can, if we want, but it'll be slow!)
+    _run_tests( webapp, monkeypatch, do_test, False )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+def test_latw_update( webapp, webdriver, monkeypatch ):
+    """Test updating of LATW labels."""
+
+    # initialize
+    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
+    init_webapp( webapp, webdriver, vsav_persistence=1 )
+
+    # NOTE: We disable this for speed, since we don't care about label positioning.
+    monkeypatch.setitem( webapp.config, "DISABLE_UPDATE_VSAV_SCREENSHOTS", True )
+
+    # NOTE: We're only interested in what happens with the LATW labels, we ignore everything else.
+    ignore_labels = [ "scenario", "players", "victory_conditions" ]
+
+    def do_test(): #pylint: disable=missing-docstring
+
+        # check the VASL scenario
+        fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/latw.vsav" )
+        vassal_shim = VassalShim()
+        vsav_dump = vassal_shim.dump_scenario( fname )
+        _check_vsav_dump( vsav_dump, {
+            "psk": "Panzerschrek", "atmm": "ATMM check:", # nb: the PF label has no snippet ID
+            "mol-p": "TH#", # nb: the MOL label has no snippet ID
+            "piat": "TH#",
+            "baz": "Bazooka",
+        }, ignore_labels )
+
+        # update the scenario (German/Russian, no date)
+        load_scenario_params( { "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "" } } )
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 2, "deleted": 2 } )
+        _check_vsav_dump( updated_vsav_dump, {
+            "pf": "Panzerfaust", "psk": "Panzerschrek", "atmm": "ATMM check:", # nb: the PF label now has a snippet ID
+            "mol": "Kindling Attempt:", "mol-p": "TH#", # nb: the MOL label now has a snippet ID
+            # nb: the PIAT and BAZ labels are now gone
+        }, ignore_labels )
+
+        # update the scenario (British/American, DEC/1943)
+        load_scenario_params( {
+            "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "12/31/1943" }
+        } )
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 1, "deleted": 3 } )
+        _check_vsav_dump( updated_vsav_dump, {
+            # nb: the PSK/ATMM and MOL-P label are now gone
+            "piat": "TH#",
+            "baz": "Bazooka  ('43)", # nb: this has changed from '45
+        }, ignore_labels )
+
+    # run the test
+    # NOTE: We're testing the logic in the front/back-ends that determine whether LATW labels
+    # get created/updated/deleted, not the interaction with VASSAL, so we don't need to test
+    # against every VASSAL+VASL combination (although we can, if we want, but it'll be slow!)
+    _run_tests( webapp, monkeypatch, do_test, False )
+
+# ---------------------------------------------------------------------
+
+@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+def test_dump_vsav( webapp, webdriver, monkeypatch ):
+    """Test dumping a scenario."""
+
+    # initialize
+    init_webapp( webapp, webdriver )
+
+    def do_test(): #pylint: disable=missing-docstring
+
+        # dump the VASL scenario
+        fname = os.path.join( os.path.split(__file__)[0], "fixtures/dump-vsav/labels.vsav" )
+        vassal_shim = VassalShim()
+        vsav_dump = vassal_shim.dump_scenario( fname )
+
+        # check the result
+        fname = change_extn( fname, ".txt" )
+        expected = open( fname, "r" ).read()
+        assert vsav_dump == expected
+
+    # run the test against all versions of VASSAL+VASL
+    _run_tests( webapp, monkeypatch, do_test, True )
+
+# ---------------------------------------------------------------------
+
+@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+def test_legacy_labels( webapp, webdriver, monkeypatch ):
+    """Test detection and updating of legacy labels."""
+
+    # initialize
+    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
+    init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
+
+    # NOTE: We disable this for speed, since we don't care about label positioning.
+    monkeypatch.setitem( webapp.config, "DISABLE_UPDATE_VSAV_SCREENSHOTS", True )
+
+    def do_test(): #pylint: disable=missing-docstring
+
+        # dump the VASL scenario
+        # NOTE: We implemented snippet ID's in v0.5, this scenario is the "Hill 621" example from v0.4.
+        fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/hill621-legacy.vsav" )
+        vassal_shim = VassalShim()
+        vsav_dump = vassal_shim.dump_scenario( fname )
+        labels = _get_vsav_labels( vsav_dump )
+        assert len( [ lbl for lbl in labels if "vasl-templates:id" not in lbl ] ) == 20
+        assert len( [ lbl for lbl in labels if "vasl-templates:id" in lbl ] ) == 0 #pylint: disable=len-as-condition
+
+        # load the scenario into the UI and update the VSAV
+        fname2 = change_extn( fname, ".json" )
+        saved_scenario = json.load( open( fname2, "r" ) )
+        load_scenario( saved_scenario )
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 1, "updated": 20 } )
+
+        # check the results
+        # nb: the update process should create 1 new label (the "Download from MMP" scenario note)
+        labels = _get_vsav_labels( updated_vsav_dump )
+        assert len( [ lbl for lbl in labels if "vasl-templates:id" not in lbl ] ) == 0 #pylint: disable=len-as-condition
+        assert len( [ lbl for lbl in labels if "vasl-templates:id" in lbl ] ) == 21
+        _check_vsav_dump( updated_vsav_dump, {
+            "scenario": "Near Minsk",
+            "players": re.compile( r"Russian:.*German:" ),
+            "victory_conditions": "five Level 3 hill hexes",
+            "ssr": re.compile( r"no wind at start.*must take a TC" ),
+            "scenario_note.1": "Download the scenario card",
+            "ob_setup_1.1": "whole hex of Board 3",
+            "ob_setup_1.2": "Enter on Turn 2", "ob_setup_1.3": "Enter on Turn 5",
+            "ob_vehicles_1": re.compile( r"T-34 M43.*SU-152.*SU-122.*ZIS-5" ),
+            "ob_setup_2.1": "whole hex of Board 4",
+            "ob_setup_2.2": "Enter on Turn 1", "ob_setup_2.3": "Enter on Turn 2", "ob_setup_2.4": "Enter on Turn 4",
+            "ob_setup_2.5": "Enter on Turn 5", "ob_setup_2.6": "Enter on Turn 8",
+            "ob_note_2.1": "80+mm Battalion Mortar",
+            "ob_note_2.2": "100+mm OBA",
+            "ob_vehicles_2": re.compile(
+                r"PzKpfw IVH.*PzKpfw IIIN.*StuG IIIG \(L\).*StuH 42.*SPW 250/1.*SPW 251/1.*SPW 251/sMG"
+            ),
+            "ob_ordnance_2": re.compile( r"7.5cm PaK 40.*5cm PaK 38" ),
+            "pf": "Panzerfaust", "atmm": "Anti-Tank Magnetic Mines",
+        } )
+
+    # run the test
+    _run_tests( webapp, monkeypatch, do_test, False )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+def test_legacy_latw_labels( webapp, webdriver, monkeypatch ):
+    """Test detection and updating of legacy LATW labels."""
+
+    # initialize
+    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
+    init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
+
+    # NOTE: We disable this for speed, since we don't care about label positioning.
+    monkeypatch.setitem( webapp.config, "DISABLE_UPDATE_VSAV_SCREENSHOTS", True )
+
+    def do_test(): #pylint: disable=missing-docstring
+
+        # dump the VASL scenario
+        # NOTE: This scenario contains LATW labels created using v0.4 i.e. they have no snippet ID's.
+        fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/latw-legacy.vsav" )
+        vassal_shim = VassalShim()
+        vsav_dump = vassal_shim.dump_scenario( fname )
+        labels = _get_vsav_labels( vsav_dump )
+        assert len( [ lbl for lbl in labels if "vasl-templates:id" not in lbl ] ) == 8
+        assert len( [ lbl for lbl in labels if "vasl-templates:id" in lbl ] ) == 0 #pylint: disable=len-as-condition
+
+        # NOTE: We're only interested in what happens with the LATW labels, ignore everything else
+        ignore_labels = [ "scenario", "players", "victory_conditions" ]
+
+        # update the VSAV (all LATW are active)
+        load_scenario_params( {
+            "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "12/31/1945" }
+        } )
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 5 } )
+        _check_vsav_dump( updated_vsav_dump, {
+            "pf": "Panzerfaust", "psk": "Panzerschrek", "atmm": "ATMM check:",
+            "mol": "Kindling Attempt:", "mol-p": "TH#",
+        }, ignore_labels )
+        labels = _get_vsav_labels( updated_vsav_dump )
+        # nb: the legacy labels left in place: the scenario comment, and the PIAT/BAZ labels
+        assert len( [ lbl for lbl in labels if "vasl-templates:id" not in lbl ] ) == 3
+
+        # update the VSAV (all LATW are active)
+        load_scenario_params( {
+            "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "12/31/1945" }
+        } )
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 2 } )
+        _check_vsav_dump( updated_vsav_dump, {
+            "piat": "PIAT",
+            "baz": "Bazooka  ('45)",
+        }, ignore_labels )
+        labels = _get_vsav_labels( updated_vsav_dump )
+        # nb: the legacy labels left in place: the scenario comment, the PF/PSK/ATMM and MOL/MOL-P labels
+        assert len( [ lbl for lbl in labels if "vasl-templates:id" not in lbl ] ) == 6
+
+        # update the VSAV (some LATW are active)
+        load_scenario_params( { "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "" } } )
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 5 } )
+        _check_vsav_dump( updated_vsav_dump, {
+            "pf": "Panzerfaust", "psk": "Panzerschrek", "atmm": "ATMM check:",
+            "mol": "Kindling Attempt:", "mol-p": "TH#",
+        }, ignore_labels )
+        labels = _get_vsav_labels( updated_vsav_dump )
+        # nb: the legacy labels left in place: the scenario comment, the PIAT/BAZ labels
+        assert len( [ lbl for lbl in labels if "vasl-templates:id" not in lbl ] ) == 3
+
+        # update the VSAV (some LATW are active)
+        load_scenario_params( { "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "" } } )
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 2 } )
+        _check_vsav_dump( updated_vsav_dump, {
+            "piat": "PIAT",
+            "baz": "Bazooka",
+        }, ignore_labels )
+        labels = _get_vsav_labels( updated_vsav_dump )
+        # nb: the legacy labels left in place: the scenario comment, the PF/PSK/ATMM, MOL/MOL-P and BAZ labels
+        assert len( [ lbl for lbl in labels if "vasl-templates:id" not in lbl ] ) == 6
+
+    # run the test
+    _run_tests( webapp, monkeypatch, do_test, False )
+
+# ---------------------------------------------------------------------
+
+def _run_tests( webapp, monkeypatch, func, test_all ):
+    """Run the test function for each combination of VASSAL + VASL.
+
+    This is, of course, going to be insanely slow, since we need to spin up a JVM
+    and initialize VASSAL/VASL each time :-/
+    """
+
+    # locate all VASL modules
+    vasl_mods_dir = pytest.config.option.vasl_mods #pylint: disable=no-member
+    fspec = os.path.join( vasl_mods_dir, "*.vmod" )
+    vasl_mods = glob.glob( fspec )
+
+    # locate all VASSAL engines
+    vassal_engines = []
+    vassal_dir = pytest.config.option.vassal #pylint: disable=no-member
+    for root,_,fnames in os.walk( vassal_dir ):
+        for fname in fnames:
+            if fname == "Vengine.jar":
+                vassal_engines.append( root )
+
+    # check if we want to test all VASSAL+VASL combinations (nb: if not, we test against only one combination,
+    # and since they all should give the same results, it doesn't matter which one.
+    if not test_all:
+        vasl_mods = [ random.choice( vasl_mods ) ]
+        vassal_engines = [ random.choice( vassal_engines ) ]
+
+    # run the test for each VASSAL+VASL
+    for vassal_engine in vassal_engines:
+        monkeypatch.setitem( webapp.config, "VASSAL_DIR", vassal_engine )
+        for vasl_mod in vasl_mods:
+            monkeypatch.setitem( webapp.config, "VASL_MOD", vasl_mod )
+            func()
+
+# ---------------------------------------------------------------------
+
+def _update_vsav( fname, expected ):
+    """Update a VASL scenario."""
+
+    # read the VSAV data
+    vsav_data = open( fname, "rb" ).read()
+
+    # send the VSAV data to the front-end to be updated
+    set_stored_msg( "_vsav-persistence_", base64.b64encode( vsav_data ).decode( "utf-8" ) )
+    _ = set_stored_msg_marker( "_last-info_" )
+    _ = set_stored_msg_marker( "_last-warning_" )
+    select_menu_option( "update_vsav" )
+
+    # wait for the results to come back
+    wait_for( 2, lambda: get_stored_msg( "_vsav-persistence_" ) == "" ) # nb: wait for the front-end to receive the data
+    timeout = 120 if os.name == "nt" else 60
+    wait_for( timeout, lambda: get_stored_msg( "_vsav-persistence_" ) != "" ) # nb: wait for the updated data to arrive
+    updated_vsav_data = get_stored_msg( "_vsav-persistence_" )
+    if updated_vsav_data.startswith( "ERROR: " ):
+        raise RuntimeError( updated_vsav_data )
+    updated_vsav_data = base64.b64decode( updated_vsav_data )
+
+    # parse the VASSAL shim report
+    if expected:
+        report = {}
+        msg = get_stored_msg( "_last-warning_" if "deleted" in expected else "_last-info_" )
+        assert "The VASL scenario was updated:" in msg
+        for mo2 in re.finditer( "<li>([^<]+)", msg ):
+            mo3 = re.search( r"^(\d+) labels? (were|was) ([a-z]+)", mo2.group(1) )
+            report[ mo3.group(3) ] = int( mo3.group(1) )
+        assert report == expected
+    else:
+        assert "No changes were made" in get_stored_msg( "_last-info_" )
+
+    return updated_vsav_data
+
+def _update_vsav_and_dump( fname, expected ):
+    """Update a VASL scenario and dump the result."""
+
+    # update the VASL
+    updated_vsav_data = _update_vsav( fname, expected )
+
+    # dump the updated VSAV
+    with TempFile() as temp_file:
+        temp_file.write( updated_vsav_data )
+        temp_file.close()
+        vassal_shim = VassalShim()
+        updated_vsav_dump = vassal_shim.dump_scenario( temp_file.name )
+        return updated_vsav_dump
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def _check_vsav_dump( vsav_dump, expected, ignore=None ):
+    """"Check that a VASL scenario dump contains what we expect."""
+
+    # extract the information of interest from the dump
+    labels = {}
+    for label in _get_vsav_labels(vsav_dump):
+        mo2 = re.search( r"<!-- vasl-templates:id (.*?) -->", label, re.DOTALL )
+        if not mo2:
+            continue # nb: this is not one of ours
+        snippet_id = mo2.group( 1 )
+        if snippet_id.startswith( "extras/" ):
+            continue
+        labels[snippet_id] = label
+
+    # compare what we extracted from the dump with what's expected
+    for snippet_id in expected:
+        if isinstance( expected[snippet_id], typing.re.Pattern ):
+            rc = expected[snippet_id].search( labels[snippet_id] ) is not None
+        else:
+            assert isinstance( expected[snippet_id], str )
+            rc = expected[snippet_id] in labels[snippet_id]
+        if not rc:
+            print( "Can't find {} in label: {}".format( expected[snippet_id], labels[snippet_id] ) )
+            assert False
+        del labels[snippet_id]
+
+    # check for unexpected extra labels in the VASL scenario
+    if ignore:
+        labels = [ lbl for lbl in labels if lbl not in ignore ]
+    if labels:
+        for snippet_id in labels:
+            print( "Extra label in the VASL scenario: {}".format( snippet_id ) )
+        assert False
+
+def _get_vsav_labels( vsav_dump ):
+    """Extract the labels from a VSAV dump."""
+    matches = re.finditer( r"AddPiece: DynamicProperty/User-Labeled.*?- Map", vsav_dump, re.DOTALL )
+    labels = [ mo.group() for mo in matches ]
+    regex = re.compile( r"<html>.*?</html>" )
+    matches = [ regex.search(label) for label in labels ]
+    return [ mo.group() if mo else "<???>" for mo in matches ]

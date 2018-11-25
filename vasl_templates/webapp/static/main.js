@@ -9,7 +9,7 @@ gVaslPieceInfo = {} ;
 gWebChannelHandler = null ;
 gEmSize = null ;
 
-var _NATIONALITY_SPECIFIC_BUTTONS = {
+var NATIONALITY_SPECIFIC_BUTTONS = {
     "russian": [ "mol", "mol-p" ],
     "german": [ "pf", "psk", "atmm" ],
     "american": [ "baz" ],
@@ -39,6 +39,7 @@ $(document).ready( function () {
         new_scenario: { label: "New scenario", action: function() { on_new_scenario() ; } },
         load_scenario: { label: "Load scenario", action: on_load_scenario },
         save_scenario: { label: "Save scenario", action: on_save_scenario },
+        update_vsav: { label: "Update VASL scenario", action: on_update_vsav },
         separator: { type: "separator" },
         template_pack: { label: "Load template pack", action: on_template_pack },
         separator2: { type: "separator" },
@@ -63,10 +64,10 @@ $(document).ready( function () {
             } ) ;
         }
     } ) ;
-    // add a handler for when the "load scenario" file has been selected
+    // add handlers
     $("#load-scenario").change( on_load_scenario_file_selected ) ;
-    // add a handler for when the "load template pack" file has been selected
     $("#load-template-pack").change( on_template_pack_file_selected ) ;
+    $("#load-vsav").change( on_load_vsav_file_selected ) ;
     // all done - we can show the menu now
     $("#menu").show() ;
 
@@ -421,10 +422,10 @@ function update_page_load_status( id )
 
     // check if the vehicle/ordnance listings have finished loading
     if ( gPageLoadStatus.indexOf( "vehicle-listings" ) === -1 && gPageLoadStatus.indexOf( "ordnance-listings" ) === -1 ) {
-        // NOTE: If the default scanerio contains any vehicles or ordnance, it will look up the V/O listings,
+        // NOTE: If the default scenario contains any vehicles or ordnance, it will look up the V/O listings,
         // so we need to wait until those have arrived. Note that while the default scenario will normally
         // be empty, having stuff in it is very useful during development.
-        do_on_new_scenario() ;
+        do_on_new_scenario( false ) ;
     }
 
     // check if the page has finished loading
@@ -555,9 +556,9 @@ function on_player_change( player_no )
     var player_nat = update_ob_tab_header( player_no ) ;
 
     // show/hide the nationality-specific buttons
-    for ( var nat in _NATIONALITY_SPECIFIC_BUTTONS ) {
-        for ( var i=0 ; i < _NATIONALITY_SPECIFIC_BUTTONS[nat].length ; ++i ) {
-            var button_id = _NATIONALITY_SPECIFIC_BUTTONS[nat][i] ;
+    for ( var nat in NATIONALITY_SPECIFIC_BUTTONS ) {
+        for ( var i=0 ; i < NATIONALITY_SPECIFIC_BUTTONS[nat].length ; ++i ) {
+            var button_id = NATIONALITY_SPECIFIC_BUTTONS[nat][i] ;
             var $elem = $( "#panel-ob_notes_" + player_no + " div.snippet-control[data-id='" + button_id + "']" ) ;
             $elem.css( "display", nat == player_nat ? "inline-block" : "none" ) ;
         }

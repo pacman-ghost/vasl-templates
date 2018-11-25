@@ -22,6 +22,7 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/ask-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/select-vo-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/edit-vo-dialog.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/vassal.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/user-settings-dialog.css')}}" />
 
 </head>
@@ -42,6 +43,7 @@
     <input type="image" src="{{url_for('static',filename='images/menu.png')}}" value="actions">
     <input id="load-scenario" type="file" accept=".json" style="display:none;">
     <input id="load-template-pack" type="file" accept=".zip,.j2" style="display:none;">
+    <input id="load-vsav" type="file" accept=".vsav" style="display:none;">
 </div>
 
 {%include "tabs.html"%}
@@ -60,6 +62,8 @@
 {%include "select-vo-dialog.html"%}
 {%include "select-vo-image-dialog.html"%}
 {%include "edit-vo-dialog.html"%}
+
+{%include "vassal.html"%}
 
 {%include "user-settings-dialog.html"%}
 
@@ -89,6 +93,7 @@ gGetDefaultScenarioUrl = "{{url_for('get_default_scenario')}}" ;
 gVehicleListingsUrl = "{{url_for('get_vehicle_listings',merge_common=1)}}" ;
 gOrdnanceListingsUrl = "{{url_for('get_ordnance_listings',merge_common=1)}}" ;
 gGetVaslPieceInfoUrl = "{{url_for('get_vasl_piece_info')}}" ;
+gUpdateVsavUrl = "{{url_for('update_vsav')}}" ;
 gHelpUrl = "{{url_for('show_help')}}" ;
 </script>
 
@@ -98,6 +103,7 @@ gHelpUrl = "{{url_for('show_help')}}" ;
 <script src="{{url_for('static',filename='simple_notes.js')}}"></script>
 <script src="{{url_for('static',filename='vo.js')}}"></script>
 <script src="{{url_for('static',filename='vo2.js')}}"></script>
+<script src="{{url_for('static',filename='vassal.js')}}"></script>
 <script src="{{url_for('static',filename='sortable.js')}}"></script>
 <script src="{{url_for('static',filename='user_settings.js')}}"></script>
 <script src="{{url_for('static',filename='utils.js')}}"></script>

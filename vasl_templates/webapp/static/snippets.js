@@ -22,28 +22,47 @@ var gLastSavedScenarioFilename = null;
 
 function generate_snippet( $btn, extra_params )
 {
-    // unload the template parameters
+    // generate the snippet
+    var snippet = make_snippet( $btn, extra_params, true ) ;
+
+    // copy the snippet to the clipboard
+    try {
+        copyToClipboard( snippet ) ;
+    }
+    catch( ex ) {
+        showErrorMsg( "Can't copy to the clipboard:<div class'pre'>" + escapeHTML(ex) + "</div>" ) ;
+        return ;
+    }
+    showInfoMsg( "The HTML snippet has been copied to the clipboard." ) ;
+}
+
+function make_snippet( $btn, extra_params, show_date_warnings )
+{
+    // initialize
     var template_id = $btn.data( "id" ) ;
     var params = unload_snippet_params( true, template_id ) ;
 
     // set player-specific parameters
-    var curr_tab = $("#tabs .ui-tabs-active a").attr( "href" ) ;
-    var colors ;
-    if ( curr_tab === "#tabs-ob1" ) {
-        params.PLAYER_NAME = get_nationality_display_name( params.PLAYER_1 ) ;
-        colors = get_player_colors( 1 ) ;
+    var player_no = get_player_no_for_element( $btn ) ;
+    if ( player_no ) {
+        params.PLAYER_NAME = get_nationality_display_name( params["PLAYER_"+player_no] ) ;
+        var colors = get_player_colors( player_no ) ;
         params.OB_COLOR = colors[0] ;
         params.OB_COLOR_2 = colors[2] ;
         if ( gUserSettings["include-flags-in-snippets"] )
-            params.PLAYER_FLAG = make_player_flag_url( get_player_nat( 1 ) ) ;
-    } else if ( curr_tab === "#tabs-ob2" ) {
-        params.PLAYER_NAME = get_nationality_display_name( params.PLAYER_2 ) ;
-        colors = get_player_colors( 2 ) ;
-        params.OB_COLOR = colors[0] ;
-        params.OB_COLOR_2 = colors[2] ;
-        if ( gUserSettings["include-flags-in-snippets"] )
-            params.PLAYER_FLAG = make_player_flag_url( get_player_nat( 2 ) ) ;
+            params.PLAYER_FLAG = make_player_flag_url( get_player_nat( player_no ) ) ;
     }
+
+    // set the snippet ID
+    var data ;
+    if ( template_id === "ob_setup" || template_id === "ob_note" ) {
+        data = $btn.parent().parent().data( "sortable2-data" ) ;
+        params.SNIPPET_ID = template_id + "_" + player_no + "." + data.id ;
+    } else if ( template_id === "scenario_note" ) {
+        data = $btn.parent().parent().data( "sortable2-data" ) ;
+        params.SNIPPET_ID = template_id + "." + data.id ;
+    } else
+        params.SNIPPET_ID = template_id ;
 
     // set player-specific parameters
     if ( template_id == "ob_vehicles_1" ) {
@@ -129,14 +148,16 @@ function generate_snippet( $btn, extra_params )
     }
 
     // check for date-specific parameters
-    if ( template_id === "pf" && ! is_pf_available() )
-        showWarningMsg( "PF are only available after September 1943." ) ;
-    if ( template_id === "psk" && ! is_psk_available() )
-        showWarningMsg( "PSK are only available after September 1943." ) ;
-    if ( template_id === "baz" && ! is_baz_available() )
-        showWarningMsg( "BAZ are only available from November 1942." ) ;
-    if ( template_id === "atmm" && ! is_atmm_available() )
-        showWarningMsg( "ATMM are only available from 1944." ) ;
+    if ( show_date_warnings ) {
+        if ( template_id === "pf" && ! is_pf_available() )
+            showWarningMsg( "PF are only available after September 1943." ) ;
+        if ( template_id === "psk" && ! is_psk_available() )
+            showWarningMsg( "PSK are only available after September 1943." ) ;
+        if ( template_id === "baz" && ! is_baz_available() )
+            showWarningMsg( "BAZ are only available from November 1942." ) ;
+        if ( template_id === "atmm" && ! is_atmm_available() )
+            showWarningMsg( "ATMM are only available from 1944." ) ;
+    }
 
     // add in any extra parameters
     if ( extra_params )
@@ -149,44 +170,38 @@ function generate_snippet( $btn, extra_params )
     // get the template to generate the snippet from
     var templ = get_template( template_id, true ) ;
     if ( templ === null )
-        return ;
+        return "" ;
     var func ;
     try {
         func = jinja.compile( templ ).render ;
     }
     catch( ex ) {
         showErrorMsg( "Can't compile template:<div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
-        return ;
+        return "[error: can't compile template]" ;
     }
 
     // process the template
-    var val ;
+    var snippet ;
     try {
         // NOTE: While it's generally not a good idea to disable auto-escaping, the whole purpose
         // of this application is to generate HTML snippets, and so virtually every single
         // template parameter would have to be piped through the "safe" filter :-/ We never render
         // any of the generated HTML, so any risk exists only when the user pastes the HTML snippet
         // into a VASL scenario, which uses an ancient HTML engine (with probably no Javascript)...
-        val = func( params, {
+        snippet = func( params, {
             autoEscape: false,
             filters: {
-                join: function(val,sep) { return val.join(sep) ; }
+                join: function(snippet,sep) { return snippet.join(sep) ; }
             } ,
         } ) ;
-        val = val.trim() ;
+        snippet = snippet.trim() ;
     }
     catch( ex ) {
         showErrorMsg( "Can't process template: <span class='pre'>" + template_id + "</span><div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
-        return ;
+        return "[error: can't process template'" ;
     }
-    try {
-        copyToClipboard( val ) ;
-    }
-    catch( ex ) {
-        showErrorMsg( "Can't copy to the clipboard:<div class'pre'>" + escapeHTML(ex) + "</div>" ) ;
-        return ;
-    }
-    showInfoMsg( "The HTML snippet has been copied to the clipboard." ) ;
+
+    return snippet ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -696,7 +711,7 @@ function do_load_scenario( data, fname )
 {
     // NOTE: We reset the scenario first, in case the loaded scenario is missing fields,
     // so that those fields will be reset to their default values (instead of just staying unchanged).
-    do_on_new_scenario() ;
+    do_on_new_scenario( false ) ;
 
     // load the scenario
     try {
@@ -714,6 +729,14 @@ function do_load_scenario_data( params )
 {
     // reset the scenario
     reset_scenario() ;
+
+    // auto-assign ID's to the OB setup notes and notes
+    // NOTE: We do this here to handle scenarios that were created before these ID's were implemented.
+    auto_assign_ids( params.SCENARIO_NOTES ) ;
+    auto_assign_ids( params.OB_SETUPS_1 ) ;
+    auto_assign_ids( params.OB_NOTES_1 ) ;
+    auto_assign_ids( params.OB_SETUPS_2 ) ;
+    auto_assign_ids( params.OB_NOTES_2 ) ;
 
     // load the scenario parameters
     var params_loaded = {} ;
@@ -860,6 +883,50 @@ function do_load_scenario_data( params )
     on_scenario_date_change() ;
 }
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function auto_assign_ids( vals )
+{
+    if ( ! vals )
+        return ;
+
+    // NOTE: These ID's are used to uniquely identify OB setup notes and OB notes, since they are generated
+    // from the same template ("ob_setup" and "ob_note") and so the template_id alone won't be enough. We need
+    // to be able to uniquely identify each snippet so that we can match them with labels in the VASL scenario.
+    // However, we need to be able to handle the following situation:
+    // - the scenario has, say, 5 OB notes, with ID's 1-5
+    // - the user deletes #3, and creates a new one
+    // If we track the highest ID ever used across the life of the scenario, the new snippet will be assigned ID #6,
+    // but when we inject the snippets into the VASL scenario, the label corresponding to snippet #3 will be left
+    // as it is, and a new label created for snippet #6, which is not what the user will want. Instead, we re-use
+    // ID 3 and give it to the new snippet, so that when we inject snippets, the old label corresponding to snippet #3
+    // will simply be updated with the contents of the new snippet #6.
+
+    // identify which ID's are currently in use
+    var usedIds = {} ;
+    for ( var i=0 ; i < vals.length ; ++i ) {
+        if ( vals[i].id )
+            usedIds[ vals[i].id ] = true ;
+    }
+
+    // assign ID's to entries that don't have one
+    for ( i=0 ; i < vals.length ; ++i ) {
+        if ( ! vals[i].id )
+            vals[i].id = auto_assign_id( usedIds ) ;
+    }
+}
+
+function auto_assign_id( usedIds )
+{
+    // assign the next available ID
+    for ( var i=1 ; ; ++i ) {
+        if ( ! usedIds[i] ) {
+            usedIds[i] = true ;
+            return i ;
+        }
+    }
+}
+
 // --------------------------------------------------------------------
 
 function on_save_scenario()
@@ -959,7 +1026,7 @@ function on_new_scenario()
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function do_on_new_scenario( verbose ) {
+function do_on_new_scenario( user_requested ) {
     // load the default scenario
     if ( gDefaultScenario )
         do_load_scenario_data( gDefaultScenario ) ;
@@ -976,11 +1043,11 @@ function do_on_new_scenario( verbose ) {
 
     // flag that we have a new scenario
     gLastSavedScenarioFilename = null ;
-    if ( gWebChannelHandler )
+    if ( gWebChannelHandler && user_requested )
         gWebChannelHandler.on_new_scenario() ;
 
     // provide some feedback to the user
-    if ( verbose )
+    if ( user_requested )
         showInfoMsg( "The scenario was reset." ) ;
 }
 
@@ -1218,7 +1285,10 @@ function on_scenario_date_change()
     // (by SSR) even outside the normal time.
     function update_ui( id, is_available ) {
         var $btn = $( "button.generate[data-id='" + id + "']" ) ;
-        $btn.css( "color", is_available?"#000":"#aaa" ) ;
+        if ( is_available )
+            $btn.removeClass( "inactive" ) ;
+        else
+            $btn.addClass( "inactive" ) ;
         $btn.children( "img" ).each( function() {
             $(this).attr( "src", gImagesBaseUrl + (is_available?"/snippet.png":"/snippet-disabled.png") ) ;
         } ) ;

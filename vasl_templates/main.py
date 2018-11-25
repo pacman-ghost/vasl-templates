@@ -15,6 +15,8 @@ from PyQt5.QtCore import Qt, QSettings, QDir
 import PyQt5.QtCore
 import click
 
+from vasl_templates.webapp.utils import SimpleError
+
 # FUDGE! This needs to be created before showing any UI elements e.g. an error message box.
 qt_app = QApplication( sys.argv )
 
@@ -86,7 +88,7 @@ def _do_main( template_pack, default_scenario, remote_debugging, debug ): #pylin
     # configure the default scenario
     if default_scenario:
         if not os.path.isfile( default_scenario ):
-            raise RuntimeError( "Can't find the default scenario file." )
+            raise SimpleError( "Can't find the default scenario file." )
         webapp_main.default_scenario = default_scenario
 
     # configure remote debugging
@@ -134,7 +136,7 @@ def _do_main( template_pack, default_scenario, remote_debugging, debug ): #pylin
     except: #pylint: disable=bare-except
         resp = None
     if resp:
-        raise RuntimeError( "The application is already running." )
+        raise SimpleError( "The application is already running." )
 
     # start the webapp server
     def webapp_thread():

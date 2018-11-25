@@ -147,20 +147,30 @@ function _parse_extra_template( template_id, template )
 function fixup_template_parameters( template )
 {
     // identify any non-standard template parameters
-    var matches = [] ;
     var regex = /\{\{([A-Z0-9_]+?):.*?\}\}/g ;
+    var matches = [] ;
     var match ;
     while( (match = regex.exec( template )) !== null )
         matches.push( [ regex.lastIndex-match[0].length, match[0].length, match[1] ] ) ;
 
     // fix them up
+    var i ;
     if ( matches.length > 0 ) {
-        for ( var i=matches.length-1 ; i >= 0 ; --i )
+        for ( i=matches.length-1 ; i >= 0 ; --i )
             template = template.substr(0,matches[i][0]) + "{{"+matches[i][2]+"}}" + template.substr(matches[i][0]+matches[i][1]) ;
     }
 
-    // remove comments
-    template = template.replace( /<!-- vasl-templates:.*? -->\n*/g, "" ) ;
+    // remove all our special comments, except for the snippet ID
+    regex = /<!-- vasl-templates:(.*?) .*? -->\n*/g ;
+    matches = [] ;
+    while( (match = regex.exec( template )) !== null ) {
+        if ( match[1] !== "id" )
+            matches.push( [ regex.lastIndex-match[0].length, match[0].length ] ) ;
+    }
+    if ( matches.length > 0 ) {
+        for ( i=matches.length-1 ; i >= 0 ; --i )
+            template = template.substr(0,matches[i][0]) + template.substr(matches[i][0]+matches[i][1]) ;
+    }
 
     return template ;
 }

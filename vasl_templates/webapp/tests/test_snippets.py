@@ -2,11 +2,67 @@
 
 from selenium.webdriver.common.keys import Keys
 
+from vasl_templates.webapp.config.constants import DATA_DIR as REAL_DATA_DIR
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, select_tab, set_template_params, wait_for_clipboard, \
-    get_stored_msg, set_stored_msg_marker, find_child, adjust_html, \
+    init_webapp, select_tab, select_tab_for_elem, set_template_params, wait_for_clipboard, \
+    get_stored_msg, set_stored_msg_marker, find_child, find_children, adjust_html, \
     for_each_template, add_simple_note, edit_simple_note, \
-    get_sortable_entry_count, generate_sortable_entry_snippet, drag_sortable_entry_to_trash
+    get_sortable_entry_count, generate_sortable_entry_snippet, drag_sortable_entry_to_trash, \
+    new_scenario, set_scenario_date
+from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, load_scenario_params
+
+# ---------------------------------------------------------------------
+
+def test_snippet_ids( webapp, webdriver, monkeypatch ):
+    """Check that snippet ID's are generated correctly."""
+
+    # initialize
+    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
+
+    # load a scenario (so that we get some sortable's)
+    scenario_data = {
+        "SCENARIO_NOTES": [ { "caption": "Scenario note #1"  } ],
+        "OB_SETUPS_1": [ { "caption": "OB setup note #1" } ],
+        "OB_NOTES_1": [ { "caption": "OB note #1" } ],
+        "OB_SETUPS_2": [ { "caption": "OB setup note #2" } ],
+        "OB_NOTES_2": [ { "caption": "OB note #2" } ],
+    }
+    load_scenario( scenario_data )
+
+    def check_snippet( btn ):
+        """Generate a snippet and check that it has an ID."""
+        select_tab_for_elem( btn )
+        if not btn.is_displayed():
+            # FUDGE! All nationality-specific buttons are created on each OB tab, and the ones not relevant
+            # to each player are just hidden. This is not real good since we have multiple elements with the same ID :-/
+            # but we work around this by checking if the button is visible. Sigh...
+            return
+        btn.click()
+        wait_for_clipboard( 2, "<!-- vasl-templates:id ", contains=True )
+
+    def do_test( scenario_date ):
+        """Check each generated snippet has an ID."""
+
+        # configure the scenario
+        set_scenario_date( scenario_date )
+
+        # check each snippet
+        for btn in find_children( "button.generate" ):
+            check_snippet( btn )
+        for btn in find_children( "img.snippet" ):
+            check_snippet( btn )
+
+    # test snippets with German/Russian
+    do_test( "" )
+    do_test( "10/01/1943" )
+    do_test( "01/01/1944" )
+
+    # test snippets with British/American
+    new_scenario()
+    load_scenario_params( { "scenario": { "PLAYER_1": "british", "PLAYER_2": "american" } } )
+    do_test( "" )
+    do_test( "11/01/1942" )
 
 # ---------------------------------------------------------------------
 

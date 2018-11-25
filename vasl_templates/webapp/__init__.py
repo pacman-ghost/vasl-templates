@@ -59,6 +59,7 @@ import vasl_templates.webapp.main #pylint: disable=cyclic-import
 import vasl_templates.webapp.vo #pylint: disable=cyclic-import
 import vasl_templates.webapp.snippets #pylint: disable=cyclic-import
 import vasl_templates.webapp.files #pylint: disable=cyclic-import
+import vasl_templates.webapp.vassal #pylint: disable=cyclic-import
 
 # ---------------------------------------------------------------------
 

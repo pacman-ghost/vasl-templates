@@ -1,0 +1,57 @@
+SetupCommand: starting=false
+  AddPiece: DynamicProperty/81* MTR GrW 34 ca3
+    AddPiece: DynamicProperty/3-3-8 Ehs
+    AddPiece: DynamicProperty/PzKw VG vca3 tca3 BU
+    AddPiece: DynamicProperty/HMG
+    AddPiece: Stack
+    AddPiece: DynamicProperty/User-Labeled
+    - test<09>global
+    - null
+    - <empty>
+    - Label
+    - Line 2
+    - Map0;84;76;6292
+    AddPiece: Stack
+    AddPiece: DynamicProperty/User-Labeled
+    - test<09>global
+    - null
+    - <empty>
+    - Label
+    - no background
+    - Map0;231;79;6293
+    AddPiece: Stack
+    AddPiece: DynamicProperty/User-Labeled
+    - test<09>global
+    - null
+    - <empty>
+    - Label
+    - Line 2
+    - Map0;366;79;6294
+    AddPiece: Stack
+    AddPiece: DynamicProperty/User-Labeled
+    - test<09>global
+    - null
+    - <empty>
+    - Label
+    - no background
+    - Map0;498;82;6295
+    AddPiece: DynamicProperty/User-Labeled
+    - test<09>global
+    - null
+    - <empty>
+    - Label
+    - Line 2
+    - Map0;648;85;6296
+    AddPiece: DynamicProperty/User-Labeled
+    - test<09>global
+    - null
+    - <empty>
+    - Label
+    - no background
+    - Map0;777;90;6297
+  SetInfo
+  SetAllowed: []
+  SetBoards
+  SetScenarioNote
+    SetPublicNote
+  SetupCommand: starting=true

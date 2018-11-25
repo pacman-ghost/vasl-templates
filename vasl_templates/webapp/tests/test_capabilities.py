@@ -8,7 +8,8 @@ from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import \
     init_webapp, select_menu_option, select_tab, click_dialog_button, \
-    load_vasl_mod, find_child, find_children, wait_for_clipboard
+    load_vasl_mod, find_child, find_children, wait_for_clipboard, \
+    set_scenario_date
 from vasl_templates.webapp.tests.test_vo_reports import get_vo_report
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
@@ -583,11 +584,7 @@ def test_capability_updates_in_ui( webapp, webdriver, monkeypatch ):
     def check_capabilities( scenario_date, expected ):
         """Get the vehicle/ordnance capabilities from the UI."""
         # set the scenario date
-        if scenario_date:
-            elem = find_child( "input[name='SCENARIO_DATE']" )
-            elem.clear()
-            elem.send_keys( scenario_date )
-            elem.send_keys( Keys.TAB )
+        set_scenario_date( scenario_date )
         # check the vehicle/ordnance capabilities
         results = []
         for sortable in sortables:
