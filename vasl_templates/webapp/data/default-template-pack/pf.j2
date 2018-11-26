@@ -22,10 +22,7 @@ td.r { text-align: right ; }
 
 <tr>
 
-<td rowspan="2" style="padding:0 3px;">
-    <div style="margin-bottom:5px;">
-        range: {{PF_RANGE}} {%if PF_RANGE == 1%} hex {%else%} hexes {%endif%}
-    </div>
+<td valign="top" rowspan="2" style="padding:2px 0 0 3px;">
     PF check: dr &le; {{PF_CHECK_DR}} (&#9651;)
     <table style="margin-left:10px;">
         <tr>
@@ -47,10 +44,14 @@ td.r { text-align: right ; }
         <td class="c"> 0 <td class="c"> 10
     <tr>
         <td class="c"> 1 <td class="c"> 8
+    {%if PF_RANGE >= 2%}
     <tr>
         <td class="c"> 2 <td class="c"> 6
+    {%if PF_RANGE >= 3%}
     <tr>
         <td class="c"> 3 <td class="c"> 4
+    {%endif%}
+    {%endif%}
     </table>
 
 <tr>
