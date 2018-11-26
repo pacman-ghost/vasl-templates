@@ -10,8 +10,8 @@
 ">
 
 <td style="font-weight:bold;">
-     {{PLAYER_1_NAME}}: <br>
-     {{PLAYER_2_NAME}}:
+     {%if PLAYER_FLAG_1%}<img src="{{PLAYER_FLAG_1}}?height=11">&nbsp;{%endif%}{{PLAYER_1_NAME}}: <br>
+     {%if PLAYER_FLAG_2%}<img src="{{PLAYER_FLAG_2}}?height=11">&nbsp;{%endif%}{{PLAYER_2_NAME}}:
 <td>
     ELR: {{PLAYER_1_ELR}} <br>
     ELR: {{PLAYER_2_ELR}}

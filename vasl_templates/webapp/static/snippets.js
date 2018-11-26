@@ -84,9 +84,13 @@ function make_snippet( $btn, extra_params, show_date_warnings )
         params.OB_ORDNANCE_WIDTH = params.OB_ORDNANCE_WIDTH_2 ;
     }
 
-    // include the player display names
+    // include the player display names and flags
     params.PLAYER_1_NAME = get_nationality_display_name( params.PLAYER_1 ) ;
     params.PLAYER_2_NAME = get_nationality_display_name( params.PLAYER_2 ) ;
+    if ( gUserSettings["include-flags-in-snippets"] ) {
+        params.PLAYER_FLAG_1 = make_player_flag_url( get_player_nat( 1 ) ) ;
+        params.PLAYER_FLAG_2 = make_player_flag_url( get_player_nat( 2 ) ) ;
+    }
 
     // pass through all the player colors and names
     params.PLAYER_NAMES = {} ;
