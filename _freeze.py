@@ -100,10 +100,12 @@ run_pyinstaller( args ) # nb: this doesn't return any indication if it worked or
 # add extra files to the distribution
 def ignore_files( dname, fnames ): #pylint: disable=redefined-outer-name
     """Return files to ignore during copytree()."""
-    # ignore Python cached files
-    ignore = [ "__pycache__" ]
+    # ignore cache files
+    ignore = [ "__pycache__", "GPUCache" ]
     # ignore dot files
     ignore.extend( f for f in fnames if f.startswith(".") )
+    # ignore Python files
+    ignore.extend( f for f in fnames if os.path.splitext(f)[1] == ".py" )
     # ignore anything in .gitignore
     fname = os.path.join( dname, ".gitignore" )
     if os.path.isfile( fname ):
