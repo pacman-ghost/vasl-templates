@@ -112,7 +112,7 @@ class ServerSettingsDialog( QDialog ):
         # save the new settings
         app_settings.setValue( "ServerSettings/vassal-dir", self.vassal_dir.text() )
         fname = self.vasl_mod.text().strip()
-        vasl_mod_changed = fname != app_settings.value( "ServerSettings/vasl-mod" )
+        vasl_mod_changed = fname != app_settings.value( "ServerSettings/vasl-mod", "" )
         app_settings.setValue( "ServerSettings/vasl-mod", fname )
         app_settings.setValue( "ServerSettings/boards-dir", self.boards_dir.text() )
         app_settings.setValue( "ServerSettings/java-path", self.java_path.text() )
