@@ -17,7 +17,7 @@ from PyQt5.QtCore import Qt, QUrl, QMargins, pyqtSlot, QVariant
 from vasl_templates.webapp.config.constants import APP_NAME, IS_FROZEN
 from vasl_templates.main import app_settings
 from vasl_templates.web_channel import WebChannelHandler
-from vasl_templates.utils import log_exceptions
+from vasl_templates.utils import catch_exceptions
 
 _CONSOLE_SOURCE_REGEX = re.compile( r"^http://.+?/static/(.*)$" )
 
@@ -201,7 +201,7 @@ class MainWindow( QWidget ):
         dlg.exec_()
 
     @pyqtSlot()
-    @log_exceptions( caption="SLOT EXCEPTION" )
+    @catch_exceptions( caption="SLOT EXCEPTION" )
     def on_app_loaded( self ):
         """Called when the application has finished loading.
 
@@ -233,25 +233,25 @@ class MainWindow( QWidget ):
         )
 
     @pyqtSlot()
-    @log_exceptions( caption="SLOT EXCEPTION" )
+    @catch_exceptions( caption="SLOT EXCEPTION" )
     def on_new_scenario( self ):
         """Called when the user wants to load a scenario."""
         self._web_channel_handler.on_new_scenario()
 
     @pyqtSlot( result=str )
-    @log_exceptions( caption="SLOT EXCEPTION" )
+    @catch_exceptions( caption="SLOT EXCEPTION" )
     def load_scenario( self ):
         """Called when the user wants to load a scenario."""
         return self._web_channel_handler.load_scenario()
 
     @pyqtSlot( str, result=bool )
-    @log_exceptions( caption="SLOT EXCEPTION" )
+    @catch_exceptions( caption="SLOT EXCEPTION", retval=False )
     def save_scenario( self, data ):
         """Called when the user wants to save a scenario."""
         return self._web_channel_handler.save_scenario( data )
 
     @pyqtSlot( result=QVariant )
-    @log_exceptions( caption="SLOT EXCEPTION" )
+    @catch_exceptions( caption="SLOT EXCEPTION" )
     def load_vsav( self ):
         """Called when the user wants to update a VASL scenario."""
         fname, data = self._web_channel_handler.load_vsav()
@@ -263,14 +263,14 @@ class MainWindow( QWidget ):
         } )
 
     @pyqtSlot( str, str, result=bool )
-    @log_exceptions( caption="SLOT EXCEPTION" )
+    @catch_exceptions( caption="SLOT EXCEPTION", retval=False )
     def save_updated_vsav( self, fname, data ):
         """Called when a VASL scenario has been updated and is ready to be saved."""
         data = base64.b64decode( data )
         return self._web_channel_handler.save_updated_vsav( fname, data )
 
     @pyqtSlot( str )
-    @log_exceptions( caption="SLOT EXCEPTION" )
+    @catch_exceptions( caption="SLOT EXCEPTION" )
     def on_user_settings_change( self, user_settings ): #pylint: disable=no-self-use
         """Called when the user changes the user settings."""
         # delete all existing keys
@@ -283,7 +283,7 @@ class MainWindow( QWidget ):
             app_settings.setValue( "UserSettings/{}".format(key), val )
 
     @pyqtSlot( str )
-    @log_exceptions( caption="SLOT EXCEPTION" )
+    @catch_exceptions( caption="SLOT EXCEPTION" )
     def on_scenario_name_change( self, val ):
         """Update the main window title to show the scenario name."""
         self._web_channel_handler.on_scenario_name_change( val )
