@@ -8,10 +8,6 @@ formatters:
         datefmt: "%H:%M:%S"
 
 handlers:
-    console:
-        class: "logging.StreamHandler"
-        formatter: "standard"
-        stream: "ext://sys.stdout"
     file:
         class: "logging.FileHandler"
         formatter: "standard"
@@ -21,10 +17,16 @@ handlers:
 loggers:
     werkzeug:
         level: "WARNING"
-        handlers: [ "console" ]
+        handlers: [ "file" ]
     javascript:
         level: "INFO"
-        handlers: [ "console" ]
+        handlers: [ "file" ]
     qt:
         level: "INFO"
-        handlers: [ "console" ]
+        handlers: [ "file" ]
+    vasl_mod:
+        level: "WARNING"
+        handlers: [ "file" ]
+    update_vsav:
+        level: "WARNING"
+        handlers: [ "file" ]
