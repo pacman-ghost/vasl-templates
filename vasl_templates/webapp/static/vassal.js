@@ -107,14 +107,13 @@ function do_update_vsav( vsav_data, fname )
             return ;
         }
         // save the updated VSAV file
+        _show_label_report_msg( data.report ) ;
         if ( gWebChannelHandler ) {
-            gWebChannelHandler.save_updated_vsav( data.filename, data.vsav_data, function( resp ) {
-                if ( resp )
-                    _show_label_report_msg( data.report ) ;
-            } ) ;
+            setTimeout( function() { // nb: give the label report time to appear :-/
+                gWebChannelHandler.save_updated_vsav( data.filename, data.vsav_data ) ;
+            }, 1*1000 ) ;
             return ;
         }
-        _show_label_report_msg( data.report ) ;
         if ( getUrlParam( "vsav_persistence" ) ) {
             // FOR TESTING PORPOISES! We can't control a file download from Selenium (since
             // the browser will use native controls), so we store the result in a <textarea>
