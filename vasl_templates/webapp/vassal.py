@@ -16,6 +16,8 @@ from flask import request
 
 from vasl_templates.webapp import app
 from vasl_templates.webapp.config.constants import BASE_DIR, IS_FROZEN
+from vasl_templates.webapp.files import vasl_mod
+from vasl_templates.webapp.file_server.vasl_mod import SUPPORTED_VASL_MOD_VERSIONS
 from vasl_templates.webapp.utils import TempFile, HtmlScreenshots, SimpleError
 
 _logger = logging.getLogger( "update_vsav" )
@@ -252,6 +254,15 @@ class VassalShim:
         if not os.path.isfile( self.shim_jar ):
             raise SimpleError( "Can't find the VASSAL shim JAR." )
 
+    def get_version( self ):
+        """Get the VASSAL version."""
+        # FUDGE! We can't capture the output on Windows, get the result in a temp file instead :-/
+        with TempFile() as temp_file:
+            temp_file.close()
+            self._run_vassal_shim( "version", temp_file.name )
+            with open( temp_file.name, "r" ) as fp:
+                return fp.read()
+
     def dump_scenario( self, fname ):
         """Dump a scenario file."""
         return self._run_vassal_shim( "dump", fname )
@@ -279,8 +290,10 @@ class VassalShim:
             class_path = sep.join( class_path )
         args2 = [
             java_path, "-classpath", class_path, "vassal_shim.Main",
-            args[0], self.vasl_mod
+            args[0]
         ]
+        if args[0] in ("dump","update"):
+            args2.append( self.vasl_mod )
         args2.extend( args[1:] )
 
         # figure out how long to the let the VASSAL shim run
@@ -347,3 +360,25 @@ class VassalShimError( Exception ):
         self.retcode = retcode
         self.stdout = stdout
         self.stderr = stderr
+
+# ---------------------------------------------------------------------
+
+@app.route( "/check-vassal-version" )
+def check_vassal_version():
+    """Check if we're running a supported version of VASSAL."""
+    vassal_dir = app.config.get( "VASSAL_DIR" )
+    if vassal_dir:
+        vassal_shim = VassalShim()
+        version = vassal_shim.get_version()
+        if version not in SUPPORTED_VASSAL_VERSIONS:
+            return "VASSAL {} is unsupported.<p>Things might work, but they might not...".format( version )
+    return ""
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+@app.route( "/check-vasl-version" )
+def check_vasl_version():
+    """Check if we're running a supported version of VASL."""
+    if vasl_mod and vasl_mod.vasl_version not in SUPPORTED_VASL_MOD_VERSIONS:
+        return "VASL {} is unsupported.<p>Things might work, but they might not...".format( vasl_mod.vasl_version )
+    return ""

@@ -268,6 +268,21 @@ $(document).ready( function () {
         showErrorMsg( "Can't get the template pack:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
     } ) ;
 
+    // check the VASSAL/VASL versions
+    $.get( gCheckVassalVersionUrl, function( resp ) {
+        if ( resp )
+            showWarningMsg( resp ) ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        showErrorMsg( "Can't check the VASSAL version:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+    } ) ;
+    $.get( gCheckVaslVersionUrl, function( resp ) {
+        if ( resp )
+            showWarningMsg( resp ) ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        showErrorMsg( "Can't check the VASL version:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+    } ) ;
+
+    // fixup the layout
     var prevHeight = [] ;
     $(window).resize( function() {
         // FUDGE! CSS grids don't seem to update their layout vertically when

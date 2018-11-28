@@ -25,7 +25,9 @@ class VaslMod:
         # parse the VASL module file
         _logger.info( "Loading VASL module: %s", fname )
         self.zip_file = zipfile.ZipFile( fname, "r" )
-        self._parse_vmod( data_dir )
+        self.vasl_version = self._parse_vmod( data_dir )
+        if self.vasl_version not in SUPPORTED_VASL_MOD_VERSIONS:
+            _logger.warning( "Unsupported VASL version: %s", self.vasl_version )
 
     def get_piece_image( self, gpid, side, index ):
         """Get the image for the specified piece."""
@@ -92,8 +94,6 @@ class VaslMod:
         # parse the VASL build info
         build_info = self.zip_file.read( "buildFile" )
         doc = xml.etree.ElementTree.fromstring( build_info )
-        if doc.attrib.get( "version" ) not in SUPPORTED_VASL_MOD_VERSIONS:
-            _logger.warning( "Unsupported VASL version: %s", doc.attrib.get("version") )
         for node in doc.iter( "VASSAL.build.widget.PieceSlot" ):
 
             # load the next entry
@@ -148,6 +148,8 @@ class VaslMod:
         if expected_multiple_images:
             gpids = ", ".join( expected_multiple_images.keys() )
             _logger.warning( "Expected multiple images but didn't find them: %s", gpids )
+
+        return doc.attrib.get( "version" )
 
     @staticmethod
     def _get_image_paths( gpid, val ): #pylint: disable=too-many-branches
