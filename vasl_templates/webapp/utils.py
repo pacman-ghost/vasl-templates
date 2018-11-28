@@ -62,6 +62,11 @@ class HtmlScreenshots:
         if "chromedriver" in webdriver_path:
             options = webdriver.ChromeOptions()
             options.set_headless( headless=True )
+            # OMG! The chromedriver looks for Chrome/Chromium in a hard-coded, fixed location (the default
+            # installation directory). We offer a way here to override this.
+            chrome_path = app.config.get( "CHROME_PATH" )
+            if chrome_path:
+                options.binary_location = chrome_path
             kwargs["chrome_options"] = options
             self.webdriver = webdriver.Chrome( **kwargs )
         elif "geckodriver" in webdriver_path:
