@@ -57,7 +57,7 @@ class MainWindow( QWidget ):
         # initialize the main window
         self.setWindowTitle( APP_NAME )
         if IS_FROZEN:
-            dname = sys._MEIPASS #pylint: disable=no-member,protected-access
+            dname = os.path.join( sys._MEIPASS, "vasl_templates/webapp" ) #pylint: disable=no-member,protected-access
         else:
             dname = os.path.join( os.path.split(__file__)[0], "webapp" )
         self.setWindowIcon( QIcon(
