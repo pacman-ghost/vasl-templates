@@ -315,7 +315,7 @@ class VassalShim:
         # we won't be able to show the stack trace, just a generic "VASSAL shim failed" message :-(
         with TempFile() as buf1, TempFile() as buf2:
             kwargs = {}
-            if not IS_FROZEN:
+            if not ( os.name == "nt" and IS_FROZEN ):
                 kwargs = { "stdout": buf1.temp_file, "stderr": buf2.temp_file }
             if os.name == "nt":
                 # NOTE: Using CREATE_NO_WINDOW doesn't fix the problem of VASSAL's UI sometimes appearing,
