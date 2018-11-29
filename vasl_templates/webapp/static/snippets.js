@@ -217,9 +217,8 @@ function unload_snippet_params( unpack_scenario_date, template_id )
 
     // extract the scenario date components
     if ( unpack_scenario_date ) {
-        var scenario_date = $( "input[name='SCENARIO_DATE']" ).datepicker( "getDate" ) ;
+        var scenario_date = get_scenario_date() ;
         if ( scenario_date ) {
-            scenario_date.setMinutes( scenario_date.getMinutes() - scenario_date.getTimezoneOffset() ) ;
             params.SCENARIO_DAY_OF_MONTH = scenario_date.getDate() ;
             var postfix ;
             if ( params.SCENARIO_DAY_OF_MONTH in _DAY_OF_MONTH_POSTFIXES )
@@ -752,7 +751,7 @@ function do_load_scenario_data( params )
         if ( key === "SCENARIO_DATE" ) {
             try {
                 var scenario_date = $.datepicker.parseDate( "yy-mm-dd", params[key] ) ;
-                $elem.datepicker( "setDate", scenario_date ) ;
+                $elem.datepicker( "setDate", scenario_date ) ; // nb: don't need to adjust for timezone here
             } catch( ex ) {
                 warnings.push( "Invalid scenario date: " + escapeHTML( params[key] ) ) ;
             }
@@ -1007,7 +1006,7 @@ function unload_params_for_save( user_requested )
     extract_vo_entries( "OB_ORDNANCE_2" ) ;
 
     // save the scenario date in ISO-8601 format
-    var scenario_date = $("input[name='SCENARIO_DATE']").datepicker( "getDate" ) ;
+    var scenario_date = get_scenario_date() ;
     if ( scenario_date )
         params.SCENARIO_DATE = scenario_date.toISOString().substring( 0, 10 ) ;
 
@@ -1284,7 +1283,7 @@ function do_load_template_pack( fname, data )
 
 function _is_scenario_after( month, year ) {
     // check if the scenario is after the specified month/year
-    var scenario_date = $("input[name='SCENARIO_DATE']").datepicker( "getDate" ) ;
+    var scenario_date = get_scenario_date() ;
     if ( ! scenario_date )
         return false ;
     if ( scenario_date.getFullYear() > year )

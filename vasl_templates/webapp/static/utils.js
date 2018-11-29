@@ -45,6 +45,16 @@ function get_player_no_for_element( $elem )
     return null ;
 }
 
+function get_scenario_date()
+{
+    // get the scenario date
+    var scenario_date = $("input[name='SCENARIO_DATE']").datepicker( "getDate" ) ;
+    if ( ! scenario_date )
+        return null ;
+    scenario_date.setMinutes( scenario_date.getMinutes() - scenario_date.getTimezoneOffset() ) ;
+    return scenario_date ;
+}
+
 // --------------------------------------------------------------------
 
 function copyToClipboard( val )
