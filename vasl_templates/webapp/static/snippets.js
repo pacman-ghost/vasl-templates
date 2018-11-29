@@ -16,7 +16,8 @@ var _DAY_OF_MONTH_POSTFIXES = { // nb: we assume English :-/
 
 var gDefaultScenario = null ;
 var gLastSavedScenario = null ;
-var gLastSavedScenarioFilename = null;
+var gLastSavedScenarioFilename = null ;
+var gScenarioCreatedTime = null ;
 
 // --------------------------------------------------------------------
 
@@ -733,6 +734,7 @@ function do_load_scenario_data( params )
 {
     // reset the scenario
     reset_scenario() ;
+    gScenarioCreatedTime = params._creation_time ;
 
     // auto-assign ID's to the OB setup notes and notes
     // NOTE: We do this here to handle scenarios that were created before these ID's were implemented.
@@ -879,7 +881,7 @@ function do_load_scenario_data( params )
     }
 
     // remember the state of this scenario
-    gLastSavedScenario = unload_params_for_save() ;
+    gLastSavedScenario = unload_params_for_save( false ) ;
 
     // update the UI
     $("#tabs").tabs( "option", "active", 0 ) ;
@@ -936,7 +938,7 @@ function auto_assign_id( usedIds )
 function on_save_scenario()
 {
     // unload the template parameters
-    var params = unload_params_for_save() ;
+    var params = unload_params_for_save( true ) ;
     var data = JSON.stringify( params ) ;
 
     // FOR TESTING PORPOISES! We can't control a file download from Selenium (since
@@ -972,7 +974,7 @@ function on_save_scenario()
     gLastSavedScenario = params ;
 }
 
-function unload_params_for_save()
+function unload_params_for_save( user_requested )
 {
     function extract_vo_entries( key ) {
         if ( !(key in params) )
@@ -1008,6 +1010,19 @@ function unload_params_for_save()
     var scenario_date = $("input[name='SCENARIO_DATE']").datepicker( "getDate" ) ;
     if ( scenario_date )
         params.SCENARIO_DATE = scenario_date.toISOString().substring( 0, 10 ) ;
+
+    // save some admin metadata
+    if ( user_requested ) {
+        params._app_version = gAppVersion ;
+        var now = (new Date()).toISOString() ;
+        params._last_update_time = now ;
+        if ( gScenarioCreatedTime )
+            params._creation_time = gScenarioCreatedTime ;
+        else {
+            params._creation_time = now ;
+            gScenarioCreatedTime = now ;
+        }
+    }
 
     return params ;
 }
@@ -1089,8 +1104,13 @@ function is_scenario_dirty()
     // check if the scenario has been changed since it was loaded, or last saved
     if ( gLastSavedScenario === null )
         return false ;
-    var params = unload_params_for_save() ;
-    return (JSON.stringify(params) != JSON.stringify(gLastSavedScenario) ) ;
+    var last_saved_scenario = {} ;
+    for ( var key in gLastSavedScenario ) {
+        if ( key.substr(0,1) !== "_" )
+            last_saved_scenario[key] = gLastSavedScenario[key] ;
+    }
+    var params = unload_params_for_save( false ) ;
+    return (JSON.stringify(params) != JSON.stringify(last_saved_scenario) ) ;
 }
 
 // --------------------------------------------------------------------

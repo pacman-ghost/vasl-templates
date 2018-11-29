@@ -6,7 +6,7 @@ import re
 
 from selenium.webdriver.support.ui import Select
 
-from vasl_templates.webapp.config.constants import APP_NAME
+from vasl_templates.webapp.config.constants import APP_NAME, APP_VERSION
 from vasl_templates.webapp.tests.utils import \
     init_webapp, get_nationality_display_name, load_scenario_params, select_tab, select_menu_option, \
     get_sortable_entry_text, get_sortable_vo_names, get_stored_msg, set_stored_msg, set_stored_msg_marker, \
@@ -108,14 +108,18 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
 
     # save the scenario and check the results
     saved_scenario = save_scenario()
+    assert saved_scenario["_app_version"] == APP_VERSION
+    scenario_creation_time = saved_scenario["_creation_time"]
+    assert saved_scenario["_last_update_time"] == scenario_creation_time
     expected = {
         k: v for tab in SCENARIO_PARAMS.values() for k,v in tab.items()
     }
     mo = re.search( r"^(\d{2})/(\d{2})/(\d{4})$", expected["SCENARIO_DATE"] )
     expected["SCENARIO_DATE"] = "{}-{}-{}".format( mo.group(3), mo.group(1), mo.group(2) ) # nb: convert from ISO-8601
-    for key in saved_scenario:
+    saved_scenario2 = { k: v for k,v in saved_scenario.items() if not k.startswith("_") }
+    for key in saved_scenario2:
         if re.search( r"^OB_(VEHICLES|ORDNANCE)_\d$", key ):
-            for vo_entry in saved_scenario[key]:
+            for vo_entry in saved_scenario2[key]:
                 del vo_entry["id"]
     for key in expected:
         if re.search( r"^OB_(VEHICLES|ORDNANCE)_\d$", key ):
@@ -127,10 +131,10 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
                 entry["id"] = 1+i
     for i,entry in enumerate(expected["SCENARIO_NOTES"]):
         entry["id"] = 1+i
-    assert saved_scenario == expected
+    assert saved_scenario2 == expected
 
     # make sure that our list of scenario parameters is correct
-    lhs = set( saved_scenario.keys() )
+    lhs = set( saved_scenario2.keys() )
     rhs = set( itertools.chain( *ALL_SCENARIO_PARAMS.values() ) )
     assert lhs == rhs
 
@@ -141,7 +145,10 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     check_window_title( "" )
     check_ob_tabs( "german", "russian" )
     data = save_scenario()
-    data2 = { k: v for k,v in data.items() if v }
+    assert data["_app_version"] == APP_VERSION
+    assert data["_last_update_time"] == data["_creation_time"]
+    assert data["_creation_time"] > scenario_creation_time
+    data2 = { k: v for k,v in data.items() if not k.startswith("_") and v }
     assert data2 == {
         "SCENARIO_THEATER": "ETO",
         "PLAYER_1": "german", "PLAYER_1_ELR": "5", "PLAYER_1_SAN": "2",
@@ -192,6 +199,11 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     assert get_sortable_entry_text(ob_notes2) == [ obs["caption"] for obs in SCENARIO_PARAMS["ob2"]["OB_NOTES_2"] ]
     assert get_sortable_vo_names(vehicles2) == SCENARIO_PARAMS["ob2"]["OB_VEHICLES_2"]
     assert get_sortable_vo_names(ordnance2) == SCENARIO_PARAMS["ob2"]["OB_ORDNANCE_2"]
+
+    # save the scenario, make sure the timestamps are correct
+    data = save_scenario()
+    assert data["_creation_time"] == scenario_creation_time
+    assert data["_last_update_time"] > scenario_creation_time
 
 def assert_scenario_params_complete( scenario_params ):
     """Check that a set of scenario parameters is complete."""
