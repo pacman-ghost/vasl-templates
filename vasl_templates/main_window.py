@@ -73,6 +73,7 @@ class MainWindow( QWidget ):
             action.triggered.connect( handler )
             file_menu.addAction( action )
         add_action( "&Settings", self.on_settings )
+        add_action( "&About", self.on_about )
         add_action( "E&xit", self.on_exit )
 
         # set the window geometry
@@ -198,6 +199,12 @@ class MainWindow( QWidget ):
         """Menu action handler."""
         from vasl_templates.server_settings import ServerSettingsDialog #pylint: disable=cyclic-import
         dlg = ServerSettingsDialog( self )
+        dlg.exec_()
+
+    def on_about( self ):
+        """Menu action handler."""
+        from vasl_templates.about import AboutDialog #pylint: disable=cyclic-import
+        dlg = AboutDialog( self )
         dlg.exec_()
 
     @pyqtSlot()

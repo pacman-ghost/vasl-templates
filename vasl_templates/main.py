@@ -48,7 +48,7 @@ def qtMessageHandler( msg_type, context, msg ):# pylint: disable=unused-argument
 @click.option( "--remote-debugging", help="Chrome DevTools port number." )
 @click.option( "--debug", help="Debug config file." )
 def main( template_pack, default_scenario, remote_debugging, debug ):
-    """Main entry point for the application."""
+    """Manage HTML labels in a VASL scenario."""
     try:
         return _do_main( template_pack, default_scenario, remote_debugging, debug )
     except Exception as ex: #pylint: disable=broad-except

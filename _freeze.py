@@ -7,6 +7,7 @@ import shutil
 import tempfile
 import time
 import datetime
+import json
 import getopt
 
 from PyInstaller.__main__ import run as run_pyinstaller
@@ -118,12 +119,21 @@ def ignore_files( dname, fnames ): #pylint: disable=redefined-outer-name
 shutil.copy( "LICENSE.txt", dist_dir )
 shutil.copytree( "vasl_templates/webapp/data", os.path.join(dist_dir,"data") )
 shutil.copytree( "vasl_templates/webapp/config", os.path.join(dist_dir,"config"), ignore=ignore_files )
+
 # copy the examples
 dname = os.path.join( dist_dir, "examples" )
 os.makedirs( dname )
 fnames = [ f for f in os.listdir("examples") if os.path.splitext(f)[1] in (".json",".png") ]
 for f in fnames:
     shutil.copy( os.path.join("examples",f), dname )
+
+# set the build info
+build_info = {
+    "timestamp": int( time.time() ),
+}
+dname = os.path.join( dist_dir, "config" )
+with open( os.path.join(dname,"build-info.json"), "w" ) as fp:
+    json.dump( build_info, fp )
 
 # create the release archive
 os.chdir( dist_dir )
