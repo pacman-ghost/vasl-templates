@@ -287,6 +287,7 @@ function init_select2( $sel, width, search_box, format )
     }
     $sel = $sel.select2( args ) ;
     $sel.data( "select2" ).$container.attr( "name", name ) ;
+    $sel.addClass( "app-select2" ) ;
 
     return $sel ;
 }

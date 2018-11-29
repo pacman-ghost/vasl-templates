@@ -474,6 +474,14 @@ function init_hotkeys()
     jQuery.hotkeys.options.filterTextInputs = false ;
 
     function set_focus_to( tab, $ctrl ) {
+        if ( $(".ui-widget-overlay").length > 0 )
+            return ; // nb: a dialog is up
+        if ( $( ".select2-dropdown" ).length > 0 ) {
+            // FUDGE! A select2 dropdown is showing, but which one? We just close them all :-/
+            $( ".app-select2" ).each( function() {
+                $(this).select2( "close" ) ;
+            } ) ;
+        }
         var curr_tab = $("#tabs .ui-tabs-active a").attr( "href" ) ;
         if ( curr_tab !== tab )
             $("#tabs .ui-tabs-nav a[href='"+tab+"']").trigger( "click" ) ;
