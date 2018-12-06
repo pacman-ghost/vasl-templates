@@ -1,0 +1,31 @@
+version: 1
+
+formatters:
+    standard:
+        format: "%(asctime)s.%(msecs)03d | %(message)s"
+        datefmt: "%H:%M:%S"
+
+handlers:
+    console:
+        class: "logging.StreamHandler"
+        formatter: "standard"
+        stream: "ext://sys.stdout"
+    file:
+        class: "logging.FileHandler"
+        formatter: "standard"
+        filename: "/tmp/vasl-templates.log"
+        mode: "w"
+
+loggers:
+    werkzeug:
+        level: "WARNING"
+        handlers: [ "console" ]
+    vasl_mod:
+        level: "WARNING"
+        handlers: [ "console", "file" ]
+    update_vsav:
+        level: "WARNING"
+        handlers: [ "console", "file" ]
+    control_tests:
+        level: "DEBUG"
+        handlers: [ "console", "file" ]

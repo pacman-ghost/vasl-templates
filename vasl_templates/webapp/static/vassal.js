@@ -83,7 +83,7 @@ function do_update_vsav( vsav_data, fname )
                     $( "#vassal-shim-error .message" ).html( data.error ) ;
                     var log = "" ;
                     if ( data.stdout && data.stderr )
-                        log = "=== STDOUT ===" + data.stdout + "\n=== STDERR ===\n" + data.stderr ;
+                        log = "=== STDOUT ===\n" + data.stdout + "\n=== STDERR ===\n" + data.stderr ;
                     else if ( data.stdout )
                         log = data.stdout ;
                     else if ( data.stderr )

@@ -246,11 +246,13 @@ class VassalShim:
             raise SimpleError( "Can't find VASL module: {}".format( self.vasl_mod ) )
 
         # locate the VASSAL shim JAR
-        if IS_FROZEN:
-            meipass = sys._MEIPASS #pylint: disable=no-member,protected-access
-            self.shim_jar = os.path.join( meipass, "vasl_templates/webapp/vassal-shim.jar" )
-        else:
-            self.shim_jar = os.path.join( os.path.split(__file__)[0], "../../vassal-shim/release/vassal-shim.jar" )
+        self.shim_jar = app.config.get( "VASSAL_SHIM" )
+        if not self.shim_jar:
+            if IS_FROZEN:
+                meipass = sys._MEIPASS #pylint: disable=no-member,protected-access
+                self.shim_jar = os.path.join( meipass, "vasl_templates/webapp/vassal-shim.jar" )
+            else:
+                self.shim_jar = os.path.join( os.path.split(__file__)[0], "../../vassal-shim/release/vassal-shim.jar" )
         if not os.path.isfile( self.shim_jar ):
             raise SimpleError( "Can't find the VASSAL shim JAR." )
 
