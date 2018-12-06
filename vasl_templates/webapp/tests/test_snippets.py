@@ -2,7 +2,6 @@
 
 from selenium.webdriver.common.keys import Keys
 
-from vasl_templates.webapp.config.constants import DATA_DIR as REAL_DATA_DIR
 from vasl_templates.webapp.tests.utils import \
     init_webapp, select_tab, select_tab_for_elem, set_template_params, wait_for_clipboard, \
     get_stored_msg, set_stored_msg_marker, find_child, find_children, adjust_html, \
@@ -13,12 +12,13 @@ from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario,
 
 # ---------------------------------------------------------------------
 
-def test_snippet_ids( webapp, webdriver, monkeypatch ):
+def test_snippet_ids( webapp, webdriver ):
     """Check that snippet ID's are generated correctly."""
 
     # initialize
-    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
-    init_webapp( webapp, webdriver, scenario_persistence=1 )
+    init_webapp( webapp, webdriver, scenario_persistence=1,
+        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+    )
 
     # load a scenario (so that we get some sortable's)
     scenario_data = {

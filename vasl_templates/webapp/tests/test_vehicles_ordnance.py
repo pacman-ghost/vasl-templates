@@ -12,10 +12,10 @@ from selenium.common.exceptions import WebDriverException
 
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, save_scenario
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, load_vasl_mod, get_nationalities, select_tab, set_template_params, find_child, find_children, \
+    init_webapp, get_nationalities, select_tab, set_template_params, find_child, find_children, \
     wait_for_clipboard, click_dialog_button, select_menu_option, select_droplist_val, \
     set_stored_msg_marker, get_stored_msg, get_sortable_vo_names
-from vasl_templates.webapp.config.constants import DATA_DIR as REAL_DATA_DIR
+from vasl_templates.webapp.config.constants import DATA_DIR
 
 # ---------------------------------------------------------------------
 
@@ -229,13 +229,15 @@ def test_variable_capabilities( webapp, webdriver ):
     not pytest.config.option.vasl_mods, #pylint: disable=no-member
     reason = "--vasl-mods not specified"
 )
-def test_html_names( webapp, webdriver, monkeypatch ):
+def test_html_names( webapp, webdriver ):
     """Test handling of vehicles/ordnance that have HTML in their name."""
 
     # initialize
-    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
-    load_vasl_mod( REAL_DATA_DIR, monkeypatch )
-    init_webapp( webapp, webdriver )
+    init_webapp( webapp, webdriver,
+        reset = lambda ct:
+            ct.set_data_dir( ddtype="real" ) \
+              .set_vasl_mod( vmod="random" )
+    )
 
     def get_available_ivfs():
         """Get the PzKw IVF's available for selection."""
@@ -289,12 +291,13 @@ def test_html_names( webapp, webdriver, monkeypatch ):
     pytest.config.option.short_tests, #pylint: disable=no-member
     reason = "--short-tests specified"
 ) #pylint: disable=too-many-locals,too-many-branches
-def test_common_vo( webapp, webdriver, monkeypatch ):
+def test_common_vo( webapp, webdriver ):
     """Test loading of common vehicles/ordnance and landing craft."""
 
     # initialize
-    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
-    init_webapp( webapp, webdriver )
+    init_webapp( webapp, webdriver,
+        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+    )
 
     # initialize
     ALLIED_MINOR = [ "belgian", "danish", "dutch", "greek", "polish", "yugoslavian" ]
@@ -303,7 +306,7 @@ def test_common_vo( webapp, webdriver, monkeypatch ):
     # get the common vehicles/ordnance
     def get_common_vo( fname ):
         """Get the vehicle/ordnance information from the specified file."""
-        fname = os.path.join( REAL_DATA_DIR, fname )
+        fname = os.path.join( DATA_DIR, fname )
         data = json.load( open( fname, "r" ) )
         def get_gpid( val ): #pylint: disable=missing-docstring
             if isinstance( val, list ):
@@ -412,13 +415,15 @@ def test_common_vo( webapp, webdriver, monkeypatch ):
     not pytest.config.option.vasl_mods, #pylint: disable=no-member
     reason = "--vasl-mods not specified"
 ) #pylint: disable=too-many-statements
-def test_vo_images( webapp, webdriver, monkeypatch ): #pylint: disable=too-many-statements
+def test_vo_images( webapp, webdriver ): #pylint: disable=too-many-statements
     """Test handling of vehicles/ordnance that have multiple images."""
 
     # initialize
-    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
-    load_vasl_mod( REAL_DATA_DIR, monkeypatch )
-    init_webapp( webapp, webdriver, scenario_persistence=1 )
+    init_webapp( webapp, webdriver, scenario_persistence=1,
+        reset = lambda ct:
+            ct.set_data_dir( ddtype="real" ) \
+              .set_vasl_mod( vmod="random" )
+    )
 
     def check_sortable2_entries( player_no, expected ):
         """Check the settings on the player's vehicles."""
@@ -587,13 +592,15 @@ def test_vo_images( webapp, webdriver, monkeypatch ): #pylint: disable=too-many-
     not pytest.config.option.vasl_mods, #pylint: disable=no-member
     reason = "--vasl-mods not specified"
     ) #pylint: disable=too-many-statements
-def test_change_vo_image( webapp, webdriver, monkeypatch ):
+def test_change_vo_image( webapp, webdriver ):
     """Test changing a V/O image."""
 
     # initialize
-    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
-    load_vasl_mod( REAL_DATA_DIR, monkeypatch )
-    init_webapp( webapp, webdriver, scenario_persistence=1 )
+    init_webapp( webapp, webdriver, scenario_persistence=1,
+        reset = lambda ct:
+            ct.set_data_dir( ddtype="real" ) \
+              .set_vasl_mod( vmod="random" )
+    )
 
     # add an ISU-152
     add_vo( webdriver, "vehicles", 2, "ISU-152 (AG)" )
@@ -659,13 +666,15 @@ def test_change_vo_image( webapp, webdriver, monkeypatch ):
     not pytest.config.option.vasl_mods, #pylint: disable=no-member
     reason = "--vasl-mods not specified"
 )
-def test_change_vo_image2( webapp, webdriver, monkeypatch ):
+def test_change_vo_image2( webapp, webdriver ):
     """Test changing the image for a V/O that has no alternative images."""
 
     # initialize
-    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
-    load_vasl_mod( REAL_DATA_DIR, monkeypatch )
-    init_webapp( webapp, webdriver, scenario_persistence=1 )
+    init_webapp( webapp, webdriver, scenario_persistence=1,
+        reset = lambda ct:
+            ct.set_data_dir( ddtype="real" ) \
+              .set_vasl_mod( vmod="random" )
+    )
 
     # add an 107mm GVPM
     add_vo( webdriver, "ordnance", 2, "107mm GVPM obr. 38 (MTR)" )

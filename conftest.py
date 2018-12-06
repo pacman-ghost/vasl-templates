@@ -14,7 +14,7 @@ from vasl_templates.webapp import app
 app.testing = True
 from vasl_templates.webapp.tests import utils
 
-FLASK_WEBAPP_PORT = 5001
+FLASK_WEBAPP_PORT = 5011
 
 # ---------------------------------------------------------------------
 
@@ -24,6 +24,10 @@ def pytest_addoption( parser ):
     # NOTE: This file needs to be in the project root for this to work :-/
 
     # add test options
+    parser.addoption(
+        "--server-url", action="store", dest="server_url", default=None,
+        help="Webapp server to test against."
+    )
     # NOTE: Chrome seems to be ~15% faster than Firefox, headless ~5% faster than headful.
     parser.addoption(
         "--webdriver", action="store", dest="webdriver", default="chrome",
@@ -74,6 +78,10 @@ def webapp():
     """Launch the webapp."""
 
     # initialize
+    server_url = pytest.config.option.server_url #pylint: disable=no-member
+    logging.disable( logging.CRITICAL )
+
+    # initialize
     # WTF?! https://github.com/pallets/flask/issues/824
     def make_webapp_url( endpoint, **kwargs ):
         """Generate a webapp URL."""
@@ -94,39 +102,40 @@ def webapp():
                 # to avoid problems if something else uses the clipboard while the tests are running.
                 kwargs["store_clipboard"] = 1
             url = url_for( endpoint, _external=True, **kwargs )
-            return url.replace( "localhost/", "localhost:{}/".format(FLASK_WEBAPP_PORT) )
+            if server_url:
+                url = url.replace( "http://localhost", server_url )
+            else:
+                url = url.replace( "localhost/", "localhost:{}/".format(FLASK_WEBAPP_PORT) )
+            return url
     app.url_for = make_webapp_url
 
-    # configure the webapp to use our test data
-    # NOTE: Can't seem to change constants.DATA_DIR (probably some pytest funkiness :-/)
-    app.config["DATA_DIR"] = os.path.join( os.path.split(__file__)[0], "vasl_templates/webapp/tests/fixtures/data" )
-
-    # start the webapp server (in a background thread)
-    logging.disable( logging.CRITICAL )
-    thread = threading.Thread(
-        target = lambda: app.run( host="0.0.0.0", port=FLASK_WEBAPP_PORT, use_reloader=False )
-    )
-    thread.start()
-
-    # wait for the server to start up
-    def is_ready():
-        """Try to connect to the webapp server."""
-        try:
-            resp = urllib.request.urlopen( app.url_for("ping") ).read()
-            assert resp == b"pong"
-            return True
-        except URLError:
-            return False
-        except Exception as ex: #pylint: disable=broad-except
-            assert False, "Unexpected exception: {}".format(ex)
-    utils.wait_for( 5, is_ready )
+    # check if we need to start a local webapp server
+    if not server_url:
+        # yup - make it so
+        thread = threading.Thread(
+            target = lambda: app.run( host="0.0.0.0", port=FLASK_WEBAPP_PORT, use_reloader=False )
+        )
+        thread.start()
+        # wait for the server to start up
+        def is_ready():
+            """Try to connect to the webapp server."""
+            try:
+                resp = urllib.request.urlopen( app.url_for("ping") ).read()
+                assert resp == b"pong"
+                return True
+            except URLError:
+                return False
+            except Exception as ex: #pylint: disable=broad-except
+                assert False, "Unexpected exception: {}".format(ex)
+        utils.wait_for( 5, is_ready )
 
     # return the server to the caller
     yield app
 
-    # shutdown the webapp server
-    urllib.request.urlopen( app.url_for("shutdown") ).read()
-    thread.join()
+    # shutdown the local webapp server
+    if not server_url:
+        urllib.request.urlopen( app.url_for("shutdown") ).read()
+        thread.join()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

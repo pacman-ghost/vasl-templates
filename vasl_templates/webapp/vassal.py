@@ -216,7 +216,7 @@ def _parse_label_report( fname ):
 class VassalShim:
     """Provide access to VASSAL via the Java shim."""
 
-    def __init__( self ):
+    def __init__( self ): #pylint: disable=too-many-branches
 
         # locate the VASSAL engine
         vassal_dir = app.config.get( "VASSAL_DIR" )

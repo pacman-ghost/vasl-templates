@@ -6,8 +6,6 @@ import json
 import time
 import re
 import uuid
-import glob
-import random
 
 import pytest
 from PyQt5.QtWidgets import QApplication
@@ -16,8 +14,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 
-from vasl_templates.webapp.file_server.vasl_mod import VaslMod
-from vasl_templates.webapp import files as webapp_files
+from vasl_templates.webapp.tests.remote import ControlTests
 
 # standard templates
 _STD_TEMPLATES = {
@@ -44,29 +41,23 @@ def init_webapp( webapp, webdriver, **options ):
     global _webapp, _webdriver
     _webapp = webapp
     _webdriver = webdriver
+    # reset the server
+    # NOTE: We have to do this manually, since we can't use pytest's monkeypatch'ing,
+    # since we could be talking to a remote server (see ControlTests for more details).
+    control_tests = ControlTests( webapp )
+    control_tests \
+        .set_data_dir( ddtype="test" ) \
+        .set_default_scenario( fname=None ) \
+        .set_default_template_pack( dname=None ) \
+        .set_vasl_mod( vmod=None ) \
+        .set_vassal_engine( vengine=None )
+    if "reset" in options:
+        options.pop( "reset" )( control_tests )
+
     webdriver.get( webapp.url_for( "main", **options ) )
     wait_for( 5, lambda: find_child("#_page-loaded_") is not None )
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-def load_vasl_mod( data_dir, monkeypatch, fname=None ):
-    """Load a VASL module."""
-
-    if data_dir:
-        vasl_mods_dir = pytest.config.option.vasl_mods #pylint: disable=no-member
-        if fname:
-            fname = os.path.join( vasl_mods_dir, fname )
-        else:
-            # NOTE: Some tests require a VASL module to be loaded, and since they should all
-            # should behave in the same way, it doesn't matter which one we load.
-            fspec = os.path.join( vasl_mods_dir, "*.vmod" )
-            fname = random.choice( glob.glob( fspec ) )
-        vasl_mod = VaslMod( fname, data_dir )
-    else:
-        vasl_mod = None
-    monkeypatch.setattr( webapp_files, "vasl_mod", vasl_mod )
-
-    return vasl_mod
+    return control_tests
 
 # ---------------------------------------------------------------------
 

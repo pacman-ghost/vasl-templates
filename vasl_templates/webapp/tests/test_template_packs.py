@@ -7,7 +7,6 @@ import base64
 
 from selenium.webdriver.support.ui import Select
 
-from vasl_templates.webapp import snippets
 from vasl_templates.webapp.tests.utils import \
     select_tab, select_menu_option, wait_for_clipboard, get_stored_msg, set_stored_msg, set_stored_msg_marker,\
     add_simple_note, for_each_template, find_child, find_children, wait_for, \
@@ -72,15 +71,13 @@ def test_zip_files( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-def test_new_default_template_pack( webapp, webdriver, monkeypatch ):
+def test_new_default_template_pack( webapp, webdriver ):
     """Test changing the default template pack."""
 
-    # configure a new default template pack
-    dname = os.path.join( os.path.split(__file__)[0], "fixtures/template-packs/new-default/" )
-    monkeypatch.setattr( snippets, "default_template_pack", dname )
-
     # initialize
-    init_webapp( webapp, webdriver )
+    init_webapp( webapp, webdriver,
+        reset = lambda ct: ct.set_default_template_pack( dname="template-packs/new-default/" )
+    )
 
     # check that the new templates are being used
     _check_snippets( lambda tid: "New default {}.".format( tid.upper() ) )

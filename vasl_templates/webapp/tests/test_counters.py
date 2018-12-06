@@ -2,7 +2,6 @@
 
 import os
 import io
-import glob
 import json
 import re
 import urllib.request
@@ -10,11 +9,12 @@ import urllib.request
 import pytest
 import tabulate
 
+from vasl_templates.webapp.file_server.vasl_mod import VaslMod
 from vasl_templates.webapp.file_server.utils import get_vo_gpids
-from vasl_templates.webapp.file_server import utils as webapp_file_server_utils
-from vasl_templates.webapp.config.constants import DATA_DIR as REAL_DATA_DIR
-from vasl_templates.webapp.tests.utils import init_webapp, load_vasl_mod, select_tab, find_child, find_children
+from vasl_templates.webapp.config.constants import DATA_DIR
+from vasl_templates.webapp.tests.utils import init_webapp, select_tab, find_child, find_children
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
+from vasl_templates.webapp.tests.remote import ControlTests
 
 # ---------------------------------------------------------------------
 
@@ -26,13 +26,13 @@ from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
     pytest.config.option.short_tests, #pylint: disable=no-member
     reason = "--short-tests specified"
 ) #pylint: disable=too-many-statements
-def test_counter_images( webapp, monkeypatch ):
+def test_counter_images( webapp ):
     """Test that counter images are served correctly."""
 
     # NOTE: This is ridiculously slow on Windows :-/
 
     # figure out which pieces we're interested in
-    gpids = get_vo_gpids( REAL_DATA_DIR )
+    gpids = get_vo_gpids( DATA_DIR )
 
     def check_images( check_front, check_back ): #pylint: disable=unused-argument
         """Check getting the front and back images for each counter."""
@@ -49,7 +49,8 @@ def test_counter_images( webapp, monkeypatch ):
                 assert locals()["check_"+side]( resp_code, resp_data )
 
     # test counter images when no VASL module has been configured
-    load_vasl_mod( None, monkeypatch )
+    control_tests = ControlTests( webapp )
+    control_tests.set_vasl_mod( vmod=None )
     fname = os.path.join( os.path.split(__file__)[0], "../static/images/missing-image.png" )
     missing_image_data = open( fname, "rb" ).read()
     check_images(
@@ -60,13 +61,20 @@ def test_counter_images( webapp, monkeypatch ):
     # test each VASL module file in the specified directory
     fname = os.path.join( os.path.split(__file__)[0], "fixtures/vasl-pieces.txt" )
     expected_vasl_pieces = open( fname, "r" ).read()
-    fspec = os.path.join( pytest.config.option.vasl_mods, "*.vmod" ) #pylint: disable=no-member
-    for fname in glob.glob( fspec ):
+    vasl_mods = control_tests.get_vasl_mods()
+    for vasl_mod in vasl_mods:
 
         # install the VASL module file
-        vasl_mod = load_vasl_mod( REAL_DATA_DIR, monkeypatch, fname=os.path.split(fname)[1] )
+        control_tests.set_vasl_mod( vmod=vasl_mod )
+
+        # NOTE: We assume we have access to the same VASL modules as the server, but the path on the webserver
+        # might be different to what it is locally, so we translate it here.
+        fname = os.path.split( vasl_mod )[1]
+        vasl_mods_dir = pytest.config.option.vasl_mods #pylint: disable=no-member
+        fname = os.path.join( vasl_mods_dir, fname )
 
         # check the pieces loaded
+        vasl_mod = VaslMod( fname, DATA_DIR )
         buf = io.StringIO()
         _dump_pieces( vasl_mod, buf )
         assert buf.getvalue() == expected_vasl_pieces
@@ -96,11 +104,11 @@ def _dump_pieces( vasl_mod, out ):
     not pytest.config.option.vasl_mods, #pylint: disable=no-member
     reason = "--vasl-mods not specified"
 )
-def test_gpid_remapping( webapp, webdriver, monkeypatch ):
+def test_gpid_remapping( webapp, webdriver ):
     """Test GPID remapping."""
 
     # initialize
-    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
+    control_tests = init_webapp( webapp, webdriver )
 
     def check_gpid_image( gpid ):
         """Check if we can get the image for the specified GPID."""
@@ -127,8 +135,11 @@ def test_gpid_remapping( webapp, webdriver, monkeypatch ):
     def do_test( vasl_mod, valid_images ):
         """Do the test."""
         # initialize (using the specified VASL vmod)
-        load_vasl_mod( REAL_DATA_DIR, monkeypatch, vasl_mod )
-        init_webapp( webapp, webdriver, scenario_persistence=1 )
+        init_webapp( webapp, webdriver, scenario_persistence=1,
+            reset = lambda ct:
+                ct.set_data_dir( ddtype="real" ) \
+                  .set_vasl_mod( vmod=vasl_mod )
+        )
         load_scenario( scenario_data )
         # check that the German vehicles loaded correctly
         select_tab( "ob1" )
@@ -142,11 +153,24 @@ def test_gpid_remapping( webapp, webdriver, monkeypatch ):
     fname = os.path.join( os.path.split(__file__)[0], "fixtures/gpid-remapping.json" )
     scenario_data = json.load( open( fname, "r" ) )
 
+    # locate the VASL modules
+    vasl_mods = control_tests.get_vasl_mods()
+    def find_vasl_mod( version ):
+        """Find the VASL module for the specified version."""
+        matches = [ vmod for vmod in vasl_mods if "vasl-{}.vmod".format(version) in vmod ]
+        assert len(matches) == 1
+        return matches[0]
+
     # run the tests using VASL 6.4.2 and 6.4.3
-    do_test( "vasl-6.4.2.vmod", True )
-    do_test( "vasl-6.4.3.vmod", True )
+    do_test( find_vasl_mod("6.4.2"), True )
+    do_test( find_vasl_mod("6.4.3"), True )
 
     # disable GPID remapping and try again
-    monkeypatch.setattr( webapp_file_server_utils, "GPID_REMAPPINGS", {} )
-    do_test( "vasl-6.4.2.vmod", True )
-    do_test( "vasl-6.4.3.vmod", False )
+    prev_gpid_mappings = control_tests.set_gpid_remappings( gpids={} )
+    try:
+        do_test( find_vasl_mod("6.4.2"), True )
+        do_test( find_vasl_mod("6.4.3"), False )
+    finally:
+        # NOTE: This won't get done if Python exits unexpectedly in the try block,
+        # which will leave the server in the wrong state if it's remote.
+        control_tests.set_gpid_remappings( gpids=prev_gpid_mappings )

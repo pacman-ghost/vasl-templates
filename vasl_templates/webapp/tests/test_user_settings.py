@@ -11,16 +11,16 @@ from vasl_templates.webapp.tests.utils import \
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
 from vasl_templates.webapp.tests.test_template_packs import upload_template_pack_file
-from vasl_templates.webapp.config.constants import DATA_DIR as REAL_DATA_DIR
 
 # ---------------------------------------------------------------------
 
-def test_include_vasl_images_in_snippets( webapp, webdriver, monkeypatch ):
+def test_include_vasl_images_in_snippets( webapp, webdriver ):
     """Test including VASL counter images in snippets."""
 
     # initialize
-    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
-    init_webapp( webapp, webdriver )
+    init_webapp( webapp, webdriver,
+        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+    )
 
     # add a vehicle
     add_vo( webdriver, "vehicles", 1, "PzKpfw IB (Tt)" )
@@ -52,12 +52,13 @@ def test_include_vasl_images_in_snippets( webapp, webdriver, monkeypatch ):
 
 # ---------------------------------------------------------------------
 
-def test_include_flags_in_snippets( webapp, webdriver, monkeypatch ):
+def test_include_flags_in_snippets( webapp, webdriver ):
     """Test including flags in snippets."""
 
     # initialize
-    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
-    init_webapp( webapp, webdriver )
+    init_webapp( webapp, webdriver,
+        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+    )
 
     # prepare the scenario
     select_tab( "ob1" )

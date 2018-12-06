@@ -8,12 +8,11 @@ from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import \
     init_webapp, select_menu_option, select_tab, click_dialog_button, \
-    load_vasl_mod, find_child, find_children, wait_for_clipboard, \
+    find_child, find_children, wait_for_clipboard, \
     set_scenario_date
 from vasl_templates.webapp.tests.test_vo_reports import get_vo_report
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
-from vasl_templates.webapp.config.constants import DATA_DIR as REAL_DATA_DIR
 
 # ---------------------------------------------------------------------
 
@@ -555,13 +554,15 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     not pytest.config.option.vasl_mods, #pylint: disable=no-member
     reason = "--vasl-mods not specified"
     ) #pylint: disable=too-many-statements
-def test_capability_updates_in_ui( webapp, webdriver, monkeypatch ):
+def test_capability_updates_in_ui( webapp, webdriver ):
     """Ensure that capabilities are updated in the UI correctly."""
 
     # initialize
-    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
-    load_vasl_mod( REAL_DATA_DIR, monkeypatch )
-    init_webapp( webapp, webdriver, scenario_persistence=1 )
+    init_webapp( webapp, webdriver, scenario_persistence=1,
+        reset = lambda ct:
+            ct.set_data_dir( ddtype="real" ) \
+              .set_vasl_mod( vmod="random" )
+    )
 
     # load the scenario
     scenario_data = {

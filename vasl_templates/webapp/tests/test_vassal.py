@@ -1,7 +1,6 @@
 """ Test VASSAL integration. """
 
 import os
-import glob
 import re
 import json
 import base64
@@ -10,7 +9,6 @@ import typing.re #pylint: disable=import-error
 
 import pytest
 
-from vasl_templates.webapp.config.constants import DATA_DIR as REAL_DATA_DIR
 from vasl_templates.webapp.vassal import VassalShim
 from vasl_templates.webapp.utils import TempFile, change_extn
 from vasl_templates.webapp.tests.utils import \
@@ -23,15 +21,13 @@ from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario,
 @pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
 @pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 @pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
-def test_full_update( webapp, webdriver, monkeypatch ):
+def test_full_update( webapp, webdriver ):
     """Test updating a scenario that contains the full set of snippets."""
 
     # initialize
-    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
-    init_webapp( webapp, webdriver, vsav_persistence=1 )
-
-    # NOTE: We disable this for speed, since we don't care about label positioning.
-    monkeypatch.setitem( webapp.config, "DISABLE_UPDATE_VSAV_SCREENSHOTS", True )
+    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1,
+        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+    )
 
     # load the scenario fields
     SCENARIO_PARAMS = {
@@ -144,22 +140,20 @@ def test_full_update( webapp, webdriver, monkeypatch ):
             assert updated_vsav_data == b"No changes."
 
     # run the test against all versions of VASSAL+VASL
-    _run_tests( webapp, monkeypatch, do_test, True )
+    _run_tests( control_tests, do_test, True )
 
 # ---------------------------------------------------------------------
 
 @pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
 @pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 @pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
-def test_latw_autocreate( webapp, webdriver, monkeypatch ):
+def test_latw_autocreate( webapp, webdriver ):
     """Test auto-creation of LATW labels."""
 
     # initialize
-    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
-    init_webapp( webapp, webdriver, vsav_persistence=1 )
-
-    # NOTE: We disable this for speed, since we don't care about label positioning.
-    monkeypatch.setitem( webapp.config, "DISABLE_UPDATE_VSAV_SCREENSHOTS", True )
+    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1,
+        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+    )
 
     # NOTE: We're only interested in what happens with the LATW labels, we ignore everything else.
     ignore_labels = [ "scenario", "players", "victory_conditions" ]
@@ -217,22 +211,20 @@ def test_latw_autocreate( webapp, webdriver, monkeypatch ):
     # NOTE: We're testing the logic in the front/back-ends that determine whether LATW labels
     # get created/updated/deleted, not the interaction with VASSAL, so we don't need to test
     # against every VASSAL+VASL combination (although we can, if we want, but it'll be slow!)
-    _run_tests( webapp, monkeypatch, do_test, False )
+    _run_tests( control_tests, do_test, False )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 @pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
 @pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 @pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
-def test_latw_update( webapp, webdriver, monkeypatch ):
+def test_latw_update( webapp, webdriver ):
     """Test updating of LATW labels."""
 
     # initialize
-    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
-    init_webapp( webapp, webdriver, vsav_persistence=1 )
-
-    # NOTE: We disable this for speed, since we don't care about label positioning.
-    monkeypatch.setitem( webapp.config, "DISABLE_UPDATE_VSAV_SCREENSHOTS", True )
+    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1,
+        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+    )
 
     # NOTE: We're only interested in what happens with the LATW labels, we ignore everything else.
     ignore_labels = [ "scenario", "players", "victory_conditions" ]
@@ -274,18 +266,18 @@ def test_latw_update( webapp, webdriver, monkeypatch ):
     # NOTE: We're testing the logic in the front/back-ends that determine whether LATW labels
     # get created/updated/deleted, not the interaction with VASSAL, so we don't need to test
     # against every VASSAL+VASL combination (although we can, if we want, but it'll be slow!)
-    _run_tests( webapp, monkeypatch, do_test, False )
+    _run_tests( control_tests, do_test, False )
 
 # ---------------------------------------------------------------------
 
 @pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
 @pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 @pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
-def test_dump_vsav( webapp, webdriver, monkeypatch ):
+def test_dump_vsav( webapp, webdriver ):
     """Test dumping a scenario."""
 
     # initialize
-    init_webapp( webapp, webdriver )
+    control_tests = init_webapp( webapp, webdriver )
 
     def do_test(): #pylint: disable=missing-docstring
 
@@ -300,22 +292,20 @@ def test_dump_vsav( webapp, webdriver, monkeypatch ):
         assert vsav_dump == expected
 
     # run the test against all versions of VASSAL+VASL
-    _run_tests( webapp, monkeypatch, do_test, True )
+    _run_tests( control_tests, do_test, True )
 
 # ---------------------------------------------------------------------
 
 @pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
 @pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 @pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
-def test_legacy_labels( webapp, webdriver, monkeypatch ):
+def test_legacy_labels( webapp, webdriver ):
     """Test detection and updating of legacy labels."""
 
     # initialize
-    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
-    init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
-
-    # NOTE: We disable this for speed, since we don't care about label positioning.
-    monkeypatch.setitem( webapp.config, "DISABLE_UPDATE_VSAV_SCREENSHOTS", True )
+    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1,
+        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+    )
 
     def do_test(): #pylint: disable=missing-docstring
 
@@ -361,22 +351,20 @@ def test_legacy_labels( webapp, webdriver, monkeypatch ):
         } )
 
     # run the test
-    _run_tests( webapp, monkeypatch, do_test, False )
+    _run_tests( control_tests, do_test, False )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 @pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
 @pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 @pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
-def test_legacy_latw_labels( webapp, webdriver, monkeypatch ):
+def test_legacy_latw_labels( webapp, webdriver ):
     """Test detection and updating of legacy LATW labels."""
 
     # initialize
-    monkeypatch.setitem( webapp.config, "DATA_DIR", REAL_DATA_DIR )
-    init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
-
-    # NOTE: We disable this for speed, since we don't care about label positioning.
-    monkeypatch.setitem( webapp.config, "DISABLE_UPDATE_VSAV_SCREENSHOTS", True )
+    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1,
+        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+    )
 
     def do_test(): #pylint: disable=missing-docstring
 
@@ -441,29 +429,20 @@ def test_legacy_latw_labels( webapp, webdriver, monkeypatch ):
         assert len( [ lbl for lbl in labels if "vasl-templates:id" not in lbl ] ) == 6
 
     # run the test
-    _run_tests( webapp, monkeypatch, do_test, False )
+    _run_tests( control_tests, do_test, False )
 
 # ---------------------------------------------------------------------
 
-def _run_tests( webapp, monkeypatch, func, test_all ):
+def _run_tests( control_tests, func, test_all ):
     """Run the test function for each combination of VASSAL + VASL.
 
     This is, of course, going to be insanely slow, since we need to spin up a JVM
     and initialize VASSAL/VASL each time :-/
     """
 
-    # locate all VASL modules
-    vasl_mods_dir = pytest.config.option.vasl_mods #pylint: disable=no-member
-    fspec = os.path.join( vasl_mods_dir, "*.vmod" )
-    vasl_mods = glob.glob( fspec )
-
-    # locate all VASSAL engines
-    vassal_engines = []
-    vassal_dir = pytest.config.option.vassal #pylint: disable=no-member
-    for root,_,fnames in os.walk( vassal_dir ):
-        for fname in fnames:
-            if fname == "Vengine.jar":
-                vassal_engines.append( root )
+    # locate all VASL modules and VASSAL engines
+    vasl_mods = control_tests.get_vasl_mods()
+    vassal_engines = control_tests.get_vassal_engines()
 
     # check if we want to test all VASSAL+VASL combinations (nb: if not, we test against only one combination,
     # and since they all should give the same results, it doesn't matter which one.
@@ -473,9 +452,9 @@ def _run_tests( webapp, monkeypatch, func, test_all ):
 
     # run the test for each VASSAL+VASL
     for vassal_engine in vassal_engines:
-        monkeypatch.setitem( webapp.config, "VASSAL_DIR", vassal_engine )
+        control_tests.set_vassal_engine( vengine=vassal_engine )
         for vasl_mod in vasl_mods:
-            monkeypatch.setitem( webapp.config, "VASL_MOD", vasl_mod )
+            control_tests.set_vasl_mod( vmod=vasl_mod )
             func()
 
 # ---------------------------------------------------------------------
