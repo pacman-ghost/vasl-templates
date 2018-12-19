@@ -126,6 +126,8 @@ class ControlTests:
         if vmod is None:
             _logger.info( "Installing VASL module: %s", vmod )
             webapp_files.vasl_mod = None
+            if "VASL_MOD" in app.config:
+                del app.config[ "VASL_MOD" ]
         else:
             fnames = self._do_get_vasl_mods()
             if vmod == "random":
@@ -136,6 +138,7 @@ class ControlTests:
                 assert vmod in fnames
                 fname = vmod
             _logger.info( "Installing VASL module: %s", fname )
+            app.config[ "VASL_MOD" ] = fname
             webapp_files.vasl_mod = VaslMod( fname, DATA_DIR )
         return self
 
