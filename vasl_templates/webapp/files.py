@@ -2,8 +2,11 @@
 
 import os
 import io
+import urllib.request
+import urllib.parse
+import mimetypes
 
-from flask import send_file, jsonify, redirect, url_for, abort
+from flask import send_file, send_from_directory, jsonify, redirect, url_for, abort
 
 from vasl_templates.webapp import app
 from vasl_templates.webapp.file_server.vasl_mod import VaslMod
@@ -19,20 +22,45 @@ class FileServer:
     """Serve static files."""
 
     def __init__( self, base_dir ):
-        self.base_dir = os.path.abspath( base_dir )
+        if FileServer.is_remote_path( base_dir ):
+            self.base_dir = base_dir
+        else:
+            self.base_dir = os.path.abspath( base_dir )
 
-    def get_file( self, fname ):
+    def serve_file( self, path ):
         """Serve a file."""
-        if not fname:
-            return None
-        fname = os.path.join( self.base_dir, fname )
-        fname = os.path.abspath( fname )
-        if not os.path.isfile( fname ):
-            return None
-        prefix = os.path.commonpath( [ self.base_dir, fname ] )
-        if prefix != self.base_dir:
-            return None # nb: files must be sub-ordinate to the configured directory
-        return fname
+        if FileServer.is_remote_path( self.base_dir ):
+            url = "{}/{}".format( self.base_dir, path )
+            # NOTE: We download the target file and serve it ourself (instead of just redirecting)
+            # since VASSAL can't handle SSL :-/
+            resp = urllib.request.urlopen( url )
+            buf = io.BytesIO()
+            buf.write( resp.read() )
+            buf.seek( 0 )
+            mime_type = mimetypes.guess_type( url )[0]
+            if not mime_type:
+                # FUDGE! send_file() requires a MIME type, so we take a guess and hope the browser
+                # can figure it out if we're wrong :-/
+                mime_type = "image/png"
+            return send_file( buf, mimetype=mime_type )
+        else:
+            path = path.replace( "\\", "/" ) # nb: for Windows :-/
+            return send_from_directory( self.base_dir, path )
+
+    @staticmethod
+    def is_remote_path( path ):
+        """Check if a path is referring to a remote server."""
+        return path.startswith( ("http://","https://") )
+
+# ---------------------------------------------------------------------
+
+@app.route( "/user/<path:path>" )
+def get_user_file( path ):
+    """Get a static file."""
+    dname = app.config.get( "USER_FILES_DIR" )
+    if not dname:
+        abort( 404 )
+    return FileServer( dname ).serve_file( path )
 
 # ---------------------------------------------------------------------
 

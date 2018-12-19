@@ -57,7 +57,8 @@ def init_webapp( webapp, webdriver, **options ):
         .set_default_template_pack( dname=None ) \
         .set_vasl_mod( vmod=None ) \
         .set_vassal_engine( vengine=None ) \
-        .set_vo_notes_dir( dtype=None )
+        .set_vo_notes_dir( dtype=None ) \
+        .set_user_files_dir( dtype=None )
     if "reset" in options:
         options.pop( "reset" )( control_tests )
 

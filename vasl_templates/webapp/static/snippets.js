@@ -283,6 +283,9 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         return "[error: can't process template'" ;
     }
 
+    // fixup any user file URL's
+    snippet = snippet.replace( "{{USER_FILES}}", APP_URL_BASE + "/user" ) ;
+
     return snippet ;
 }
 

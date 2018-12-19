@@ -124,28 +124,29 @@ def get_vo_note( vo_type, nat, key ):
             abort( 404 )
         vo_notes = _do_get_vo_notes( vo_type )
         fname = vo_notes.get( nat, {} ).get( key )
-        fname = _vo_notes_file_server.get_file( fname )
-    if not fname:
-        abort( 404 )
+        resp = _vo_notes_file_server.serve_file( fname )
 
     # check if we should resize the file
     scaling = request.args.get( "scaling" )  # nb: allow individual notes to set their scaling
     if not scaling:
         scaling = app.config.get( "CHAPTER_H_NOTE_SCALING", 100 )
-    if scaling != 100:
+    if scaling == 100:
+        # nope - just return the file as it is
+        return resp
+    else:
         # yup - make it so
-        with open( fname, "rb" ) as fp:
-            img = Image.open( fp )
-            width = int( img.size[0] * float(scaling) / 100 )
-            height = int( img.size[1] * float(scaling) / 100 )
-            img = img.resize( (width,height), Image.ANTIALIAS )
+        buf = io.BytesIO()
+        resp.direct_passthrough = False
+        buf.write( resp.get_data() )
+        buf.seek( 0 )
+        img = Image.open( buf )
+        width = int( img.size[0] * float(scaling) / 100 )
+        height = int( img.size[1] * float(scaling) / 100 )
+        img = img.resize( (width,height), Image.ANTIALIAS )
         buf = io.BytesIO()
         img.save( buf, format="PNG" )
         buf.seek( 0 )
         return send_file( buf, mimetype="image/png" )
-    else:
-        # nope - just return the file as it is
-        return send_file( fname )
 
 # ---------------------------------------------------------------------
 

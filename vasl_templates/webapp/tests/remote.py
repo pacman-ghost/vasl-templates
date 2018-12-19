@@ -185,3 +185,16 @@ class ControlTests:
             webapp_vo_notes._cached_vo_notes = None #pylint: disable=protected-access
             webapp_vo_notes._vo_notes_file_server = None #pylint: disable=protected-access
         return self
+
+    def _set_user_files_dir( self, dtype=None ):
+        """Set the user files directory."""
+        if dtype == "test":
+            dname = os.path.join( os.path.split(__file__)[0], "fixtures/user-files" )
+        elif dtype and dtype.startswith( ("http://","https://") ):
+            dname = dtype
+        else:
+            assert dtype is None
+            dname = None
+        _logger.info( "Setting user files: %s", dname )
+        app.config["USER_FILES_DIR"] = dname
+        return self
