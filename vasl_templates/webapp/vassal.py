@@ -141,7 +141,7 @@ def _save_snippets( snippets, fp ):
         _logger.debug( "Generated screenshot for %s (%.3fs): %dx%d", snippet_id, elapsed_time, width, height )
         return width, height
 
-    def do_save_snippets( html_screenshots ):
+    def do_save_snippets( html_screenshots ): #pylint: disable=too-many-locals
         """Save the snippets."""
 
         root = ET.Element( "snippets" )
@@ -157,7 +157,7 @@ def _save_snippets( snippets, fp ):
 
             # add the raw content
             elem2 = ET.SubElement( elem, "rawContent" )
-            for node in val["raw_content"]:
+            for node in val.get("raw_content",[]):
                 ET.SubElement( elem2, "phrase" ).text = node
 
             # include the size of the snippet
@@ -165,15 +165,23 @@ def _save_snippets( snippets, fp ):
                 try:
                     # NOTE: Screenshots take significantly longer for larger window sizes. Since most of our snippets
                     # will be small, we first try with a smaller window, and switch to a larger one if necessary.
-                    width, height = get_html_size( key, val["content"], (500,500) )
-                    if width >= 450 or height >= 450:
+                    max_width, max_height = 500, 500
+                    max_width2, max_height2 = 1500, 1500
+                    if key.startswith(
+                        ("ob_vehicles_ma_notes_","ob_vehicle_note_","ob_ordnance_ma_notes_","ob_ordnance_note_")
+                    ):
+                        # nb: these tend to be large, don't bother with a smaller window
+                        max_width, max_height = max_width2, max_height2
+                    width, height = get_html_size( key, val["content"], (max_width,max_height) )
+                    if (width >= max_width*9/10 or height >= max_height*9/10) \
+                        and (max_width,max_height) != (max_width2,max_height2):
                         # NOTE: While it's tempting to set the browser window really large here, if the label ends up
                         # filling/overflowing the available space (e.g. because its width/height has been set to 100%),
                         # then the auto-created label will push any subsequent labels far down the map, possibly to
                         # somewhere unreachable. So, we set it somewhat more conservatively, so that if this happens,
                         # the user still has a chance to recover from it. Note that this doesn't mean that they can't
                         # have really large labels, it just affects the positioning of auto-created labels.
-                        width, height = get_html_size( key, val["content"], (1500,1500) )
+                        width, height = get_html_size( key, val["content"], (max_width2,max_height2) )
                     # FUDGE! There's something weird going on in VASSAL e.g. "<table width=300>" gives us something
                     # very different to "<table style='width:300px;'>" :-/ Changing the font size also causes problems.
                     # The following fudging seems to give us something that's somewhat reasonable... :-/

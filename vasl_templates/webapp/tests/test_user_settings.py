@@ -7,7 +7,7 @@ from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import \
     init_webapp, find_child, wait_for_clipboard, \
-    select_tab, select_menu_option, click_dialog_button, add_simple_note
+    select_tab, select_menu_option, set_player, click_dialog_button, add_simple_note
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
 from vasl_templates.webapp.tests.test_template_packs import upload_template_pack_file
@@ -19,10 +19,11 @@ def test_include_vasl_images_in_snippets( webapp, webdriver ):
 
     # initialize
     init_webapp( webapp, webdriver,
-        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+        reset = lambda ct: ct.set_data_dir( dtype="real" )
     )
 
     # add a vehicle
+    set_player( 1, "german" )
     add_vo( webdriver, "vehicles", 1, "PzKpfw IB (Tt)" )
 
     # enable "show VASL images in snippets"
@@ -57,10 +58,11 @@ def test_include_flags_in_snippets( webapp, webdriver ):
 
     # initialize
     init_webapp( webapp, webdriver,
-        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+        reset = lambda ct: ct.set_data_dir( dtype="real" )
     )
 
     # prepare the scenario
+    set_player( 1, "german" )
     select_tab( "ob1" )
     sortable = find_child( "#ob_setups-sortable_1" )
     add_simple_note( sortable, "OB setup note", None )

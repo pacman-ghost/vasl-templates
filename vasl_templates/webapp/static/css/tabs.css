@@ -34,7 +34,7 @@
 
 .ui-tabs-panel.tabs-ob { display: flex ; }
 .ui-tabs-panel.tabs-ob .left { flex-grow: 1 ; min-width: 32em ; }
-.ui-tabs-panel.tabs-ob .right { width: 25em ; min-width: 25em ; }
+.ui-tabs-panel.tabs-ob .right { width: 28em ; min-width: 26em ; }
 
 .ui-tabs-panel.tabs-ob .left { display: flex ; flex-direction: column ; }
 .ui-tabs-panel.tabs-ob .tl { height: 100% ; flex-grow: 1 }

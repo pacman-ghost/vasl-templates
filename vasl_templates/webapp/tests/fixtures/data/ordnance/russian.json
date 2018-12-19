@@ -11,6 +11,7 @@
 { "name": "another russian ordnance",
   "capabilities": [ "RFNM" ],
   "note_number": "2",
+  "notes": [ "ZZ" ],
   "id": "ru/o:991"
 },
 { "name": "name only",

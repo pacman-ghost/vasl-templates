@@ -115,6 +115,14 @@ def change_extn( fname, extn ):
     """Change a filename's extension."""
     return pathlib.Path( fname ).with_suffix( extn )
 
+def is_image_file( fname ):
+    """Check if a file is an image."""
+    if fname.startswith( "." ):
+        extn = fname
+    else:
+        extn = os.path.splitext( fname )[0]
+    return extn.lower() in (".png",".jpg",".jpeg",".gif")
+
 # ---------------------------------------------------------------------
 
 class SimpleError( Exception ):

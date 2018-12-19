@@ -22,7 +22,7 @@ td { padding: 0.2em 0.5em ; }
 
 <script>
 $(document).ready( function () {
-    // get the vehicle listings
+    // get the vehicle/ordnance listings
     var url ;
     if ( "{{VO_TYPE}}" == "ordnance" )
         url = "{{url_for( 'get_ordnance_listings', report=1 )}}" ;

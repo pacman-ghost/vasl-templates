@@ -17,7 +17,7 @@ def test_snippet_ids( webapp, webdriver ):
 
     # initialize
     init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+        reset = lambda ct: ct.set_data_dir( dtype="real" )
     )
 
     # load a scenario (so that we get some sortable's)
@@ -227,7 +227,9 @@ def test_edit_templates( webapp, webdriver ):
     """Test editing templates."""
 
     # initialize
-    init_webapp( webapp, webdriver, edit_template_links=1 )
+    init_webapp( webapp, webdriver, edit_template_links=1,
+        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
+    )
     ob_setups = {
         1: find_child( "#ob_setups-sortable_1" ),
         2: find_child( "#ob_setups-sortable_2" )
@@ -246,8 +248,10 @@ def test_edit_templates( webapp, webdriver ):
         elem.send_keys( Keys.ESCAPE )
     def test_template( template_id, orig_template_id ):
         """Test editing a template."""
-        if template_id in("scenario_note","ob_setup","ob_note"):
+        if template_id in ("scenario_note","ob_setup","ob_note"):
             return # nb: these require special handling (done below)
+        if template_id in ("ob_vehicle_note","ob_ordnance_note"):
+            return # nb: we currently don't support editing these in the UI
         # edit the template
         elem = find_child( "a._edit-template-link_[data-id='{}']".format( template_id ) )
         webdriver.execute_script( "$(arguments[0]).click();", elem )

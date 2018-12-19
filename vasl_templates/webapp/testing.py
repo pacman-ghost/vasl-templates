@@ -27,7 +27,7 @@ def control_tests( action ):
     sig = inspect.signature( func )
     kwargs = {}
     for param in sig.parameters.values():
-        if param.name in ("vengine","vmod","gpids","ddtype","fname","dname"):
+        if param.name in ("vengine","vmod","gpids","dtype","fname","dname"):
             kwargs[ param.name ] = request.args.get( param.name, param.default )
 
     # execute the command

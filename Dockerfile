@@ -7,6 +7,8 @@
 #     -p 5010:5010 \
 #     -v .../vasl-6.4.3.vmod:/data/vasl.vmod \
 #     vasl-templates
+# If you have Chapter H data, add the following:
+#     -v .../chapter-h-notes:/data/chapter-h-notes
 
 FROM python:alpine3.6
 

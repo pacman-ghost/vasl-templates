@@ -60,6 +60,7 @@ import vasl_templates.webapp.vo #pylint: disable=cyclic-import
 import vasl_templates.webapp.snippets #pylint: disable=cyclic-import
 import vasl_templates.webapp.files #pylint: disable=cyclic-import
 import vasl_templates.webapp.vassal #pylint: disable=cyclic-import
+import vasl_templates.webapp.vo_notes #pylint: disable=cyclic-import
 if app.config.get( "ENABLE_REMOTE_TEST_CONTROL" ):
     print( "*** WARNING: Remote test control enabled! ***" )
     import vasl_templates.webapp.testing #pylint: disable=cyclic-import

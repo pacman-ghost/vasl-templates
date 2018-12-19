@@ -24,7 +24,9 @@ var gScenarioCreatedTime = null ;
 function generate_snippet( $btn, extra_params )
 {
     // generate the snippet
-    var snippet = make_snippet( $btn, extra_params, true ) ;
+    var template_id = $btn.data( "id" ) ;
+    var params = unload_snippet_params( true, template_id ) ;
+    var snippet = make_snippet( $btn, params, extra_params, true ) ;
 
     // copy the snippet to the clipboard
     try {
@@ -37,11 +39,10 @@ function generate_snippet( $btn, extra_params )
     showInfoMsg( "The HTML snippet has been copied to the clipboard." ) ;
 }
 
-function make_snippet( $btn, extra_params, show_date_warnings )
+function make_snippet( $btn, params, extra_params, show_date_warnings )
 {
     // initialize
     var template_id = $btn.data( "id" ) ;
-    var params = unload_snippet_params( true, template_id ) ;
 
     // set player-specific parameters
     var player_no = get_player_no_for_element( $btn ) ;
@@ -56,7 +57,7 @@ function make_snippet( $btn, extra_params, show_date_warnings )
 
     // set the snippet ID
     var data ;
-    if ( template_id === "ob_setup" || template_id === "ob_note" ) {
+    if ( ["ob_setup","ob_note","ob_vehicle_note","ob_ordnance_note"].indexOf( template_id ) !== -1 ) {
         data = $btn.parent().parent().data( "sortable2-data" ) ;
         params.SNIPPET_ID = template_id + "_" + player_no + "." + data.id ;
     } else if ( template_id === "scenario_note" ) {
@@ -66,24 +67,100 @@ function make_snippet( $btn, extra_params, show_date_warnings )
         params.SNIPPET_ID = template_id ;
 
     // set player-specific parameters
-    if ( template_id == "ob_vehicles_1" ) {
+    if ( template_id === "ob_vehicles_1" ) {
         template_id = "ob_vehicles" ;
         params.OB_VEHICLES = params.OB_VEHICLES_1 ;
         params.OB_VEHICLES_WIDTH = params.OB_VEHICLES_WIDTH_1 ;
-    } else if ( template_id == "ob_vehicles_2" ) {
+    } else if ( template_id === "ob_vehicles_2" ) {
         template_id = "ob_vehicles" ;
         params.OB_VEHICLES = params.OB_VEHICLES_2 ;
         params.OB_VEHICLES_WIDTH = params.OB_VEHICLES_WIDTH_2 ;
     }
-    if ( template_id == "ob_ordnance_1" ) {
+    if ( template_id === "ob_ordnance_1" ) {
         template_id = "ob_ordnance" ;
         params.OB_ORDNANCE = params.OB_ORDNANCE_1 ;
         params.OB_ORDNANCE_WIDTH = params.OB_ORDNANCE_WIDTH_1 ;
-    } else if ( template_id == "ob_ordnance_2" ) {
+    } else if ( template_id === "ob_ordnance_2" ) {
         template_id = "ob_ordnance" ;
         params.OB_ORDNANCE = params.OB_ORDNANCE_2 ;
         params.OB_ORDNANCE_WIDTH = params.OB_ORDNANCE_WIDTH_2 ;
     }
+
+    // set vehicle/ordnance note parameters
+    function set_vo_note( vo_type ) {
+        var data = $btn.parent().parent().data( "sortable2-data" ) ;
+        var key = (vo_type === "vehicles") ? "VEHICLE" : "ORDNANCE" ;
+        params[ key + "_NAME" ] = data.vo_entry.name ;
+        params[ key + "_NOTE_URL" ] = data.vo_note_url ;
+    }
+    if ( template_id === "ob_vehicle_note" )
+        set_vo_note( "vehicles" ) ;
+    else if ( template_id === "ob_ordnance_note" )
+        set_vo_note( "ordnance" ) ;
+
+    // generate snippets for multi-applicable vehicle/ordnance notes
+    function add_ma_notes( ma_notes, keys, param_name, nat, vo_type ) {
+        if ( ! keys )
+            return ;
+        params[ param_name ] = [] ;
+        for ( var i=0 ; i < keys.length ; ++i ) {
+            var ma_note = ma_notes[ keys[i] ] ;
+            params[ param_name ].push(
+                "<span class='key'>" +
+                (nat === "italian" && vo_type === "ordnance" && keys[i] === "R" ? "<s>R</s>" : keys[i]) + ":" +
+                "</span> " +
+                (ma_note || "Unavailable.")
+            ) ;
+        }
+    }
+    function get_ma_notes( vo_type, player_no, param_name ) {
+        var nat = params[ "PLAYER_" + player_no ] ;
+        var vo_entries = params[ "OB_" + vo_type.toUpperCase() + "_" + player_no ] ;
+        var result = get_ma_notes_keys( nat, vo_entries, vo_type, null ) ;
+        if ( ! result )
+            return ;
+        // NOTE: If the V/O entries contain landing craft or common vehicles/ordnance, we get:
+        //   [ m/a note keys, m/a note keys for the extras, nat ID for the extras, display caption for the extras, unrecognized keys ]
+        // where "extras" = landing craft or common vehicles/ordnance. Otherwise, we get:
+        //   [ m/a note keys, null, null, null, unrecognized keys ]
+        add_ma_notes( get_ma_notes_for_nat(nat,vo_type), result[0], param_name, nat, vo_type ) ;
+        if ( result[1] ) {
+            // there are extras, show their multi-applicable notes separately
+            add_ma_notes( get_ma_notes_for_nat(result[2],vo_type), result[1], param_name.replace("_MA_NOTES_","_EXTRA_MA_NOTES_"), result[2], vo_type ) ;
+            if ( result[0] ) {
+                var param_name2 = "OB_" + vo_type.toUpperCase() + "_EXTRA_MA_NOTES_CAPTION_" + player_no ;
+                params[param_name2] = result[3] ;
+            }
+        }
+    }
+    function get_ma_notes_for_nat( nat, vo_type ) {
+        if ( nat === "landing-craft" && nat in gVehicleOrdnanceNotes.vehicles )
+            return gVehicleOrdnanceNotes.vehicles[ nat ][ "multi-applicable" ] ;
+        if ( vo_type in gVehicleOrdnanceNotes && nat in gVehicleOrdnanceNotes[vo_type] )
+            return gVehicleOrdnanceNotes[ vo_type ][ nat ][ "multi-applicable" ] ;
+        return {} ;
+    }
+    get_ma_notes( "vehicles", 1, "OB_VEHICLES_MA_NOTES_1" ) ;
+    get_ma_notes( "ordnance", 1, "OB_ORDNANCE_MA_NOTES_1" ) ;
+    get_ma_notes( "vehicles", 2, "OB_VEHICLES_MA_NOTES_2" ) ;
+    get_ma_notes( "ordnance", 2, "OB_ORDNANCE_MA_NOTES_2" ) ;
+    function set_params( vo_type, player_no ) {
+        template_id = "ob_" + vo_type + "_ma_notes" ;
+        var vo_type_uc = vo_type.toUpperCase() ;
+        var postfixes = [ "MA_NOTES", "MA_NOTES_WIDTH", "EXTRA_MA_NOTES", "EXTRA_MA_NOTES_CAPTION" ] ;
+        for ( var i=0 ; i < postfixes.length ; ++i ) {
+            var stem = "OB_" + vo_type_uc + "_" + postfixes[i] ;
+            params[ stem ] = params[ stem + "_" + player_no ] ;
+        }
+    }
+    if ( template_id === "ob_vehicles_ma_notes_1" )
+        set_params( "vehicles", 1 ) ;
+    else if ( template_id === "ob_ordnance_ma_notes_1" )
+        set_params( "ordnance", 1 ) ;
+    else if ( template_id === "ob_vehicles_ma_notes_2" )
+        set_params( "vehicles", 2 ) ;
+    else if ( template_id === "ob_ordnance_ma_notes_2" )
+        set_params( "ordnance", 2 ) ;
 
     // include the player display names and flags
     params.PLAYER_1_NAME = get_nationality_display_name( params.PLAYER_1 ) ;
@@ -105,13 +182,13 @@ function make_snippet( $btn, extra_params, show_date_warnings )
     } ) ;
 
     // generate PF parameters
-    if ( params.SCENARIO_YEAR < 1944 || (params.SCENARIO_YEAR == 1944 && params.SCENARIO_MONTH < 6) )
+    if ( params.SCENARIO_YEAR < 1944 || (params.SCENARIO_YEAR === 1944 && params.SCENARIO_MONTH < 6) )
         params.PF_RANGE = 1 ;
-    else if ( params.SCENARIO_YEAR == 1944 )
+    else if ( params.SCENARIO_YEAR === 1944 )
         params.PF_RANGE = 2 ;
     else
         params.PF_RANGE = 3 ;
-    if ( params.SCENARIO_YEAR < 1943 || (params.SCENARIO_YEAR == 1943 && params.SCENARIO_MONTH <= 9) ) {
+    if ( params.SCENARIO_YEAR < 1943 || (params.SCENARIO_YEAR === 1943 && params.SCENARIO_MONTH <= 9) ) {
         params.PF_CHECK_DRM = "+1" ;
         params.PF_CHECK_DR = 2 ;
     } else if ( params.SCENARIO_YEAR >= 1945 ) {
@@ -134,7 +211,7 @@ function make_snippet( $btn, extra_params, show_date_warnings )
         params.BAZ_BREAKDOWN = 11 ;
         params.BAZ_TOKILL = 16 ;
         params.BAZ_RANGE = 4 ;
-    } else if ( params.SCENARIO_YEAR == 1943 || (params.SCENARIO_YEAR == 1942 && params.SCENARIO_MONTH >= 11) ) {
+    } else if ( params.SCENARIO_YEAR === 1943 || (params.SCENARIO_YEAR === 1942 && params.SCENARIO_MONTH >= 11) ) {
         params.BAZ_TYPE = 43 ;
         params.BAZ_BREAKDOWN = 10 ;
         params.BAZ_TOKILL = 13 ;
@@ -209,6 +286,131 @@ function make_snippet( $btn, extra_params, show_date_warnings )
     return snippet ;
 }
 
+function get_vo_note_key( vo_entry )
+{
+    // get the note number for the specified vehicle/ordnance
+    if ( ! vo_entry.note_number )
+        return null ;
+    // nb: there are some note numbers of the form "1.2" :-/
+    var match = vo_entry.note_number.match( new RegExp( "^([0-9.]+)" ) ) ;
+    return match ? match[1] : null ;
+}
+
+function is_known_vo_note_key( vo_type, nat, key )
+{
+    // check if the vehicle/ordnance note key is known to us
+    return vo_type in gVehicleOrdnanceNotes &&
+           nat in gVehicleOrdnanceNotes[ vo_type ] &&
+           key in gVehicleOrdnanceNotes[ vo_type ][ nat ] ;
+}
+
+function get_ma_notes_keys( nat, vo_entries, vo_type )
+{
+    // figure out which multi-applicable notes are being referenced
+    if ( ! vo_entries )
+        return null ;
+    // NOTE: We need to return 2 sets of referenced keys, one for the normal vehicle/ordnance notes
+    // and one for any landing craft/common vehicles, since they share common keys.
+    var keys = [ {}, {} ] ;
+    var unrecognized = [] ;
+    var regexes = [
+        new RegExp( "^([A-Z]{1,2})$" ),
+        new RegExp( "^([A-Z]{1,2})\\u2020" ),
+        new RegExp( "^([a-z])$" ),
+        new RegExp( "^([a-z])\\u2020" ),
+        new RegExp( "^([A-Z][a-z])$" ),
+        new RegExp( "^([A-Za-z])<sup>" ),
+        new RegExp( "^<s>([A-Za-z])</s>$" ),
+    ] ;
+    var EXTRA_NOTES_INFO = {
+        "alc/v": [ "allied-minor", "Allied Minor Common Vehicles" ],
+        "alc/o": [ "allied-minor", "Allied Minor Common Ordnance" ],
+        "axc/v": [ "axis-minor", "Axis Minor Common Vehicles" ],
+        "axc/o": [ "axis-minor", "Axis Minor Common Ordnance" ],
+        "sh/v":  [ "landing-craft", "Landing Craft" ],
+    } ;
+    var extra_notes_info = [ null, null ] ;
+    var i, j, k ;
+    for ( i=0 ; i < vo_entries.length ; ++i ) {
+        var vo_entry = vo_entries[i] ;
+        if ( ! vo_entry.notes )
+            continue ;
+        for ( j=0 ; j < vo_entry.notes.length ; ++j ) {
+            var rc = false ;
+            for ( k=0 ; k < regexes.length ; ++k ) {
+                var match = vo_entry.notes[j].match( regexes[k] ) ;
+                if ( match ) {
+                    var vo_id = vo_entry.id.split( ":", 1 )[0] ;
+                    var is_extra = ["allied-minor","axis-minor","landing-craft"].indexOf( nat ) === -1 &&
+                                   ["alc/v","alc/o","axc/v","axc/o","sh/v"].indexOf( vo_id ) !== -1 ;
+                    keys[ is_extra?1:0 ][ match[1] ] = true ;
+                    if ( is_extra ) {
+                        // NOTE: Only the Americans/British and Japanese have landing craft, while Axis Minor Powers
+                        // will never have Allied Minor common vehicles/ordnance (and vice versa), so if we have
+                        // extra notes, they should be all of the same type.
+                        extra_notes_info = EXTRA_NOTES_INFO[ vo_id ] ;
+                    }
+                    rc = true ;
+                    break ;
+                }
+            }
+            if ( ! rc ) {
+                unrecognized.push( [ vo_entry, vo_entry.notes[j] ] ) ;
+                console.log( "Couldn't recognize multi-applicable note keys for '" + vo_entry.name + "':", vo_entry.notes[j] ) ;
+            }
+        }
+    }
+
+    return [
+        sort_ma_notes_keys( nat, Object.keys(keys[0]) ),
+        sort_ma_notes_keys( nat, Object.keys(keys[1]) ),
+        extra_notes_info[0], extra_notes_info[1],
+        unrecognized
+    ] ;
+}
+
+function sort_ma_notes_keys( nat, keys )
+{
+    // NOTE: I tried sorting the multi-applicable notes on the server side, but it got very messy very quickly
+    // e.g. we get an ordered list of notes, so we can no longer access them via the key; we have references
+    // to notes that may not be defined e.g. because the user hasn't set them up.
+
+    if ( ! keys || keys.length === 0 )
+        return null ;
+
+    function isUpperCase( ch ) { return ch === ch.toUpperCase() ; }
+    function isLowerCase( ch ) { return ch === ch.toLowerCase() ; }
+
+    // FUDGE! The sort rules don't apply for the special mixed-case keys in the Allied Minor ordnance.
+    // NOTE: There are a few other cases that have two-character mixed-case keys :-/
+    function isSpecialKey( key ) { return key.length === 2 && isUpperCase(key[0]) && isLowerCase(key[1]) ; }
+
+    // sort the multi-applicable note keys
+    keys.sort( function( lhs, rhs ) {
+        if ( ! isSpecialKey(lhs) && ! isSpecialKey(rhs) ) {
+            // upper-case sorts lower than lower-case (so that "AA" appears before "a")
+            if ( isUpperCase(lhs[0]) && isLowerCase(rhs[0]) )
+                return -1 ;
+            if ( isLowerCase(lhs[0]) && isUpperCase(rhs[0]) )
+                return +1 ;
+            // shorter strings sort lower (e.g. so that "A" appears before "AA")
+            if ( lhs.length < rhs.length )
+                return -1 ;
+            else if ( lhs.length > rhs.length )
+                return +1 ;
+        }
+        // return the natural sort order (only for strings with the same case and length)
+        if ( lhs < rhs )
+            return -1 ;
+        else if ( lhs > rhs )
+            return +1 ;
+        else
+            return 0 ;
+    } ) ;
+
+    return keys ;
+}
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 function unload_snippet_params( unpack_scenario_date, template_id )
@@ -260,6 +462,7 @@ function unload_snippet_params( unpack_scenario_date, template_id )
             var vo_image_id = $(this).data( "sortable2-data" ).vo_image_id ;
             var obj = {
                 id: vo_entry.id,
+                seq_id: $(this).data( "sortable2-data" ).id,
                 image_id: (vo_image_id !== null) ? vo_image_id[0]+"/"+vo_image_id[1] : null,
                 name: vo_entry.name,
                 note_number: vo_entry.note_number,
@@ -330,7 +533,7 @@ function make_capabilities( raw, vo_entry, nat, scenario_theater, scenario_year,
         var no_if = "no IF" ;
         if ( typeof(vo_entry.no_if) === "string" ) { // nb: only for the French B1-bis :-/
             no_if = vo_entry.no_if ;
-            if ( no_if.substring(no_if.length-1) == "\u2020" )
+            if ( no_if.substring(no_if.length-1) === "\u2020" )
                 no_if = "no IF<sup>" + no_if.substring(0,no_if.length-1) + "</sup>\u2020" ;
             else
                 no_if = "no IF<sup>" + no_if + "</sup>" ;
@@ -355,9 +558,9 @@ function make_capabilities( raw, vo_entry, nat, scenario_theater, scenario_year,
                 continue ;
             }
             // check for LF
-            if ( key == "LF" ) {
+            if ( key === "LF" ) {
                 var caps = $.extend( true, [], vo_entry.capabilities2[key] ) ;
-                if ( caps[caps.length-1] == "\u2020" ) {
+                if ( caps[caps.length-1] === "\u2020" ) {
                     caps.pop() ;
                     capabilities.push( "LF\u2020" ) ;
                 } else
@@ -381,7 +584,7 @@ function make_capabilities( raw, vo_entry, nat, scenario_theater, scenario_year,
                 var cap = _select_capability_by_date( vo_entry.capabilities2[key], nat, scenario_theater, scenario_year, scenario_month ) ;
                 if ( cap === null )
                     continue ;
-                if ( cap == "<invalid>" ) {
+                if ( cap === "<invalid>" ) {
                     invalid_caps.push( vo_entry.name + ": " + key + ": " + vo_entry.capabilities2[key] ) ;
                     continue ;
                 }
@@ -528,7 +731,7 @@ function _check_capability_timestamp( capabilities, timestamp, nat, scenario_the
     }
 
     // remove any trailing "+" (FIXME! What does it even mean? Doesn't make sense :-/)
-    if ( timestamp.substring( timestamp.length-1 ) == "+" )
+    if ( timestamp.substring( timestamp.length-1 ) === "+" )
         timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
 
     // check if there is anything left
@@ -547,7 +750,7 @@ function _check_capability_timestamp( capabilities, timestamp, nat, scenario_the
         // check if the capabilitity is available
         if ( scenario_year > 1940 + timestamp )
             return capabilities[0] ;
-        else if ( scenario_year == 1940 + timestamp ) {
+        else if ( scenario_year === 1940 + timestamp ) {
             if( !month || scenario_month >= month )
                 return capabilities[0] ;
         }
@@ -623,10 +826,6 @@ function get_template( template_id, fixup )
 function edit_template( template_id )
 {
     // get the specified template
-    if ( template_id.substring(0,12) == "ob_ordnance_" )
-        template_id = "ob_ordnance" ;
-    else if ( template_id.substring(0,12) == "ob_vehicles_" )
-        template_id = "ob_vehicles" ;
     var template = get_template( template_id, false ) ;
     if ( template === null )
         return ;
@@ -737,11 +936,25 @@ function do_load_scenario_data( params )
 
     // auto-assign ID's to the OB setup notes and notes
     // NOTE: We do this here to handle scenarios that were created before these ID's were implemented.
-    auto_assign_ids( params.SCENARIO_NOTES ) ;
-    auto_assign_ids( params.OB_SETUPS_1 ) ;
-    auto_assign_ids( params.OB_NOTES_1 ) ;
-    auto_assign_ids( params.OB_SETUPS_2 ) ;
-    auto_assign_ids( params.OB_NOTES_2 ) ;
+    auto_assign_ids( params.SCENARIO_NOTES, "id" ) ;
+    auto_assign_ids( params.OB_SETUPS_1, "id" ) ;
+    auto_assign_ids( params.OB_NOTES_1, "id" ) ;
+    auto_assign_ids( params.OB_VEHICLES_1, "seq_id" ) ;
+    auto_assign_ids( params.OB_ORDNANCE_1, "seq_id" ) ;
+    auto_assign_ids( params.OB_SETUPS_2, "id" ) ;
+    auto_assign_ids( params.OB_NOTES_2, "id" ) ;
+    auto_assign_ids( params.OB_VEHICLES_2, "seq_id" ) ;
+    auto_assign_ids( params.OB_ORDNANCE_2, "seq_id" ) ;
+
+    // set default values
+    function set_default_val( key, val ) {
+        if ( ! (key in params) )
+            params[key] = val ;
+    }
+    set_default_val( "OB_VEHICLES_MA_NOTES_WIDTH_1", "300px" ) ;
+    set_default_val( "OB_ORDNANCE_MA_NOTES_WIDTH_1", "300px" ) ;
+    set_default_val( "OB_VEHICLES_MA_NOTES_WIDTH_2", "300px" ) ;
+    set_default_val( "OB_ORDNANCE_MA_NOTES_WIDTH_2", "300px" ) ;
 
     // load the scenario parameters
     var params_loaded = {} ;
@@ -830,7 +1043,7 @@ function do_load_scenario_data( params )
                         warnings.push( "Invalid V/O image ID for '" + params[key][i].name + "': " + params[key][i].image_id ) ;
                 }
                 if ( vo_entry )
-                    do_add_vo( vo_type, player_no, vo_entry, vo_image_id, params[key][i].custom_capabilities ) ;
+                    do_add_vo( vo_type, player_no, vo_entry, vo_image_id, params[key][i].custom_capabilities, params[key][i].seq_id ) ;
                 else
                     unknown_vo.push( vo_id || "(not set)" ) ;
             }
@@ -871,7 +1084,7 @@ function do_load_scenario_data( params )
     }
 
     // show any other warnings
-    if ( warnings.length == 1 )
+    if ( warnings.length === 1 )
         showWarningMsg( warnings[0] ) ;
     else if ( warnings.length > 1 ) {
         showWarningMsg( makeBulletListMsg(
@@ -890,7 +1103,7 @@ function do_load_scenario_data( params )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function auto_assign_ids( vals )
+function auto_assign_ids( vals, key )
 {
     if ( ! vals )
         return ;
@@ -910,14 +1123,14 @@ function auto_assign_ids( vals )
     // identify which ID's are currently in use
     var usedIds = {} ;
     for ( var i=0 ; i < vals.length ; ++i ) {
-        if ( vals[i].id )
-            usedIds[ vals[i].id ] = true ;
+        if ( vals[i][key] )
+            usedIds[ vals[i][key] ] = true ;
     }
 
     // assign ID's to entries that don't have one
     for ( i=0 ; i < vals.length ; ++i ) {
-        if ( ! vals[i].id )
-            vals[i].id = auto_assign_id( usedIds ) ;
+        if ( ! vals[i][key] )
+            vals[i][key] = auto_assign_id( usedIds ) ;
     }
 }
 
@@ -976,12 +1189,13 @@ function on_save_scenario()
 function unload_params_for_save( user_requested )
 {
     function extract_vo_entries( key ) {
-        if ( !(key in params) )
+        if ( !( key in params ) )
             return ;
         var entries = [] ;
         for ( var i=0 ; i < params[key].length ; ++i ) {
             var entry = {
                 id: params[key][i].id,
+                seq_id: params[key][i].seq_id,
                 name: params[key][i].name, // nb: not necessary, but convenient
             } ;
             if ( params[key][i].image_id !== null )
@@ -1123,7 +1337,7 @@ function on_template_pack()
         var pos = data.indexOf( "|" ) ;
         var fname = data.substring( 0, pos ).trim() ;
         data = data.substring( pos+1 ).trim() ;
-        if ( fname.substring(fname.length-4) == ".zip" )
+        if ( fname.substring(fname.length-4) === ".zip" )
             data = atob( data ) ;
         do_load_template_pack( fname, data ) ;
         return ;
@@ -1244,7 +1458,7 @@ function do_load_template_pack( fname, data )
 
     // check if we have a ZIP file
     fname = fname.toLowerCase() ;
-    if ( fname.substring(fname.length-4) == ".zip" ) {
+    if ( fname.substring(fname.length-4) === ".zip" ) {
         // yup - process each file in the ZIP
         var nFiles = 0 ;
         JSZip.loadAsync( data ).then( function( zip ) {

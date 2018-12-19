@@ -1,0 +1,43 @@
+<html> <!-- vasl-templates:id {{SNIPPET_ID}} -->
+
+<head>
+<meta charset="utf-8">
+<style>
+.ma-note .key { font-weight: bold ; }
+.extra-notes-caption { border: 1px solid #e0e0e0 ; background: #fcfcfc ; font-weight: bold ; padding: 2px 5px ; }
+ul { margin: 0 0 0 15px ; padding: 0 ; }
+sup { font-size: 75% ; }
+</style>
+</head>
+
+<table style="
+  {%if OB_VEHICLES_MA_NOTES_WIDTH%} width: {{OB_VEHICLES_MA_NOTES_WIDTH}} ; {%endif%}
+">
+
+<tr>
+<td colspan="2" style="
+  background: {{OB_COLOR}} ;
+  border-bottom: 1px solid {{OB_COLOR_2}} ;
+  padding: 2px 5px ;
+  font-weight: bold ;
+">
+    {%if PLAYER_FLAG%}<img src="{{PLAYER_FLAG}}?height=11">&nbsp;{%endif%}{{PLAYER_NAME}} Vehicle Notes
+
+{%if OB_VEHICLES_MA_NOTES%}
+<tr> <td style="padding: 0 5px;">
+{%for ma_note in OB_VEHICLES_MA_NOTES%}
+    <div class="ma-note"> {{ma_note}} </div>
+{%endfor%}
+{%endif%}
+
+{%if OB_VEHICLES_EXTRA_MA_NOTES%}
+<tr> <td style="padding: 0 5px;">
+{%if OB_VEHICLES_EXTRA_MA_NOTES_CAPTION%} <div class="extra-notes-caption"> {{OB_VEHICLES_EXTRA_MA_NOTES_CAPTION}} </div> {%endif%}
+{%for ma_note in OB_VEHICLES_EXTRA_MA_NOTES%}
+    <div class="ma-note"> {{ma_note}} </div>
+{%endfor%}
+{%endif%}
+
+</table>
+
+</html>

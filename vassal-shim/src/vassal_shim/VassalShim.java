@@ -428,7 +428,9 @@ public class VassalShim
 
         // figure out what order to create the labels
         String snippetOrder = config.getProperty( "AUTOCREATE_LABEL_ORDER",
-            "scenario players scenario_note* victory_conditions ssr ob_setup_1* ob_note_1* ob_vehicles_1 ob_ordnance_1 ob_setup_2* ob_note_2* ob_vehicles_2 ob_ordnance_2"
+            "scenario players scenario_note* victory_conditions ssr"
+            + " ob_setup_1* ob_note_1* ob_vehicles_1 ob_vehicles_ma_notes_1 ob_vehicle_note_1* ob_ordnance_1 ob_ordnance_ma_notes_1 ob_ordnance_note_1*"
+            + " ob_setup_2* ob_note_2* ob_vehicles_2 ob_vehicles_ma_notes_2 ob_vehicle_note_2* ob_ordnance_2 ob_ordnance_ma_notes_2 ob_ordnance_note_2*"
         ) ;
         logger.debug( "Snippet order: {}", snippetOrder ) ;
         Set<String> snippetsKeySet = new HashSet<String>( snippets.keySet() ) ;
@@ -480,7 +482,7 @@ public class VassalShim
 
         // create new labels
         String forceNewRowForVal = config.getProperty( "AUTOCREATE_LABEL_FORCE_NEW_ROW_FOR",
-            "ob_setup_1.1 ob_note_1.1 ob_vehicles|ordnance_1 ob_setup_2.1 ob_note_2.1 ob_vehicles|ordnance_2"
+            "ob_setup_1.1 ob_note_1.1 ob_vehicles_1 ob_ordnance_1 ob_setup_2.1 ob_note_2.1 ob_vehicles_2 ob_ordnance_2"
         ) ;
         logger.debug( "Force new row for: {}", forceNewRowForVal ) ;
         Set<String> forceNewRowFor = new HashSet<String>(
@@ -508,7 +510,7 @@ public class VassalShim
             LabelArea labelArea = labelAreas.get( snippet.labelArea ) ;
             if ( labelArea == null )
                 labelArea = labelAreas.get( "general" ) ;
-            if ( isForceNewRow( forceNewRowFor, snippetId ) )
+            if ( forceNewRowFor.contains( snippetId ) )
                 labelArea.startNewRow( snippetId ) ;
             Point pos = labelArea.getNextPosition( snippetId, snippet.width, snippet.height ) ;
             if ( pos == null ) {
@@ -630,26 +632,6 @@ public class VassalShim
         trans.setOutputProperty( OutputKeys.METHOD, "xml" ) ;
         trans.setOutputProperty( OutputKeys.ENCODING, "UTF-8" ) ;
         trans.transform( new DOMSource(doc), new StreamResult(new FileOutputStream(reportFilename)) ) ;
-    }
-
-    private boolean isForceNewRow( Set<String> forceNewRowFor, String snippetId )
-    {
-        // check if we should start a new row when creating labels
-        if ( forceNewRowFor.contains( snippetId ) )
-            return true ;
-
-        // FUDGE! To handle the case where an OB has only vehicles or ordnance, we recognize
-        // this special pseudo-snippet ID.
-        if ( Utils.startsWith( snippetId, "ob_vehicles_" ) || Utils.startsWith( snippetId, "ob_ordnance_" ) ) {
-            String playerId = snippetId.substring( snippetId.length() - 1 ) ;
-            if ( forceNewRowFor.contains( "ob_vehicles|ordnance_" + playerId ) ) {
-                // remove the pseudo-snippet ID, so that it doesn't match the other V/O snippet
-                forceNewRowFor.remove(  "ob_vehicles|ordnance_" + playerId ) ;
-                return true ;
-            }
-        }
-
-        return false ;
     }
 
     private String makeVassalCoordString( Point pos, Snippet snippet )

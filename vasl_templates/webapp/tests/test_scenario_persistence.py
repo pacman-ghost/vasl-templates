@@ -26,13 +26,13 @@ ALL_SCENARIO_PARAMS = {
     ],
     "ob1": [
         "OB_SETUPS_1", "OB_NOTES_1",
-        "OB_VEHICLES_1", "OB_VEHICLES_WIDTH_1",
-        "OB_ORDNANCE_1", "OB_ORDNANCE_WIDTH_1",
+        "OB_VEHICLES_1", "OB_VEHICLES_WIDTH_1", "OB_VEHICLES_MA_NOTES_WIDTH_1",
+        "OB_ORDNANCE_1", "OB_ORDNANCE_WIDTH_1", "OB_ORDNANCE_MA_NOTES_WIDTH_1",
     ],
     "ob2": [
         "OB_SETUPS_2", "OB_NOTES_2",
-        "OB_VEHICLES_2", "OB_VEHICLES_WIDTH_2",
-        "OB_ORDNANCE_2", "OB_ORDNANCE_WIDTH_2",
+        "OB_VEHICLES_2", "OB_VEHICLES_WIDTH_2", "OB_VEHICLES_MA_NOTES_WIDTH_2",
+        "OB_ORDNANCE_2", "OB_ORDNANCE_WIDTH_2", "OB_ORDNANCE_MA_NOTES_WIDTH_2",
     ],
 }
 
@@ -42,7 +42,9 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     """Test loading/saving scenarios."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1 )
+    init_webapp( webapp, webdriver, scenario_persistence=1,
+        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
+    )
 
     def check_ob_tabs( *args ):
         """Check that the OB tabs have been set correctly."""
@@ -89,22 +91,26 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
             ],
             "OB_VEHICLES_1": [ "a russian vehicle", "another russian vehicle" ],
             "OB_VEHICLES_WIDTH_1": "202",
+            "OB_VEHICLES_MA_NOTES_WIDTH_1": "203",
             "OB_ORDNANCE_1": [ "a russian ordnance", "another russian ordnance" ],
-            "OB_ORDNANCE_WIDTH_1": "203",
+            "OB_ORDNANCE_WIDTH_1": "204",
+            "OB_ORDNANCE_MA_NOTES_WIDTH_1": "205",
         },
         "ob2": {
             "OB_SETUPS_2": [ { "caption": "ob setup 2", "width": "" } ],
             "OB_NOTES_2": [ { "caption": "ob note 2", "width": "" } ],
             "OB_VEHICLES_2": [ "a german vehicle" ],
             "OB_VEHICLES_WIDTH_2": "302",
+            "OB_VEHICLES_MA_NOTES_WIDTH_2": "303",
             "OB_ORDNANCE_2": [ "a german ordnance" ],
-            "OB_ORDNANCE_WIDTH_2": "303",
+            "OB_ORDNANCE_WIDTH_2": "304",
+            "OB_ORDNANCE_MA_NOTES_WIDTH_2": "305",
         },
     }
     load_scenario_params( SCENARIO_PARAMS )
     check_window_title( "my test scenario" )
     check_ob_tabs( "russian", "german" )
-    assert_scenario_params_complete( SCENARIO_PARAMS )
+    assert_scenario_params_complete( SCENARIO_PARAMS, True )
 
     # save the scenario and check the results
     saved_scenario = save_scenario()
@@ -129,6 +135,10 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
             entries = expected[ "{}_{}".format( vo_type, player_no ) ]
             for i,entry in enumerate(entries):
                 entry["id"] = 1+i
+        for vo_type in ("OB_VEHICLES","OB_ORDNANCE"):
+            entries = expected[ "{}_{}".format( vo_type, player_no ) ]
+            for i,entry in enumerate(entries):
+                entry["seq_id"] = 1+i
     for i,entry in enumerate(expected["SCENARIO_NOTES"]):
         entry["id"] = 1+i
     assert saved_scenario2 == expected
@@ -152,7 +162,9 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     assert data2 == {
         "SCENARIO_THEATER": "ETO",
         "PLAYER_1": "german", "PLAYER_1_ELR": "5", "PLAYER_1_SAN": "2",
+        "OB_VEHICLES_MA_NOTES_WIDTH_1": "300px", "OB_ORDNANCE_MA_NOTES_WIDTH_1": "300px",
         "PLAYER_2": "russian", "PLAYER_2_ELR": "5", "PLAYER_2_SAN": "2",
+        "OB_VEHICLES_MA_NOTES_WIDTH_2": "300px", "OB_ORDNANCE_MA_NOTES_WIDTH_2": "300px",
     }
 
     # initialize
@@ -205,10 +217,13 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     assert data["_creation_time"] == scenario_creation_time
     assert data["_last_update_time"] > scenario_creation_time
 
-def assert_scenario_params_complete( scenario_params ):
+def assert_scenario_params_complete( scenario_params, vo_notes_enabled ):
     """Check that a set of scenario parameters is complete."""
     lhs = { k: set(v) for k,v in scenario_params.items() }
     rhs = { k: set(v) for k,v in ALL_SCENARIO_PARAMS.items() }
+    if not vo_notes_enabled:
+        for key in ("ob1","ob2"):
+            rhs[key] = set( v for v in rhs[key] if "_MA_" not in v )
     assert lhs == rhs
 
 # ---------------------------------------------------------------------

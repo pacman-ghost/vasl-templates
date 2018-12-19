@@ -180,30 +180,37 @@ function _generate_snippets()
             // the snippet, which is more trouble than it's worth, at this point.
             return ;
         }
+        var params = unload_snippet_params( true, template_id ) ;
         var snippet_id = template_id ;
         var extra_params = {} ;
         var player_no = get_player_no_for_element( $btn ) ;
+        var data ;
         if ( ["scenario_note","ob_setup","ob_note"].indexOf( template_id ) !== -1 ) {
-            var data = $btn.parent().parent().data( "sortable2-data" ) ;
+            data = $btn.parent().parent().data( "sortable2-data" ) ;
             if ( player_no )
                 snippet_id = template_id + "_" + player_no + "." + data.id ;
             else
                 snippet_id = template_id + "." + data.id ;
             extra_params = get_simple_note_snippet_extra_params( $btn ) ;
         }
-        var raw_content = _get_raw_content( snippet_id, $btn ) ;
+        if ( ["ob_vehicle_note","ob_ordnance_note"].indexOf( template_id ) !== -1 ) {
+            data = $btn.parent().parent().data( "sortable2-data" ) ;
+            snippet_id = template_id + "_" + player_no + "." + data.id ;
+        }
+        var raw_content = _get_raw_content( snippet_id, $btn, params ) ;
         if ( ["scenario","players","victory_conditions"].indexOf( snippet_id ) === -1 ) {
             // NOTE: We don't pass through a snippet for things that have no content,
             // except for important stuff, such as the scenario name and victory conditions.
-            if ( raw_content === null || raw_content.length === 0 ) {
+            if ( raw_content === false || raw_content === null || raw_content.length === 0 ) {
                 return ;
             }
         }
         snippets[snippet_id] = {
-            content: make_snippet( $btn, extra_params, false ),
+            content: make_snippet( $btn, params, extra_params, false ),
             auto_create: ! no_autocreate[template_id] && ! inactive,
-            raw_content: raw_content,
         } ;
+        if ( raw_content !== true )
+            snippets[snippet_id].raw_content = raw_content ;
         if ( player_no )
             snippets[snippet_id].label_area = "player" + player_no ;
     }
@@ -219,7 +226,7 @@ function _generate_snippets()
     return snippets ;
 }
 
-function _get_raw_content( snippet_id, $btn )
+function _get_raw_content( snippet_id, $btn, params )
 {
     // NOTE: We pass the raw content, as entered by the user into the UI, through to the VASSAL shim,
     // so that it can locate legacy labels, that were created before we added snippet ID's to the templates.
@@ -270,21 +277,56 @@ function _get_raw_content( snippet_id, $btn )
     if ( snippet_id === "baz" )
         return [ "Bazooka", "Range", "TH#" ] ;
 
+    // handle vehicle/ordnance notes
+    // NOTE: These were implemented after we added snippet ID's, so there's no need to support legacy labels.
+    // NOTE: We get called in response to an img.snippet button, which implies there is a Chapter H snippet available,
+    // so we don't have to check anything and just always return true.
+    if ( snippet_id.substring(0,16) === "ob_vehicle_note_" )
+        return true ;
+    if ( snippet_id.substring(0,17) === "ob_ordnance_note_" )
+        return true ;
+
     // handle simple notes
     if ( $btn.prop( "tagName" ).toLowerCase() == "img" ) {
         var data = $btn.parent().parent().data( "sortable2-data" ) ;
         return [ data.caption ] ;
     }
 
-    // handle vehicles/ordnance
-    if ( snippet_id.substring(0,11) === "ob_vehicles" || snippet_id.substring(0,11) === "ob_ordnance" ) {
-        var id = snippet_id.substring(0,11) + "-sortable" + snippet_id.substring(11) ;
+    function get_vo_entries( vo_type, player_no, names_only ) {
+        var vo_entries = [] ;
+        var id = "ob_" + vo_type + "-sortable_" + player_no ;
         $( "#"+id + " > li" ).each( function() {
             var vo_entry = $(this).data( "sortable2-data" ).vo_entry ;
-            raw_content.push( vo_entry.name ) ;
+            vo_entries.push( names_only ? vo_entry.name : vo_entry ) ;
         } ) ;
-        return raw_content ;
+        return vo_entries ;
     }
+
+    // handle multi-applicable vehicle/ordnance notes
+    // NOTE: These were implemented after we added snippet ID's, so there's no need to support legacy labels.
+    function check_ma_notes( vo_type, player_no ) {
+        var nat = params[ "PLAYER_" + player_no ] ;
+        // NOTE: The following test has to handle a number of subtleties:
+        // - if no Chapter H data has been configured, we don't create the label
+        // However, if Chapter data has been configured, we always create the label, even if:
+        // - there are no notes whatsoever (e.g. Romania).
+        // - there are notes, but no multi-applicable notes (e.g. Belgium)
+        // It's tempting to think that it might be better to skip creating the label if there are no available
+        // multi-applicable notes, but this will be confusing for the user, since the label will not appear
+        // in the VASL scenario, and it won't be immediately clear why.
+        if ( !( vo_type in gVehicleOrdnanceNotes && Object.keys(gVehicleOrdnanceNotes[vo_type]).length > 0 ) )
+            return false ;
+        vo_entries = get_vo_entries( vo_type, player_no, false ) ;
+        var result = get_ma_notes_keys( nat, vo_entries, vo_type ) ;
+        return (result[0] && result[0].length > 0) || (result[1] && result[1].length > 0) ;
+    }
+    var player_no, nat, vo_entries, keys ;
+    if ( snippet_id.substring(0,21) === "ob_vehicles_ma_notes_" || snippet_id.substring(0,21) === "ob_ordnance_ma_notes_" )
+        return check_ma_notes( snippet_id.substring(3,11), snippet_id.substring(21) ) ;
+
+    // handle vehicles/ordnance
+    if ( snippet_id.substring(0,12) === "ob_vehicles_" || snippet_id.substring(0,12) === "ob_ordnance_" )
+        return get_vo_entries( snippet_id.substring(3,11), snippet_id.substring(12), true ) ;
 
     return null ;
 }

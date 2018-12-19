@@ -560,7 +560,7 @@ def test_capability_updates_in_ui( webapp, webdriver ):
     # initialize
     init_webapp( webapp, webdriver, scenario_persistence=1,
         reset = lambda ct:
-            ct.set_data_dir( ddtype="real" ) \
+            ct.set_data_dir( dtype="real" ) \
               .set_vasl_mod( vmod="random" )
     )
 
@@ -712,7 +712,7 @@ def _get_capabilities( webdriver, webapp,
     # generate the V/O report
     month, year = scenario_date.split( "/" )
     results = get_vo_report( webapp, webdriver,
-        scenario_theater, nat, vo_type, year, month, name=vo_name,
+        vo_type, nat, scenario_theater, year, month, name=vo_name,
         merge_common = merge_common
     )
     assert len(results) == 1+expected_rows

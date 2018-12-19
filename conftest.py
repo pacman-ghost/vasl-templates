@@ -62,6 +62,13 @@ def pytest_addoption( parser ):
         help="Directory containing VASSAL installation(s)."
     )
 
+    # NOTE: Some tests require Chapter H vehicle/ordnance notes. This is copyrighted material,
+    # so it is kept in a private repo.
+    parser.addoption(
+        "--vo-notes", action="store", dest="vo_notes", default=None,
+        help="Directory containing Chapter H vehicle/ordnance notes and test results."
+    )
+
     # NOTE: It's not good to have the code run differently to how it will normally,
     # but using the clipboard to retrieve snippets causes more trouble than it's worth :-/
     # since any kind of clipboard activity while the tests are running could cause them to fail

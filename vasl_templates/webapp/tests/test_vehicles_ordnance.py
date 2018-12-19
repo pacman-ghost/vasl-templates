@@ -6,14 +6,13 @@ import json
 
 import pytest
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
 
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, save_scenario
 from vasl_templates.webapp.tests.utils import \
     init_webapp, get_nationalities, select_tab, set_template_params, find_child, find_children, \
-    wait_for_clipboard, click_dialog_button, select_menu_option, select_droplist_val, \
+    wait_for_clipboard, click_dialog_button, select_menu_option, set_player, \
     set_stored_msg_marker, get_stored_msg, get_sortable_vo_names
 from vasl_templates.webapp.config.constants import DATA_DIR
 
@@ -169,6 +168,8 @@ def test_snippets( webapp, webdriver ):
             '- capabilities: {}'.format( caps ),
             '- raw capabilities: {}'.format( caps ),
         ]
+        if vo_type == "vehicles":
+            expected.insert( 2, '- notes: "<s>b</s>" "C"' )
         wait_for_clipboard( 2, "\n".join(expected) )
         delete_vo( vo_type, 1, "another german {}".format(vo_type0), webdriver )
 
@@ -185,6 +186,7 @@ def test_snippets( webapp, webdriver ):
         wait_for_clipboard( 2, "\n".join(expected) )
 
     # do the test
+    set_player( 1, "german" )
     do_test( "vehicles" )
     do_test( "ordnance" )
 
@@ -235,7 +237,7 @@ def test_html_names( webapp, webdriver ):
     # initialize
     init_webapp( webapp, webdriver,
         reset = lambda ct:
-            ct.set_data_dir( ddtype="real" ) \
+            ct.set_data_dir( dtype="real" ) \
               .set_vasl_mod( vmod="random" )
     )
 
@@ -246,7 +248,8 @@ def test_html_names( webapp, webdriver ):
         return [ e for e in entries if "IVF" in e ]
 
     # start to add a vehicle - make sure the two PzKw IVF's are available
-    select_tab( "ob{}".format( 1 ) )
+    set_player( 1, "german" )
+    select_tab( "ob1" )
     add_vehicle_btn = find_child( "#ob_vehicles-add_1" )
     add_vehicle_btn.click()
     assert get_available_ivfs() == [ "PzKpfw IVF1 (MT)", "PzKpfw IVF2 (MT)" ]
@@ -296,7 +299,7 @@ def test_common_vo( webapp, webdriver ):
 
     # initialize
     init_webapp( webapp, webdriver,
-        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+        reset = lambda ct: ct.set_data_dir( dtype="real" )
     )
 
     # initialize
@@ -351,12 +354,10 @@ def test_common_vo( webapp, webdriver ):
 
     # check the vehicles/ordnance for each nationality
     nationalities = get_nationalities( webapp )
-    player1_sel = Select( find_child( "select[name='PLAYER_1']" ) )
     for nat in nationalities: #pylint: disable=too-many-nested-blocks
 
         # select the next nationality
-        select_tab( "scenario" )
-        select_droplist_val( player1_sel, nat )
+        set_player( 1, nat )
 
         select_tab( "ob1" )
         for vo_type in ("vehicles","ordnance"):
@@ -421,7 +422,7 @@ def test_vo_images( webapp, webdriver ): #pylint: disable=too-many-statements
     # initialize
     init_webapp( webapp, webdriver, scenario_persistence=1,
         reset = lambda ct:
-            ct.set_data_dir( ddtype="real" ) \
+            ct.set_data_dir( dtype="real" ) \
               .set_vasl_mod( vmod="random" )
     )
 
@@ -444,7 +445,8 @@ def test_vo_images( webapp, webdriver ): #pylint: disable=too-many-statements
         return data
 
     # start to add a PzKw VIB
-    select_tab( "ob{}".format( 1 ) )
+    set_player( 1, "german" )
+    select_tab( "ob1" )
     add_vehicle_btn = find_child( "#ob_vehicles-add_1" )
     add_vehicle_btn.click()
     search_field = find_child( ".ui-dialog .select2-search__field" )
@@ -465,7 +467,7 @@ def test_vo_images( webapp, webdriver ): #pylint: disable=too-many-statements
 
     # check that the vehicles are saved correctly
     check_save_scenario( 1, [
-        { "id": "ge/v:035", "name": "PzKpfw VIB" },
+        { "id": "ge/v:035", "name": "PzKpfw VIB", "seq_id": 1 },
     ] )
 
     # start to add a PzKw IVH (this has multiple GPID's)
@@ -489,8 +491,8 @@ def test_vo_images( webapp, webdriver ): #pylint: disable=too-many-statements
 
     # check that the vehicles are saved correctly
     check_save_scenario( 1, [
-        { "id": "ge/v:035", "name": "PzKpfw VIB" },
-        { "id": "ge/v:027", "name": "PzKpfw IVH" }, # nb: there is no V/O image ID if it's not necessary
+        { "id": "ge/v:035", "name": "PzKpfw VIB", "seq_id": 1 },
+        { "id": "ge/v:027", "name": "PzKpfw IVH", "seq_id": 2 }, # nb: there is no V/O image ID if it's not necessary
     ] )
 
     # delete the PzKw IVH
@@ -514,17 +516,15 @@ def test_vo_images( webapp, webdriver ): #pylint: disable=too-many-statements
 
     # check that the vehicles are saved correctly
     check_save_scenario( 1, [
-        { "id": "ge/v:035", "name": "PzKpfw VIB" },
-        { "id": "ge/v:027", "image_id": "2807/0", "name": "PzKpfw IVH" },
+        { "id": "ge/v:035", "name": "PzKpfw VIB", "seq_id": 1 },
+        { "id": "ge/v:027", "image_id": "2807/0", "name": "PzKpfw IVH", "seq_id": 2 },
     ] )
 
     # set the British as player 2
-    select_tab("scenario" )
-    player2_sel = Select( find_child( "select[name='PLAYER_2']" ) )
-    select_droplist_val( player2_sel, "british" )
+    set_player( 2, "british" )
 
     # start to add a 2pdr Portee (this has multiple images for a single GPID)
-    select_tab( "ob{}".format( 2 ) )
+    select_tab( "ob2" )
     add_vehicle_btn = find_child( "#ob_vehicles-add_2" )
     add_vehicle_btn.click()
     search_field = find_child( ".ui-dialog .select2-search__field" )
@@ -545,7 +545,7 @@ def test_vo_images( webapp, webdriver ): #pylint: disable=too-many-statements
 
     # check that the vehicles are saved correctly
     check_save_scenario( 2, [
-        { "id": "br/v:115", "name": "2pdr Portee" }, # nb: there is no V/O image ID if it's not necessary
+        { "id": "br/v:115", "name": "2pdr Portee", "seq_id": 1 }, # nb: there is no V/O image ID if it's not necessary
     ] )
 
     # delete the 2pdr Portee
@@ -568,7 +568,7 @@ def test_vo_images( webapp, webdriver ): #pylint: disable=too-many-statements
 
     # check that the vehicles are saved correctly
     saved_scenario = check_save_scenario( 2, [
-        { "id": "br/v:115", "image_id": "1555/1", "name": "2pdr Portee" },
+        { "id": "br/v:115", "image_id": "1555/1", "name": "2pdr Portee", "seq_id": 1 },
     ] )
 
     # reset the scenario
@@ -598,16 +598,17 @@ def test_change_vo_image( webapp, webdriver ):
     # initialize
     init_webapp( webapp, webdriver, scenario_persistence=1,
         reset = lambda ct:
-            ct.set_data_dir( ddtype="real" ) \
+            ct.set_data_dir( dtype="real" ) \
               .set_vasl_mod( vmod="random" )
     )
 
     # add an ISU-152
+    set_player( 2, "russian" )
     add_vo( webdriver, "vehicles", 2, "ISU-152 (AG)" )
 
     # save the scenario
     saved_scenario = save_scenario()
-    assert saved_scenario["OB_VEHICLES_2"] ==  [ { "id": "ru/v:049", "name": "ISU-152" } ]
+    assert saved_scenario["OB_VEHICLES_2"] ==  [ { "id": "ru/v:049", "name": "ISU-152", "seq_id": 1 } ]
 
     # change the vehicle's image
     vehicles_sortable = find_child( "#ob_vehicles-sortable_2" )
@@ -629,7 +630,9 @@ def test_change_vo_image( webapp, webdriver ):
 
     # save the scenario
     saved_scenario = save_scenario()
-    assert saved_scenario["OB_VEHICLES_2"] ==  [ { "id": "ru/v:049", "image_id": "659/0", "name": "ISU-152" } ]
+    assert saved_scenario["OB_VEHICLES_2"] ==  [
+        { "id": "ru/v:049", "image_id": "659/0", "name": "ISU-152", "seq_id": 1 }
+    ]
 
     # reload the scenario, and check the vehicle's image
     select_menu_option( "new_scenario" )
@@ -658,7 +661,9 @@ def test_change_vo_image( webapp, webdriver ):
 
     # save the scenario
     saved_scenario = save_scenario()
-    assert saved_scenario["OB_VEHICLES_2"] ==  [ { "id": "ru/v:049", "image_id": "657/0", "name": "ISU-152" } ]
+    assert saved_scenario["OB_VEHICLES_2"] ==  [
+        { "id": "ru/v:049", "image_id": "657/0", "name": "ISU-152", "seq_id": 1 }
+    ]
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -672,11 +677,12 @@ def test_change_vo_image2( webapp, webdriver ):
     # initialize
     init_webapp( webapp, webdriver, scenario_persistence=1,
         reset = lambda ct:
-            ct.set_data_dir( ddtype="real" ) \
+            ct.set_data_dir( dtype="real" ) \
               .set_vasl_mod( vmod="random" )
     )
 
     # add an 107mm GVPM
+    set_player( 2, "russian" )
     add_vo( webdriver, "ordnance", 2, "107mm GVPM obr. 38 (MTR)" )
 
     # make sure the "change image" button is not present

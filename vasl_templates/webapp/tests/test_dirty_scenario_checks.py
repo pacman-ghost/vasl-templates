@@ -18,7 +18,9 @@ def test_dirty_scenario_checks( webapp, webdriver ):
     """Test checking for a dirty scenario."""
 
     # initialize
-    init_webapp( webapp, webdriver )
+    init_webapp( webapp, webdriver,
+        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
+    )
 
     # initialize
     SIMPLE_NOTES = {
@@ -54,9 +56,11 @@ def test_dirty_scenario_checks( webapp, webdriver ):
             for ctype in ["input","select","textarea"]
         ] if e  )
         if target.tag_name in ("input","textarea"):
+            prev_val = target.get_attribute( "value" )
+            target.clear()
             new_val = "01/01/2000" if param == "SCENARIO_DATE" else "changed value"
             target.send_keys( new_val )
-            return target, "", new_val
+            return target, prev_val, new_val
         elif target.tag_name == "select":
             sel = Select( target )
             prev_val = sel.first_selected_option.get_attribute( "value" )
@@ -87,6 +91,7 @@ def test_dirty_scenario_checks( webapp, webdriver ):
             drag_sortable_entry_to_trash( state, 0 )
         elif state[0].tag_name in ("input","textarea"):
             state[0].clear()
+            state[0].send_keys( state[1] )
         elif state[0].tag_name == "select":
             select_droplist_val( Select(state[0]), state[1] )
         else:

@@ -10,7 +10,7 @@ import lxml.etree
 import tabulate
 
 import vasl_templates.webapp.tests.utils as test_utils
-from vasl_templates.webapp.tests.utils import find_child, wait_for
+from vasl_templates.webapp.tests.utils import get_nationalities, find_child, wait_for
 
 # ---------------------------------------------------------------------
 
@@ -37,17 +37,14 @@ def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
             results[i][col] = results[i][col].replace( " <small><i>(brew up)</i></small>", "[brewup]" )
 
     # check each vehicle/ordnance report
-    nationalities = [
-        "german", "russian", "american", "british", "italian", "japanese", "chinese", "french", "finnish",
-        "polish", "belgian","yugoslavian","danish","dutch","greek", "allied-minor-common",
-        "romanian", "hungarian","slovakian","croatian","bulgarian", "axis-minor-common"
-    ]
+    nationalities = list( get_nationalities( webapp ).keys() )
+    nationalities.extend( [ "allied-minor-common", "axis-minor-common" ] )
     for nat in nationalities:
         for vo_type in ["vehicles","ordnance"]:
             for year in range(1940,1945+1):
 
                 # get the next report
-                results = get_vo_report( webapp, webdriver, "ETO", nat, vo_type, year, 1 )
+                results = get_vo_report( webapp, webdriver, vo_type, nat, "ETO", year, 1 )
 
                 # FUDGE! The "capabilities" and "notes" columns span 2 columns each,
                 # so we add dummy header columns to stop tabulate from getting confused :-/
@@ -115,7 +112,7 @@ def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def get_vo_report( webapp, webdriver,
-    theater, nat, vo_type, year, month,
+    vo_type, nat, theater, year, month,
     name=None, merge_common=False
 ): #pylint: disable=too-many-arguments,too-many-locals
     """Get a vehicle/ordnance report.
@@ -129,7 +126,7 @@ def get_vo_report( webapp, webdriver,
     test_utils._webdriver = webdriver #pylint: disable=protected-access
 
     # initialize
-    url = webapp.url_for( "get_vo_report", theater=theater, nat=nat, vo_type=vo_type, year=year, month=month )
+    url = webapp.url_for( "get_vo_report", vo_type=vo_type, nat=nat, theater=theater, year=year, month=month )
     assert "?" in url
     if name:
         url += "&name={}".format( name )

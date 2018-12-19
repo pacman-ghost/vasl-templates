@@ -4,6 +4,7 @@ gDefaultTemplatePack = null ;
 gTemplatePack = {} ;
 gValidTemplateIds = [] ;
 gVehicleOrdnanceListings = {} ;
+gVehicleOrdnanceNotes = {} ;
 gVaslPieceInfo = {} ;
 
 gWebChannelHandler = null ;
@@ -239,6 +240,18 @@ $(document).ready( function () {
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the ordnance listings:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
     } ) ;
+    $.getJSON( gVehicleNotesUrl, function(data) {
+        gVehicleOrdnanceNotes.vehicles = data ;
+        update_page_load_status( "vehicle-notes" ) ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        showErrorMsg( "Can't get the vehicle notes:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+    } ) ;
+    $.getJSON( gOrdnanceNotesUrl, function(data) {
+        gVehicleOrdnanceNotes.ordnance = data ;
+        update_page_load_status( "ordnance-notes" ) ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        showErrorMsg( "Can't get the ordnance notes:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+    } ) ;
 
     // get the VASL piece info
     $.getJSON( gGetVaslPieceInfoUrl, function(data) {
@@ -355,6 +368,10 @@ $(document).ready( function () {
             var template_id = $(this).attr( "data-id" ) ;
             if ( template_id.substring(0,9) === "ob_setup_" )
                 template_id = "ob_setup" ;
+            else if ( template_id.substring(0,21) === "ob_vehicles_ma_notes_" )
+                template_id = "ob_vehicles_ma_notes" ;
+            else if ( template_id.substring(0,21) === "ob_ordnance_ma_notes_" )
+                template_id = "ob_ordnance_ma_notes" ;
             else if ( template_id.substring(0,12) === "ob_vehicles_" )
                 template_id = "ob_vehicles" ;
             else if ( template_id.substring(0,12) === "ob_ordnance_" )
@@ -380,6 +397,10 @@ function init_snippet_button( $btn )
     var template_id2 ;
     if ( template_id.substring(0,9) === "ob_setup_" )
         template_id2 = "ob_setup" ;
+    else if ( template_id.substring(0,21) == "ob_vehicles_ma_notes_" )
+        template_id2 = "ob_vehicles_ma_notes" ;
+    else if ( template_id.substring(0,21) == "ob_ordnance_ma_notes_" )
+        template_id2 = "ob_ordnance_ma_notes" ;
     else if ( template_id.substring(0,12) == "ob_vehicles_" )
         template_id2 = "ob_vehicles" ;
     else if ( template_id.substring(0,12) == "ob_ordnance_" )
@@ -426,7 +447,7 @@ function init_snippet_button( $btn )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-gPageLoadStatus = [ "main", "vehicle-listings", "ordnance-listings", "vasl-piece-info", "template-pack", "default-scenario" ] ;
+gPageLoadStatus = [ "main", "vehicle-listings", "ordnance-listings", "vehicle-notes", "ordnance-notes", "vasl-piece-info", "template-pack", "default-scenario" ] ;
 
 function update_page_load_status( id )
 {
@@ -586,6 +607,18 @@ function on_player_change( player_no )
             $elem.css( "display", nat == player_nat ? "inline-block" : "none" ) ;
         }
     }
+
+    // show/hide the vehicle/ordnance multi-applicable notes controls
+    function update_ma_notes_controls( vo_type ) {
+        var show = ( gVehicleOrdnanceNotes[vo_type] && gVehicleOrdnanceNotes[vo_type][player_nat] ) ||
+                   ["allied-minor","axis-minor"].indexOf( gTemplatePack.nationalities[ player_nat ].type ) !== -1 ;
+        var $fieldset = $( "#tabs-ob" + player_no + " fieldset[name='ob_" + vo_type + "_" + player_no ) ;
+        $fieldset.find( ".snippets-notes" ).css( "display", show?"block":"none" ) ;
+        $fieldset.find( "label[for='ob']" ).css( "display", show?"inline-block":"none" ) ;
+    }
+    update_ma_notes_controls( "vehicles" ) ;
+    update_ma_notes_controls( "ordnance" ) ;
+    // TO DO: We should also show a button that lets the ob_vehicle/ordnance_note template to be edited.
 
     // reset the OB params
     $( "#ob_setups-sortable_" + player_no ).sortable2( "delete-all" ) ;

@@ -20,10 +20,13 @@ from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp import main as webapp_main
 from vasl_templates.webapp import snippets as webapp_snippets
 from vasl_templates.webapp import files as webapp_files
+from vasl_templates.webapp import vo_notes as webapp_vo_notes
 from vasl_templates.webapp.file_server import utils as webapp_file_server_utils
 from vasl_templates.webapp.file_server.vasl_mod import VaslMod
 
 _logger = logging.getLogger( "control_tests" )
+
+_ORIG_CHAPTER_H_NOTES = app.config.get( "CHAPTER_H_NOTES" )
 
 # ---------------------------------------------------------------------
 
@@ -61,14 +64,14 @@ class ControlTests:
         else:
             return json.loads( resp.decode( "utf-8" ) )
 
-    def _set_data_dir( self, ddtype=None ):
+    def _set_data_dir( self, dtype=None ):
         """Set the webapp's data directory."""
-        if ddtype == "real":
+        if dtype == "real":
             dname = DATA_DIR
-        elif ddtype == "test":
+        elif dtype == "test":
             dname = os.path.join( os.path.split(__file__)[0], "fixtures/data" )
         else:
-            raise RuntimeError( "Unknown data dir type: {}".format( ddtype ) )
+            raise RuntimeError( "Unknown data dir type: {}".format( dtype ) )
         _logger.info( "Setting data dir: %s", dname )
         self.webapp.config[ "DATA_DIR" ] = dname
         return self
@@ -165,4 +168,20 @@ class ControlTests:
             assert vengine in self._do_get_vassal_engines()
         _logger.info( "Installing VASSAL engine: %s", vengine )
         app.config["VASSAL_DIR"] = vengine
+        return self
+
+    def _set_vo_notes_dir( self, dtype=None ):
+        """Set the vehicle/ordnance notes directory."""
+        if dtype == "real":
+            dname = _ORIG_CHAPTER_H_NOTES
+        elif dtype == "test":
+            dname = os.path.join( os.path.split(__file__)[0], "fixtures/vo-notes" )
+        else:
+            assert dtype is None
+            dname = None
+        _logger.info( "Setting vehicle/ordnance notes: %s", dname )
+        app.config["CHAPTER_H_NOTES"] = dname
+        with webapp_vo_notes._vo_notes_lock: #pylint: disable=protected-access
+            webapp_vo_notes._cached_vo_notes = None #pylint: disable=protected-access
+            webapp_vo_notes._vo_notes_file_server = None #pylint: disable=protected-access
         return self

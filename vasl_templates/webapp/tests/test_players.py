@@ -3,7 +3,7 @@
 from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp.tests.utils import get_nationality_display_name, select_tab, find_child, \
-    select_droplist_val, init_webapp, load_scenario_params, \
+    init_webapp, load_scenario_params, set_player, \
     wait_for, get_sortable_entry_count, click_dialog_button
 
 # ---------------------------------------------------------------------
@@ -14,10 +14,6 @@ def test_player_change( webapp, webdriver ):
     # initialize
     init_webapp( webapp, webdriver )
     select_tab( "scenario" )
-    player_sel = {
-        1: Select( find_child( "select[name='PLAYER_1']" ) ),
-        2: Select( find_child( "select[name='PLAYER_2']" ) )
-    }
     ob_tabs = {
         1: find_child( "#tabs .ui-tabs-nav a[href='#tabs-ob1']" ),
         2: find_child( "#tabs .ui-tabs-nav a[href='#tabs-ob2']" )
@@ -25,7 +21,8 @@ def test_player_change( webapp, webdriver ):
 
     # make sure that the UI was updated correctly for the initial players
     for player_no in [1,2]:
-        player_id = player_sel[player_no].first_selected_option.get_attribute( "value" )
+        sel = Select( find_child( "select[name='PLAYER_{}']".format( player_no ) ) )
+        player_id = sel.first_selected_option.get_attribute( "value" )
         expected = "{} OB".format( get_nationality_display_name(player_id) )
         assert ob_tabs[player_no].text.strip() == expected
 
@@ -36,10 +33,9 @@ def test_player_change( webapp, webdriver ):
         "ob2": { "OB_ORDNANCE_WIDTH_2": 456 },
     }
     load_scenario_params( VO_WIDTHS )
-    select_tab( "scenario" )
-    select_droplist_val( player_sel[1], "russian" )
+    set_player( 1, "russian" )
     assert ob_tabs[1].text.strip() == "{} OB".format( get_nationality_display_name("russian") )
-    select_droplist_val( player_sel[2], "german" )
+    set_player( 2, "german" )
     assert ob_tabs[2].text.strip() == "{} OB".format( get_nationality_display_name("german") )
 
     # load the OB tabs
@@ -61,11 +57,10 @@ def test_player_change( webapp, webdriver ):
         ]
         return [ get_sortable_entry_count(s) for s in sortables ]
 
-    select_tab( "scenario" )
     for player_no in [1,2]:
 
         # try to change the player's nationality
-        select_droplist_val( player_sel[player_no], "finnish" )
+        set_player( player_no, "finnish" )
         wait_for( 2, lambda: find_child("#ask") )
 
         # cancel the confirmation request and make sure nothing changed
@@ -76,7 +71,7 @@ def test_player_change( webapp, webdriver ):
             [1,0,0,0] if player_no == 1 else [0,0,1,0]
 
         # try to change the player's nationality
-        select_droplist_val( player_sel[player_no], "finnish" )
+        set_player( player_no, "finnish" )
         wait_for( 2, lambda: find_child("#ask") )
 
         # confirm the request and make sure the OB tab was cleared

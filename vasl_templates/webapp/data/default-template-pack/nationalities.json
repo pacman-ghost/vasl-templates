@@ -47,48 +47,58 @@
 
 "polish": {
   "display_name": "Polish",
-  "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ]
+  "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ],
+  "type": "allied-minor"
 },
 "belgian": {
   "display_name": "Belgian",
-  "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ]
+  "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ],
+  "type": "allied-minor"
 },
 "yugoslavian": {
   "display_name": "Yugoslavian",
-  "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ]
+  "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ],
+  "type": "allied-minor"
 },
 "danish": {
   "display_name": "Danish",
-  "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ]
+  "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ],
+  "type": "allied-minor"
 },
 "dutch": {
   "display_name": "Dutch",
-  "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ]
+  "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ],
+  "type": "allied-minor"
 },
 "greek": {
   "display_name": "Greek",
-  "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ]
+  "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ],
+  "type": "allied-minor"
 },
-
 "romanian": {
   "display_name": "Romanian",
-  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
+  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ],
+  "type": "axis-minor"
 },
 "hungarian": {
   "display_name": "Hungarian",
-  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
+  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ],
+  "type": "axis-minor"
 },
 "slovakian": {
   "display_name": "Slovakian",
-  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
+  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ],
+  "type": "axis-minor"
 },
 "croatian": {
   "display_name": "Croatian",
-  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
+  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ],
+  "type": "axis-minor"
 },
 "bulgarian": {
   "display_name": "Bulgarian",
-  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
+  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ],
+  "type": "axis-minor"
 }
 
 }

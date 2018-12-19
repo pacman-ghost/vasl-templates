@@ -4,13 +4,14 @@ import os
 import zipfile
 import tempfile
 import base64
+import re
 
-from selenium.webdriver.support.ui import Select
-
+from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.utils import \
-    select_tab, select_menu_option, wait_for_clipboard, get_stored_msg, set_stored_msg, set_stored_msg_marker,\
+    select_tab, select_menu_option, set_player, \
+    wait_for_clipboard, get_stored_msg, set_stored_msg, set_stored_msg_marker,\
     add_simple_note, for_each_template, find_child, find_children, wait_for, \
-    select_droplist_val, get_droplist_vals_index, init_webapp
+    get_droplist_vals_index, init_webapp
 
 # ---------------------------------------------------------------------
 
@@ -18,7 +19,11 @@ def test_individual_files( webapp, webdriver ):
     """Test loading individual template files."""
 
     # initialize
-    init_webapp( webapp, webdriver, template_pack_persistence=1 )
+    init_webapp( webapp, webdriver, template_pack_persistence=1,
+        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
+    )
+    set_player( 1, "german" )
+    set_player( 2, "russian" )
 
     # try uploading a customized version of each template
     def test_template( template_id, orig_template_id ):
@@ -26,7 +31,7 @@ def test_individual_files( webapp, webdriver ):
         # upload a new template
         _ = upload_template_pack_file( template_id+".j2", "UPLOADED TEMPLATE", False )
         # make sure generating a snippet returns the new version
-        _ = _generate_snippet( template_id, orig_template_id )
+        _ = _generate_snippet( webdriver, template_id, orig_template_id )
         wait_for_clipboard( 2, "UPLOADED TEMPLATE" )
     for_each_template( test_template )
 
@@ -44,7 +49,11 @@ def test_zip_files( webapp, webdriver ):
     """Test loading ZIP'ed template packs."""
 
     # initialize
-    init_webapp( webapp, webdriver, template_pack_persistence=1 )
+    init_webapp( webapp, webdriver, template_pack_persistence=1,
+        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
+    )
+    set_player( 1, "german" )
+    set_player( 2, "russian" )
 
     # upload a template pack that contains a full set of templates
     zip_data = make_zip_from_files( "full" )
@@ -52,7 +61,7 @@ def test_zip_files( webapp, webdriver ):
     assert get_stored_msg( "_last-error_" ) == marker
 
     # check that the uploaded templates are being used
-    _check_snippets( lambda tid: "Customized {}.".format( tid.upper() ) )
+    _check_snippets( webdriver, lambda tid: "Customized {}.".format( tid.upper() ) )
 
     # upload only part of template pack
     _ = upload_template_pack_zip(
@@ -76,11 +85,15 @@ def test_new_default_template_pack( webapp, webdriver ):
 
     # initialize
     init_webapp( webapp, webdriver,
-        reset = lambda ct: ct.set_default_template_pack( dname="template-packs/new-default/" )
+        reset = lambda ct:
+            ct.set_default_template_pack( dname="template-packs/new-default/" ) \
+              .set_vo_notes_dir( dtype="test" )
     )
+    set_player( 1, "german" )
+    set_player( 2, "russian" )
 
     # check that the new templates are being used
-    _check_snippets( lambda tid: "New default {}.".format( tid.upper() ) )
+    _check_snippets( webdriver, lambda tid: "New default {}.".format( tid.upper() ) )
 
 # ---------------------------------------------------------------------
 
@@ -89,12 +102,9 @@ def test_nationality_data( webapp, webdriver ):
 
     # initialize
     init_webapp( webapp, webdriver, template_pack_persistence=1 )
-    select_tab( "scenario" )
 
     # select the British as player 1
-    player1_sel = Select( find_child( "select[name='PLAYER_1']" ) )
-    select_droplist_val( player1_sel, "british" )
-
+    player1_sel = set_player( 1, "british" )
     tab_ob1 = find_child( "a[href='#tabs-ob1']" )
     assert tab_ob1.text.strip() == "British OB"
     # FUDGE!  player1_sel.first_selected_option.text doesn't contain the right value
@@ -149,18 +159,18 @@ def make_zip_from_files( dname ):
 
 # ---------------------------------------------------------------------
 
-def _check_snippets( expected ):
+def _check_snippets( webdriver, expected ):
     """Check that snippets are being generated as expected."""
 
     def test_template( template_id, orig_template_id ):
         """Test each template."""
-        _ = _generate_snippet( template_id, orig_template_id )
+        _ = _generate_snippet( webdriver, template_id, orig_template_id )
         wait_for_clipboard( 2, expected(template_id) )
     for_each_template( test_template )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def _generate_snippet( template_id, orig_template_id ):
+def _generate_snippet( webdriver, template_id, orig_template_id ):
     """Generate a snippet for the specified template."""
 
     if template_id == "scenario_note":
@@ -175,6 +185,17 @@ def _generate_snippet( template_id, orig_template_id ):
         sortable = find_child( "#{}s-sortable_1".format( template_id ) )
         add_simple_note( sortable, "test {}".format(template_id), None )
         elems = find_children( "#{}s-sortable_1 li img.snippet".format( template_id ) )
+        elem = elems[0]
+    elif template_id in ("ob_vehicle_note","ob_ordnance_note"):
+        # create a vehicle/ordnance and generate a snippet for its note
+        mo = re.search( r"^ob_([a-z]+)_note_(\d)$", orig_template_id )
+        vo_type, player_no = mo.group(1), int(mo.group(2))
+        if vo_type == "vehicle":
+            vo_type = "vehicles"
+        player_nat = "german" if player_no == 1 else "russian"
+        sortable = find_child( "#ob_{}-sortable_{}".format( vo_type, player_no ) )
+        add_vo( webdriver, vo_type, player_no, "a {} {}".format(player_nat,vo_type) )
+        elems = find_children( "li img.snippet", sortable )
         elem = elems[0]
     else:
         # generate a snippet for the specified template

@@ -13,10 +13,17 @@
   "capabilities": [ "QSU" ],
   "cs#": "4:brewup",
   "note_number": "2",
+  "notes": [ "<s>b</s>", "C" ],
   "id": "ge/v:991"
 },
-{ "name": "name only",
+{ "name": "one more german vehicle",
+  "capabilities": [],
+  "note_number": "3",
+  "notes": [ "A", "C" ],
   "id": "ge/v:992"
+},
+{ "name": "name only",
+  "id": "ge/v:999"
 }
 
 ]

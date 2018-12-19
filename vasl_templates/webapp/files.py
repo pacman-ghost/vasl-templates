@@ -15,6 +15,27 @@ if app.config.get( "VASL_MOD" ):
 
 # ---------------------------------------------------------------------
 
+class FileServer:
+    """Serve static files."""
+
+    def __init__( self, base_dir ):
+        self.base_dir = os.path.abspath( base_dir )
+
+    def get_file( self, fname ):
+        """Serve a file."""
+        if not fname:
+            return None
+        fname = os.path.join( self.base_dir, fname )
+        fname = os.path.abspath( fname )
+        if not os.path.isfile( fname ):
+            return None
+        prefix = os.path.commonpath( [ self.base_dir, fname ] )
+        if prefix != self.base_dir:
+            return None # nb: files must be sub-ordinate to the configured directory
+        return fname
+
+# ---------------------------------------------------------------------
+
 def install_vasl_mod( new_vasl_mod ):
     """Install a new VASL module."""
     global vasl_mod

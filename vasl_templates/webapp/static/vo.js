@@ -112,7 +112,12 @@ function add_vo( vo_type, player_no )
                 var sel_index = $elem.children( ".vo-entry" ).data( "index" ) ;
                 var $img = $elem.find( "img[class='vasl-image']" ) ;
                 var vo_image_id = $img.data( "vo-image-id" ) ;
-                do_add_vo( vo_type, player_no, entries[sel_index], vo_image_id, null ) ;
+                var usedIds = {};
+                $sortable2.find( "li" ).each( function() {
+                    usedIds[ $(this).data( "sortable2-data" ).id ] = true ;
+                } ) ;
+                var seq_id = auto_assign_id( usedIds, "seq_id" ) ;
+                do_add_vo( vo_type, player_no, entries[sel_index], vo_image_id, null, seq_id ) ;
                 $(this).dialog( "close" ) ;
             },
             Cancel: function() { $(this).dialog( "close" ) ; },
@@ -122,11 +127,12 @@ function add_vo( vo_type, player_no )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, custom_capabilities )
+function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, custom_capabilities, seq_id )
 {
     // add the specified vehicle/ordnance
     // NOTE: We set a fixed height for the sortable2 entries (based on the CSS settings in tabs-ob.css),
     // so that the vehicle/ordnance images won't get truncated if there are a lot of them.
+    var nat = get_player_nat( player_no ) ;
     var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
     var div_tag = "<div class='vo-entry" ;
     var fixed_height = "3.25em" ;
@@ -143,18 +149,48 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, custom_capabiliti
     } ;
     if ( custom_capabilities )
         data.custom_capabilities = custom_capabilities ;
+    data.id = seq_id ;
     var buf = [ div_tag,
         "<img class='vasl-image'>",
         "<div class='detail'>",
             "<div class='vo-name'></div>",
             "<div class='vo-capabilities'></div>",
-        "</div>",
-    "</div>" ] ;
+        "</div>"
+    ] ;
+    var vo_note_key = get_vo_note_key( vo_entry ) ;
+    var vo_nat ;
+    if ( is_known_vo_note_key( vo_type, nat, vo_note_key ) )
+        vo_nat = nat ;
+    else {
+        // NOTE: Note numbers seem to be distinct across all Allied Minor or all Axis Minor vehicles/ordnance,
+        // so if we don't find a note in a given nationality's normal vehicles/ordnance, we can get away with
+        // just checking their corresponding common vehicles/ordnance.
+        var nat_type = gTemplatePack.nationalities[ nat ].type ;
+        if ( ["allied-minor","axis-minor"].indexOf( nat_type ) !== -1 ) {
+            if ( is_known_vo_note_key( vo_type, nat_type, vo_note_key ) )
+                vo_nat = nat_type ;
+        }
+    }
+    if ( vo_nat ) {
+        var template_id = (vo_type === "vehicles") ? "ob_vehicle_note" : "ob_ordnance_note" ;
+        buf.push(
+            "<img src='" + gImagesBaseUrl + "/snippet.png'",
+            " class='snippet' data-id='" + template_id + "' title='Generate a snippet.'>"
+        ) ;
+        data.vo_note_url = APP_URL_BASE + "/" + vo_type + "/" + vo_nat + "/note/" + vo_note_key ;
+    }
+    buf.push( "</div>" ) ;
+    var $content = $( buf.join("") ) ;
     var $entry = $sortable2.sortable2( "add", {
-        content: $( buf.join("") ),
+        content: $content,
         data: data,
     } ) ;
     update_vo_sortable2_entry( $entry ) ;
+
+    // add a handler for the snippet button
+    $content.children("img.snippet").click( function() {
+        generate_snippet( $(this), {} ) ;
+    } ) ;
 }
 
 function update_vo_sortable2_entry( $entry, snippet_params )

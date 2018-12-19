@@ -3,13 +3,11 @@
 import re
 import types
 
-from selenium.webdriver.support.ui import Select
-
 from vasl_templates.webapp.tests.utils import \
     get_nationalities, wait_for_clipboard, get_stored_msg, set_stored_msg_marker, select_tab, \
     find_child, find_children, \
     add_simple_note, edit_simple_note, get_sortable_entry_count, drag_sortable_entry_to_trash, \
-    select_droplist_val, init_webapp, wait_for, adjust_html, set_scenario_date
+    init_webapp, wait_for, adjust_html, set_scenario_date, set_player
 
 # ---------------------------------------------------------------------
 
@@ -192,12 +190,10 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
     }
 
     # iterate through each nationality
-    player1_sel = Select( find_child( "select[name='PLAYER_1']" ) )
     for nat in nationalities:
 
         # change the nationality for player 1
-        select_tab( "scenario" )
-        select_droplist_val( player1_sel, nat )
+        set_player( 1, nat )
 
         # check the nationality-specific buttons
         select_tab( "ob1" )

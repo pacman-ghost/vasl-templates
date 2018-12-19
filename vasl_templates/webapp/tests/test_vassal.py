@@ -26,63 +26,72 @@ def test_full_update( webapp, webdriver ):
 
     # initialize
     control_tests = init_webapp( webapp, webdriver, vsav_persistence=1,
-        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+        reset = lambda ct: ct.set_data_dir( dtype="real" )
     )
 
-    # load the scenario fields
-    SCENARIO_PARAMS = {
-        "scenario": {
-            "SCENARIO_NAME": "Modified scenario name (<>{}\"'\\)",
-            "SCENARIO_ID": "xyz123",
-            "SCENARIO_LOCATION": "Right here",
-            "SCENARIO_THEATER": "PTO",
-            "SCENARIO_DATE": "12/31/1945",
-            "SCENARIO_WIDTH": "101",
-            "PLAYER_1": "russian", "PLAYER_1_ELR": "5", "PLAYER_1_SAN": "4",
-            "PLAYER_2": "german", "PLAYER_2_ELR": "3", "PLAYER_2_SAN": "2",
-            "VICTORY_CONDITIONS": "Just do it!", "VICTORY_CONDITIONS_WIDTH": "102",
-            "SCENARIO_NOTES": [
-                { "caption": "Modified scenario note #1", "width": "" },
-                { "caption": "Modified scenario note #2", "width": "100px" }
-            ],
-            "SSR": [ "Modified SSR #1", "Modified SSR #2" ],
-            "SSR_WIDTH": "103",
-        },
-        "ob1": {
-            "OB_SETUPS_1": [
-                { "caption": "Modified Russian setup #1", "width": "" },
-                { "caption": "Modified Russian setup #2", "width": "200px" },
-                { "caption": "Modified Russian setup #3", "width": "" },
-                { "caption": "Modified Russian setup #4", "width": "" },
-                { "caption": "Modified Russian setup #5", "width": "" },
-            ],
-            "OB_NOTES_1": [
-                { "caption": "Modified Russian note #1", "width": "10em" },
-            ],
-            "OB_VEHICLES_1": [ "T-34/85 (MT)" ],
-            "OB_VEHICLES_WIDTH_1": "202",
-            "OB_ORDNANCE_1": [ "82mm BM obr. 37 (MTR)" ],
-            "OB_ORDNANCE_WIDTH_1": "203",
-        },
-        "ob2": {
-            "OB_SETUPS_2": [ { "caption": "Modified German setup #1", "width": "" } ],
-            "OB_NOTES_2": [
-                { "caption": "Modified German note #1", "width": "" },
-                { "caption": "Modified German note #2", "width": "" },
-                { "caption": "Modified German note #3", "width": "" },
-                { "caption": "Modified German note #4", "width": "" },
-                { "caption": "Modified German note #5", "width": "" },
-            ],
-            "OB_VEHICLES_2": [ "PzKpfw VG (MT)" ],
-            "OB_VEHICLES_WIDTH_2": "302",
-            "OB_ORDNANCE_2": [ "3.7cm PaK 35/36 (AT)" ],
-            "OB_ORDNANCE_WIDTH_2": "303",
-        },
-    }
-    load_scenario_params( SCENARIO_PARAMS )
-    assert_scenario_params_complete( SCENARIO_PARAMS )
+    def do_test( enable_vo_notes ): #pylint: disable=missing-docstring
 
-    def do_test(): #pylint: disable=missing-docstring
+        # initialize
+        control_tests.set_vo_notes_dir( dtype = "test" if enable_vo_notes else None )
+        webdriver.refresh()
+
+        # load the scenario fields
+        SCENARIO_PARAMS = {
+            "scenario": {
+                "SCENARIO_NAME": "Modified scenario name (<>{}\"'\\)",
+                "SCENARIO_ID": "xyz123",
+                "SCENARIO_LOCATION": "Right here",
+                "SCENARIO_THEATER": "PTO",
+                "SCENARIO_DATE": "12/31/1945",
+                "SCENARIO_WIDTH": "101",
+                "PLAYER_1": "russian", "PLAYER_1_ELR": "5", "PLAYER_1_SAN": "4",
+                "PLAYER_2": "german", "PLAYER_2_ELR": "3", "PLAYER_2_SAN": "2",
+                "VICTORY_CONDITIONS": "Just do it!", "VICTORY_CONDITIONS_WIDTH": "102",
+                "SCENARIO_NOTES": [
+                    { "caption": "Modified scenario note #1", "width": "" },
+                    { "caption": "Modified scenario note #2", "width": "100px" }
+                ],
+                "SSR": [ "Modified SSR #1", "Modified SSR #2" ],
+                "SSR_WIDTH": "103",
+            },
+            "ob1": {
+                "OB_SETUPS_1": [
+                    { "caption": "Modified Russian setup #1", "width": "" },
+                    { "caption": "Modified Russian setup #2", "width": "200px" },
+                    { "caption": "Modified Russian setup #3", "width": "" },
+                    { "caption": "Modified Russian setup #4", "width": "" },
+                    { "caption": "Modified Russian setup #5", "width": "" },
+                ],
+                "OB_NOTES_1": [
+                    { "caption": "Modified Russian note #1", "width": "10em" },
+                ],
+                "OB_VEHICLES_1": [ "T-34/85 (MT)" ],
+                "OB_VEHICLES_WIDTH_1": "202",
+                "OB_ORDNANCE_1": [ "82mm BM obr. 37 (MTR)" ],
+                "OB_ORDNANCE_WIDTH_1": "204",
+            },
+            "ob2": {
+                "OB_SETUPS_2": [ { "caption": "Modified German setup #1", "width": "" } ],
+                "OB_NOTES_2": [
+                    { "caption": "Modified German note #1", "width": "" },
+                    { "caption": "Modified German note #2", "width": "" },
+                    { "caption": "Modified German note #3", "width": "" },
+                    { "caption": "Modified German note #4", "width": "" },
+                    { "caption": "Modified German note #5", "width": "" },
+                ],
+                "OB_VEHICLES_2": [ "PzKpfw VG (MT)" ],
+                "OB_VEHICLES_WIDTH_2": "302",
+                "OB_ORDNANCE_2": [ "3.7cm PaK 35/36 (AT)" ],
+                "OB_ORDNANCE_WIDTH_2": "304",
+            },
+        }
+        if enable_vo_notes:
+            SCENARIO_PARAMS["ob1"]["OB_VEHICLES_MA_NOTES_WIDTH_1"] = "203"
+            SCENARIO_PARAMS["ob1"]["OB_ORDNANCE_MA_NOTES_WIDTH_1"] = "205"
+            SCENARIO_PARAMS["ob2"]["OB_VEHICLES_MA_NOTES_WIDTH_2"] = "303"
+            SCENARIO_PARAMS["ob2"]["OB_ORDNANCE_MA_NOTES_WIDTH_2"] = "305"
+        load_scenario_params( SCENARIO_PARAMS )
+        assert_scenario_params_complete( SCENARIO_PARAMS, enable_vo_notes )
 
         # dump the original VASL scenario
         # NOTE: We could arguably only do this once, but updating scenarios is the key functionality of the VASSAL shim,
@@ -108,13 +117,14 @@ def test_full_update( webapp, webdriver ):
         } )
 
         # update the VASL scenario with the new snippets
-        updated_vsav_data = _update_vsav( fname, { "created": 8, "updated": 16, "deleted": 4 } )
+        expected = 13 if enable_vo_notes else 8
+        updated_vsav_data = _update_vsav( fname, { "created": expected, "updated": 16, "deleted": 4 } )
         with TempFile() as temp_file:
             # check the results
             temp_file.write( updated_vsav_data )
             temp_file.close()
             updated_vsav_dump = vassal_shim.dump_scenario( temp_file.name )
-            _check_vsav_dump( updated_vsav_dump, {
+            expected = {
                 "scenario":  "Modified scenario name (<>{}\"'\\)",
                 "players": re.compile( r"Russian:.*German:" ),
                 "victory_conditions": "Just do it!",
@@ -134,13 +144,31 @@ def test_full_update( webapp, webdriver ):
                 "pf": "Panzerfaust", "atmm": "Anti-Tank Magnetic Mines",
                 "ob_vehicles_2": "PzKpfw VG",
                 "ob_ordnance_2": "3.7cm PaK 35/36",
-            } )
+            }
+            if enable_vo_notes:
+                expected[ "ob_vehicle_note_1.1" ] = re.compile(
+                    r'T-34/85.*<img src="http://[^/]+/vehicles/russian/note/18">'
+                )
+                expected[ "ob_vehicles_ma_notes_1" ] = "<span class='key'>J:</span> Unavailable."
+                expected[ "ob_ordnance_note_2.1" ] = re.compile(
+                    r'3.7cm PaK 35/36.*<img src="http://[^/]+/ordnance/german/note/6">'
+                )
+                expected[ "ob_vehicles_ma_notes_2" ] = "<span class='key'>H:</span> Unavailable."
+                expected[ "ob_ordnance_ma_notes_2" ] = re.compile(
+                    r"<span class='key'>B:</span> German Multi-Applicable Ordnance Note \"B\"." + ".*" \
+                    r"<span class='key'>N:</span> Unavailable." + ".*" \
+                    r"<span class='key'>P:</span> Unavailable."
+                )
+            _check_vsav_dump( updated_vsav_dump, expected )
             # update the VASL scenario again (nothing should change)
             updated_vsav_data = _update_vsav( temp_file.name, {} )
             assert updated_vsav_data == b"No changes."
 
     # run the test against all versions of VASSAL+VASL
-    _run_tests( control_tests, do_test, True )
+    _run_tests( control_tests, lambda: do_test(True), True )
+
+    # run the test again (once) with no Chapter H vehicle/ordnance notes
+    _run_tests( control_tests, lambda: do_test(False), False )
 
 # ---------------------------------------------------------------------
 
@@ -152,7 +180,7 @@ def test_latw_autocreate( webapp, webdriver ):
 
     # initialize
     control_tests = init_webapp( webapp, webdriver, vsav_persistence=1,
-        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+        reset = lambda ct: ct.set_data_dir( dtype="real" )
     )
 
     # NOTE: We're only interested in what happens with the LATW labels, we ignore everything else.
@@ -223,7 +251,7 @@ def test_latw_update( webapp, webdriver ):
 
     # initialize
     control_tests = init_webapp( webapp, webdriver, vsav_persistence=1,
-        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+        reset = lambda ct: ct.set_data_dir( dtype="real" )
     )
 
     # NOTE: We're only interested in what happens with the LATW labels, we ignore everything else.
@@ -304,10 +332,14 @@ def test_legacy_labels( webapp, webdriver ):
 
     # initialize
     control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1,
-        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+        reset = lambda ct: ct.set_data_dir( dtype="real" )
     )
 
-    def do_test(): #pylint: disable=missing-docstring
+    def do_test( enable_vo_notes ): #pylint: disable=missing-docstring
+
+        # initialize
+        control_tests.set_vo_notes_dir( dtype = "test" if enable_vo_notes else None )
+        webdriver.refresh()
 
         # dump the VASL scenario
         # NOTE: We implemented snippet ID's in v0.5, this scenario is the "Hill 621" example from v0.4.
@@ -322,14 +354,15 @@ def test_legacy_labels( webapp, webdriver ):
         fname2 = change_extn( fname, ".json" )
         saved_scenario = json.load( open( fname2, "r" ) )
         load_scenario( saved_scenario )
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 1, "updated": 20 } )
+        expected = 5 if enable_vo_notes else 1
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": expected, "updated": 20 } )
 
         # check the results
         # nb: the update process should create 1 new label (the "Download from MMP" scenario note)
         labels = _get_vsav_labels( updated_vsav_dump )
         assert len( [ lbl for lbl in labels if "vasl-templates:id" not in lbl ] ) == 0 #pylint: disable=len-as-condition
-        assert len( [ lbl for lbl in labels if "vasl-templates:id" in lbl ] ) == 21
-        _check_vsav_dump( updated_vsav_dump, {
+        assert len( [ lbl for lbl in labels if "vasl-templates:id" in lbl ] ) == 25 if enable_vo_notes else 21
+        expected = {
             "scenario": "Near Minsk",
             "players": re.compile( r"Russian:.*German:" ),
             "victory_conditions": "five Level 3 hill hexes",
@@ -348,10 +381,32 @@ def test_legacy_labels( webapp, webdriver ):
             ),
             "ob_ordnance_2": re.compile( r"7.5cm PaK 40.*5cm PaK 38" ),
             "pf": "Panzerfaust", "atmm": "Anti-Tank Magnetic Mines",
-        } )
+        }
+        if enable_vo_notes:
+            expected[ "ob_vehicle_note_1.1" ] = re.compile(
+                r'T-34 M43.*<img src="http://[^/]+/vehicles/russian/note/16">'
+            )
+            expected[ "ob_ordnance_note_2.2" ] = re.compile(
+                r'5cm PaK 38.*<img src="http://[^/]+/ordnance/german/note/8">'
+            )
+            expected[ "ob_vehicles_ma_notes_2" ] = re.compile(
+                r"<span class='key'>B:</span> German Multi-Applicable Vehicle Note \"B\"." + ".*" \
+                r"<span class='key'>C:</span> German Multi-Applicable Vehicle Note \"C\"." + ".*" \
+                r"<span class='key'>J:</span> Unavailable." + ".*" \
+                r"<span class='key'>N:</span> Unavailable." + ".*" \
+                r"<span class='key'>O:</span> Unavailable." + ".*" \
+                r"<span class='key'>P:</span> Unavailable." + ".*" \
+                r"<span class='key'>Q:</span> Unavailable." + ".*" \
+                r"<span class='key'>S:</span> Unavailable." + ".*"
+            )
+            expected["ob_ordnance_ma_notes_2"] = r"<span class='key'>N:</span> Unavailable."
+        _check_vsav_dump( updated_vsav_dump, expected )
 
     # run the test
-    _run_tests( control_tests, do_test, False )
+    _run_tests( control_tests, lambda: do_test(True), False )
+
+    # run the test again (once) with no Chapter H vehicle/ordnance notes
+    _run_tests( control_tests, lambda: do_test(False), False )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -363,7 +418,7 @@ def test_legacy_latw_labels( webapp, webdriver ):
 
     # initialize
     control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1,
-        reset = lambda ct: ct.set_data_dir( ddtype="real" )
+        reset = lambda ct: ct.set_data_dir( dtype="real" )
     )
 
     def do_test(): #pylint: disable=missing-docstring

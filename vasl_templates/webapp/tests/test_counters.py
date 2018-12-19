@@ -128,7 +128,7 @@ def test_gpid_remapping( webapp, webdriver ):
         gpid = mo.group(1)
         if valid_image:
             assert check_gpid_image( gpid ) == 200
-            assert img.get_attribute( "width" ) == "45"
+            assert img.get_attribute( "width" ) == "52" # nb: this value depends on the CSS settings!
         else:
             assert check_gpid_image( gpid ) == 404
 
@@ -137,7 +137,7 @@ def test_gpid_remapping( webapp, webdriver ):
         # initialize (using the specified VASL vmod)
         init_webapp( webapp, webdriver, scenario_persistence=1,
             reset = lambda ct:
-                ct.set_data_dir( ddtype="real" ) \
+                ct.set_data_dir( dtype="real" ) \
                   .set_vasl_mod( vmod=vasl_mod )
         )
         load_scenario( scenario_data )

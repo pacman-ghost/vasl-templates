@@ -38,6 +38,18 @@
 "japanese": {
   "display_name": "Japanese",
   "ob_colors": [ "OBCOL:japanese","OBCOL2:japanese", "OBCOL-BORDER:japanese" ]
+},
+
+"dutch": {
+  "display_name": "Dutch",
+  "ob_colors": [ "OBCOL:dutch","OBCOL2:dutch", "OBCOL-BORDER:dutch" ],
+  "type": "allied-minor"
+},
+
+"romanian": {
+  "display_name": "Romanian",
+  "ob_colors": [ "OBCOL:romanian","OBCOL2:romanian", "OBCOL-BORDER:romanian" ],
+  "type": "axis-minor"
 }
 
 }

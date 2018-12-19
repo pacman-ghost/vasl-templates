@@ -13,6 +13,7 @@
   "capabilities": [ "RFNM" ],
   "cs#": 4,
   "note_number": "2",
+  "notes": [ "N", "<s>B</s>" ],
   "id": "ru/v:991"
 },
 { "name": "name only",

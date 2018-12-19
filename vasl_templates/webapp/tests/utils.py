@@ -19,8 +19,14 @@ from vasl_templates.webapp.tests.remote import ControlTests
 # standard templates
 _STD_TEMPLATES = {
     "scenario": [ "scenario", "players", "victory_conditions", "scenario_notes", "ssr" ],
-    "ob1": [ "ob_setup_1", "ob_note_1", "ob_vehicles_1", "ob_ordnance_1" ],
-    "ob2": [ "ob_setup_2", "ob_note_2", "ob_vehicles_2", "ob_ordnance_2" ],
+    "ob1": [ "ob_setup_1", "ob_note_1",
+        "ob_vehicles_1", "ob_vehicle_note_1", "ob_vehicles_ma_notes_1",
+        "ob_ordnance_1", "ob_ordnance_note_1", "ob_ordnance_ma_notes_1"
+    ],
+    "ob2": [ "ob_setup_2", "ob_note_2",
+        "ob_vehicles_2", "ob_vehicle_note_2", "ob_vehicles_ma_notes_2",
+        "ob_ordnance_2", "ob_ordnance_note_2", "ob_ordnance_ma_notes_2"
+    ],
 }
 
 # nationality-specific templates
@@ -46,11 +52,12 @@ def init_webapp( webapp, webdriver, **options ):
     # since we could be talking to a remote server (see ControlTests for more details).
     control_tests = ControlTests( webapp )
     control_tests \
-        .set_data_dir( ddtype="test" ) \
+        .set_data_dir( dtype="test" ) \
         .set_default_scenario( fname=None ) \
         .set_default_template_pack( dname=None ) \
         .set_vasl_mod( vmod=None ) \
-        .set_vassal_engine( vengine=None )
+        .set_vassal_engine( vengine=None ) \
+        .set_vo_notes_dir( dtype=None )
     if "reset" in options:
         options.pop( "reset" )( control_tests )
 
@@ -80,24 +87,19 @@ def for_each_template( func ): #pylint: disable=too-many-branches
             orig_template_id = template_id
             if template_id == "scenario_notes":
                 template_id = "scenario_note"
-            elif template_id.startswith( "ob_setup_" ):
-                template_id = "ob_setup"
-            elif template_id.startswith( "ob_note_" ):
-                template_id = "ob_note"
-            elif template_id.startswith( "ob_vehicles_" ):
-                template_id = "ob_vehicles"
-            elif template_id.startswith( "ob_ordnance_" ):
-                template_id = "ob_ordnance"
+            elif template_id.endswith( ("_1","_2") ):
+                template_id = template_id[:-2]
             func( template_id, orig_template_id )
-            if orig_template_id not in ("ob_setup_2","ob_note_2","ob_vehicles_2","ob_ordnance_2"):
+            if orig_template_id not in ("ob_setup_2","ob_note_2",
+                "ob_vehicles_2","ob_vehicle_note_2","ob_vehicles_ma_notes_2",
+                "ob_ordnance_2","ob_ordnance_note_2","ob_ordnance_ma_notes_2"
+            ):
                 templates_to_test.remove( template_id )
 
     # test the nationality-specific templates
     # NOTE: The buttons are the same on the OB1 and OB2 tabs, so we only test for player 1.
-    player1_sel = Select( find_child( "select[name='PLAYER_1']" ) )
     for nat,template_ids in _NAT_TEMPLATES.items():
-        select_tab( "scenario" )
-        select_droplist_val( player1_sel, nat )
+        set_player( 1, nat )
         ask = find_child( "#ask" )
         if ask and ask.is_displayed():
             click_dialog_button( "OK" ) # nb: if the front-end is asking to confirm the player nationality change
@@ -224,6 +226,13 @@ def set_scenario_date( scenario_date ):
     elem.clear()
     elem.send_keys( scenario_date )
     elem.send_keys( Keys.TAB ) # nb: force the calendar popup to close :-/
+
+def set_player( player_no, nat ):
+    """Set a player's nationality."""
+    select_tab( "scenario" )
+    sel = Select( find_child( "select[name='PLAYER_{}']".format( player_no ) ) )
+    select_droplist_val( sel, nat )
+    return sel
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

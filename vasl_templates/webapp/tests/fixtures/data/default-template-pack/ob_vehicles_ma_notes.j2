@@ -1,0 +1,8 @@
+{%for ma_note in OB_VEHICLES_MA_NOTES%} [*] {{ma_note}}
+{%endfor%}
+
+{%if OB_VEHICLES_EXTRA_MA_NOTES%}
+{%if OB_VEHICLES_EXTRA_MA_NOTES_CAPTION%} === {{OB_VEHICLES_EXTRA_MA_NOTES_CAPTION}} === {%endif%}
+{%for ma_note in OB_VEHICLES_EXTRA_MA_NOTES%} [*] {{ma_note}}
+{%endfor%}
+{%endif%}

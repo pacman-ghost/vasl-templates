@@ -93,7 +93,7 @@ function _do_edit_simple_note( $sortable2, $entry, default_width )
                             $sortable2.find( "li" ).each( function() {
                                 usedIds[ $(this).data("sortable2-data").id ] = true ;
                             } ) ;
-                            data.id = auto_assign_id( usedIds ) ;
+                            data.id = auto_assign_id( usedIds, "id" ) ;
                         }
                         _do_add_simple_note( $sortable2, data ) ;
                     }
@@ -126,7 +126,7 @@ function _make_simple_note( note_type, caption )
     if ( ["scenario_notes","ob_setups","ob_notes"].indexOf( note_type ) !== -1 ) {
         var note_type0 = note_type.substring( 0, note_type.length-1 ) ;
         buf.push(
-            "<img src='" + gImagesBaseUrl + "/snippet.png" + "'",
+            "<img src='" + gImagesBaseUrl + "/snippet.png'",
             " class='snippet' data-id='" + note_type0 + "' title='Generate a snippet.'>"
         ) ;
     }

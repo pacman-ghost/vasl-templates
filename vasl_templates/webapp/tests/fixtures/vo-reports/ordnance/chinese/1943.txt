@@ -21,7 +21,7 @@ Cannone da 70/15                NT QSU Acq. NA† Low Ammo† h-d   NT QSU Acq. 
 Obice da 75/13                  NT QSU h-d                      NT QSU h-d                      8       A D† F†<sup>1</sup>
 7.5cm leIG 18                   NT QSU h-d                      NT QSU h-d                      9†      n/a
 76.2mm PP obr. 27               NT QSU AP6 s6                   NT QSU AP6 s6                   9†[1]   D†
-M1A1 75mm Pack Howitzer         NT QSU h-d C5†[1] WP7           NT QSU h-d C5†[1] WP7           10†     A C †<sup>1</sup>
+M1A1 75mm Pack Howitzer         NT QSU h-d C5†[1] WP7           NT QSU h-d C5†[1] WP7           10†     A C†<sup>1</sup>
 7.7cm FK 16                     NT QSU h-d AP6 s5               NT QSU h-d AP6 s5               11      F†
 76.2mm P obr. 02/30             NT QSU h-d AP6 s6               NT QSU h-d AP6 s6               11      D† F†<sup>1</sup>
 OQF 18-Pounder                  NT QSU h-d AP6 WP5 s6           NT QSU h-d AP6 WP5 s6           11      <s>B</s>

@@ -167,7 +167,7 @@
   "capabilities": [ "NT", "QSU", "h-d" ],
   "capabilities2": { "WP": 7, "C": "5\u2020<sup>1</sup>" },
   "note_number": "10\u2020",
-  "notes": [ "A", "C \u2020<sup>1</sup>" ],
+  "notes": [ "A", "C\u2020<sup>1</sup>" ],
   "id": "ch/o:019",
   "gpid": 2037
 },
