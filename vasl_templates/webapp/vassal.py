@@ -18,7 +18,8 @@ from vasl_templates.webapp import app
 from vasl_templates.webapp.config.constants import BASE_DIR, IS_FROZEN
 from vasl_templates.webapp.files import vasl_mod
 from vasl_templates.webapp.file_server.vasl_mod import SUPPORTED_VASL_MOD_VERSIONS
-from vasl_templates.webapp.utils import TempFile, HtmlScreenshots, SimpleError
+from vasl_templates.webapp.utils import TempFile, SimpleError
+from vasl_templates.webapp.webdriver import WebDriver
 
 _logger = logging.getLogger( "update_vsav" )
 
@@ -132,60 +133,39 @@ def _save_snippets( snippets, fp ):
     NOTE: We save the snippets as XML because Java :-/
     """
 
-    def get_html_size( snippet_id, html, window_size ):
-        """Get the size of the specified HTML."""
-        start_time = time.time()
-        img = html_screenshots.get_screenshot( html, window_size )
-        elapsed_time = time.time() - start_time
-        width, height = img.size
-        _logger.debug( "Generated screenshot for %s (%.3fs): %dx%d", snippet_id, elapsed_time, width, height )
-        return width, height
-
-    def do_save_snippets( html_screenshots ): #pylint: disable=too-many-locals
+    def do_save_snippets( webdriver ): #pylint: disable=too-many-locals
         """Save the snippets."""
 
         root = ET.Element( "snippets" )
-        for key,val in snippets.items():
+        for snippet_id,snippet_info in snippets.items():
 
             # add the next snippet
-            auto_create = "true" if val["auto_create"] else "false"
-            elem = ET.SubElement( root, "snippet", id=key, autoCreate=auto_create )
-            elem.text = val["content"]
-            label_area = val.get( "label_area" )
+            auto_create = "true" if snippet_info["auto_create"] else "false"
+            elem = ET.SubElement( root, "snippet", id=snippet_id, autoCreate=auto_create )
+            elem.text = snippet_info["content"]
+            label_area = snippet_info.get( "label_area" )
             if label_area:
                 elem.set( "labelArea", label_area )
 
             # add the raw content
             elem2 = ET.SubElement( elem, "rawContent" )
-            for node in val.get("raw_content",[]):
+            for node in snippet_info.get( "raw_content", [] ):
                 ET.SubElement( elem2, "phrase" ).text = node
 
             # include the size of the snippet
-            if html_screenshots:
+            if webdriver:
                 try:
-                    # NOTE: Screenshots take significantly longer for larger window sizes. Since most of our snippets
-                    # will be small, we first try with a smaller window, and switch to a larger one if necessary.
-                    max_width, max_height = 500, 500
-                    max_width2, max_height2 = 1500, 1500
-                    if key.startswith(
-                        ("ob_vehicles_ma_notes_","ob_vehicle_note_","ob_ordnance_ma_notes_","ob_ordnance_note_")
-                    ):
-                        # nb: these tend to be large, don't bother with a smaller window
-                        max_width, max_height = max_width2, max_height2
-                    width, height = get_html_size( key, val["content"], (max_width,max_height) )
-                    if (width >= max_width*9/10 or height >= max_height*9/10) \
-                        and (max_width,max_height) != (max_width2,max_height2):
-                        # NOTE: While it's tempting to set the browser window really large here, if the label ends up
-                        # filling/overflowing the available space (e.g. because its width/height has been set to 100%),
-                        # then the auto-created label will push any subsequent labels far down the map, possibly to
-                        # somewhere unreachable. So, we set it somewhat more conservatively, so that if this happens,
-                        # the user still has a chance to recover from it. Note that this doesn't mean that they can't
-                        # have really large labels, it just affects the positioning of auto-created labels.
-                        width, height = get_html_size( key, val["content"], (max_width2,max_height2) )
+                    start_time = time.time()
+                    img = webdriver.get_snippet_screenshot( snippet_id, snippet_info["content"] )
+                    width, height = img.size
+                    elapsed_time = time.time() - start_time
+                    _logger.debug( "Generated screenshot for %s (%.3fs): %dx%d",
+                        snippet_id, elapsed_time, width, height
+                    )
                     # FUDGE! There's something weird going on in VASSAL e.g. "<table width=300>" gives us something
                     # very different to "<table style='width:300px;'>" :-/ Changing the font size also causes problems.
                     # The following fudging seems to give us something that's somewhat reasonable... :-/
-                    if re.search( r"width:\s*?\d+?px", val["content"] ):
+                    if re.search( r"width:\s*?\d+?px", snippet_info["content"] ):
                         width = int( width * 140 / 100 )
                     elem.set( "width", str(width) )
                     elem.set( "height", str(height) )
@@ -201,8 +181,8 @@ def _save_snippets( snippets, fp ):
     if app.config.get( "DISABLE_UPDATE_VSAV_SCREENSHOTS" ):
         return do_save_snippets( None )
     else:
-        with HtmlScreenshots() as html_screenshots:
-            return do_save_snippets( html_screenshots )
+        with WebDriver() as webdriver:
+            return do_save_snippets( webdriver )
 
 def _parse_label_report( fname ):
     """Read the label report generated by the VASSAL shim."""
