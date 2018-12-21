@@ -2,11 +2,13 @@
 
 import os
 import json
+import logging
 
 from flask import request, render_template, jsonify, abort
 
 from vasl_templates.webapp import app
 from vasl_templates.webapp.config.constants import DATA_DIR
+from vasl_templates.webapp.file_server.vasl_mod import get_vasl_mod
 
 # ---------------------------------------------------------------------
 
@@ -22,7 +24,7 @@ def get_ordnance_listings():
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def _do_get_listings( listings_type ): #pylint: disable=too-many-branches
+def _do_get_listings( vo_type ): #pylint: disable=too-many-locals,too-many-branches
     """Load the vehicle/ordnance listings."""
 
     # locate the data directory
@@ -30,7 +32,7 @@ def _do_get_listings( listings_type ): #pylint: disable=too-many-branches
         dname = DATA_DIR # nb: always use the real data for reports, not the test fixtures
     else:
         dname = app.config.get( "DATA_DIR", DATA_DIR )
-    dname = os.path.join( dname, listings_type )
+    dname = os.path.join( dname, vo_type )
     if not os.path.isdir( dname ):
         abort( 404 )
 
@@ -61,7 +63,7 @@ def _do_get_listings( listings_type ): #pylint: disable=too-many-branches
                 listings[nat].extend( listings[minor_type+"-common"] )
             del listings[ minor_type+"-common" ]
         # merge landing craft
-        if listings_type == "vehicles":
+        if vo_type == "vehicles":
             for lc in listings.get("landing-craft",[]):
                 if lc["name"] in ("Daihatsu","Shohatsu"):
                     listings["japanese"].append( lc )
@@ -69,8 +71,46 @@ def _do_get_listings( listings_type ): #pylint: disable=too-many-branches
                     listings["american"].append( lc )
                     listings["british"].append( lc )
 
+    # apply any changes for VASL extensions
+    vasl_mod = get_vasl_mod()
+    if vasl_mod:
+        # build an index of the pieces
+        piece_index = {}
+        for nat,pieces in listings.items():
+            for piece in pieces:
+                piece_index[ piece["id"] ] = piece
+        # process each VASL extension
+        for extn in vasl_mod.get_extns():
+            if vo_type not in extn[1]:
+                continue
+            _apply_extn_info( extn[0], extn[1], piece_index, vo_type )
+
     return jsonify( listings )
 
+def _apply_extn_info( extn_fname, extn_info, piece_index, vo_type ):
+    """Update the vehicle/ordnance listings for the specified VASL extension."""
+
+    # initialize
+    logger = logging.getLogger( "vasl_mod" )
+    logger.info( "Updating %s for VASL extension: %s", vo_type, os.path.split(extn_fname)[1] )
+
+    # process each entry
+    for entry in extn_info[vo_type]:
+        piece = piece_index.get( entry["id"] )
+        if piece:
+            # update an existing piece
+            logger.debug( "- Updating GPID's for %s: %s", entry["id"], entry["gpid"] )
+            if piece["gpid"]:
+                prev_gpids = piece["gpid"]
+                if not isinstance( piece["gpid"], list ):
+                    piece["gpid"] = [ piece["gpid"] ]
+                piece["gpid"].extend( entry["gpid"] )
+            else:
+                prev_gpids = "(none)"
+                piece["gpid"] = entry["gpid"]
+            logger.debug( "  - %s => %s", prev_gpids, piece["gpid"] )
+        else:
+            logger.warning( "- Updating V/O entry with extension info not supported: %s", entry["id"] )
 # ---------------------------------------------------------------------
 
 @app.route( "/<vo_type>/<nat>/<theater>/<int:year>", defaults={"month":1}  )

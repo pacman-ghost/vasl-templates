@@ -1,0 +1,21 @@
+{
+
+"extensionId": "f97",
+"version": "v1.1",
+
+"vehicles": [
+
+{
+  "_comment_": "Matilda II(b)",
+  "id": "ru/v:078",
+  "gpid": [ "f97:178", "f97:184" ]
+},
+{
+  "_comment_": "T-60 M40",
+  "id": "ru/v:004",
+  "gpid": [ "f97:186" ]
+}
+
+]
+
+}

@@ -8,10 +8,10 @@ from PyQt5.QtGui import QIcon
 
 from vasl_templates.main import app_settings
 from vasl_templates.main_window import MainWindow
-from vasl_templates.webapp.config.constants import DATA_DIR
-from vasl_templates.webapp.vassal import SUPPORTED_VASSAL_VERSIONS_DISPLAY
-from vasl_templates.webapp.file_server.vasl_mod import VaslMod, SUPPORTED_VASL_MOD_VERSIONS_DISPLAY
-from vasl_templates.webapp.files import install_vasl_mod
+from vasl_templates.utils import show_msg_store
+from vasl_templates.webapp.vassal import VassalShim, SUPPORTED_VASSAL_VERSIONS_DISPLAY
+from vasl_templates.webapp.utils import MsgStore
+from vasl_templates.webapp.file_server.vasl_mod import set_vasl_mod, SUPPORTED_VASL_MOD_VERSIONS_DISPLAY
 
 # ---------------------------------------------------------------------
 
@@ -122,7 +122,7 @@ class ServerSettingsDialog( QDialog ):
         # NOTE: We should really do this before saving the new settings, but that's more trouble
         # than it's worth at this stage... :-/
         try:
-            install_server_settings()
+            install_server_settings( False )
         except Exception as ex: #pylint: disable=broad-except
             MainWindow.showErrorMsg( "Couldn't install the server settings:\n\n{}".format( ex ) )
             return
@@ -148,7 +148,7 @@ def _make_exe_filter_string():
 
 # ---------------------------------------------------------------------
 
-def install_server_settings():
+def install_server_settings( is_startup ):
     """Install the server settings."""
 
     # install the server settings
@@ -159,10 +159,20 @@ def install_server_settings():
     app.config["JAVA_PATH"] = app_settings.value( "ServerSettings/java-path" )
     app.config["WEBDRIVER_PATH"] = app_settings.value( "ServerSettings/webdriver-path" )
 
+    # initialize
+    if is_startup:
+        # nb: we let the web page show startup messages
+        msg_store = None
+    else:
+        msg_store = MsgStore()
+
     # load the VASL module
     fname = app_settings.value( "ServerSettings/vasl-mod" )
-    if fname:
-        vasl_mod = VaslMod( fname, DATA_DIR )
-    else:
-        vasl_mod = None
-    install_vasl_mod( vasl_mod )
+    set_vasl_mod( fname, msg_store )
+
+    # check the VASSAL version
+    VassalShim.check_vassal_version( msg_store )
+
+    # show any messages
+    if msg_store:
+        show_msg_store( msg_store )

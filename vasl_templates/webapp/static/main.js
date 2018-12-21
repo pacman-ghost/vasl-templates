@@ -281,20 +281,6 @@ $(document).ready( function () {
         showErrorMsg( "Can't get the template pack:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
     } ) ;
 
-    // check the VASSAL/VASL versions
-    $.get( gCheckVassalVersionUrl, function( resp ) {
-        if ( resp )
-            showWarningMsg( resp ) ;
-    } ).fail( function( xhr, status, errorMsg ) {
-        showErrorMsg( "Can't check the VASSAL version:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
-    } ) ;
-    $.get( gCheckVaslVersionUrl, function( resp ) {
-        if ( resp )
-            showWarningMsg( resp ) ;
-    } ).fail( function( xhr, status, errorMsg ) {
-        showErrorMsg( "Can't check the VASL version:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
-    } ) ;
-
     // fixup the layout
     var prevHeight = [] ;
     $(window).resize( function() {
@@ -452,7 +438,13 @@ gPageLoadStatus = [ "main", "vehicle-listings", "ordnance-listings", "vehicle-no
 function update_page_load_status( id )
 {
     // track the page load progress
-    gPageLoadStatus.splice( gPageLoadStatus.indexOf(id), 1 ) ;
+    var pos = gPageLoadStatus.indexOf( id ) ;
+    if ( pos === -1 ) {
+        if ( id !== "default-scenario" )
+            console.log( "Multiple page-load status:", id ) ;
+        return ;
+    }
+    gPageLoadStatus.splice( pos, 1 ) ;
     if ( id === "template-pack" )
         $("fieldset[name='scenario']").fadeIn( 2*1000 ) ;
 
@@ -462,6 +454,13 @@ function update_page_load_status( id )
         // so we need to wait until those have arrived. Note that while the default scenario will normally
         // be empty, having stuff in it is very useful during development.
         do_on_new_scenario( false ) ;
+    }
+
+    function show_startup_msgs( msgs, msg_type ) {
+        if ( msg_type in msgs ) {
+            for ( var i=0 ; i < msgs[msg_type].length ; ++i )
+            doShowNotificationMsg( msg_type, msgs[msg_type][i] ) ;
+        }
     }
 
     // check if the page has finished loading
@@ -482,6 +481,15 @@ function update_page_load_status( id )
         // notify the PyQT desktop application
         if ( gWebChannelHandler )
             gWebChannelHandler.on_app_loaded() ;
+        // show any startuup messages
+        $.get( gGetStartupMsgsUrl, function( resp ) {
+            $("body").append( $("<div id='_startup-msgs-ready_'></div>") ) ;
+            show_startup_msgs( resp, "error" ) ;
+            show_startup_msgs( resp, "warning" ) ;
+            show_startup_msgs( resp, "info" ) ;
+        } ).fail( function( xhr, status, errorMsg ) {
+            showErrorMsg( "Can't get the startup messages:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+        } ) ;
     }
 }
 

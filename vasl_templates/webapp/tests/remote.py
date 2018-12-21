@@ -10,6 +10,8 @@ import os
 import urllib.request
 import json
 import glob
+import base64
+import tempfile
 import logging
 import random
 
@@ -19,10 +21,9 @@ from vasl_templates.webapp import app
 from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp import main as webapp_main
 from vasl_templates.webapp import snippets as webapp_snippets
-from vasl_templates.webapp import files as webapp_files
 from vasl_templates.webapp import vo_notes as webapp_vo_notes
 from vasl_templates.webapp.file_server import utils as webapp_file_server_utils
-from vasl_templates.webapp.file_server.vasl_mod import VaslMod
+from vasl_templates.webapp.file_server.vasl_mod import set_vasl_mod
 
 _logger = logging.getLogger( "control_tests" )
 
@@ -39,6 +40,11 @@ class ControlTests:
             self.server_url = pytest.config.option.server_url #pylint: disable=no-member
         except AttributeError:
             self.server_url = None
+        # set up a temp directory for our test VASL extensions
+        self._vasl_extns_temp_dir = tempfile.TemporaryDirectory()
+
+    def __del__( self ):
+        self._vasl_extns_temp_dir.cleanup()
 
     def __getattr__( self, name ):
         """Generic entry point for handling control requests."""
@@ -56,6 +62,8 @@ class ControlTests:
 
     def _remote_test_control( self, action, **kwargs ):
         """Invoke a handler function on the remote server."""
+        if "bin_data" in kwargs:
+            kwargs["bin_data"] = base64.b64encode( kwargs["bin_data"] )
         resp = urllib.request.urlopen(
             self.webapp.url_for( "control_tests", action=action, **kwargs )
         ).read()
@@ -117,29 +125,77 @@ class ControlTests:
         try:
             dname = pytest.config.option.vasl_mods #pylint: disable=no-member
         except AttributeError:
-            dname = app.config["TEST_VASL_MODS"]
+            dname = app.config[ "TEST_VASL_MODS" ]
         fspec = os.path.join( dname, "*.vmod" )
         return glob.glob( fspec )
 
-    def _set_vasl_mod( self, vmod=None ):
+    def _set_vasl_mod( self, vmod=None, extns_dtype=None ):
         """Install a VASL module."""
-        if vmod is None:
-            _logger.info( "Installing VASL module: %s", vmod )
-            webapp_files.vasl_mod = None
-            if "VASL_MOD" in app.config:
-                del app.config[ "VASL_MOD" ]
+
+        # configure the VASL extensions
+        if extns_dtype:
+            if extns_dtype == "real":
+                try:
+                    dname = pytest.config.option.vasl_extensions #pylint: disable=no-member
+                except AttributeError:
+                    dname = app.config[ "TEST_VASL_EXTENSIONS_DIR" ]
+            elif extns_dtype == "test":
+                dname = self._vasl_extns_temp_dir.name
+            else:
+                assert False, "Unknown extensions directory type: "+extns_dtype
+            _logger.info( "Enabling VASL extensions: %s", dname )
+            app.config[ "VASL_EXTENSIONS_DIR" ] = dname
         else:
-            fnames = self._do_get_vasl_mods()
+            _logger.info( "Disabling VASL extensions." )
+            app.config.pop( "VASL_EXTENSIONS_DIR", None )
+
+        # configure the VASL module
+        if vmod:
+            vmod_fnames = self._do_get_vasl_mods()
             if vmod == "random":
                 # NOTE: Some tests require a VASL module to be loaded, and since they should all
                 # should behave in the same way, it doesn't matter which one we load.
-                fname = random.choice( fnames )
+                vmod = random.choice( vmod_fnames )
             else:
-                assert vmod in fnames
-                fname = vmod
-            _logger.info( "Installing VASL module: %s", fname )
-            app.config[ "VASL_MOD" ] = fname
-            webapp_files.vasl_mod = VaslMod( fname, DATA_DIR )
+                assert vmod in vmod_fnames
+            app.config[ "VASL_MOD" ] = vmod
+        else:
+            app.config.pop( "VASL_MOD", None )
+        _logger.info( "Installing VASL module: %s", vmod )
+
+        # install the new VASL module
+        from vasl_templates.webapp.main import startup_msg_store
+        startup_msg_store.reset()
+        set_vasl_mod( vmod, startup_msg_store )
+
+        return self
+
+    def _get_vasl_extns( self ): #pylint: disable=no-self-use
+        """Return the loaded VASL extensions."""
+        from vasl_templates.webapp.file_server.vasl_mod import get_vasl_mod
+        extns = get_vasl_mod().get_extns()
+        _logger.debug( "Returning VASL extensions:\n%s",
+            "\n".join( "- {}".format( e ) for e in extns )
+        )
+        return extns
+
+    def _set_test_vasl_extn( self, fname=None, bin_data=None ):
+        """Set the test VASL extension."""
+        fname = os.path.join( self._vasl_extns_temp_dir.name, fname )
+        with open( fname, "wb" ) as fp:
+            fp.write( bin_data )
+        return self
+
+    def _set_vasl_extn_info_dir( self, dtype=None ):
+        """Set the directory containing the VASL extension info files."""
+        if dtype:
+            dname = os.path.join( os.path.split(__file__)[0], "fixtures/vasl-extensions" )
+            dname = os.path.join( dname, dtype )
+            _logger.info( "Setting the default VASL extension info directory: %s", dname )
+            app.config[ "_VASL_EXTN_INFO_DIR_" ] = dname
+        else:
+            _logger.info( "Using the default VASL extension info directory." )
+            app.config.pop( "_VASL_EXTN_INFO_DIR_", None )
         return self
 
     def _get_vassal_engines( self ):
@@ -155,7 +211,7 @@ class ControlTests:
         try:
             dname = pytest.config.option.vassal #pylint: disable=no-member
         except AttributeError:
-            dname = app.config[ "TEST_VASSAL_ENGINES"]
+            dname = app.config[ "TEST_VASSAL_ENGINES" ]
         vassal_engines = []
         for root,_,fnames in os.walk( dname ):
             for fname in fnames:

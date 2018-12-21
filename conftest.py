@@ -54,6 +54,10 @@ def pytest_addoption( parser ):
         "--vasl-mods", action="store", dest="vasl_mods", default=None,
         help="Directory containing the VASL .vmod file(s)."
     )
+    parser.addoption(
+        "--vasl-extensions", action="store", dest="vasl_extensions", default=None,
+        help="Directory containing the VASL extensions."
+    )
 
     # NOTE: Some tests require VASSAL to be installed. This option allows the caller to specify
     # where it is (multiple installations can be placed in sub-directories).

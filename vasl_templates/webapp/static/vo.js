@@ -353,9 +353,9 @@ function _find_vo_image_id( vo_images, vo_image_id )
     // find the specified V/O image ID (because indexOf() doesn't handle arrays :-/)
     if ( vo_image_id === null )
         return 0 ;
-    vo_image_id = vo_image_id.join(":") ;
+    vo_image_id = vo_image_id.join( ":" ) ;
     for ( var i=0 ; i < vo_images.length ; ++i ) {
-        if ( vo_images[i].join(":") == vo_image_id )
+        if ( vo_images[i].join( ":" ) === vo_image_id )
             return i ;
     }
     return -1 ;

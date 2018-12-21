@@ -580,10 +580,10 @@ def test_vo_images( webapp, webdriver ): #pylint: disable=too-many-statements
     load_scenario( saved_scenario )
     check_sortable2_entries( 1, [
         ( "/counter/2602/front", "ge/v:035", None ),
-        ( "/counter/2807/front/0", "ge/v:027", [2807,0] )
+        ( "/counter/2807/front/0", "ge/v:027", ["2807",0] )
     ] )
     check_sortable2_entries( 2, [
-        ( "/counter/1555/front/1", "br/v:115", [1555,1] )
+        ( "/counter/1555/front/1", "br/v:115", ["1555",1] )
     ] )
 
 # ---------------------------------------------------------------------

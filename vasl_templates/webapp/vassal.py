@@ -16,8 +16,7 @@ from flask import request
 
 from vasl_templates.webapp import app
 from vasl_templates.webapp.config.constants import BASE_DIR, IS_FROZEN
-from vasl_templates.webapp.files import vasl_mod
-from vasl_templates.webapp.file_server.vasl_mod import SUPPORTED_VASL_MOD_VERSIONS
+from vasl_templates.webapp.file_server.vasl_mod import get_vasl_mod
 from vasl_templates.webapp.utils import TempFile, SimpleError
 from vasl_templates.webapp.webdriver import WebDriver
 
@@ -227,11 +226,8 @@ class VassalShim:
             raise SimpleError( "Can't find the VASL boards: {}".format( self.boards_dir ) )
 
         # locate the VASL module
-        self.vasl_mod = app.config.get( "VASL_MOD" )
-        if not self.vasl_mod:
+        if not get_vasl_mod():
             raise SimpleError( "The VASL module has not been configured." )
-        if not os.path.isfile( self.vasl_mod ):
-            raise SimpleError( "Can't find VASL module: {}".format( self.vasl_mod ) )
 
         # locate the VASSAL shim JAR
         self.shim_jar = app.config.get( "VASSAL_SHIM" )
@@ -283,7 +279,7 @@ class VassalShim:
             args[0]
         ]
         if args[0] in ("dump","update"):
-            args2.append( self.vasl_mod )
+            args2.append( get_vasl_mod().filename )
         args2.extend( args[1:] )
 
         # figure out how long to the let the VASSAL shim run
@@ -340,6 +336,17 @@ class VassalShim:
             raise VassalShimError( proc.returncode, stdout, stderr )
         return stdout
 
+    @staticmethod
+    def check_vassal_version( msg_store ):
+        """Check the version of VASSAL."""
+        if not app.config.get( "VASSAL_DIR" ) or not msg_store:
+            return
+        version = VassalShim().get_version()
+        if version not in SUPPORTED_VASSAL_VERSIONS:
+            msg_store.warning(
+                "VASSAL {} is unsupported.<p>Things might work, but they might not...".format( version )
+            )
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 class VassalShimError( Exception ):
@@ -350,25 +357,3 @@ class VassalShimError( Exception ):
         self.retcode = retcode
         self.stdout = stdout
         self.stderr = stderr
-
-# ---------------------------------------------------------------------
-
-@app.route( "/check-vassal-version" )
-def check_vassal_version():
-    """Check if we're running a supported version of VASSAL."""
-    vassal_dir = app.config.get( "VASSAL_DIR" )
-    if vassal_dir:
-        vassal_shim = VassalShim()
-        version = vassal_shim.get_version()
-        if version not in SUPPORTED_VASSAL_VERSIONS:
-            return "VASSAL {} is unsupported.<p>Things might work, but they might not...".format( version )
-    return ""
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-@app.route( "/check-vasl-version" )
-def check_vasl_version():
-    """Check if we're running a supported version of VASL."""
-    if vasl_mod and vasl_mod.vasl_version not in SUPPORTED_VASL_MOD_VERSIONS:
-        return "VASL {} is unsupported.<p>Things might work, but they might not...".format( vasl_mod.vasl_version )
-    return ""

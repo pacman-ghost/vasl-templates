@@ -1039,9 +1039,9 @@ function do_load_scenario_data( params )
                 }
                 var vo_image_id = null ;
                 if ( "image_id" in params[key][i] ) {
-                    var matches = params[key][i].image_id.match( /^(\d{3,4})\/(\d)$/ ) ;
+                    var matches = params[key][i].image_id.match( /^([a-z0-9:]{3,10})\/(\d)$/ ) ;
                     if ( matches )
-                        vo_image_id = [ parseInt(matches[1]), parseInt(matches[2]) ] ;
+                        vo_image_id = [ matches[1], parseInt(matches[2]) ] ;
                     else
                         warnings.push( "Invalid V/O image ID for '" + params[key][i].name + "': " + params[key][i].image_id ) ;
                 }

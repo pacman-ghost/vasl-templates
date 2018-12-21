@@ -1,11 +1,14 @@
 """Webapp handlers for testing porpoises."""
 
 import inspect
+import base64
 
 from flask import request, jsonify, abort
 
 from vasl_templates.webapp import app
 from vasl_templates.webapp.tests.remote import ControlTests
+
+_control_tests = ControlTests( app )
 
 # ---------------------------------------------------------------------
 
@@ -18,8 +21,7 @@ def control_tests( action ):
         abort( 404 )
 
     # figure out what we're being asked to do
-    controller = ControlTests( app )
-    func = getattr( controller, action )
+    func = getattr( _control_tests, action )
     if not func:
         abort( 404 )
 
@@ -27,8 +29,10 @@ def control_tests( action ):
     sig = inspect.signature( func )
     kwargs = {}
     for param in sig.parameters.values():
-        if param.name in ("vengine","vmod","gpids","dtype","fname","dname"):
+        if param.name in ("vengine","vmod","gpids","dtype","fname","dname","extns_dtype","bin_data"):
             kwargs[ param.name ] = request.args.get( param.name, param.default )
+            if param.name == "bin_data":
+                kwargs["bin_data"] = base64.b64decode( kwargs["bin_data"] )
 
     # execute the command
     resp = func( **kwargs )
@@ -37,5 +41,5 @@ def control_tests( action ):
     if isinstance( resp, (str,list,dict) ):
         return jsonify( resp )
     else:
-        assert resp == controller, "Methods should return self if there is no response data."
+        assert resp == _control_tests, "Methods should return self if there is no response data."
         return "ok"

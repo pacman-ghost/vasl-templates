@@ -1,0 +1,5 @@
+<!-- This is a dummy buildFile that represents our test VASL extension.
+     The test suite will convert it to a ZIP file, that will be loaded by the webapp.
+-->
+
+<VASSAL.build.module.ModuleExtension extensionId="test" version="v0.1" />

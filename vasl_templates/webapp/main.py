@@ -6,7 +6,11 @@ import json
 from flask import request, render_template, jsonify, send_file, redirect, url_for, abort
 
 from vasl_templates.webapp import app
+from vasl_templates.webapp.utils import MsgStore
 from vasl_templates.webapp.config.constants import DATA_DIR
+
+startup_msg_store = MsgStore() # store messages generated during startup
+_check_versions = True
 
 # ---------------------------------------------------------------------
 
@@ -14,6 +18,28 @@ from vasl_templates.webapp.config.constants import DATA_DIR
 def main():
     """Return the main page."""
     return render_template( "index.html" )
+
+# ---------------------------------------------------------------------
+
+@app.route( "/startup-msgs" )
+def get_startup_msgs():
+    """Return any messages generated during startup."""
+
+    global _check_versions
+    if _check_versions:
+        _check_versions = False
+        # check the VASSAL version
+        from vasl_templates.webapp.vassal import VassalShim
+        VassalShim.check_vassal_version( startup_msg_store )
+
+    # collect all the startup messages
+    startup_msgs = {}
+    for msg_type in ("info","warning","error"):
+        msgs = startup_msg_store.get_msgs( msg_type )
+        if msgs:
+            startup_msgs[ msg_type ] = msgs
+
+    return jsonify( startup_msgs )
 
 # ---------------------------------------------------------------------
 

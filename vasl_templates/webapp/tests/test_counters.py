@@ -32,7 +32,7 @@ def test_counter_images( webapp ):
     # NOTE: This is ridiculously slow on Windows :-/
 
     # figure out which pieces we're interested in
-    gpids = get_vo_gpids( DATA_DIR )
+    gpids = get_vo_gpids( DATA_DIR, None )
 
     def check_images( check_front, check_back ): #pylint: disable=unused-argument
         """Check getting the front and back images for each counter."""
@@ -61,20 +61,20 @@ def test_counter_images( webapp ):
     # test each VASL module file in the specified directory
     fname = os.path.join( os.path.split(__file__)[0], "fixtures/vasl-pieces.txt" )
     expected_vasl_pieces = open( fname, "r" ).read()
-    vasl_mods = control_tests.get_vasl_mods()
-    for vasl_mod in vasl_mods:
+    vmod_fnames = control_tests.get_vasl_mods()
+    for vmod_fname in vmod_fnames:
 
         # install the VASL module file
-        control_tests.set_vasl_mod( vmod=vasl_mod )
+        control_tests.set_vasl_mod( vmod=vmod_fname )
 
         # NOTE: We assume we have access to the same VASL modules as the server, but the path on the webserver
         # might be different to what it is locally, so we translate it here.
-        fname = os.path.split( vasl_mod )[1]
+        fname = os.path.split( vmod_fname )[1]
         vasl_mods_dir = pytest.config.option.vasl_mods #pylint: disable=no-member
         fname = os.path.join( vasl_mods_dir, fname )
 
         # check the pieces loaded
-        vasl_mod = VaslMod( fname, DATA_DIR )
+        vasl_mod = VaslMod( fname, DATA_DIR, None )
         buf = io.StringIO()
         _dump_pieces( vasl_mod, buf )
         assert buf.getvalue() == expected_vasl_pieces
@@ -92,8 +92,10 @@ def _dump_pieces( vasl_mod, out ):
 
     # dump the VASL pieces
     results = [ [ "GPID", "Name", "Front images", "Back images"] ]
-    for gpid in sorted(vasl_mod.pieces.keys()):
-        piece = vasl_mod.pieces[ gpid ]
+    pieces = vasl_mod._pieces #pylint: disable=protected-access
+    gpids = sorted( pieces.keys(), key=int ) # nb: because GPID's changed from int to str :-/
+    for gpid in gpids:
+        piece = pieces[ gpid ]
         assert piece["gpid"] == gpid
         results.append( [ gpid, piece["name"], piece["front_images"], piece["back_images"] ] )
     print( tabulate.tabulate( results, headers="firstrow" ), file=out )
@@ -132,13 +134,13 @@ def test_gpid_remapping( webapp, webdriver ):
         else:
             assert check_gpid_image( gpid ) == 404
 
-    def do_test( vasl_mod, valid_images ):
+    def do_test( vmod_fname, valid_images ):
         """Do the test."""
         # initialize (using the specified VASL vmod)
         init_webapp( webapp, webdriver, scenario_persistence=1,
             reset = lambda ct:
                 ct.set_data_dir( dtype="real" ) \
-                  .set_vasl_mod( vmod=vasl_mod )
+                  .set_vasl_mod( vmod=vmod_fname )
         )
         load_scenario( scenario_data )
         # check that the German vehicles loaded correctly
@@ -154,10 +156,10 @@ def test_gpid_remapping( webapp, webdriver ):
     scenario_data = json.load( open( fname, "r" ) )
 
     # locate the VASL modules
-    vasl_mods = control_tests.get_vasl_mods()
+    vmod_fnames = control_tests.get_vasl_mods()
     def find_vasl_mod( version ):
         """Find the VASL module for the specified version."""
-        matches = [ vmod for vmod in vasl_mods if "vasl-{}.vmod".format(version) in vmod ]
+        matches = [ fname for fname in vmod_fnames if "vasl-{}.vmod".format(version) in fname ]
         assert len(matches) == 1
         return matches[0]
 

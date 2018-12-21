@@ -55,7 +55,8 @@ def init_webapp( webapp, webdriver, **options ):
         .set_data_dir( dtype="test" ) \
         .set_default_scenario( fname=None ) \
         .set_default_template_pack( dname=None ) \
-        .set_vasl_mod( vmod=None ) \
+        .set_vasl_extn_info_dir( dtype=None ) \
+        .set_vasl_mod( vmod=None, extns_dtype=None ) \
         .set_vassal_engine( vengine=None ) \
         .set_vo_notes_dir( dtype=None ) \
         .set_user_files_dir( dtype=None )

@@ -114,7 +114,7 @@ def _do_main( template_pack, default_scenario, remote_debugging, debug ): #pylin
     # install the server settings
     try:
         from vasl_templates.server_settings import install_server_settings #pylint: disable=cyclic-import
-        install_server_settings()
+        install_server_settings( True )
     except Exception as ex: #pylint: disable=broad-except
         from vasl_templates.main_window import MainWindow #pylint: disable=cyclic-import
         MainWindow.showErrorMsg(

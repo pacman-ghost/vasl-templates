@@ -5,28 +5,40 @@ import json
 
 # ---------------------------------------------------------------------
 
-def get_vo_gpids( data_dir ):
+def get_vo_gpids( data_dir, extns ): #pylint: disable=too-many-locals,too-many-branches
     """Get the GPID's for the vehicles/ordnance."""
 
     gpids = set()
-    for vo_type in ("vehicles","ordnance"):
-        dname = os.path.join( data_dir, vo_type )
+    for vo_type in ("vehicles","ordnance"): #pylint: disable=too-many-nested-blocks
 
         # process each file
+        dname = os.path.join( data_dir, vo_type )
         for root,_,fnames in os.walk(dname):
             for fname in fnames:
                 if os.path.splitext(fname)[1] != ".json":
                     continue
 
                 # load the GPID's from the next file
+                # NOTE: We originally assumed that GPID's are integers, but the main VASL build file started
+                # to have non-numeric values, as do, apparently, extensions :-/ For back-compat, we support both.
                 entries = json.load( open( os.path.join(root,fname), "r" ) )
                 for entry in entries:
-                    if isinstance( entry["gpid"], list):
-                        gpids.update( get_effective_gpid(gpid) for gpid in entry["gpid"] )
-                    else:
-                        gpids.add( entry["gpid"] )
+                    entry_gpids = entry[ "gpid" ]
+                    if not isinstance( entry_gpids, list ):
+                        entry_gpids = [ entry_gpids ]
+                    for gpid in entry_gpids:
+                        if gpid:
+                            gpids.add( get_effective_gpid( str(gpid) ) )
 
-    gpids.remove( None )
+    # process any extensions
+    if extns:
+        for extn in extns:
+            extn_info = extn[1]
+            for vo_type in ["vehicles","ordnance"]:
+                if vo_type not in extn_info:
+                    continue
+                for piece in extn_info[vo_type]:
+                    gpids.update( piece["gpid"] )
 
     return gpids
 
@@ -40,8 +52,8 @@ def get_vo_gpids( data_dir ):
 # will break. This kind of thing is going to happen again, so we provide a generic mechanism
 # for dealing with this kind of thing...
 GPID_REMAPPINGS = {
-    7140: 2775, # SdKfz 10/5
-    7146: 2772, # SdKfz 10/4
+    "7140": "2775", # SdKfz 10/5
+    "7146": "2772", # SdKfz 10/4
 }
 
 def get_effective_gpid(  gpid ):

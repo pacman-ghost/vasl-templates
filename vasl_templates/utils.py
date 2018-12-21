@@ -27,3 +27,15 @@ def catch_exceptions( caption="EXCEPTION", retval=None ):
                 return retval
         return wrapper
     return decorator
+
+# ---------------------------------------------------------------------
+
+def show_msg_store( msg_store ):
+    """Show messages in a MsgStore."""
+
+    # NOTE: It would be nice to show a single dialog with all the messages, each one tagged with
+    # a pretty little icon, but for now, we just show a message box for each message :-/
+    from vasl_templates.main_window import MainWindow
+    for msg_type in ("error","warning"):
+        for msg in msg_store.get_msgs( msg_type ):
+            MainWindow.showErrorMsg( msg )

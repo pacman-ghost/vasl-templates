@@ -120,6 +120,7 @@ def get_vo_note( vo_type, nat, key ):
 
     # locate the file
     with _vo_notes_lock:
+        # NOTE: We assume that the client has already loaded the vehicle/ordnance notes.
         if not _vo_notes_file_server:
             abort( 404 )
         vo_notes = _do_get_vo_notes( vo_type )

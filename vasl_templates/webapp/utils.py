@@ -3,6 +3,45 @@
 import os
 import tempfile
 import pathlib
+from collections import defaultdict
+
+# ---------------------------------------------------------------------
+
+class MsgStore:
+    """Store different types of messages."""
+
+    def __init__( self ):
+        self._msgs = None
+        self.reset()
+
+    def reset( self ):
+        """Reset the MsgStore."""
+        self._msgs = defaultdict( list )
+
+    def info( self, msg, *args, **kwargs ):
+        """Add an informational message."""
+        self._add_msg( "info", msg, *args, **kwargs )
+
+    def warning( self, msg, *args, **kwargs ):
+        """Add a warning message."""
+        self._add_msg( "warning", msg, *args, **kwargs )
+
+    def error( self, msg, *args, **kwargs ):
+        """Add an error message."""
+        self._add_msg( "error", msg, *args, **kwargs )
+
+    def get_msgs( self, msg_type ):
+        """Get stored messages."""
+        return self._msgs[ msg_type ]
+
+    def _add_msg( self, msg_type, msg, *args, **kwargs ):
+        """Add a message to the store."""
+        logger = kwargs.pop( "logger", None )
+        msg = msg.format( *args, **kwargs )
+        self._msgs[ msg_type ].append( msg )
+        if logger:
+            func = getattr( logger, "warn" if msg_type == "warning" else msg_type )
+            func( msg )
 
 # ---------------------------------------------------------------------
 
