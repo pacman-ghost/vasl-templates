@@ -21,16 +21,62 @@ var gScenarioCreatedTime = null ;
 
 // --------------------------------------------------------------------
 
-function generate_snippet( $btn, extra_params )
+function generate_snippet( $btn, evt, extra_params )
 {
     // generate the snippet
     var template_id = $btn.data( "id" ) ;
     var params = unload_snippet_params( true, template_id ) ;
     var snippet = make_snippet( $btn, params, extra_params, true ) ;
 
+    // check if the user is requesting the snippet as an image
+    if ( evt.shiftKey ) {
+        // yup - send the snippet to the backend to generate the image
+        var $dlg = $( "#make-snippet-image" ).dialog( {
+            dialogClass: "make-snippet-image",
+            modal: true,
+            width: 300,
+            height: 60,
+            resizable: false,
+            closeOnEscape: false,
+        } ) ;
+        $.ajax( {
+            url: gMakeSnippetImageUrl,
+            type: "POST",
+            data: snippet.content,
+            contentType: "text/html",
+        } ).done( function( resp ) {
+            $dlg.dialog( "close" ) ;
+            if ( resp.substr( 0, 6 ) === "ERROR:" ) {
+                showErrorMsg( resp.substr(7) ) ;
+                return ;
+            }
+            if ( getUrlParam( "snippet_image_persistence" ) ) {
+                // FOR TESTING PORPOISES! We can't control a file download from Selenium (since
+                // the browser will use native controls), so we store the result in a <textarea>
+                // and the test suite will collect it from there).
+                var fname = _make_snippet_image_filename( snippet ) ;
+                $("#_snippet-image-persistence_").val( fname + "|" + resp ) ;
+                return ;
+            }
+            if ( gWebChannelHandler ) {
+                // if we are running inside the PyQt wrapper, let it copy the image to the clipbaord
+                gWebChannelHandler.on_snippet_image( resp, function() {
+                    showInfoMsg( "The snippet image was copied to the clipboard." ) ;
+                } ) ;
+            } else {
+                // otherwise let the user download the generated image
+                download( atob(resp), _make_snippet_image_filename(snippet), "image/png" ) ;
+            }
+        } ).fail( function( xhr, status, errorMsg ) {
+            $dlg.dialog( "close" ) ;
+            showErrorMsg( "Can't get the snippet image:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+        } ) ;
+        return ;
+    }
+
     // copy the snippet to the clipboard
     try {
-        copyToClipboard( snippet ) ;
+        copyToClipboard( snippet.content ) ;
     }
     catch( ex ) {
         showErrorMsg( "Can't copy to the clipboard:<div class'pre'>" + escapeHTML(ex) + "</div>" ) ;
@@ -43,6 +89,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
 {
     // initialize
     var template_id = $btn.data( "id" ) ;
+    var snippet_save_name = null ;
 
     // set player-specific parameters
     var player_no = get_player_no_for_element( $btn ) ;
@@ -71,19 +118,23 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         template_id = "ob_vehicles" ;
         params.OB_VEHICLES = params.OB_VEHICLES_1 ;
         params.OB_VEHICLES_WIDTH = params.OB_VEHICLES_WIDTH_1 ;
+        snippet_save_name = params.PLAYER_1 + " vehicles" ;
     } else if ( template_id === "ob_vehicles_2" ) {
         template_id = "ob_vehicles" ;
         params.OB_VEHICLES = params.OB_VEHICLES_2 ;
         params.OB_VEHICLES_WIDTH = params.OB_VEHICLES_WIDTH_2 ;
+        snippet_save_name = params.PLAYER_2 + " vehicles" ;
     }
     if ( template_id === "ob_ordnance_1" ) {
         template_id = "ob_ordnance" ;
         params.OB_ORDNANCE = params.OB_ORDNANCE_1 ;
         params.OB_ORDNANCE_WIDTH = params.OB_ORDNANCE_WIDTH_1 ;
+        snippet_save_name = params.PLAYER_1 + " ordnance" ;
     } else if ( template_id === "ob_ordnance_2" ) {
         template_id = "ob_ordnance" ;
         params.OB_ORDNANCE = params.OB_ORDNANCE_2 ;
         params.OB_ORDNANCE_WIDTH = params.OB_ORDNANCE_WIDTH_2 ;
+        snippet_save_name = params.PLAYER_2 + " ordnance" ;
     }
 
     // set vehicle/ordnance note parameters
@@ -92,6 +143,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         var key = (vo_type === "vehicles") ? "VEHICLE" : "ORDNANCE" ;
         params[ key + "_NAME" ] = data.vo_entry.name ;
         params[ key + "_NOTE_URL" ] = data.vo_note_url ;
+        snippet_save_name = data.vo_entry.name ;
     }
     if ( template_id === "ob_vehicle_note" )
         set_vo_note( "vehicles" ) ;
@@ -144,7 +196,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     get_ma_notes( "ordnance", 1, "OB_ORDNANCE_MA_NOTES_1" ) ;
     get_ma_notes( "vehicles", 2, "OB_VEHICLES_MA_NOTES_2" ) ;
     get_ma_notes( "ordnance", 2, "OB_ORDNANCE_MA_NOTES_2" ) ;
-    function set_params( vo_type, player_no ) {
+    function set_ma_notes_params( vo_type, player_no ) {
         template_id = "ob_" + vo_type + "_ma_notes" ;
         var vo_type_uc = vo_type.toUpperCase() ;
         var postfixes = [ "MA_NOTES", "MA_NOTES_WIDTH", "EXTRA_MA_NOTES", "EXTRA_MA_NOTES_CAPTION" ] ;
@@ -152,15 +204,16 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
             var stem = "OB_" + vo_type_uc + "_" + postfixes[i] ;
             params[ stem ] = params[ stem + "_" + player_no ] ;
         }
+        snippet_save_name = params["PLAYER_"+player_no] + (vo_type === "vehicles" ? " vehicle notes" : " ordnance notes") ;
     }
     if ( template_id === "ob_vehicles_ma_notes_1" )
-        set_params( "vehicles", 1 ) ;
+        set_ma_notes_params( "vehicles", 1 ) ;
     else if ( template_id === "ob_ordnance_ma_notes_1" )
-        set_params( "ordnance", 1 ) ;
+        set_ma_notes_params( "ordnance", 1 ) ;
     else if ( template_id === "ob_vehicles_ma_notes_2" )
-        set_params( "vehicles", 2 ) ;
+        set_ma_notes_params( "vehicles", 2 ) ;
     else if ( template_id === "ob_ordnance_ma_notes_2" )
-        set_params( "ordnance", 2 ) ;
+        set_ma_notes_params( "ordnance", 2 ) ;
 
     // include the player display names and flags
     params.PLAYER_1_NAME = get_nationality_display_name( params.PLAYER_1 ) ;
@@ -252,14 +305,14 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     // get the template to generate the snippet from
     var templ = get_template( template_id, true ) ;
     if ( templ === null )
-        return "" ;
+        return { content: "[error: can't find template]" } ;
     var func ;
     try {
         func = jinja.compile( templ ).render ;
     }
     catch( ex ) {
         showErrorMsg( "Can't compile template:<div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
-        return "[error: can't compile template]" ;
+        return { content: "[error: can't compile template]" } ;
     }
 
     // process the template
@@ -280,13 +333,18 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     }
     catch( ex ) {
         showErrorMsg( "Can't process template: <span class='pre'>" + template_id + "</span><div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
-        return "[error: can't process template'" ;
+        return { content: "[error: can't process template'" } ;
     }
 
     // fixup any user file URL's
     snippet = snippet.replace( "{{USER_FILES}}", APP_URL_BASE + "/user" ) ;
 
-    return snippet ;
+    return {
+        content: snippet,
+        template_id: template_id,
+        snippet_id: params.SNIPPET_ID,
+        save_name: snippet_save_name,
+    } ;
 }
 
 function get_vo_note_key( vo_entry )
@@ -412,6 +470,22 @@ function sort_ma_notes_keys( nat, keys )
     } ) ;
 
     return keys ;
+}
+
+function _make_snippet_image_filename( snippet )
+{
+    // generate the save filename for a generated snippet image
+    var fname = snippet.save_name ;
+    if ( ! snippet.save_name ) {
+        // no save filename was specified, generate one automatically
+        fname = snippet.snippet_id ;
+        if ( fname.substr( 0, 7 ) === "extras/" )
+            fname = fname.substr( 7 ) ;
+        fname = fname.replace( /_|-/g, " " ) ;
+        // handle characters that are not allowed in filenames
+        fname = fname.replace( /:|\||\//g, "-" ) ;
+    }
+    return fname + ".png" ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

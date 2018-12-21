@@ -175,7 +175,7 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, custom_capabiliti
         var template_id = (vo_type === "vehicles") ? "ob_vehicle_note" : "ob_ordnance_note" ;
         buf.push(
             "<img src='" + gImagesBaseUrl + "/snippet.png'",
-            " class='snippet' data-id='" + template_id + "' title='Generate a snippet.'>"
+            " class='snippet' data-id='" + template_id + "' title='" + GENERATE_SNIPPET_HINT + "'>"
         ) ;
         data.vo_note_url = APP_URL_BASE + "/" + vo_type + "/" + vo_nat + "/note/" + vo_note_key ;
     }
@@ -188,8 +188,9 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, custom_capabiliti
     update_vo_sortable2_entry( $entry ) ;
 
     // add a handler for the snippet button
-    $content.children("img.snippet").click( function() {
-        generate_snippet( $(this), {} ) ;
+    $content.children("img.snippet").click( function( evt ) {
+        generate_snippet( $(this), evt, {} ) ;
+        return false ;
     } ) ;
 }
 

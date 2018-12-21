@@ -206,7 +206,7 @@ function _generate_snippets()
             }
         }
         snippets[snippet_id] = {
-            content: make_snippet( $btn, params, extra_params, false ),
+            content: make_snippet( $btn, params, extra_params, false ).content,
             auto_create: ! no_autocreate[template_id] && ! inactive,
         } ;
         if ( raw_content !== true )

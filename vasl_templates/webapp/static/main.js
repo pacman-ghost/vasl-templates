@@ -17,6 +17,8 @@ var NATIONALITY_SPECIFIC_BUTTONS = {
     "british": [ "piat" ],
 } ;
 
+GENERATE_SNIPPET_HINT = "Generate an HTML snippet (shift-click to get an image)." ;
+
 // --------------------------------------------------------------------
 
 $(document).ready( function () {
@@ -405,9 +407,10 @@ function init_snippet_button( $btn )
     var $newBtn = $( buf.join("") ) ;
     $newBtn.find( "button" ).prepend(
         $( "<img src='" + gImagesBaseUrl + "/snippet.png'>" )
-    ).click( function() {
-        generate_snippet( $(this), null ) ;
-    } ).attr( "title", "Generate a snippet." ) ;
+    ).click( function( evt ) {
+        generate_snippet( $(this), evt, null ) ;
+        return false ;
+    } ).attr( "title", GENERATE_SNIPPET_HINT ) ;
 
     // add in the droplist
     $newBtn.controlgroup() ;

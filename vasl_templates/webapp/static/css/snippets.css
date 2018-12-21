@@ -1,0 +1,4 @@
+.ui-dialog.make-snippet-image .ui-dialog-titlebar { display: none ; }
+#make-snippet-image { display: flex ; align-items: center ; }
+#make-snippet-image img { margin-right: 1em ; }
+

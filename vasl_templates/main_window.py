@@ -294,3 +294,9 @@ class MainWindow( QWidget ):
     def on_scenario_name_change( self, val ):
         """Update the main window title to show the scenario name."""
         self._web_channel_handler.on_scenario_name_change( val )
+
+    @pyqtSlot( str )
+    @catch_exceptions( caption="SLOT EXCEPTION" )
+    def on_snippet_image( self, img_data ):
+        """Called when a snippet image has been generated."""
+        self._web_channel_handler.on_snippet_image( img_data )

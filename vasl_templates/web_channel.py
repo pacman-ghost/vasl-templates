@@ -1,6 +1,10 @@
 """ Web channel handler. """
 
 import os
+import base64
+
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtGui import QImage
 
 from vasl_templates.webapp.config.constants import APP_NAME
 from vasl_templates.file_dialog import FileDialog
@@ -42,6 +46,13 @@ class WebChannelHandler:
         self.parent.setWindowTitle(
             "{} - {}".format( APP_NAME, val ) if val else APP_NAME
         )
+
+    def on_snippet_image( self, img_data ): #pylint: disable=no-self-use
+        """Called when a snippet image has been generated."""
+        # NOTE: We could maybe add an HTML object to the clipboard as well, but having two formats on the clipboard
+        # simultaneously might confuse some programs, causing problems for no real benefit :shrug:
+        img = QImage.fromData( base64.b64decode( img_data ) )
+        QApplication.clipboard().setImage( img )
 
     def load_vsav( self ):
         """Called when the user wants to load a VASL scenario to update."""

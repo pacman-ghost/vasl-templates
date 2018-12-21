@@ -1,9 +1,10 @@
 """ Test HTML snippet generation. """
 
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, select_tab, select_tab_for_elem, set_template_params, wait_for_clipboard, \
+    init_webapp, select_tab, select_tab_for_elem, set_template_params, wait_for, wait_for_clipboard, \
     get_stored_msg, set_stored_msg_marker, find_child, find_children, adjust_html, \
     for_each_template, add_simple_note, edit_simple_note, \
     get_sortable_entry_count, generate_sortable_entry_snippet, drag_sortable_entry_to_trash, \
@@ -304,6 +305,91 @@ def test_edit_templates( webapp, webdriver ):
         elem = find_child( "li img.snippet", sortable )
         elem.click()
         wait_for_clipboard( 2, "EDITED TEMPLATE: ob_note" )
+
+# ---------------------------------------------------------------------
+
+def test_snippet_images( webapp, webdriver ):
+    """Test generating snippet images."""
+
+    # initialize
+    control_tests = init_webapp( webapp, webdriver, scenario_persistence=1, snippet_image_persistence=1,
+        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
+    )
+
+    # check if there is a webdriver configured
+    if "WEBDRIVER_PATH" not in control_tests.get_app_config():
+        return
+
+    # load a test scenario
+    load_scenario( {
+        "PLAYER_1": "german", "PLAYER_2": "russian",
+        "SCENARIO_NAME": "test scenario", "SCENARIO_DATE": "1940-01-01", "SCENARIO_LOCATION": "somewhere",
+        "SCENARIO_NOTES": [ { "caption": "Scenario note #1"  } ],
+        "VICTORY_CONDITIONS": "win at all costs!",
+        "SSR": [ "a test ssr" ],
+        "OB_SETUPS_1": [ { "caption": "OB setup note #1" } ],
+        "OB_NOTES_1": [ { "caption": "OB note #1" } ],
+        "OB_VEHICLES_1": [ { "name": "a german vehicle" } ],
+        "OB_ORDNANCE_1": [ { "name": "a german ordnance" } ],
+        "OB_SETUPS_2": [ { "caption": "OB setup note #2" } ],
+        "OB_NOTES_2": [ { "caption": "OB note #2" } ],
+        "OB_VEHICLES_2": [ { "name": "a russian vehicle" } ],
+        "OB_ORDNANCE_2": [ { "name": "a russian ordnance" } ],
+    } )
+
+    def do_test( snippet_btn, expected_fname ): #pylint: disable=missing-docstring
+
+        # clear the return buffer
+        ret_buffer = find_child( "#_snippet-image-persistence_" )
+        assert ret_buffer.tag_name == "textarea"
+        webdriver.execute_script( "arguments[0].value = arguments[1]", ret_buffer, "" )
+
+        # shift-click the snippet button
+        ActionChains( webdriver ) \
+            .key_down( Keys.SHIFT ) \
+            .click( snippet_btn ) \
+            .key_up( Keys.SHIFT ) \
+            .perform()
+
+        # wait for the snippet image to be generated
+        wait_for( 20, lambda: ret_buffer.get_attribute( "value" ) )
+        fname, img_data = ret_buffer.get_attribute( "value" ).split( "|", 1 )
+
+        # check the results
+        assert fname == expected_fname
+        last_snippet_image = control_tests.get_last_snippet_image()
+        assert img_data == last_snippet_image
+
+    def do_simple_test( template_id, expected_fname ): #pylint: disable=missing-docstring
+        btn = find_child( "button.generate[data-id='{}']".format( template_id ) )
+        do_test( btn, expected_fname )
+
+    def do_sortable_test( sortable_id, expected_fname ): #pylint: disable=missing-docstring
+        entries = find_children( "#{} li".format( sortable_id ) )
+        assert len(entries) == 1
+        btn = find_child( "img.snippet", entries[0] )
+        do_test( btn, expected_fname )
+
+    # do the tests
+    do_simple_test( "scenario", "scenario.png" )
+    do_simple_test( "players", "players.png" )
+    do_sortable_test( "scenario_notes-sortable", "scenario note.1.png" )
+    do_simple_test( "victory_conditions", "victory conditions.png" )
+    do_simple_test( "ssr", "ssr.png" )
+
+    # do the tests
+    select_tab( "ob1" )
+    do_sortable_test( "ob_setups-sortable_1", "ob setup 1.1.png" )
+    do_sortable_test( "ob_notes-sortable_1", "ob note 1.1.png" )
+    do_sortable_test( "ob_vehicles-sortable_1", "a german vehicle.png" )
+    do_sortable_test( "ob_ordnance-sortable_1", "a german ordnance.png" )
+
+    # do the tests
+    select_tab( "ob2" )
+    do_sortable_test( "ob_setups-sortable_2", "ob setup 2.1.png" )
+    do_sortable_test( "ob_notes-sortable_2", "ob note 2.1.png" )
+    do_sortable_test( "ob_vehicles-sortable_2", "a russian vehicle.png" )
+    do_sortable_test( "ob_ordnance-sortable_2", "a russian ordnance.png" )
 
 # ---------------------------------------------------------------------
 

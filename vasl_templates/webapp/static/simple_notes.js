@@ -127,7 +127,7 @@ function _make_simple_note( note_type, caption )
         var note_type0 = note_type.substring( 0, note_type.length-1 ) ;
         buf.push(
             "<img src='" + gImagesBaseUrl + "/snippet.png'",
-            " class='snippet' data-id='" + note_type0 + "' title='Generate a snippet.'>"
+            " class='snippet' data-id='" + note_type0 + "' title='" + GENERATE_SNIPPET_HINT + "'>"
         ) ;
     }
     buf.push( caption, "</div>" ) ;
@@ -138,9 +138,10 @@ function _make_simple_note( note_type, caption )
     ) ;
 
     // add a handler for the snippet button
-    $content.children("img.snippet").click( function() {
+    $content.children("img.snippet").click( function( evt ) {
         var extra_params = get_simple_note_snippet_extra_params( $(this) ) ;
-        generate_snippet( $(this), extra_params ) ;
+        generate_snippet( $(this), evt, extra_params ) ;
+        return false ;
     } ) ;
 
     return $content ;

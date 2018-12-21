@@ -23,6 +23,7 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/select-vo-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/edit-vo-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/vassal.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/snippets.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/user-settings-dialog.css')}}" />
 
 </head>
@@ -64,6 +65,7 @@
 {%include "edit-vo-dialog.html"%}
 
 {%include "vassal.html"%}
+{%include "snippets.html"%}
 
 {%include "user-settings-dialog.html"%}
 
@@ -97,6 +99,7 @@ gVehicleNotesUrl = "{{url_for('get_vehicle_notes')}}" ;
 gOrdnanceNotesUrl = "{{url_for('get_ordnance_notes')}}" ;
 gGetVaslPieceInfoUrl = "{{url_for('get_vasl_piece_info')}}" ;
 gUpdateVsavUrl = "{{url_for('update_vsav')}}" ;
+gMakeSnippetImageUrl = "{{url_for('make_snippet_image')}}" ;
 gHelpUrl = "{{url_for('show_help')}}" ;
 </script>
 

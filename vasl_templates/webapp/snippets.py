@@ -5,12 +5,15 @@ import json
 import re
 import zipfile
 import io
+import base64
 
 from flask import request, jsonify, send_file, abort
 from PIL import Image
 
 from vasl_templates.webapp import app
+from vasl_templates.webapp.utils import SimpleError
 from vasl_templates.webapp.config.constants import DATA_DIR
+from vasl_templates.webapp.webdriver import WebDriver
 
 default_template_pack = None
 
@@ -104,6 +107,33 @@ def _do_get_template_pack( dname ):
                         fname2 = "extras/" + fname2
                     templates[fname2] = fp.read()
     return nationalities, templates
+
+# ---------------------------------------------------------------------
+
+last_snippet_image = None # nb: for the test suite
+
+@app.route( "/snippet-image", methods=["POST"] )
+def make_snippet_image():
+    """Generate an image for a snippet."""
+    # Kathmandu, Nepal (DEC/18)
+
+    # generate an image for the snippet
+    snippet = request.data.decode( "utf-8" )
+    try:
+        with WebDriver() as webdriver:
+            img = webdriver.get_snippet_screenshot( None, snippet )
+    except SimpleError as ex:
+        return "ERROR: {}".format( ex )
+
+    # get the image data
+    buf = io.BytesIO()
+    img.save( buf, format="PNG" )
+    buf.seek( 0 )
+    img_data = buf.read()
+    global last_snippet_image
+    last_snippet_image = img_data
+
+    return base64.b64encode( img_data )
 
 # ---------------------------------------------------------------------
 

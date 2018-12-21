@@ -72,6 +72,13 @@ class ControlTests:
         else:
             return json.loads( resp.decode( "utf-8" ) )
 
+    def _get_app_config( self ): #pylint: disable=no-self-use
+        """Get the webapp config."""
+        return {
+            k: v for k,v in app.config.items()
+            if isinstance( v, (str,int,bool,list,dict) )
+        }
+
     def _set_data_dir( self, dtype=None ):
         """Set the webapp's data directory."""
         if dtype == "real":
@@ -257,3 +264,10 @@ class ControlTests:
         _logger.info( "Setting user files: %s", dname )
         app.config["USER_FILES_DIR"] = dname
         return self
+
+    def _get_last_snippet_image( self ): #pylint: disable=no-self-use
+        """Get the last snippet image generated."""
+        from vasl_templates.webapp.snippets import last_snippet_image
+        assert last_snippet_image
+        _logger.info( "Returning the last snippet image: #bytes=%d", len(last_snippet_image) )
+        return base64.b64encode( last_snippet_image ).decode( "utf-8" )

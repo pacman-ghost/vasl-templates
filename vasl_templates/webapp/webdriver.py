@@ -17,7 +17,7 @@ class WebDriver:
     def __init__( self ):
         self.driver = None
 
-    def start_webdriver( self ):
+    def start( self ):
         """Start the webdriver."""
 
         # initialize
@@ -60,7 +60,7 @@ class WebDriver:
 
         return self
 
-    def stop_webdriver( self ):
+    def stop( self ):
         """Stop the webdriver."""
         assert self.driver
         self.driver.quit()
@@ -111,7 +111,7 @@ class WebDriver:
         # have really large labels, it just affects the positioning of auto-created labels.
 
         window_size, window_size2 = (500,500), (1500,1500)
-        if snippet_id.startswith(
+        if snippet_id and snippet_id.startswith(
             ("ob_vehicles_ma_notes_","ob_vehicle_note_","ob_ordnance_ma_notes_","ob_ordnance_note_")
         ):
             # nb: these tend to be large, don't bother with a smaller window
@@ -119,8 +119,8 @@ class WebDriver:
         return self.get_screenshot( snippet, window_size, window_size2 )
 
     def __enter__( self ):
-        self.start_webdriver()
+        self.start()
         return self
 
     def __exit__( self, *args ):
-        self.stop_webdriver()
+        self.stop()
