@@ -3,6 +3,7 @@
 import os
 import json
 import time
+import io
 
 from PyQt5 import uic
 from PyQt5.QtWidgets import QDialog
@@ -38,10 +39,18 @@ class AboutDialog( QDialog ):
         self.app_name.setText( "{} ({})".format( APP_NAME, APP_VERSION ) )
         self.license.setText( "Licensed under the GNU Affero General Public License (v3)." )
         if build_info:
+            buf = io.StringIO()
             timestamp = build_info[ "timestamp" ]
-            self.build_info.setText( "Built {}.".format(
+            buf.write( "Built {}".format(
                 time.strftime( "%d %B %Y %H:%S", time.localtime( timestamp ) ) # nb: "-d" doesn't work on Windows :-/
             ) )
+            if "branch_name" in build_info or "last_commit_id" in build_info:
+                buf.write( " <small><em>({}".format( build_info["branch_name"] ) )
+                if "last_commit_id" in build_info:
+                    buf.write( ":{}".format( build_info["last_commit_id"][:8] ) )
+                buf.write( ")</em></small>" )
+            buf.write( "." )
+            self.build_info.setText( buf.getvalue() )
         else:
             self.build_info.setText( "" )
         self.home_url.setText(

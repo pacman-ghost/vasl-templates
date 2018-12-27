@@ -4,10 +4,12 @@
 import sys
 import os
 import shutil
+import subprocess
 import tempfile
 import time
 import datetime
 import json
+import re
 import getopt
 
 from PyInstaller.__main__ import run as run_pyinstaller
@@ -21,6 +23,32 @@ TARGET_NAMES = {
     "win32": "vasl-templates.exe",
 }
 DEFAULT_TARGET_NAME = "vasl-templates"
+
+# ---------------------------------------------------------------------
+
+def get_git_info():
+    """Get the git branch/commit we're building from."""
+
+    # get the latest commit ID
+    proc = subprocess.run(
+        [ "git", "log" ],
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8"
+    )
+    buf = proc.stdout.split( "\n" )[0]
+    mo = re.search( r"^commit ([a-z0-9]+)$", buf )
+    last_commit_id = mo.group(1)
+
+    # get the current git branch
+    proc = subprocess.run(
+        [ "git", "branch" ],
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8"
+    )
+    lines = [ s for s in proc.stdout.split("\n") if s.startswith("* ") ]
+    if len(lines) != 1:
+        raise RuntimeError( "Can't parse git branch status." )
+    branch_name = lines[0][2:]
+
+    return { "last_commit_id": last_commit_id, "branch_name": branch_name }
 
 # ---------------------------------------------------------------------
 
@@ -131,6 +159,7 @@ for f in fnames:
 build_info = {
     "timestamp": int( time.time() ),
 }
+build_info.update( get_git_info() )
 dname = os.path.join( dist_dir, "config" )
 with open( os.path.join(dname,"build-info.json"), "w" ) as fp:
     json.dump( build_info, fp )
