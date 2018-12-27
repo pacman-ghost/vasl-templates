@@ -10,6 +10,7 @@ from flask import send_file, send_from_directory, jsonify, redirect, url_for, ab
 
 from vasl_templates.webapp import app
 from vasl_templates.webapp.file_server.vasl_mod import get_vasl_mod
+from vasl_templates.webapp.utils import resize_image_response
 
 # ---------------------------------------------------------------------
 
@@ -24,6 +25,9 @@ class FileServer:
 
     def serve_file( self, path ):
         """Serve a file."""
+        # NOTE: We return a Flask Response object, instead of the file data, so that (1) we can use
+        # send_from_directory() and (2) if we have to download a file from a URL, we can include
+        # the MIME type in what we return.
         if FileServer.is_remote_path( self.base_dir ):
             url = "{}/{}".format( self.base_dir, path )
             # NOTE: We download the target file and serve it ourself (instead of just redirecting)
@@ -55,7 +59,8 @@ def get_user_file( path ):
     dname = app.config.get( "USER_FILES_DIR" )
     if not dname:
         abort( 404 )
-    return FileServer( dname ).serve_file( path )
+    resp = FileServer( dname ).serve_file( path )
+    return resize_image_response( resp )
 
 # ---------------------------------------------------------------------
 

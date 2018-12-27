@@ -3,16 +3,14 @@
 
 import os
 import threading
-import io
 import logging
 from collections import defaultdict
 
-from flask import request, render_template, send_file, jsonify, abort
-from PIL import Image
+from flask import render_template, jsonify, abort
 
 from vasl_templates.webapp import app
 from vasl_templates.webapp.files import FileServer
-from vasl_templates.webapp.utils import is_image_file
+from vasl_templates.webapp.utils import is_image_file, resize_image_response
 
 _vo_notes_lock = threading.RLock() # nb: this controls the cached V/O notes and the FileServer
 _cached_vo_notes = None
@@ -127,27 +125,8 @@ def get_vo_note( vo_type, nat, key ):
         fname = vo_notes.get( nat, {} ).get( key )
         resp = _vo_notes_file_server.serve_file( fname )
 
-    # check if we should resize the file
-    scaling = request.args.get( "scaling" )  # nb: allow individual notes to set their scaling
-    if not scaling:
-        scaling = app.config.get( "CHAPTER_H_NOTE_SCALING", 100 )
-    if scaling == 100:
-        # nope - just return the file as it is
-        return resp
-    else:
-        # yup - make it so
-        buf = io.BytesIO()
-        resp.direct_passthrough = False
-        buf.write( resp.get_data() )
-        buf.seek( 0 )
-        img = Image.open( buf )
-        width = int( img.size[0] * float(scaling) / 100 )
-        height = int( img.size[1] * float(scaling) / 100 )
-        img = img.resize( (width,height), Image.ANTIALIAS )
-        buf = io.BytesIO()
-        img.save( buf, format="PNG" )
-        buf.seek( 0 )
-        return send_file( buf, mimetype="image/png" )
+    default_scaling = app.config.get( "CHAPTER_H_NOTE_SCALING", 100 )
+    return resize_image_response( resp, default_scaling=default_scaling )
 
 # ---------------------------------------------------------------------
 

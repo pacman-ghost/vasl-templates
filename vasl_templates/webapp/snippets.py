@@ -6,6 +6,7 @@ import re
 import zipfile
 import io
 import base64
+import threading
 
 from flask import request, jsonify, send_file, abort
 from PIL import Image
@@ -137,6 +138,9 @@ def make_snippet_image():
 
 # ---------------------------------------------------------------------
 
+_flag_image_cache = {}
+_flag_image_cache_lock = threading.Lock()
+
 @app.route( "/flags/<nat>" )
 def get_flag( nat ):
     """Get a flag image."""
@@ -145,25 +149,36 @@ def get_flag( nat ):
     if not re.search( "^[-a-z]+$", nat ):
         abort( 404 )
 
-    fname = "static/images/flags/{}.png".format( nat )
-    with app.open_resource( fname, "rb" ) as fp:
+    # check how we should resize the image
+    # NOTE: Resizing images in the HTML snippets looks dreadful (presumably
+    # because VASSAL's HTML engine is so ancient), so we do it ourself :-/
+    default_height = app.config.get( "DEFAULT_FLAG_HEIGHT", 11 )
+    height = int( request.args.get( "height", default_height ) )
+    if height <= 0:
+        abort( 400 )
 
-        # load the image
-        img = Image.open( fp )
+    with _flag_image_cache_lock:
 
-        # check if we should resize the image
-        # NOTE: Resizing images in the HTML snippets looks dreadful (presumably
-        # because VASSAL's HTML engine is so ancient), so we do it ourself :-/
-        height = request.args.get( "height" )
-        if height:
-            height = int( height )
-            if height > 0:
-                width = img.size[0] / ( float(img.size[1]) / height )
-                width = int( width + 0.5 )
-                img = img.resize( (width,height), Image.ANTIALIAS )
+        # check if we have the image in the cache
+        cache_key = ( nat, height )
+        if cache_key not in _flag_image_cache:
 
-        # return the image
-        buf = io.BytesIO()
-        img.save( buf, format="PNG" )
-        buf.seek( 0 )
-        return send_file( buf, mimetype="image/png" )
+            # nope - load it
+            fname = "static/images/flags/{}.png".format( nat )
+            with app.open_resource( fname, "rb" ) as fp:
+                img = Image.open( fp )
+                # resize the image
+                height = int( height )
+                if height > 0:
+                    width = img.size[0] / ( float(img.size[1]) / height )
+                    width = int( width + 0.5 )
+                    img = img.resize( (width,height), Image.ANTIALIAS )
+                # add the image to the cache
+                buf = io.BytesIO()
+                img.save( buf, format="PNG" )
+                buf.seek( 0 )
+                _flag_image_cache[ cache_key ] = buf.read()
+
+        # return the flag image
+        img_data =_flag_image_cache[ cache_key ]
+        return send_file( io.BytesIO(img_data), mimetype="image/png" )

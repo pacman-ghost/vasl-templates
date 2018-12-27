@@ -1,9 +1,13 @@
 """ Miscellaneous utilities. """
 
 import os
+import io
 import tempfile
 import pathlib
 from collections import defaultdict
+
+from flask import request, Response, send_file
+from PIL import Image
 
 # ---------------------------------------------------------------------
 
@@ -72,6 +76,60 @@ class TempFile:
     def close( self ):
         """Close the temp file."""
         self.temp_file.close()
+
+# ---------------------------------------------------------------------
+
+def resize_image_response( resp, default_width=None, default_height=None, default_scaling=None ):
+    """Resize an image that will be returned as a Flask response."""
+
+    assert isinstance( resp, Response )
+
+    def get_image():
+        """Get the the image from the Flask response that was passed in."""
+        resp.direct_passthrough = False
+        buf = io.BytesIO()
+        buf.write( resp.get_data() )
+        buf.seek( 0 )
+        return Image.open( buf )
+
+    # check if the caller specified a width and/or height
+    width = request.args.get( "width", default_width )
+    height = request.args.get( "height", default_height )
+    if width and height:
+        # width and height were specified, just use them as-is
+        img = get_image()
+        width = int( width )
+        height = int( height )
+    elif width and not height:
+        # width only, calculate the height
+        img = get_image()
+        aspect_ratio = float(img.size[0]) / float(img.size[1])
+        height = int(width) / aspect_ratio
+    elif not width and height:
+        # height only, calculate the width
+        img = get_image()
+        aspect_ratio = float(img.size[0]) / float(img.size[1])
+        width = int(height) * aspect_ratio
+    elif not width and not height:
+        # check if the caller specified a scaling factor
+        scaling = request.args.get( "scaling", default_scaling )
+        if scaling and scaling != 100:
+            img = get_image()
+            width = img.size[0] * float(scaling)/100
+            height = img.size[1] * float(scaling)/100
+
+    # check if we need to resize the image
+    if width or height:
+        assert width and height
+        # yup - make it so
+        img = img.resize( (int(width),int(height)), Image.ANTIALIAS )
+        buf = io.BytesIO()
+        img.save( buf, format="PNG" )
+        buf.seek( 0 )
+        return send_file( buf, mimetype="image/png" )
+    else:
+        # nope - return the image as-is
+        return resp
 
 # ---------------------------------------------------------------------
 
