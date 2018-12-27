@@ -2,9 +2,6 @@
 
 import os
 import zipfile
-import urllib
-import json
-import re
 import typing
 
 import pytest
@@ -12,7 +9,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.utils import TempFile
-from vasl_templates.webapp.tests.utils import init_webapp, set_player, find_child, find_children, wait_for
+from vasl_templates.webapp.tests.utils import init_webapp, set_player, find_child, find_children
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 
 # ---------------------------------------------------------------------
@@ -31,7 +28,7 @@ def test_load_vasl_extensions( webapp, webdriver ):
         # reload the webapp
         control_tests.set_vasl_mod( vmod="random", extns_dtype="test" )
         webdriver.refresh()
-        _check_startup_messages( webapp, expected )
+        _check_warning_msgs( control_tests, expected )
 
     # try loading an extension that has no buildFile
     do_test( "foo", "<foo />", "Missing buildFile:" )
@@ -46,14 +43,14 @@ def test_load_vasl_extensions( webapp, webdriver ):
 
     # try loading an extension with an unknown ID
     do_test( "buildFile", '<VASSAL.build.module.ModuleExtension version="v0.1" extensionId="unknown" />',
-        re.compile( r'Not loading VASL extension "test\.zip".+No extension info file for unknown/v0\.1' )
+        "Not accepting test.zip: no extension info for unknown/v0.1"
     )
 
     # try loading something that's not a ZIP file
     control_tests.set_test_vasl_extn( fname="test.zip", bin_data=b"This is not a ZIP file." ) \
                  .set_vasl_mod( vmod="random", extns_dtype="test" )
     webdriver.refresh()
-    _check_startup_messages( webapp, "Can't load VASL extension (not a ZIP file):" )
+    _check_warning_msgs( control_tests, "Can't check VASL extension (not a ZIP file):" )
 
 # ---------------------------------------------------------------------
 
@@ -71,14 +68,14 @@ def test_vasl_extension_info( webapp, webdriver ):
         control_tests.set_vasl_extn_info_dir( dtype=dtype ) \
                      .set_vasl_mod( vmod="random", extns_dtype="test" )
         webdriver.refresh()
-        _check_startup_messages( webapp, expected )
+        _check_warning_msgs( control_tests, expected )
 
     # try loading the VASL extension, with no matching extension info
     do_test( "mismatched-id",
-        re.compile( r'Not loading VASL extension.+No extension info file for test/v0\.1' )
+        "Not accepting test.zip: no extension info for test/v0.1"
     )
     do_test( "mismatched-version",
-        re.compile( r'Not loading VASL extension.+No extension info file for test/v0\.1' )
+        "Not accepting test.zip: no extension info for test/v0.1"
     )
 
     # try loading the VASL extension, with matching extension info
@@ -173,21 +170,14 @@ def _set_test_vasl_extn( control_tests, build_info, build_info_fname="buildFile"
             zip_data = fp.read()
     control_tests.set_test_vasl_extn( fname="test.zip", bin_data=zip_data )
 
-def _check_startup_messages( webapp, expected ):
-    """Check that the startup messages are what we expect."""
-
-    # wait for the startup messages to become available
-    wait_for( 2, lambda: find_child("#_startup-msgs-ready_") is not None )
-
-    # check the startup messages
-    url = webapp.url_for( "get_startup_msgs" )
-    startup_msgs = json.load( urllib.request.urlopen( url ) )
+def _check_warning_msgs( control_tests, expected ):
+    """Check that the startup warning messages are what we expect."""
+    warnings = control_tests.get_vasl_mod_warnings()
     if expected:
-        assert list(startup_msgs.keys()) == [ "warning" ]
-        assert len(startup_msgs["warning"]) == 1
+        assert len(warnings) == 1
         if isinstance( expected, typing.re.Pattern ):
-            assert expected.search( startup_msgs["warning"][0] )
+            assert expected.search( warnings[0] )
         else:
-            assert startup_msgs["warning"][0].startswith( expected )
+            assert warnings[0].startswith( expected )
     else:
-        assert not startup_msgs
+        assert not warnings

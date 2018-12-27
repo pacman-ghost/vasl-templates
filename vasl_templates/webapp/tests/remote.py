@@ -24,6 +24,7 @@ from vasl_templates.webapp import snippets as webapp_snippets
 from vasl_templates.webapp import vo_notes as webapp_vo_notes
 from vasl_templates.webapp.file_server import utils as webapp_file_server_utils
 from vasl_templates.webapp.file_server.vasl_mod import set_vasl_mod
+from vasl_templates.webapp.file_server import vasl_mod as vasl_mod_module
 
 _logger = logging.getLogger( "control_tests" )
 
@@ -173,6 +174,7 @@ class ControlTests:
         # install the new VASL module
         from vasl_templates.webapp.main import startup_msg_store
         startup_msg_store.reset()
+        vasl_mod_module.warnings = []
         set_vasl_mod( vmod, startup_msg_store )
 
         return self
@@ -271,3 +273,8 @@ class ControlTests:
         assert last_snippet_image
         _logger.info( "Returning the last snippet image: #bytes=%d", len(last_snippet_image) )
         return base64.b64encode( last_snippet_image ).decode( "utf-8" )
+
+    def _get_vasl_mod_warnings( self ): #pylint: disable=no-self-use
+        """Get the vasl_mod startup warnings."""
+        _logger.info( "Returning the vasl_mod startup warnings: %s", vasl_mod_module.warnings )
+        return vasl_mod_module.warnings

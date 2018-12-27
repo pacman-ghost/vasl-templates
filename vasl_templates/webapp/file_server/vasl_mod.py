@@ -18,6 +18,8 @@ from vasl_templates.webapp.file_server.utils import get_vo_gpids, get_effective_
 SUPPORTED_VASL_MOD_VERSIONS = [ "6.4.0", "6.4.1", "6.4.2", "6.4.3" ]
 SUPPORTED_VASL_MOD_VERSIONS_DISPLAY = "6.4.0-6.4.3"
 
+warnings = [] # nb: for the test suite
+
 # ---------------------------------------------------------------------
 
 # NOTE: The lock only controls access to the _vasl_mod variable, not the VaslMod object it points to.
@@ -52,7 +54,7 @@ def set_vasl_mod( vmod_fname, msg_store ):
         global _vasl_mod
         if vmod_fname:
             extns_dir = app.config.get( "VASL_EXTENSIONS_DIR" )
-            extns = _load_vasl_extns( extns_dir, msg_store )
+            extns = _load_vasl_extns( extns_dir )
             _vasl_mod = VaslMod( vmod_fname, DATA_DIR, extns )
             if _vasl_mod.vasl_version not in SUPPORTED_VASL_MOD_VERSIONS:
                 msg_store.warning(
@@ -63,11 +65,16 @@ def set_vasl_mod( vmod_fname, msg_store ):
         else:
             _vasl_mod = None
 
-def _load_vasl_extns( extn_dir, msg_store ): #pylint: disable=too-many-locals
+def _load_vasl_extns( extn_dir ): #pylint: disable=too-many-locals,too-many-statements
     """Locate VASL extensions and their corresponding vehicle/ordnance info files."""
 
     if not extn_dir:
         return []
+
+    def log_warning( fmt, *args, **kwargs ): #pylint: disable=missing-docstring
+        msg = fmt.format( *args, **kwargs )
+        warnings.append( msg )
+        _logger.warning( msg )
 
     # load our extension info files
     all_extn_info = {}
@@ -96,48 +103,44 @@ def _load_vasl_extns( extn_dir, msg_store ): #pylint: disable=too-many-locals
         extn_fname = os.path.join( extn_dir, extn_fname )
 
         # try to load the extension
-        _logger.debug( "Loading VASL extension: %s", extn_fname )
+        _logger.debug( "Checking VASL extension: %s", extn_fname )
         try:
             zip_file = zipfile.ZipFile( extn_fname, "r" )
         except zipfile.BadZipFile:
-            msg_store.warning( "Can't load VASL extension (not a ZIP file): {}", extn_fname, logger=_logger )
+            log_warning( "Can't check VASL extension (not a ZIP file): {}", extn_fname )
             continue
         try:
             build_info = zip_file.read( "buildFile" )
         except KeyError:
-            msg_store.warning( "Missing buildFile: {}", extn_fname, logger=_logger )
+            log_warning( "Missing buildFile: {}", extn_fname )
             continue
         doc = xml.etree.ElementTree.fromstring( build_info )
         node = doc.findall( "." )[0]
         if node.tag != "VASSAL.build.module.ModuleExtension":
-            msg_store.warning( "Unexpected root node ({}) for VASL extension: {}",
-                node.tag, extn_fname, logger=_logger
-            )
+            log_warning( "Unexpected root node ({}) for VASL extension: {}", node.tag, extn_fname )
             continue
 
         # get the extension's ID and version string
         extn_id = node.attrib.get( "extensionId" )
         if not extn_id:
-            msg_store.warning( "Can't find ID for VASL extension: {}", extn_fname, logger=_logger )
+            log_warning( "Can't find ID for VASL extension: {}", extn_fname )
             continue
         extn_version = node.attrib.get( "version" )
         if not extn_version:
-            msg_store.warning( "Can't find version for VASL extension: {}", extn_fname, logger=_logger )
+            log_warning( "Can't find version for VASL extension: {}", extn_fname )
             continue
         _logger.debug( "- id=%s ; version=%s", extn_id, extn_version )
 
         # check if we have a corresponding info file
         extn_info = all_extn_info.get( ( extn_id, extn_version ) )
         if not extn_info:
-            msg_store.warning( "Not loading VASL extension \"{}\".<p>No extension info file for {}/{}.".format(
+            log_warning( "Not accepting {}: no extension info for {}/{}.",
                 os.path.split(extn_fname)[1], extn_id, extn_version
-            ) )
-            _logger.warning( "Not loading VASL extension (no info file for %s/%s): %s",
-                extn_id, extn_version, extn_fname
             )
             continue
 
         # yup - add the extension to the list
+        _logger.info( "Accepting VASL extension: %s (%s/%s)", os.path.split(extn_fname)[1], extn_id, extn_version )
         extns.append( ( extn_fname, extn_info ) )
 
     return extns
