@@ -31,21 +31,26 @@ function generate_snippet( $btn, evt, extra_params )
     // check if the user is requesting the snippet as an image
     if ( evt.shiftKey ) {
         // yup - send the snippet to the backend to generate the image
-        var $dlg = $( "#make-snippet-image" ).dialog( {
-            dialogClass: "make-snippet-image",
-            modal: true,
-            width: 300,
-            height: 60,
-            resizable: false,
-            closeOnEscape: false,
-        } ) ;
+        var $dlg = null ;
+        var timeout_id = setTimeout( function() {
+            $dlg = $( "#make-snippet-image" ).dialog( {
+                dialogClass: "make-snippet-image",
+                modal: true,
+                width: 300,
+                height: 60,
+                resizable: false,
+                closeOnEscape: false,
+            } ) ;
+        }, 1*1000 ) ;
         $.ajax( {
             url: gMakeSnippetImageUrl,
             type: "POST",
             data: snippet.content,
             contentType: "text/html",
         } ).done( function( resp ) {
-            $dlg.dialog( "close" ) ;
+            clearTimeout( timeout_id ) ;
+            if ( $dlg )
+                $dlg.dialog( "close" ) ;
             if ( resp.substr( 0, 6 ) === "ERROR:" ) {
                 showErrorMsg( resp.substr(7) ) ;
                 return ;
@@ -68,7 +73,9 @@ function generate_snippet( $btn, evt, extra_params )
                 download( atob(resp), _make_snippet_image_filename(snippet), "image/png" ) ;
             }
         } ).fail( function( xhr, status, errorMsg ) {
-            $dlg.dialog( "close" ) ;
+            clearTimeout( timeout_id ) ;
+            if ( $dlg )
+                $dlg.dialog( "close" ) ;
             showErrorMsg( "Can't get the snippet image:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
         } ) ;
         return ;

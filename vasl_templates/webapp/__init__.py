@@ -2,6 +2,7 @@
 
 import sys
 import os
+import signal
 import configparser
 import logging
 import logging.config
@@ -25,6 +26,16 @@ def _load_config( fname, section ):
 def load_debug_config( fname ):
     """Configure the application."""
     _load_config( fname, "Debug" )
+
+# ---------------------------------------------------------------------
+
+cleanup_handlers = []
+
+def on_sigint( signum, stack ): #pylint: disable=unused-argument
+    """Clean up after a SIGINT."""
+    for handler in cleanup_handlers:
+        handler()
+    raise SystemExit()
 
 # ---------------------------------------------------------------------
 
@@ -64,6 +75,9 @@ import vasl_templates.webapp.vo_notes #pylint: disable=cyclic-import
 if app.config.get( "ENABLE_REMOTE_TEST_CONTROL" ):
     print( "*** WARNING: Remote test control enabled! ***" )
     import vasl_templates.webapp.testing #pylint: disable=cyclic-import
+
+# install our signal handler (must be done in the main thread)
+signal.signal( signal.SIGINT, on_sigint )
 
 # ---------------------------------------------------------------------
 

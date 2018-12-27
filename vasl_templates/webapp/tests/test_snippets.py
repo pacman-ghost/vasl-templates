@@ -4,7 +4,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, select_tab, select_tab_for_elem, set_template_params, wait_for, wait_for_clipboard, \
+    init_webapp, select_tab, find_snippet_buttons, set_template_params, wait_for, wait_for_clipboard, \
     get_stored_msg, set_stored_msg_marker, find_child, find_children, adjust_html, \
     for_each_template, add_simple_note, edit_simple_note, \
     get_sortable_entry_count, generate_sortable_entry_snippet, drag_sortable_entry_to_trash, \
@@ -33,12 +33,6 @@ def test_snippet_ids( webapp, webdriver ):
 
     def check_snippet( btn ):
         """Generate a snippet and check that it has an ID."""
-        select_tab_for_elem( btn )
-        if not btn.is_displayed():
-            # FUDGE! All nationality-specific buttons are created on each OB tab, and the ones not relevant
-            # to each player are just hidden. This is not real good since we have multiple elements with the same ID :-/
-            # but we work around this by checking if the button is visible. Sigh...
-            return
         btn.click()
         wait_for_clipboard( 2, "<!-- vasl-templates:id ", contains=True )
 
@@ -49,10 +43,11 @@ def test_snippet_ids( webapp, webdriver ):
         set_scenario_date( scenario_date )
 
         # check each snippet
-        for btn in find_children( "button.generate" ):
-            check_snippet( btn )
-        for btn in find_children( "img.snippet" ):
-            check_snippet( btn )
+        snippet_btns = find_snippet_buttons()
+        for tab_id,btns in snippet_btns.items():
+            select_tab( tab_id )
+            for btn in btns:
+                check_snippet( btn )
 
     # test snippets with German/Russian
     do_test( "" )

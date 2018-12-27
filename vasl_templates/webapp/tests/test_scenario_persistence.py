@@ -287,12 +287,14 @@ def test_unknown_vo( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-def load_scenario( scenario ):
+def load_scenario( scenario, webdriver=None ):
     """Load a scenario into the UI."""
-    set_stored_msg( "_scenario-persistence_", json.dumps(scenario) )
-    _ = set_stored_msg_marker( "_last-info_" )
-    select_menu_option( "load_scenario" )
-    wait_for( 2, lambda: get_stored_msg("_last-info_") == "The scenario was loaded." )
+    set_stored_msg( "_scenario-persistence_", json.dumps(scenario), webdriver )
+    _ = set_stored_msg_marker( "_last-info_", webdriver )
+    select_menu_option( "load_scenario", webdriver )
+    wait_for( 2,
+        lambda: get_stored_msg( "_last-info_", webdriver ) == "The scenario was loaded."
+    )
 
 def save_scenario():
     """Save the scenario."""

@@ -120,7 +120,7 @@ def make_snippet_image():
     # generate an image for the snippet
     snippet = request.data.decode( "utf-8" )
     try:
-        with WebDriver() as webdriver:
+        with WebDriver.get_instance() as webdriver:
             img = webdriver.get_snippet_screenshot( None, snippet )
     except SimpleError as ex:
         return "ERROR: {}".format( ex )

@@ -6,6 +6,7 @@ import json
 import time
 import re
 import uuid
+from collections import defaultdict
 
 import pytest
 from PyQt5.QtWidgets import QApplication
@@ -115,31 +116,42 @@ def for_each_template( func ): #pylint: disable=too-many-branches
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def select_tab( tab_id ):
+def select_tab( tab_id, webdriver=None ):
     """Select a tab in the main page."""
-    elem = find_child( "#tabs .ui-tabs-nav a[href='#tabs-{}']".format( tab_id ) )
+    if not webdriver:
+        webdriver = _webdriver
+    elem = find_child( "#tabs .ui-tabs-nav a[href='#tabs-{}']".format( tab_id ), webdriver )
     elem.click()
 
 def select_tab_for_elem( elem ):
     """Select the tab that contains the specified element."""
-    while True:
+    select_tab( get_tab_for_elem( elem ) )
+
+def get_tab_for_elem( elem ):
+    """Identify the tab that contains the specified element."""
+    while elem.tag_name not in ("html","body"):
         elem = elem.find_element_by_xpath( ".." )
         if elem.tag_name == "div":
             div_id = elem.get_attribute( "id" )
             if div_id.startswith( "tabs-" ):
-                select_tab( div_id[5:] )
-                break
+                return div_id[5:]
+    return None
 
-def select_menu_option( menu_id ):
+def select_menu_option( menu_id, webdriver=None ):
     """Select a menu option."""
-    elem = find_child( "#menu" )
+    if not webdriver:
+        webdriver = _webdriver
+    elem = find_child( "#menu", webdriver )
     elem.click()
-    elem = wait_for_elem( 2, "a.PopMenu-Link[data-name='{}']".format( menu_id ) )
+    elem = wait_for_elem( 2, "a.PopMenu-Link[data-name='{}']".format( menu_id ), webdriver )
     elem.click()
-    wait_for( 2, lambda: find_child("#menu .PopMenu-Container") is None ) # nb: wait for the menu to go away
-    if pytest.config.option.webdriver == "chrome": #pylint: disable=no-member
-        # FUDGE! Work-around weird "is not clickable" errors because the PopMenu is still around :-/
-        time.sleep( 0.25 )
+    wait_for( 2, lambda: find_child("#menu .PopMenu-Container",webdriver) is None ) # nb: wait for the menu to go away
+    try:
+        if pytest.config.option.webdriver == "chrome": #pylint: disable=no-member
+            # FUDGE! Work-around weird "is not clickable" errors because the PopMenu is still around :-/
+            time.sleep( 0.25 )
+    except AttributeError:
+        pass
 
 def new_scenario():
     """Reset the scenario."""
@@ -323,24 +335,28 @@ def find_sortable_helper( sortable, tag ):
 
 # ---------------------------------------------------------------------
 
-def get_stored_msg( msg_type ):
+def get_stored_msg( msg_type, webdriver=None ):
     """Get a message stored for us by the front-end."""
-    elem = find_child( "#" + msg_type )
+    if not webdriver:
+        webdriver = _webdriver
+    elem = find_child( "#" + msg_type, webdriver )
     assert elem.tag_name == "textarea"
     return elem.get_attribute( "value" )
 
-def set_stored_msg( msg_type, val ):
+def set_stored_msg( msg_type, val, webdriver=None ):
     """Set a message for the front-end."""
-    elem = find_child( "#" + msg_type )
+    if not webdriver:
+        webdriver = _webdriver
+    elem = find_child( "#" + msg_type, webdriver )
     assert elem.tag_name == "textarea"
-    _webdriver.execute_script( "arguments[0].value = arguments[1]", elem, val )
+    webdriver.execute_script( "arguments[0].value = arguments[1]", elem, val )
 
-def set_stored_msg_marker( msg_type ):
+def set_stored_msg_marker( msg_type, webdriver=None ):
     """Store marker text in the message buffer (so we can tell if the front-end changes it)."""
     # NOTE: Care should taken when using this function with "_clipboard_",
     # since the tests might be using the real clipboard!
     marker = "marker:{}:{}".format( msg_type, uuid.uuid4() )
-    set_stored_msg( msg_type, marker )
+    set_stored_msg( msg_type, marker, webdriver )
     return marker
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -359,6 +375,29 @@ def find_children( sel, parent=None ):
         return (parent if parent else _webdriver).find_elements_by_css_selector( sel )
     except NoSuchElementException:
         return None
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def find_snippet_buttons( webdriver=None ):
+    """Find all "generate snippet" buttons.
+
+    NOTE: We only return the 1st snippet button in the "extras" tab.
+    """
+    snippet_btns = defaultdict( list )
+    # find all normal "generate snippet" buttons
+    for btn in find_children( "button.generate", webdriver ):
+        snippet_btns[ get_tab_for_elem(btn) ].append( btn )
+    # find "generate snippet" buttons in sortable lists
+    for btn in find_children( "ul.sortable img.snippet", webdriver ):
+        snippet_btns[ get_tab_for_elem(btn) ].append( btn )
+    # FUDGE! All nationality-specific buttons are created on each OB tab, and the ones not relevant
+    # to each player are just hidden. This is not real good since we have multiple elements with
+    # the same ID :-/ but we work around this by checking if the button is visible. Sigh...
+    snippet_btns2 = {}
+    for tab_id,btns in snippet_btns.items():
+        select_tab( tab_id, webdriver )
+        snippet_btns2[ tab_id ] = [ btn for btn in btns if btn.is_displayed() ]
+    return snippet_btns2
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -407,10 +446,10 @@ def dismiss_notifications():
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def click_dialog_button( caption ):
+def click_dialog_button( caption, webdriver=None ):
     """Click a dialog button."""
     btn = next(
-        elem for elem in find_children(".ui-dialog button")
+        elem for elem in find_children( ".ui-dialog button", webdriver )
         if elem.text == caption
     )
     btn.click()
