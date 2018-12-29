@@ -73,10 +73,37 @@ python vasl_templates/webapp/run_server.py
 </div>
 and then connect to it in a browser at <tt>http://localhost:5010</tt>.
 
+<h2>Running a Docker container</h2>
+
+<p> If you have Docker installed, the webapp can be run in a container:
+<div class="code">
+docker run --rm -it --name vasl-templates \
+    -p 5010:5010 \
+    -v /home/pacman-ghost/vasl/vasl-6.4.3.vmod:/data/vasl.vmod \
+    vasltemplates/images:latest
+</div>
+If you have Chapter H data, add the following:
+<div class="code"> -v /home/pacman-ghost/vasl/chapter-h:/data/chapter-h-notes </div>
+<p> Then open a browser and connect to the webapp at <tt>http://localhost:5010</tt>.
+<p> Note that some features (e.g. updating a VASL scenario file) may not be available.
+<div class="warning"> If you have SElinux enabled, it may prevent the container from accessing the VASL <tt>.vmod</tt> file, in which case, you can allow access like this:
+<div class="code"> chcon -Rt svirt_sandbox_file_t /home/pacman-ghost/vasl/vasl-6.4.3.vmod </div>
+</div>
+
+<h2>Installing a webdriver</h2>
+
+<p> Some features require a <em>webdriver</em> to be installed. You can use either:
+<ul>
+<li> <a href="https://github.com/mozilla/geckodriver/releases"><tt>geckodriver</tt></a> (requires Firefox to be installed)
+<li> <a href="http://chromedriver.chromium.org/downloads"><tt>chromedriver</tt></a> (requires Chrome to be installed)
+</ul>
+
+<p> Unpack the download ZIP file somewhere (it will contain a single executable file), and configure the location in the <em>Server Settings</em> dialog (or set <tt>WEBDRIVER_PATH</tt> in <tt>site.cfg</tt>, if you are running from source).
+
 <h2> I'm having problems running the desktop application </h2>
 
 <p> The desktop application uses OpenGL for the embedded browser, so if you are getting error messages about OpenGL, or the main window is not displaying properly, you can try configuring OpenGL to work in a different way.
-<p> Create a file called <tt>debug.cfg</tt> in <tt>$/lib/vasl_templates/webapp/config/</tt> (the same directory that contains a file called <tt>app.cfg</tt>) that looks like this:
+<p> Create a file called <tt>debug.cfg</tt> in <tt>$/config/</tt> (the same directory that contains a file called <tt>app.cfg</tt>) that looks like this:
 <div class="code">
 [Debug]
 OPENGL_TYPE = AA_UseSoftwareOpenGL
@@ -145,6 +172,8 @@ Once they're all in, click on the <em>Snippet</em> button to get a nicely format
 Adding each vehicle and ordnance for each player is just a matter of selecting them from a list, and the generated HTML snippet will produce a table of information for each one (see right). Very handy if you have a menagerie of armor and you're, say, looking for something that can fire Smoke.
 <p> The scenario date is taken into account when generating these tables e.g. APCR for the Pz IVH is A5<sup>2</sup>, but since the program knows the scenario is set in 1944, it just shows A5. Had the scenario been set in 1941, it wouldn't be shown at all.
 <p> Double-click on an entry to make changes to it e.g. because an SSR changes its capabilities, or you'd like to add a note.
+
+<div class="hint"> It's also possible to include Chapter H notes in your scenarios, although you will need to <a href="#" onclick="select_tab('chapterh');">set some things up</a> first. </div>
 <br clear="all">
 
 <p> <img src="images/ob_setup.png" class="preview" style="width:15em;float:left;">
@@ -160,6 +189,27 @@ Finally, if special support weapons such as PF and BAZ are in play, snippets are
 <p> <img src="images/extras-templates.png" class="preview" style="width:15em;float:right;">
 <p> Extra templates are also available to generate ad-hoc snippets e.g. to keep track of how many PF shots you have left, or to generate a shaded box that can be inserted behind the Turn Track to indicate an LV Hindrance.
 
+<h2> Including your own images </h2>
+
+<p> <img src="images/user-file.png" class="preview" style="width:300px;float:right;">
+You can also include your own images in scenarios e.g. the picture from the scenario card, or CG reinforcement tables.
+
+<p> In the <em>Server Settings</em> dialog, configure the directory where you keep your files, then in a template, use <tt>{{USER_FILES}}</tt> at the start of an image URL e.g.
+<div class="code">
+&lt;img src="{{USER_FILES}}/hill-621.png"&gt;
+</div>
+You can add a <tt>scaling</tt> parameter to resize the image (as a percentage of the original) e.g.
+<div class="code">
+&lt;img src="{{USER_FILES}}/hill-621.png?scaling=50"&gt;
+</div>
+or a <tt>width</tt> and/or <tt>height</tt> parameter to explicitly set the image size (in pixels).
+
+<div class="warning"> If you use this feature in your scenarios, the images won't be available if you share the VASL scenario with someone else (since the files are only on your computer). However, if you upload them to a web server on the internet, you can configure the <em>"User files"</em> directory as a URL, and any image URL's that use <tt>{{USER_FILES}}</tt> will now get them from there. </div>
+
+<div class="info"> VASSAL caches images (which can't be turned off), so if you're making changes that don't seem to be having any effect, try restarting VASSAL. </div>
+
+<br clear="all">
+
 <h2> Configuring the program </h2>
 
 <h4> Showing VASL counter images in the UI </h4>
@@ -167,9 +217,9 @@ Finally, if special support weapons such as PF and BAZ are in play, snippets are
 <p> If you want VASL counter images to appear in the UI, you need to tell the program where to find the VASL module (i.e. the <tt>vasl-X.X.X.vmod</tt> file you load into VASSAL):
 <ul>
 <li> If you are running the Windows desktop application, open the <em>Server settings</em> dialog from the <em>File</em> menu and configure it there.
-<li> If you are running the web server directly, create a file called <tt>site.cfg</tt> in the <tt>$/vasl_templates/webapp/config/</tt> directory and configure it there (there is an example file you can rename and edit).
+<li> If you are running the web server directly, create a file called <tt>site.cfg</tt> in the <tt>$/config/</tt> directory and configure it there (there is an example file you can rename and edit).
 </ul>
-<div class="info"> You should configure version 6.3.3, or 6.4.0 thru 6.4.3, of the VASL module. </div>
+<div class="info"> You should configure version 6.4.0 thru 6.4.3, of the VASL module. </div>
 <p> Once you've configured the VASL module, if you want to also show VASL counter images in the OB snippets that you copy in the VASL scenario, turn this on in the <em>User settings</em> dialog from the main application menu.
 <div class="info"> If you turn this feature on, the program must be running every time you load the scenario into VASL. </div>
 
@@ -179,19 +229,19 @@ Finally, if special support weapons such as PF and BAZ are in play, snippets are
 
 <div id="helptabs-chapterh">
 
-<p> <em>VASL Templates</em> supports including Chapter H notes in your VASL scenarios, but since this is copyrighted material, the data files are not included in releases, and you will need to set them up yourself.
+<p> It is possible to include Chapter H notes in your VASL scenarios, but since this is copyrighted material, the data files are not included in releases, and you will need to set them up yourself.
 
 <h2> Setting up the Chapter H data files </h2>
 
 <p> Unpack this <a href="https://github.com/pacman-ghost/vasl-templates/tree/master/chapter-h/chapter-h-placeholders.zip">ZIP file</a> somewhere, and configure the location in the <em>Server Settings</em> dialog (or the <tt>CHAPTER_H_NOTES_DIR</tt> setting in <tt>site.cfg</tt>, if you are running from source).
 
-<p> The ZIP file contains placeholder files for the Chapter H notes and multi-applicable notes, so all you have to do is replace these files with the real content.
+<p> The ZIP file contains placeholder files for the Chapter H vehicle/ordnance notes and multi-applicable notes, so all you have to do is update these files with the real content.
 
-<p> Multi-applicable notes are stored as HTML, so, for example, for German Multi-Applicable Vehicle Note A, change the file <tt>german/vehicles/a.html</tt> as follows:
+<p> Multi-applicable notes are stored as HTML, so for example, for German Multi-Applicable Vehicle Note A, change the file <tt>german/vehicles/a.html</tt> as follows:
 <div class="code">
 &lt;p&gt; MA and CMG (if so equipped) have AA capability - signified by "MA:AA" being printed on the counter.
 </div>
-<div class="info">NOTE: Because Windows has case-insensitive filenames, the convention is that Multi-Applicable Note "A" is stored in a file called <tt>a.html</tt>, while Multi-Applicable Note "a" is stored in <tt>a_.html</tt> (with a trailing underscore).</div>
+<div class="info"> Because Windows has case-insensitive filenames, the convention is that Multi-Applicable Note "A" is stored in a file called <tt>a.html</tt>, while Multi-Applicable Note "a" is stored in <tt>a_.html</tt> (with a trailing underscore). </div>
 
 <p> <img src="images/chapter-h/psw-234.1-note74.png" style="float:left;" class="preview"> The vehicle and ordnance notes themselves are stored as image files, so you need to scan your Chapter H pages, and crop each individual note. For example, an image for the German PSW 234/1 can be seen to the left. Right-click on it, download it, and save it on top of <tt>german/vehicles/74.png</tt> (because it's note #74).
 <br clear="all">
@@ -207,11 +257,13 @@ Finally, if special support weapons such as PF and BAZ are in play, snippets are
 <p> <img src="images/chapter-h/notes-snippet.png" style="float:right;" class="preview">Each individual vehicle and ordnance can also now have its own snippet button. Click on the one for the PSW 234/1, transfer the snippet to your VASL scenario, and you will see the image for Note 74 you set up earlier.
 <br clear="all">
 
-<div class="hint">NOTE: Depending on how you scanned the Chapter H pages, the image may not be the right size, so you can set a scaling factor for these images in the Server Settings dialog. As a guide, I scanned my ASLRB at 300dpi, and a scaling factor of 40% produced images that fit in with the rest of the scenario. Note, however, that if you have a lot of these images, there will be a noticeable delay when loading the scenario in VASSAL (because the program has to resize all the images), so you will be better off shrinking the images yourself, then setting the scaling factor to 100, so that no resizing needs to be done.</div>
+<div class="hint"> Depending on how you scanned the Chapter H pages, the image may not be the right size, so you can set a scaling factor for these images in the Server Settings dialog. As a guide, I scanned my ASLRB at 300dpi, and a scaling factor of 40% produced images that fit in with the rest of the scenario. However, if you have a lot of these images, there will be a noticeable delay when loading the scenario in VASSAL (because the program has to resize all the images), so you will be better off shrinking the images yourself, then setting the scaling factor to 100, so that no resizing needs to be done. </div>
+<div class="info"> VASSAL caches images (which can't be turned off), so if you're making changes that don't seem to be having any effect, try restarting VASSAL. </div>
 
 <h2> Creating a scenario reference sheet </h2>
 
-<p> If you shift-click on the Snippet buttons, an <em>image</em> of the snippet will be copied to the clipboard, instead of the raw HTML snippet. You can then copy these into Microsoft Word (or any other editor that can accept images), and print it out, to get a reference sheet with all the Chapter H notes for a scenario. Very handy, even if you're not using VASL!
+<p> If you Shift-click on the Snippet buttons, an <em>image</em> of the snippet will be copied to the clipboard, instead of the raw HTML snippet.  You can then copy these into Microsoft Word (or any other editor that can accept images), and print it out, to get a reference sheet with all the Chapter H notes for a scenario. Very handy, even if you're not using VASL!
+<div class="info"> This feature requires a <em>webdriver</em> to be installed. </div>
 
 </div>
 
@@ -223,7 +275,7 @@ Finally, if special support weapons such as PF and BAZ are in play, snippets are
 
 <p> The HTML snippets are generated from <em>template files</em>, which are simply text files that contain the HTML you want to insert into the VASL labels, but with placeholders for the scenario name, victory conditions, each player's OB, etc. The user enters these details into the program, and when they want to generate a snippet, all the placeholders are replaced in the template with the real values, thus producing an HTML snippet specific to that scenario.
 
-<p> The template files can be found in <tt>$/lib/vasl_templates/webapp/data/default-template-pack/</tt> (where <tt>$</tt> is where you've installed the program).
+<p> The template files can be found in <tt>$/data/default-template-pack/</tt> (where <tt>$</tt> is where you've installed the program).
 
 <h2> Placeholders and template conditionals </h2>
 
@@ -329,13 +381,13 @@ When you're writing a new template file, it would be painful to have to ZIP up a
 <div class="code">
 pip install --editable .[dev]
 </div>
-The tests use <a href="http://pytest.org">pytest</a> and <a href="https://www.seleniumhq.org/projects/webdriver/">Selenium WebDriver</a>, so you will need <tt>geckodriver</tt> and <tt>chromedriver</tt> somewhere in your PATH. The driver to use can be specified via the <tt>--webdriver</tt> parameter, and you can also run the tests headless e.g
+The tests use <a href="http://pytest.org">pytest</a> and <a href="https://www.seleniumhq.org/projects/webdriver/">Selenium WebDriver</a>, so you will need <tt>geckodriver</tt> and/or <tt>chromedriver</tt> somewhere in your PATH. The driver to use can be specified via the <tt>--webdriver</tt> parameter, and you can also run the tests headless e.g
 <div class="code">
 pytest --webdriver chrome --headless
 </div>
 <p> Note that since <tt>pylint</tt> is run as part of these tests, this should be done from the root directory of the repo.
 
-<p> <small><em>NOTE: Internet Explorer is also supported as a WebDriver, but due to differences in the way it works, some tests are currently failing for this.</em></small>
+<div class="warning"> Internet Explorer is also supported as a WebDriver, but due to differences in the way it works, some tests are currently failing for this. </div>
 
 <h2> Compiling the VASSAL shim </h2>
 
@@ -363,7 +415,7 @@ Note that both of these are run as part of a normal <tt>pytest</tt> run.
 <div class="code">
 docker build --tag vasl-templates .
 </div>
-<small><em>NOTE: To allow the test suite to be run against the container, add <tt>--build-arg ENABLE_TESTS=1</tt> to the command.</em></small>
+<div class="info"> To allow the test suite to be run against the container, add <tt>--build-arg ENABLE_TESTS=1</tt> to the command. </div>
 
 <p> Then run the container:
 <div class="code">
@@ -372,7 +424,7 @@ docker run --rm -it --name vasl-templates \
     -v /home/pacman-ghost/vasl/vasl-6.4.3.vmod:/data/vasl.vmod \
     vasl-templates
 </div>
-<small><em>NOTE: The "Update VASL scenario" feature is currently not working in a container..</em></small>
+<div class="warning"> The "Update VASL scenario" feature is currently not working in a container. </div>
 
 <p> Note that if you have SElinux enabled, it may prevent the container from accessing the VASL <tt>.vmod</tt> file, in which case, you can allow access like this:
 <div class="code">

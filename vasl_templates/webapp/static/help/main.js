@@ -72,3 +72,12 @@ $(document).ready( function() {
     if ( tab_id )
         $( "a[href='#helptabs-" + tab_id + "']" ).click() ;
 } ) ;
+
+// --------------------------------------------------------------------
+
+function select_tab( tab_id )
+{
+    // select the specified tab
+    $( "a[href='#helptabs-" + tab_id + "']" ).click() ;
+    $( "#helptabs-content" ).animate( { scrollTop: 0 }, 0 ) ;
+}
