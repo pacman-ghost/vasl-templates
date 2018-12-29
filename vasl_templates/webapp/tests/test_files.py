@@ -145,10 +145,21 @@ def test_local_user_files( webapp, webdriver ):
 def test_remote_user_files( webapp, webdriver ):
     """Test serving user files from a remote server."""
 
+    # initialize
+    control_tests = init_webapp( webapp, webdriver )
+    remote_app_config = control_tests.get_app_config()
+
     def do_test( enable_user_files ): #pylint: disable=missing-docstring
 
         # initialize
         base_url = "{}/static/images".format( _get_base_url( webapp ) )
+        if remote_app_config.get( "IS_CONTAINER" ):
+            # FUDGE! We test getting a file from a remote server by requesting a file from the webapp (since we know
+            # it will be available). However, if it's running in a container, the port it needs to use to talk
+            # to itself is not necessarily the same as the port an outside client (e.g. us) uses to talk with it,
+            # so we need to adjust the user files base URL to reflect that.
+            remote_base_url = "http://localhost:{}".format( remote_app_config["FLASK_PORT_NO"] )
+            base_url = re.sub( r"http://.+?:\d+", remote_base_url, base_url )
         init_webapp( webapp, webdriver,
             reset = lambda ct:
                 ct.set_user_files_dir( dtype = base_url if enable_user_files else None )
