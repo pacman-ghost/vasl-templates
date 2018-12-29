@@ -170,18 +170,28 @@ class ServerSettingsDialog( QDialog ):
             self.chapter_h_image_scaling.setFocus()
             return
 
+        # save the current values for key settings
+        KEY_SETTINGS = {
+            "vassal-dir": "VASSAL directory",
+            "vasl-mod": "VASL module",
+            "vasl-extns-dir": "VASL extensions directory",
+            "chapter-h-notes-dir": "Chapter H directory",
+        }
+        prev_vals = {
+            k: app_settings.value( "ServerSettings/"+k, "" )
+            for k in KEY_SETTINGS
+        }
+
         # save the new settings
-        app_settings.setValue( "ServerSettings/vassal-dir", self.vassal_dir.text() )
-        fname = self.vasl_mod.text().strip()
-        vasl_mod_changed = fname != app_settings.value( "ServerSettings/vasl-mod", "" )
-        app_settings.setValue( "ServerSettings/vasl-mod", fname )
-        app_settings.setValue( "ServerSettings/vasl-extns-dir", self.vasl_extns_dir.text() )
-        app_settings.setValue( "ServerSettings/boards-dir", self.boards_dir.text() )
-        app_settings.setValue( "ServerSettings/java-path", self.java_path.text() )
-        app_settings.setValue( "ServerSettings/webdriver-path", self.webdriver_path.text() )
-        app_settings.setValue( "ServerSettings/chapter-h-notes-dir", self.chapter_h_notes_dir.text() )
+        app_settings.setValue( "ServerSettings/vassal-dir", self.vassal_dir.text().strip() )
+        app_settings.setValue( "ServerSettings/vasl-mod", self.vasl_mod.text().strip() )
+        app_settings.setValue( "ServerSettings/vasl-extns-dir", self.vasl_extns_dir.text().strip() )
+        app_settings.setValue( "ServerSettings/boards-dir", self.boards_dir.text().strip() )
+        app_settings.setValue( "ServerSettings/java-path", self.java_path.text().strip() )
+        app_settings.setValue( "ServerSettings/webdriver-path", self.webdriver_path.text().strip() )
+        app_settings.setValue( "ServerSettings/chapter-h-notes-dir", self.chapter_h_notes_dir.text().strip() )
         app_settings.setValue( "ServerSettings/chapter-h-image-scaling", chapter_h_image_scaling )
-        app_settings.setValue( "ServerSettings/user-files-dir", self.user_files_dir.text() )
+        app_settings.setValue( "ServerSettings/user-files-dir", self.user_files_dir.text().strip() )
 
         # install the new settings
         # NOTE: We should really do this before saving the new settings, but that's more trouble
@@ -193,11 +203,17 @@ class ServerSettingsDialog( QDialog ):
             return
         self.close()
 
-        # check if the VASL module was changed
-        if vasl_mod_changed:
-            # NOTE: It would be nice not to require a restart, but calling QWebEngineProfile.clearHttpCache() doesn't
-            # seem to, ya know, clear the cache, nor does setting the cache type to NoCache seem to do anything :-/
-            MainWindow.showInfoMsg( "The VASL module was changed - you should restart the program." )
+        # check if any key settings were changed
+        changed = [
+            k for k in KEY_SETTINGS
+            if app_settings.value( "ServerSettings/"+k, "" ) != prev_vals[k]
+        ]
+        if len(changed) == 1:
+            MainWindow.showInfoMsg( "The {} was changed - you should restart the program.".format(
+                KEY_SETTINGS[changed[0]]
+            ) )
+        elif len(changed) > 1:
+            MainWindow.showInfoMsg( "Some key settings were changed - you should restart the program." )
 
     def on_cancel( self ):
         """Cancel the dialog."""
