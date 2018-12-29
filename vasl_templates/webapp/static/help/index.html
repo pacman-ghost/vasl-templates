@@ -435,7 +435,7 @@ chcon -Rt svirt_sandbox_file_t /home/pacman-ghost/vasl/vasl-6.4.3.vmod
 
 <p> It is possible to compile the desktop application down to a single binary. This is typically done for the benefit of Windows users, but also works for other platforms. From the root directory of the repo:
 <div class="code">
-python _freeze.py --output c:\temp\vasl-templates.zip
+python freeze.py --output c:\temp\vasl-templates.zip
 </div>
 The script will compile the program, then package it all up with the necessary support files into a single archive file.
 
