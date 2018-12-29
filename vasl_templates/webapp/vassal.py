@@ -312,7 +312,10 @@ class VassalShim:
                 # NOTE: Using CREATE_NO_WINDOW doesn't fix the problem of VASSAL's UI sometimes appearing,
                 # but it does hide the DOS box if the user has configured java.exe instead of javaw.exe.
                 kwargs["creationflags"] = 0x8000000 # nb: win32process.CREATE_NO_WINDOW
-            proc = subprocess.Popen( args2, **kwargs )
+            try:
+                proc = subprocess.Popen( args2, **kwargs )
+            except FileNotFoundError as ex:
+                raise SimpleError( "Can't run the VASSAL shim (have you configured Java?): {}".format( ex ) )
             try:
                 proc.wait( timeout )
             except subprocess.TimeoutExpired:

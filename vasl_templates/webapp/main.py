@@ -2,6 +2,7 @@
 
 import os
 import json
+import logging
 
 from flask import request, render_template, jsonify, send_file, redirect, url_for, abort
 
@@ -30,7 +31,11 @@ def get_startup_msgs():
         _check_versions = False
         # check the VASSAL version
         from vasl_templates.webapp.vassal import VassalShim
-        VassalShim.check_vassal_version( startup_msg_store )
+        try:
+            VassalShim.check_vassal_version( startup_msg_store )
+        except Exception as ex: #pylint: disable=broad-except
+            # NOTE: We can get here is VASSAL has been configured, but not Java - don't show an error to the user :-/
+            logging.warning( "Can't get the VASSAL version: %s", ex )
 
     # collect all the startup messages
     startup_msgs = {}
