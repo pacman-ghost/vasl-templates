@@ -10,7 +10,7 @@ from flask import send_file, send_from_directory, jsonify, redirect, url_for, ab
 
 from vasl_templates.webapp import app
 from vasl_templates.webapp.file_server.vasl_mod import get_vasl_mod
-from vasl_templates.webapp.utils import resize_image_response
+from vasl_templates.webapp.utils import resize_image_response, is_empty_file
 
 # ---------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ class FileServer:
         else:
             self.base_dir = os.path.abspath( base_dir )
 
-    def serve_file( self, path ):
+    def serve_file( self, path, ignore_empty=False ):
         """Serve a file."""
         # NOTE: We return a Flask Response object, instead of the file data, so that (1) we can use
         # send_from_directory() and (2) if we have to download a file from a URL, we can include
@@ -44,6 +44,8 @@ class FileServer:
             return send_file( buf, mimetype=mime_type )
         else:
             path = path.replace( "\\", "/" ) # nb: for Windows :-/
+            if ignore_empty and is_empty_file( os.path.join( self.base_dir, path ) ):
+                return None
             return send_from_directory( self.base_dir, path )
 
     @staticmethod
@@ -60,6 +62,8 @@ def get_user_file( path ):
     if not dname:
         abort( 404 )
     resp = FileServer( dname ).serve_file( path )
+    if not resp:
+        abort( 404 )
     return resize_image_response( resp )
 
 # ---------------------------------------------------------------------

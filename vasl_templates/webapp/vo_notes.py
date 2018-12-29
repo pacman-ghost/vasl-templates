@@ -10,7 +10,7 @@ from flask import render_template, jsonify, abort
 
 from vasl_templates.webapp import app
 from vasl_templates.webapp.files import FileServer
-from vasl_templates.webapp.utils import is_image_file, resize_image_response
+from vasl_templates.webapp.utils import resize_image_response, is_image_file, is_empty_file
 
 _vo_notes_lock = threading.RLock() # nb: this controls the cached V/O notes and the FileServer
 _cached_vo_notes = None
@@ -90,6 +90,8 @@ def _do_get_vo_notes( vo_type ): #pylint: disable=too-many-locals,too-many-branc
                 if not all( ch.isdigit() or ch in (".") for ch in key ):
                     logging.warning( "Unexpected vehicle/ordnance note key: %s", key )
                 fname = os.path.join( root, fname )
+                if is_empty_file( fname ):
+                    continue # nb: ignore placeholder files
                 prefix = os.path.commonpath( [ dname, fname ] )
                 if prefix:
                     vo_notes[vo_type2][nat2][key] = fname[len(prefix)+1:]
@@ -99,6 +101,8 @@ def _do_get_vo_notes( vo_type ): #pylint: disable=too-many-locals,too-many-branc
                 key = get_ma_note_key( nat2, fname )
                 with open( os.path.join(root,fname), "r" ) as fp:
                     buf = fp.read().strip()
+                    if not buf:
+                        continue # nb: ignore placeholder files
                     if buf.startswith( "<p>" ):
                         buf = buf[3:].strip()
                     ma_notes[key] = buf
@@ -123,7 +127,12 @@ def get_vo_note( vo_type, nat, key ):
             abort( 404 )
         vo_notes = _do_get_vo_notes( vo_type )
         fname = vo_notes.get( nat, {} ).get( key )
-        resp = _vo_notes_file_server.serve_file( fname )
+        if not fname:
+            abort( 404 )
+        # nb: we ignore placeholder files (return 404 for empty files)
+        resp = _vo_notes_file_server.serve_file( fname, ignore_empty=True )
+        if not resp:
+            abort( 404 )
 
     default_scaling = app.config.get( "CHAPTER_H_IMAGE_SCALING", 100 )
     return resize_image_response( resp, default_scaling=default_scaling )

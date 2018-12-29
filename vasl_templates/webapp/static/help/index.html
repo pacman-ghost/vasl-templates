@@ -26,6 +26,7 @@
 <ul>
     <li> <a href="#helptabs-installation">Installation</a>
     <li> <a href="#helptabs-userguide">User Guide</a>
+    <li> <a href="#helptabs-chapterh">Chapter H</a>
     <li> <a href="#helptabs-templatepacks">Template packs</a>
     <li> <a href="#helptabs-fordevelopers">For developers</a>
     <li> <a href="#helptabs-license">License</a>
@@ -171,6 +172,46 @@ Finally, if special support weapons such as PF and BAZ are in play, snippets are
 <div class="info"> You should configure version 6.3.3, or 6.4.0 thru 6.4.3, of the VASL module. </div>
 <p> Once you've configured the VASL module, if you want to also show VASL counter images in the OB snippets that you copy in the VASL scenario, turn this on in the <em>User settings</em> dialog from the main application menu.
 <div class="info"> If you turn this feature on, the program must be running every time you load the scenario into VASL. </div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<div id="helptabs-chapterh">
+
+<p> <em>VASL Templates</em> supports including Chapter H notes in your VASL scenarios, but since this is copyrighted material, the data files are not included in releases, and you will need to set them up yourself.
+
+<h2> Setting up the Chapter H data files </h2>
+
+<p> Unpack this <a href="https://github.com/pacman-ghost/vasl-templates/tree/master/chapter-h/chapter-h-placeholders.zip">ZIP file</a> somewhere, and configure the location in the <em>Server Settings</em> dialog (or the <tt>CHAPTER_H_NOTES_DIR</tt> setting in <tt>site.cfg</tt>, if you are running from source).
+
+<p> The ZIP file contains placeholder files for the Chapter H notes and multi-applicable notes, so all you have to do is replace these files with the real content.
+
+<p> Multi-applicable notes are stored as HTML, so, for example, for German Multi-Applicable Vehicle Note A, change the file <tt>german/vehicles/a.html</tt> as follows:
+<div class="code">
+&lt;p&gt; MA and CMG (if so equipped) have AA capability - signified by "MA:AA" being printed on the counter.
+</div>
+<div class="info">NOTE: Because Windows has case-insensitive filenames, the convention is that Multi-Applicable Note "A" is stored in a file called <tt>a.html</tt>, while Multi-Applicable Note "a" is stored in <tt>a_.html</tt> (with a trailing underscore).</div>
+
+<p> <img src="images/chapter-h/psw-234.1-note74.png" style="float:left;" class="preview"> The vehicle and ordnance notes themselves are stored as image files, so you need to scan your Chapter H pages, and crop each individual note. For example, an image for the German PSW 234/1 can be seen to the left. Right-click on it, download it, and save it on top of <tt>german/vehicles/74.png</tt> (because it's note #74).
+<br clear="all">
+
+<h2> Adding Chapter H notes to your VASL scenario </h2>
+
+<p> <img src="images/chapter-h/ui.png" style="float:right;" class="preview"> Restart the <em>VASL Templates</em> program, and add a PSW 234/1 to the German OB. You will see some changes in the UI (see screenshot).
+<br clear="all">
+
+<p> <img src="images/chapter-h/ma-notes-snippet.png" style="float:left;" class="preview"> In the bottom-right, there are new controls for generating an HTML snippet for the multi-applicable notes. Click on the <em>Snippet</em> button, create a label in a VASL scenario, and you see the multi-applicable notes for the vehicles in the OB (the program will only include those that are needed). This content was taken from the <tt>a.html</tt> file you set up earlier.
+<br clear="all">
+
+<p> <img src="images/chapter-h/notes-snippet.png" style="float:right;" class="preview">Each individual vehicle and ordnance can also now have its own snippet button. Click on the one for the PSW 234/1, transfer the snippet to your VASL scenario, and you will see the image for Note 74 you set up earlier.
+<br clear="all">
+
+<div class="hint">NOTE: Depending on how you scanned the Chapter H pages, the image may not be the right size, so you can set a scaling factor for these images in the Server Settings dialog. As a guide, I scanned my ASLRB at 300dpi, and a scaling factor of 40% produced images that fit in with the rest of the scenario. Note, however, that if you have a lot of these images, there will be a noticeable delay when loading the scenario in VASSAL (because the program has to resize all the images), so you will be better off shrinking the images yourself, then setting the scaling factor to 100, so that no resizing needs to be done.</div>
+
+<h2> Creating a scenario reference sheet </h2>
+
+<p> If you shift-click on the Snippet buttons, an <em>image</em> of the snippet will be copied to the clipboard, instead of the raw HTML snippet. You can then copy these into Microsoft Word (or any other editor that can accept images), and print it out, to get a reference sheet with all the Chapter H notes for a scenario. Very handy, even if you're not using VASL!
 
 </div>
 

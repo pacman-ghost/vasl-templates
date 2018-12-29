@@ -145,6 +145,10 @@ def is_image_file( fname ):
         extn = os.path.splitext( fname )[0]
     return extn.lower() in (".png",".jpg",".jpeg",".gif")
 
+def is_empty_file( fname ):
+    """Check if a file is empty."""
+    return os.stat( fname ).st_size == 0
+
 # ---------------------------------------------------------------------
 
 class SimpleError( Exception ):
