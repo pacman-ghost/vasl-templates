@@ -53,7 +53,7 @@ def set_vasl_mod( vmod_fname, msg_store ):
     with _vasl_mod_lock:
         global _vasl_mod
         if vmod_fname:
-            extns_dir = app.config.get( "VASL_EXTENSIONS_DIR" )
+            extns_dir = app.config.get( "VASL_EXTNS_DIR" )
             extns = _load_vasl_extns( extns_dir )
             _vasl_mod = VaslMod( vmod_fname, DATA_DIR, extns )
             if _vasl_mod.vasl_version not in SUPPORTED_VASL_MOD_VERSIONS:

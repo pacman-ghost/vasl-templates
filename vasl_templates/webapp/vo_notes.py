@@ -42,7 +42,7 @@ def _do_get_vo_notes( vo_type ): #pylint: disable=too-many-locals,too-many-branc
             return _cached_vo_notes[ vo_type ]
 
     # locate the data directory
-    dname = app.config.get( "CHAPTER_H_NOTES" )
+    dname = app.config.get( "CHAPTER_H_NOTES_DIR" )
     if not dname:
         return {}
     dname = os.path.abspath( dname )
@@ -125,7 +125,7 @@ def get_vo_note( vo_type, nat, key ):
         fname = vo_notes.get( nat, {} ).get( key )
         resp = _vo_notes_file_server.serve_file( fname )
 
-    default_scaling = app.config.get( "CHAPTER_H_NOTE_SCALING", 100 )
+    default_scaling = app.config.get( "CHAPTER_H_IMAGE_SCALING", 100 )
     return resize_image_response( resp, default_scaling=default_scaling )
 
 # ---------------------------------------------------------------------

@@ -28,7 +28,7 @@ from vasl_templates.webapp.file_server import vasl_mod as vasl_mod_module
 
 _logger = logging.getLogger( "control_tests" )
 
-_ORIG_CHAPTER_H_NOTES = app.config.get( "CHAPTER_H_NOTES" )
+_ORIG_CHAPTER_H_NOTES_DIR = app.config.get( "CHAPTER_H_NOTES_DIR" )
 
 # ---------------------------------------------------------------------
 
@@ -146,16 +146,16 @@ class ControlTests:
                 try:
                     dname = pytest.config.option.vasl_extensions #pylint: disable=no-member
                 except AttributeError:
-                    dname = app.config[ "TEST_VASL_EXTENSIONS_DIR" ]
+                    dname = app.config[ "TEST_VASL_EXTNS_DIR" ]
             elif extns_dtype == "test":
                 dname = self._vasl_extns_temp_dir.name
             else:
                 assert False, "Unknown extensions directory type: "+extns_dtype
             _logger.info( "Enabling VASL extensions: %s", dname )
-            app.config[ "VASL_EXTENSIONS_DIR" ] = dname
+            app.config[ "VASL_EXTNS_DIR" ] = dname
         else:
             _logger.info( "Disabling VASL extensions." )
-            app.config.pop( "VASL_EXTENSIONS_DIR", None )
+            app.config.pop( "VASL_EXTNS_DIR", None )
 
         # configure the VASL module
         if vmod:
@@ -241,14 +241,14 @@ class ControlTests:
     def _set_vo_notes_dir( self, dtype=None ):
         """Set the vehicle/ordnance notes directory."""
         if dtype == "real":
-            dname = _ORIG_CHAPTER_H_NOTES
+            dname = _ORIG_CHAPTER_H_NOTES_DIR
         elif dtype == "test":
             dname = os.path.join( os.path.split(__file__)[0], "fixtures/vo-notes" )
         else:
             assert dtype is None
             dname = None
         _logger.info( "Setting vehicle/ordnance notes: %s", dname )
-        app.config["CHAPTER_H_NOTES"] = dname
+        app.config["CHAPTER_H_NOTES_DIR"] = dname
         with webapp_vo_notes._vo_notes_lock: #pylint: disable=protected-access
             webapp_vo_notes._cached_vo_notes = None #pylint: disable=protected-access
             webapp_vo_notes._vo_notes_file_server = None #pylint: disable=protected-access
