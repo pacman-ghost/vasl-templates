@@ -206,6 +206,9 @@ class VassalShim:
 
     def __init__( self ): #pylint: disable=too-many-branches
 
+        # initialize
+        self.boards_dir = None
+
         # locate the VASSAL engine
         vassal_dir = app.config.get( "VASSAL_DIR" )
         if not vassal_dir:
@@ -218,17 +221,6 @@ class VassalShim:
                     break
         if not self.vengine_jar:
             raise SimpleError( "Can't find Vengine.jar: {}".format( vassal_dir ) )
-
-        # locate the boards
-        self.boards_dir = app.config.get( "BOARDS_DIR" )
-        if not self.boards_dir:
-            raise SimpleError( "The VASL boards directory has not been configured." )
-        if not os.path.isdir( self.boards_dir ):
-            raise SimpleError( "Can't find the VASL boards: {}".format( self.boards_dir ) )
-
-        # locate the VASL module
-        if not get_vasl_mod():
-            raise SimpleError( "The VASL module has not been configured." )
 
         # locate the VASSAL shim JAR
         self.shim_jar = app.config.get( "VASSAL_SHIM" )
@@ -256,6 +248,18 @@ class VassalShim:
 
     def update_scenario( self, vsav_fname, snippets_fname, output_fname, report_fname ):
         """Update a scenario file."""
+
+        # locate the boards
+        self.boards_dir = app.config.get( "BOARDS_DIR" )
+        if not self.boards_dir:
+            raise SimpleError( "The VASL boards directory has not been configured." )
+        if not os.path.isdir( self.boards_dir ):
+            raise SimpleError( "Can't find the VASL boards: {}".format( self.boards_dir ) )
+
+        # locate the VASL module
+        if not get_vasl_mod():
+            raise SimpleError( "The VASL module has not been configured." )
+
         return self._run_vassal_shim(
             "update", self.boards_dir, vsav_fname, snippets_fname, output_fname, report_fname
         )
