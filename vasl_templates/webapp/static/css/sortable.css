@@ -5,7 +5,7 @@ img.sortable-reset { vertical-align: middle ; height: 15px ; margin-right: 0.25e
 
 .sortable { list-style-type: none ; margin: 0 ; padding: 0 ; }
 
-.sortable li { margin-bottom: 2px ; padding: 5px ; }
+.sortable li { margin-bottom: 2px ; padding: 5px ; font-size: 90% ; }
 .sortable li:hover { cursor: pointer ; }
 .sortable li.ui-sortable-helper { opacity: 0.8 ; }
 

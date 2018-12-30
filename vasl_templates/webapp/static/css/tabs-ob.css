@@ -25,7 +25,6 @@
 .panel-ob_vo .sortable .vo-entry img.vasl-image { display: inline-block ; vertical-align: middle ; height: 3.25em ; margin-right: 0.5em ; }
 .panel-ob_vo .sortable .vo-entry.small-piece img.vasl-image { height: 2.25em ; margin-left: 0.5em ; margin-right: 0.75em ; }
 .panel-ob_vo .sortable .vo-entry .detail { flex-grow: 1 ; display: flex ; flex-direction: column ; justify-content: center ; }
-.panel-ob_vo .sortable .vo-entry .detail .vo-name {  font-size: 90% ; }
 .panel-ob_vo .sortable .vo-entry .detail .vo-capabilities { max-height: 2.5em ; overflow: hidden ; font-size: 80% ; font-style: italic ; }
 .panel-ob_vo .sortable .vo-entry .detail .vo-capability { margin-right: 0.5em ; color: #444 ; }
 .panel-ob_vo label.header { font-weight: bold ; display: inline-block ; width: 3.25em ; }

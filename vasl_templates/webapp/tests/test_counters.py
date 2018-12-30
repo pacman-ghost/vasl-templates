@@ -130,7 +130,7 @@ def test_gpid_remapping( webapp, webdriver ):
         gpid = mo.group(1)
         if valid_image:
             assert check_gpid_image( gpid ) == 200
-            assert img.get_attribute( "width" ) == "52" # nb: this value depends on the CSS settings!
+            assert img.get_attribute( "width" ) == "47" # nb: this value depends on the CSS settings!
         else:
             assert check_gpid_image( gpid ) == 404
 
