@@ -1,6 +1,8 @@
 """Implement the "server settings" dialog."""
 
 import os
+import logging
+import traceback
 
 from PyQt5 import uic
 from PyQt5.QtWidgets import QDialog, QFileDialog, QGroupBox
@@ -199,6 +201,7 @@ class ServerSettingsDialog( QDialog ):
         try:
             install_server_settings( False )
         except Exception as ex: #pylint: disable=broad-except
+            logging.error( traceback.format_exc() )
             MainWindow.showErrorMsg( "Couldn't install the server settings:\n\n{}".format( ex ) )
             return
         self.close()

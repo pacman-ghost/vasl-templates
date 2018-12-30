@@ -116,13 +116,12 @@ def _do_main( template_pack, default_scenario, remote_debugging, debug ): #pylin
         from vasl_templates.server_settings import install_server_settings #pylint: disable=cyclic-import
         install_server_settings( True )
     except Exception as ex: #pylint: disable=broad-except
+        # NOTE: We used to advise the user to check the app config file for errors, but exceptions can be thrown
+        # for reasons other than errors in that file (e.g. bad JSON in the vehicle/ordnance data files).
+        logging.critical( traceback.format_exc() )
         from vasl_templates.main_window import MainWindow #pylint: disable=cyclic-import
-        MainWindow.showErrorMsg(
-            "Couldn't install the server settings:\n    {}\n\n"
-            "Please correct them in the \"Server settings\" dialog, or in the config file:\n    {}".format(
-                ex, app_settings_fname
-            )
-        )
+        MainWindow.showErrorMsg( "Couldn't install the server settings:\n\n{}".format( ex ) )
+        return 2
 
     # disable the Flask "do not use in a production environment" warning
     import flask.cli
