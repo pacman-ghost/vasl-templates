@@ -117,7 +117,8 @@ class WebDriver:
             bbox = diff.getbbox()
             return img.crop( bbox )
 
-        with TempFile(extn=".html",mode="w") as html_tempfile, TempFile(extn=".png") as screenshot_tempfile:
+        with TempFile( extn=".html", mode="w", encoding="utf-8" ) as html_tempfile, \
+             TempFile( extn=".png" ) as screenshot_tempfile:
 
             # NOTE: We could do some funky Javascript stuff to load the browser directly from the string,
             # but using a temp file is straight-forward and pretty much guaranteed to work :-/

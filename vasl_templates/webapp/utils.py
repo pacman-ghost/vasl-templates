@@ -52,15 +52,25 @@ class MsgStore:
 class TempFile:
     """Manage a temp file that can be closed while it's still being used."""
 
-    def __init__( self, mode="wb", extn=None ):
+    def __init__( self, mode="wb", extn=None, encoding=None ):
         self.mode = mode
         self.extn = extn
+        self.encoding = encoding
         self.temp_file = None
         self.name = None
 
     def __enter__( self ):
         """Allocate a temp file."""
-        self.temp_file = tempfile.NamedTemporaryFile( mode=self.mode, suffix=self.extn, delete=False )
+        if self.encoding:
+            encoding = self.encoding
+        else:
+            encoding = "utf-8" if "b" not in self.mode else None
+        self.temp_file = tempfile.NamedTemporaryFile(
+            mode = self.mode,
+            encoding = encoding,
+            suffix = self.extn,
+            delete = False
+        )
         self.name = self.temp_file.name
         return self
 
