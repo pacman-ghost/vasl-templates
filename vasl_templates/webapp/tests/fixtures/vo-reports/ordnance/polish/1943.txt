@@ -1,9 +1,19 @@
 === ordnance/polish/1943 ===
 
-Name                   Capabilities    (effective)    #    Notes
----------------------  --------------  -------------  ---  -------
-46mm granatnik wz. 36  4PP             4PP            1    A P
-Ur. wz. 35             1PP             1PP            2    P
-75mm wz. 02/26         NT QSU h-d s6   NT QSU h-d s6  3    P
-100mm wz. 14/19        NT              NT             4    A P
-75mm wz. 97/25         T NM            T NM           5†   P
+Name                   Capabilities           (effective)            #    Notes      Comments
+---------------------  ---------------------  ---------------------  ---  ---------  ---------------------
+46mm granatnik wz. 36  4PP                    4PP                    1    A P
+Ur. wz. 35             1PP                    1PP                    2    P
+75mm wz. 02/26         NT QSU h-d s6          NT QSU h-d s6          3    P
+100mm wz. 14/19        NT                     NT                     4    A P
+75mm wz. 97/25         T NM                   T NM                   5†   P
+FK-A wz.38 Autocannon  T QSU                  T QSU                  1    A AllM T†  No Gunshield. Tow NA†
+65mm wz.06             NT QSU C6† h-d         NT QSU C6† h-d         2    B† AllM A  No Gunshield.
+75mm wz.02/26          NT QSU h-d C6† s6      NT QSU h-d C6† s6      3    B†
+75mm wz.97             NT QSU C6† s8          NT QSU C6† s8          4    B†
+75mm wz.28             NT QSU h-d AP5 C6† s6  NT QSU h-d AP5 C6† s6  5    B† AllM A
+76mm wz.02             NT QSU h-d C6† s8      NT QSU h-d C6† s8      6    B†
+100mm wz.14/19         NT C6†                 NT C6†                 7    B† AllM A
+100mm wz.29            NT C4†                 NT C4†                 8    B†
+120mm wz.09/31         NT h-d C5† s6          NT h-d C5† s6          9    B†
+155mm wz.17            NT s8                  NT s8                  10   n/a

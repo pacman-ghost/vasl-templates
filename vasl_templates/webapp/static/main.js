@@ -186,21 +186,23 @@ $(document).ready( function () {
         restrict_droplist_height( $sel ) ;
     }
     function format_player_droplist_item( opt ) {
-        var url = gImagesBaseUrl + "/flags/" + opt.id + ".png" ;
+        if ( ! opt.id )
+            return opt.text ;
+        var url = make_player_flag_url( opt.id ) ;
         return $( "<div style='display:flex;align-items:center;'>" +
             "<img src='" + url + "' style='height:0.9em;margin-right:0.25em;'>" +
             " " + opt.text +
         "</div>" ) ;
     }
     init_select2( $( "select[name='PLAYER_1']" ),
-        "9em", false, format_player_droplist_item
+        "9.5em", false, format_player_droplist_item
     ).on( "select2:open", function() {
         on_player_droplist_open( $(this) ) ;
     } ).on( "change", function() {
         on_player_change_with_confirm( 1 ) ;
     } ) ;
     init_select2( $( "select[name='PLAYER_2']" ),
-        "9em", false, format_player_droplist_item
+        "9.5em", false, format_player_droplist_item
     ).on( "select2:open", function() {
         on_player_droplist_open( $(this) ) ;
     } ).on( "change", function() {
@@ -648,7 +650,7 @@ function update_ob_tab_header( player_no )
     // update the OB tab header for the specified player
     var player_nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
     var display_name = get_nationality_display_name( player_nat ) ;
-    var image_url = gImagesBaseUrl + "/flags/" + player_nat + ".png" ;
+    var image_url = make_player_flag_url( player_nat ) ;
     var $elem = $( "#tabs .ui-tabs-nav a[href='#tabs-ob" + player_no + "']" ) ;
     $elem.html(
         "<img src='" + image_url + "'>&nbsp;" +

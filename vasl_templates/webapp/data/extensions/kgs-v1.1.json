@@ -3,6 +3,8 @@
 "extensionId": "f97",
 "version": "v1.1",
 
+"russian": {
+
 "vehicles": [
 
 {
@@ -17,5 +19,7 @@
 }
 
 ]
+
+}
 
 }

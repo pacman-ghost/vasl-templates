@@ -1,7 +1,7 @@
 === vehicles/hungarian/1941 ===
 
-Name              Capabilities                   (effective)          #    Notes
-----------------  -----------------------------  -------------------  ---  --------------
+Name              Capabilities                   (effective)          #    Notes           Comments
+----------------  -----------------------------  -------------------  ---  --------------  ----------
 38M Toldi I       CS 3                           CS 3                 7†   A†<sup>1</sup>
 38M Toldi IIA     CS 3                           CS 3                 8†   A†<sup>1</sup>
 40M Turan I(r)    sD5 CS 5                       sD5 CS 5             9†   E N Q

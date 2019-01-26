@@ -2,4 +2,5 @@
 [*] {{ord.name}}: #={{ord.note_number}}{%if ord.notes%}
 - notes:{%for n in ord.notes%} "{{n}}"{%endfor%}{%endif%}{%if ord.capabilities%}
 - capabilities:{%for c in ord.capabilities%} "{{c}}"{%endfor%}{%endif%}{%if ord.raw_capabilities%}
-- raw capabilities:{%for c in ord.capabilities%} "{{c}}"{%endfor%}{%endif%}{%endfor%}
+- raw capabilities:{%for c in ord.capabilities%} "{{c}}"{%endfor%}{%endif%}{%if ord.comments%}
+- comments:{%for c in ord.comments%} "{{c}}"{%endfor%}{%endif%}{%endfor%}

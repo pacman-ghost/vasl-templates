@@ -72,6 +72,8 @@ def _do_get_listings( vo_type ): #pylint: disable=too-many-locals,too-many-branc
                     listings["british"].append( lc )
 
     # apply any changes for VASL extensions
+    # NOTE: We do this here, rather than in VaslMod, because VaslMod is a wrapper around a VASL module, and so
+    # only knows about GPID's and counter images, rather than Chapter H pieces and piece ID's (e.g. "ge/v:001").
     vasl_mod = get_vasl_mod()
     if vasl_mod:
         # build an index of the pieces
@@ -81,36 +83,51 @@ def _do_get_listings( vo_type ): #pylint: disable=too-many-locals,too-many-branc
                 piece_index[ piece["id"] ] = piece
         # process each VASL extension
         for extn in vasl_mod.get_extns():
-            if vo_type not in extn[1]:
-                continue
-            _apply_extn_info( extn[0], extn[1], piece_index, vo_type )
+            _apply_extn_info( listings, extn[0], extn[1], piece_index, vo_type )
+
+    # update nationality variants with the listings from their base nationality
+    for nat in listings:
+        if "~" not in nat:
+            continue
+        base_nat = nat.split( "~" )[0]
+        listings[nat] = listings[base_nat] + listings[nat]
 
     return jsonify( listings )
 
-def _apply_extn_info( extn_fname, extn_info, piece_index, vo_type ):
+def _apply_extn_info( listings, extn_fname, extn_info, piece_index, vo_type ):
     """Update the vehicle/ordnance listings for the specified VASL extension."""
 
     # initialize
     logger = logging.getLogger( "vasl_mod" )
-    logger.info( "Updating %s for VASL extension: %s", vo_type, os.path.split(extn_fname)[1] )
+    logger.info( "Updating %s for VASL extension '%s': %s",
+        vo_type, extn_info["extensionId"], os.path.split(extn_fname)[1]
+    )
 
     # process each entry
-    for entry in extn_info[vo_type]:
-        piece = piece_index.get( entry["id"] )
-        if piece:
-            # update an existing piece
-            logger.debug( "- Updating GPID's for %s: %s", entry["id"], entry["gpid"] )
-            if piece["gpid"]:
-                prev_gpids = piece["gpid"]
-                if not isinstance( piece["gpid"], list ):
-                    piece["gpid"] = [ piece["gpid"] ]
-                piece["gpid"].extend( entry["gpid"] )
+    for nat in extn_info:
+        if not isinstance( extn_info[nat], dict ):
+            continue
+        for entry in extn_info[nat].get( vo_type, [] ):
+            piece = piece_index.get( entry["id"] )
+            if piece:
+                # update an existing piece
+                logger.debug( "- Updating GPID's for %s: %s", entry["id"], entry["gpid"] )
+                if piece["gpid"]:
+                    prev_gpids = piece["gpid"]
+                    if not isinstance( piece["gpid"], list ):
+                        piece["gpid"] = [ piece["gpid"] ]
+                    piece["gpid"].extend( entry["gpid"] )
+                else:
+                    prev_gpids = "(none)"
+                    piece["gpid"] = entry["gpid"]
+                logger.debug( "  - %s => %s", prev_gpids, piece["gpid"] )
             else:
-                prev_gpids = "(none)"
-                piece["gpid"] = entry["gpid"]
-            logger.debug( "  - %s => %s", prev_gpids, piece["gpid"] )
-        else:
-            logger.warning( "- Updating V/O entry with extension info not supported: %s", entry["id"] )
+                # add a new piece
+                if nat not in listings:
+                    listings[ nat ] = []
+                entry[ "extn_id" ] = extn_info[ "extensionId" ]
+                listings[ nat ].append( entry )
+
 # ---------------------------------------------------------------------
 
 @app.route( "/<vo_type>/<nat>/<theater>/<int:year>", defaults={"month":1}  )

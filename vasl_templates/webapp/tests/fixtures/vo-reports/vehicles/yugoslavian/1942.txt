@@ -1,7 +1,7 @@
 === vehicles/yugoslavian/1942 ===
 
-Name           Capabilities     (effective)      #    Notes
--------------  ---------------  ---------------  ---  ----------------------------------
+Name           Capabilities     (effective)      #    Notes                               Comments
+-------------  ---------------  ---------------  ---  ----------------------------------  ----------
 T-32           ® CS 2           ® CS 2           19   D
 M3A1(a)        C3† CS 4         C3† CS 4         20†  A B C L
 M3A3(a)        C3† sD3 CS 4     C3† sD3 CS 4     20†  A B C L

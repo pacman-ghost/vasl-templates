@@ -1,26 +1,26 @@
 === ordnance/romanian/1942 ===
 
-Name                   Capabilities             (effective)              #    Notes
----------------------  -----------------------  -----------------------  ---  -------
-Brandt M35             IR 5PP                   IR 5PP                   1    A
-Bofors 37mm            NT QSU                   NT QSU                   2†   A
-45mm PTP obr. 32       NT QSU                   NT QSU                   3†   n/a
-Resita M43             NT QSU Blk TH AP TK#18†  NT QSU Blk TH AP TK#18†  4†   n/a
-76.2mm PaK 36(r)       NT QSU s7                NT QSU s7                5    K†
-Breda 47               NT QSU no Gunshield      NT QSU no Gunshield      6†   A
-75mm PP obr. 27        NT QSU H6 s8             NT QSU H6 s8             7    A
-75 M mle 28            NT QSU h-d AP5 s5        NT QSU h-d AP5 s5        8    A
-Skoda M14/34           NT AP6                   NT AP6                   9†   A
-76.2mm P obr. 00/02    NT QSU h-d s7            NT QSU h-d s7            10   n/a
-76.2mm P obr. 02/30    NT QSU h-d s7            NT QSU h-d s7            11   n/a
-76.2mm P obr. 39(r)    NT QSU s5                NT QSU s5                12   K†
-s 10cm K 18(g)         NT NM s5                 NT NM s5                 13   E
-Skoda M39(D9)          NT                       NT                       14   n/a
-Canon de 105L mle 36S  NT                       NT                       15   n/a
-Canon mle 10/12        NT h-d s4                NT h-d s4                16   n/a
-OQF 4.5in              NT s4                    NT s4                    17   n/a
-Skoda M28 NOa          NM no IF ST              NM no IF ST              18   n/a
-Skoda M33 (K1)         NT                       NT                       19   n/a
-CA mle 38              T                        T                        20   n/a
-Vickers/Resita M36/39  T                        T                        21†  n/a
-Kanon PL vz. 12/20     T NM                     T NM                     22   n/a
+Name                   Capabilities       (effective)        #    Notes    Comments
+---------------------  -----------------  -----------------  ---  -------  -------------
+Brandt M35             IR 5PP             IR 5PP             1    A
+Bofors 37mm            NT QSU             NT QSU             2†   A
+45mm PTP obr. 32       NT QSU             NT QSU             3†   n/a
+Resita M43             NT QSU AP TK#18†   NT QSU AP TK#18†   4†   n/a      Blk TH
+76.2mm PaK 36(r)       NT QSU s7          NT QSU s7          5    K†
+Breda 47               NT QSU             NT QSU             6†   A        No Gunshield.
+75mm PP obr. 27        NT QSU H6 s8       NT QSU H6 s8       7    A
+75 M mle 28            NT QSU h-d AP5 s5  NT QSU h-d AP5 s5  8    A
+Skoda M14/34           NT AP6             NT AP6             9†   A
+76.2mm P obr. 00/02    NT QSU h-d s7      NT QSU h-d s7      10   n/a
+76.2mm P obr. 02/30    NT QSU h-d s7      NT QSU h-d s7      11   n/a
+76.2mm P obr. 39(r)    NT QSU s5          NT QSU s5          12   K†
+s 10cm K 18(g)         NT NM s5           NT NM s5           13   E
+Skoda M39(D9)          NT                 NT                 14   n/a
+Canon de 105L mle 36S  NT                 NT                 15   n/a
+Canon mle 10/12        NT h-d s4          NT h-d s4          16   n/a
+OQF 4.5in              NT s4              NT s4              17   n/a
+Skoda M28 NOa          NM ST              NM ST              18   n/a      No IF.
+Skoda M33 (K1)         NT                 NT                 19   n/a
+CA mle 38              T                  T                  20   n/a
+Vickers/Resita M36/39  T                  T                  21†  n/a
+Kanon PL vz. 12/20     T NM               T NM               22   n/a

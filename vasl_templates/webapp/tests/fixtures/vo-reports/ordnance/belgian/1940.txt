@@ -1,11 +1,11 @@
 === ordnance/belgian/1940 ===
 
-Name          Capabilities         (effective)          #    Notes
-------------  -------------------  -------------------  ---  -------
-DBT           3PP †                3PP †                6†   A B D
+Name          Capabilities         (effective)          #    Notes    Comments
+------------  -------------------  -------------------  ---  -------  ----------
+DBT           3PP                  3PP                  6†   A B D    †
 M76 A         NT h-d LF† [INF]     NT h-d LF† [INF]     7†   A B D
 M76 A         NT h-d LF† [INF]     NT h-d LF† [INF]     7†   A B D
-7.6cm FRC     NT QSU †             NT QSU †             8†   A B
+7.6cm FRC     NT QSU               NT QSU               8†   A B      †
 C47 FRC M 32  NT QSU               NT QSU               9    B
 C75 TR        NT QSU h-d s5        NT QSU h-d s5        10   B
 C75 GP        NT LF [75*, B10] s5  NT LF [75*, B10] s5  11   B

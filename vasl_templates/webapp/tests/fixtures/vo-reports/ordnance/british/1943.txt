@@ -1,11 +1,11 @@
 === ordnance/british/1943 ===
 
-Name                         Capabilities                       (effective)                    #    Notes
----------------------------  ---------------------------------  -----------------------------  ---  --------------------
+Name                         Capabilities                       (effective)                    #    Notes                 Comments
+---------------------------  ---------------------------------  -----------------------------  ---  --------------------  ---------------
 OML 2-in. Mortar             4PP IR[2+]† s7                     4PP IR† s7                     1    A† N P
 OML 2-in. Airborne Mortar    IR s7 3PP                          IR s7 3PP                      1    n/a
 OML 3-in. Mortar             NT QSU IR[2+]†[1] WP7 s8[1+]†      NT QSU IR†[1] WP7 s8†          2†   A†<sup>1</sup> D N P
-OSB 4.2-in. Mortar           NT WP7 s8 Towed†                   NT WP7 s8 Towed†               3†   N P
+OSB 4.2-in. Mortar           NT WP7 s8                          NT WP7 s8                      3†   N P                   Towed†
 OQF 25mm Hotchkiss           NT QSU                             NT QSU                         4†   B N
 OQF 2-Pounder                T LF [NT, 40†[1], 2 ROF, B11]      T LF [NT, 40†[1], 2 ROF, B11]  5†   B C†<sup>1</sup> N P
 OQF 6-Pounder 7-cwt          NT QSU D6[J4E]7[5]† HE7[F3]8[4+]†  NT QSU                         6†   B N P
@@ -21,8 +21,8 @@ OQF 4.5-in. Howitzer         NT WP7 s8                          NT WP7 s8       
 OBL 4.5-in. Gun              NT                                 NT                             16†  N
 OBL 5.5-in. Gun-Howitzer     NT                                 NT                             16†  N P
 OBL 6-in. Howitzer           NT                                 NT                             17†  N P
-OBL 7.2-in. Howitzer Mk I    NT no IF Acq. NA†                  NT no IF Acq. NA†              18†  N P
-OBL 7.2-in. Howitzer Mk VI   NT RFNM no IF                      NT RFNM no IF                  19†  P
+OBL 7.2-in. Howitzer Mk I    NT                                 NT                             18†  N P                   No IF. Acq. NA†
+OBL 7.2-in. Howitzer Mk VI   NT RFNM                            NT RFNM                        19†  P                     No IF.
 OQF 20mm AA                  T                                  T                              20   n/a
 OQF 40mm AA                  T LF [40†[1], 2 ROF]               T LF [40†[1], 2 ROF]           21†  C†<sup>1</sup> N P
 OQF 3-in. 20-cwt AA          T                                  T                              22†  E P

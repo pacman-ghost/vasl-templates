@@ -1,5 +1,10 @@
 === ordnance/dutch/1945 ===
 
-Name                 Capabilities    (effective)      #  Notes
--------------------  --------------  -------------  ---  -------
-Solothurn s/18-1100  5PP             5PP             15  A Ne
+Name                         Capabilities                      (effective)                         #  Notes    Comments
+---------------------------  --------------------------------  --------------------------------  ---  -------  ----------
+Solothurn s/18-1100          5PP                               5PP                                15  A Ne
+Brandt 47mm Mortar                                                                                 1  n/a
+Krupp 75mm M1933 Field Gun   NT QSU C4†                        NT QSU C4†                          2  US C†
+Bofors 105mm M1924 Howitzer  T LF [NT, B11]                    T LF [NT, B11]                      3  n/a
+20mm Rheinmetall AA          T LF [20†, 2 ROF, B11, NT]        T LF [20†, 2 ROF, B11, NT]          4  Gr C†
+Bofors 80mm M29/38           T LF [80†, 1 ROF, B11] AP TK# 17  T LF [80†, 1 ROF, B11] AP TK# 17    6  AxM G†

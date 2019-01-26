@@ -1,4 +1,4 @@
 === vehicles/greek/1943 ===
 
-Name    Capabilities    (effective)    #    Notes
-------  --------------  -------------  ---  -------
+Name    Capabilities    (effective)    #    Notes    Comments
+------  --------------  -------------  ---  -------  ----------

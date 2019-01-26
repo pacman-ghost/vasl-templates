@@ -1,7 +1,7 @@
 === vehicles/slovakian/1944 ===
 
-Name            Capabilities                       (effective)                 #    Notes
---------------  ---------------------------------  --------------------------  ---  ---------------------------------
+Name            Capabilities                       (effective)                 #    Notes                              Comments
+--------------  ---------------------------------  --------------------------  ---  ---------------------------------  ----------
 T vz 33(t)      ® CS 2                             ® CS 2                      17†  K†<sup>1</sup> E F G†<sup>2</sup>
 LT vz 34        ® CS 2                             ® CS 2                      18   n/a
 PzKpfw IIA(g)   sD6 CS 3                           sD6 CS 3                    19   E

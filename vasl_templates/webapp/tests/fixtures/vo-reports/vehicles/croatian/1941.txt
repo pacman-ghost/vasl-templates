@@ -1,7 +1,7 @@
 === vehicles/croatian/1941 ===
 
-Name              Capabilities    (effective)    #    Notes
-----------------  --------------  -------------  ---  --------------
+Name              Capabilities    (effective)    #    Notes           Comments
+----------------  --------------  -------------  ---  --------------  ----------
 TKS               ® CS 2          ® CS 2         24†  F
 TKS(L)            ® CS 2          ® CS 2         24†  F
 L6/40(i)          CS 2            CS 2           25   n/a

@@ -252,10 +252,10 @@ def test_month_capabilities( webapp, webdriver ):
 
     # Cannone da 47/32: Towed(A1+)†
     ordnance = [ "italian", "ordnance", "Cannone da 47/32" ]
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1940", "NT QSU no Gunshield" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "07/1941", "NT QSU no Gunshield" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "08/1941", "NT QSU no Gunshield Towed[!]" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1942", "NT QSU no Gunshield Towed[!]" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1940", "NT QSU" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "07/1941", "NT QSU" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "08/1941", "NT QSU Towed[!]" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1942", "NT QSU Towed[!]" )
 
     # Cannone da 65/17, 75/27, 75/32 + Obice da 75/18: H6(S2+)†1
     for vo_name in ("Cannone da 65/17", "Cannone da 75/27","Cannone da 75/32","Obice da 75/18"):
@@ -386,6 +386,39 @@ def test_theater_capabilities( webapp, webdriver ):
     ordnance = [ "chinese", "ordnance", "Obice da 149/13" ]
     _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1940", "NT h-d<sup>C</sup>[!] s5" )
     _check_capabilities( webdriver, webapp, *ordnance, "Burma", "01/1940", "NT h-d<sup>C</sup>[!] WP6[!] s5" )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+@pytest.mark.skipif(
+    pytest.config.option.short_tests, #pylint: disable=no-member
+    reason = "--short-tests specified"
+)
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_extensions, #pylint: disable=no-member
+    reason = "--vasl-extensions not specified"
+)
+def test_theater_capabilities_bfp( webapp, webdriver ):
+    """Test theater-specific capabilities (BFP extension)."""
+
+    # initialize
+    init_webapp( webapp, webdriver,
+        reset = lambda ct: ct.set_vasl_mod( vmod="random", extns_dtype="real" )
+    )
+
+    # LVT(A)1(L): C10(P)†2
+    vehicle = [ "american", "vehicles", "LVT(A)1(L)" ]
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1940", "CS 6" )
+    _check_capabilities( webdriver, webapp, *vehicle, "PTO", "01/1940", "C10[!2] CS 6" )
+
+    # LVT(A)4(L): C7(P)†3
+    vehicle = [ "american", "vehicles", "LVT(A)4(L)" ]
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1940", "H8 WP9 CS 6" )
+    _check_capabilities( webdriver, webapp, *vehicle, "PTO", "01/1940", "C7[!3] H8 WP9 CS 6" )
+
+    # M3A1F: C7(P)†
+    vehicle = [ "american", "vehicles", "M3A1F" ]
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1940", "CS 4" )
+    _check_capabilities( webdriver, webapp, *vehicle, "PTO", "01/1940", "C7[!] CS 4" )
 
 # ---------------------------------------------------------------------
 
@@ -547,6 +580,128 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     saved_scenario = save_scenario()
     assert len(saved_scenario["OB_VEHICLES_1"]) == 1
     assert "custom_capabilities" not in saved_scenario["OB_VEHICLES_1"][0]
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def test_custom_comments( webapp, webdriver ): #pylint: disable=too-many-statements
+    """Test custom comments."""
+
+    # NOTE: Vehicle/ordnance comments are not capabilities, but they are managed in the same place
+    # and the code is virtually identical, so it makes sense to put the test code here.
+
+    # initialize
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
+
+    # add a vehicle
+    add_vo( webdriver, "vehicles", 1, "a commented german vehicle" )
+
+    snippet_btn = find_child( "button[data-id='ob_vehicles_1']" )
+    def extract_comments( clipboard ):
+        """Extract the comments."""
+        mo = re.search( r"^- comments: (.*)$", clipboard, re.MULTILINE )
+        return mo.group(1) if mo else ""
+    def check_snippet( expected ):
+        """Check the vehicle's snippet."""
+        snippet_btn.click()
+        wait_for_clipboard( 2, expected, transform=extract_comments )
+    def check_comments_in_dialog( expected ):
+        """Check the vehicle's comments."""
+        elems = find_children( "#vo_comments-sortable li" )
+        elems2 = [ find_child("input[type='text']",c) for c in elems ]
+        assert [ e.get_attribute("value") for e in elems2 ] == expected
+        return elems
+
+    # check the vehicle's snippet
+    check_snippet( '"a comment" "another comment"' )
+
+    # edit the vehicle's comments
+    vehicles_sortable = find_child( "#ob_vehicles-sortable_1" )
+    elems = find_children( "li", vehicles_sortable )
+    assert len(elems) == 1
+    ActionChains(webdriver).double_click( elems[0] ).perform()
+    elems = check_comments_in_dialog( [ "a comment", "another comment" ] )
+
+    # edit one of the comments
+    elem = find_child( "input[type='text']", elems[0] )
+    elem.clear()
+    elem.send_keys( "a comment (modified)" )
+
+    # delete a comment
+    ActionChains(webdriver).key_down( Keys.CONTROL ).click( elems[1] ).key_up( Keys.CONTROL ).perform()
+
+    # add a new comment
+    elem = find_child( "#vo_comments-add" )
+    elem.click()
+    elems = find_children( "#vo_comments-sortable input[type='text']" )
+    assert len(elems) == 2
+    elems[1].send_keys( "a <i>new</i> comment" )
+
+    # save the changes and check the vehicle's snippet
+    click_dialog_button( "OK" )
+    check_snippet( '"a comment (modified)" "a <i>new</i> comment"' )
+
+    # save the scenario
+    saved_scenario = save_scenario()
+    assert len(saved_scenario["OB_VEHICLES_1"]) == 1
+    assert saved_scenario["OB_VEHICLES_1"][0]["custom_comments"] == [ "a comment (modified)", "a <i>new</i> comment" ]
+
+    # reload the scenario, and check the vehicle's snippet
+    select_menu_option( "new_scenario" )
+    load_scenario( saved_scenario )
+    select_tab( "ob1" )
+    check_snippet( '"a comment (modified)" "a <i>new</i> comment"' )
+
+    # make sure the comments are loaded correcly when editing the vehicle
+    elems = find_children( "li", vehicles_sortable )
+    assert len(elems) == 1
+    ActionChains(webdriver).double_click( elems[0] ).perform()
+    elems = check_comments_in_dialog( [ "a comment (modified)", "a <i>new</i> comment" ] )
+
+    # delete all comments
+    for elem in elems:
+        ActionChains(webdriver).key_down( Keys.CONTROL ).click( elem ).key_up( Keys.CONTROL ).perform()
+    click_dialog_button( "OK" )
+    check_snippet( "" )
+
+    # save the scenario
+    saved_scenario2 = save_scenario()
+    assert len(saved_scenario2["OB_VEHICLES_1"]) == 1
+    assert saved_scenario2["OB_VEHICLES_1"][0]["custom_comments"] == []
+
+    # reload the scenario, and reset the vehicle's comments back to the default
+    load_scenario( saved_scenario )
+    select_tab( "ob1" )
+    elems = find_children( "li", vehicles_sortable )
+    assert len(elems) == 1
+    ActionChains(webdriver).double_click( elems[0] ).perform()
+    btn = find_child( "#vo_comments-reset" )
+    btn.click()
+    click_dialog_button( "OK" )
+    check_snippet( '"a comment" "another comment"' )
+
+    # make sure the custom comments are no longer saved in the scenario
+    saved_scenario2 = save_scenario()
+    assert len(saved_scenario2["OB_VEHICLES_1"]) == 1
+    assert "custom_comments" not in saved_scenario2["OB_VEHICLES_1"][0]
+
+    # reload the scenario, and manually set the vehicle's comments to be the same as the default
+    load_scenario( saved_scenario )
+    select_tab( "ob1" )
+    elems = find_children( "li", vehicles_sortable )
+    assert len(elems) == 1
+    ActionChains(webdriver).double_click( elems[0] ).perform()
+    elems = find_children( "#vo_comments-sortable input[type='text']" )
+    assert len(elems) == 2
+    elems[0].clear()
+    elems[0].send_keys( "a comment" )
+    elems[1].clear()
+    elems[1].send_keys( "another comment" )
+    click_dialog_button( "OK" )
+
+    # make sure the custom comments are no longer saved in the scenario
+    saved_scenario = save_scenario()
+    assert len(saved_scenario["OB_VEHICLES_1"]) == 1
+    assert "custom_comments" not in saved_scenario["OB_VEHICLES_1"][0]
 
 # ---------------------------------------------------------------------
 

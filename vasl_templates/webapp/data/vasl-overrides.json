@@ -99,6 +99,37 @@
     "updated": {
         "back_images": "fiAA76LB.png"
     }
+},
+
+"adf:1824": {
+    "expected": {
+        "name": "37L AT PTP obr. 30",
+        "front_images": "ru/gun/ruAT37L",
+        "back_images": "ru/gun/ruAT37Lb"
+    },
+    "updated": {
+        "front_images": "ru/gun/ru37LPTPobr30.png"
+    }
+},
+"adf:1822": {
+    "expected": {
+        "name": "37* INF PP obr. 15R",
+        "front_images": "ru/gun/ruINF37s",
+        "back_images": "ru/gun/ruINF37sb"
+    },
+    "updated": {
+        "front_images": "ru/gun/ru37PPobr15R.png"
+    }
+},
+"adf:1823": {
+    "expected": {
+        "name": "76* INF PP obr. 27",
+        "front_images": "ru/gun/ruINF76s",
+        "back_images": "ru/gun/ruINF76sb"
+    },
+    "updated": {
+        "front_images": "ru/gun/ru76PPobr27.png"
+    }
 }
 
 }

@@ -366,6 +366,12 @@ def test_special_cases( webapp, webdriver ):
     not pytest.config.option.vo_notes, #pylint: disable=no-member
     reason = "--vo-notes not specified"
 ) #pylint: disable=too-many-locals,too-many-branches
+# NOTE: The expected output files contain pieces from the supported extensions,
+# so the VASL extensions directory must be loaded.
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_extensions, #pylint: disable=no-member
+    reason = "--vasl-extensions not specified"
+    ) #pylint: disable=too-many-locals
 def test_vo_notes_reports( webapp, webdriver ):
     """Check the vehicle/ordnance notes reports."""
 
@@ -375,6 +381,7 @@ def test_vo_notes_reports( webapp, webdriver ):
     init_webapp( webapp, webdriver,
         reset = lambda ct:
             ct.set_data_dir( dtype="real" ) \
+              .set_vasl_mod( vmod="random", extns_dtype="real" ) \
               .set_vo_notes_dir( dtype="real" )
     )
 
@@ -393,9 +400,10 @@ def test_vo_notes_reports( webapp, webdriver ):
         for vo_type in ["vehicles","ordnance"]:
 
             # get the next report
-            if nat == "landing-craft" and vo_type == "ordnance":
-                continue
             vo_notes, ma_notes, keys = get_vo_notes_report( webapp, webdriver, nat, vo_type )
+            if nat in ("burmese","filipino") or (nat,vo_type) in [("landing-craft","ordnance"),("anzac","ordnance")]:
+                assert not vo_notes and not ma_notes and not keys
+                continue
 
             # convert the report to plain-text
             buf = io.StringIO()
@@ -431,7 +439,7 @@ def test_vo_notes_reports( webapp, webdriver ):
 
             # check the report
             fname = os.path.join( check_dir, fname )
-            assert open(fname,"r",encoding="utf-8").read() == report
+            assert open( fname, "r", encoding="utf-8" ).read() == report
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -467,7 +475,7 @@ def _parse_report( buf ):
         val = val.replace( "&#8804;", "&le;" ).replace( "&#8805;", "&ge;" )
         val = val.replace( "&#176;", "&deg;" )
         val = val.replace( "&#8734;", "&infin;" )
-        val = val.replace( "&#228;", "&auml;" ).replace( "&#235;", "&euml;" )
+        val = val.replace( "&#228;", "&auml;" ).replace( "&#235;", "&euml;" ).replace( "&#252;", "&uml;" )
         val = val.replace( "&#188;", "&frac14;" ).replace( "&#189;", "&frac12;" ).replace( "&#190;", "&frac34;" )
         val = re.sub(
             r"<sup>(.*?)</sup>",

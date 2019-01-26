@@ -1,33 +1,36 @@
 === ordnance/russian/1942 ===
 
-Name                  Capabilities                  (effective)                   #     Notes
---------------------  ----------------------------  ----------------------------  ----  -------
-50mm RM obr. 40       4PP                           4PP                           1     n/a
-37mm PM-39            1PP Air Bursts &amp; Acq. NA  1PP Air Bursts &amp; Acq. NA  1.1   A
-82mm BM obr. 37       NT QSU IR s8                  NT QSU IR s8                  2†    n/a
-107mm GVPM obr. 38    NT QSU s8                     NT QSU s8                     3     A
-120mm PM obr. 38      NT QSU s8                     NT QSU s8                     4     n/a
-160mm PM obr. 43      NT no IF                      NT no IF                      5     n/a
-37mm PTP obr. 30      NT QSU                        NT QSU                        6     n/a
-45mm PTP obr. 32      NT QSU A4[2]5[3]6[4]7[5]      NT QSU A4                     7     n/a
-45mm PTP obr. 42      NT QSU A4[2]5[3]6[4]7[5]      NT QSU A4                     8     n/a
-57mm PTP obr. 43      NT QSU A4[3]5[4]6[5]          NT QSU                        9†    n/a
-100mm PTP obr. 44     NT                            NT                            10    n/a
-37mm PP obr. 15R      NT QSU h-d                    NT QSU h-d                    11    n/a
-76.2mm PP obr. 27     NT QSU H6 s8                  NT QSU H6 s8                  12    A
-76.2mm P obr. 00/02P  NT QSU h-d s8                 NT QSU h-d s8                 13    n/a
-76.2mm P obr. 02/30   NT QSU h-d s8                 NT QSU h-d s8                 14    n/a
-76.2mm P obr. 39      NT QSU A4[2]5[3]6[4]7[5] s8   NT QSU A4 s8                  15†   n/a
-76.2mm P obr. 36      NT QSU A4[2] s8               NT QSU A4 s8                  16†   n/a
-85mm P obr. 44        NT QSU A5[4]6[5] s8           NT QSU s8                     17    n/a
-107mm P obr. 10/30    NT h-d s8                     NT h-d s8                     18    n/a
-122mm G obr. 10/30    NT h-d s8                     NT h-d s8                     19    n/a
-122mm G obr. 38       NT H6 s8                      NT H6 s8                      20    n/a
-122mm P obr. 31       NT s8                         NT s8                         21    n/a
-152mm G obr. 38       NT                            NT                            22    n/a
-152mm GP obr. 37      NT                            NT                            23    n/a
-203mm B-4 obr. 1931   NT RFNM no IF                 NT RFNM no IF                 23.1  n/a
-25mm ZP obr. 40       T                             T                             24    n/a
-37mm ZP obr. 39       T                             T                             25†   n/a
-76.2mm ZP obr. 38     T                             T                             26†   n/a
-85mm ZP obr. 39       T                             T                             27    n/a
+Name                  Capabilities                 (effective)       #     Notes      Comments
+--------------------  ---------------------------  ----------------  ----  ---------  ------------------------
+50mm RM obr. 40       4PP                          4PP               1     n/a
+37mm PM-39            1PP                          1PP               1.1   A          Air Bursts &amp; Acq. NA
+82mm BM obr. 37       NT QSU IR s8                 NT QSU IR s8      2†    n/a
+107mm GVPM obr. 38    NT QSU s8                    NT QSU s8         3     A
+120mm PM obr. 38      NT QSU s8                    NT QSU s8         4     n/a
+160mm PM obr. 43      NT                           NT                5     n/a        No IF.
+37mm PTP obr. 30      NT QSU                       NT QSU            6     n/a
+45mm PTP obr. 32      NT QSU A4[2]5[3]6[4]7[5]     NT QSU A4         7     n/a
+45mm PTP obr. 42      NT QSU A4[2]5[3]6[4]7[5]     NT QSU A4         8     n/a
+57mm PTP obr. 43      NT QSU A4[3]5[4]6[5]         NT QSU            9†    n/a
+100mm PTP obr. 44     NT                           NT                10    n/a
+37mm PP obr. 15R      NT QSU h-d                   NT QSU h-d        11    n/a
+76.2mm PP obr. 27     NT QSU H6 s8                 NT QSU H6 s8      12    A
+76.2mm P obr. 00/02P  NT QSU h-d s8                NT QSU h-d s8     13    n/a
+76.2mm P obr. 02/30   NT QSU h-d s8                NT QSU h-d s8     14    n/a
+76.2mm P obr. 39      NT QSU A4[2]5[3]6[4]7[5] s8  NT QSU A4 s8      15†   n/a
+76.2mm P obr. 36      NT QSU A4[2] s8              NT QSU A4 s8      16†   n/a
+85mm P obr. 44        NT QSU A5[4]6[5] s8          NT QSU s8         17    n/a
+107mm P obr. 10/30    NT h-d s8                    NT h-d s8         18    n/a
+122mm G obr. 10/30    NT h-d s8                    NT h-d s8         19    n/a
+122mm G obr. 38       NT H6 s8                     NT H6 s8          20    n/a
+122mm P obr. 31       NT s8                        NT s8             21    n/a
+152mm G obr. 38       NT                           NT                22    n/a
+152mm GP obr. 37      NT                           NT                23    n/a
+203mm B-4 obr. 1931   NT RFNM                      NT RFNM           23.1  n/a        No IF.
+25mm ZP obr. 40       T                            T                 24    n/a
+37mm ZP obr. 39       T                            T                 25†   n/a
+76.2mm ZP obr. 38     T                            T                 26†   n/a
+85mm ZP obr. 39       T                            T                 27    n/a
+37mm PTP obr. 30      NT QSU C5†                   NT QSU C5†        1     B†
+37mm PP obr. 15R      NT QSU h-d C5†               NT QSU h-d C5†    2     B†
+76.2mm PP obr. 27     NT QSU C6† H6 s8             NT QSU C6† H6 s8  3     A B† Ru A

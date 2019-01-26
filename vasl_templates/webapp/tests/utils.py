@@ -5,6 +5,7 @@ import urllib.request
 import json
 import time
 import re
+import typing
 import uuid
 from collections import defaultdict
 
@@ -503,7 +504,10 @@ def wait_for_clipboard( timeout, expected, contains=None, transform=None ):
         if transform:
             clipboard = transform( clipboard )
         if contains is None:
-            return expected == clipboard
+            if isinstance( expected, typing.re.Pattern ):
+                return expected.search( clipboard ) is not None
+            else:
+                return expected == clipboard
         elif contains is True:
             return expected in clipboard
         elif contains is False:

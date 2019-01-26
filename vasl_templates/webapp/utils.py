@@ -142,7 +142,7 @@ def is_image_file( fname ):
     if fname.startswith( "." ):
         extn = fname
     else:
-        extn = os.path.splitext( fname )[0]
+        extn = os.path.splitext( fname )[1]
     return extn.lower() in (".png",".jpg",".jpeg",".gif")
 
 def is_empty_file( fname ):

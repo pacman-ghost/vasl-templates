@@ -1,8 +1,8 @@
 === ordnance/chinese/1943 ===
 
-Name                            Capabilities                    (effective)                     #       Notes
-------------------------------  ------------------------------  ------------------------------  ------  --------------------------
-Type 27 Grenade Launcher        2PP Air Bursts NA†              2PP Air Bursts NA†              1†      A
+Name                            Capabilities                    (effective)                     #       Notes                       Comments
+------------------------------  ------------------------------  ------------------------------  ------  --------------------------  ------------------
+Type 27 Grenade Launcher        2PP                             2PP                             1†      A                           Air Bursts NA†
 Mortaio da 45 "Brixia"          4PP                             4PP                             2       A D†
 5cm leGrW 36                    5PP                             5PP                             2       A
 50mm RM obr. 38                 5PP                             5PP                             2       A
@@ -15,8 +15,8 @@ M1 81mm                         NT QSU WP7                      NT QSU WP7      
 M2 4.2-in.                      NT QSU WP9                      NT QSU WP9                      5†      B
 3.7cm PaK 35/36                 NT QSU                          NT QSU                          6       E†
 M3A1 37mm                       NT QSU C7†[1]                   NT QSU C7†[1]                   6†      C†<sup>1</sup>
-37mm PP obr. 15R                NT QSU h-d Low Ammo†            NT QSU h-d Low Ammo†            7†      <s>B</s>
-Cannone da 70/15                NT QSU Acq. NA† Low Ammo† h-d   NT QSU Acq. NA† Low Ammo† h-d   7†      A <s>B</s>
+37mm PP obr. 15R                NT QSU h-d                      NT QSU h-d                      7†      <s>B</s>                    Low Ammo†
+Cannone da 70/15                NT QSU h-d                      NT QSU h-d                      7†      A <s>B</s>                  Acq. NA† Low Ammo†
 7.5cm Krupp M08                 NT QSU h-d AP5 s5               NT QSU h-d AP5 s5               8       A F†
 Obice da 75/13                  NT QSU h-d                      NT QSU h-d                      8       A D† F†<sup>1</sup>
 7.5cm leIG 18                   NT QSU h-d                      NT QSU h-d                      9†      n/a

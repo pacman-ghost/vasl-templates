@@ -1,7 +1,7 @@
 === vehicles/axis-minor-common/1943 ===
 
-Name            Capabilities            (effective)         #    Notes
---------------  ----------------------  ------------------  ---  ---------------------------------------
+Name            Capabilities            (effective)         #    Notes                                    Comments
+--------------  ----------------------  ------------------  ---  ---------------------------------------  ----------
 L3/35(i)        ® CS 2                  ® CS 2              29†  K†<sup>1</sup> E F G†<sup>2</sup> H C B
 FT-17M(f)       ® no IF CS 2            ® no IF CS 2        30†  D R C
 FT-17C(f)       ® AP9 CS 2              ® AP9 CS 2          30†  D R C

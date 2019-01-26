@@ -9,6 +9,7 @@ from collections import defaultdict
 from flask import render_template, jsonify, abort
 
 from vasl_templates.webapp import app
+from vasl_templates.webapp.file_server.vasl_mod import get_vasl_mod
 from vasl_templates.webapp.files import FileServer
 from vasl_templates.webapp.utils import resize_image_response, is_image_file, is_empty_file
 
@@ -32,7 +33,7 @@ def get_ordnance_notes():
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def _do_get_vo_notes( vo_type ): #pylint: disable=too-many-locals,too-many-branches
+def _do_get_vo_notes( vo_type ): #pylint: disable=too-many-statements,too-many-locals,too-many-branches
     """Load the Chapter H notes."""
 
     # check if we already have the vehicle/ordnance notes
@@ -52,6 +53,13 @@ def _do_get_vo_notes( vo_type ): #pylint: disable=too-many-locals,too-many-branc
         global _vo_notes_file_server
         _vo_notes_file_server = FileServer( dname )
 
+    # generate a list of extension ID's
+    extn_ids = {}
+    vasl_mod = get_vasl_mod()
+    if vasl_mod:
+        extns = vasl_mod.get_extns()
+        extn_ids = set( e[1]["extensionId"] for e in extns )
+
     def get_ma_note_key( nat, fname ):
         """Get the key for a multi-applicable note."""
         # NOTE: Windows has a case-insensitive file system, so we adopt the following convention:
@@ -69,10 +77,21 @@ def _do_get_vo_notes( vo_type ): #pylint: disable=too-many-locals,too-many-branc
                 fname = fname[0] + fname[1].lower()
             return fname
 
-    # load the vehicle/ordnance notes
+    # initialize
     vo_notes = { "vehicles": defaultdict(dict), "ordnance": defaultdict(dict) }
+    # NOTE: We don't have any data files for these vehicles/ordnance, but they have
+    # multi-applicable notes, so we force them to appear in the final results.
+    vo_notes["vehicles"]["anzac"] = {}
+    vo_notes["ordnance"]["indonesian"] = {}
+
+    # load the vehicle/ordnance notes
     for root,_,fnames in os.walk( dname, followlinks=True ):
         dname2, vo_type2 = os.path.split( root )
+        if vo_type2 in extn_ids:
+            extn_id = vo_type2
+            dname2, vo_type2 = os.path.split( dname2 )
+        else:
+            extn_id = None
         if vo_type2 not in ("vehicles","ordnance","landing-craft"):
             continue
         if os.path.split( dname2 )[1] == "tests":
@@ -94,11 +113,15 @@ def _do_get_vo_notes( vo_type ): #pylint: disable=too-many-locals,too-many-branc
                     continue # nb: ignore placeholder files
                 prefix = os.path.commonpath( [ dname, fname ] )
                 if prefix:
+                    if extn_id:
+                        key = "{}:{}".format( extn_id, key )
                     vo_notes[vo_type2][nat2][key] = fname[len(prefix)+1:]
                 else:
                     logging.warning( "Unexpected vehicle/ordnance note path: %s", fname )
             elif extn == ".html":
                 key = get_ma_note_key( nat2, fname )
+                if extn_id:
+                    key = "{}:{}".format( extn_id, key )
                 with open( os.path.join(root,fname), "r" ) as fp:
                     buf = fp.read().strip()
                     if not buf:
@@ -106,7 +129,16 @@ def _do_get_vo_notes( vo_type ): #pylint: disable=too-many-locals,too-many-branc
                     if buf.startswith( "<p>" ):
                         buf = buf[3:].strip()
                     ma_notes[key] = buf
-        vo_notes[vo_type2][nat2]["multi-applicable"] = ma_notes
+        if "multi-applicable" in vo_notes[ vo_type2 ][ nat2 ]:
+            vo_notes[ vo_type2 ][ nat2 ][ "multi-applicable" ].update( ma_notes )
+        else:
+            vo_notes[ vo_type2 ][ nat2 ][ "multi-applicable" ] = ma_notes
+
+    # update nationality variants with the notes from their base nationality
+    for vo_type2 in vo_notes:
+        # FUDGE! The Chinese GMD don't have any vehicles/ordnance of their own, so we have to do this manually.
+        if "chinese" in vo_notes[vo_type2]:
+            vo_notes[vo_type2]["chinese~gmd"] = vo_notes[vo_type2]["chinese"]
 
     with _vo_notes_lock:
         # install the new vehicle/ordnance notes

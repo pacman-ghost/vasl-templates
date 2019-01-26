@@ -22,6 +22,10 @@
   "notes": [ "A", "C" ],
   "id": "ge/v:992"
 },
+{ "name": "a commented german vehicle",
+  "comments": [ "a comment", "another comment" ],
+  "id": "ge/v:993"
+},
 { "name": "name only",
   "id": "ge/v:999"
 }

@@ -1,7 +1,7 @@
 === ordnance/axis-minor-common/1944 ===
 
-Name                             Capabilities                   (effective)                    #    Notes
--------------------------------  -----------------------------  -----------------------------  ---  ----------------------
+Name                             Capabilities                   (effective)                    #    Notes                   Comments
+-------------------------------  -----------------------------  -----------------------------  ---  ----------------------  -------------
 5cm leGrW 36                     5PP                            5PP                            44   A H S C B
 50mm RM obr. 40                  4PP                            4PP                            45   A R H S C
 8cm GrW 34                       NT QSU IR s7                   NT QSU IR s7                   46†  A C B
@@ -10,7 +10,7 @@ PM obr. 38                       NT QSU h-d s8                  NT QSU h-d s8   
 Ur wz. 35                        1PP                            1PP                            49   R H S C B
 s18-1100                         5PP                            5PP                            50   A R H
 Kanon PUV vz. 37(t)              NT QSU A4[1S]                  NT QSU                         51†  E H S B
-Bohler M35                       NT QSU no Gunshield            NT QSU no Gunshield            52†  A R H S
+Bohler M35                       NT QSU                         NT QSU                         52†  A R H S                 No Gunshield.
 5cm PaK 38(g)                    NT QSU A4[3]3[4]               NT QSU A3                      53†  E R H S B
 7.5cm PaK 97/38(g)               NT QSU H5[3+] s6               NT QSU H5 s6                   54†  E R B
 7.5cm PaK 40(g)                  NT QSU A4[3]3[4]               NT QSU A3                      55†  E R H S B
@@ -25,7 +25,7 @@ Skoda M35                        NT AP7 C7[CS]†                 NT AP7        
 G obr. 10/30                     NT h-d s7                      NT h-d s7                      64†  R B
 G obr. 38                        NT s5[1-2R]†                   NT                             65   R B
 Skoda M14                        NT                             NT                             66†  R H S
-Skoda M15/16                     NT no IF s6                    NT no IF s6                    67†  S C
+Skoda M15/16                     NT s6                          NT s6                          67†  S C                     No IF.
 C mle 17 S                       NT s7                          NT s7                          68†  R B
 Mitrailleuse de 13.2 CAJ mle 30  T 2 TK DR†                     T 2 TK DR†                     69†  T†<sup>1</sup> R B
 Oerlikon FF                      T LF [NT, 20†, 2 ROF, B11]     T LF [NT, 20†, 2 ROF, B11]     70   G† R H S C B

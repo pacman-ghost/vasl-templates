@@ -3,13 +3,16 @@
 import os
 import zipfile
 import typing
+import re
 
 import pytest
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.utils import TempFile
-from vasl_templates.webapp.tests.utils import init_webapp, set_player, find_child, find_children
+from vasl_templates.webapp.tests.utils import init_webapp, set_player, select_tab, \
+    find_child, find_children, wait_for_clipboard
+from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 
 # ---------------------------------------------------------------------
@@ -160,6 +163,141 @@ def test_kgs_extensions( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_extensions, #pylint: disable=no-member
+    reason = "--vasl-extensions not specified"
+)
+def test_bfp_extensions( webapp, webdriver ):
+    """Test the Bounding Fire extension."""
+
+    # initialize
+    init_webapp( webapp, webdriver, scenario_persistence=1,
+        reset = lambda ct:
+            ct.set_data_dir( dtype="real" ) \
+              .set_vasl_mod( vmod="random", extns_dtype="real" ) \
+              .set_vo_notes_dir( dtype="real" )
+    )
+
+    # load the test scenario
+    load_scenario( {
+        "PLAYER_1": "japanese",
+        "OB_VEHICLES_1": [
+            { "name": "Type 97A CHI-HA" }, # nb: this is a normal counter
+            { "name": "M3A1 Scout Car(a)" } # nb: this is a BFP counter
+        ],
+    } )
+    select_tab( "ob1" )
+
+    # test the OB snippet
+    btn = find_child( "button.generate[data-id='ob_vehicles_1']" )
+    btn.click()
+    wait_for_clipboard( 2, re.compile(
+        'Type 97A CHI-HA'
+        '.+<div class="note">'
+        '.+8\u2020, B\u2020<sup>1</sup>, C\u2020<sup>2</sup>'
+        '.+</div>'
+        r'.+M3A1 Scout Car\(a\)'
+        '.+<div class="note">'
+        '.+&#x2756;'
+        '.+17, A, C, AllM 34\u2020<sup>2</sup>, Jp A\u2020<sup>1</sup>, Ch F\u2020'
+        '.+</div>',
+        re.DOTALL
+    ) )
+
+    # test the multi-applicable notes
+    btn = find_child( "button.generate[data-id='ob_vehicles_ma_notes_1']" )
+    btn.click()
+    wait_for_clipboard( 2, [
+        ( False, "B", "sD becomes available" ),
+        ( False, "C", "This tank has no rad" ),
+        ( True, "A", "The (a) indicates U." ),
+        ( True, "C", "Although a captured " ),
+        ( True, "Ch F", "This vehicle, despit" ),
+        ( True, "Jp A", "The MA <i>and all</i" ),
+    ], transform=_extract_extn_ma_notes )
+
+    # test the Chapter H note
+    vehicles_sortable = find_child( "#ob_vehicles-sortable_1" )
+    elems = find_children( "li img.snippet", vehicles_sortable )
+    assert len(elems) == 2
+    elems[0].click()
+    wait_for_clipboard( 2, re.compile( r'<img src=".*?/vehicles/japanese/note/8">' ) )
+    elems[1].click()
+    wait_for_clipboard( 2, re.compile( r'<img src=".*?/vehicles/japanese/note/adf:17">' ) )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_extensions, #pylint: disable=no-member
+    reason = "--vasl-extensions not specified"
+)
+def test_bfp_extensions2( webapp, webdriver ):
+    """Test the Bounding Fire extension (Operation Cobra counters)."""
+
+    # initialize
+    init_webapp( webapp, webdriver, scenario_persistence=1,
+        reset = lambda ct:
+            ct.set_data_dir( dtype="real" ) \
+              .set_vasl_mod( vmod="random", extns_dtype="real" ) \
+              .set_vo_notes_dir( dtype="real" )
+    )
+
+    # load the test scenario
+    load_scenario( {
+        "PLAYER_1": "american",
+        "OB_VEHICLES_1": [
+            { "name": "M5A1" }, # nb: this is a normal counter
+            { "name": "M5A1F" }, # nb: this is the flamethrower version
+            { "name": "M5A1C" }, # nb: this is the Culin version
+        ],
+    } )
+    select_tab( "ob1" )
+
+    # test the OB snippet
+    btn = find_child( "button.generate[data-id='ob_vehicles_1']" )
+    btn.click()
+    wait_for_clipboard( 2, re.compile(
+        r'\bM5A1\b'
+        '.+<div class="note">'
+        '.+5\u2020, C\u2020<sup>2</sup>, F\u2020<sup>1</sup>, G, N, Y'
+        '.+</div>'
+        r'.+\bM5A1F\b'
+        '.+<div class="note">'
+        '.+&#x2756;'
+        '.+5\u2020, US C\u2020<sup>2</sup>, US F\u2020<sup>1</sup>, US G, US N, US Y, C'
+        '.+</div>'
+        r'.+\bM5A1C\b'
+        '.+<div class="note">'
+        '.+&#x2756;'
+        '.+5\u2020, US C\u2020<sup>2</sup>, US F\u2020<sup>1</sup>, US G, US N, US Y, A, B'
+        '.+</div>',
+        re.DOTALL
+    ) )
+
+    # test the multi-applicable notes
+    btn = find_child( "button.generate[data-id='ob_vehicles_ma_notes_1']" )
+    btn.click()
+    wait_for_clipboard( 2, [
+        ( False, "C", "37mm canister has 12" ),
+        ( False, "F", "This AFV may be equi" ),
+        ( False, "G", "May be equipped with" ),
+        ( False, "N", "This vehicle was use" ),
+        ( False, "Y", "If the scenario date" ),
+        ( True, "A", "Use U.S. Vehicle Not" ),
+        ( True, "B", "A vehicle of the sam" ),
+        ( True, "C", "A vehicle of the sam" ),
+        # NOTE: It's less than ideal that we get notes appearing twice (e.g. once as "C and once as "US C"),
+        # but it will only happen if the scenario has different variants of the same counter e.g. a M4A1 and M4A1C,
+        # so we can live with it for now...
+        ( True, "US C", "37mm canister has 12" ),
+        ( True, "US F", "This AFV may be equi" ),
+        ( True, "US G", "May be equipped with" ),
+        ( True, "US N", "This vehicle was use" ),
+        ( True, "US Y", "If the scenario date" ),
+    ], transform=_extract_extn_ma_notes )
+
+# ---------------------------------------------------------------------
+
 def _set_test_vasl_extn( control_tests, build_info, build_info_fname="buildFile" ):
     """Install a test VASL extension file."""
     with TempFile() as temp_file:
@@ -181,3 +319,21 @@ def _check_warning_msgs( control_tests, expected ):
             assert warnings[0].startswith( expected )
     else:
         assert not warnings
+
+def _extract_ma_notes( clipboard ):
+    """Extract the multi-applicable notes from a snippet."""
+    return [
+        mo.group(1).strip()
+        for mo in re.finditer( r'<div class="ma-note">(.*?)</div>', clipboard, re.DOTALL )
+    ]
+
+def _extract_extn_ma_notes( clipboard ): #pylint: disable=missing-docstring
+    """Extract the multi-applicable notes from a snippet, checking for extensions."""
+    ma_notes = _extract_ma_notes( clipboard )
+    # NOTE: We return the first few characters of the multi-applicable note content,
+    # just enough for us to determine whether we're showing the right one or not.
+    for i,ma_note in enumerate(ma_notes):
+        is_extn = "&#x2756;" in ma_note
+        mo = re.search( r"<span class='key'>(.+?):</span>(.*)", ma_note )
+        ma_notes[i] = is_extn, mo.group(1).strip(), mo.group(2).strip()[:20]
+    return ma_notes

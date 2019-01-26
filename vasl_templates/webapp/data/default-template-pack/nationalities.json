@@ -44,12 +44,17 @@
   "display_name": "Chinese",
   "ob_colors": [ "#d3edfc","#91cdf5", "#e0a22b" ]
 },
+"chinese~gmd": {
+  "display_name": "Chinese GMD",
+  "ob_colors": [ "#d3edfc","#91cdf5", "#e0a22b" ]
+},
 
 "polish": {
   "display_name": "Polish",
-  "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ],
+  "ob_colors": [ "#ecd8b0","#e8cfa4", "#84e8c2" ],
   "type": "allied-minor"
 },
+
 "belgian": {
   "display_name": "Belgian",
   "ob_colors": [ "#a3ecd1","#82e3bd", "#61d8a6" ],
@@ -99,6 +104,27 @@
   "display_name": "Bulgarian",
   "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ],
   "type": "axis-minor"
+},
+
+"anzac": {
+  "display_name": "ANZAC",
+  "ob_colors": [ "#f6edda","#e5cea0", "#e5cea0" ]
+},
+"thai": {
+  "display_name": "Thai",
+  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
+},
+"indonesian": {
+  "display_name": "Indonesian",
+  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
+},
+"burmese": {
+  "display_name": "Burmese",
+  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
+},
+"filipino": {
+  "display_name": "Filipino",
+  "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
 }
 
 }

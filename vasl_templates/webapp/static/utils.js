@@ -316,7 +316,7 @@ function add_flag_to_dialog_titlebar( $dlg, player_no )
     if ( ! player_nat )
         return ;
     var $titlebar = $dlg.dialog( "instance" ).uiDialogTitlebar ;
-    var url = gImagesBaseUrl + "/flags/" + player_nat + ".png" ;
+    var url = make_player_flag_url( player_nat ) ;
     $titlebar.find( ".ui-dialog-title" ).prepend(
         $( "<img src='" + url + "' class='flag'>" )
     ).css( { display: "flex", "align-items": "center" } ) ;

@@ -14,6 +14,20 @@ var _DAY_OF_MONTH_POSTFIXES = { // nb: we assume English :-/
     11: "th", 12: "th", 13: "th"
 } ;
 
+// NOTE: Blood & Jungle has a lot of multi-applicable notes that simply refer to other
+// multi-applicable notes e.g. "Fr C" = "French Multi-Applicable Note C".
+var BFP_MA_NOTE_REDIRECTS = {
+    "Br": "british",
+    "Ch": "chinese",
+    "Fr": "french",
+    "Ge": "german",
+    "Jp": "japanese",
+    "Ru": "russian",
+    "US": "american",
+    "AllM": "allied-minor",
+    "AxM": "axis-minor",
+} ;
+
 var gDefaultScenario = null ;
 var gLastSavedScenario = null ;
 var gLastSavedScenarioFilename = null ;
@@ -158,16 +172,42 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         set_vo_note( "ordnance" ) ;
 
     // generate snippets for multi-applicable vehicle/ordnance notes
+    var pos ;
+    function redirect_ma_note( target, vo_type ) {
+        pos = target.indexOf( " " ) ;
+        var nat_redirect = BFP_MA_NOTE_REDIRECTS[ target.substring( 0, pos ) ] ;
+        if ( nat_redirect )
+            return get_ma_notes_for_nat( nat_redirect, vo_type )[ target.substring(pos+1 ) ] ;
+        return null ;
+    }
     function add_ma_notes( ma_notes, keys, param_name, nat, vo_type ) {
         if ( ! keys )
             return ;
         params[ param_name ] = [] ;
         for ( var i=0 ; i < keys.length ; ++i ) {
-            var ma_note = ma_notes[ keys[i] ] ;
+            var ma_note = null ;
+            if ( keys[i].substring( 0, 4 ) == "adf:" )
+                ma_note = redirect_ma_note( keys[i].substring(4), vo_type ) ;
+            else if ( keys[i].substring( 0, 6 ) == "cobra:" )
+                ma_note = redirect_ma_note( keys[i].substring(6), vo_type ) ;
+            else if ( keys[i].substring( 0, 4 ) == "pif:" )
+                ma_note = redirect_ma_note( keys[i].substring(4), vo_type ) ;
+            if ( ! ma_note )
+                ma_note = ma_notes[ keys[i] ] ;
+            var key = keys[i] ;
+            var extn_marker = "" ;
+            if ( nat === "italian" && vo_type === "ordnance" && keys[i] === "R" )
+                key = "<s>R</s>" ;
+            else {
+                pos = key.indexOf( ":" ) ;
+                if ( pos !== -1 ) {
+                    extn_marker = "&#x2756; " ;
+                    key = key.substring( pos+1 ) ;
+                }
+            }
             params[ param_name ].push(
-                "<span class='key'>" +
-                (nat === "italian" && vo_type === "ordnance" && keys[i] === "R" ? "<s>R</s>" : keys[i]) + ":" +
-                "</span> " +
+                extn_marker +
+                "<span class='key'>" + key + ":" + "</span> " +
                 (ma_note || "Unavailable.")
             ) ;
         }
@@ -304,6 +344,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     // add in any extra parameters
     if ( extra_params )
         $.extend( true, params, extra_params ) ;
+    params.IMAGES_BASE_URL = APP_URL_BASE + gImagesBaseUrl ;
 
     // check that the players have different nationalities
     if ( params.PLAYER_1 === params.PLAYER_2 )
@@ -361,7 +402,12 @@ function get_vo_note_key( vo_entry )
         return null ;
     // nb: there are some note numbers of the form "1.2" :-/
     var match = vo_entry.note_number.match( new RegExp( "^([0-9.]+)" ) ) ;
-    return match ? match[1] : null ;
+    if ( ! match )
+        return null ;
+    var key = match[1] ;
+    if ( vo_entry.extn_id )
+        key = vo_entry.extn_id + ":" + key ;
+    return key ;
 }
 
 function is_known_vo_note_key( vo_type, nat, key )
@@ -389,6 +435,9 @@ function get_ma_notes_keys( nat, vo_entries, vo_type )
         new RegExp( "^([A-Z][a-z])$" ),
         new RegExp( "^([A-Za-z])<sup>" ),
         new RegExp( "^<s>([A-Za-z])</s>$" ),
+        // NOTE: There are BFP references like "Jp 5", but we ignore these since they are referring to
+        // a vehicle/ordnance *note*, not a multi-applicable note.
+        new RegExp( "^((Br|Ch|Fr|Ge|Jp|Ru|US|AllM|AxM) [A-Z]{1,2})(\\u2020(<sup>\\d</sup>)?)?$" ),
     ] ;
     var EXTRA_NOTES_INFO = {
         "alc/v": [ "allied-minor", "Allied Minor Common Vehicles" ],
@@ -404,6 +453,10 @@ function get_ma_notes_keys( nat, vo_entries, vo_type )
         if ( ! vo_entry.notes )
             continue ;
         for ( j=0 ; j < vo_entry.notes.length ; ++j ) {
+            if ( vo_entry.notes[j] === "US <s>P</s>" ) { // nb: can't do this with a regex
+                keys[0][ vo_entry.extn_id + ":US P" ] = true ;
+                continue ;
+            }
             var rc = false ;
             for ( k=0 ; k < regexes.length ; ++k ) {
                 var match = vo_entry.notes[j].match( regexes[k] ) ;
@@ -411,7 +464,14 @@ function get_ma_notes_keys( nat, vo_entries, vo_type )
                     var vo_id = vo_entry.id.split( ":", 1 )[0] ;
                     var is_extra = ["allied-minor","axis-minor","landing-craft"].indexOf( nat ) === -1 &&
                                    ["alc/v","alc/o","axc/v","axc/o","sh/v"].indexOf( vo_id ) !== -1 ;
-                    keys[ is_extra?1:0 ][ match[1] ] = true ;
+                    var key = match[1] ;
+                    if ( vo_entry.extn_id && !( vo_entry.extn_id === "adf" && nat === "american" && key.length === 1 ) ) {
+                        // NOTE: We include the extension ID as part of the key, except for BFP American vehicles,
+                        // whose multi-applicable notes refer to the main American multi-applicable notes,
+                        // not the BFP ones (there aren't any).
+                        key = vo_entry.extn_id + ":" + key ;
+                    }
+                    keys[ is_extra?1:0 ][ key ] = true ;
                     if ( is_extra ) {
                         // NOTE: Only the Americans/British and Japanese have landing craft, while Axis Minor Powers
                         // will never have Allied Minor common vehicles/ordnance (and vice versa), so if we have
@@ -552,6 +612,8 @@ function unload_snippet_params( unpack_scenario_date, template_id )
                 note_number: vo_entry.note_number,
                 notes: vo_entry.notes
             } ;
+            if ( vo_entry.extn_id )
+                obj.extn_id = vo_entry.extn_id ;
             if ( gUserSettings["include-vasl-images-in-snippets"] ) {
                 var url = get_vo_image_url( vo_entry, vo_image_id ) ;
                 if ( url )
@@ -589,6 +651,13 @@ function unload_snippet_params( unpack_scenario_date, template_id )
             ) ;
             if ( capabilities )
                 obj.raw_capabilities = capabilities ;
+            var comments = $(this).data( "sortable2-data" ).custom_comments ;
+            if ( comments ) {
+                obj.comments = comments ;
+                obj.custom_comments = comments.slice() ;
+            } else {
+                obj.comments = vo_entry.comments ;
+            }
             objs.push( obj ) ;
         } ) ;
         if ( objs.length > 0 )
@@ -652,7 +721,7 @@ function make_capabilities( raw, vo_entry, nat, scenario_theater, scenario_year,
                 capabilities[ capabilities.length-1 ] += " [" + caps.join(", ") + "]" ;
                 continue ;
             }
-            if ( $.inArray( key, ["HE","AP","A","D","C","H","B","s","sM","sD","sN","WP","IR","Towed"] ) === -1 ) {
+            if ( $.inArray( key, ["HE","AP","A","D","C","H","B","S","s","sM","sD","sN","WP","IR","Towed"] ) === -1 ) {
                 unexpected_caps.push( key ) ;
                 continue ;
             }
@@ -825,6 +894,13 @@ function _check_capability_timestamp( capabilities, timestamp, nat, scenario_the
     }
 
     // parse the month/year the capability becomes available
+    var match = timestamp.match( /^(\d+)-$/ ) ;
+    if ( match ) {
+        if ( scenario_year < 1900 + parseInt(match[1]) )
+            return capabilities[0] ;
+        else
+            return "" ;
+    }
     var month = MONTH_NAMES[ timestamp.substring(0,1) ] ;
     if ( month )
         timestamp = timestamp.substring( 1 ) ;
@@ -1127,7 +1203,7 @@ function do_load_scenario_data( params )
                         warnings.push( "Invalid V/O image ID for '" + params[key][i].name + "': " + params[key][i].image_id ) ;
                 }
                 if ( vo_entry )
-                    do_add_vo( vo_type, player_no, vo_entry, vo_image_id, params[key][i].custom_capabilities, params[key][i].seq_id ) ;
+                    do_add_vo( vo_type, player_no, vo_entry, vo_image_id, params[key][i].custom_capabilities, params[key][i].custom_comments, params[key][i].seq_id ) ;
                 else
                     unknown_vo.push( vo_id || "(not set)" ) ;
             }
@@ -1286,6 +1362,8 @@ function unload_params_for_save( user_requested )
                 entry.image_id = params[key][i].image_id ;
             if ( params[key][i].custom_capabilities )
                 entry.custom_capabilities = params[key][i].custom_capabilities ;
+            if ( params[key][i].custom_comments )
+                entry.custom_comments = params[key][i].custom_comments ;
             entries.push( entry ) ;
         }
         params[key] = entries ;

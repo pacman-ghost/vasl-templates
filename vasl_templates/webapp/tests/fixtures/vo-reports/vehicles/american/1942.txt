@@ -1,7 +1,7 @@
 === vehicles/american/1942 ===
 
-Name                 Capabilities                               (effective)              #       Notes
--------------------  -----------------------------------------  -----------------------  ------  ---------------------------------------------------
+Name                 Capabilities                               (effective)              #       Notes                                                                      Comments
+-------------------  -----------------------------------------  -----------------------  ------  -------------------------------------------------------------------------  -------------------------------------------------------
 M2A4                 C10[P]†[1] CS 4                            CS 4                     1       B† C†<sup>1</sup> P
 M3                   C7[A2+]†[2] CS 4                           CS 4                     2†      B†<sup>1</sup> C†<sup>2</sup> N
 M3A1                 C7†[2] CS 4                                C7†[2] CS 4              3†      C†<sup>2</sup> F†<sup>1</sup> G N
@@ -65,3 +65,32 @@ DUKW                 cs 7†[1]                                   cs 7†[1]    
 1&#189;-Ton          cs 6                                       cs 6                     56†     N
 2&#189;-Ton          cs 7                                       cs 7                     57†     N
 7&#189;-Ton          cs 7                                       cs 7                     58†     N
+LVT(A)1(L)           C10[P]†[2] CS 6                            CS 6                     1       US 46†<sup>3</sup> C†<sup>2</sup> G H P T† X                               Refer to U.S. Vehicle Note 46 and diagram for the AAMG.
+LVT(A)2F             CS 7                                       CS 7                     2       US H P Q†<sup>1</sup> T†<sup>1</sup>
+LVT4F                cs 7                                       cs 7                     3†[2]   US 51† D†<sup>3</sup> H P T†<sup>1</sup>
+LVT(A)2FS            CS 7                                       CS 7                     4†[1]   US D†<sup>2</sup> H P T†
+LVT4(L)              CS 7                                       CS 7                     5       US 51† D†<sup>4</sup> H Q†<sup>3</sup> T†<sup>1</sup> X†<sup>2</sup>
+LVT(A)4(L)           C7[P]†[3] H8 WP9 CS 6                      H8 WP9 CS 6              6       US 46†<sup>2</sup> C†<sup>3</sup> G H P T† X†<sup>1</sup>
+M3A1F                C7[P]† CS 4                                CS 4                     7       US C† G P
+M5A1 Satan           CS 4                                       CS 4                     8†      US P
+M4A2F                WP7 s5 sM5 cs 5                            WP7 s5 sM5 cs 5          9       US G P R
+M4A2(L)F             WP7 s5 sM8 cs 6                            WP7 s5 sM8 cs 6          10      US G P R
+Carrier .50cal(b)    CS 3                                       CS 3                     11†     n/a
+M5A1C                C7†[2] CS 4                                C7†[2] CS 4              5†      US C†<sup>2</sup> US F†<sup>1</sup> US G US N US Y A B
+M4C                  WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  CS 5[brewup]             8†      US F†<sup>2</sup> US G US R†<sup>1</sup> US Y US BB†<sup>3</sup> A B
+M4A1C                WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  CS 5[brewup]             9†      US F†<sup>2</sup> US G US N US R†<sup>1</sup> US Y US BB†<sup>3</sup> A B
+M4A3C                WP7[J4+]†[3] s5[J4+] sM4[4+] CS 5[brewup]  CS 5[brewup]             12†     US F†<sup>2</sup> US G US R†<sup>1</sup> US Y US BB†<sup>3</sup> A B
+M4A3C(75)W           WP7 s5 sM8 CS 6                            WP7 s5 sM8 CS 6          13†     US F†<sup>2</sup> US G US R†<sup>1</sup> US Y A B
+M4A1C(76)W           A4[A4]5[5]†[2] s5[5] sM8 CS 6              sM8 CS 6                 15†     US A†<sup>2</sup> US F†<sup>1</sup> US G US <s>P</s> US Y A B
+M4A3C(76)W           A4[A4]5[5]†[2] s5[5] sM8 CS 6              sM8 CS 6                 16†     US A†<sup>2</sup> US F†<sup>1</sup> US G US <s>P</s> US Y A B
+M4C(105)             C7[P]†[1] H9 WP9 s7 sM8 CS 6               H9 WP9 s7 sM8 CS 6       17†     US C†<sup>1</sup> US Y A B
+M4A3C(105)           C7[P]†[1] H9 WP9 s7 sM8 CS 6               H9 WP9 s7 sM8 CS 6       17†     US C†<sup>1</sup> US Y A B
+M10C GMC             A5[A4E]6[5E]†[1] s5[5] sP5 CS 7            sP5 CS 7                 23†     US A†<sup>1</sup> US N US Y A B
+M8C HMC              C4[4+]†[1] H9 WP9 CS 5                     H9 WP9 CS 5              43†     US C†<sup>1</sup> US Y A B
+M5A1F                C7†[2] CS 4                                C7†[2] CS 4              5†      US C†<sup>2</sup> US F†<sup>1</sup> US G US N US Y C
+M4F                  WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  CS 5[brewup]             8†      US F†<sup>2</sup> US G US R†<sup>1</sup> US Y US BB†<sup>3</sup> C
+M4A1F                WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  CS 5[brewup]             9†      US F†<sup>2</sup> US G US N US R†<sup>1</sup> US Y US BB†<sup>3</sup> C
+M4A3F                WP7[J4+]†[3] s5[J4+] sM4[4+] CS 5[brewup]  CS 5[brewup]             12†     US F†<sup>2</sup> US G US R†<sup>1</sup> US Y US BB†<sup>3</sup> C
+M4A3F(75)W           WP7 s5 sM8 CS 6                            WP7 s5 sM8 CS 6          13†     US F†<sup>2</sup> US G US R†<sup>1</sup> US Y C
+M4A1F(76)W           A4[A4]5[5]†[2] s5[5] sM8 CS 6              sM8 CS 6                 15†     US A†<sup>2</sup> US F†<sup>1</sup> US G US <s>P</s> US Y C
+M4A3F(76)W           A4[A4]5[5]†[2] s5[5] sM8 CS 6              sM8 CS 6                 16†     US A†<sup>2</sup> US F†<sup>1</sup> US G US <s>P</s> Y C

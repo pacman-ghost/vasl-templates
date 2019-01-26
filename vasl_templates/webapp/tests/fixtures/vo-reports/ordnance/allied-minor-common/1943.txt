@@ -1,18 +1,18 @@
 === ordnance/allied-minor-common/1943 ===
 
-Name                             Capabilities                   (effective)                    #    Notes
--------------------------------  -----------------------------  -----------------------------  ---  -----------------------
+Name                             Capabilities                   (effective)                    #    Notes                    Comments
+-------------------------------  -----------------------------  -----------------------------  ---  -----------------------  ----------------------
 Brandt Medium Mortar             NT QSU s8                      NT QSU s8                      23†  A B Gr N P Y
 37mm Bofors AT                   NT QSU                         NT QSU                         24†  A De P
 3.7cm PaK 35/36                  NT QSU                         NT QSU                         25†  Gr Ne Y
 Bohler M35 47mm                  NT QSU                         NT QSU                         26†  A Gr Ne Y
-65mm wz.06                       NT QSU no Gunshield h-d        NT QSU no Gunshield h-d        27†  A Gr P Y
+65mm wz.06                       NT QSU h-d                     NT QSU h-d                     27†  A Gr P Y                 No Gunshield.
 75mm wz.97                       NT QSU s8                      NT QSU s8                      28†  A Gr N P
 Bofors M34                       NT QSU                         NT QSU                         29†  A B Gr Ne N
 75M 19S                          NT QSU h-d AP5 s6              NT QSU h-d AP5 s6              30†  A Gr P Y
 C105 L 13 S                      NT                             NT                             31†  B P Y
 120mm wz. 09/31                  NT h-d s6                      NT h-d s6                      32†  N P
 155mm 17 S                       NT s8                          NT s8                          33   B Gr P Y
-Mitrailleuse de 13.2 CAJ mle 30  T 2 TK DR† Towing NA†[1]       T 2 TK DR† Towing NA†[1]       34†  T†<sup>1</sup> B Gr Y
+Mitrailleuse de 13.2 CAJ mle 30  T 2 TK DR†                     T 2 TK DR†                     34†  T†<sup>1</sup> B Gr Y    Towing NA†<sup>1</sup>
 20mm Oerlikon                    T LF [NT, 20†[1], 2 ROF, B11]  T LF [NT, 20†[1], 2 ROF, B11]  35†  C†<sup>1</sup> Gr Ne Y
 40mm Bofors AA                   T LF [40†[1], 2 ROF]           T LF [40†[1], 2 ROF]           36†  C†<sup>1</sup> B N Ne P

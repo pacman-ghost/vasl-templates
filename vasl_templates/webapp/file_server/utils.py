@@ -31,14 +31,18 @@ def get_vo_gpids( data_dir, extns ): #pylint: disable=too-many-locals,too-many-b
                             gpids.add( get_effective_gpid( str(gpid) ) )
 
     # process any extensions
-    if extns:
+    if extns: #pylint: disable=too-many-nested-blocks
         for extn in extns:
             extn_info = extn[1]
-            for vo_type in ["vehicles","ordnance"]:
-                if vo_type not in extn_info:
+            for nat in extn_info:
+                if not isinstance( extn_info[nat], dict ):
                     continue
-                for piece in extn_info[vo_type]:
-                    gpids.update( piece["gpid"] )
+                for vo_type in ("vehicles","ordnance"):
+                    for piece in extn_info[ nat ].get( vo_type, [] ):
+                        if isinstance( piece["gpid"], list ):
+                            gpids.update( piece["gpid"] )
+                        else:
+                            gpids.add( piece["gpid"] )
 
     return gpids
 

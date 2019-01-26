@@ -15,7 +15,7 @@ function add_vo( vo_type, player_no )
     var nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
     var entries = gVehicleOrdnanceListings[vo_type][nat] ;
     if ( entries === undefined ) {
-        showErrorMsg( "There are no " + get_nationality_display_name(nat) + " " + vo_type + " listings." ) ;
+        showWarningMsg( "There are no " + get_nationality_display_name(nat) + " " + vo_type + " listings." ) ;
         return ;
     }
     var buf = [] ;
@@ -117,7 +117,7 @@ function add_vo( vo_type, player_no )
                     usedIds[ $(this).data( "sortable2-data" ).id ] = true ;
                 } ) ;
                 var seq_id = auto_assign_id( usedIds, "seq_id" ) ;
-                do_add_vo( vo_type, player_no, entries[sel_index], vo_image_id, null, seq_id ) ;
+                do_add_vo( vo_type, player_no, entries[sel_index], vo_image_id, null, null, seq_id ) ;
                 $(this).dialog( "close" ) ;
             },
             Cancel: function() { $(this).dialog( "close" ) ; },
@@ -127,7 +127,7 @@ function add_vo( vo_type, player_no )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, custom_capabilities, seq_id )
+function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, custom_capabilities, custom_comments, seq_id )
 {
     // add the specified vehicle/ordnance
     // NOTE: We set a fixed height for the sortable2 entries (based on the CSS settings in tabs-ob.css),
@@ -149,6 +149,8 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, custom_capabiliti
     } ;
     if ( custom_capabilities )
         data.custom_capabilities = custom_capabilities ;
+    if ( custom_comments )
+        data.custom_comments = custom_comments ;
     data.id = seq_id ;
     var buf = [ div_tag,
         "<img class='vasl-image'>",
@@ -177,7 +179,8 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, custom_capabiliti
             "<img src='" + gImagesBaseUrl + "/snippet.png'",
             " class='snippet' data-id='" + template_id + "' title='" + GENERATE_SNIPPET_HINT + "'>"
         ) ;
-        data.vo_note_url = APP_URL_BASE + "/" + vo_type + "/" + vo_nat + "/note/" + vo_note_key ;
+        var url = APP_URL_BASE + "/" + vo_type + "/" + vo_nat + "/note/" ;
+        data.vo_note_url = url + vo_note_key ;
     }
     buf.push( "</div>" ) ;
     var $content = $( buf.join("") ) ;

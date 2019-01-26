@@ -68,6 +68,12 @@ $(document).ready( function () {
 
 function load_vo_notes( vo_notes, vo_entries )
 {
+    var $results = $("#results") ;
+    if ( !vo_notes && !vo_entries ) {
+        $results.html( "No results." ).show() ;
+        return ;
+    }
+
     // initialize
     var vo_type2 = (vo_type === "vehicles" ? "vehicle" : vo_type ) ;
     var header = nat[0].toUpperCase() + nat.substring(1) + " " + vo_type2[0].toUpperCase() + vo_type2.substring(1) + " Notes" ;
@@ -94,6 +100,26 @@ function load_vo_notes( vo_notes, vo_entries )
                 return +1 ;
             else if ( rhs === "multi-applicable" )
                 return -1 ;
+            // check if we have keys from an extension module (these always sort larger)
+            var lhsPos = lhs.indexOf( ":" ) ;
+            var rhsPos = rhs.indexOf( ":" ) ;
+            if ( lhsPos === -1 && rhsPos !== -1 )
+                return -1 ;
+            else if ( lhsPos !== -1 && rhsPos === -1 )
+                return +1 ;
+            else if ( lhsPos !== -1 && rhsPos !== -1 ) {
+                // both keys are from an extensions module, compare the extension ID's
+                var lhsExtnId = lhs.substring( 0, lhsPos ) ;
+                var rhsExtnId = rhs.substring( 0, rhsPos ) ;
+                if ( lhsExtnId < rhsExtnId )
+                    return -1 ;
+                else if (  lhsExtnId > rhsExtnId )
+                    return +1 ;
+                // both keys are from the same extension module, remove the extension ID and sort normally
+                lhs = lhs.substring( lhsPos+1 ) ;
+                rhs = rhs.substring( rhsPos+1 ) ;
+            }
+            // compare the two keys
             var lhs = parse_key( lhs ) ;
             var rhs = parse_key( rhs ) ;
             if ( lhs[0] < rhs[0] )
@@ -160,7 +186,6 @@ function load_vo_notes( vo_notes, vo_entries )
     }
     buf.push( "</table>" ) ;
 
-    var $results = $("#results") ;
     $results.html( buf.join("") ).show() ;
 }
 

@@ -6,6 +6,7 @@ SORTABLE_DISPLAY_NAMES = {
     ob_vehicles: [ "vehicle", "vehicles", "a" ],
     ob_ordnance: [ "ordnance", "ordnance", "an" ],
     vo_capabilities: [ "capability", "capabilities", "a" ],
+    vo_comments: [ "comment", "comments", "a" ],
 } ;
 
 SORTABLE_HINTS = {

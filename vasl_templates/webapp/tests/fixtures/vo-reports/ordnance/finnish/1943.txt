@@ -1,15 +1,15 @@
 === ordnance/finnish/1943 ===
 
-Name                 Capabilities                                                   (effective)                                                    #    Notes
--------------------  -------------------------------------------------------------  -------------------------------------------------------------  ---  ------------------
+Name                 Capabilities                                                   (effective)                                                    #    Notes               Comments
+-------------------  -------------------------------------------------------------  -------------------------------------------------------------  ---  ------------------  ---------------------------
 47 Krh/41            2PP                                                            2PP                                                            1    A
 50 Krh/39(r)         4PP B12[3+]†                                                   4PP B12†                                                       2†   A B
 81 Krh/32            NT QSU IR[3+]† s8[N1]† 5PP dm                                  NT QSU IR† s8† 5PP dm                                          3†   A
 81 Savunheitin M/42  NT QSU s† 4PP dm                                               NT QSU s† 4PP dm                                               4†   A
 120 Krh/40           NT QSU                                                         NT QSU                                                         5†   n/a
-Boys ATR(b)          1PP "British"†                                                 1PP "British"†                                                 6†   n/a
-Lahti ATR            4PP Light AA fire in 44+† B30.35†                              4PP Light AA fire in 44+† B30.35†                              7†   A
-20 PstK/40           NT QSU Towing NA†[1] R2 IFE=B10                                NT QSU Towing NA†[1] R2 IFE=B10                                8†   C†<sup>1</sup>
+Boys ATR(b)          1PP                                                            1PP                                                            6†   n/a                 "British"†
+Lahti ATR            4PP B30.35†                                                    4PP B30.35†                                                    7†   A                   Light AA fire in 44+†
+20 PstK/40           NT QSU R2 IFE=B10                                              NT QSU R2 IFE=B10                                              8†   C†<sup>1</sup>      Towing NA†<sup>1</sup>
 25 PstK/37(f)        NT QSU                                                         NT QSU                                                         9†   B D
 37 PstK/36(s)        NT QSU HE[1+]†                                                 NT QSU HE†                                                     10†  A B
 37 PstK/37(g)        NT QSU H6[9][3+]†                                              NT QSU H6[9]†                                                  11†  B D
@@ -22,21 +22,21 @@ Lahti ATR            4PP Light AA fire in 44+† B30.35†                      
 76 LK/13             NT QSU s6                                                      NT QSU s6                                                      18   n/a
 76 K/02(r)           NT QSU h-d s6                                                  NT QSU h-d s6                                                  19†  B
 76 K/36(r)           NT QSU s6                                                      NT QSU s6                                                      20†  B E†<sup>1</sup>
-87 K/95              NT QSU no IF h-d Acq. NA†                                      NT QSU no IF h-d Acq. NA†                                      21   F†
-90 K/77              NT QSU no IF Acq. NA†[1] h-d                                   NT QSU no IF Acq. NA†[1] h-d                                   22†  F†<sup>1</sup>
+87 K/95              NT QSU h-d                                                     NT QSU h-d                                                     21   F†                  No IF. Acq. NA†
+90 K/77              NT QSU h-d                                                     NT QSU h-d                                                     22†  F†<sup>1</sup>      No IF. Acq. NA†<sup>1</sup>
 105 H/33(g)          NT h-d H6[A4+]† s8                                             NT h-d s8                                                      23†  B
 105 H/37             NT s6                                                          NT s6                                                          24†  n/a
 105 H/41(t)          NT H6[A4+]† s8                                                 NT s8                                                          25†  B
 107 K 10/13          NT s5                                                          NT s5                                                          26†  n/a
-107 K/77(r)          NT no IF Acq. NA†[1] h-d                                       NT no IF Acq. NA†[1] h-d                                       27†  B F†<sup>1</sup>
+107 K/77(r)          NT h-d                                                         NT h-d                                                         27†  B F†<sup>1</sup>    No IF. Acq. NA†<sup>1</sup>
 114 H/18(b)          NT H4[4+] WP6[4+] s8                                           NT s8                                                          28†  n/a
 122 H/10(r)          NT h-d WP6[4+] s6                                              NT h-d s6                                                      29†  B
 150 H/40(g)          NT NM H6 s8                                                    NT NM H6 s8                                                    30   B
 155 H/17(f)          NT s6                                                          NT s6                                                          31   B
-7.62 ItKK/31-40      T QSU Towing NA†[1] 2 TK DR†                                   T QSU Towing NA†[1] 2 TK DR†                                   32†  C†<sup>1</sup>
+7.62 ItKK/31-40      T QSU 2 TK DR†                                                 T QSU 2 TK DR†                                                 32†  C†<sup>1</sup>      Towing NA†<sup>1</sup>
 20 ItK/30 BSW(g)     T LF [NT, 20†, 2 ROF, B10]                                     T LF [NT, 20†, 2 ROF, B10]                                     33   B G†
 20 ItK/38 BSW(g)     T LF [NT, 20†[1], 2 ROF, B11]                                  T LF [NT, 20†[1], 2 ROF, B11]                                  34†  B G†<sup>1</sup>
-20 ItK/35 Br         T LF [NT, 20†[1], 2 ROF] Road MP = 1†                          T LF [NT, 20†[1], 2 ROF] Road MP = 1†                          35†  A D G†<sup>1</sup>
+20 ItK/35 Br         T LF [NT, 20†[1], 2 ROF]                                       T LF [NT, 20†[1], 2 ROF]                                       35†  A D G†<sup>1</sup>  Road MP = 1†
 20 ItK/40 VKT        T LF [NT, 20†[1], 2 ROF, 8 IFE, B11] 2 TK DR† Unhooking risk†  T LF [NT, 20†[1], 2 ROF, 8 IFE, B11] 2 TK DR† Unhooking risk†  36†  D G†<sup>1</sup>
 40 ItK/35-39 B(s)    T LF [40†[1], 2 ROF]                                           T LF [40†[1], 2 ROF]                                           37†  B G†<sup>1</sup>
 76 ItK/28 B(s)       T LF [NT, 76†, 1 ROF]                                          T LF [NT, 76†, 1 ROF]                                          38   B G†

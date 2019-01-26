@@ -1,5 +1,5 @@
 === vehicles/bulgarian/1940 ===
 
-Name                Capabilities    (effective)    #    Notes
-------------------  --------------  -------------  ---  -------
+Name                Capabilities    (effective)    #    Notes    Comments
+------------------  --------------  -------------  ---  -------  ----------
 Vickers 6-Ton Mk E  ® C5† CS 3      ® C5† CS 3     28†  n/a

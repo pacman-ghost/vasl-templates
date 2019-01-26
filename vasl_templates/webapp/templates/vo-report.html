@@ -60,8 +60,7 @@ function load_vo_listings( objs )
     // load the vehicles/ordnance
     var buf = [] ;
     buf.push( "<table>" ) ;
-    buf.push( "<tr>", "<th>Name" ) ;
-    buf.push( "<th colspan='2'>Capabilities", "<th colspan='2'>Notes" ) ;
+    buf.push( "<tr>", "<th>Name", "<th colspan='2'>Capabilities", "<th colspan='2'>Notes", "<th>Comments" ) ;
     for ( var i=0 ; i < objs[nat].length ; ++i ) {
         var obj = objs[nat][i] ;
         if ( vo_name && obj.name.toLowerCase() != vo_name )
@@ -74,6 +73,7 @@ function load_vo_listings( objs )
         buf.push( "<td>", listval(capabilities) ) ;
         buf.push( "<td>", "<span class='val'>" + fmtval(obj.note_number) + "</span>" ) ;
         buf.push( "<td>", listval(obj.notes) ) ;
+        buf.push( "<td>", obj.comments ? listval(obj.comments) : "" ) ;
     }
     buf.push( "</table>" ) ;
     $results.html( buf.join("") ).show() ;

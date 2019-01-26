@@ -65,7 +65,7 @@ def set_vasl_mod( vmod_fname, msg_store ):
         else:
             _vasl_mod = None
 
-def _load_vasl_extns( extn_dir ): #pylint: disable=too-many-locals,too-many-statements
+def _load_vasl_extns( extn_dir ): #pylint: disable=too-many-locals,too-many-statements,too-many-branches
     """Locate VASL extensions and their corresponding vehicle/ordnance info files."""
 
     if not extn_dir:
@@ -90,7 +90,7 @@ def _load_vasl_extns( extn_dir ): #pylint: disable=too-many-locals,too-many-stat
         _logger.debug( "- id=%s ; version=%s", extn_info["extensionId"], extn_info["version"] )
 
     # figure out what filename extensions we will recognize
-    valid_fname_extns = app.config.get( "VASL_EXTENSION_FILENAME_EXTNS", ".mdx .zip" )
+    valid_fname_extns = app.config.get( "VASL_EXTENSION_FILENAME_EXTNS", ".mdx .vmdx .zip" )
     valid_fname_extns = valid_fname_extns.replace( ";", " " ).replace( ",", " " ).split()
 
     # process each VASL extension
@@ -142,6 +142,12 @@ def _load_vasl_extns( extn_dir ): #pylint: disable=too-many-locals,too-many-stat
         # yup - add the extension to the list
         _logger.info( "Accepting VASL extension: %s (%s/%s)", os.path.split(extn_fname)[1], extn_id, extn_version )
         extns.append( ( extn_fname, extn_info ) )
+
+        # add any child extensions
+        for extn_info2 in all_extn_info.values():
+            if extn_info2.get( "parentExtensionId" ) == extn_info["extensionId"] \
+               and extn_info2["version"] == extn_info["version"]:
+                extns.append( ( extn_fname, extn_info2 ) )
 
     return extns
 
@@ -297,6 +303,9 @@ class VaslMod:
                 del vasl_overrides[ gpid ]
 
             # save the loaded entry
+            for attr in ("front_images","back_images"):
+                if isinstance( piece[attr], list ) and not piece[attr]:
+                    piece[attr] = None
             self._pieces[ gpid ] = piece
             target_gpids.remove( gpid )
             _logger.debug( "- Loaded piece: %s", piece )
@@ -326,6 +335,8 @@ class VaslMod:
         # identify image paths
         def is_image_path( val ): #pylint: disable=missing-docstring
             if val == "white X 60.png": # nb: a lot of Finnish pieces have this
+                return False
+            if "-malf-" in val:
                 return False
             if val.endswith( (".gif",".png") ):
                 return True
@@ -377,6 +388,13 @@ class VaslMod:
                     _logger.warning( "Unexpected limbered images: %s %s", front_images, back_images )
             elif front_images[-1].endswith( "B.png" ) and front_images[0] == front_images[-1][:-5]+".png":
                 # nb: this is for Finnish Guns
+                _logger.debug( "Ignoring limbered images: gpid=%s, front=%s, back=%s",
+                    gpid, front_images, back_images
+                )
+                front_images.pop()
+                assert not back_images
+            elif front_images[-1].endswith( "-BFPb.png" ) and front_images[0] == front_images[-1][:-9]+"-BFP.png":
+                # nb: this is for Polish Guns (Poland In Flames)
                 _logger.debug( "Ignoring limbered images: gpid=%s, front=%s, back=%s",
                     gpid, front_images, back_images
                 )
