@@ -447,13 +447,14 @@ def dismiss_notifications():
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def click_dialog_button( caption, webdriver=None ):
+def click_dialog_button( caption, parent=None ):
     """Click a dialog button."""
-    btn = next(
-        elem for elem in find_children( ".ui-dialog button", webdriver )
+    btns = [
+        elem for elem in find_children( ".ui-dialog button", parent )
         if elem.text == caption
-    )
-    btn.click()
+    ]
+    assert len(btns) == 1
+    btns[0].click()
 
 # ---------------------------------------------------------------------
 

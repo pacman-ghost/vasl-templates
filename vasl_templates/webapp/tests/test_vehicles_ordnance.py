@@ -263,9 +263,9 @@ def test_html_names( webapp, webdriver ):
     vehicles_sortable = find_child( "#ob_vehicles-sortable_1" )
     assert get_sortable_vo_names( vehicles_sortable ) == [ "PzKpfw IVF2" ]
 
-    # start to add another vehicle - make sure only the PzKw IVF1 is present
+    # start to add another vehicle - make sure both PzKw IVF's are still available
     add_vehicle_btn.click()
-    assert get_available_ivfs() == [ "PzKpfw IVF1 (MT)" ]
+    assert get_available_ivfs() == [ "PzKpfw IVF1 (MT)", "PzKpfw IVF2 (MT)" ]
 
     # add the PzKw IVF1
     elem = find_child( ".ui-dialog .select2-search__field" )
@@ -275,18 +275,78 @@ def test_html_names( webapp, webdriver ):
     # make sure it was added to the player's OB
     assert get_sortable_vo_names( vehicles_sortable ) == [ "PzKpfw IVF2", "PzKpfw IVF1" ]
 
-    # start to add another vehicle - make sure there are no PzKw IVF's present
+    # start to add another vehicle - make sure both PzKw IVF's are still available
     add_vehicle_btn.click()
-    assert not get_available_ivfs()
+    assert get_available_ivfs() == [ "PzKpfw IVF1 (MT)", "PzKpfw IVF2 (MT)" ]
     elem = find_child( ".ui-dialog .select2-search__field" )
     elem.send_keys( Keys.ESCAPE )
 
     # delete the PzKw IVF2
     delete_vo( "vehicles", 1, "PzKpfw IVF2" , webdriver )
 
-    # start to add another vehicle - make sure the PzKw IVF2 is available again
+    # start to add another vehicle - make sure both PzKw IVF's are still available
     add_vehicle_btn.click()
-    assert get_available_ivfs() == [ "PzKpfw IVF2 (MT)" ]
+    assert get_available_ivfs() == [ "PzKpfw IVF1 (MT)", "PzKpfw IVF2 (MT)" ]
+
+# ---------------------------------------------------------------------
+
+def test_duplicate_vo_entries( webapp, webdriver ):
+    """Test adding duplicate vehicles/ordnance."""
+
+    # initialize
+    init_webapp( webapp, webdriver )
+    set_player( 1, "german" )
+    select_tab( "ob1" )
+
+    def get_available_vo_entries():
+        """Get the available vehicles/ordnance for selection."""
+        entries = find_children( "#select-vo .select2-results li" )
+        return [ e.text for e in entries ]
+
+    def do_test( vo_type, vo_name ): #pylint: disable=missing-docstring
+
+        # start to add a vehicle/ordnance
+        add_btn = find_child( "#ob_" + vo_type + "-add_1" )
+        add_btn.click()
+        assert vo_name in get_available_vo_entries()
+
+        # add the vehicle/ordnance
+        elem = find_child( ".ui-dialog .select2-search__field" )
+        elem.send_keys( vo_name )
+        elem.send_keys( Keys.RETURN )
+
+        # make sure it was added to the player's OB
+        sortable = find_child( "#ob_" + vo_type + "-sortable_1" )
+        assert get_sortable_vo_names( sortable ) == [ vo_name ]
+
+        # add the vehicle/ordnance, dismiss the warning
+        add_btn.click()
+        elem = find_child( ".ui-dialog .select2-search__field" )
+        elem.send_keys( vo_name )
+        elem.send_keys( Keys.RETURN )
+        elem = find_child( "#ask" )
+        assert "already in the OB" in elem.text
+        click_dialog_button( "Cancel", find_child(".ui-dialog.ask") )
+        click_dialog_button( "Cancel" )
+
+        # make sure the player's OB is unchanged
+        assert get_sortable_vo_names( sortable ) == [ vo_name ]
+
+        # add the vehicle/ordnance, accept the warning
+        add_btn.click()
+        elem = find_child( ".ui-dialog .select2-search__field" )
+        elem.send_keys( vo_name )
+        elem.send_keys( Keys.RETURN )
+        elem = find_child( "#ask" )
+        assert "already in the OB" in elem.text
+        click_dialog_button( "OK", find_child(".ui-dialog.ask") )
+
+        # make sure the vehicle/ordnance was added to the player's OB
+        assert get_sortable_vo_names( sortable ) == [ vo_name, vo_name ]
+
+    # do the test
+    do_test( "vehicles", "a german vehicle" )
+    do_test( "ordnance", "name only" )
 
 # ---------------------------------------------------------------------
 

@@ -3,14 +3,6 @@
 
 function add_vo( vo_type, player_no )
 {
-    // get the vehicles/ordnance already added
-    var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
-    var vo_present = [];
-    $sortable2.children("li").each( function() {
-        var vo_entry = $(this).data( "sortable2-data" ).vo_entry ;
-        vo_present.push( vo_entry.id ) ;
-    } ) ;
-
     // load the available vehicles/ordnance
     var nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
     var entries = gVehicleOrdnanceListings[vo_type][nat] ;
@@ -19,11 +11,8 @@ function add_vo( vo_type, player_no )
         return ;
     }
     var buf = [] ;
-    for ( var i=0 ; i < entries.length ; ++i ) {
-        if ( vo_present.indexOf( entries[i].id ) !== -1 )
-            continue ;
+    for ( var i=0 ; i < entries.length ; ++i )
         buf.push( "<option value='" + i + "'>" + entries[i].name + "</option>" ) ;
-    }
     function format_vo_entry( opt ) {
         if ( ! opt.id )
             return opt.text ;
@@ -70,10 +59,11 @@ function add_vo( vo_type, player_no )
     } ) ;
 
     // let the user select a vehicle/ordnance
+    var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
     function on_resize( $dlg ) {
         $( ".select2-results ul" ).height( $dlg.height() - 50 ) ;
     }
-    $("#select-vo").dialog( {
+    var $dlg = $("#select-vo").dialog( {
         title: "Add " + SORTABLE_DISPLAY_NAMES["ob_"+vo_type][0],
         dialogClass: "select-vo",
         modal: true,
@@ -104,21 +94,35 @@ function add_vo( vo_type, player_no )
         resize: function() { on_resize( $(this) ) ; },
         buttons: {
             OK: function() {
-                // add the new vehicle/ordnance
+                // get the selected vehicle/ordnance
                 // FUDGE! $sel.select("data") returns the wrong thing if the entries are filtered?!?!
                 var $elem = $( "#select-vo .select2-results__option--highlighted" ) ;
                 if ( $elem.length === 0 )
                     return ;
                 var sel_index = $elem.children( ".vo-entry" ).data( "index" ) ;
-                var $img = $elem.find( "img[class='vasl-image']" ) ;
-                var vo_image_id = $img.data( "vo-image-id" ) ;
-                var usedIds = {};
+                var sel_entry = entries[ sel_index ] ;
+                var usedVoIds=[], usedSeqIds={} ;
                 $sortable2.find( "li" ).each( function() {
-                    usedIds[ $(this).data( "sortable2-data" ).id ] = true ;
+                    usedVoIds.push( $(this).data( "sortable2-data" ).vo_entry.id ) ;
+                    usedSeqIds[ $(this).data( "sortable2-data" ).id ] = true ;
                 } ) ;
-                var seq_id = auto_assign_id( usedIds, "seq_id" ) ;
-                do_add_vo( vo_type, player_no, entries[sel_index], vo_image_id, null, null, seq_id ) ;
-                $(this).dialog( "close" ) ;
+                // check for duplicates
+                function add_sel_entry() {
+                    var $img = $elem.find( "img[class='vasl-image']" ) ;
+                    var vo_image_id = $img.data( "vo-image-id" ) ;
+                    var seq_id = auto_assign_id( usedSeqIds, "seq_id" ) ;
+                    do_add_vo( vo_type, player_no, sel_entry, vo_image_id, null, null, seq_id ) ;
+                    $dlg.dialog( "close" ) ;
+                }
+                if ( usedVoIds.indexOf( sel_entry.id ) !== -1 ) {
+                    var vo_type2 = SORTABLE_DISPLAY_NAMES[ "ob_" + vo_type ][0] ;
+                    ask( "Add "+vo_type2, "<p>This "+vo_type2+" is already in the OB<p>Do you want to add it again?", {
+                        ok: add_sel_entry,
+                    } ) ;
+                    return ;
+                }
+                // add the new vehicle/ordnance
+                add_sel_entry() ;
             },
             Cancel: function() { $(this).dialog( "close" ) ; },
         },
