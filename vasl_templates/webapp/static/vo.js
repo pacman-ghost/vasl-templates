@@ -77,8 +77,8 @@ function add_vo( vo_type, player_no )
         title: "Add " + SORTABLE_DISPLAY_NAMES["ob_"+vo_type][0],
         dialogClass: "select-vo",
         modal: true,
-        minWidth: 300,
-        minHeight: 300,
+        minWidth: 400,
+        minHeight: 350,
         create: function() {
             init_dialog( $(this), "OK", false ) ;
             // handle ESCAPE

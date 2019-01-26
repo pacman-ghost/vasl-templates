@@ -34,8 +34,8 @@ function _do_edit_simple_note( $sortable2, $entry, default_width )
         dialogClass: "edit-simple_note",
         title: ($entry ? "Edit " : "Add ") + SORTABLE_DISPLAY_NAMES[note_type][0],
         modal: true,
-        minWidth: 400,
-        minHeight: 150,
+        minWidth: 600,
+        minHeight: 250,
         create: function() {
             init_dialog( $(this), "OK", true ) ;
         },

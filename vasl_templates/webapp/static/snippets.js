@@ -1001,7 +1001,7 @@ function edit_template( template_id )
         dialogClass: "edit-template",
         title: "Editing template: " + escapeHTML(template_id),
         modal: false,
-        minWidth: 400, minHeight: 200,
+        minWidth: 600, minHeight: 300,
         create: function() {
             init_dialog( $(this), "Close", true ) ;
         },
