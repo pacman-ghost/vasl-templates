@@ -148,10 +148,16 @@ function init_dialog( $dlg, ok_button_text, auto_dismiss )
 
     // allow Ctrl-Enter to dismiss the dialog
     if ( auto_dismiss ) {
-        $dlg.find("input[type='text']").keydown( function(evt) {
+        $dlg.find( "input[type='text']" ).keydown( function(evt) {
             auto_dismiss_dialog( $dlg, evt, ok_button_text ) ;
         } ) ;
-        $dlg.find("textarea").keydown( function(evt) {
+        $dlg.find( "input[type='checkbox']" ).keydown( function(evt) {
+            auto_dismiss_dialog( $dlg, evt, ok_button_text ) ;
+        } ) ;
+        $dlg.find( "select" ).keydown( function(evt) {
+            auto_dismiss_dialog( $dlg, evt, ok_button_text ) ;
+        } ) ;
+        $dlg.find( "textarea" ).keydown( function(evt) {
             auto_dismiss_dialog( $dlg, evt, ok_button_text ) ;
         } ) ;
     }

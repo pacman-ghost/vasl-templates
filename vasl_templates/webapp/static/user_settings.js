@@ -46,9 +46,10 @@ function user_settings()
         height: 250,
         resizable: false,
         create: function() {
-            init_dialog( $(this), "OK", false ) ;
+            init_dialog( $(this), "OK", true ) ;
         },
         open: function() {
+            on_dialog_open( $(this) ) ;
             // load the current user settings
             load_settings( $(this) ) ;
         },
