@@ -495,6 +495,12 @@ function update_page_load_status( id )
         } ).fail( function( xhr, status, errorMsg ) {
             showErrorMsg( "Can't get the startup messages:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
         } ) ;
+        // preload the flag images (so that the player droplist renders immediately)
+        for ( var nat in gTemplatePack.nationalities ) {
+            $("body").append( $(
+                "<img src='" + make_player_flag_url(nat) + "' style='display:none;'>"
+            ) ) ;
+        }
     }
 }
 
