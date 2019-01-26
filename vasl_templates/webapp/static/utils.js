@@ -25,6 +25,8 @@ function get_player_colors( player_no )
 function get_player_colors_for_element( $elem )
 {
     // get the player colors (if any) for the specified element
+    if ( $elem.attr( "id" ).substr( 0, 18 ) === "ob_notes-sortable_" )
+        return null ;
     var player_no = get_player_no_for_element(  $elem ) ;
     if ( player_no === null )
         return null ;
