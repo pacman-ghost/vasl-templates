@@ -10,7 +10,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.utils import TempFile
-from vasl_templates.webapp.tests.utils import init_webapp, set_player, select_tab, \
+from vasl_templates.webapp.tests.utils import init_webapp, set_player, select_tab, new_scenario, \
     find_child, find_children, wait_for_clipboard
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
@@ -87,6 +87,73 @@ def test_vasl_extension_info( webapp, webdriver ):
     assert len(extns) == 1
     extn = extns[0]
     assert extn[1] == { "extensionId": "test", "version": "v0.1" }
+
+# ---------------------------------------------------------------------
+
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_extensions, #pylint: disable=no-member
+    reason = "--vasl-extensions not specified"
+)
+def test_dedupe_ma_notes( webapp, webdriver ):
+    """Test deduping multi-applicable notes."""
+
+    # initialize
+    init_webapp( webapp, webdriver,
+        reset = lambda ct:
+            ct.set_data_dir( dtype="real" ) \
+              .set_vasl_mod( vmod="random", extns_dtype="real" ) \
+              .set_vo_notes_dir( dtype="real" )
+    )
+
+    def do_test( vehicles, expected ): #pylint: disable=missing-docstring
+        # add the specified vehicles
+        new_scenario()
+        set_player( 1, "japanese" )
+        for veh in vehicles:
+            add_vo( webdriver, "vehicles", 1, veh )
+        # get the multi-applicable notes
+        btn = find_child( "button.generate[data-id='ob_vehicles_ma_notes_1']" )
+        btn.click()
+        wait_for_clipboard( 2, expected, transform=_extract_extn_ma_notes )
+
+    # NOTE: The vehicles used in this test have the following multi-applicable notes:
+    # - Type 92A:       A
+    # - M3(a):          adf:A ; adf:B ; adf:C ; adf:Jp A ; adf:US B
+    # - Type 98 MCT:    adf:Br H ; adf:Ge A
+
+    # do the tests
+    do_test( [ "Type 92A (Tt)", "M3(a) (LT)" ], [
+        ( False, "A", "The MA <i>and all</i" ),
+        ( True, "A", "The (a) indicates U." ),
+        ( True, "B", "This vehicle uses Re" ),
+        ( True, "C", "Although a captured " ),
+        # nb: "Jp A" should be deleted as a dupe of A
+        ( True, "US B", "Due to two of the MG" ),
+    ] )
+    do_test( [ "Type 92A (Tt)", "Type 98 MCT (AAtr)" ], [
+        ( False, "A", "The MA <i>and all</i" ),
+        ( True, "Br H", 'As signified by "Inf' ),
+        ( True, "Ge A", "MA and CMG (if so eq" ), # nb: this is "Ge A", which is different to the Japanese "A"
+    ] )
+    do_test( [ "M3(a) (LT)", "Type 98 MCT (AAtr)" ], [
+        ( True, "A", "The (a) indicates U." ),
+        ( True, "B", "This vehicle uses Re" ),
+        ( True, "C", "Although a captured " ),
+        ( True, "Br H", 'As signified by "Inf' ),
+        ( True, "Ge A", "MA and CMG (if so eq" ),
+        ( True, "Jp A", "The MA <i>and all</i" ),
+        ( True, "US B", "Due to two of the MG" ),
+    ] )
+    do_test( [ "Type 92A (Tt)", "M3(a) (LT)", "Type 98 MCT (AAtr)" ], [
+        ( False, "A", "The MA <i>and all</i" ),
+        ( True, "A", "The (a) indicates U." ),
+        ( True, "B", "This vehicle uses Re" ),
+        ( True, "C", "Although a captured " ),
+        ( True, "Br H", 'As signified by "Inf' ),
+        ( True, "Ge A", "MA and CMG (if so eq" ),
+        # nb: "Jp A" should be deleted as a dupe of A
+        ( True, "US B", "Due to two of the MG" ),
+    ] )
 
 # ---------------------------------------------------------------------
 
@@ -286,14 +353,6 @@ def test_bfp_extensions2( webapp, webdriver ):
         ( True, "A", "Use U.S. Vehicle Not" ),
         ( True, "B", "A vehicle of the sam" ),
         ( True, "C", "A vehicle of the sam" ),
-        # NOTE: It's less than ideal that we get notes appearing twice (e.g. once as "C and once as "US C"),
-        # but it will only happen if the scenario has different variants of the same counter e.g. a M4A1 and M4A1C,
-        # so we can live with it for now...
-        ( True, "US C", "37mm canister has 12" ),
-        ( True, "US F", "This AFV may be equi" ),
-        ( True, "US G", "May be equipped with" ),
-        ( True, "US N", "This vehicle was use" ),
-        ( True, "US Y", "If the scenario date" ),
     ], transform=_extract_extn_ma_notes )
 
 # ---------------------------------------------------------------------

@@ -489,8 +489,31 @@ function get_ma_notes_keys( nat, vo_entries, vo_type )
         }
     }
 
+    // delete duplicate keys e.g. if we have notes "X" and "Fr X", we want to include "X" but not "Fr X"
+    // *if* the player is French, otherwise we want to include both.
+    var keys0 = sort_ma_notes_keys( nat, Object.keys(keys[0]) ) ;
+    var keys0a = null ;
+    if ( keys0 ) {
+        var std_keys = {} ;
+        for ( i=0 ; i < keys0.length ; ++i ) {
+            if ( keys0[i].match( /^[A-Za-z]{1,2}$/ ) )
+                std_keys[ keys0[i] ] = true ;
+        }
+        keys0a = [] ;
+        for ( i=0 ; i < keys0.length ; ++i ) {
+            var pos = keys0[i].indexOf( ":" ) ;
+            if ( pos > 0 ) {
+                var val = keys0[i].substr( pos+1 ) ;
+                pos = val.indexOf( " " ) ;
+                if ( BFP_MA_NOTE_REDIRECTS[ val.substr(0,pos) ] == nat && val.substr(pos+1) in std_keys )
+                    continue ;
+            }
+            keys0a.push( keys0[i] ) ;
+        }
+    }
+
     return [
-        sort_ma_notes_keys( nat, Object.keys(keys[0]) ),
+        keys0a,
         sort_ma_notes_keys( nat, Object.keys(keys[1]) ),
         extra_notes_info[0], extra_notes_info[1],
         unrecognized
