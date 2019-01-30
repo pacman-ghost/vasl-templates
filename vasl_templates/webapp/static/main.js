@@ -317,7 +317,7 @@ $(document).ready( function () {
         edit_template( $(this).data( "id" ) ) ;
     } ).html( "<div><img src='" + gImagesBaseUrl + "/edit-template.png'>Edit</div>" )
         .attr( "title", "Edit the template." )
-        .addClass( "ui-button" ) ;
+        .button( {} ) ;
 
     // watch for changes to the scenario name
     $("input[name='SCENARIO_NAME']").on( "input propertychange paste", function() {
@@ -581,6 +581,22 @@ function install_template_pack( data )
         update_ob_tab_header( 1 ) ;
         update_ob_tab_header( 2 ) ;
     }
+
+    // update the snippet buttons
+    function update_button( $btn ) {
+        var template_id = $btn.attr( "data-id" ) ;
+        if ( template_id.substr( 0, 7 ) === "extras/" )
+            return ;
+        if ( template_id.match( /^ob_(vehicles|ordnance).*_[12]$/ ) )
+            template_id = template_id.substring( 0, template_id.length-2 ) ;
+        var enable = is_template_available( template_id ) ;
+        if ( $btn.parent().hasClass( "snippet-control" ) )
+            $btn.parent().controlgroup( enable ? "enable" : "disable" ) ;
+        else
+            $btn.button( enable ? "enable": "disable" ) ;
+    }
+    $( "button.generate" ).each( function() { update_button( $(this) ) ; } ) ;
+    $( "button.edit-template" ).each( function() { update_button( $(this) ) ; } ) ;
 }
 
 // --------------------------------------------------------------------

@@ -103,6 +103,10 @@ function generate_snippet( $btn, evt, extra_params )
         showErrorMsg( "Can't copy to the clipboard:<div class'pre'>" + escapeHTML(ex) + "</div>" ) ;
         return ;
     }
+    // NOTE: This notification will be shown even if there was an error generating the snippet,
+    // but the error message was copied to the clipboard, so it's still techincally correct... :-/
+    // We disabled the ability to generate a snippet if a template file is not present, so it should
+    // only be an issue if there was a problem processing the template.
     showInfoMsg( "The HTML snippet has been copied to the clipboard." ) ;
 }
 

@@ -78,7 +78,7 @@ $.fn.sortable2 = function( action, args )
         $sortable2.data( "on_edit", args.edit ) ;
         var $add_btn = find_helper( $sortable2, "add" ) ;
         $add_btn.prepend( $( "<div><img src='" + gImagesBaseUrl + "/sortable-add.png' class='sortable-add'> Add</div>" ) )
-            .addClass( "ui-button" ) ;
+            .button( {} ) ;
         var $add = find_helper( $sortable2, "add" ) ;
         $add.prop( "title", "Add a new " + display_name[0] )
             .click( args.add ) ;
@@ -86,7 +86,7 @@ $.fn.sortable2 = function( action, args )
             $sortable2.data( "on_reset", args.reset ) ;
             var $reset_btn = find_helper( $sortable2, "reset" ) ;
             $reset_btn.prepend( $( "<div><img src='" + gImagesBaseUrl + "/sortable-reset.png' class='sortable-reset'> Reset</div>" ) )
-                .addClass( "ui-button" ) ;
+                .button( {} ) ;
             var $reset = find_helper( $sortable2, "reset" ) ;
             $reset.prop( "title", "Reset the " + display_name[1] )
                 .click( args.reset ) ;

@@ -539,3 +539,10 @@ def adjust_html( val ):
         close_tag = "</{}".format( tag[1:] )
         val = val.replace( close_tag, close_tag.upper() )
     return val
+
+# ---------------------------------------------------------------------
+
+def get_css_classes( elem ):
+    """Get the CSS classes for the specified element."""
+    classes = elem.get_attribute( "class" )
+    return classes.split() if classes else []

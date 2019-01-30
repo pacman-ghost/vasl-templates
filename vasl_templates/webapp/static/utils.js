@@ -57,6 +57,14 @@ function get_scenario_date()
     return scenario_date ;
 }
 
+function is_template_available( template_id )
+{
+    // check if the specified template is available
+    if ( template_id.match( /^ob_(vehicles|ordnance).*_[12]$/ ) )
+        template_id = template_id.substring( 0, template_id.length-2 ) ;
+    return gTemplatePack.templates[ template_id ] !== undefined ;
+}
+
 // --------------------------------------------------------------------
 
 function copyToClipboard( val )

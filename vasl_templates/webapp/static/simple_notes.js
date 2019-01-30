@@ -125,10 +125,12 @@ function _make_simple_note( note_type, caption )
     var buf = [ "<div>" ] ;
     if ( ["scenario_notes","ob_setups","ob_notes"].indexOf( note_type ) !== -1 ) {
         var note_type0 = note_type.substring( 0, note_type.length-1 ) ;
-        buf.push(
-            "<img src='" + gImagesBaseUrl + "/snippet.png'",
-            " class='snippet' data-id='" + note_type0 + "' title='" + GENERATE_SNIPPET_HINT + "'>"
-        ) ;
+        if ( is_template_available( note_type0 ) ) {
+            buf.push(
+                "<img src='" + gImagesBaseUrl + "/snippet.png'",
+                " class='snippet' data-id='" + note_type0 + "' title='" + GENERATE_SNIPPET_HINT + "'>"
+            ) ;
+        }
     }
     buf.push( caption, "</div>" ) ;
     var $content = $( buf.join("") ) ;
