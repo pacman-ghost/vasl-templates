@@ -177,34 +177,12 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
 
     // generate snippets for multi-applicable vehicle/ordnance notes
     var pos ;
-    function redirect_ma_note( target, vo_type ) {
-        pos = target.indexOf( " " ) ;
-        var nat_redirect = BFP_MA_NOTE_REDIRECTS[ target.substring( 0, pos ) ] ;
-        if ( nat_redirect )
-            return get_ma_notes_for_nat( nat_redirect, vo_type )[ target.substring(pos+1 ) ] ;
-        return null ;
-    }
     function add_ma_notes( ma_notes, keys, param_name, nat, vo_type ) {
         if ( ! keys )
             return ;
         params[ param_name ] = [] ;
         for ( var i=0 ; i < keys.length ; ++i ) {
-            var ma_note = null ;
-            if ( keys[i].substring( 0, 4 ) == "adf:" )
-                ma_note = redirect_ma_note( keys[i].substring(4), vo_type ) ;
-            else if ( keys[i].substring( 0, 6 ) == "cobra:" )
-                ma_note = redirect_ma_note( keys[i].substring(6), vo_type ) ;
-            else if ( keys[i].substring( 0, 4 ) == "pif:" )
-                ma_note = redirect_ma_note( keys[i].substring(4), vo_type ) ;
-            if ( ! ma_note )
-                ma_note = ma_notes[ keys[i] ] ;
-            if ( ! ma_note ) {
-                // couldn't find anything - if we're allied/axis minor, try the common notes
-                if ( gTemplatePack.nationalities[ nat ].type === "allied-minor" )
-                    ma_note = get_ma_notes_for_nat( "allied-minor", vo_type )[ keys[i] ] ;
-                else if ( gTemplatePack.nationalities[ nat ].type === "axis-minor" )
-                    ma_note = get_ma_notes_for_nat( "axis-minor", vo_type )[ keys[i] ] ;
-            }
+            var ma_note = get_ma_note( nat, vo_type, keys[i] ) ;
             var key = keys[i] ;
             var extn_marker = "" ;
             if ( nat === "italian" && vo_type === "ordnance" && keys[i] === "R" )
@@ -242,13 +220,6 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
                 params[param_name2] = result[3] ;
             }
         }
-    }
-    function get_ma_notes_for_nat( nat, vo_type ) {
-        if ( nat === "landing-craft" && nat in gVehicleOrdnanceNotes.vehicles )
-            return gVehicleOrdnanceNotes.vehicles[ nat ][ "multi-applicable" ] ;
-        if ( vo_type in gVehicleOrdnanceNotes && nat in gVehicleOrdnanceNotes[vo_type] )
-            return gVehicleOrdnanceNotes[ vo_type ][ nat ][ "multi-applicable" ] ;
-        return {} ;
     }
     get_ma_notes( "vehicles", 1, "OB_VEHICLES_MA_NOTES_1" ) ;
     get_ma_notes( "ordnance", 1, "OB_ORDNANCE_MA_NOTES_1" ) ;
@@ -566,6 +537,52 @@ function sort_ma_notes_keys( nat, keys )
     } ) ;
 
     return keys ;
+}
+
+function get_ma_note( nat, vo_type, key )
+{
+    var ma_notes ;
+    function redirect_ma_note( target, vo_type ) {
+        pos = target.indexOf( " " ) ;
+        var nat_redirect = BFP_MA_NOTE_REDIRECTS[ target.substring( 0, pos ) ] ;
+        if ( nat_redirect ) {
+            ma_notes = get_ma_notes_for_nat( nat_redirect, vo_type ) ;
+            return ma_notes[ target.substring( pos+1 ) ] ;
+        }
+        return null ;
+    }
+
+    // check for redirected notes
+    var ma_note = null ;
+    var pos = key.indexOf( ":" ) ;
+    if ( pos !== -1 )
+        ma_note = redirect_ma_note( key.substring(pos+1), vo_type ) ;
+
+    if ( ! ma_note ) {
+        // look for a normal note
+        ma_notes = get_ma_notes_for_nat( nat, vo_type ) ;
+        ma_note = ma_notes[ key ] ;
+    }
+
+    if ( ! ma_note ) {
+        // still couldn't find anything - if we're Allied/Axis Minor, try the common notes
+        if ( gTemplatePack.nationalities[ nat ].type === "allied-minor" )
+            ma_note = get_ma_notes_for_nat( "allied-minor", vo_type )[ key ] ;
+        else if ( gTemplatePack.nationalities[ nat ].type === "axis-minor" )
+            ma_note = get_ma_notes_for_nat( "axis-minor", vo_type )[ key ] ;
+    }
+
+    return ma_note ;
+}
+
+function get_ma_notes_for_nat( nat, vo_type )
+{
+    // get the multi-applicable vehicle/ordnance notes for the specified nationality
+    if ( nat === "landing-craft" && nat in gVehicleOrdnanceNotes.vehicles )
+        return gVehicleOrdnanceNotes.vehicles[ "landing-craft" ][ "multi-applicable" ] ;
+    if ( vo_type in gVehicleOrdnanceNotes && nat in gVehicleOrdnanceNotes[vo_type] )
+        return gVehicleOrdnanceNotes[ vo_type ][ nat ][ "multi-applicable" ] ;
+    return {} ;
 }
 
 function _make_snippet_image_filename( snippet )

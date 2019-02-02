@@ -169,7 +169,7 @@
   "CS#": 6,
   "capabilities2": { "A": [ [4,"A4"], [5,5], "\u2020<sup>2</sup>" ], "s": [ [5,5] ], "sM": 8 },
   "note_number": "16\u2020",
-  "notes": [ "US A\u2020<sup>2</sup>", "US F\u2020<sup>1</sup>", "US G", "US <s>P</s>", "Y", "C" ],
+  "notes": [ "US A\u2020<sup>2</sup>", "US F\u2020<sup>1</sup>", "US G", "US <s>P</s>", "US Y", "C" ],
   "id": "am/v:876",
   "gpid": "adf:186"
 }
