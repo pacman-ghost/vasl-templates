@@ -174,18 +174,12 @@ def test_extra_ma_notes( webapp, webdriver ):
     btn.click()
     wait_for_clipboard( 2, [
         ( "A", 'Dutch Multi-Applicable Vehicle Note "A".' ),
-        ( "Du", "Unavailable." ),
-        "Allied Minor Common Vehicles",
-        ( "A", 'Allied Minor Multi-Applicable Vehicle Note "A".' ),
         ( "Du", 'Allied Minor Multi-Applicable Vehicle Note "Du".' ),
     ], transform=_extract_ma_notes )
     btn = find_child( "button.generate[data-id='ob_ordnance_ma_notes_1']" )
     btn.click()
     wait_for_clipboard( 2, [
         ( "A", 'Dutch Multi-Applicable Ordnance Note "A".' ),
-        ( "Du", "Unavailable." ),
-        "Allied Minor Common Ordnance",
-        ( "A", 'Allied Minor Multi-Applicable Ordnance Note "A".' ),
         ( "Du", 'Allied Minor Multi-Applicable Ordnance Note "Du".' ),
     ], transform=_extract_ma_notes )
 
@@ -195,18 +189,12 @@ def test_extra_ma_notes( webapp, webdriver ):
     btn.click()
     wait_for_clipboard( 2, [
         ( "A", 'Romanian Multi-Applicable Vehicle Note "A".' ),
-        ( "Ro", "Unavailable." ),
-        "Axis Minor Common Vehicles",
-        ( "A", 'Axis Minor Multi-Applicable Vehicle Note "A".' ),
         ( "Ro", 'Axis Minor Multi-Applicable Vehicle Note "Ro".' ),
     ], transform=_extract_ma_notes )
     btn = find_child( "button.generate[data-id='ob_ordnance_ma_notes_2']" )
     btn.click()
     wait_for_clipboard( 2, [
         ( "A", 'Romanian Multi-Applicable Ordnance Note "A".' ),
-        ( "Ro", "Unavailable." ),
-        "Axis Minor Common Ordnance",
-        ( "A", 'Axis Minor Multi-Applicable Ordnance Note "A".' ),
         ( "Ro", 'Axis Minor Multi-Applicable Ordnance Note "Ro".' ),
     ], transform=_extract_ma_notes )
 

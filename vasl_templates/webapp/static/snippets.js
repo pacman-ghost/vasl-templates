@@ -198,6 +198,13 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
                 ma_note = redirect_ma_note( keys[i].substring(4), vo_type ) ;
             if ( ! ma_note )
                 ma_note = ma_notes[ keys[i] ] ;
+            if ( ! ma_note ) {
+                // couldn't find anything - if we're allied/axis minor, try the common notes
+                if ( gTemplatePack.nationalities[ nat ].type === "allied-minor" )
+                    ma_note = get_ma_notes_for_nat( "allied-minor", vo_type )[ keys[i] ] ;
+                else if ( gTemplatePack.nationalities[ nat ].type === "axis-minor" )
+                    ma_note = get_ma_notes_for_nat( "axis-minor", vo_type )[ keys[i] ] ;
+            }
             var key = keys[i] ;
             var extn_marker = "" ;
             if ( nat === "italian" && vo_type === "ordnance" && keys[i] === "R" )
@@ -222,9 +229,9 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         var result = get_ma_notes_keys( nat, vo_entries, vo_type, null ) ;
         if ( ! result )
             return ;
-        // NOTE: If the V/O entries contain landing craft or common vehicles/ordnance, we get:
+        // NOTE: If the V/O entries contain landing craft, we get:
         //   [ m/a note keys, m/a note keys for the extras, nat ID for the extras, display caption for the extras, unrecognized keys ]
-        // where "extras" = landing craft or common vehicles/ordnance. Otherwise, we get:
+        // where "extras" = landing craft. Otherwise, we get:
         //   [ m/a note keys, null, null, null, unrecognized keys ]
         add_ma_notes( get_ma_notes_for_nat(nat,vo_type), result[0], param_name, nat, vo_type ) ;
         if ( result[1] ) {
@@ -428,7 +435,7 @@ function get_ma_notes_keys( nat, vo_entries, vo_type )
     if ( ! vo_entries )
         return null ;
     // NOTE: We need to return 2 sets of referenced keys, one for the normal vehicle/ordnance notes
-    // and one for any landing craft/common vehicles, since they share common keys.
+    // and one for any landing craft, since they share common keys.
     var keys = [ {}, {} ] ;
     var unrecognized = [] ;
     var regexes = [
@@ -444,10 +451,6 @@ function get_ma_notes_keys( nat, vo_entries, vo_type )
         new RegExp( "^((Br|Ch|Fr|Ge|Jp|Ru|US|AllM|AxM) [A-Z]{1,2})(\\u2020(<sup>\\d</sup>)?)?$" ),
     ] ;
     var EXTRA_NOTES_INFO = {
-        "alc/v": [ "allied-minor", "Allied Minor Common Vehicles" ],
-        "alc/o": [ "allied-minor", "Allied Minor Common Ordnance" ],
-        "axc/v": [ "axis-minor", "Axis Minor Common Vehicles" ],
-        "axc/o": [ "axis-minor", "Axis Minor Common Ordnance" ],
         "sh/v":  [ "landing-craft", "Landing Craft" ],
     } ;
     var extra_notes_info = [ null, null ] ;
@@ -466,8 +469,7 @@ function get_ma_notes_keys( nat, vo_entries, vo_type )
                 var match = vo_entry.notes[j].match( regexes[k] ) ;
                 if ( match ) {
                     var vo_id = vo_entry.id.split( ":", 1 )[0] ;
-                    var is_extra = ["allied-minor","axis-minor","landing-craft"].indexOf( nat ) === -1 &&
-                                   ["alc/v","alc/o","axc/v","axc/o","sh/v"].indexOf( vo_id ) !== -1 ;
+                    var is_extra = ( nat !== "landing-craft" && vo_id === "sh/v" ) ;
                     var key = match[1] ;
                     if ( vo_entry.extn_id && !( vo_entry.extn_id === "adf" && nat === "american" && key.length === 1 ) ) {
                         // NOTE: We include the extension ID as part of the key, except for BFP American vehicles,
