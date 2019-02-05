@@ -1,25 +1,25 @@
 === ordnance/french/1943 ===
 
-Name                               Capabilities                (effective)                 #       Notes     Comments
----------------------------------  --------------------------  --------------------------  ------  --------  ----------------------
-LG de 50 mle 37(f)                 2PP                         2PP                         1       A B C† E  crewed†
-Mortier de 60 mle 35               5PP no OBA† IR[2+]†         5PP no OBA† IR†             2†      A B V
-Mortier de 81 mle 27/31            NT QSU s8                   NT QSU s8                   3†      A B D V
-Fusil Antichar Boys                1PP                         1PP                         4†      B
-Canon AC de 25 SA-L mle 34         NT QSU                      NT QSU                      5†      B P
-Canon AC de 47 SA mle 37 APX       NT QSU APCR only†[1]        NT QSU APCR only†[1]        6†[1]   B G† P V
-Canon de 75 AC mle 97/35           h-d HE7 LF [NT] s6 ST       h-d HE7 LF [NT] s6 ST       7       E         no shield
-Canon de 37 mle 16 TR              5PP (3PP dm)                5PP (3PP dm)                8†[1]   A C†      crewed†
-Canon de 65 M mle 06               NT QSU h-d                  NT QSU h-d                  9†      A P       No Gunshield.
-Canon de 75 M mle 28               NT QSU h-d AP5 s6           NT QSU h-d AP5 s6           10†     A P
-Canon de 75 mle 1897               NT QSU s8                   NT QSU s8                   11†     B P
-Canon de 105 M mle 28              NT h-d                      NT h-d                      12†     A P
-Canon de 105 C mle 35 B            NT                          NT                          13      E F†
-Canon de 105 L mle 13 S            NT                          NT                          14†     P
-Canon de 105 L mle 36 S            NT                          NT                          15      E F†
-Canon de 155 C mle 17 S            NT s8                       NT s8                       16†     n/a
-Canon de 155 GPF                   NT RFNM                     NT RFNM                     17†     n/a       No IF.
-Mitrailleuse de 13.2 CAJ mle 30    T 2 TK DR†[1]               T 2 TK DR†[1]               18†[1]  B G† V    Towing NA†<sup>1</sup>
-Mitrailleuse de 20 CA mle 39 O     T LF [NT, 20†, 2 ROF, B11]  T LF [NT, 20†, 2 ROF, B11]  19†     n/a
-Canon Automatique de 25 CA mle 38  T                           T                           20†[1]  G†
-Canon de 75 CA mle 32              T NM                        T NM                        21†     n/a
+Name                               Capabilities              (effective)               #       Notes     Comments
+---------------------------------  ------------------------  ------------------------  ------  --------  ----------------------
+LG de 50 mle 37(f)                 2PP                       2PP                       1       A B C† E  crewed†
+Mortier de 60 mle 35               5PP no OBA† IR[2+]†       5PP no OBA† IR†           2†      A B V
+Mortier de 81 mle 27/31            QSU s8                    QSU s8                    3†      A B D V
+Fusil Antichar Boys                1PP                       1PP                       4†      B
+Canon AC de 25 SA-L mle 34         QSU                       QSU                       5†      B P
+Canon AC de 47 SA mle 37 APX       QSU APCR only†[1]         QSU APCR only†[1]         6†[1]   B G† P V
+Canon de 75 AC mle 97/35           h-d HE7 LF [NT] s6        h-d HE7 LF [NT] s6        7       E         no shield
+Canon de 37 mle 16 TR              5PP (3PP dm)              5PP (3PP dm)              8†[1]   A C†      crewed†
+Canon de 65 M mle 06               QSU h-d                   QSU h-d                   9†      A P       No Gunshield.
+Canon de 75 M mle 28               QSU h-d AP5 s6            QSU h-d AP5 s6            10†     A P
+Canon de 75 mle 1897               QSU s8                    QSU s8                    11†     B P
+Canon de 105 M mle 28              h-d                       h-d                       12†     A P
+Canon de 105 C mle 35 B                                                                13      E F†
+Canon de 105 L mle 13 S                                                                14†     P
+Canon de 105 L mle 36 S                                                                15      E F†
+Canon de 155 C mle 17 S            s8                        s8                        16†     n/a
+Canon de 155 GPF                   RFNM                      RFNM                      17†     n/a       No IF.
+Mitrailleuse de 13.2 CAJ mle 30    2 TK DR†[1]               2 TK DR†[1]               18†[1]  B G† V    Towing NA†<sup>1</sup>
+Mitrailleuse de 20 CA mle 39 O     LF [NT, 20†, 2 ROF, B11]  LF [NT, 20†, 2 ROF, B11]  19†     n/a
+Canon Automatique de 25 CA mle 38                                                      20†[1]  G†
+Canon de 75 CA mle 32              NM                        NM                        21†     n/a

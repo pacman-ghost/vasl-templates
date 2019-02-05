@@ -14,6 +14,8 @@ from vasl_templates.webapp.tests.test_vo_reports import get_vo_report
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
 
+IGNORE_CAPABILITIES = [ "T", "NT", "ST" ]
+
 # ---------------------------------------------------------------------
 
 @pytest.mark.skipif(
@@ -749,6 +751,9 @@ def test_capability_updates_in_ui( webapp, webdriver ):
             for vo_entry in vo_entries:
                 capabilities = find_children( "span.vo-capability", vo_entry )
                 results[-1].append( [ c.get_attribute("innerHTML") for c in capabilities ] )
+        for row in expected:
+            for i,entries in enumerate(row):
+                row[i] = [ e for e in entries if e not in IGNORE_CAPABILITIES ]
         assert results == expected
 
     # no scenario date => we should be showing the raw capabilities
@@ -845,6 +850,8 @@ def _check_capabilities( webdriver, webapp,
         merge_common = False,
         row = row
     )
+    for cap in IGNORE_CAPABILITIES:
+        expected = re.sub( r"(^|\s+){}($|\s+)".format(cap), "", expected )
     assert capabilities == expected
 
 def _get_capabilities( webdriver, webapp,

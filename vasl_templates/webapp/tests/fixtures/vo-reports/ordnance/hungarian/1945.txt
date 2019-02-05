@@ -1,9 +1,9 @@
 === ordnance/hungarian/1945 ===
 
-Name                Capabilities               (effective)                #    Notes           Comments
-------------------  -------------------------  -------------------------  ---  --------------  ----------
-5cm leGrW 39(h)     5PP                        5PP                        23   A
-40mm MAVAG 40 M     NT QSU H7[9]†              NT QSU H7[9]†              24†  n/a
-Skoda M05/08        NT                         NT                         25   A
-105mm MAVAG M40     NT h-d                     NT h-d                     26   n/a
-Bofors 80mm M29/38  T LF [80†[1], 1 ROF, B11]  T LF [80†[1], 1 ROF, B11]  27†  G†<sup>1</sup>
+Name                Capabilities             (effective)              #    Notes           Comments
+------------------  -----------------------  -----------------------  ---  --------------  ----------
+5cm leGrW 39(h)     5PP                      5PP                      23   A
+40mm MAVAG 40 M     QSU H7[9]†               QSU H7[9]†               24†  n/a
+Skoda M05/08                                                          25   A
+105mm MAVAG M40     h-d                      h-d                      26   n/a
+Bofors 80mm M29/38  LF [80†[1], 1 ROF, B11]  LF [80†[1], 1 ROF, B11]  27†  G†<sup>1</sup>

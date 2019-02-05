@@ -1,37 +1,37 @@
 === ordnance/axis-minor-common/1941 ===
 
-Name                             Capabilities                   (effective)                    #    Notes                   Comments
--------------------------------  -----------------------------  -----------------------------  ---  ----------------------  -------------
-5cm leGrW 36                     5PP                            5PP                            44   A H S C B
-50mm RM obr. 40                  4PP                            4PP                            45   A R H S C
-8cm GrW 34                       NT QSU IR s7                   NT QSU IR s7                   46†  A C B
-Brandt M27/31                    NT QSU s7                      NT QSU s7                      47†  A R H S
-PM obr. 38                       NT QSU h-d s8                  NT QSU h-d s8                  48†  R H
-Ur wz. 35                        1PP                            1PP                            49   R H S C B
-s18-1100                         5PP                            5PP                            50   A R H
-Kanon PUV vz. 37(t)              NT QSU A4[1S]                  NT QSU                         51†  E H S B
-Bohler M35                       NT QSU                         NT QSU                         52†  A R H S                 No Gunshield.
-5cm PaK 38(g)                    NT QSU A4[3]3[4]               NT QSU                         53†  E R H S B
-7.5cm PaK 97/38(g)               NT QSU H5[3+] s6               NT QSU s6                      54†  E R B
-7.5cm PaK 40(g)                  NT QSU A4[3]3[4]               NT QSU                         55†  E R H S B
-Skoda M15                        NT QSU                         NT QSU                         56†  A R H S C B
-Canon de 75 mle 1897             NT QSU s7                      NT QSU s7                      57   R B
-Skoda M29                        NT AP6                         NT AP6                         58†  A R S
-Skoda M17                        NT QSU                         NT QSU                         59†  A R S C
-Skoda M28(80)                    T                              T                              60†  S C
-Skoda M14/19                     NT s8                          NT s8                          61†  A† R H S C
-leFH 18(g)                       NT H4[3+] s5                   NT s5                          62†  E H S B
-Skoda M35                        NT AP7 C7[CS]†                 NT AP7                         63†  R S C
-G obr. 10/30                     NT h-d s7                      NT h-d s7                      64†  R B
-G obr. 38                        NT s5[1-2R]†                   NT                             65   R B
-Skoda M14                        NT                             NT                             66†  R H S
-Skoda M15/16                     NT s6                          NT s6                          67†  S C                     No IF.
-C mle 17 S                       NT s7                          NT s7                          68†  R B
-Mitrailleuse de 13.2 CAJ mle 30  T 2 TK DR†                     T 2 TK DR†                     69†  T†<sup>1</sup> R B
-Oerlikon FF                      T LF [NT, 20†, 2 ROF, B11]     T LF [NT, 20†, 2 ROF, B11]     70   G† R H S C B
-2cm FlaK 30(g)                   T LF [NT, 20†[1], 2 ROF, B9]   T LF [NT, 20†[1], 2 ROF, B9]   71†  E G†<sup>1</sup> R B
-2cm FlaK 38(g)                   T LF [NT, 20†[1], 2 ROF, B10]  T LF [NT, 20†[1], 2 ROF, B10]  72†  E G†<sup>1</sup> R B
-3.7cm FlaK 36(g)                 T                              T                              73†  E R B
-Bofors 40mm                      T LF [40†[1], 2 ROF]           T LF [40†[1], 2 ROF]           74†  G†<sup>1</sup> R H S C
-Skoda M33                        T                              T                              75R  S
-8.8cm FlaK 18 o. 36(g)           T LF [88†[1], 1 ROF, B11]      T LF [88†[1], 1 ROF, B11]      76†  E G†<sup>1</sup> R S B
+Name                             Capabilities                 (effective)                  #    Notes                   Comments
+-------------------------------  ---------------------------  ---------------------------  ---  ----------------------  -------------
+5cm leGrW 36                     5PP                          5PP                          44   A H S C B
+50mm RM obr. 40                  4PP                          4PP                          45   A R H S C
+8cm GrW 34                       QSU IR s7                    QSU IR s7                    46†  A C B
+Brandt M27/31                    QSU s7                       QSU s7                       47†  A R H S
+PM obr. 38                       QSU h-d s8                   QSU h-d s8                   48†  R H
+Ur wz. 35                        1PP                          1PP                          49   R H S C B
+s18-1100                         5PP                          5PP                          50   A R H
+Kanon PUV vz. 37(t)              QSU A4[1S]                   QSU                          51†  E H S B
+Bohler M35                       QSU                          QSU                          52†  A R H S                 No Gunshield.
+5cm PaK 38(g)                    QSU A4[3]3[4]                QSU                          53†  E R H S B
+7.5cm PaK 97/38(g)               QSU H5[3+] s6                QSU s6                       54†  E R B
+7.5cm PaK 40(g)                  QSU A4[3]3[4]                QSU                          55†  E R H S B
+Skoda M15                        QSU                          QSU                          56†  A R H S C B
+Canon de 75 mle 1897             QSU s7                       QSU s7                       57   R B
+Skoda M29                        AP6                          AP6                          58†  A R S
+Skoda M17                        QSU                          QSU                          59†  A R S C
+Skoda M28(80)                                                                              60†  S C
+Skoda M14/19                     s8                           s8                           61†  A† R H S C
+leFH 18(g)                       H4[3+] s5                    s5                           62†  E H S B
+Skoda M35                        AP7 C7[CS]†                  AP7                          63†  R S C
+G obr. 10/30                     h-d s7                       h-d s7                       64†  R B
+G obr. 38                        s5[1-2R]†                                                 65   R B
+Skoda M14                                                                                  66†  R H S
+Skoda M15/16                     s6                           s6                           67†  S C                     No IF.
+C mle 17 S                       s7                           s7                           68†  R B
+Mitrailleuse de 13.2 CAJ mle 30  2 TK DR†                     2 TK DR†                     69†  T†<sup>1</sup> R B
+Oerlikon FF                      LF [NT, 20†, 2 ROF, B11]     LF [NT, 20†, 2 ROF, B11]     70   G† R H S C B
+2cm FlaK 30(g)                   LF [NT, 20†[1], 2 ROF, B9]   LF [NT, 20†[1], 2 ROF, B9]   71†  E G†<sup>1</sup> R B
+2cm FlaK 38(g)                   LF [NT, 20†[1], 2 ROF, B10]  LF [NT, 20†[1], 2 ROF, B10]  72†  E G†<sup>1</sup> R B
+3.7cm FlaK 36(g)                                                                           73†  E R B
+Bofors 40mm                      LF [40†[1], 2 ROF]           LF [40†[1], 2 ROF]           74†  G†<sup>1</sup> R H S C
+Skoda M33                                                                                  75R  S
+8.8cm FlaK 18 o. 36(g)           LF [88†[1], 1 ROF, B11]      LF [88†[1], 1 ROF, B11]      76†  E G†<sup>1</sup> R S B

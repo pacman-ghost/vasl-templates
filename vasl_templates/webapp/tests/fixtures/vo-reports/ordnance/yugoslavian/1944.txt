@@ -2,6 +2,6 @@
 
 Name                Capabilities    (effective)      #  Notes    Comments
 ------------------  --------------  -------------  ---  -------  ----------
-3.7cm Infantry Gun  NT QSU h-d      NT QSU h-d      20  Y
-80mm M28/M33        NT h-d s5       NT h-d s5       21  Y
-100mm M14/19        NT              NT              22  Y
+3.7cm Infantry Gun  QSU h-d         QSU h-d         20  Y
+80mm M28/M33        h-d s5          h-d s5          21  Y
+100mm M14/19                                        22  Y

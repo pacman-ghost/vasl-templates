@@ -828,7 +828,14 @@ function make_capabilities( raw, vo_entry, nat, scenario_theater, scenario_year,
     if ( crew_survival )
         capabilities.push( crew_survival ) ;
 
-    return capabilities ;
+    // remove uninteresting capabilities
+    var capabilities2 = [] ;
+    for ( i=0 ; i < capabilities.length ; ++i ) {
+        if ( ["T","NT","ST"].indexOf( capabilities[i] ) === -1 )
+            capabilities2.push( capabilities[i] ) ;
+    }
+
+    return capabilities2 ;
 }
 
 function make_raw_capability( name, capability )
