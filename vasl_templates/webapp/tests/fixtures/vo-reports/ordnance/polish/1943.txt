@@ -14,6 +14,6 @@ FK-A wz.38 Autocannon  QSU                 QSU                 1    A AllM T† 
 75mm wz.28             QSU h-d AP5 C6† s6  QSU h-d AP5 C6† s6  5    B† AllM A
 76mm wz.02             QSU h-d C6† s8      QSU h-d C6† s8      6    B†
 100mm wz.14/19         C6†                 C6†                 7    B† AllM A
-100mm wz.29            C4†                 C4†                 8    B†
+105mm wz.29            C4†                 C4†                 8    B†
 120mm wz.09/31         h-d C5† s6          h-d C5† s6          9    B†
 155mm wz.17            s8                  s8                  10   n/a
