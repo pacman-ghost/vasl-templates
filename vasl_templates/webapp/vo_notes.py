@@ -122,12 +122,16 @@ def _do_get_vo_notes( vo_type ): #pylint: disable=too-many-statements,too-many-l
                 key = get_ma_note_key( nat2, fname )
                 if extn_id:
                     key = "{}:{}".format( extn_id, key )
-                with open( os.path.join(root,fname), "r" ) as fp:
+                fname = os.path.join( root, fname )
+                with open( fname, "r" ) as fp:
                     buf = fp.read().strip()
                     if not buf:
                         continue # nb: ignore placeholder files
                     if buf.startswith( "<p>" ):
                         buf = buf[3:].strip()
+                    if "&half;" in buf:
+                        # NOTE: VASSAL doesn't like this, use "frac12;" :-/
+                        logging.warning( "Found &half; in HTML: %s", fname )
                     ma_notes[key] = buf
         if "multi-applicable" in vo_notes[ vo_type2 ][ nat2 ]:
             vo_notes[ vo_type2 ][ nat2 ][ "multi-applicable" ].update( ma_notes )
