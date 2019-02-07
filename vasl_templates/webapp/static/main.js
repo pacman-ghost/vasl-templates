@@ -438,7 +438,12 @@ function init_snippet_button( $btn )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-gPageLoadStatus = [ "main", "vehicle-listings", "ordnance-listings", "vehicle-notes", "ordnance-notes", "vasl-piece-info", "template-pack", "default-scenario" ] ;
+gPageLoadStatus = [
+    "main",
+    "vehicle-listings", "ordnance-listings", "reset-scenario",
+    "vehicle-notes", "ordnance-notes",
+    "vasl-piece-info", "template-pack", "default-scenario"
+] ;
 
 function update_page_load_status( id )
 {
@@ -458,7 +463,10 @@ function update_page_load_status( id )
         // NOTE: If the default scenario contains any vehicles or ordnance, it will look up the V/O listings,
         // so we need to wait until those have arrived. Note that while the default scenario will normally
         // be empty, having stuff in it is very useful during development.
-        do_on_new_scenario( false ) ;
+        if ( gPageLoadStatus.indexOf( "reset-scenario" ) !== -1 ) {
+            do_on_new_scenario( false ) ;
+            update_page_load_status( "reset-scenario" ) ;
+        }
     }
 
     function show_startup_msgs( msgs, msg_type ) {
