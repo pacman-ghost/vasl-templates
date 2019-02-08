@@ -168,8 +168,8 @@ $.fn.sortable2 = function( action, args )
         var display_name = SORTABLE_DISPLAY_NAMES[ get_sortable2_type($sortable2) ] ;
         var buf = [
             "OK to delete this " + display_name[0] + "?",
-            "<div style='margin-top:1em;font-size:80%;font-style:italic;'>",
-            escapeHTML( caption ),
+            "<div style='margin:1em 0 0 1em;font-size:80%;font-style:italic;'>",
+            caption,
             "</div>"
         ] ;
         ask( "Delete "+display_name[0], buf.join(""), {

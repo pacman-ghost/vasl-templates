@@ -214,6 +214,8 @@ function ask( title, msg, args )
         modal: true,
         closeOnEscape:false,
         title: title,
+        minWidth: 250,
+        maxHeight: window.innerHeight,
         create: function() {
             init_dialog( $(this), "OK", false ) ;
             // we handle ESCAPE ourself, to make it the same as clicking Cancel, not just closing the dialog
