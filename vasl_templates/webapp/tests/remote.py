@@ -241,7 +241,10 @@ class ControlTests:
     def _set_vo_notes_dir( self, dtype=None ):
         """Set the vehicle/ordnance notes directory."""
         if dtype == "real":
-            dname = _ORIG_CHAPTER_H_NOTES_DIR
+            try:
+                dname = pytest.config.option.vo_notes #pylint: disable=no-member
+            except AttributeError:
+                dname = _ORIG_CHAPTER_H_NOTES_DIR
         elif dtype == "test":
             dname = os.path.join( os.path.split(__file__)[0], "fixtures/vo-notes" )
         else:

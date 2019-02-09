@@ -94,6 +94,10 @@ def test_vasl_extension_info( webapp, webdriver ):
     not pytest.config.option.vasl_extensions, #pylint: disable=no-member
     reason = "--vasl-extensions not specified"
 )
+@pytest.mark.skipif(
+    not pytest.config.option.vo_notes, #pylint: disable=no-member
+    reason = "--vo-notes not specified"
+)
 def test_dedupe_ma_notes( webapp, webdriver ):
     """Test deduping multi-applicable notes."""
 
@@ -234,6 +238,10 @@ def test_kgs_extensions( webapp, webdriver ):
     not pytest.config.option.vasl_extensions, #pylint: disable=no-member
     reason = "--vasl-extensions not specified"
 )
+@pytest.mark.skipif(
+    not pytest.config.option.vo_notes, #pylint: disable=no-member
+    reason = "--vo-notes not specified"
+)
 def test_bfp_extensions( webapp, webdriver ):
     """Test the Bounding Fire extension."""
 
@@ -297,6 +305,10 @@ def test_bfp_extensions( webapp, webdriver ):
 @pytest.mark.skipif(
     not pytest.config.option.vasl_extensions, #pylint: disable=no-member
     reason = "--vasl-extensions not specified"
+)
+@pytest.mark.skipif(
+    not pytest.config.option.vo_notes, #pylint: disable=no-member
+    reason = "--vo-notes not specified"
 )
 def test_bfp_extensions2( webapp, webdriver ):
     """Test the Bounding Fire extension (Operation Cobra counters)."""
