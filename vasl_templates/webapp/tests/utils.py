@@ -14,7 +14,7 @@ from PyQt5.QtWidgets import QApplication
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, WebDriverException
 
 from vasl_templates.webapp.tests.remote import ControlTests
 
@@ -147,12 +147,19 @@ def select_menu_option( menu_id, webdriver=None ):
     elem = wait_for_elem( 2, "a.PopMenu-Link[data-name='{}']".format( menu_id ), webdriver )
     elem.click()
     wait_for( 2, lambda: find_child("#menu .PopMenu-Container",webdriver) is None ) # nb: wait for the menu to go away
-    try:
-        if pytest.config.option.webdriver == "chrome": #pylint: disable=no-member
-            # FUDGE! Work-around weird "is not clickable" errors because the PopMenu is still around :-/
+    # FUDGE! The delay above is not enough, I suspect because Selenium is deciding that the PopMenu container
+    # is hidden if it has a very low opacity, but it's still blocking any clicks we want to do after we return.
+    # We work around this by trying to click on a dummy button, until it works :-/
+    btn = find_child( "button#popmenu-hack" )
+    for i in range(0,10): #pylint: disable=unused-variable
+        try:
+            btn.click()
+            return
+        except WebDriverException:
             time.sleep( 0.25 )
-    except AttributeError:
-        pass
+            if find_child( "#ask" ):
+                return
+    assert False
 
 def new_scenario():
     """Reset the scenario."""
