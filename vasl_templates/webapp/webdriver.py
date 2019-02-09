@@ -6,8 +6,8 @@ import tempfile
 import atexit
 import logging
 
-from selenium import webdriver
 from PIL import Image, ImageChops
+from selenium import webdriver
 
 from vasl_templates.webapp import app, cleanup_handlers
 from vasl_templates.webapp.utils import TempFile, SimpleError
