@@ -140,6 +140,7 @@ disable=print-statement,
     wrong-import-position,
     global-statement,
     too-few-public-methods,
+    too-many-lines,
     duplicate-code, # can't get it to shut up about @pytest.mark.skipif's :-/
     no-else-return
 

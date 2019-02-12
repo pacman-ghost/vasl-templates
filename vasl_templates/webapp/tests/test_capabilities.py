@@ -840,6 +840,149 @@ def test_capability_updates_in_ui( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
+    """Test elite vehicles/ordnance."""
+
+    # initialize
+    init_webapp( webapp, webdriver, scenario_persistence=1,
+        reset = lambda ct:
+            ct.set_data_dir( dtype="real" )
+    )
+
+    def get_sortable_elem():
+        """Find the sortable element for the test vehicle."""
+        sortable = find_child( "#ob_vehicles-sortable_1" )
+        elems = find_children( "li", sortable )
+        assert len(elems) == 1
+        return elems[0]
+    def check_elite( expected, custom ):
+        """Check the elite status of the vehicle in the main UI."""
+        vo_name = find_child( ".vo-name", get_sortable_elem() ).text
+        caps = [ c.text for c in find_children(".vo-capability",get_sortable_elem()) ]
+        if expected:
+            assert vo_name.endswith( "\u24ba" )
+            expected = [ "A62", "M8\u2020", "sD8", "CS 6" ]
+            if custom:
+                expected.append( "HE11" )
+            assert caps == expected
+        else:
+            assert "\u24ba" not in vo_name
+            expected = [ "A62", "M7\u2020", "sD7", "CS 6" ]
+            if custom:
+                expected.append( "HE10" )
+            assert caps == expected
+    def check_elite2( expected, custom ):
+        """Check the elite status of the vehicle in the edit dialog."""
+        vo_name = find_child( "#edit-vo .header .vo-name" ).text
+        caps = [ c.get_attribute("value") for c in find_children("#vo_capabilities-sortable input[type='text']") ]
+        if expected:
+            assert vo_name.endswith( "\u24ba" )
+            expected = [ "A6<sup>2</sup>", "M8\u2020", "sD8", "CS 6" ]
+            if custom:
+                expected.append( "HE11" )
+            assert caps == expected
+        else:
+            assert "\u24ba" not in vo_name
+            expected = [ "A6<sup>2</sup>", "M7\u2020", "sD7", "CS 6" ]
+            if custom:
+                expected.append( "HE10" )
+            assert caps == expected
+
+    # load the scenario
+    scenario_data = {
+        "PLAYER_1": "german",
+        "OB_VEHICLES_1": [ { "name": "PzKpfw VIE" } ], # A6[2] M7 sD7
+    }
+    load_scenario( scenario_data )
+    select_tab( "ob1" )
+
+    # check that the vehicle was loaded non-elite
+    check_elite( False, False )
+
+    # add a custom capability
+    ActionChains(webdriver).double_click( get_sortable_elem() ).perform()
+    elem = find_child( "#vo_capabilities-add" )
+    elem.click()
+    elems = find_children( "#vo_capabilities-sortable input[type='text']" )
+    assert len(elems) == 5
+    elems[4].send_keys( "HE10" )
+    click_dialog_button( "OK" )
+
+    # make the vehicle elite
+    ActionChains(webdriver).double_click( get_sortable_elem() ).perform()
+    check_elite2( False, True )
+    elem = find_child( "#edit-vo .capabilities .elite" )
+    elem.click()
+    check_elite2( True, True )
+    click_dialog_button( "OK" )
+    check_elite( True, True )
+
+    # save the scenario, then reload it
+    saved_scenario = save_scenario()
+    assert len(saved_scenario["OB_VEHICLES_1"]) == 1
+    assert saved_scenario["OB_VEHICLES_1"][0]["elite"]
+    assert saved_scenario["OB_VEHICLES_1"][0]["custom_capabilities"] == \
+        [ "A6<sup>2</sup>", "M8\u2020", "sD8", "CS 6", "HE11" ]
+    select_menu_option( "new_scenario" )
+    load_scenario( saved_scenario )
+    select_tab( "ob1" )
+    check_elite( True, True )
+
+    # make the vehicle non-elite
+    ActionChains(webdriver).double_click( get_sortable_elem() ).perform()
+    check_elite2( True, True )
+    elem = find_child( "#edit-vo .capabilities .elite" )
+    elem.click()
+    check_elite2( False, True )
+    click_dialog_button( "OK" )
+    check_elite( False, True )
+
+    # save the scenario
+    saved_scenario = save_scenario()
+    assert len(saved_scenario["OB_VEHICLES_1"]) == 1
+    assert "elite" not in saved_scenario["OB_VEHICLES_1"][0]
+    assert saved_scenario["OB_VEHICLES_1"][0]["custom_capabilities"] == \
+        [ "A6<sup>2</sup>", "M7\u2020", "sD7", "CS 6", "HE10" ]
+
+    # make the vehicle elite, remove the custom capability
+    ActionChains(webdriver).double_click( get_sortable_elem() ).perform()
+    check_elite2( False, True )
+    elem = find_child( "#edit-vo .capabilities .elite" )
+    elem.click()
+    check_elite2( True, True )
+    elems = find_children( "#vo_capabilities-sortable li" )
+    webdriver.execute_script( "arguments[0].scrollIntoView(true);", elems[4] )
+    ActionChains(webdriver).key_down( Keys.CONTROL ).click( elems[4] ).key_up( Keys.CONTROL ).perform()
+    click_dialog_button( "OK" )
+    check_elite( True, False )
+
+    # save the scenario, then reload it
+    saved_scenario = save_scenario()
+    assert len(saved_scenario["OB_VEHICLES_1"]) == 1
+    assert saved_scenario["OB_VEHICLES_1"][0]["elite"]
+    assert saved_scenario["OB_VEHICLES_1"][0]["custom_capabilities"] == [ "A6<sup>2</sup>", "M8\u2020", "sD8", "CS 6" ]
+    select_menu_option( "new_scenario" )
+    load_scenario( saved_scenario )
+    select_tab( "ob1" )
+    check_elite( True, False )
+
+    # make the vehicle non-elite
+    ActionChains(webdriver).double_click( get_sortable_elem() ).perform()
+    check_elite2( True, False )
+    elem = find_child( "#edit-vo .capabilities .elite" )
+    elem.click()
+    check_elite2( False, False )
+    click_dialog_button( "OK" )
+    check_elite( False, False )
+
+    # save the scenario
+    saved_scenario = save_scenario()
+    assert len(saved_scenario["OB_VEHICLES_1"]) == 1
+    assert "elite" not in saved_scenario["OB_VEHICLES_1"][0]
+    assert "custom_capabilities" not in saved_scenario["OB_VEHICLES_1"][0]
+
+# ---------------------------------------------------------------------
+
 def _check_capabilities( webdriver, webapp,
     nat, vo_type, vo_name, scenario_theater, scenario_date,
     expected, row=None

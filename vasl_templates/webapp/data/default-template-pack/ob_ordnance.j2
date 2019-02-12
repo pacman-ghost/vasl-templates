@@ -26,7 +26,7 @@ sup { font-size: 75% ; }
 {%for ord in OB_ORDNANCE%}
 <tr style="border-bottom:1px dotted #e0e0e0;">
 <td valign="top" style="padding:2px 5px 5px;">
-    <b> {{ord.name}} </b>
+    <b>{{ord.name}}</b> {%if ord.elite%}&#x24ba;{%endif%}
     {%if ord.image%} <br> <img src="{{ord.image}}"> {%endif%}
     <div class="note">
         {%if ord.extn_id%} &#x2756; {%endif%}

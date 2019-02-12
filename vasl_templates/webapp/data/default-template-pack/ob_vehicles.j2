@@ -26,7 +26,7 @@ sup { font-size: 75% ; }
 {%for veh in OB_VEHICLES%}
 <tr style="border-bottom:1px dotted #e0e0e0;">
 <td valign="top" style="padding:2px 5px 5px;">
-    <b> {{veh.name}} </b>
+    <b>{{veh.name}}</b> {%if veh.elite%}&#x24ba;{%endif%}
     {%if veh.image%} <br> <img src="{{veh.image}}"> {%endif%}
     <div class="note">
         {%if veh.extn_id%} &#x2756; {%endif%}

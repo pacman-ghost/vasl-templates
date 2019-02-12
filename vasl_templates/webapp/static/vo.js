@@ -111,7 +111,7 @@ function add_vo( vo_type, player_no )
                     var $img = $elem.find( "img[class='vasl-image']" ) ;
                     var vo_image_id = $img.data( "vo-image-id" ) ;
                     var seq_id = auto_assign_id( usedSeqIds, "seq_id" ) ;
-                    do_add_vo( vo_type, player_no, sel_entry, vo_image_id, null, null, seq_id ) ;
+                    do_add_vo( vo_type, player_no, sel_entry, vo_image_id, false, null, null, seq_id ) ;
                     $dlg.dialog( "close" ) ;
                 }
                 if ( usedVoIds.indexOf( sel_entry.id ) !== -1 ) {
@@ -131,7 +131,7 @@ function add_vo( vo_type, player_no )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, custom_capabilities, custom_comments, seq_id )
+function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_capabilities, custom_comments, seq_id )
 {
     // add the specified vehicle/ordnance
     // NOTE: We set a fixed height for the sortable2 entries (based on the CSS settings in tabs-ob.css),
@@ -149,6 +149,7 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, custom_capabiliti
         caption: vo_entry.name,
         vo_entry: vo_entry,
         vo_image_id: vo_image_id,
+        elite: elite,
         fixed_height: fixed_height
     } ;
     if ( custom_capabilities )
@@ -208,9 +209,10 @@ function update_vo_sortable2_entry( $entry, snippet_params )
     // initialize
     if ( ! snippet_params )
         snippet_params = unload_snippet_params( true, null ) ;
-    var vo_entry = $entry.data( "sortable2-data" ).vo_entry ;
-    var vo_image_id = $entry.data( "sortable2-data" ).vo_image_id ;
-    var capabilities = $entry.data( "sortable2-data" ).custom_capabilities ;
+    var data = $entry.data( "sortable2-data" ) ;
+    var vo_entry = data.vo_entry ;
+    var vo_image_id = data.vo_image_id ;
+    var capabilities = data.custom_capabilities ;
     if ( capabilities )
         capabilities = capabilities.slice() ;
     else {
@@ -219,6 +221,7 @@ function update_vo_sortable2_entry( $entry, snippet_params )
             false,
             vo_entry,
             snippet_params[ "PLAYER_"+player_no ],
+            data.elite,
             snippet_params.SCENARIO_THEATER, snippet_params.SCENARIO_YEAR, snippet_params.SCENARIO_MONTH,
             false
         ) ;
@@ -228,7 +231,10 @@ function update_vo_sortable2_entry( $entry, snippet_params )
     var url = get_vo_image_url( vo_entry, vo_image_id, true ) ;
     var $content = $entry.children( ".vo-entry" ) ;
     $content.find( "img.vasl-image" ).attr( "src", url ) ;
-    $content.find( "div.vo-name" ).html( vo_entry.name ) ;
+    var name = vo_entry.name ;
+    if ( data.elite )
+        name += " \u24ba" ;
+    $content.find( "div.vo-name" ).html( name ) ;
     for ( var i=0 ; i < capabilities.length ; ++i )
         capabilities[i] = "<span class='vo-capability'>" + capabilities[i] + "</span>" ;
     $content.find( "div.vo-capabilities" ).html( capabilities.join("") ) ;

@@ -648,11 +648,13 @@ function unload_snippet_params( unpack_scenario_date, template_id )
         var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
         var objs = [] ;
         $sortable2.children( "li" ).each( function() {
-            var vo_entry = $(this).data( "sortable2-data" ).vo_entry ;
-            var vo_image_id = $(this).data( "sortable2-data" ).vo_image_id ;
+            var data = $(this).data( "sortable2-data" ) ;
+            var vo_entry = data.vo_entry ;
+            var vo_image_id = data.vo_image_id ;
+            var elite = data.elite ;
             var obj = {
                 id: vo_entry.id,
-                seq_id: $(this).data( "sortable2-data" ).id,
+                seq_id: data.id,
                 image_id: (vo_image_id !== null) ? vo_image_id[0]+"/"+vo_image_id[1] : null,
                 name: vo_entry.name,
                 note_number: vo_entry.note_number,
@@ -682,7 +684,7 @@ function unload_snippet_params( unpack_scenario_date, template_id )
                 // we will show the warnings when we make the raw capabilities.
                 capabilities = make_capabilities(
                     false,
-                    vo_entry, nat,
+                    vo_entry, nat, elite,
                     params.SCENARIO_THEATER, params.SCENARIO_YEAR, params.SCENARIO_MONTH,
                     false
                 ) ;
@@ -691,12 +693,15 @@ function unload_snippet_params( unpack_scenario_date, template_id )
             }
             capabilities = make_capabilities(
                 true,
-                vo_entry, nat,
+                vo_entry, nat, elite,
                 params.SCENARIO_THEATER, params.SCENARIO_YEAR, params.SCENARIO_MONTH,
                 show_warnings
             ) ;
-            if ( capabilities )
+            if ( capabilities ) {
                 obj.raw_capabilities = capabilities ;
+                if ( elite )
+                    obj.elite = true ;
+            }
             var comments = $(this).data( "sortable2-data" ).custom_comments ;
             if ( comments ) {
                 obj.comments = comments ;
@@ -719,7 +724,7 @@ function unload_snippet_params( unpack_scenario_date, template_id )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function make_capabilities( raw, vo_entry, nat, scenario_theater, scenario_year, scenario_month, show_warnings )
+function make_capabilities( raw, vo_entry, nat, elite, scenario_theater, scenario_year, scenario_month, show_warnings )
 {
     var capabilities = [] ;
 
@@ -834,6 +839,10 @@ function make_capabilities( raw, vo_entry, nat, scenario_theater, scenario_year,
         if ( ["T","NT","ST"].indexOf( capabilities[i] ) === -1 )
             capabilities2.push( capabilities[i] ) ;
     }
+
+    // check for elite vehicles/ordnance
+    if ( elite )
+        adjust_capabilities_for_elite( capabilities2, +1 ) ;
 
     return capabilities2 ;
 }
@@ -1015,6 +1024,21 @@ function make_crew_survival( vo_entry )
         crew_survival = crew_survival.substring(0,pos) + " <small><i>(brew up)</i></small>" + crew_survival.substring(pos+7) ;
 
     return crew_survival ;
+}
+
+function adjust_capabilities_for_elite( capabilities, delta )
+{
+    // adjust the list of capabilities for elite status
+    // Pondicherry, India (FEB/19)
+    if ( ! capabilities )
+        return ;
+    for ( var i=0 ; i < capabilities.length ; ++i ) {
+        if ( capabilities[i].indexOf( "<sup>" ) !== -1 )
+            continue ; // nb: ignore raw capabilities (e.g. if the scenario date hasn't been set)
+        var match = capabilities[i].match( /^(A|M|H|C|D|HE|AP|WP|s|S|sD|sM|sN)([1-9][0-9]?)/ ) ;
+        if ( match )
+            capabilities[i] = match[1] + (parseInt(match[2]) + delta) + capabilities[i].substr(match[1].length+match[2].length) ;
+    }
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1256,7 +1280,7 @@ function do_load_scenario_data( params )
                         warnings.push( "Invalid V/O image ID for '" + params[key][i].name + "': " + params[key][i].image_id ) ;
                 }
                 if ( vo_entry )
-                    do_add_vo( vo_type, player_no, vo_entry, vo_image_id, params[key][i].custom_capabilities, params[key][i].custom_comments, params[key][i].seq_id ) ;
+                    do_add_vo( vo_type, player_no, vo_entry, vo_image_id, params[key][i].elite, params[key][i].custom_capabilities, params[key][i].custom_comments, params[key][i].seq_id ) ;
                 else
                     unknown_vo.push( vo_id || "(not set)" ) ;
             }
@@ -1415,6 +1439,8 @@ function unload_params_for_save( user_requested )
                 entry.image_id = params[key][i].image_id ;
             if ( params[key][i].custom_capabilities )
                 entry.custom_capabilities = params[key][i].custom_capabilities ;
+            if ( params[key][i].elite )
+                entry.elite = true ;
             if ( params[key][i].custom_comments )
                 entry.custom_comments = params[key][i].custom_comments ;
             entries.push( entry ) ;

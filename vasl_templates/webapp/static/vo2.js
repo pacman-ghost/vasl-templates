@@ -11,6 +11,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
             false,
             vo_entry,
             params[ "PLAYER_"+player_no ],
+            false,
             params.SCENARIO_THEATER, params.SCENARIO_YEAR, params.SCENARIO_MONTH,
             show_warnings
         ) ;
@@ -34,12 +35,23 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
         return entries ;
     }
 
+    function make_vo_name( name, elite ) {
+        if ( elite )
+            name += " \u24ba" ;
+        else {
+            if ( name.substr( name.length-2 ) === " \u24ba" )
+                name = name.substr( 0, name.length-2 ) ;
+        }
+        return name ;
+    }
+
     // get the vehicle/ordnance's capabilities/comments
     var params = unload_snippet_params( true, null ) ;
     var vo_entry = $entry.data( "sortable2-data" ).vo_entry ;
     var capabilities = $entry.data( "sortable2-data" ).custom_capabilities ;
     if ( ! capabilities )
         capabilities = get_default_capabilities( vo_entry, params, true ).slice() ;
+    var elite = $entry.data( "sortable2-data" ).elite ;
     var comments = $entry.data( "sortable2-data" ).custom_comments ;
     if ( ! comments )
         comments = get_default_comments( vo_entry ) ;
@@ -50,7 +62,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
     var buf = [ "<div class='header'>",
         "<img src='" + url + "' class='vasl-image'>",
         "<div class='content'>",
-        "<span class='vo-name'>" + vo_entry.name + "</span>",
+        "<span class='vo-name'>" + make_vo_name( vo_entry.name, elite ) + "</span>",
         "</div>",
     "</div" ] ;
     $header = $( buf.join("") ) ;
@@ -71,6 +83,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
 
     // initialize
     var $capabilities = $( "#vo_capabilities-sortable" ) ;
+    var $elite = $( "#edit-vo .capabilities input.elite" ) ;
     var $comments = $( "#vo_comments-sortable" ) ;
     function add_entry( $sortable, val, visible ) {
         var $elem = $( "<div>" +
@@ -96,9 +109,11 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
     var $reset_capabilities = $( "#vo_capabilities-reset" ) ;
     $reset_capabilities.data( { vo_entry: vo_entry, params: params } ) ;
     function on_reset_capabilities() {
+        $dlg.find( ".header .vo-name" ).html( make_vo_name( vo_entry.name, elite ) ) ;
         load_entries( $capabilities,
             get_default_capabilities( $reset_capabilities.data("vo_entry"), $reset_capabilities.data("params"), false )
         ) ;
+        $elite.prop( "checked", false ) ;
     }
     var $reset_comments = $( "#vo_comments-reset" ) ;
     $reset_comments.data( { vo_entry: vo_entry, params: params } ) ;
@@ -106,6 +121,16 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
         load_entries( $comments,
             get_default_comments( $reset_comments.data("vo_entry") )
         ) ;
+    }
+
+    function update_for_elite( delta ) {
+        // update the capabilities
+        var capabilities = unload_entries( $capabilities ) ;
+        adjust_capabilities_for_elite( capabilities, delta ) ;
+        load_entries( $capabilities, capabilities ) ;
+        // update the vehicle/ordnance name
+        var $name = $( "#edit-vo .header .vo-name" ) ;
+        $name.html( make_vo_name( $name.html(), delta > 0 ) ) ;
     }
 
     // show the dialog
@@ -128,6 +153,9 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
                 reset: on_reset_comments,
                 no_confirm_delete: true,
             } ) ;
+            $elite.click( function() {
+                update_for_elite( $(this).prop( "checked" ) ? +1 : -1 ) ;
+            } ) ;
         },
         open: function() {
             // initialize
@@ -141,6 +169,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
             } ) ;
             // load the dialog
             load_entries( $capabilities, capabilities ) ;
+            $elite.prop( "checked", elite ? true : false ) ;
             load_entries( $comments, comments ) ;
         },
         buttons: {
@@ -158,6 +187,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
                     // the capabilities are the same as the default - no need to retain these custom settings
                     delete $entry.data( "sortable2-data" ).custom_capabilities ;
                 }
+                $entry.data( "sortable2-data" ).elite = $elite.prop( "checked" ) ;
                 // unload the comments
                 var comments = unload_entries( $comments ) ;
                 if ( comments.join() !== get_default_comments( vo_entry ).join() ) {
