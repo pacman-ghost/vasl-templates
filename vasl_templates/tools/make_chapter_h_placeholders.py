@@ -15,11 +15,22 @@ import click
 def main( output_fname ): # pylint: disable=too-many-locals,too-many-branches
     """Create a ZIP file with placeholder files for each Chapter H note and multi-applicable note."""
 
+    def log( fmt, *args ): #pylint: disable=missing-docstring
+        print( fmt.format( *args ) )
+    return make_chapter_h_placeholders( output_fname, log=log )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def make_chapter_h_placeholders( output_fname, log=None ): #pylint: disable=too-many-locals,too-many-branches
+    """Create a ZIP file with placeholder files for each Chapter H note and multi-applicable note."""
+
     # initialize
     if not output_fname:
         raise RuntimeError( "Output ZIP file not specified." )
-    if os.path.isfile( output_fname ):
-        raise RuntimeError( "Output ZIP file exists." )
+    if not log:
+        def log_nothing( fmt, *args ): #pylint: disable=missing-docstring,unused-argument
+            pass
+        log = log_nothing
     results = {}
 
     # load the vehicle/ordnance data files
@@ -50,14 +61,14 @@ def main( output_fname ): # pylint: disable=too-many-locals,too-many-branches
         nats = sorted( results.keys() )
         for nat in nats: #pylint: disable=too-many-nested-blocks
             for vo_type in ("vehicles","ordnance"):
-                print( "Generating {} {}...".format( nat, vo_type ) )
+                log( "Generating {} {}...", nat, vo_type )
                 for note_type in ("notes","ma_notes"):
 
                     # get the next set of note ID's
                     vals = results[nat].get( vo_type, {} ).get( note_type )
                     if not vals:
                         continue
-                    print( "- {}: {}".format( note_type, ", ".join( str(v) for v in vals ) ) )
+                    log( "- {}: {}", note_type, ", ".join( str(v) for v in vals ) )
 
                     for val in vals:
 
@@ -76,8 +87,7 @@ def main( output_fname ): # pylint: disable=too-many-locals,too-many-branches
 
                         # add the placeholder file to the ZIP
                         zip_file.writestr( fname, b"" )
-
-        print()
+        log( "" )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
