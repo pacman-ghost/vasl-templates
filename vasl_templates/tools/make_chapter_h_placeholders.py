@@ -100,7 +100,7 @@ def make_chapter_h_placeholders( output_fname, log=None \
                         if isinstance(val, str):
                             # NOTE: Filenames are always lower-case, unless the note ID itself is lower-case,
                             # in which case we indicate this with a trailing underscore
-                            if re.search( r"^([a-z]+:)?[A-Z][A-Za-z]?$", val ):
+                            if re.search( r"^([-a-z]+:)?[A-Z][A-Za-z]?$", val ):
                                 val = val.lower()
                             elif re.search( r"^[a-z]{1,2}?$", val ):
                                 val += "_"
@@ -208,7 +208,7 @@ def _extract_ma_note_ids( val ):
     return ma_note_ids
 
 def _ignore_ma_notes( nat, extn_id=None ):
-    if extn_id == "adf" and nat == "american":
+    if extn_id == "adf-bj" and nat == "american":
         return True
     if extn_id is None and nationalities.get( nat, {} ).get( "type" ) in ("allied-minor","axis-minor"):
         return True

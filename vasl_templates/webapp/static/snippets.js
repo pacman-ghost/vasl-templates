@@ -442,7 +442,7 @@ function get_ma_notes_keys( nat, vo_entries, vo_type )
                     var vo_id = vo_entry.id.split( ":", 1 )[0] ;
                     var is_extra = ( nat !== "landing-craft" && vo_id === "sh/v" ) ;
                     var key = match[1] ;
-                    if ( vo_entry.extn_id && !( vo_entry.extn_id === "adf" && nat === "american" && key.length === 1 ) ) {
+                    if ( vo_entry.extn_id && !( vo_entry.extn_id === "adf-bj" && nat === "american" && key.length === 1 ) ) {
                         // NOTE: We include the extension ID as part of the key, except for BFP American vehicles,
                         // whose multi-applicable notes refer to the main American multi-applicable notes,
                         // not the BFP ones (there aren't any).

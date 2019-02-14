@@ -122,8 +122,8 @@ def test_dedupe_ma_notes( webapp, webdriver ):
 
     # NOTE: The vehicles used in this test have the following multi-applicable notes:
     # - Type 92A:       A
-    # - M3(a):          adf:A ; adf:B ; adf:C ; adf:Jp A ; adf:US B
-    # - Type 98 MCT:    adf:Br H ; adf:Ge A
+    # - M3(a):          adf-bj:A ; adf-bj:B ; adf-bj:C ; adf-bj:Jp A ; adf-bj:US B
+    # - Type 98 MCT:    adf-bj:Br H ; adf-bj:Ge A
 
     # do the tests
     do_test( [ "Type 92A (Tt)", "M3(a) (LT)" ], [
@@ -298,7 +298,7 @@ def test_bfp_extensions( webapp, webdriver ):
     elems[0].click()
     wait_for_clipboard( 2, re.compile( r'<img src=".*?/vehicles/japanese/note/8">' ) )
     elems[1].click()
-    wait_for_clipboard( 2, re.compile( r'<img src=".*?/vehicles/japanese/note/adf:17">' ) )
+    wait_for_clipboard( 2, re.compile( r'<img src=".*?/vehicles/japanese/note/adf-bj:17">' ) )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
