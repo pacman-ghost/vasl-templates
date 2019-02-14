@@ -114,7 +114,7 @@ class ControlTests:
         """Configure the GPID remappings."""
         if isinstance( gpids, str ):
             gpids = json.loads( gpids.replace( "'", '"' ) )
-            gpids = { int(k): v for k,v in gpids.items() }
+            gpids = { str(k): v for k,v in gpids.items() }
         _logger.info( "Setting GPID remappings: %s", gpids )
         prev_gpid_mappings = webapp_file_server_utils.GPID_REMAPPINGS
         webapp_file_server_utils.GPID_REMAPPINGS = gpids
