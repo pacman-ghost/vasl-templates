@@ -3,27 +3,16 @@
 
 function add_vo( vo_type, player_no )
 {
-    // get the vehicles/ordnance already added
-    var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
-    var vo_present = [];
-    $sortable2.children("li").each( function() {
-        var vo_entry = $(this).data( "sortable2-data" ).vo_entry ;
-        vo_present.push( vo_entry.id ) ;
-    } ) ;
-
     // load the available vehicles/ordnance
     var nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
     var entries = gVehicleOrdnanceListings[vo_type][nat] ;
     if ( entries === undefined ) {
-        showErrorMsg( "There are no " + get_nationality_display_name(nat) + " " + vo_type + " listings." ) ;
+        showWarningMsg( "There are no " + get_nationality_display_name(nat) + " " + vo_type + " listings." ) ;
         return ;
     }
     var buf = [] ;
-    for ( var i=0 ; i < entries.length ; ++i ) {
-        if ( vo_present.indexOf( entries[i].id ) !== -1 )
-            continue ;
+    for ( var i=0 ; i < entries.length ; ++i )
         buf.push( "<option value='" + i + "'>" + entries[i].name + "</option>" ) ;
-    }
     function format_vo_entry( opt ) {
         if ( ! opt.id )
             return opt.text ;
@@ -70,15 +59,16 @@ function add_vo( vo_type, player_no )
     } ) ;
 
     // let the user select a vehicle/ordnance
+    var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
     function on_resize( $dlg ) {
         $( ".select2-results ul" ).height( $dlg.height() - 50 ) ;
     }
-    $("#select-vo").dialog( {
+    var $dlg = $("#select-vo").dialog( {
         title: "Add " + SORTABLE_DISPLAY_NAMES["ob_"+vo_type][0],
         dialogClass: "select-vo",
         modal: true,
-        minWidth: 300,
-        minHeight: 300,
+        minWidth: 400,
+        minHeight: 350,
         create: function() {
             init_dialog( $(this), "OK", false ) ;
             // handle ESCAPE
@@ -104,21 +94,35 @@ function add_vo( vo_type, player_no )
         resize: function() { on_resize( $(this) ) ; },
         buttons: {
             OK: function() {
-                // add the new vehicle/ordnance
+                // get the selected vehicle/ordnance
                 // FUDGE! $sel.select("data") returns the wrong thing if the entries are filtered?!?!
                 var $elem = $( "#select-vo .select2-results__option--highlighted" ) ;
                 if ( $elem.length === 0 )
                     return ;
                 var sel_index = $elem.children( ".vo-entry" ).data( "index" ) ;
-                var $img = $elem.find( "img[class='vasl-image']" ) ;
-                var vo_image_id = $img.data( "vo-image-id" ) ;
-                var usedIds = {};
+                var sel_entry = entries[ sel_index ] ;
+                var usedVoIds=[], usedSeqIds={} ;
                 $sortable2.find( "li" ).each( function() {
-                    usedIds[ $(this).data( "sortable2-data" ).id ] = true ;
+                    usedVoIds.push( $(this).data( "sortable2-data" ).vo_entry.id ) ;
+                    usedSeqIds[ $(this).data( "sortable2-data" ).id ] = true ;
                 } ) ;
-                var seq_id = auto_assign_id( usedIds, "seq_id" ) ;
-                do_add_vo( vo_type, player_no, entries[sel_index], vo_image_id, null, seq_id ) ;
-                $(this).dialog( "close" ) ;
+                // check for duplicates
+                function add_sel_entry() {
+                    var $img = $elem.find( "img[class='vasl-image']" ) ;
+                    var vo_image_id = $img.data( "vo-image-id" ) ;
+                    var seq_id = auto_assign_id( usedSeqIds, "seq_id" ) ;
+                    do_add_vo( vo_type, player_no, sel_entry, vo_image_id, false, null, null, seq_id ) ;
+                    $dlg.dialog( "close" ) ;
+                }
+                if ( usedVoIds.indexOf( sel_entry.id ) !== -1 ) {
+                    var vo_type2 = SORTABLE_DISPLAY_NAMES[ "ob_" + vo_type ][0] ;
+                    ask( "Add "+vo_type2, "<p>This "+vo_type2+" is already in the OB<p>Do you want to add it again?", {
+                        ok: add_sel_entry,
+                    } ) ;
+                    return ;
+                }
+                // add the new vehicle/ordnance
+                add_sel_entry() ;
             },
             Cancel: function() { $(this).dialog( "close" ) ; },
         },
@@ -127,7 +131,7 @@ function add_vo( vo_type, player_no )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, custom_capabilities, seq_id )
+function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_capabilities, custom_comments, seq_id )
 {
     // add the specified vehicle/ordnance
     // NOTE: We set a fixed height for the sortable2 entries (based on the CSS settings in tabs-ob.css),
@@ -145,10 +149,13 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, custom_capabiliti
         caption: vo_entry.name,
         vo_entry: vo_entry,
         vo_image_id: vo_image_id,
+        elite: elite,
         fixed_height: fixed_height
     } ;
     if ( custom_capabilities )
         data.custom_capabilities = custom_capabilities ;
+    if ( custom_comments )
+        data.custom_comments = custom_comments ;
     data.id = seq_id ;
     var buf = [ div_tag,
         "<img class='vasl-image'>",
@@ -173,11 +180,14 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, custom_capabiliti
     }
     if ( vo_nat ) {
         var template_id = (vo_type === "vehicles") ? "ob_vehicle_note" : "ob_ordnance_note" ;
-        buf.push(
-            "<img src='" + gImagesBaseUrl + "/snippet.png'",
-            " class='snippet' data-id='" + template_id + "' title='" + GENERATE_SNIPPET_HINT + "'>"
-        ) ;
-        data.vo_note_url = APP_URL_BASE + "/" + vo_type + "/" + vo_nat + "/note/" + vo_note_key ;
+        if ( is_template_available( template_id ) ) {
+            buf.push(
+                "<img src='" + gImagesBaseUrl + "/snippet.png'",
+                " class='snippet' data-id='" + template_id + "' title='" + GENERATE_SNIPPET_HINT + "'>"
+            ) ;
+        }
+        var url = APP_URL_BASE + "/" + vo_type + "/" + vo_nat + "/note/" ;
+        data.vo_note_url = url + vo_note_key ;
     }
     buf.push( "</div>" ) ;
     var $content = $( buf.join("") ) ;
@@ -199,9 +209,10 @@ function update_vo_sortable2_entry( $entry, snippet_params )
     // initialize
     if ( ! snippet_params )
         snippet_params = unload_snippet_params( true, null ) ;
-    var vo_entry = $entry.data( "sortable2-data" ).vo_entry ;
-    var vo_image_id = $entry.data( "sortable2-data" ).vo_image_id ;
-    var capabilities = $entry.data( "sortable2-data" ).custom_capabilities ;
+    var data = $entry.data( "sortable2-data" ) ;
+    var vo_entry = data.vo_entry ;
+    var vo_image_id = data.vo_image_id ;
+    var capabilities = data.custom_capabilities ;
     if ( capabilities )
         capabilities = capabilities.slice() ;
     else {
@@ -210,6 +221,7 @@ function update_vo_sortable2_entry( $entry, snippet_params )
             false,
             vo_entry,
             snippet_params[ "PLAYER_"+player_no ],
+            data.elite,
             snippet_params.SCENARIO_THEATER, snippet_params.SCENARIO_YEAR, snippet_params.SCENARIO_MONTH,
             false
         ) ;
@@ -219,7 +231,10 @@ function update_vo_sortable2_entry( $entry, snippet_params )
     var url = get_vo_image_url( vo_entry, vo_image_id, true ) ;
     var $content = $entry.children( ".vo-entry" ) ;
     $content.find( "img.vasl-image" ).attr( "src", url ) ;
-    $content.find( "div.vo-name" ).html( vo_entry.name ) ;
+    var name = vo_entry.name ;
+    if ( data.elite )
+        name += " \u24ba" ;
+    $content.find( "div.vo-name" ).html( name ) ;
     for ( var i=0 ; i < capabilities.length ; ++i )
         capabilities[i] = "<span class='vo-capability'>" + capabilities[i] + "</span>" ;
     $content.find( "div.vo-capabilities" ).html( capabilities.join("") ) ;

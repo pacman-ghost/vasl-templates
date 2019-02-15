@@ -8,7 +8,7 @@ from flask import request, render_template, jsonify, send_file, redirect, url_fo
 
 from vasl_templates.webapp import app
 from vasl_templates.webapp.utils import MsgStore
-from vasl_templates.webapp.config.constants import DATA_DIR
+from vasl_templates.webapp.config.constants import BASE_DIR, DATA_DIR
 
 startup_msg_store = MsgStore() # store messages generated during startup
 _check_versions = True
@@ -64,13 +64,12 @@ def get_license():
     """Get the license."""
 
     # locate the license file
-    dname = os.path.split( __file__ )[0]
+    dname = BASE_DIR
     fname = os.path.join( dname, "../../LICENSE.txt" ) # nb: if we're running from source
     if not os.path.isfile( fname ):
-        fname = os.path.join( dname, "../../../LICENSE.txt" ) # nb: if we're running as a compiled binary
+        fname = os.path.join( dname, "LICENSE.txt" ) # nb: if we're running as a compiled binary
     if not os.path.isfile( fname ):
         # FUDGE! If we've been pip install'ed walk up the directory tree, looking for the license file :-/
-        dname = os.path.split( fname )[0]
         while True:
             # go up a directory
             prev_dname = dname

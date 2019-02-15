@@ -6,6 +6,7 @@ SORTABLE_DISPLAY_NAMES = {
     ob_vehicles: [ "vehicle", "vehicles", "a" ],
     ob_ordnance: [ "ordnance", "ordnance", "an" ],
     vo_capabilities: [ "capability", "capabilities", "a" ],
+    vo_comments: [ "comment", "comments", "a" ],
 } ;
 
 SORTABLE_HINTS = {
@@ -77,7 +78,7 @@ $.fn.sortable2 = function( action, args )
         $sortable2.data( "on_edit", args.edit ) ;
         var $add_btn = find_helper( $sortable2, "add" ) ;
         $add_btn.prepend( $( "<div><img src='" + gImagesBaseUrl + "/sortable-add.png' class='sortable-add'> Add</div>" ) )
-            .addClass( "ui-button" ) ;
+            .button( {} ) ;
         var $add = find_helper( $sortable2, "add" ) ;
         $add.prop( "title", "Add a new " + display_name[0] )
             .click( args.add ) ;
@@ -85,7 +86,7 @@ $.fn.sortable2 = function( action, args )
             $sortable2.data( "on_reset", args.reset ) ;
             var $reset_btn = find_helper( $sortable2, "reset" ) ;
             $reset_btn.prepend( $( "<div><img src='" + gImagesBaseUrl + "/sortable-reset.png' class='sortable-reset'> Reset</div>" ) )
-                .addClass( "ui-button" ) ;
+                .button( {} ) ;
             var $reset = find_helper( $sortable2, "reset" ) ;
             $reset.prop( "title", "Reset the " + display_name[1] )
                 .click( args.reset ) ;
@@ -167,8 +168,8 @@ $.fn.sortable2 = function( action, args )
         var display_name = SORTABLE_DISPLAY_NAMES[ get_sortable2_type($sortable2) ] ;
         var buf = [
             "OK to delete this " + display_name[0] + "?",
-            "<div style='margin-top:1em;font-size:80%;font-style:italic;'>",
-            escapeHTML( caption ),
+            "<div style='margin:1em 0 0 1em;font-size:80%;font-style:italic;'>",
+            caption,
             "</div>"
         ] ;
         ask( "Delete "+display_name[0], buf.join(""), {

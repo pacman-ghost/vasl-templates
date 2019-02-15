@@ -138,33 +138,41 @@ def make_snippet_image():
 
 # ---------------------------------------------------------------------
 
-_flag_image_cache = {}
-_flag_image_cache_lock = threading.Lock()
-
 @app.route( "/flags/<nat>" )
 def get_flag( nat ):
     """Get a flag image."""
+    return _get_small_image(
+        "static/images/flags/", nat,
+        app.config.get( "DEFAULT_FLAG_HEIGHT", 11 )
+    )
 
-    # validate the nationality
-    if not re.search( "^[-a-z]+$", nat ):
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+_small_image_cache = {}
+_small_image_cache_lock = threading.Lock()
+
+def _get_small_image( base_dir, key, default_height ):
+    """Get a small image (cached)."""
+
+    # locate the image file
+    if not re.search( "^[-a-z~]+$", key ):
         abort( 404 )
+    fname = os.path.join( base_dir, key+".png" )
 
     # check how we should resize the image
     # NOTE: Resizing images in the HTML snippets looks dreadful (presumably
     # because VASSAL's HTML engine is so ancient), so we do it ourself :-/
-    default_height = app.config.get( "DEFAULT_FLAG_HEIGHT", 11 )
     height = int( request.args.get( "height", default_height ) )
     if height <= 0:
         abort( 400 )
 
-    with _flag_image_cache_lock:
+    with _small_image_cache_lock:
 
         # check if we have the image in the cache
-        cache_key = ( nat, height )
-        if cache_key not in _flag_image_cache:
+        cache_key = ( key, height )
+        if cache_key not in _small_image_cache:
 
             # nope - load it
-            fname = "static/images/flags/{}.png".format( nat )
             with app.open_resource( fname, "rb" ) as fp:
                 img = Image.open( fp )
                 # resize the image
@@ -177,8 +185,8 @@ def get_flag( nat ):
                 buf = io.BytesIO()
                 img.save( buf, format="PNG" )
                 buf.seek( 0 )
-                _flag_image_cache[ cache_key ] = buf.read()
+                _small_image_cache[ cache_key ] = buf.read()
 
         # return the flag image
-        img_data =_flag_image_cache[ cache_key ]
+        img_data =_small_image_cache[ cache_key ]
         return send_file( io.BytesIO(img_data), mimetype="image/png" )

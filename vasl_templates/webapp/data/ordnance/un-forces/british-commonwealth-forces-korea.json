@@ -33,7 +33,7 @@
   "type": "MTR",
   "capabilities": [ "NT" ],
   "capabilities2": { "s": 8, "WP": 7 },
-  "capabilities_other": [ "Towed\u2020" ],
+  "comments": [ "Towed\u2020" ],
   "note_number": "17\u2020",
   "notes": [ "N" ],
   "id": "bcfk/o:003",

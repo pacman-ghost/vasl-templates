@@ -14,6 +14,20 @@ var _DAY_OF_MONTH_POSTFIXES = { // nb: we assume English :-/
     11: "th", 12: "th", 13: "th"
 } ;
 
+// NOTE: Blood & Jungle has a lot of multi-applicable notes that simply refer to other
+// multi-applicable notes e.g. "Fr C" = "French Multi-Applicable Note C".
+var BFP_MA_NOTE_REDIRECTS = {
+    "Br": "british",
+    "Ch": "chinese",
+    "Fr": "french",
+    "Ge": "german",
+    "Jp": "japanese",
+    "Ru": "russian",
+    "US": "american",
+    "AllM": "allied-minor",
+    "AxM": "axis-minor",
+} ;
+
 var gDefaultScenario = null ;
 var gLastSavedScenario = null ;
 var gLastSavedScenarioFilename = null ;
@@ -89,6 +103,10 @@ function generate_snippet( $btn, evt, extra_params )
         showErrorMsg( "Can't copy to the clipboard:<div class'pre'>" + escapeHTML(ex) + "</div>" ) ;
         return ;
     }
+    // NOTE: This notification will be shown even if there was an error generating the snippet,
+    // but the error message was copied to the clipboard, so it's still techincally correct... :-/
+    // We disabled the ability to generate a snippet if a template file is not present, so it should
+    // only be an issue if there was a problem processing the template.
     showInfoMsg( "The HTML snippet has been copied to the clipboard." ) ;
 }
 
@@ -158,16 +176,27 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         set_vo_note( "ordnance" ) ;
 
     // generate snippets for multi-applicable vehicle/ordnance notes
+    var pos ;
     function add_ma_notes( ma_notes, keys, param_name, nat, vo_type ) {
         if ( ! keys )
             return ;
         params[ param_name ] = [] ;
         for ( var i=0 ; i < keys.length ; ++i ) {
-            var ma_note = ma_notes[ keys[i] ] ;
+            var ma_note = get_ma_note( nat, vo_type, keys[i] ) ;
+            var key = keys[i] ;
+            var extn_marker = "" ;
+            if ( nat === "italian" && vo_type === "ordnance" && keys[i] === "R" )
+                key = "<s>R</s>" ;
+            else {
+                pos = key.indexOf( ":" ) ;
+                if ( pos !== -1 ) {
+                    extn_marker = "&#x2756; " ;
+                    key = key.substring( pos+1 ) ;
+                }
+            }
             params[ param_name ].push(
-                "<span class='key'>" +
-                (nat === "italian" && vo_type === "ordnance" && keys[i] === "R" ? "<s>R</s>" : keys[i]) + ":" +
-                "</span> " +
+                extn_marker +
+                "<span class='key'>" + key + ":" + "</span> " +
                 (ma_note || "Unavailable.")
             ) ;
         }
@@ -178,9 +207,9 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         var result = get_ma_notes_keys( nat, vo_entries, vo_type, null ) ;
         if ( ! result )
             return ;
-        // NOTE: If the V/O entries contain landing craft or common vehicles/ordnance, we get:
+        // NOTE: If the V/O entries contain landing craft, we get:
         //   [ m/a note keys, m/a note keys for the extras, nat ID for the extras, display caption for the extras, unrecognized keys ]
-        // where "extras" = landing craft or common vehicles/ordnance. Otherwise, we get:
+        // where "extras" = landing craft. Otherwise, we get:
         //   [ m/a note keys, null, null, null, unrecognized keys ]
         add_ma_notes( get_ma_notes_for_nat(nat,vo_type), result[0], param_name, nat, vo_type ) ;
         if ( result[1] ) {
@@ -191,13 +220,6 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
                 params[param_name2] = result[3] ;
             }
         }
-    }
-    function get_ma_notes_for_nat( nat, vo_type ) {
-        if ( nat === "landing-craft" && nat in gVehicleOrdnanceNotes.vehicles )
-            return gVehicleOrdnanceNotes.vehicles[ nat ][ "multi-applicable" ] ;
-        if ( vo_type in gVehicleOrdnanceNotes && nat in gVehicleOrdnanceNotes[vo_type] )
-            return gVehicleOrdnanceNotes[ vo_type ][ nat ][ "multi-applicable" ] ;
-        return {} ;
     }
     get_ma_notes( "vehicles", 1, "OB_VEHICLES_MA_NOTES_1" ) ;
     get_ma_notes( "ordnance", 1, "OB_ORDNANCE_MA_NOTES_1" ) ;
@@ -304,6 +326,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     // add in any extra parameters
     if ( extra_params )
         $.extend( true, params, extra_params ) ;
+    params.IMAGES_BASE_URL = APP_URL_BASE + gImagesBaseUrl ;
 
     // check that the players have different nationalities
     if ( params.PLAYER_1 === params.PLAYER_2 )
@@ -361,7 +384,12 @@ function get_vo_note_key( vo_entry )
         return null ;
     // nb: there are some note numbers of the form "1.2" :-/
     var match = vo_entry.note_number.match( new RegExp( "^([0-9.]+)" ) ) ;
-    return match ? match[1] : null ;
+    if ( ! match )
+        return null ;
+    var key = match[1] ;
+    if ( vo_entry.extn_id )
+        key = vo_entry.extn_id + ":" + key ;
+    return key ;
 }
 
 function is_known_vo_note_key( vo_type, nat, key )
@@ -378,7 +406,7 @@ function get_ma_notes_keys( nat, vo_entries, vo_type )
     if ( ! vo_entries )
         return null ;
     // NOTE: We need to return 2 sets of referenced keys, one for the normal vehicle/ordnance notes
-    // and one for any landing craft/common vehicles, since they share common keys.
+    // and one for any landing craft, since they share common keys.
     var keys = [ {}, {} ] ;
     var unrecognized = [] ;
     var regexes = [
@@ -389,12 +417,11 @@ function get_ma_notes_keys( nat, vo_entries, vo_type )
         new RegExp( "^([A-Z][a-z])$" ),
         new RegExp( "^([A-Za-z])<sup>" ),
         new RegExp( "^<s>([A-Za-z])</s>$" ),
+        // NOTE: There are BFP references like "Jp 5", but we ignore these since they are referring to
+        // a vehicle/ordnance *note*, not a multi-applicable note.
+        new RegExp( "^((Br|Ch|Fr|Ge|Jp|Ru|US|AllM|AxM) [A-Z]{1,2})(\\u2020(<sup>\\d</sup>)?)?$" ),
     ] ;
     var EXTRA_NOTES_INFO = {
-        "alc/v": [ "allied-minor", "Allied Minor Common Vehicles" ],
-        "alc/o": [ "allied-minor", "Allied Minor Common Ordnance" ],
-        "axc/v": [ "axis-minor", "Axis Minor Common Vehicles" ],
-        "axc/o": [ "axis-minor", "Axis Minor Common Ordnance" ],
         "sh/v":  [ "landing-craft", "Landing Craft" ],
     } ;
     var extra_notes_info = [ null, null ] ;
@@ -404,14 +431,24 @@ function get_ma_notes_keys( nat, vo_entries, vo_type )
         if ( ! vo_entry.notes )
             continue ;
         for ( j=0 ; j < vo_entry.notes.length ; ++j ) {
+            if ( vo_entry.notes[j] === "US <s>P</s>" ) { // nb: can't do this with a regex
+                keys[0][ vo_entry.extn_id + ":US P" ] = true ;
+                continue ;
+            }
             var rc = false ;
             for ( k=0 ; k < regexes.length ; ++k ) {
                 var match = vo_entry.notes[j].match( regexes[k] ) ;
                 if ( match ) {
                     var vo_id = vo_entry.id.split( ":", 1 )[0] ;
-                    var is_extra = ["allied-minor","axis-minor","landing-craft"].indexOf( nat ) === -1 &&
-                                   ["alc/v","alc/o","axc/v","axc/o","sh/v"].indexOf( vo_id ) !== -1 ;
-                    keys[ is_extra?1:0 ][ match[1] ] = true ;
+                    var is_extra = ( nat !== "landing-craft" && vo_id === "sh/v" ) ;
+                    var key = match[1] ;
+                    if ( vo_entry.extn_id && !( vo_entry.extn_id === "adf-bj" && nat === "american" && key.length === 1 ) ) {
+                        // NOTE: We include the extension ID as part of the key, except for BFP American vehicles,
+                        // whose multi-applicable notes refer to the main American multi-applicable notes,
+                        // not the BFP ones (there aren't any).
+                        key = vo_entry.extn_id + ":" + key ;
+                    }
+                    keys[ is_extra?1:0 ][ key ] = true ;
                     if ( is_extra ) {
                         // NOTE: Only the Americans/British and Japanese have landing craft, while Axis Minor Powers
                         // will never have Allied Minor common vehicles/ordnance (and vice versa), so if we have
@@ -429,8 +466,31 @@ function get_ma_notes_keys( nat, vo_entries, vo_type )
         }
     }
 
+    // delete duplicate keys e.g. if we have notes "X" and "Fr X", we want to include "X" but not "Fr X"
+    // *if* the player is French, otherwise we want to include both.
+    var keys0 = sort_ma_notes_keys( nat, Object.keys(keys[0]) ) ;
+    var keys0a = null ;
+    if ( keys0 ) {
+        var std_keys = {} ;
+        for ( i=0 ; i < keys0.length ; ++i ) {
+            if ( keys0[i].match( /^[A-Za-z]{1,2}$/ ) )
+                std_keys[ keys0[i] ] = true ;
+        }
+        keys0a = [] ;
+        for ( i=0 ; i < keys0.length ; ++i ) {
+            var pos = keys0[i].indexOf( ":" ) ;
+            if ( pos > 0 ) {
+                var val = keys0[i].substr( pos+1 ) ;
+                pos = val.indexOf( " " ) ;
+                if ( BFP_MA_NOTE_REDIRECTS[ val.substr(0,pos) ] == nat && val.substr(pos+1) in std_keys )
+                    continue ;
+            }
+            keys0a.push( keys0[i] ) ;
+        }
+    }
+
     return [
-        sort_ma_notes_keys( nat, Object.keys(keys[0]) ),
+        keys0a,
         sort_ma_notes_keys( nat, Object.keys(keys[1]) ),
         extra_notes_info[0], extra_notes_info[1],
         unrecognized
@@ -477,6 +537,52 @@ function sort_ma_notes_keys( nat, keys )
     } ) ;
 
     return keys ;
+}
+
+function get_ma_note( nat, vo_type, key )
+{
+    var ma_notes ;
+    function redirect_ma_note( target, vo_type ) {
+        pos = target.indexOf( " " ) ;
+        var nat_redirect = BFP_MA_NOTE_REDIRECTS[ target.substring( 0, pos ) ] ;
+        if ( nat_redirect ) {
+            ma_notes = get_ma_notes_for_nat( nat_redirect, vo_type ) ;
+            return ma_notes[ target.substring( pos+1 ) ] ;
+        }
+        return null ;
+    }
+
+    // check for redirected notes
+    var ma_note = null ;
+    var pos = key.indexOf( ":" ) ;
+    if ( pos !== -1 )
+        ma_note = redirect_ma_note( key.substring(pos+1), vo_type ) ;
+
+    if ( ! ma_note ) {
+        // look for a normal note
+        ma_notes = get_ma_notes_for_nat( nat, vo_type ) ;
+        ma_note = ma_notes[ key ] ;
+    }
+
+    if ( ! ma_note ) {
+        // still couldn't find anything - if we're Allied/Axis Minor, try the common notes
+        if ( gTemplatePack.nationalities[ nat ].type === "allied-minor" )
+            ma_note = get_ma_notes_for_nat( "allied-minor", vo_type )[ key ] ;
+        else if ( gTemplatePack.nationalities[ nat ].type === "axis-minor" )
+            ma_note = get_ma_notes_for_nat( "axis-minor", vo_type )[ key ] ;
+    }
+
+    return ma_note ;
+}
+
+function get_ma_notes_for_nat( nat, vo_type )
+{
+    // get the multi-applicable vehicle/ordnance notes for the specified nationality
+    if ( nat === "landing-craft" && nat in gVehicleOrdnanceNotes.vehicles )
+        return gVehicleOrdnanceNotes.vehicles[ "landing-craft" ][ "multi-applicable" ] ;
+    if ( vo_type in gVehicleOrdnanceNotes && nat in gVehicleOrdnanceNotes[vo_type] )
+        return gVehicleOrdnanceNotes[ vo_type ][ nat ][ "multi-applicable" ] ;
+    return {} ;
 }
 
 function _make_snippet_image_filename( snippet )
@@ -542,16 +648,20 @@ function unload_snippet_params( unpack_scenario_date, template_id )
         var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
         var objs = [] ;
         $sortable2.children( "li" ).each( function() {
-            var vo_entry = $(this).data( "sortable2-data" ).vo_entry ;
-            var vo_image_id = $(this).data( "sortable2-data" ).vo_image_id ;
+            var data = $(this).data( "sortable2-data" ) ;
+            var vo_entry = data.vo_entry ;
+            var vo_image_id = data.vo_image_id ;
+            var elite = data.elite ;
             var obj = {
                 id: vo_entry.id,
-                seq_id: $(this).data( "sortable2-data" ).id,
+                seq_id: data.id,
                 image_id: (vo_image_id !== null) ? vo_image_id[0]+"/"+vo_image_id[1] : null,
                 name: vo_entry.name,
                 note_number: vo_entry.note_number,
                 notes: vo_entry.notes
             } ;
+            if ( vo_entry.extn_id )
+                obj.extn_id = vo_entry.extn_id ;
             if ( gUserSettings["include-vasl-images-in-snippets"] ) {
                 var url = get_vo_image_url( vo_entry, vo_image_id ) ;
                 if ( url )
@@ -574,7 +684,7 @@ function unload_snippet_params( unpack_scenario_date, template_id )
                 // we will show the warnings when we make the raw capabilities.
                 capabilities = make_capabilities(
                     false,
-                    vo_entry, nat,
+                    vo_entry, nat, elite,
                     params.SCENARIO_THEATER, params.SCENARIO_YEAR, params.SCENARIO_MONTH,
                     false
                 ) ;
@@ -583,12 +693,22 @@ function unload_snippet_params( unpack_scenario_date, template_id )
             }
             capabilities = make_capabilities(
                 true,
-                vo_entry, nat,
+                vo_entry, nat, elite,
                 params.SCENARIO_THEATER, params.SCENARIO_YEAR, params.SCENARIO_MONTH,
                 show_warnings
             ) ;
-            if ( capabilities )
+            if ( capabilities ) {
                 obj.raw_capabilities = capabilities ;
+                if ( elite )
+                    obj.elite = true ;
+            }
+            var comments = $(this).data( "sortable2-data" ).custom_comments ;
+            if ( comments ) {
+                obj.comments = comments ;
+                obj.custom_comments = comments.slice() ;
+            } else {
+                obj.comments = vo_entry.comments ;
+            }
             objs.push( obj ) ;
         } ) ;
         if ( objs.length > 0 )
@@ -604,7 +724,7 @@ function unload_snippet_params( unpack_scenario_date, template_id )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function make_capabilities( raw, vo_entry, nat, scenario_theater, scenario_year, scenario_month, show_warnings )
+function make_capabilities( raw, vo_entry, nat, elite, scenario_theater, scenario_year, scenario_month, show_warnings )
 {
     var capabilities = [] ;
 
@@ -652,7 +772,7 @@ function make_capabilities( raw, vo_entry, nat, scenario_theater, scenario_year,
                 capabilities[ capabilities.length-1 ] += " [" + caps.join(", ") + "]" ;
                 continue ;
             }
-            if ( $.inArray( key, ["HE","AP","A","D","C","H","B","s","sM","sD","sN","WP","IR","Towed"] ) === -1 ) {
+            if ( $.inArray( key, ["HE","AP","A","D","C","H","B","S","s","sM","sD","sN","WP","IR","Towed"] ) === -1 ) {
                 unexpected_caps.push( key ) ;
                 continue ;
             }
@@ -713,7 +833,18 @@ function make_capabilities( raw, vo_entry, nat, scenario_theater, scenario_year,
     if ( crew_survival )
         capabilities.push( crew_survival ) ;
 
-    return capabilities ;
+    // remove uninteresting capabilities
+    var capabilities2 = [] ;
+    for ( i=0 ; i < capabilities.length ; ++i ) {
+        if ( ["T","NT","ST"].indexOf( capabilities[i] ) === -1 )
+            capabilities2.push( capabilities[i] ) ;
+    }
+
+    // check for elite vehicles/ordnance
+    if ( elite )
+        adjust_capabilities_for_elite( capabilities2, +1 ) ;
+
+    return capabilities2 ;
 }
 
 function make_raw_capability( name, capability )
@@ -825,6 +956,13 @@ function _check_capability_timestamp( capabilities, timestamp, nat, scenario_the
     }
 
     // parse the month/year the capability becomes available
+    var match = timestamp.match( /^(\d+)-$/ ) ;
+    if ( match ) {
+        if ( scenario_year < 1900 + parseInt(match[1]) )
+            return capabilities[0] ;
+        else
+            return "" ;
+    }
     var month = MONTH_NAMES[ timestamp.substring(0,1) ] ;
     if ( month )
         timestamp = timestamp.substring( 1 ) ;
@@ -888,6 +1026,21 @@ function make_crew_survival( vo_entry )
     return crew_survival ;
 }
 
+function adjust_capabilities_for_elite( capabilities, delta )
+{
+    // adjust the list of capabilities for elite status
+    // Pondicherry, India (FEB/19)
+    if ( ! capabilities )
+        return ;
+    for ( var i=0 ; i < capabilities.length ; ++i ) {
+        if ( capabilities[i].indexOf( "<sup>" ) !== -1 )
+            continue ; // nb: ignore raw capabilities (e.g. if the scenario date hasn't been set)
+        var match = capabilities[i].match( /^(A|M|H|C|D|HE|AP|WP|s|S|sD|sM|sN)([1-9][0-9]?)/ ) ;
+        if ( match )
+            capabilities[i] = match[1] + (parseInt(match[2]) + delta) + capabilities[i].substr(match[1].length+match[2].length) ;
+    }
+}
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 function get_template( template_id, fixup )
@@ -925,7 +1078,7 @@ function edit_template( template_id )
         dialogClass: "edit-template",
         title: "Editing template: " + escapeHTML(template_id),
         modal: false,
-        minWidth: 400, minHeight: 200,
+        minWidth: 600, minHeight: 300,
         create: function() {
             init_dialog( $(this), "Close", true ) ;
         },
@@ -1127,7 +1280,7 @@ function do_load_scenario_data( params )
                         warnings.push( "Invalid V/O image ID for '" + params[key][i].name + "': " + params[key][i].image_id ) ;
                 }
                 if ( vo_entry )
-                    do_add_vo( vo_type, player_no, vo_entry, vo_image_id, params[key][i].custom_capabilities, params[key][i].seq_id ) ;
+                    do_add_vo( vo_type, player_no, vo_entry, vo_image_id, params[key][i].elite, params[key][i].custom_capabilities, params[key][i].custom_comments, params[key][i].seq_id ) ;
                 else
                     unknown_vo.push( vo_id || "(not set)" ) ;
             }
@@ -1286,6 +1439,10 @@ function unload_params_for_save( user_requested )
                 entry.image_id = params[key][i].image_id ;
             if ( params[key][i].custom_capabilities )
                 entry.custom_capabilities = params[key][i].custom_capabilities ;
+            if ( params[key][i].elite )
+                entry.elite = true ;
+            if ( params[key][i].custom_comments )
+                entry.custom_comments = params[key][i].custom_comments ;
             entries.push( entry ) ;
         }
         params[key] = entries ;

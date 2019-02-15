@@ -13,9 +13,9 @@ import json
 import logging
 from collections import defaultdict
 
+import click
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
-import click
 
 from vasl_templates.webapp.webdriver import WebDriver
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario

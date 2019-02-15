@@ -174,18 +174,12 @@ def test_extra_ma_notes( webapp, webdriver ):
     btn.click()
     wait_for_clipboard( 2, [
         ( "A", 'Dutch Multi-Applicable Vehicle Note "A".' ),
-        ( "Du", "Unavailable." ),
-        "Allied Minor Common Vehicles",
-        ( "A", 'Allied Minor Multi-Applicable Vehicle Note "A".' ),
         ( "Du", 'Allied Minor Multi-Applicable Vehicle Note "Du".' ),
     ], transform=_extract_ma_notes )
     btn = find_child( "button.generate[data-id='ob_ordnance_ma_notes_1']" )
     btn.click()
     wait_for_clipboard( 2, [
         ( "A", 'Dutch Multi-Applicable Ordnance Note "A".' ),
-        ( "Du", "Unavailable." ),
-        "Allied Minor Common Ordnance",
-        ( "A", 'Allied Minor Multi-Applicable Ordnance Note "A".' ),
         ( "Du", 'Allied Minor Multi-Applicable Ordnance Note "Du".' ),
     ], transform=_extract_ma_notes )
 
@@ -195,18 +189,12 @@ def test_extra_ma_notes( webapp, webdriver ):
     btn.click()
     wait_for_clipboard( 2, [
         ( "A", 'Romanian Multi-Applicable Vehicle Note "A".' ),
-        ( "Ro", "Unavailable." ),
-        "Axis Minor Common Vehicles",
-        ( "A", 'Axis Minor Multi-Applicable Vehicle Note "A".' ),
         ( "Ro", 'Axis Minor Multi-Applicable Vehicle Note "Ro".' ),
     ], transform=_extract_ma_notes )
     btn = find_child( "button.generate[data-id='ob_ordnance_ma_notes_2']" )
     btn.click()
     wait_for_clipboard( 2, [
         ( "A", 'Romanian Multi-Applicable Ordnance Note "A".' ),
-        ( "Ro", "Unavailable." ),
-        "Axis Minor Common Ordnance",
-        ( "A", 'Axis Minor Multi-Applicable Ordnance Note "A".' ),
         ( "Ro", 'Axis Minor Multi-Applicable Ordnance Note "Ro".' ),
     ], transform=_extract_ma_notes )
 
@@ -366,6 +354,12 @@ def test_special_cases( webapp, webdriver ):
     not pytest.config.option.vo_notes, #pylint: disable=no-member
     reason = "--vo-notes not specified"
 ) #pylint: disable=too-many-locals,too-many-branches
+# NOTE: The expected output files contain pieces from the supported extensions,
+# so the VASL extensions directory must be loaded.
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_extensions, #pylint: disable=no-member
+    reason = "--vasl-extensions not specified"
+    ) #pylint: disable=too-many-locals
 def test_vo_notes_reports( webapp, webdriver ):
     """Check the vehicle/ordnance notes reports."""
 
@@ -375,6 +369,7 @@ def test_vo_notes_reports( webapp, webdriver ):
     init_webapp( webapp, webdriver,
         reset = lambda ct:
             ct.set_data_dir( dtype="real" ) \
+              .set_vasl_mod( vmod="random", extns_dtype="real" ) \
               .set_vo_notes_dir( dtype="real" )
     )
 
@@ -393,9 +388,10 @@ def test_vo_notes_reports( webapp, webdriver ):
         for vo_type in ["vehicles","ordnance"]:
 
             # get the next report
-            if nat == "landing-craft" and vo_type == "ordnance":
-                continue
             vo_notes, ma_notes, keys = get_vo_notes_report( webapp, webdriver, nat, vo_type )
+            if nat in ("burmese","filipino") or (nat,vo_type) in [("landing-craft","ordnance"),("anzac","ordnance")]:
+                assert not vo_notes and not ma_notes and not keys
+                continue
 
             # convert the report to plain-text
             buf = io.StringIO()
@@ -431,7 +427,7 @@ def test_vo_notes_reports( webapp, webdriver ):
 
             # check the report
             fname = os.path.join( check_dir, fname )
-            assert open(fname,"r",encoding="utf-8").read() == report
+            assert open( fname, "r", encoding="utf-8" ).read() == report
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -467,7 +463,7 @@ def _parse_report( buf ):
         val = val.replace( "&#8804;", "&le;" ).replace( "&#8805;", "&ge;" )
         val = val.replace( "&#176;", "&deg;" )
         val = val.replace( "&#8734;", "&infin;" )
-        val = val.replace( "&#228;", "&auml;" ).replace( "&#235;", "&euml;" )
+        val = val.replace( "&#228;", "&auml;" ).replace( "&#235;", "&euml;" ).replace( "&#252;", "&uml;" )
         val = val.replace( "&#188;", "&frac14;" ).replace( "&#189;", "&frac12;" ).replace( "&#190;", "&frac34;" )
         val = re.sub(
             r"<sup>(.*?)</sup>",

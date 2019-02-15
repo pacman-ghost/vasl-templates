@@ -25,6 +25,8 @@ function get_player_colors( player_no )
 function get_player_colors_for_element( $elem )
 {
     // get the player colors (if any) for the specified element
+    if ( $elem.attr( "id" ).substr( 0, 18 ) === "ob_notes-sortable_" )
+        return null ;
     var player_no = get_player_no_for_element(  $elem ) ;
     if ( player_no === null )
         return null ;
@@ -53,6 +55,14 @@ function get_scenario_date()
         return null ;
     scenario_date.setMinutes( scenario_date.getMinutes() - scenario_date.getTimezoneOffset() ) ;
     return scenario_date ;
+}
+
+function is_template_available( template_id )
+{
+    // check if the specified template is available
+    if ( template_id.match( /^ob_(vehicles|ordnance).*_[12]$/ ) )
+        template_id = template_id.substring( 0, template_id.length-2 ) ;
+    return gTemplatePack.templates[ template_id ] !== undefined ;
 }
 
 // --------------------------------------------------------------------
@@ -148,10 +158,16 @@ function init_dialog( $dlg, ok_button_text, auto_dismiss )
 
     // allow Ctrl-Enter to dismiss the dialog
     if ( auto_dismiss ) {
-        $dlg.find("input[type='text']").keydown( function(evt) {
+        $dlg.find( "input[type='text']" ).keydown( function(evt) {
             auto_dismiss_dialog( $dlg, evt, ok_button_text ) ;
         } ) ;
-        $dlg.find("textarea").keydown( function(evt) {
+        $dlg.find( "input[type='checkbox']" ).keydown( function(evt) {
+            auto_dismiss_dialog( $dlg, evt, ok_button_text ) ;
+        } ) ;
+        $dlg.find( "select" ).keydown( function(evt) {
+            auto_dismiss_dialog( $dlg, evt, ok_button_text ) ;
+        } ) ;
+        $dlg.find( "textarea" ).keydown( function(evt) {
             auto_dismiss_dialog( $dlg, evt, ok_button_text ) ;
         } ) ;
     }
@@ -198,6 +214,8 @@ function ask( title, msg, args )
         modal: true,
         closeOnEscape:false,
         title: title,
+        minWidth: 250,
+        maxHeight: window.innerHeight,
         create: function() {
             init_dialog( $(this), "OK", false ) ;
             // we handle ESCAPE ourself, to make it the same as clicking Cancel, not just closing the dialog
@@ -316,7 +334,7 @@ function add_flag_to_dialog_titlebar( $dlg, player_no )
     if ( ! player_nat )
         return ;
     var $titlebar = $dlg.dialog( "instance" ).uiDialogTitlebar ;
-    var url = gImagesBaseUrl + "/flags/" + player_nat + ".png" ;
+    var url = make_player_flag_url( player_nat ) ;
     $titlebar.find( ".ui-dialog-title" ).prepend(
         $( "<img src='" + url + "' class='flag'>" )
     ).css( { display: "flex", "align-items": "center" } ) ;

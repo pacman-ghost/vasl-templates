@@ -2,7 +2,8 @@
 
 { "name": "DBT",
   "type": "MTR",
-  "capabilities_other": [ "3PP", "\u2020" ],
+  "capabilities_other": [ "3PP" ],
+  "comments": [ "\u2020" ],
   "note_number": "6\u2020",
   "notes": [ "A", "B", "D" ],
   "id": "be/o:000",
@@ -29,7 +30,7 @@
 { "name": "7.6cm FRC",
   "type": "INF",
   "capabilities": [ "NT", "QSU" ],
-  "capabilities_other": [ "\u2020" ],
+  "comments": [ "\u2020" ],
   "note_number": "8\u2020",
   "notes": [ "A", "B" ],
   "id": "be/o:003",

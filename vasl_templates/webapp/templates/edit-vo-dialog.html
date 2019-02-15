@@ -1,10 +1,13 @@
 <div id="edit-vo" style="display:none;">
 
+<div class="header"></div>
+
 <div class="capabilities">
-
-    <div class="header"></div>
-
-    <div class="fieldset-legend">Capabilities:</div>
+    <div class="fieldset-legend">
+        Capabilities:
+        <div style="float:right;"> <input type="checkbox" class="elite">&nbsp;Elite </input> </div>
+        <br clear="all">
+    </div>
     <div class="fieldset">
         <ul id="vo_capabilities-sortable" class="sortable"></ul>
         <div class="footer">
@@ -14,7 +17,19 @@
             <button id="vo_capabilities-reset" class="sortable-reset"></button>
         </div>
     </div>
+</div>
 
+<div class="comments">
+    <div class="fieldset-legend">Comments:</div>
+    <div class="fieldset">
+        <ul id="vo_comments-sortable" class="sortable"></ul>
+        <div class="footer">
+            <button id="vo_comments-add" class="sortable-add"></button>
+            <img id="vo_comments-trash" class="sortable-trash">
+            <span class="spacer"></span>
+            <button id="vo_comments-reset" class="sortable-reset"></button>
+        </div>
+    </div>
 </div>
 
 </div>

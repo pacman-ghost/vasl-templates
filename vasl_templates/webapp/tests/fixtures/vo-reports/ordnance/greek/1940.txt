@@ -1,7 +1,7 @@
 === ordnance/greek/1940 ===
 
-Name             Capabilities    (effective)      #  Notes
----------------  --------------  -------------  ---  -------
-Vari 85/24 M     NT s5           NT s5           16  Gr
-OR 105/19        NT h-d          NT h-d          17  Gr
-3.7cm Bofors AA  T               T               18  Gr
+Name             Capabilities    (effective)      #  Notes    Comments
+---------------  --------------  -------------  ---  -------  ----------
+Vari 85/24 M     s5              s5              16  Gr
+OR 105/19        h-d             h-d             17  Gr
+3.7cm Bofors AA                                  18  Gr

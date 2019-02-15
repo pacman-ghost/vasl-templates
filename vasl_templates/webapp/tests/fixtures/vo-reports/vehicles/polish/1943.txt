@@ -1,21 +1,33 @@
 === vehicles/polish/1943 ===
 
-Name               Capabilities    (effective)    #    Notes
------------------  --------------  -------------  ---  ---------------------------------------------
-TKS                ® CS 2          ® CS 2         1†   D
-TKS(L)             ® CS 2          ® CS 2         1†   D
-Vickers Edw(b)     ® CS 3          ® CS 3         2†   A K†<sup>1</sup>
-Vickers Ejw(b)     ® CS 3          ® CS 3         2    A
-7TPdw              ® CS 3          ® CS 3         3†   K†<sup>1</sup>
-7TPjw              CS 3            CS 3           3    n/a
-H35(f)             ® AP10 CS 2     ® AP10 CS 2    4    A E† F
-Peugeot 1918(f)    ® CS 4          ® CS 4         5    A D G†
-wz.29 "Ursus"      ® CS 5          ® CS 5         6†   n/a
-wz.34-I            ® CS 2          ® CS 2         7    n/a
-wz.34-II           ® CS 2          ® CS 2         7    n/a
-De Dion-Bouton(f)  CS 7            CS 7           8†   A Q†<sup>1</sup> AA†<sup>2</sup>
-PF 621L SPAA       CS 5            CS 5           9†   G†<sup>1</sup> Q†<sup>2</sup> AA†<sup>3</sup>
-302T               CS 3            CS 3           10†  n/a
-C2P                cs 4            cs 4           11   n/a
-C4P                cs 5            cs 5           12   n/a
-"Taczanka"         cs 3            cs 3           13†  Q†<sup>1</sup>
+Name               Capabilities       (effective)        #      Notes                                          Comments
+-----------------  -----------------  -----------------  -----  ---------------------------------------------  --------------------
+TKS                ® CS 2             ® CS 2             1†     D
+TKS(L)             ® CS 2             ® CS 2             1†     D
+Vickers Edw(b)     ® CS 3             ® CS 3             2†     A K†<sup>1</sup>
+Vickers Ejw(b)     ® CS 3             ® CS 3             2      A
+7TPdw              ® CS 3             ® CS 3             3†     K†<sup>1</sup>
+7TPjw              CS 3               CS 3               3      n/a
+H35(f)             ® AP10 CS 2        ® AP10 CS 2        4      A E† F
+Peugeot 1918(f)    ® CS 4             ® CS 4             5      A D G†
+wz.29 "Ursus"      ® CS 5             ® CS 5             6†     n/a
+wz.34-I            ® CS 2             ® CS 2             7      n/a
+wz.34-II           ® CS 2             ® CS 2             7      n/a
+De Dion-Bouton(f)  CS 7               CS 7               8†     A Q†<sup>1</sup> AA†<sup>2</sup>
+PF 621L SPAA       CS 5               CS 5               9†     G†<sup>1</sup> Q†<sup>2</sup> AA†<sup>3</sup>
+302T               CS 3               CS 3               10†    n/a
+C2P                cs 4               cs 4               11     n/a
+C4P                cs 5               cs 5               12     n/a
+"Taczanka"         cs 3               cs 3               13†    Q†<sup>1</sup>
+TKS-AA             ® CS 2             ® CS 2             1†[2]  A†<sup>1</sup> C† AllM D
+FT-18C (f)         ® AP9 C5†[1] CS 2  ® AP9 C5†[1] CS 2  2†     B D†<sup>1</sup> Fr C                          Road Rate NA
+FT-17K (f)         ® AP9 C5†[1] CS 2  ® AP9 C5†[1] CS 2  3†     B D†<sup>1</sup> Fr C                          Road Rate NA +4 ESB
+TKS-D              ® CS 2             ® CS 2             4      C† AllM D                                      12: Immob, 11: Stall
+TKD                ® C5†[1] CS 2      ® C5†[1] CS 2      5†[1]  C† D†<sup>1</sup> AllM D                       12: Immob, 11: Stall
+H39(f)             ® AP10 CS 2        ® AP10 CS 2        6      B Fr A† Fr C
+7TPjw(L)           CS 3               CS 3               7      n/a
+wz. 34 Half Track  cs 6               cs 6               8      n/a
+wz. 34 C4P         cs 5               cs 5               9      n/a
+PF621L             cs 6               cs 6               10     n/a
+PF621L AAtr        CS 6               CS 6               11†    n/a                                            MA: AA
+Praga RV           CS 7               CS 7               12     n/a

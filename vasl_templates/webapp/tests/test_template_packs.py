@@ -6,12 +6,14 @@ import tempfile
 import base64
 import re
 
+import pytest
+
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.utils import \
     select_tab, select_menu_option, set_player, \
     wait_for_clipboard, get_stored_msg, set_stored_msg, set_stored_msg_marker,\
     add_simple_note, for_each_template, find_child, find_children, wait_for, \
-    get_droplist_vals_index, init_webapp
+    get_droplist_vals_index, init_webapp, get_css_classes
 
 # ---------------------------------------------------------------------
 
@@ -131,6 +133,69 @@ def test_nationality_data( webapp, webdriver ):
         for k,v in droplist_vals2.items()
     }
     assert droplist_vals2 == droplist_vals
+
+# ---------------------------------------------------------------------
+
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+def test_missing_templates( webapp, webdriver ):
+    """Test UI updates for missing templates."""
+
+    # initialize
+    init_webapp( webapp, webdriver, template_pack_persistence=1 )
+
+    # get the files in the default template pack
+    files = {}
+    dname = os.path.normpath( os.path.join( os.path.split(__file__)[0], "../data/default-template-pack" ) )
+    for root,_,fnames in os.walk( dname ):
+        for fname in fnames:
+            fname = os.path.join( root, fname )
+            fname2 = os.path.relpath( fname, start=dname )
+            if fname2.startswith( "extras/" ):
+                continue
+            files[ fname2 ] = "dummy template" # nb: we don't care about the content
+
+    def adjust_template_id( template_id ): #pylint: disable=missing-docstring
+        if template_id.startswith( ( "ob_vehicles_", "ob_ordnance_" ) ) and template_id.endswith( ( "_1", "_2" ) ):
+            return template_id[:-2]
+        return template_id
+
+    # upload the template pack, with one file missing each time
+    for fname in files:
+
+        # generate and upload the modified template pack
+        zip_data = _make_zip(
+            { k: v for k,v in files.items() if k != fname }
+        )
+        upload_template_pack_zip( zip_data, False )
+
+        # check the state of each button (everything should be enabled, except for the one
+        # corresponding to the template file we excluded from the upload)
+        def check_buttons( sel, is_snippet_control ): #pylint: disable=missing-docstring
+            for btn in find_children( sel ):
+                # check the UI state of the next button
+                template_id = adjust_template_id( btn.get_attribute( "data-id" ) )
+                expected = os.path.splitext( fname )[0] == template_id
+                disabled = webdriver.execute_script( "return $(arguments[0]).button('option','disabled')", btn )
+                assert expected == disabled
+                # check that snippet control groups have been enabled/disabled correctly
+                parent = btn.find_element_by_xpath( ".." )
+                parent_classes = get_css_classes( parent )
+                if is_snippet_control:
+                    assert "snippet-control" in parent_classes
+                    elem = find_child( ".ui-selectmenu-button", parent )
+                    elem_classes = get_css_classes( elem )
+                    if expected:
+                        assert "ui-selectmenu-disabled" in elem_classes
+                    else:
+                        assert "ui-selectmenu-disabled" not in elem_classes
+                else:
+                    assert "snippet-control" not in parent_classes
+        check_buttons( "button.generate", True )
+        check_buttons( "button.edit-template", False )
+
+        # NOTE: We should really check that the "generate snippet" buttons don't appear in sortable entries,
+        # but that's more trouble than it's worth - templates such as ob_setup and ob_vehicles are never
+        # going to be missing, since the program becomes kinda pointless if they're not there :-/
 
 # ---------------------------------------------------------------------
 

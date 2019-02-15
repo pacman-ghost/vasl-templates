@@ -174,6 +174,8 @@ function _generate_snippets()
 
     function on_snippet_button( $btn, inactive ) {
         var template_id = $btn.attr( "data-id" ) ;
+        if ( ! is_template_available( template_id ) )
+            return ;
         if ( template_id.substr(0,7) === "extras/" ) {
             // NOTE: We don't handle extras templates, since they can be parameterized. We would need to store
             // the parameter values in the generated snippet, and extract them here so that we can re-generate

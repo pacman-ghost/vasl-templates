@@ -1,7 +1,7 @@
 === landing craft ===
 
-Name      Capabilities    (effective)    #    Notes
---------  --------------  -------------  ---  ------------------------------------------------
+Name      Capabilities    (effective)    #    Notes                                             Comments
+--------  --------------  -------------  ---  ------------------------------------------------  ----------
 LCP(L)    DP 2 CS 4       DP 2 CS 4      1†   A†<sup>1</sup> B†<sup>3</sup> C†<sup>2</sup> D
 LCA       DP 3 CS 6       DP 3 CS 6      2†   n/a
 LCVP      DP 3 CS 5       DP 3 CS 5      3†   B†<sup>2</sup> C†<sup>1</sup>

@@ -1,0 +1,40 @@
+=== ordnance/chinese~gmd/1944 ===
+
+Name                            Capabilities                  (effective)                   #       Notes                       Comments
+------------------------------  ----------------------------  ----------------------------  ------  --------------------------  ------------------
+Type 27 Grenade Launcher        2PP                           2PP                           1†      A                           Air Bursts NA†
+Mortaio da 45 "Brixia"          4PP                           4PP                           2       A D†
+5cm leGrW 36                    5PP                           5PP                           2       A
+50mm RM obr. 38                 5PP                           5PP                           2       A
+Type 89 Heavy Grenade Launcher  IR WP5 s5 4PP                 IR WP5 s5 4PP                 2†      A
+M2 60mm                         IR 5PP OBA†                   IR 5PP OBA†                   3†      A
+Stokes 3-in.                    QSU                           QSU                           4       A E†
+8cm GrW 34                      QSU IR s6                     QSU IR s6                     4       A E†
+82mm BM obr. 37                 QSU IR s6                     QSU IR s6                     4       A E†
+M1 81mm                         QSU WP7                       QSU WP7                       5       A B
+M2 4.2-in.                      QSU WP9                       QSU WP9                       5†      B
+3.7cm PaK 35/36                 QSU                           QSU                           6       E†
+M3A1 37mm                       QSU C7†[1]                    QSU C7†[1]                    6†      C†<sup>1</sup>
+37mm PP obr. 15R                QSU h-d                       QSU h-d                       7†      <s>B</s>                    Low Ammo†
+Cannone da 70/15                QSU h-d                       QSU h-d                       7†      A <s>B</s>                  Acq. NA† Low Ammo†
+7.5cm Krupp M08                 QSU h-d AP5 s5                QSU h-d AP5 s5                8       A F†
+Obice da 75/13                  QSU h-d                       QSU h-d                       8       A D† F†<sup>1</sup>
+7.5cm leIG 18                   QSU h-d                       QSU h-d                       9†      n/a
+76.2mm PP obr. 27               QSU AP6 s6                    QSU AP6 s6                    9†[1]   D†
+M1A1 75mm Pack Howitzer         QSU h-d C5†[1] WP7            QSU h-d C5†[1] WP7            10†     A C†<sup>1</sup>
+7.7cm FK 16                     QSU h-d AP6 s5                QSU h-d AP6 s5                11      F†
+76.2mm P obr. 02/30             QSU h-d AP6 s6                QSU h-d AP6 s6                11      D† F†<sup>1</sup>
+OQF 18-Pounder                  QSU h-d AP6 WP5 s6            QSU h-d AP6 WP5 s6            11      <s>B</s>
+10.5cm leFH 16                  h-d s6                        h-d s6                        12†     A
+Cannone da 105/28               AP5 s6                        AP5 s6                        12      F†
+M2A1 105mm Howitzer             C5† WP7 s6                    C5† WP7 s6                    12      B C†
+122mm G obr. 10/30              h-d s6                        h-d s6                        13      <s>B</s> D†
+122mm G obr. 38                 s6                            s6                            13      <s>B</s> D†
+Obice da 149/13                 h-d[C]† WP6[B]† s5            h-d[C]† s5                    14†     n/a
+Oerlikon FF                     LF [NT, 20†, 2 ROF, B10]      LF [NT, 20†, 2 ROF, B10]      15†[1]  G†
+Cannone-mitragliera da 20/65    LF [NT, 20†[1], 2 ROF]        LF [NT, 20†[1], 2 ROF]        15†[2]  D† G†<sup>1</sup>
+2cm FlaK 30                     LF [NT, 20†, 2 ROF, B10]      LF [NT, 20†, 2 ROF, B10]      15†[1]  G†
+3.7cm FlaK 36 o. 37             AP6                           AP6                           16      <s>B</s>
+Bofors 40mm L/60                AP6 LF [40†[1], 2 ROF]        AP6 LF [40†[1], 2 ROF]        16†     G†<sup>1</sup>
+Bofors 75mm M29                 AP6 LF [75†[1], 1 ROF, B10†]  AP6 LF [75†[1], 1 ROF, B10†]  17      <s>B</s> D† G†<sup>1</sup>
+8.8cm FlaK 18                   AP6 LF [88†[1], 1 ROF, B10†]  AP6 LF [88†[1], 1 ROF, B10†]  17      <s>B</s> D† G†<sup>1</sup>

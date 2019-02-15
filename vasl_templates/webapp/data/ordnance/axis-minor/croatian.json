@@ -2,7 +2,8 @@
 
 { "name": "Canonne da 65/17",
   "type": "INF",
-  "capabilities": [ "NT", "no Gunshield" ],
+  "capabilities": [ "NT" ],
+  "comments": [ "No Gunshield." ],
   "note_number": "35",
   "notes": [ "A" ],
   "id": "cr/o:000",

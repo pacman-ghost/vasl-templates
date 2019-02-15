@@ -5,23 +5,35 @@ import io
 import shutil
 import re
 
+import pytest
 import lxml.html
 import lxml.etree
 import tabulate
 
 import vasl_templates.webapp.tests.utils as test_utils
-from vasl_templates.webapp.tests.utils import get_nationalities, find_child, wait_for
+from vasl_templates.webapp.tests.utils import init_webapp, get_nationalities, find_child, wait_for
 
 # ---------------------------------------------------------------------
 
+# NOTE: The expected output files contain pieces from the supported extensions,
+# so the VASL extensions directory must be loaded.
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_extensions, #pylint: disable=no-member
+    reason = "--vasl-extensions not specified"
+    ) #pylint: disable=too-many-locals
 def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
     """Check the vehicle/ordnance reports."""
 
     # initialize
-    check_dir = os.path.join( os.path.split(__file__)[0], "fixtures/vo-reports/" )
-    save_dir = None # nb: define this to save the generated reports
+    init_webapp( webapp, webdriver,
+        reset = lambda ct:
+            ct.set_data_dir( dtype="real" ) \
+              .set_vasl_mod( vmod="random", extns_dtype="real" )
+    )
 
     # initialize
+    check_dir = os.path.join( os.path.split(__file__)[0], "fixtures/vo-reports/" )
+    save_dir = None # nb: define this to save the generated reports
     if save_dir and os.path.isdir(save_dir):
         shutil.rmtree( save_dir )
 
@@ -45,18 +57,21 @@ def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
 
                 # get the next report
                 results = get_vo_report( webapp, webdriver, vo_type, nat, "ETO", year, 1 )
+                if nat in ("burmese","filipino") or (nat,vo_type) in [("anzac","ordnance")]:
+                    assert not results
+                    continue
 
                 # FUDGE! The "capabilities" and "notes" columns span 2 columns each,
                 # so we add dummy header columns to stop tabulate from getting confused :-/
-                assert results[0][-1] == "Notes"
-                results[0].insert( len(results[0])-1, "#" )
-                assert results[0][-3] == "Capabilities"
-                results[0].insert( len(results[0])-2, "(effective)" )
+                assert results[0][-2] == "Notes"
+                results[0].insert( len(results[0])-2, "#" )
+                assert results[0][-4] == "Capabilities"
+                results[0].insert( len(results[0])-3, "(effective)" )
 
                 # fix up date-based capabilities
-                fixup_capabilities( -4, "Capabilities" )
-                fixup_capabilities( -3, "(effective)" )
-                fixup_capabilities( -2, "#" )
+                fixup_capabilities( -5, "Capabilities" )
+                fixup_capabilities( -4, "(effective)" )
+                fixup_capabilities( -3, "#" )
 
                 # convert the report to plain-text
                 buf = io.StringIO()
@@ -87,10 +102,10 @@ def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
     results = _parse_report( webdriver.page_source )
 
     # convert the report to plain-text
-    assert results[0][-1] == "Notes"
-    results[0].insert( len(results[0])-1, "#" )
-    assert results[0][-3] == "Capabilities"
-    results[0].insert( len(results[0])-2, "(effective)" )
+    assert results[0][-2] == "Notes"
+    results[0].insert( len(results[0])-2, "#" )
+    assert results[0][-4] == "Capabilities"
+    results[0].insert( len(results[0])-3, "(effective)" )
     buf = io.StringIO()
     print( "=== landing craft ===", file=buf )
     print( "", file=buf )

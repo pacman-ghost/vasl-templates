@@ -186,21 +186,23 @@ $(document).ready( function () {
         restrict_droplist_height( $sel ) ;
     }
     function format_player_droplist_item( opt ) {
-        var url = gImagesBaseUrl + "/flags/" + opt.id + ".png" ;
+        if ( ! opt.id )
+            return opt.text ;
+        var url = make_player_flag_url( opt.id ) ;
         return $( "<div style='display:flex;align-items:center;'>" +
             "<img src='" + url + "' style='height:0.9em;margin-right:0.25em;'>" +
             " " + opt.text +
         "</div>" ) ;
     }
     init_select2( $( "select[name='PLAYER_1']" ),
-        "9em", false, format_player_droplist_item
+        "9.5em", false, format_player_droplist_item
     ).on( "select2:open", function() {
         on_player_droplist_open( $(this) ) ;
     } ).on( "change", function() {
         on_player_change_with_confirm( 1 ) ;
     } ) ;
     init_select2( $( "select[name='PLAYER_2']" ),
-        "9em", false, format_player_droplist_item
+        "9.5em", false, format_player_droplist_item
     ).on( "select2:open", function() {
         on_player_droplist_open( $(this) ) ;
     } ).on( "change", function() {
@@ -315,7 +317,7 @@ $(document).ready( function () {
         edit_template( $(this).data( "id" ) ) ;
     } ).html( "<div><img src='" + gImagesBaseUrl + "/edit-template.png'>Edit</div>" )
         .attr( "title", "Edit the template." )
-        .addClass( "ui-button" ) ;
+        .button( {} ) ;
 
     // watch for changes to the scenario name
     $("input[name='SCENARIO_NAME']").on( "input propertychange paste", function() {
@@ -436,7 +438,12 @@ function init_snippet_button( $btn )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-gPageLoadStatus = [ "main", "vehicle-listings", "ordnance-listings", "vehicle-notes", "ordnance-notes", "vasl-piece-info", "template-pack", "default-scenario" ] ;
+gPageLoadStatus = [
+    "main",
+    "vehicle-listings", "ordnance-listings", "reset-scenario",
+    "vehicle-notes", "ordnance-notes",
+    "vasl-piece-info", "template-pack", "default-scenario"
+] ;
 
 function update_page_load_status( id )
 {
@@ -456,7 +463,10 @@ function update_page_load_status( id )
         // NOTE: If the default scenario contains any vehicles or ordnance, it will look up the V/O listings,
         // so we need to wait until those have arrived. Note that while the default scenario will normally
         // be empty, having stuff in it is very useful during development.
-        do_on_new_scenario( false ) ;
+        if ( gPageLoadStatus.indexOf( "reset-scenario" ) !== -1 ) {
+            do_on_new_scenario( false ) ;
+            update_page_load_status( "reset-scenario" ) ;
+        }
     }
 
     function show_startup_msgs( msgs, msg_type ) {
@@ -493,6 +503,12 @@ function update_page_load_status( id )
         } ).fail( function( xhr, status, errorMsg ) {
             showErrorMsg( "Can't get the startup messages:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
         } ) ;
+        // preload the flag images (so that the player droplist renders immediately)
+        for ( var nat in gTemplatePack.nationalities ) {
+            $("body").append( $(
+                "<img src='" + make_player_flag_url(nat) + "' style='display:none;'>"
+            ) ) ;
+        }
     }
 }
 
@@ -573,6 +589,22 @@ function install_template_pack( data )
         update_ob_tab_header( 1 ) ;
         update_ob_tab_header( 2 ) ;
     }
+
+    // update the snippet buttons
+    function update_button( $btn ) {
+        var template_id = $btn.attr( "data-id" ) ;
+        if ( template_id.substr( 0, 7 ) === "extras/" )
+            return ;
+        if ( template_id.match( /^ob_(vehicles|ordnance).*_[12]$/ ) )
+            template_id = template_id.substring( 0, template_id.length-2 ) ;
+        var enable = is_template_available( template_id ) ;
+        if ( $btn.parent().hasClass( "snippet-control" ) )
+            $btn.parent().controlgroup( enable ? "enable" : "disable" ) ;
+        else
+            $btn.button( enable ? "enable": "disable" ) ;
+    }
+    $( "button.generate" ).each( function() { update_button( $(this) ) ; } ) ;
+    $( "button.edit-template" ).each( function() { update_button( $(this) ) ; } ) ;
 }
 
 // --------------------------------------------------------------------
@@ -648,7 +680,7 @@ function update_ob_tab_header( player_no )
     // update the OB tab header for the specified player
     var player_nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
     var display_name = get_nationality_display_name( player_nat ) ;
-    var image_url = gImagesBaseUrl + "/flags/" + player_nat + ".png" ;
+    var image_url = make_player_flag_url( player_nat ) ;
     var $elem = $( "#tabs .ui-tabs-nav a[href='#tabs-ob" + player_no + "']" ) ;
     $elem.html(
         "<img src='" + image_url + "'>&nbsp;" +

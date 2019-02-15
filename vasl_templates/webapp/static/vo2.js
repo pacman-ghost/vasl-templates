@@ -11,17 +11,50 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
             false,
             vo_entry,
             params[ "PLAYER_"+player_no ],
+            false,
             params.SCENARIO_THEATER, params.SCENARIO_YEAR, params.SCENARIO_MONTH,
             show_warnings
         ) ;
     }
+    function get_default_comments( vo_entry ) {
+        return vo_entry.comments ? vo_entry.comments : [] ;
+    }
 
-    // get the vehicle/ordnance's capabilities
+    function load_entries( $sortable, entries ) {
+        $sortable.sortable2( "delete-all" ) ;
+        for ( var i=0 ; i < entries.length ; ++i )
+            add_entry( $sortable, entries[i], false ) ;
+    }
+    function unload_entries( $sortable ) {
+        var entries = [] ;
+        $sortable.find( "input[type='text']" ).each( function() {
+            var val = $(this).val().trim() ;
+            if ( val )
+                entries.push( val ) ;
+        } ) ;
+        return entries ;
+    }
+
+    function make_vo_name( name, elite ) {
+        if ( elite )
+            name += " \u24ba" ;
+        else {
+            if ( name.substr( name.length-2 ) === " \u24ba" )
+                name = name.substr( 0, name.length-2 ) ;
+        }
+        return name ;
+    }
+
+    // get the vehicle/ordnance's capabilities/comments
     var params = unload_snippet_params( true, null ) ;
     var vo_entry = $entry.data( "sortable2-data" ).vo_entry ;
     var capabilities = $entry.data( "sortable2-data" ).custom_capabilities ;
     if ( ! capabilities )
         capabilities = get_default_capabilities( vo_entry, params, true ).slice() ;
+    var elite = $entry.data( "sortable2-data" ).elite ;
+    var comments = $entry.data( "sortable2-data" ).custom_comments ;
+    if ( ! comments )
+        comments = get_default_comments( vo_entry ) ;
 
     // load the dialog
     var vo_image_id = $entry.data( "sortable2-data" ).vo_image_id ;
@@ -29,7 +62,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
     var buf = [ "<div class='header'>",
         "<img src='" + url + "' class='vasl-image'>",
         "<div class='content'>",
-        "<span class='vo-name'>" + vo_entry.name + "</span>",
+        "<span class='vo-name'>" + make_vo_name( vo_entry.name, elite ) + "</span>",
         "</div>",
     "</div" ] ;
     $header = $( buf.join("") ) ;
@@ -50,7 +83,9 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
 
     // initialize
     var $capabilities = $( "#vo_capabilities-sortable" ) ;
-    function add_capability( val ) {
+    var $elite = $( "#edit-vo .capabilities input.elite" ) ;
+    var $comments = $( "#vo_comments-sortable" ) ;
+    function add_entry( $sortable, val, visible ) {
         var $elem = $( "<div>" +
             "<img class='dragger' src='" + gImagesBaseUrl + "/dragger.png'>" +
             "<input type='text'>" +
@@ -59,41 +94,67 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
         $elem.children( "input[type='text']" ).val( val ).keydown( function(evt) {
             auto_dismiss_dialog( $dlg, evt, "OK" ) ;
         } ) ;
-        return $capabilities.sortable2( "add", {
+        var $entry = $sortable.sortable2( "add", {
             content: $elem,
-            data: { fixed_height: "1.4em" },
+            data: { fixed_height: "1.5em" },
         } ) ;
+        if ( visible ) {
+            $entry.find( "input[type='text']" ).focus() ;
+            $entry[0].scrollIntoView() ;
+        }
     }
 
-    // NOTE: on_reset_capabilities() gets bound when the sortable2 is *created*, so it needs some way
-    // to get the *current* vo_entry and params, otherwise it will use the values active when it was bound.
-    var $reset = $( "#vo_capabilities-reset" ) ;
-    $reset.data( { vo_entry: vo_entry, params: params } ) ;
+    // NOTE: on_reset_capabilities/comments() get bound when the sortable2 is *created*, so they need some way
+    // to get the *current* vo_entry and params, otherwise they will use the values active when they were bound.
+    var $reset_capabilities = $( "#vo_capabilities-reset" ) ;
+    $reset_capabilities.data( { vo_entry: vo_entry, params: params } ) ;
     function on_reset_capabilities() {
-        $capabilities.sortable2( "delete-all" ) ;
-        var capabilities = get_default_capabilities( $reset.data("vo_entry"), $reset.data("params"), false ) ;
-        for ( var i=0 ; i < capabilities.length ; ++i )
-            add_capability( capabilities[i] ) ;
+        $dlg.find( ".header .vo-name" ).html( make_vo_name( vo_entry.name, elite ) ) ;
+        load_entries( $capabilities,
+            get_default_capabilities( $reset_capabilities.data("vo_entry"), $reset_capabilities.data("params"), false )
+        ) ;
+        $elite.prop( "checked", false ) ;
+    }
+    var $reset_comments = $( "#vo_comments-reset" ) ;
+    $reset_comments.data( { vo_entry: vo_entry, params: params } ) ;
+    function on_reset_comments() {
+        load_entries( $comments,
+            get_default_comments( $reset_comments.data("vo_entry") )
+        ) ;
+    }
+
+    function update_for_elite( delta ) {
+        // update the capabilities
+        var capabilities = unload_entries( $capabilities ) ;
+        adjust_capabilities_for_elite( capabilities, delta ) ;
+        load_entries( $capabilities, capabilities ) ;
+        // update the vehicle/ordnance name
+        var $name = $( "#edit-vo .header .vo-name" ) ;
+        $name.html( make_vo_name( $name.html(), delta > 0 ) ) ;
     }
 
     // show the dialog
     var $dlg = $( "#edit-vo" ).dialog( {
         dialogClass: "edit-vo",
         title: "Edit "+vo_type,
-        minWidth: 350,
-        minHeight: 340,
+        minWidth: 550,
+        minHeight: 470,
         modal: true,
         create: function() {
             // initialize the dialog
             init_dialog( $(this), "OK", false ) ;
             $capabilities.sortable2( "init", {
-                add: function() {
-                    $elem = add_capability( "" ) ;
-                    $elem.find( "input[type='text']" ).focus() ;
-                    $elem[0].scrollIntoView() ;
-                },
+                add: function() { add_entry( $capabilities, "", true ) ; },
                 reset: on_reset_capabilities,
                 no_confirm_delete: true,
+            } ) ;
+            $comments.sortable2( "init", {
+                add: function() { add_entry( $comments, "", true ) ; },
+                reset: on_reset_comments,
+                no_confirm_delete: true,
+            } ) ;
+            $elite.click( function() {
+                update_for_elite( $(this).prop( "checked" ) ? +1 : -1 ) ;
             } ) ;
         },
         open: function() {
@@ -107,9 +168,9 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
                 border: "1px solid "+colors[2],
             } ) ;
             // load the dialog
-            $capabilities.sortable2( "delete-all" ) ;
-            for ( var i=0 ; i < capabilities.length ; ++i )
-                add_capability( capabilities[i] ) ;
+            load_entries( $capabilities, capabilities ) ;
+            $elite.prop( "checked", elite ? true : false ) ;
+            load_entries( $comments, comments ) ;
         },
         buttons: {
             OK: function() {
@@ -119,17 +180,22 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
                 if ( vo_image_id )
                     $entry.data( "sortable2-data" ).vo_image_id = vo_image_id ;
                 // unload the capabilities
-                var capabilities = [] ;
-                $capabilities.find( "input[type='text']" ).each( function() {
-                    var val = $(this).val().trim() ;
-                    if ( val )
-                        capabilities.push( val ) ;
-                } ) ;
+                var capabilities = unload_entries( $capabilities ) ;
                 if ( capabilities.join() !== get_default_capabilities( vo_entry, params, false ).join() )
                     $entry.data( "sortable2-data" ).custom_capabilities = capabilities ;
                 else {
                     // the capabilities are the same as the default - no need to retain these custom settings
                     delete $entry.data( "sortable2-data" ).custom_capabilities ;
+                }
+                $entry.data( "sortable2-data" ).elite = $elite.prop( "checked" ) ;
+                // unload the comments
+                var comments = unload_entries( $comments ) ;
+                if ( comments.join() !== get_default_comments( vo_entry ).join() ) {
+                    $entry.data( "sortable2-data" ).custom_comments = comments ;
+                }
+                else {
+                    // the comments are the same as the default - no need to retain these custom settings
+                    delete $entry.data( "sortable2-data" ).custom_comments ;
                 }
                 // update the original V/O entry to reflect the changes
                 update_vo_sortable2_entry( $entry ) ;

@@ -1,7 +1,7 @@
 === vehicles/belgian/1941 ===
 
-Name              Capabilities     (effective)      #    Notes
-----------------  ---------------  ---------------  ---  ----------------
+Name              Capabilities     (effective)      #    Notes             Comments
+----------------  ---------------  ---------------  ---  ----------------  ----------
 VCL Mk VI/c47(b)  ® CS 2           ® CS 2           14†  A Q†<sup>1</sup>
 T-13 II(b)        ® CS 4[brewup]†  ® CS 4[brewup]†  15†  A
 T-13 III(b)       ® CS 4[brewup]   ® CS 4[brewup]   16   A

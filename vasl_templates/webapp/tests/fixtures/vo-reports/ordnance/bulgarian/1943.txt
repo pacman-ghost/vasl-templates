@@ -1,12 +1,12 @@
 === ordnance/bulgarian/1943 ===
 
-Name                Capabilities                     (effective)                      #    Notes
-------------------  -------------------------------  -------------------------------  ---  --------------
-LG de 50 mle 37     2PP                              2PP                              37   A
-Madsen M-35         NT QSU no Gunshield R2 IFE=B10†  NT QSU no Gunshield R2 IFE=B10†  38†  T†<sup>1</sup>
-Skoda Infantry Gun  NT QSU h-d                       NT QSU h-d                       39†  n/a
-Skoda Infantry Gun  NT QSU h-d                       NT QSU h-d                       39†  n/a
-Bofors 75mm M36     NT QSU h-d                       NT QSU h-d                       40†  A
-75mm K-S            NT QSU h-d s5                    NT QSU h-d s5                    41†  n/a
-Ob 105mm GP         NT LF [105*†[1]] s5              NT LF [105*†[1]] s5              42†  G†<sup>1</sup>
-D/30 Krupp          NT RFNM no IF                    NT RFNM no IF                    43   n/a
+Name                Capabilities      (effective)       #    Notes           Comments
+------------------  ----------------  ----------------  ---  --------------  -------------
+LG de 50 mle 37     2PP               2PP               37   A
+Madsen M-35         QSU R2 IFE=B10†   QSU R2 IFE=B10†   38†  T†<sup>1</sup>  No Gunshield.
+Skoda Infantry Gun  QSU h-d           QSU h-d           39†  n/a
+Skoda Infantry Gun  QSU h-d           QSU h-d           39†  n/a
+Bofors 75mm M36     QSU h-d           QSU h-d           40†  A
+75mm K-S            QSU h-d s5        QSU h-d s5        41†  n/a
+Ob 105mm GP         LF [105*†[1]] s5  LF [105*†[1]] s5  42†  G†<sup>1</sup>
+D/30 Krupp          RFNM              RFNM              43   n/a             No IF.

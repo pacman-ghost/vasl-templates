@@ -1,7 +1,7 @@
 === vehicles/finnish/1943 ===
 
-Name                         Capabilities                (effective)                 #    Notes
----------------------------  --------------------------  --------------------------  ---  ----------------
+Name                         Capabilities                (effective)                 #    Notes             Comments
+---------------------------  --------------------------  --------------------------  ---  ----------------  ----------
 T-37(r)                      ® CS 2                      ® CS 2                      1†   D M
 T-50(r)                      CS 4                        CS 4                        2†   D
 Vikkersi(b)                  ® CS 3                      ® CS 3                      3†   B†<sup>1</sup> D

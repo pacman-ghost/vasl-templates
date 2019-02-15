@@ -5,6 +5,7 @@
 <style>
 td { margin: 0 ; padding: 0 ; }
 .note { margin-top: 2px ; font-size: 90% ; font-style: italic ; color: #808080 ; }
+.comment { font-size: 90% ; font-style: italic ; color: #404040 ; }
 sup { font-size: 75% ; }
 </style>
 </head>
@@ -25,9 +26,10 @@ sup { font-size: 75% ; }
 {%for ord in OB_ORDNANCE%}
 <tr style="border-bottom:1px dotted #e0e0e0;">
 <td valign="top" style="padding:2px 5px 5px;">
-    <b> {{ord.name}} </b>
+    <b>{{ord.name}}</b> {%if ord.elite%}&#x24ba;{%endif%}
     {%if ord.image%} <br> <img src="{{ord.image}}"> {%endif%}
     <div class="note">
+        {%if ord.extn_id%} &#x2756; {%endif%}
         {%if ord.notes%}
             {{ord.note_number}}, {{ord.notes | join(", ")}}
         {%else%}
@@ -35,7 +37,8 @@ sup { font-size: 75% ; }
         {%endif%}
     </div>
 <td valign="top" style="padding:2px 5px;">
-    {%for cap in ord.capabilities%} <div> {{cap}} </div> {%endfor%}
+    {%for cap in ord.capabilities%} <div class="capability"> {{cap}} </div> {%endfor%}
+    {%for cmnt in ord.comments%} <div class="comment"> {{cmnt}} </div> {%endfor%}
 {%endfor%}
 
 </table>

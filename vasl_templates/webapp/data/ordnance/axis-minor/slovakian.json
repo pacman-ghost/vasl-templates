@@ -37,7 +37,7 @@
 { "name": "Skoda 47L40(t)",
   "type": "AA",
   "capabilities": [ "T", "QSU" ],
-  "capabilities_other": [ "AA Fire ROF 2\u2020" ],
+  "comments": [ "AA Fire ROF 2\u2020" ],
   "note_number": "32\u2020",
   "notes": [ "E" ],
   "id": "sl/o:004",

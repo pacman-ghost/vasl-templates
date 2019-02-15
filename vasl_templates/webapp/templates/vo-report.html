@@ -60,20 +60,20 @@ function load_vo_listings( objs )
     // load the vehicles/ordnance
     var buf = [] ;
     buf.push( "<table>" ) ;
-    buf.push( "<tr>", "<th>Name" ) ;
-    buf.push( "<th colspan='2'>Capabilities", "<th colspan='2'>Notes" ) ;
+    buf.push( "<tr>", "<th>Name", "<th colspan='2'>Capabilities", "<th colspan='2'>Notes", "<th>Comments" ) ;
     for ( var i=0 ; i < objs[nat].length ; ++i ) {
         var obj = objs[nat][i] ;
         if ( vo_name && obj.name.toLowerCase() != vo_name )
             continue ;
         buf.push( "<tr>" ) ;
         buf.push( "<td>", fmtval(obj.name) ) ;
-        var capabilities = make_capabilities( true, obj, nat, theater, year, month, true ) ;
+        var capabilities = make_capabilities( true, obj, nat, false, theater, year, month, true ) ;
         buf.push( "<td>", listval(capabilities) ) ;
-        var capabilities = make_capabilities( false, obj, nat, theater, year, month, true ) ;
+        var capabilities = make_capabilities( false, obj, nat, false, theater, year, month, true ) ;
         buf.push( "<td>", listval(capabilities) ) ;
         buf.push( "<td>", "<span class='val'>" + fmtval(obj.note_number) + "</span>" ) ;
         buf.push( "<td>", listval(obj.notes) ) ;
+        buf.push( "<td>", obj.comments ? listval(obj.comments) : "" ) ;
     }
     buf.push( "</table>" ) ;
     $results.html( buf.join("") ).show() ;

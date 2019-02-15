@@ -1,5 +1,5 @@
 === vehicles/danish/1944 ===
 
-Name    Capabilities    (effective)    #    Notes
-------  --------------  -------------  ---  -------
+Name    Capabilities    (effective)    #    Notes    Comments
+------  --------------  -------------  ---  -------  ----------
 Nimbus  M8† †           M8† †          24†  n/a

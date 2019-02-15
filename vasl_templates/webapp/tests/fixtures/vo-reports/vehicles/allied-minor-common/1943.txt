@@ -1,7 +1,7 @@
 === vehicles/allied-minor-common/1943 ===
 
-Name              Capabilities      (effective)       #    Notes
-----------------  ----------------  ----------------  ---  ------------------
+Name              Capabilities      (effective)       #    Notes               Comments
+----------------  ----------------  ----------------  ---  ------------------  ----------
 L5/30(i)          ® CS 2            ® CS 2            31   A
 L3/35(i)          ® CS 2            ® CS 2            31†  A D
 L6/40(i)          CS 2              CS 2              31†  A

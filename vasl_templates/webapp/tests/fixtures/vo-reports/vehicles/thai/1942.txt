@@ -1,0 +1,10 @@
+=== vehicles/thai/1942 ===
+
+Name                     Capabilities     (effective)      #    Notes          Comments
+-----------------------  ---------------  ---------------  ---  -------------  -------------------------------------------------------------
+VCL Mk VI(b)             ® CS 2           ® CS 2           1    A Ch H AllM D
+Vickers 6-Ton MkE-B(b)   ® CS 3           ® CS 3           2    A
+Type 83(j)               ® CS 3           ® CS 3           3    A E†           Refer to Japanese Vehicle Note 5 for Rear MG CA restrictions.
+Vickers 6-Ton AA(b)      ® AP TK# 8 CS 3  ® AP TK# 8 CS 3  4    A AllM AA†
+Citroen-Kegresse P17(f)  CS 3             CS 3             5†   A
+Vickers Morris M1930(b)  ® CS 4           ® CS 4           6    Br X† Ch F†    REV x4

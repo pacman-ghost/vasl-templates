@@ -114,7 +114,7 @@ class ControlTests:
         """Configure the GPID remappings."""
         if isinstance( gpids, str ):
             gpids = json.loads( gpids.replace( "'", '"' ) )
-            gpids = { int(k): v for k,v in gpids.items() }
+            gpids = { str(k): v for k,v in gpids.items() }
         _logger.info( "Setting GPID remappings: %s", gpids )
         prev_gpid_mappings = webapp_file_server_utils.GPID_REMAPPINGS
         webapp_file_server_utils.GPID_REMAPPINGS = gpids
@@ -241,7 +241,10 @@ class ControlTests:
     def _set_vo_notes_dir( self, dtype=None ):
         """Set the vehicle/ordnance notes directory."""
         if dtype == "real":
-            dname = _ORIG_CHAPTER_H_NOTES_DIR
+            try:
+                dname = pytest.config.option.vo_notes #pylint: disable=no-member
+            except AttributeError:
+                dname = _ORIG_CHAPTER_H_NOTES_DIR
         elif dtype == "test":
             dname = os.path.join( os.path.split(__file__)[0], "fixtures/vo-notes" )
         else:
