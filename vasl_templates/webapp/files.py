@@ -9,7 +9,7 @@ import mimetypes
 from flask import send_file, send_from_directory, jsonify, redirect, url_for, abort
 
 from vasl_templates.webapp import app
-from vasl_templates.webapp.file_server.vasl_mod import get_vasl_mod
+from vasl_templates.webapp.vasl_mod import get_vasl_mod
 from vasl_templates.webapp.utils import resize_image_response, is_empty_file
 
 # ---------------------------------------------------------------------

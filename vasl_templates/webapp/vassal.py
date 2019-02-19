@@ -16,7 +16,7 @@ from flask import request
 
 from vasl_templates.webapp import app
 from vasl_templates.webapp.config.constants import BASE_DIR, IS_FROZEN
-from vasl_templates.webapp.file_server.vasl_mod import get_vasl_mod
+from vasl_templates.webapp.vasl_mod import get_vasl_mod
 from vasl_templates.webapp.utils import TempFile, SimpleError
 from vasl_templates.webapp.webdriver import WebDriver
 

@@ -9,7 +9,7 @@ from collections import defaultdict
 from flask import render_template, jsonify, abort
 
 from vasl_templates.webapp import app
-from vasl_templates.webapp.file_server.vasl_mod import get_vasl_mod
+from vasl_templates.webapp.vasl_mod import get_vasl_mod
 from vasl_templates.webapp.files import FileServer
 from vasl_templates.webapp.utils import resize_image_response, is_image_file, is_empty_file
 

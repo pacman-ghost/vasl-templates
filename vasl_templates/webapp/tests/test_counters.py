@@ -9,8 +9,7 @@ import urllib.request
 import pytest
 import tabulate
 
-from vasl_templates.webapp.file_server.vasl_mod import VaslMod
-from vasl_templates.webapp.file_server.utils import get_vo_gpids
+from vasl_templates.webapp.vasl_mod import VaslMod, get_vo_gpids
 from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp.tests.utils import init_webapp, select_tab, find_child, find_children
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario

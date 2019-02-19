@@ -22,9 +22,8 @@ from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp import main as webapp_main
 from vasl_templates.webapp import snippets as webapp_snippets
 from vasl_templates.webapp import vo_notes as webapp_vo_notes
-from vasl_templates.webapp.file_server import utils as webapp_file_server_utils
-from vasl_templates.webapp.file_server.vasl_mod import set_vasl_mod
-from vasl_templates.webapp.file_server import vasl_mod as vasl_mod_module
+from vasl_templates.webapp.vasl_mod import set_vasl_mod
+from vasl_templates.webapp import vasl_mod as vasl_mod_module
 
 _logger = logging.getLogger( "control_tests" )
 
@@ -116,8 +115,8 @@ class ControlTests:
             gpids = json.loads( gpids.replace( "'", '"' ) )
             gpids = { str(k): v for k,v in gpids.items() }
         _logger.info( "Setting GPID remappings: %s", gpids )
-        prev_gpid_mappings = webapp_file_server_utils.GPID_REMAPPINGS
-        webapp_file_server_utils.GPID_REMAPPINGS = gpids
+        prev_gpid_mappings = vasl_mod_module.GPID_REMAPPINGS
+        vasl_mod_module.GPID_REMAPPINGS = gpids
         return prev_gpid_mappings
 
     def _get_vasl_mods( self ):
@@ -181,7 +180,7 @@ class ControlTests:
 
     def _get_vasl_extns( self ): #pylint: disable=no-self-use
         """Return the loaded VASL extensions."""
-        from vasl_templates.webapp.file_server.vasl_mod import get_vasl_mod
+        from vasl_templates.webapp.vasl_mod import get_vasl_mod
         extns = get_vasl_mod().get_extns()
         _logger.debug( "Returning VASL extensions:\n%s",
             "\n".join( "- {}".format( e ) for e in extns )

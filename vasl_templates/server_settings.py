@@ -12,8 +12,8 @@ from vasl_templates.main import app_settings
 from vasl_templates.main_window import MainWindow
 from vasl_templates.utils import show_msg_store
 from vasl_templates.webapp.vassal import VassalShim, SUPPORTED_VASSAL_VERSIONS_DISPLAY
+from vasl_templates.webapp.vasl_mod import set_vasl_mod, SUPPORTED_VASL_MOD_VERSIONS_DISPLAY
 from vasl_templates.webapp.utils import MsgStore
-from vasl_templates.webapp.file_server.vasl_mod import set_vasl_mod, SUPPORTED_VASL_MOD_VERSIONS_DISPLAY
 
 # ---------------------------------------------------------------------
 

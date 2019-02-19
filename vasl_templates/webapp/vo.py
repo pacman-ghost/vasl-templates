@@ -8,7 +8,7 @@ from flask import request, render_template, jsonify, abort
 
 from vasl_templates.webapp import app
 from vasl_templates.webapp.config.constants import DATA_DIR
-from vasl_templates.webapp.file_server.vasl_mod import get_vasl_mod
+from vasl_templates.webapp.vasl_mod import get_vasl_mod
 
 # ---------------------------------------------------------------------
 
