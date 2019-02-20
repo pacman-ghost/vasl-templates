@@ -11,6 +11,7 @@ from vasl_templates.webapp.tests.utils import \
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
 from vasl_templates.webapp.tests.test_template_packs import upload_template_pack_file
+from vasl_templates.webapp.tests.test_vo_notes import extract_ma_notes
 
 # ---------------------------------------------------------------------
 
@@ -175,6 +176,58 @@ def test_date_format( webapp, webdriver ):
     select_menu_option( "user_settings" )
     date_format_sel.select_by_visible_text( "MM/DD/YYYY" )
     click_dialog_button( "OK" )
+
+# ---------------------------------------------------------------------
+
+def test_hide_unavailable_ma_notes( webapp, webdriver ):
+    """Test showing/hiding unavailable multi-applicable notes."""
+
+    # initialize
+    init_webapp( webapp, webdriver, scenario_persistence=1,
+        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
+    )
+
+    # load the test vehicle
+    load_scenario( {
+        "PLAYER_1": "german",
+        "OB_VEHICLES_1": [
+            { "name": "missing multi-applicable note" }
+        ]
+    } )
+    select_tab( "ob1" )
+
+    def test_ma_notes( ma_note_q_present ): #pylint: disable=missing-docstring
+        expected = [ ( "A", 'German Multi-Applicable Vehicle Note "A".' ) ]
+        if ma_note_q_present:
+            expected.append( ( "Q", "Unavailable." ) )
+        btn = find_child( "button[data-id='ob_vehicles_ma_notes_1']" )
+        btn.click()
+        wait_for_clipboard( 2, expected, transform=extract_ma_notes )
+
+    # generate the multi-applicable notes
+    test_ma_notes( True )
+
+    # enable "hide unavailable multi-applicable notes"
+    select_menu_option( "user_settings" )
+    elem = find_child( ".ui-dialog.user-settings input[name='hide-unavailable-ma-notes']" )
+    assert not elem.is_selected()
+    elem.click()
+    click_dialog_button( "OK" )
+    _check_cookies( webdriver, "hide-unavailable-ma-notes", True )
+
+    # generate the multi-applicable notes
+    test_ma_notes( False )
+
+    # disable "hide unavailable multi-applicable notes"
+    select_menu_option( "user_settings" )
+    elem = find_child( ".ui-dialog.user-settings input[name='hide-unavailable-ma-notes']" )
+    assert elem.is_selected()
+    elem.click()
+    click_dialog_button( "OK" )
+    _check_cookies( webdriver, "hide-unavailable-ma-notes", False )
+
+    # generate the multi-applicable notes
+    test_ma_notes( True )
 
 # ---------------------------------------------------------------------
 

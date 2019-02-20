@@ -26,6 +26,10 @@
   "comments": [ "a comment", "another comment" ],
   "id": "ge/v:993"
 },
+{ "name": "missing multi-applicable note",
+  "notes": [ "A", "Q" ],
+  "id": "ge/v:994"
+},
 { "name": "name only",
   "id": "ge/v:999"
 }

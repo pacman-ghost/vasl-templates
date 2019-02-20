@@ -74,7 +74,7 @@ def test_ma_notes( webapp, webdriver ):
             "button.generate[data-id='ob_{}_ma_notes_{}']".format( vo_type, player_no )
         )
         btn.click()
-        wait_for_clipboard( 2, expected, transform=_extract_ma_note_keys )
+        wait_for_clipboard( 2, expected, transform=extract_ma_note_keys )
 
     # test multi-applicable notes for German vehicles
     do_test( 1, "german", "vehicles",
@@ -175,13 +175,13 @@ def test_extra_ma_notes( webapp, webdriver ):
     wait_for_clipboard( 2, [
         ( "A", 'Dutch Multi-Applicable Vehicle Note "A".' ),
         ( "Du", 'Allied Minor Multi-Applicable Vehicle Note "Du".' ),
-    ], transform=_extract_ma_notes )
+    ], transform=extract_ma_notes )
     btn = find_child( "button.generate[data-id='ob_ordnance_ma_notes_1']" )
     btn.click()
     wait_for_clipboard( 2, [
         ( "A", 'Dutch Multi-Applicable Ordnance Note "A".' ),
         ( "Du", 'Allied Minor Multi-Applicable Ordnance Note "Du".' ),
-    ], transform=_extract_ma_notes )
+    ], transform=extract_ma_notes )
 
     # test Axis Minor vehicles/ordnance
     select_tab( "ob2" )
@@ -190,13 +190,13 @@ def test_extra_ma_notes( webapp, webdriver ):
     wait_for_clipboard( 2, [
         ( "A", 'Romanian Multi-Applicable Vehicle Note "A".' ),
         ( "Ro", 'Axis Minor Multi-Applicable Vehicle Note "Ro".' ),
-    ], transform=_extract_ma_notes )
+    ], transform=extract_ma_notes )
     btn = find_child( "button.generate[data-id='ob_ordnance_ma_notes_2']" )
     btn.click()
     wait_for_clipboard( 2, [
         ( "A", 'Romanian Multi-Applicable Ordnance Note "A".' ),
         ( "Ro", 'Axis Minor Multi-Applicable Ordnance Note "Ro".' ),
-    ], transform=_extract_ma_notes )
+    ], transform=extract_ma_notes )
 
     # test Landing Craft
     load_scenario( {
@@ -214,7 +214,7 @@ def test_extra_ma_notes( webapp, webdriver ):
         ( "Y", "Unavailable." ),
         "Landing Craft",
         ( "A", 'Landing Craft Multi-Applicable Note "A".' ),
-    ], transform=_extract_ma_notes )
+    ], transform=extract_ma_notes )
     select_tab( "ob2" )
     btn = find_child( "button.generate[data-id='ob_vehicles_ma_notes_2']" )
     btn.click()
@@ -222,7 +222,7 @@ def test_extra_ma_notes( webapp, webdriver ):
         ( "A", 'Japanese Multi-Applicable Vehicle Note "A".' ),
         "Landing Craft",
         ( "B", 'Landing Craft Multi-Applicable Note "B".' ),
-    ], transform=_extract_ma_notes )
+    ], transform=extract_ma_notes )
 
 # ---------------------------------------------------------------------
 
@@ -343,10 +343,10 @@ def test_special_cases( webapp, webdriver ):
     select_tab( "ob1" )
     btn = find_child( "button.generate[data-id='ob_ordnance_ma_notes_1']" )
     btn.click()
-    wait_for_clipboard( 2, ["N","<s>R</s>"], transform=_extract_ma_note_keys )
+    wait_for_clipboard( 2, ["N","<s>R</s>"], transform=extract_ma_note_keys )
     btn = find_child( "button.generate[data-id='ob_vehicles_ma_notes_1']" )
     btn.click()
-    wait_for_clipboard( 2, ["N","R"], transform=_extract_ma_note_keys )
+    wait_for_clipboard( 2, ["N","R"], transform=extract_ma_note_keys )
 
 # ---------------------------------------------------------------------
 
@@ -511,12 +511,12 @@ def _parse_report( buf ):
 
 # ---------------------------------------------------------------------
 
-def _extract_ma_note_keys( snippet ):
+def extract_ma_note_keys( snippet ):
     """Extract the multi-applicable note keys in a snippet."""
     matches = re.finditer( r"<span class='key'>(.+):</span>", snippet )
     return [ mo.group(1) for mo in matches ]
 
-def _extract_ma_notes( snippet ):
+def extract_ma_notes( snippet ):
     """Extract the multi-applicable notes in a snippet."""
     mo = re.search( "=== ([^=]+) ===", snippet )
     if mo:

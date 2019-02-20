@@ -2,6 +2,7 @@ gUserSettings = Cookies.getJSON( "user-settings" ) || {} ;
 
 USER_SETTINGS = {
     "date-format": "droplist",
+    "hide-unavailable-ma-notes": "checkbox",
     "include-vasl-images-in-snippets": "checkbox",
     "include-flags-in-snippets": "checkbox",
 } ;
@@ -43,7 +44,7 @@ function user_settings()
         dialogClass: "user-settings",
         modal: true,
         width: 440,
-        height: 250,
+        height: 270,
         resizable: false,
         create: function() {
             init_dialog( $(this), "OK", true ) ;

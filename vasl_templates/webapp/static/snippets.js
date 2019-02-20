@@ -194,6 +194,8 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
                     key = key.substring( pos+1 ) ;
                 }
             }
+            if ( ! ma_note && gUserSettings["hide-unavailable-ma-notes"] )
+                continue ;
             params[ param_name ].push(
                 extn_marker +
                 "<span class='key'>" + key + ":" + "</span> " +
