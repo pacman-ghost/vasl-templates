@@ -6,35 +6,53 @@ import logging
 
 from flask import request, render_template, jsonify, abort
 
-from vasl_templates.webapp import app
+from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import DATA_DIR
-from vasl_templates.webapp.vasl_mod import get_vasl_mod
 
 # ---------------------------------------------------------------------
 
 @app.route( "/vehicles" )
 def get_vehicle_listings():
     """Return the vehicle listings."""
-    return _do_get_listings( "vehicles" )
+    return jsonify( _do_get_listings( "vehicles" ) )
 
 @app.route( "/ordnance" )
 def get_ordnance_listings():
     """Return the ordnance listings."""
-    return _do_get_listings( "ordnance" )
+    return jsonify( _do_get_listings( "ordnance" ) )
+
+def _do_get_listings( vo_type ):
+    """Return the vehicle/ordnance listings."""
+    if request.args.get("merge_common") == "1" and request.args.get("report") != "1":
+        # nb: this is the normal case
+        return globvars.vo_listings[ vo_type ]
+    else:
+        # nb: we should only get here during tests
+        return _do_load_vo_listings(
+            vo_type,
+            request.args.get("merge_common") == "1", request.args.get("report") == "1"
+        )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def _do_get_listings( vo_type ): #pylint: disable=too-many-locals,too-many-branches
+def load_vo_listings():
+    """Load the vehicle/ordnance listings."""
+    globvars.vo_listings = {
+        "vehicles": _do_load_vo_listings( "vehicles", True, False ),
+        "ordnance": _do_load_vo_listings( "ordnance", True, False )
+    }
+
+def _do_load_vo_listings( vo_type, merge_common, report ): #pylint: disable=too-many-locals,too-many-branches
     """Load the vehicle/ordnance listings."""
 
     # locate the data directory
-    if request.args.get( "report" ):
+    if report:
         dname = DATA_DIR # nb: always use the real data for reports, not the test fixtures
     else:
         dname = app.config.get( "DATA_DIR", DATA_DIR )
     dname = os.path.join( dname, vo_type )
     if not os.path.isdir( dname ):
-        abort( 404 )
+        raise RuntimeError( "Missing vehicles/ordnance directory: {}".format( dname ) )
 
     # load the listings
     listings = {}
@@ -54,7 +72,7 @@ def _do_get_listings( vo_type ): #pylint: disable=too-many-locals,too-many-branc
                 listings[nat] = json.load( fp )
 
     # merge common entries
-    if request.args.get( "merge_common" ) == "1":
+    if merge_common:
         # merge common Allied/Axis Minor vehicles/ordnance
         for minor_type in ("allied-minor","axis-minor"):
             if minor_type+"-common" not in listings:
@@ -74,15 +92,14 @@ def _do_get_listings( vo_type ): #pylint: disable=too-many-locals,too-many-branc
     # apply any changes for VASL extensions
     # NOTE: We do this here, rather than in VaslMod, because VaslMod is a wrapper around a VASL module, and so
     # only knows about GPID's and counter images, rather than Chapter H pieces and piece ID's (e.g. "ge/v:001").
-    vasl_mod = get_vasl_mod()
-    if vasl_mod:
+    if globvars.vasl_mod:
         # build an index of the pieces
         piece_index = {}
         for nat,pieces in listings.items():
             for piece in pieces:
                 piece_index[ piece["id"] ] = piece
         # process each VASL extension
-        for extn in vasl_mod.get_extns():
+        for extn in globvars.vasl_mod.get_extns():
             _apply_extn_info( listings, extn[0], extn[1], piece_index, vo_type )
 
     # update nationality variants with the listings from their base nationality
@@ -92,7 +109,7 @@ def _do_get_listings( vo_type ): #pylint: disable=too-many-locals,too-many-branc
         base_nat = nat.split( "~" )[0]
         listings[nat] = listings[base_nat] + listings[nat]
 
-    return jsonify( listings )
+    return listings
 
 def _apply_extn_info( listings, extn_fname, extn_info, piece_index, vo_type ):
     """Update the vehicle/ordnance listings for the specified VASL extension."""

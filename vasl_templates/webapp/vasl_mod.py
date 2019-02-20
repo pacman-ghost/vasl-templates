@@ -1,7 +1,6 @@
 """ Wrapper around a VASL module file and extensions. """
 
 import os
-import threading
 import json
 import glob
 import zipfile
@@ -11,7 +10,7 @@ import xml.etree.ElementTree
 import logging
 _logger = logging.getLogger( "vasl_mod" )
 
-from vasl_templates.webapp import app
+from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import DATA_DIR
 
 SUPPORTED_VASL_MOD_VERSIONS = [ "6.4.0", "6.4.1", "6.4.2", "6.4.3" ]
@@ -21,48 +20,24 @@ warnings = [] # nb: for the test suite
 
 # ---------------------------------------------------------------------
 
-# NOTE: The lock only controls access to the _vasl_mod variable, not the VaslMod object it points to.
-# In practice this doesn't really matter, since it will be loaded once at startup, then never changes;
-# it's only the tests that are constantly changing the underlying object.
-_vasl_mod_lock = threading.RLock()
-_vasl_mod = None
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-def get_vasl_mod():
-    """Return the global VaslMod object."""
-    with _vasl_mod_lock:
-        global _vasl_mod
-        if _vasl_mod is None:
-            # check if a VASL module has been configured
-            # NOTE: We will be doing this check every time someone wants the global VaslMod object,
-            # even if one hasn't been configured, but in all likelihood, everyone will have it configured,
-            # in which case, the check will only be done once, and the global _vasl_mod variable set.
-            fname = app.config.get( "VASL_MOD" )
-            if fname:
-                # yup - load it
-                from vasl_templates.webapp.main import startup_msg_store #pylint: disable=cyclic-import
-                set_vasl_mod( fname, startup_msg_store )
-        return _vasl_mod
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 def set_vasl_mod( vmod_fname, msg_store ):
     """Install a new global VaslMod object."""
-    with _vasl_mod_lock:
-        global _vasl_mod
-        if vmod_fname:
-            extns_dir = app.config.get( "VASL_EXTNS_DIR" )
-            extns = _load_vasl_extns( extns_dir )
-            _vasl_mod = VaslMod( vmod_fname, DATA_DIR, extns )
-            if _vasl_mod.vasl_version not in SUPPORTED_VASL_MOD_VERSIONS:
+    if vmod_fname:
+        # load and install the specified VASL module
+        extns_dir = app.config.get( "VASL_EXTNS_DIR" )
+        extns = _load_vasl_extns( extns_dir )
+        globvars.vasl_mod = VaslMod( vmod_fname, DATA_DIR, extns )
+        # make sure the VASL version is one we support
+        if globvars.vasl_mod.vasl_version not in SUPPORTED_VASL_MOD_VERSIONS:
+            if msg_store:
                 msg_store.warning(
                     "VASL {} is unsupported.<p>Things might work, but they might not...".format(
-                        _vasl_mod.vasl_version
+                        globvars.vasl_mod.vasl_version
                     )
                 )
-        else:
-            _vasl_mod = None
+    else:
+        # no VASL module has been specified
+        globvars.vasl_mod = None
 
 def _load_vasl_extns( extn_dir ): #pylint: disable=too-many-locals,too-many-statements,too-many-branches
     """Locate VASL extensions and their corresponding vehicle/ordnance info files."""

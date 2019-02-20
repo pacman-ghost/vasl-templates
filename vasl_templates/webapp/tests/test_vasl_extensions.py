@@ -30,7 +30,6 @@ def test_load_vasl_extensions( webapp, webdriver ):
 
         # reload the webapp
         control_tests.set_vasl_mod( vmod="random", extns_dtype="test" )
-        webdriver.refresh()
         _check_warning_msgs( control_tests, expected )
 
     # try loading an extension that has no buildFile
@@ -52,7 +51,6 @@ def test_load_vasl_extensions( webapp, webdriver ):
     # try loading something that's not a ZIP file
     control_tests.set_test_vasl_extn( fname="test.zip", bin_data=b"This is not a ZIP file." ) \
                  .set_vasl_mod( vmod="random", extns_dtype="test" )
-    webdriver.refresh()
     _check_warning_msgs( control_tests, "Can't check VASL extension (not a ZIP file):" )
 
 # ---------------------------------------------------------------------
@@ -70,7 +68,6 @@ def test_vasl_extension_info( webapp, webdriver ):
     def do_test( dtype, expected ): #pylint: disable=missing-docstring
         control_tests.set_vasl_extn_info_dir( dtype=dtype ) \
                      .set_vasl_mod( vmod="random", extns_dtype="test" )
-        webdriver.refresh()
         _check_warning_msgs( control_tests, expected )
 
     # try loading the VASL extension, with no matching extension info

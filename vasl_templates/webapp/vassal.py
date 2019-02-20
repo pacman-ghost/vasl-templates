@@ -14,9 +14,8 @@ import xml.etree.cElementTree as ET
 
 from flask import request
 
-from vasl_templates.webapp import app
+from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import BASE_DIR, IS_FROZEN
-from vasl_templates.webapp.vasl_mod import get_vasl_mod
 from vasl_templates.webapp.utils import TempFile, SimpleError
 from vasl_templates.webapp.webdriver import WebDriver
 
@@ -257,7 +256,7 @@ class VassalShim:
             raise SimpleError( "Can't find the VASL boards: {}".format( self.boards_dir ) )
 
         # locate the VASL module
-        if not get_vasl_mod():
+        if not globvars.vasl_mod:
             raise SimpleError( "The VASL module has not been configured." )
 
         return self._run_vassal_shim(
@@ -284,7 +283,7 @@ class VassalShim:
             args[0]
         ]
         if args[0] in ("dump","update"):
-            args2.append( get_vasl_mod().filename )
+            args2.append( globvars.vasl_mod.filename )
         args2.extend( args[1:] )
 
         # figure out how long to the let the VASSAL shim run

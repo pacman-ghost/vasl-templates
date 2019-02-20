@@ -11,10 +11,18 @@ import pytest
 
 from vasl_templates.webapp.vassal import VassalShim
 from vasl_templates.webapp.utils import TempFile, change_extn
+from vasl_templates.webapp import globvars
 from vasl_templates.webapp.tests.utils import \
     init_webapp, select_menu_option, get_stored_msg, set_stored_msg, set_stored_msg_marker, wait_for
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, load_scenario_params, \
     assert_scenario_params_complete
+
+# ---------------------------------------------------------------------
+
+class DummyVaslMod:
+    """Dummy VaslMod class that lets us run the VASSAL shim locally (to dump scenarios)."""
+    def __init__( self, fname ):
+        self.filename = fname
 
 # ---------------------------------------------------------------------
 
@@ -97,8 +105,7 @@ def test_full_update( webapp, webdriver ):
         # NOTE: We could arguably only do this once, but updating scenarios is the key functionality of the VASSAL shim,
         # and so it's worth checking that every VASSAL+VASL combination understands its input correctly.
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/full.vsav" )
-        vassal_shim = VassalShim()
-        vsav_dump = vassal_shim.dump_scenario( fname )
+        vsav_dump = _dump_vsav( fname )
         _check_vsav_dump( vsav_dump, {
             "scenario": "Somewhere",
             "players": re.compile( r"American:.*Belgian:" ),
@@ -123,7 +130,7 @@ def test_full_update( webapp, webdriver ):
             # check the results
             temp_file.write( updated_vsav_data )
             temp_file.close()
-            updated_vsav_dump = vassal_shim.dump_scenario( temp_file.name )
+            updated_vsav_dump = _dump_vsav( temp_file.name )
             expected = {
                 "scenario":  "Modified scenario name (<>{}\"'\\)",
                 "players": re.compile( r"Russian:.*German:" ),
@@ -190,8 +197,7 @@ def test_latw_autocreate( webapp, webdriver ):
 
         # check the VASL scenario
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/empty.vsav" )
-        vassal_shim = VassalShim()
-        vsav_dump = vassal_shim.dump_scenario( fname )
+        vsav_dump = _dump_vsav( fname )
         _check_vsav_dump( vsav_dump, {}, ignore_labels )
 
         # update the scenario (German/Russian, no date)
@@ -261,8 +267,7 @@ def test_latw_update( webapp, webdriver ):
 
         # check the VASL scenario
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/latw.vsav" )
-        vassal_shim = VassalShim()
-        vsav_dump = vassal_shim.dump_scenario( fname )
+        vsav_dump = _dump_vsav( fname )
         _check_vsav_dump( vsav_dump, {
             "psk": "Panzerschrek", "atmm": "ATMM check:", # nb: the PF label has no snippet ID
             "mol-p": "TH#", # nb: the MOL label has no snippet ID
@@ -311,8 +316,7 @@ def test_dump_vsav( webapp, webdriver ):
 
         # dump the VASL scenario
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/dump-vsav/labels.vsav" )
-        vassal_shim = VassalShim()
-        vsav_dump = vassal_shim.dump_scenario( fname )
+        vsav_dump = _dump_vsav( fname )
 
         # check the result
         fname = change_extn( fname, ".txt" )
@@ -344,8 +348,7 @@ def test_legacy_labels( webapp, webdriver ):
         # dump the VASL scenario
         # NOTE: We implemented snippet ID's in v0.5, this scenario is the "Hill 621" example from v0.4.
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/hill621-legacy.vsav" )
-        vassal_shim = VassalShim()
-        vsav_dump = vassal_shim.dump_scenario( fname )
+        vsav_dump = _dump_vsav( fname )
         labels = _get_vsav_labels( vsav_dump )
         assert len( [ lbl for lbl in labels if "vasl-templates:id" not in lbl ] ) == 20
         assert len( [ lbl for lbl in labels if "vasl-templates:id" in lbl ] ) == 0 #pylint: disable=len-as-condition
@@ -426,8 +429,7 @@ def test_legacy_latw_labels( webapp, webdriver ):
         # dump the VASL scenario
         # NOTE: This scenario contains LATW labels created using v0.4 i.e. they have no snippet ID's.
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/latw-legacy.vsav" )
-        vassal_shim = VassalShim()
-        vsav_dump = vassal_shim.dump_scenario( fname )
+        vsav_dump = _dump_vsav( fname )
         labels = _get_vsav_labels( vsav_dump )
         assert len( [ lbl for lbl in labels if "vasl-templates:id" not in lbl ] ) == 8
         assert len( [ lbl for lbl in labels if "vasl-templates:id" in lbl ] ) == 0 #pylint: disable=len-as-condition
@@ -505,6 +507,13 @@ def _run_tests( control_tests, func, test_all ):
         vasl_mods = [ random.choice( vasl_mods ) ]
         vassal_engines = [ random.choice( vassal_engines ) ]
 
+    # FUDGE! If we are running the tests against a remote server, we still need to be able to run
+    # the VASSAL shim locally (to dump VASSAL save files), so we need to set up things up enough
+    # for this to work.
+    if control_tests.server_url:
+        vasl_mods_local = control_tests._do_get_vasl_mods() #pylint: disable=protected-access
+        globvars.vasl_mod = DummyVaslMod( random.choice( vasl_mods_local ) )
+
     # run the test for each VASSAL+VASL
     for vassal_engine in vassal_engines:
         control_tests.set_vassal_engine( vengine=vassal_engine )
@@ -559,11 +568,15 @@ def _update_vsav_and_dump( fname, expected ):
     with TempFile() as temp_file:
         temp_file.write( updated_vsav_data )
         temp_file.close()
-        vassal_shim = VassalShim()
-        updated_vsav_dump = vassal_shim.dump_scenario( temp_file.name )
-        return updated_vsav_dump
+        return _dump_vsav( temp_file.name )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def _dump_vsav( fname ):
+    """Dump a VASL scenario file."""
+    # NOTE: This is run locally, even if we're running the tests against a remote server.
+    vassal_shim = VassalShim()
+    return vassal_shim.dump_scenario( fname )
 
 def _check_vsav_dump( vsav_dump, expected, ignore=None ):
     """"Check that a VASL scenario dump contains what we expect."""

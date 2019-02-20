@@ -9,7 +9,7 @@ import logging
 from PIL import Image, ImageChops
 from selenium import webdriver
 
-from vasl_templates.webapp import app, cleanup_handlers
+from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.utils import TempFile, SimpleError
 
 _logger = logging.getLogger( "webdriver" )
@@ -200,7 +200,7 @@ class WebDriver:
                 _logger.info( "Cleaning up shared WebDriver: %x", id(wdriver) )
                 wdriver._do_stop() #pylint: disable=protected-access
             atexit.register( cleanup )
-            cleanup_handlers.append( cleanup )
+            globvars.cleanup_handlers.append( cleanup )
 
             return wdriver
 

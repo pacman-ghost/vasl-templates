@@ -10,7 +10,27 @@ import logging.config
 from flask import Flask
 import yaml
 
-from vasl_templates.webapp.config.constants import APP_NAME, APP_VERSION, BASE_DIR
+from vasl_templates.webapp.config.constants import BASE_DIR
+
+# ---------------------------------------------------------------------
+
+def _on_startup():
+    """Do startup initialization."""
+
+    # configure the VASL module
+    fname = app.config.get( "VASL_MOD" )
+    if fname:
+        from vasl_templates.webapp.vasl_mod import set_vasl_mod #pylint: disable=cyclic-import
+        from vasl_templates.webapp.main import startup_msg_store #pylint: disable=cyclic-import
+        set_vasl_mod( fname, startup_msg_store )
+
+    # load the vehicle/ordnance listings
+    from vasl_templates.webapp.vo import load_vo_listings #pylint: disable=cyclic-import
+    load_vo_listings()
+
+    # load the vehicle/ordnance notes
+    from vasl_templates.webapp.vo_notes import load_vo_notes #pylint: disable=cyclic-import
+    load_vo_notes()
 
 # ---------------------------------------------------------------------
 
@@ -29,11 +49,10 @@ def load_debug_config( fname ):
 
 # ---------------------------------------------------------------------
 
-cleanup_handlers = []
-
-def on_sigint( signum, stack ): #pylint: disable=unused-argument
+def _on_sigint( signum, stack ): #pylint: disable=unused-argument
     """Clean up after a SIGINT."""
-    for handler in cleanup_handlers:
+    from vasl_templates.webapp import globvars #pylint: disable=cyclic-import
+    for handler in globvars.cleanup_handlers:
         handler()
     raise SystemExit()
 
@@ -77,14 +96,7 @@ if app.config.get( "ENABLE_REMOTE_TEST_CONTROL" ):
     import vasl_templates.webapp.testing #pylint: disable=cyclic-import
 
 # install our signal handler (must be done in the main thread)
-signal.signal( signal.SIGINT, on_sigint )
+signal.signal( signal.SIGINT, _on_sigint )
 
-# ---------------------------------------------------------------------
-
-@app.context_processor
-def inject_template_params():
-    """Inject template parameters into Jinja2."""
-    return {
-        "APP_NAME": APP_NAME,
-        "APP_VERSION": APP_VERSION,
-    }
+# register startup initialization
+app.before_first_request( _on_startup )

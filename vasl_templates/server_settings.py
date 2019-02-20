@@ -260,8 +260,7 @@ def install_server_settings( is_startup ):
 
     # initialize
     if is_startup:
-        # nb: we let the web page show startup messages
-        msg_store = None
+        msg_store = None # nb: we let the web page show startup messages
     else:
         msg_store = MsgStore()
 

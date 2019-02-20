@@ -2,62 +2,47 @@
 # Pokhara, Nepal (DEC/18).
 
 import os
-import threading
 import logging
 from collections import defaultdict
 
 from flask import render_template, jsonify, abort
 
-from vasl_templates.webapp import app
-from vasl_templates.webapp.vasl_mod import get_vasl_mod
+from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.files import FileServer
 from vasl_templates.webapp.utils import resize_image_response, is_image_file, is_empty_file
-
-_vo_notes_lock = threading.RLock() # nb: this controls the cached V/O notes and the FileServer
-_cached_vo_notes = None
-_vo_notes_file_server = None
 
 # ---------------------------------------------------------------------
 
 @app.route( "/vehicles/notes" )
 def get_vehicle_notes():
     """Return the Chapter H vehicle notes."""
-    vo_notes = _do_get_vo_notes( "vehicles" )
-    return jsonify( vo_notes )
+    return jsonify( globvars.vo_notes[ "vehicles" ] )
 
 @app.route( "/ordnance/notes" )
 def get_ordnance_notes():
     """Return the Chapter H ordnance notes."""
-    vo_notes = _do_get_vo_notes( "ordnance" )
-    return jsonify( vo_notes )
+    return jsonify( globvars.vo_notes[ "ordnance" ] )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def _do_get_vo_notes( vo_type ): #pylint: disable=too-many-statements,too-many-locals,too-many-branches
-    """Load the Chapter H notes."""
-
-    # check if we already have the vehicle/ordnance notes
-    with _vo_notes_lock:
-        global _cached_vo_notes
-        if _cached_vo_notes:
-            return _cached_vo_notes[ vo_type ]
+def load_vo_notes(): #pylint: disable=too-many-statements,too-many-locals,too-many-branches
+    """Load the Chapter H vehicle/ordnance notes."""
 
     # locate the data directory
     dname = app.config.get( "CHAPTER_H_NOTES_DIR" )
     if not dname:
-        return {}
+        globvars.vo_notes = { "vehicles": {}, "ordnance": {} }
+        globvars.file_server = None
+        return
     dname = os.path.abspath( dname )
     if not os.path.isdir( dname ):
-        abort( 404 )
-    with _vo_notes_lock:
-        global _vo_notes_file_server
-        _vo_notes_file_server = FileServer( dname )
+        raise RuntimeError( "Missing Chapter H directory: {}".format( dname ) )
+    file_server = FileServer( dname )
 
     # generate a list of extension ID's
     extn_ids = {}
-    vasl_mod = get_vasl_mod()
-    if vasl_mod:
-        extns = vasl_mod.get_extns()
+    if globvars.vasl_mod:
+        extns = globvars.vasl_mod.get_extns()
         extn_ids = set( e[1]["extensionId"] for e in extns )
 
     def get_ma_note_key( nat, fname ):
@@ -144,11 +129,9 @@ def _do_get_vo_notes( vo_type ): #pylint: disable=too-many-statements,too-many-l
         if "chinese" in vo_notes[vo_type2]:
             vo_notes[vo_type2]["chinese~gmd"] = vo_notes[vo_type2]["chinese"]
 
-    with _vo_notes_lock:
-        # install the new vehicle/ordnance notes
-        _cached_vo_notes = { k: dict(v) for k,v in vo_notes.items() }
-
-        return _cached_vo_notes[ vo_type ]
+    # install the vehicle/ordnance notes
+    globvars.vo_notes = { k: dict(v) for k,v in vo_notes.items() }
+    globvars.file_server = file_server
 
 # ---------------------------------------------------------------------
 
@@ -157,18 +140,15 @@ def get_vo_note( vo_type, nat, key ):
     """Return a Chapter H vehicle/ordnance note."""
 
     # locate the file
-    with _vo_notes_lock:
-        # NOTE: We assume that the client has already loaded the vehicle/ordnance notes.
-        if not _vo_notes_file_server:
-            abort( 404 )
-        vo_notes = _do_get_vo_notes( vo_type )
-        fname = vo_notes.get( nat, {} ).get( key )
-        if not fname:
-            abort( 404 )
-        # nb: we ignore placeholder files (return 404 for empty files)
-        resp = _vo_notes_file_server.serve_file( fname, ignore_empty=True )
-        if not resp:
-            abort( 404 )
+    vo_notes = globvars.vo_notes[ vo_type ]
+    fname = vo_notes.get( nat, {} ).get( key )
+    if not fname:
+        abort( 404 )
+    if not globvars.file_server:
+        abort( 404 )
+    resp = globvars.file_server.serve_file( fname, ignore_empty=True )
+    if not resp:
+        abort( 404 )
 
     default_scaling = app.config.get( "CHAPTER_H_IMAGE_SCALING", 100 )
     return resize_image_response( resp, default_scaling=default_scaling )

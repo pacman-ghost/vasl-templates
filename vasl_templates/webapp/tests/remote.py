@@ -17,12 +17,11 @@ import random
 
 import pytest
 
-from vasl_templates.webapp import app
+from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import DATA_DIR
+from vasl_templates.webapp.vasl_mod import set_vasl_mod
 from vasl_templates.webapp import main as webapp_main
 from vasl_templates.webapp import snippets as webapp_snippets
-from vasl_templates.webapp import vo_notes as webapp_vo_notes
-from vasl_templates.webapp.vasl_mod import set_vasl_mod
 from vasl_templates.webapp import vasl_mod as vasl_mod_module
 
 _logger = logging.getLogger( "control_tests" )
@@ -89,6 +88,8 @@ class ControlTests:
             raise RuntimeError( "Unknown data dir type: {}".format( dtype ) )
         _logger.info( "Setting data dir: %s", dname )
         self.webapp.config[ "DATA_DIR" ] = dname
+        from vasl_templates.webapp.vo import load_vo_listings
+        load_vo_listings()
         return self
 
     def _set_default_scenario( self, fname=None ):
@@ -175,13 +176,14 @@ class ControlTests:
         startup_msg_store.reset()
         vasl_mod_module.warnings = []
         set_vasl_mod( vmod, startup_msg_store )
+        from vasl_templates.webapp.vo import load_vo_listings
+        load_vo_listings()
 
         return self
 
     def _get_vasl_extns( self ): #pylint: disable=no-self-use
         """Return the loaded VASL extensions."""
-        from vasl_templates.webapp.vasl_mod import get_vasl_mod
-        extns = get_vasl_mod().get_extns()
+        extns = globvars.vasl_mod.get_extns()
         _logger.debug( "Returning VASL extensions:\n%s",
             "\n".join( "- {}".format( e ) for e in extns )
         )
@@ -251,9 +253,8 @@ class ControlTests:
             dname = None
         _logger.info( "Setting vehicle/ordnance notes: %s", dname )
         app.config["CHAPTER_H_NOTES_DIR"] = dname
-        with webapp_vo_notes._vo_notes_lock: #pylint: disable=protected-access
-            webapp_vo_notes._cached_vo_notes = None #pylint: disable=protected-access
-            webapp_vo_notes._vo_notes_file_server = None #pylint: disable=protected-access
+        from vasl_templates.webapp.vo_notes import load_vo_notes
+        load_vo_notes()
         return self
 
     def _set_user_files_dir( self, dtype=None ):
