@@ -319,9 +319,12 @@ $(document).ready( function () {
         .attr( "title", "Edit the template." )
         .button( {} ) ;
 
-    // watch for changes to the scenario name
+    // watch for changes to the scenario details
     $("input[name='SCENARIO_NAME']").on( "input propertychange paste", function() {
-        on_scenario_name_change() ;
+        on_scenario_details_change() ;
+    } ) ;
+    $("input[name='SCENARIO_ID']").on( "input propertychange paste", function() {
+        on_scenario_details_change() ;
     } ) ;
 
     // adjust the layout on resize

@@ -108,7 +108,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
         },
     }
     load_scenario_params( SCENARIO_PARAMS )
-    check_window_title( "my test scenario" )
+    check_window_title( "my test scenario (xyz123)" )
     check_ob_tabs( "russian", "german" )
     assert_scenario_params_complete( SCENARIO_PARAMS, True )
 
@@ -180,7 +180,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
 
     # load a scenario and make sure it was loaded into the UI correctly
     load_scenario( saved_scenario )
-    check_window_title( "my test scenario" )
+    check_window_title( "my test scenario (xyz123)" )
     check_ob_tabs( "russian", "german" )
     for tab_id in SCENARIO_PARAMS:
         select_tab( tab_id )

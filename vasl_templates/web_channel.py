@@ -53,8 +53,8 @@ class WebChannelHandler:
             return None
         return self.scenario_file_dialog.curr_fname
 
-    def on_scenario_name_change( self, val ):
-        """Update the main window title to show the scenario name."""
+    def on_scenario_details_change( self, val ):
+        """Update the main window title to show the scenario details."""
         self.parent.setWindowTitle(
             "{} - {}".format( APP_NAME, val ) if val else APP_NAME
         )

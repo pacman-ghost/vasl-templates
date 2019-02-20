@@ -298,9 +298,9 @@ class MainWindow( QWidget ):
 
     @pyqtSlot( str )
     @catch_exceptions( caption="SLOT EXCEPTION" )
-    def on_scenario_name_change( self, val ):
-        """Update the main window title to show the scenario name."""
-        self._web_channel_handler.on_scenario_name_change( val )
+    def on_scenario_details_change( self, val ):
+        """Update the main window title to show the scenario details."""
+        self._web_channel_handler.on_scenario_details_change( val )
 
     @pyqtSlot( str )
     @catch_exceptions( caption="SLOT EXCEPTION" )

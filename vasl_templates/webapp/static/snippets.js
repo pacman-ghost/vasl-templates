@@ -1334,7 +1334,7 @@ function do_load_scenario_data( params )
 
     // update the UI
     $("#tabs").tabs( "option", "active", 0 ) ;
-    on_scenario_name_change() ;
+    on_scenario_details_change() ;
     on_scenario_date_change() ;
 }
 
@@ -1806,13 +1806,23 @@ function on_scenario_date_change()
 
 // --------------------------------------------------------------------
 
-function on_scenario_name_change()
+function on_scenario_details_change()
 {
-    // update the document title to include the scenario name
-    var val = $("input[name='SCENARIO_NAME']").val().trim() ;
-    document.title = (val.length > 0) ? gAppName+" - "+val : gAppName ;
+    // update the document title to include the scenario details
+    var scenario_name = $("input[name='SCENARIO_NAME']").val().trim() ;
+    var scenario_id = $("input[name='SCENARIO_ID']").val().trim() ;
+    var caption = "" ;
+    if ( scenario_name && scenario_id )
+        caption = scenario_name + " (" + scenario_id + ")" ;
+    else if ( scenario_name )
+        caption = scenario_name ;
+    else if ( scenario_id )
+        caption = scenario_id ;
+    document.title = gAppName ;
+    if ( caption )
+        document.title += " - " + caption ;
 
     // notify the PyQt wrapper application
     if ( gWebChannelHandler )
-        gWebChannelHandler.on_scenario_name_change( val ) ;
+        gWebChannelHandler.on_scenario_details_change( caption ) ;
 }
