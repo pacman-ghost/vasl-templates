@@ -245,17 +245,24 @@ class MainWindow( QWidget ):
         """Called when the user wants to load a scenario."""
         self._web_channel_handler.on_new_scenario()
 
-    @pyqtSlot( result=str )
+    @pyqtSlot( result=QVariant )
     @catch_exceptions( caption="SLOT EXCEPTION" )
     def load_scenario( self ):
         """Called when the user wants to load a scenario."""
-        return self._web_channel_handler.load_scenario()
+        fname, data = self._web_channel_handler.load_scenario()
+        if data is None:
+            return None
+        return QVariant( {
+            "filename": fname,
+            "data": data
+        } )
 
-    @pyqtSlot( str, result=bool )
+    @pyqtSlot( str, str, result=str )
     @catch_exceptions( caption="SLOT EXCEPTION", retval=False )
-    def save_scenario( self, data ):
+    def save_scenario( self, fname, data ):
         """Called when the user wants to save a scenario."""
-        return self._web_channel_handler.save_scenario( data )
+        fname = self._web_channel_handler.save_scenario( fname, data )
+        return fname
 
     @pyqtSlot( result=QVariant )
     @catch_exceptions( caption="SLOT EXCEPTION" )

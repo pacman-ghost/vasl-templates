@@ -1123,10 +1123,10 @@ function on_load_scenario()
 
         // if we are running inside the PyQt wrapper, let it handle everything
         if ( gWebChannelHandler ) {
-            gWebChannelHandler.load_scenario( function( data ) {
-                if ( ! data )
+            gWebChannelHandler.load_scenario( function( resp ) {
+                if ( ! resp )
                     return ;
-                do_load_scenario( data, null ) ;
+                do_load_scenario( resp.data, resp.filename ) ;
             } ) ;
             return ;
         }
@@ -1399,28 +1399,44 @@ function on_save_scenario()
         return ;
     }
 
+    // generate the save filename
+    var save_fname = gLastSavedScenarioFilename ;
+    if ( ! save_fname ) {
+        var scenario_name = params.SCENARIO_NAME.trim() ;
+        var scenario_id = params.SCENARIO_ID.trim() ;
+        if ( scenario_name && scenario_id )
+            save_fname = scenario_name + " (" + scenario_id + ").json" ;
+        else if ( scenario_name )
+            save_fname = scenario_name + ".json" ;
+        else if ( scenario_id )
+            save_fname = scenario_id + ".json" ;
+        else
+            save_fname = "scenario.json" ;
+    }
+
     // if we are running inside the PyQt wrapper, let it handle everything
     if ( gWebChannelHandler ) {
-        gWebChannelHandler.save_scenario( data, function( result ) {
-            if ( ! result )
+        gWebChannelHandler.save_scenario( save_fname, data, function( save_fname ) {
+            if ( ! save_fname )
                 return ;
             gLastSavedScenario = params ;
+            gLastSavedScenarioFilename = save_fname ;
             showInfoMsg( "The scenario was saved." ) ;
         } ) ;
         return ;
     }
 
     // return the parameters to the user as a downloadable file
-    download( data,
-        gLastSavedScenarioFilename ? gLastSavedScenarioFilename : "scenario.json",
-        "application/json"
-    ) ;
+    download( data, save_fname, "application/json" ) ;
+
     // NOTE: We get no indication if the download was successful, so we can't show feedback :-/
     // Also, if the download didn't actually happen (e.g. because it was cancelled), then setting
     // the last saved scenario here is not quite the right thing to do, since subsequent checks
     // for a dirty scenario will return the wrong result, since they assume that the scenario
     // was saved properly here :-/
     gLastSavedScenario = params ;
+    // NOTE: It would be nice to set gLastSavedScenarioFilename here, but this will give the wrong behaviour
+    // if the user loads a scenario from a file that is named using a non-standard convention.
 }
 
 function unload_params_for_save( user_requested )

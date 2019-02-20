@@ -20,7 +20,7 @@ class WebChannelHandler:
             self.parent,
             "scenario", ".json",
             "Scenario files (*.json);;All files (*)",
-            "scenario.json"
+            None
         )
         self.updated_vsav_file_dialog = FileDialog(
             self.parent,
@@ -35,11 +35,23 @@ class WebChannelHandler:
 
     def load_scenario( self ):
         """Called when the user wants to load a scenario."""
-        return self.scenario_file_dialog.load_file( False )
+        data = self.scenario_file_dialog.load_file( False )
+        if data is None:
+            return None, None
+        return self.scenario_file_dialog.curr_fname, data
 
-    def save_scenario( self, data ):
+    def save_scenario( self, fname, data ):
         """Called when the user wants to save a scenario."""
-        return self.scenario_file_dialog.save_file( data )
+        prev_curr_fname = self.scenario_file_dialog.curr_fname
+        if not self.scenario_file_dialog.curr_fname:
+            # NOTE: We are tracking the current scenario filename ourself, so we only use the filename
+            # passed to us by the web page if a new scenario is being saved for the first time.
+            self.scenario_file_dialog.curr_fname = fname
+        rc = self.scenario_file_dialog.save_file( data )
+        if not rc:
+            self.scenario_file_dialog.curr_fname = prev_curr_fname
+            return None
+        return self.scenario_file_dialog.curr_fname
 
     def on_scenario_name_change( self, val ):
         """Update the main window title to show the scenario name."""
