@@ -393,7 +393,8 @@ def get_vo_gpids( data_dir, extns ): #pylint: disable=too-many-locals,too-many-b
         dname = os.path.join( data_dir, vo_type )
         for root,_,fnames in os.walk(dname):
             for fname in fnames:
-                if os.path.splitext(fname)[1] != ".json":
+
+                if os.path.splitext( fname )[1] != ".json":
                     continue
 
                 # load the GPID's from the next file
@@ -401,7 +402,11 @@ def get_vo_gpids( data_dir, extns ): #pylint: disable=too-many-locals,too-many-b
                 # to have non-numeric values, as do, apparently, extensions :-/ For back-compat, we support both.
                 entries = json.load( open( os.path.join(root,fname), "r" ) )
                 for entry in entries:
-                    entry_gpids = entry[ "gpid" ]
+                    entry_gpids = entry.get( "gpid" )
+                    if not entry_gpids:
+                        entry_gpids = entry.get( "extra_gpids" ) # nb: for lend-lease vehicles/ordnance
+                        if not entry_gpids:
+                            continue
                     if not isinstance( entry_gpids, list ):
                         entry_gpids = [ entry_gpids ]
                     for gpid in entry_gpids:

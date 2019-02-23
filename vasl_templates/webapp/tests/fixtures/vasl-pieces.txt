@@ -115,11 +115,16 @@
    696  ZIS-5                         ru/veh/ZIS5
    698  IAG-6                         ru/veh/IAG6
    704  Lee(a)                        br/vehicles/lee
-   706  Lee(a)                        br/vehicles/lee2
    708  Sherman III(a)                br/vehicles/sheriiia
    710  Sherman III(a)                br/vehicles/sheriiia2
    712  Sherman III(L)(a)             ru/veh/sheriiila
-   714  Sherman III(L)(a)             ru/veh/sheriiila2
+   724  Valentine II                  br/vehicles/valii
+   726  Valentine V                   br/vehicles/valv
+   728  Valentine V                   br/vehicles/valv2
+   730  Valentine VIII                br/vehicles/valviii
+   732  Churchill III                 br/vehicles/churiv
+   758  Jeep(a)                       br/vehicles/jeep
+   759  Jeep(a) MMG                   br/vehicles/jeep2
    849  60* MTR M2                    am/amMTR                                       am/amMTRb
    850  60* MTR M19                   am/amMTRa                                      am/amMTRab
    879  81* MTR M1                    am/gun/amMTR81s                                am/gun/amMTR81sb
@@ -1105,7 +1110,6 @@
   5854  20L AA 20/65                  ch/gun/chAA20LC2                               ch/gun/chAA20LCb
   5855  75L AA Bofors M29             ch/gun/chAA75L2                                ch/gun/chAA75Lb
   5856  88L AA FlaK 18                ch/gun/chAA88L2                                ch/gun/chAA88Lb
-  6362  Stuart III(a)                 br/vehicles/stuiiia
   6364  Stuart III(a)                 ru/veh/ruM3A1.gif
   6730  47 MTR                        fi/fi47mtr.png                                 fi/fi47mtrB.png
   6765  81* MTR Krh/32                fi81mmMTR.png                                  fi/gun/fi81mmMTRB.png
@@ -1192,6 +1196,9 @@
   7085  NKL-26                        ru/veh/ruNKL-26.png
   7089  RF-8-GAZ-98                   ru/veh/ruRF8GAZ98.png
   7091  Sherman III(a)                ru/veh/ruShermanIII.png
+  7093  Sherman III(L) (a)            ru/veh/ruShermanIIIL.png
+  7111  Valentine VIII                ru/veh/ruValentineVIII.png
+  7115  Churchill III                 ru/veh/ruChurchilIII.png
   7119  Jeep GPA(a)                   ru/veh/ruJeep GPA.png
   7120  DUKW (a)                      ru/veh/ruDUKW.png
   7124  FT-17 730m(f)                 ge/veh/geFT-17 CMG.png
@@ -1203,3 +1210,7 @@
   7418  T-28 M34(L)                   T28M34L.gif
   7420  T-28E M40(L)                  T28EM40L.gif
   7423  Lee(a)                        Lee(a)RU.gif
+  7426  M3A1 SC(a)                    ru/veh/ruM3A1 SC.png
+  7428  M3A1 SC(a)                    ruM3A1 SC UA.gif
+  7432  Valentine V                   RU VALVnoaa.gif
+  7434  Valentine V                   RU VALV.gif

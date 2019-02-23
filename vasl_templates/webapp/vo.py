@@ -2,6 +2,7 @@
 
 import os
 import json
+import copy
 import logging
 
 from flask import request, render_template, jsonify, abort
@@ -59,7 +60,8 @@ def _do_load_vo_listings( vo_type, merge_common, report ): #pylint: disable=too-
     minor_nats = { "allied-minor": set(), "axis-minor": set() }
     for root,_,fnames in os.walk(dname):
         for fname in fnames:
-            if os.path.splitext(fname)[1] != ".json":
+            fname_stem, extn = os.path.splitext( fname )
+            if extn != ".json" or fname_stem.endswith( ".lend-lease" ):
                 continue
             nat = os.path.splitext( os.path.split(fname)[1] )[ 0 ]
             if os.path.split(root)[1] in ("allied-minor","axis-minor"):
@@ -70,17 +72,29 @@ def _do_load_vo_listings( vo_type, merge_common, report ): #pylint: disable=too-
                     minor_nats[minor_type].add( nat )
             with open( os.path.join(root,fname), "r" ) as fp:
                 listings[nat] = json.load( fp )
+            fname2 = os.path.join( root, "{}.lend-lease.json".format( fname_stem ) )
+            if os.path.isfile( fname2 ):
+                with open( fname2, "r" ) as fp:
+                    listings[nat].extend( json.load( fp ) )
 
-    # merge common entries
+    # fixup any vehicle/ordnance references
+    vo_index = _make_vo_index( listings )
+    for nat,vo_entries in listings.items():
+        for i,vo_entry in enumerate(vo_entries):
+            vo_id = vo_entry.get( "copy_from" )
+            if vo_id:
+                vo_entries[i] = _copy_vo_entry( vo_entry, vo_index[vo_id] )
+
+    # add in any common vehicles/ordnance and landing craft
     if merge_common:
-        # merge common Allied/Axis Minor vehicles/ordnance
+        # add in any common Allied/Axis Minor vehicles/ordnance
         for minor_type in ("allied-minor","axis-minor"):
             if minor_type+"-common" not in listings:
                 continue
             for nat in minor_nats[minor_type]:
                 listings[nat].extend( listings[minor_type+"-common"] )
             del listings[ minor_type+"-common" ]
-        # merge landing craft
+        # add in any landing craft
         if vo_type == "vehicles":
             for lc in listings.get("landing-craft",[]):
                 if lc["name"] in ("Daihatsu","Shohatsu"):
@@ -93,14 +107,10 @@ def _do_load_vo_listings( vo_type, merge_common, report ): #pylint: disable=too-
     # NOTE: We do this here, rather than in VaslMod, because VaslMod is a wrapper around a VASL module, and so
     # only knows about GPID's and counter images, rather than Chapter H pieces and piece ID's (e.g. "ge/v:001").
     if globvars.vasl_mod:
-        # build an index of the pieces
-        piece_index = {}
-        for nat,pieces in listings.items():
-            for piece in pieces:
-                piece_index[ piece["id"] ] = piece
         # process each VASL extension
+        vo_index = _make_vo_index( listings )
         for extn in globvars.vasl_mod.get_extns():
-            _apply_extn_info( listings, extn[0], extn[1], piece_index, vo_type )
+            _apply_extn_info( listings, extn[0], extn[1], vo_index, vo_type )
 
     # update nationality variants with the listings from their base nationality
     for nat in listings:
@@ -111,7 +121,38 @@ def _do_load_vo_listings( vo_type, merge_common, report ): #pylint: disable=too-
 
     return listings
 
-def _apply_extn_info( listings, extn_fname, extn_info, piece_index, vo_type ):
+def _copy_vo_entry( placeholder_vo_entry, src_vo_entry ):
+    """Create a new vehicle/ordnance entry by copying an existing one."""
+    # Anjuna, India (FEB/19)
+    # create the new vehicle/ordnance entry
+    new_vo_entry = copy.deepcopy( src_vo_entry )
+    new_vo_entry["id"] = placeholder_vo_entry["id"]
+    if "note_number" in placeholder_vo_entry:
+        new_vo_entry["note_number"] = placeholder_vo_entry["note_number"]
+    if "name" in placeholder_vo_entry:
+        new_vo_entry["name"] = placeholder_vo_entry["name"]
+    if "gpid" in placeholder_vo_entry:
+        new_vo_entry["gpid"] = placeholder_vo_entry["gpid"]
+    elif "extra_gpids" in placeholder_vo_entry:
+        if not isinstance( new_vo_entry["gpid"], list ):
+            new_vo_entry["gpid"] = [ new_vo_entry["gpid"] ]
+        new_vo_entry["gpid"].extend( placeholder_vo_entry["extra_gpids"] )
+    # fixup any multi-applicable notes
+    if "notes" in new_vo_entry:
+        vo_id = placeholder_vo_entry[ "copy_from" ]
+        if vo_id.startswith( "br/" ):
+            prefix = "Br"
+        elif vo_id.startswith( "am/" ):
+            prefix = "US"
+        else:
+            logging.warning( "Unexpected vehicle/ordnance reference nationality: %s", vo_id )
+            prefix = ""
+        new_vo_entry["notes"] = [ "{} {}".format( prefix, n ) for n in new_vo_entry["notes"] ]
+        if "extra_notes" in placeholder_vo_entry:
+            new_vo_entry["notes"].extend( placeholder_vo_entry["extra_notes"] )
+    return new_vo_entry
+
+def _apply_extn_info( listings, extn_fname, extn_info, vo_index, vo_type ):
     """Update the vehicle/ordnance listings for the specified VASL extension."""
 
     # initialize
@@ -125,25 +166,33 @@ def _apply_extn_info( listings, extn_fname, extn_info, piece_index, vo_type ):
         if not isinstance( extn_info[nat], dict ):
             continue
         for entry in extn_info[nat].get( vo_type, [] ):
-            piece = piece_index.get( entry["id"] )
-            if piece:
-                # update an existing piece
+            vo_entry = vo_index.get( entry["id"] )
+            if vo_entry:
+                # update an existing vehicle/ordnance
                 logger.debug( "- Updating GPID's for %s: %s", entry["id"], entry["gpid"] )
-                if piece["gpid"]:
-                    prev_gpids = piece["gpid"]
-                    if not isinstance( piece["gpid"], list ):
-                        piece["gpid"] = [ piece["gpid"] ]
-                    piece["gpid"].extend( entry["gpid"] )
+                if vo_entry["gpid"]:
+                    prev_gpids = vo_entry["gpid"]
+                    if not isinstance( vo_entry["gpid"], list ):
+                        vo_entry["gpid"] = [ vo_entry["gpid"] ]
+                    vo_entry["gpid"].extend( entry["gpid"] )
                 else:
                     prev_gpids = "(none)"
-                    piece["gpid"] = entry["gpid"]
-                logger.debug( "  - %s => %s", prev_gpids, piece["gpid"] )
+                    vo_entry["gpid"] = entry["gpid"]
+                logger.debug( "  - %s => %s", prev_gpids, vo_entry["gpid"] )
             else:
-                # add a new piece
+                # add a new vehicle/ordnance
                 if nat not in listings:
                     listings[ nat ] = []
                 entry[ "extn_id" ] = extn_info[ "extensionId" ]
                 listings[ nat ].append( entry )
+
+def _make_vo_index( vo_entries ):
+    """Generate an index of each vehicle/ordnance entry."""
+    vo_index = {}
+    for nat in vo_entries:
+        for vo_entry in vo_entries[nat]:
+            vo_index[ vo_entry["id"] ] = vo_entry
+    return vo_index
 
 # ---------------------------------------------------------------------
 

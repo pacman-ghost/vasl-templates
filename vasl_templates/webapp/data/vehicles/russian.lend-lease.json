@@ -1,0 +1,167 @@
+[
+
+{ "name": "Stuart III(a)",
+  "type": "LT",
+  "CS#": 4,
+  "capabilities2": { "C": 6 },
+  "note_number": "48",
+  "notes": [ "N", "O", "LL" ],
+  "id": "ru/v:074",
+  "gpid": [ 6364 ],
+  "_comment_": "VASL also has GPID 6362 (British), but it has extra capabilities."
+},
+{ "name": "Lee(a)",
+  "type": "MT",
+  "CS#": 7,
+  "capabilities2": { "C": "4\u2020", "s": "8\u2020" },
+  "note_number": "49\u2020",
+  "notes": [ "B\u2020<sup>1</sup>", "N", "O", "LL" ],
+  "id": "ru/v:075",
+  "gpid": [ 704, 7423 ],
+  "_comment_": "VASL has 2 other GPID's, with different capabilities."
+},
+{ "name": "Sherman III(a)",
+  "type": "MT",
+  "CS#": "5:brewup",
+  "capabilities2": { "s": 8, "WP": [ [6,"J4+"], "\u2020" ] },
+  "note_number": "50\u2020",
+  "notes": [ "N", "O", "R\u2020<sup>1</sup>", "LL" ],
+  "id": "ru/v:076",
+  "gpid": [ 708, 710, 7091 ],
+  "_comment_": "VASL also has sD6 (wrong?) and Red TH #'s[< 44] (why?) for all 3 variants."
+},
+{ "name": "Sherman III(L)(a)",
+  "type": "MT",
+  "CS#": "6:brewup",
+  "capabilities2": { "s": 5, "WP": 7, "sM": 8 },
+  "note_number": "50.1",
+  "notes": [ "N", "O", "R\u2020", "LL" ],
+  "id": "ru/v:077",
+  "gpid": [ 712, 7093 ]
+},
+{ "name": "Matilda II(b)",
+  "type": "HT",
+  "CS#": 5,
+  "capabilities2": { "sD": 6 },
+  "note_number": "51\u2020",
+  "notes": [ "M\u2020<sup>1</sup>", "N", "LL" ],
+  "id": "ru/v:078",
+  "gpid": null,
+  "_comment_": "VASL has a Russian variant with CS 4."
+},
+{ "id": "ru/v:085",
+  "copy_from": "br/v:041",
+  "name": "Valentine II(b)",
+  "note_number": "52",
+  "extra_notes": [ "LL" ],
+  "gpid": [ 724 ]
+},
+{ "id": "ru/v:079",
+  "copy_from": "br/v:042",
+  "name": "Valentine V(b)",
+  "note_number": "52\u2020",
+  "extra_notes": [ "LL" ],
+  "gpid": [ 726, 728, 7432, 7434 ]
+},
+{ "id": "ru/v:080",
+  "copy_from": "br/v:043",
+  "name": "Valentine VIII(b)",
+  "note_number": "52\u2020",
+  "extra_notes": [ "LL" ],
+  "gpid": [ 730, 7111 ]
+},
+{ "name": "Churchill III(b)",
+  "type": "HT",
+  "CS#": 7,
+  "capabilities2": { "D": [ [6,"J4"], [7,5], "\u2020" ], "HE": [ [7,"F3"], [8,"4+"], "\u2020" ], "sD": [ [6,"4+"] ], "sM": "8\u2020" },
+  "note_number": "53\u2020",
+  "notes": [ "N", "LL" ],
+  "id": "ru/v:081",
+  "gpid": [ 732, 7115 ]
+},
+
+{ "id": "ru/v:082",
+  "copy_from": "am/v:041",
+  "name": "M3A1 Scout Car(a)",
+  "note_number": "54",
+  "extra_notes": [ "LL" ],
+  "gpid": [ 7426, 7428 ]
+},
+{ "id": "ru/v:086",
+  "copy_from": "br/v:090",
+  "note_number": "55",
+  "extra_notes": [ "LL" ]
+},
+{ "id": "ru/v:087",
+  "copy_from": "br/v:091",
+  "note_number": "55",
+  "extra_notes": [ "LL" ]
+},
+{ "id": "ru/v:088",
+  "copy_from": "br/v:087",
+  "note_number": "56",
+  "extra_notes": [ "LL" ]
+},
+{ "id": "ru/v:089",
+  "copy_from": "br/v:094",
+  "note_number": "57",
+  "extra_notes": [ "LL" ]
+},
+{ "id": "ru/v:090",
+  "copy_from": "br/v:095",
+  "note_number": "57",
+  "extra_notes": [ "LL" ]
+},
+{ "id": "ru/v:091",
+  "copy_from": "br/v:096",
+  "note_number": "57",
+  "extra_notes": [ "LL" ]
+},
+{ "id": "ru/v:092",
+  "copy_from": "br/v:097",
+  "note_number": "57",
+  "extra_notes": [ "LL" ]
+},
+{ "id": "ru/v:093",
+  "copy_from": "br/v:098",
+  "note_number": "57",
+  "extra_notes": [ "LL" ]
+},
+
+{ "name": "Jeep(a)",
+  "type": "atr",
+  "cs#": 2,
+  "note_number": "58",
+  "notes": [ "H\u2020", "L\u2020<sup>1</sup>", "LL" ],
+  "id": "ru/v:083",
+  "gpid": [ 758, 759, 7119 ]
+},
+{ "id": "ru/v:094",
+  "copy_from": "br/v:123",
+  "note_number": "Br 85",
+  "extra_notes": [ "LL" ]
+},
+{ "id": "ru/v:095",
+  "copy_from": "br/v:124",
+  "note_number": "Br 85",
+  "extra_notes": [ "LL" ]
+},
+{ "id": "ru/v:096",
+  "copy_from": "br/v:125",
+  "note_number": "Br 85",
+  "extra_notes": [ "LL" ]
+},
+{ "id": "ru/v:097",
+  "copy_from": "br/v:126",
+  "note_number": "Br 85",
+  "extra_notes": [ "LL" ]
+},
+{ "id": "ru/v:084",
+  "copy_from": "am/v:056",
+  "note_number": "US 52\u2020",
+  "extra_notes": [ "LL" ],
+  "gpid": 7120
+}
+
+]
+

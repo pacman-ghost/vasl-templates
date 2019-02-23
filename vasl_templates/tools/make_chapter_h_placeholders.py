@@ -51,6 +51,10 @@ def make_chapter_h_placeholders( output_fname, log=None \
                 fname = os.path.join( root, fname )
                 if os.path.splitext( fname )[1] != ".json":
                     continue
+                if os.path.splitext( fname )[0].endswith( ".lend-lease" ):
+                    # NOTE: Doing this means we will miss any pieces explicitly defined in a lend-lease file
+                    # (instead of being copied from an existing piece), but we can live with that... :-/
+                    continue
                 dname2, fname2 = os.path.split( fname )
                 nat = os.path.splitext( fname2 )[0]
                 if nat == "common":

@@ -16,7 +16,8 @@ var _DAY_OF_MONTH_POSTFIXES = { // nb: we assume English :-/
 
 // NOTE: Blood & Jungle has a lot of multi-applicable notes that simply refer to other
 // multi-applicable notes e.g. "Fr C" = "French Multi-Applicable Note C".
-var BFP_MA_NOTE_REDIRECTS = {
+// NOTE: These are also used for Lend-Lease vehicles.
+var MA_NOTE_REDIRECTS = {
     "Br": "british",
     "Ch": "chinese",
     "Fr": "french",
@@ -27,6 +28,12 @@ var BFP_MA_NOTE_REDIRECTS = {
     "AllM": "allied-minor",
     "AxM": "axis-minor",
 } ;
+
+// NOTE: There are BFP references like "Jp 5", but we ignore these since they are referring to
+// a vehicle/ordnance *note*, not a multi-applicable note.
+MA_NOTE_REDIRECT_REGEX = new RegExp(
+    "^((Br|Ch|Fr|Ge|Jp|Ru|US|AllM|AxM) [A-Z]{1,2})(\\u2020(<sup>\\d</sup>)?|<sup>T</sup>)?$"
+) ;
 
 var gDefaultScenario = null ;
 var gLastSavedScenario = null ;
@@ -384,22 +391,38 @@ function get_vo_note_key( vo_entry )
     // get the note number for the specified vehicle/ordnance
     if ( ! vo_entry.note_number )
         return null ;
-    // nb: there are some note numbers of the form "1.2" :-/
-    var match = vo_entry.note_number.match( new RegExp( "^([0-9.]+)" ) ) ;
+    // NOTE: There are some note numbers of the form "1.2" :-/ We also need to handle redirects.
+    var match = vo_entry.note_number.match( new RegExp( "^((Br|US) )?([0-9]+(.\\d)?)" ) ) ;
     if ( ! match )
         return null ;
-    var key = match[1] ;
+    var key = match[0] ;
     if ( vo_entry.extn_id )
         key = vo_entry.extn_id + ":" + key ;
     return key ;
 }
 
-function is_known_vo_note_key( vo_type, nat, key )
+function make_vo_note_key_url( vo_type, nat, key )
 {
+    if ( ! key )
+        return null ;
+
+    // check for redirects
+    var match = key.match( /^(Br|US) (.+)$/ ) ;
+    if ( match ) {
+        nat = MA_NOTE_REDIRECTS[ match[1] ] ;
+        key = match[2] ;
+    }
+
     // check if the vehicle/ordnance note key is known to us
-    return vo_type in gVehicleOrdnanceNotes &&
-           nat in gVehicleOrdnanceNotes[ vo_type ] &&
-           key in gVehicleOrdnanceNotes[ vo_type ][ nat ] ;
+    if ( !( vo_type in gVehicleOrdnanceNotes ) )
+        return null ;
+    if ( !( nat in gVehicleOrdnanceNotes[ vo_type ] ) )
+        return null ;
+    if ( !( key in gVehicleOrdnanceNotes[ vo_type ][ nat ] ) )
+        return null ;
+
+    // generate the URL
+    return APP_URL_BASE + "/" + vo_type + "/" + nat + "/note/" + key ;
 }
 
 function get_ma_notes_keys( nat, vo_entries, vo_type )
@@ -419,9 +442,7 @@ function get_ma_notes_keys( nat, vo_entries, vo_type )
         new RegExp( "^([A-Z][a-z])$" ),
         new RegExp( "^([A-Za-z])<sup>" ),
         new RegExp( "^<s>([A-Za-z])</s>$" ),
-        // NOTE: There are BFP references like "Jp 5", but we ignore these since they are referring to
-        // a vehicle/ordnance *note*, not a multi-applicable note.
-        new RegExp( "^((Br|Ch|Fr|Ge|Jp|Ru|US|AllM|AxM) [A-Z]{1,2})(\\u2020(<sup>\\d</sup>)?)?$" ),
+        MA_NOTE_REDIRECT_REGEX,
     ] ;
     var EXTRA_NOTES_INFO = {
         "sh/v":  [ "landing-craft", "Landing Craft" ],
@@ -484,7 +505,7 @@ function get_ma_notes_keys( nat, vo_entries, vo_type )
             if ( pos > 0 ) {
                 var val = keys0[i].substr( pos+1 ) ;
                 pos = val.indexOf( " " ) ;
-                if ( BFP_MA_NOTE_REDIRECTS[ val.substr(0,pos) ] == nat && val.substr(pos+1) in std_keys )
+                if ( MA_NOTE_REDIRECTS[ val.substr(0,pos) ] == nat && val.substr(pos+1) in std_keys )
                     continue ;
             }
             keys0a.push( keys0[i] ) ;
@@ -545,11 +566,17 @@ function get_ma_note( nat, vo_type, key )
 {
     var ma_notes ;
     function redirect_ma_note( target, vo_type ) {
-        pos = target.indexOf( " " ) ;
-        var nat_redirect = BFP_MA_NOTE_REDIRECTS[ target.substring( 0, pos ) ] ;
-        if ( nat_redirect ) {
-            ma_notes = get_ma_notes_for_nat( nat_redirect, vo_type ) ;
-            return ma_notes[ target.substring( pos+1 ) ] ;
+        // extract the multi-applicable note ID
+        var match = target.match( MA_NOTE_REDIRECT_REGEX ) ;
+        if ( match ) {
+            // check if it's a valid redirect
+            pos = match[0].indexOf( " " ) ;
+            var nat_redirect = MA_NOTE_REDIRECTS[ match[0].substring( 0, pos ) ] ;
+            if ( nat_redirect ) {
+                // yup - get the referenced multi-applicable note
+                ma_notes = get_ma_notes_for_nat( nat_redirect, vo_type ) ;
+                return ma_notes[ match[0].substring( pos+1 ) ] ;
+            }
         }
         return null ;
     }
@@ -559,6 +586,8 @@ function get_ma_note( nat, vo_type, key )
     var pos = key.indexOf( ":" ) ;
     if ( pos !== -1 )
         ma_note = redirect_ma_note( key.substring(pos+1), vo_type ) ;
+    else
+        ma_note = redirect_ma_note( key, vo_type ) ;
 
     if ( ! ma_note ) {
         // look for a normal note
