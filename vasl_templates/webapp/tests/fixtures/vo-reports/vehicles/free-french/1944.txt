@@ -1,0 +1,56 @@
+=== vehicles/free-french/1944 ===
+
+Name                      Capabilities                               (effective)                              #          Notes                                                                                   Comments
+------------------------  -----------------------------------------  ---------------------------------------  ---------  --------------------------------------------------------------------------------------  ----------
+H39(f)                    ® AP10 CS 2                                ® AP10 CS 2                              Fr 7†      Fr A†<sup>1</sup> Fr C Fr F
+M5A1                      C7†[2] CS 4                                C7†[2] CS 4                              Fr 37†[1]  Fr Y†
+H39(L)(f)                 ® AP10 CS 2                                ® AP10 CS 2                              Fr 8†      Fr A†<sup>1</sup> Fr C Fr E Fr F
+R35(L)(f)                 ® AP10 CS 2                                ® AP10 CS 2                              Fr 8†      Fr A†<sup>1</sup> Fr C Fr E Fr F
+Crusader II               sM8 CS 4[brewup]                           sM8 CS 4[brewup]                         Fr 38      Fr W†
+Crusader III              HE7[F3+]†[1] sD7 sM8†[2] CS 3[brewup]      HE7†[1] sD7 sM8†[2] CS 3[brewup]         Fr 38      Fr W†
+M4                        WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  sM5 CS 5[brewup]                         Fr 39      Fr Y†
+M4A1                      WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  sM5 CS 5[brewup]                         Fr 39†     Fr Y†
+M4A2                      WP7[J4+]†[2] s5[J4+] sM5[4+] CS 5[brewup]  sM5 CS 5[brewup]                         Fr 39†[1]  Fr Y†
+M4A3(75)W                 WP7 s5 sM8 CS 6                            WP7 s5 sM8 CS 6                          Fr 40      Fr Y†
+M4A3(76)W                 A4[A4]5[5]†[2] s5[5] sM8 CS 6              sM8 CS 6                                 Fr 40      Fr Y†
+M4A3(105)                 C7[P]†[1] H9 WP9 s7 sM8 CS 6               H9 WP9 s7 sM8 CS 6                       Fr 40      Fr Y†
+M4 Tankdozer              WP7 s5 sM6 CS 5[brewup]                    WP7 s5 sM6 CS 5[brewup]                  Fr 40      Fr Y†
+S35(f)                    ®9†[1] CS 4                                ®9†[1] CS 4                              Fr 12†     Fr A†<sup>3</sup> Fr C Fr F Fr I†<sup>2</sup> Fr R†<sup>1</sup>
+B1-bis(f)                 ®9†[1] no IF[75]† AP9[75]† CS 5[brewup]    ®9†[1] no IF[75]† AP9[75]† CS 5[brewup]  Fr 13†     Fr A†<sup>4</sup> Fr B†<sup>3</sup> Fr C Fr E Fr F Fr I†<sup>2</sup> Fr R†<sup>1</sup>
+M10 GMC                   A5[A4E]6[5E]†[1] s5[5] sP5 CS 7            sP5 CS 7                                 Fr 41      Fr Y†
+Daimler                   sD4[4+]† CS 2                              sD4† CS 2                                Fr 42†[1]  Fr W†
+AM Dodge(a)               AP10 CS 6†                                 AP10 CS 6†                               Fr 15†     Fr F
+M3A1                      CS 4                                       CS 4                                     Fr 43†[1]  Fr Y†
+M20                       sP5 CS 4                                   sP5 CS 4                                 Fr 43†[1]  Fr Y†
+Marmon-Herrington III ME  CS 4                                       CS 4                                     Fr 44      Fr W†
+Marmon-Herrington IIIv    CS 4                                       CS 4                                     Fr 44      Fr W†
+Humber II                 sD6 CS 3                                   sD6 CS 3                                 Fr 45      Fr W†
+M8                        C7†[2] sP5 CS 4                            C7†[2] sP5 CS 4                          Fr 43      Fr Y†
+M8 HMC                    C4[4+]†[1] H9 WP9 CS 5                     C4†[1] H9 WP9 CS 5                       Fr 46      Fr Y†
+M7 HMC                    C7[P]†[1] H7 WP8 s7 CS 7                   H7 WP8 s7 CS 7                           Fr 46      Fr Y†
+T30 HMC                   AP7 H5 WP9 CS 4                            AP7 H5 WP9 CS 4                          Fr 47      Fr Y†
+M2                        CS 4                                       CS 4                                     Fr 47      Fr Y†
+M3                        CS 5                                       CS 5                                     Fr 47      Fr Y†
+M5                        cs 5†[1]                                   cs 5†[1]                                 Fr 47†     Fr U
+M5A1                      cs 5†                                      cs 5†                                    Fr 47†     Fr U
+M9                        cs 4†[1]                                   cs 4†[1]                                 Fr 47†     Fr U
+Carrier A                 sD5[4+]†[1] CS 3                           sD5†[1] CS 3                             Fr 48†[1]  Fr W†
+Carrier B                 sD5[4+]†[2] CS 3                           sD5†[2] CS 3                             Fr 48†[1]  Fr W†
+Carrier C                 sD5[4+]†[1] CS 3                           sD5†[1] CS 3                             Fr 48†[1]  Fr W†
+Carrier, MMG A            sD5[4+]†[2] CS 3                           sD5†[2] CS 3                             Fr 48†[1]  Fr W†
+Carrier AC(b)             CS 3                                       CS 3                                     Fr 31†     Fr F Fr M†<sup>1</sup>
+Ac de 25 CA(f)            CS 4                                       CS 4                                     Fr 21†     Fr F Fr AA†<sup>1</sup>
+Ac de 75 Conus(b)         s8 CS 5                                    s8 CS 5                                  Fr 20†     Fr F Fr M†<sup>1</sup>
+Ac de 40 CA(a)            CS 4                                       CS 4                                     Fr 22      Fr E Fr F Fr M† Fr AA†<sup>1</sup>
+Ac de 75 mle 13/34(f)     CS 7                                       CS 7                                     Fr 23†     Fr D†<sup>1</sup> Fr F Fr AA†<sup>2</sup>
+Quad FAT                  CS 5[brewup]†                              CS 5[brewup]†                            Fr 49      Fr W†
+Jeep(a)                   cs 2†[1]                                   cs 2†[1]                                 Fr 50†[1]  Fr W†
+15-cwt Truck              cs 5                                       cs 5                                     Fr 50      Fr W†
+30-cwt Lorry              cs 6                                       cs 6                                     Fr 50      Fr W†
+3-Ton Lorry               cs 7                                       cs 7                                     Fr 50      Fr W†
+Jeep                      cs 2†[1]                                   cs 2†[1]                                 Fr 51      Fr Y†
+Jeep GPA                  cs 2                                       cs 2                                     Fr 51      Fr Y†
+&#190;-Ton                cs 4                                       cs 4                                     Fr 51      Fr Y†
+1&#189;-Ton               cs 6                                       cs 6                                     Fr 51      Fr Y†
+2&#189;-Ton               cs 7                                       cs 7                                     Fr 51      Fr Y†
+7&#189;-Ton               cs 7                                       cs 7                                     Fr 51      Fr Y†

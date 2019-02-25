@@ -138,27 +138,27 @@
 },
 { "id": "ru/v:094",
   "copy_from": "br/v:123",
-  "note_number": "Br 85",
+  "note_number": null,
   "extra_notes": [ "LL" ]
 },
 { "id": "ru/v:095",
   "copy_from": "br/v:124",
-  "note_number": "Br 85",
+  "note_number": null,
   "extra_notes": [ "LL" ]
 },
 { "id": "ru/v:096",
   "copy_from": "br/v:125",
-  "note_number": "Br 85",
+  "note_number": null,
   "extra_notes": [ "LL" ]
 },
 { "id": "ru/v:097",
   "copy_from": "br/v:126",
-  "note_number": "Br 85",
+  "note_number": null,
   "extra_notes": [ "LL" ]
 },
 { "id": "ru/v:084",
   "copy_from": "am/v:056",
-  "note_number": "US 52\u2020",
+  "note_number": null,
   "extra_notes": [ "LL" ],
   "gpid": 7120
 }

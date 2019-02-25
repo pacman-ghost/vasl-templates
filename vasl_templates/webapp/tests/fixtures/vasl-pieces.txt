@@ -497,6 +497,9 @@
   1836  Peugeot 202                   fr/veh/peugeot
   1837  Citroen 23                    fr/veh/citroen
   1839  Renault AGR2                  fr/veh/renagr
+  1895  M5 ht                         fr/veh/m5
+  1897  M5A1 ht                       fr/veh/m5a1
+  1903  M9 ht                         fr/veh/m9
   1982  40 MTR                        ch/chM40                                       ch/chM40b
   1983  45* MTR(i) <41                ch/chM45                                       ch/chM45b
   1984  45* MTR(i)                    ch/chM452                                      ch/chM45b

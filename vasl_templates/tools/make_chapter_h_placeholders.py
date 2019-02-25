@@ -59,7 +59,7 @@ def make_chapter_h_placeholders( output_fname, log=None \
                 nat = os.path.splitext( fname2 )[0]
                 if nat == "common":
                     nat = os.path.split( dname2 )[1]
-                if nat in ("british-commonwealth-forces-korea","cvpa","kpa","us-rok-ounc","un-forces"):
+                if nat in ("free-french","british-commonwealth-forces-korea","cvpa","kpa","us-rok-ounc","un-forces"):
                     continue
                 notes, ma_notes = load_vo_data( fname, nat )
                 if nat not in results:

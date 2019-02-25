@@ -24,6 +24,10 @@
   "display_name": "French",
   "ob_colors": [ "#a2ddff","#41a5ff", "#41a5ff" ]
 },
+"free-french": {
+  "display_name": "Free French",
+  "ob_colors": [ "#a2ddff","#41a5ff", "#41a5ff" ]
+},
 
 "italian": {
   "display_name": "Italian",

@@ -1,0 +1,258 @@
+[
+
+{ "id": "ff/v:000",
+  "name": "H39(f)",
+  "copy_from": "fr/v:009"
+},
+{ "id": "ff/v:002",
+  "copy_from": "am/v:004",
+  "note_number": "Fr 37\u2020<sup>1</sup>",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:003",
+  "copy_from": "fr/v:010",
+  "name": "H39(L)(f)"
+},
+{ "id": "ff/v:004",
+  "copy_from": "fr/v:012",
+  "name": "R35(L)(f)"
+},
+{ "id": "ff/v:005",
+  "copy_from": "br/v:017",
+  "note_number": "Fr 38",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/v:006",
+  "copy_from": "br/v:019",
+  "note_number": "Fr 38",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/v:007",
+  "copy_from": "am/v:007",
+  "note_number": "Fr 39",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:008",
+  "copy_from": "am/v:008",
+  "note_number": "Fr 39\u2020",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:009",
+  "copy_from": "am/v:009",
+  "note_number": "Fr 39\u2020<sup>1</sup>",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:010",
+  "copy_from": "am/v:012",
+  "note_number": "Fr 40",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:011",
+  "copy_from": "am/v:016",
+  "note_number": "Fr 40",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:012",
+  "copy_from": "am/v:018",
+  "note_number": "Fr 40",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:013",
+  "copy_from": "am/v:019",
+  "note_number": "Fr 40",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:014",
+  "copy_from": "fr/v:017",
+  "name": "S35(f)"
+},
+{ "id": "ff/v:015",
+  "copy_from": "fr/v:018",
+  "name": "B1-bis(f)"
+},
+{ "id": "ff/v:016",
+  "copy_from": "am/v:024",
+  "note_number": "Fr 41",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:017",
+  "copy_from": "br/v:059",
+  "note_number": "Fr 42\u2020<sup>1</sup>",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/v:018",
+  "copy_from": "fr/v:020"
+},
+{ "id": "ff/v:019",
+  "copy_from": "am/v:041",
+  "note_number": "Fr 43\u2020<sup>1</sup>",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:020",
+  "copy_from": "am/v:042",
+  "note_number": "Fr 43\u2020<sup>1</sup>",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:021",
+  "copy_from": "br/v:070",
+  "note_number": "Fr 44",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/v:022",
+  "copy_from": "br/v:071",
+  "note_number": "Fr 44",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/v:023",
+  "copy_from": "br/v:072",
+  "note_number": "Fr 45",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/v:024",
+  "copy_from": "am/v:044",
+  "note_number": "Fr 43",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:025",
+  "copy_from": "am/v:045",
+  "note_number": "Fr 46",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:026",
+  "copy_from": "am/v:046",
+  "note_number": "Fr 46",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:027",
+  "copy_from": "am/v:037",
+  "note_number": "Fr 47",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:028",
+  "copy_from": "am/v:028",
+  "note_number": "Fr 47",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:029",
+  "copy_from": "am/v:029",
+  "note_number": "Fr 47",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:030",
+  "copy_from": "br/v:090",
+  "name": "M5",
+  "note_number": "Fr 47\u2020",
+  "notes": [ "Fr U" ],
+  "gpid": [ 1895 ]
+},
+{ "id": "ff/v:031",
+  "copy_from": "br/v:092",
+  "name": "M5A1",
+  "note_number": "Fr 47\u2020",
+  "notes": [ "Fr U" ],
+  "gpid": [ 1897 ]
+},
+{ "id": "ff/v:032",
+  "copy_from": "br/v:091",
+  "name": "M9",
+  "note_number": "Fr 47\u2020",
+  "notes": [ "Fr U" ],
+  "gpid": [ 1903 ]
+},
+{ "id": "ff/v:036",
+  "copy_from": "br/v:094",
+  "note_number": "Fr 48\u2020<sup>1</sup>",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/v:037",
+  "copy_from": "br/v:095",
+  "note_number": "Fr 48\u2020<sup>1</sup>",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/v:038",
+  "copy_from": "br/v:096",
+  "note_number": "Fr 48\u2020<sup>1</sup>",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/v:039",
+  "copy_from": "br/v:097",
+  "note_number": "Fr 48\u2020<sup>1</sup>",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/v:040",
+  "copy_from": "fr/v:042"
+},
+{ "id": "ff/v:041",
+  "copy_from": "fr/v:031",
+  "name": "Ac de 25 CA(f)"
+},
+{ "id": "ff/v:042",
+  "copy_from": "fr/v:026"
+},
+{ "id": "ff/v:043",
+  "copy_from": "fr/v:032"
+},
+{ "id": "ff/v:044",
+  "copy_from": "fr/v:033",
+  "name": "Ac de 75 mle 13/34(f)"
+},
+{ "id": "ff/v:045",
+  "copy_from": "br/v:118",
+  "note_number": "Fr 49",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/v:046",
+  "copy_from": "br/v:122",
+  "name": "Jeep(a)",
+  "note_number": "Fr 50\u2020<sup>1</sup>",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/v:047",
+  "copy_from": "br/v:119",
+  "note_number": "Fr 50",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/v:048",
+  "copy_from": "br/v:120",
+  "note_number": "Fr 50",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/v:049",
+  "copy_from": "br/v:121",
+  "note_number": "Fr 50",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/v:050",
+  "copy_from": "am/v:058",
+  "name": "Jeep",
+  "note_number": "Fr 51",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:051",
+  "copy_from": "am/v:057",
+  "name": "Jeep GPA",
+  "note_number": "Fr 51",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:052",
+  "copy_from": "am/v:059",
+  "note_number": "Fr 51",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:053",
+  "copy_from": "am/v:060",
+  "note_number": "Fr 51",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:054",
+  "copy_from": "am/v:061",
+  "note_number": "Fr 51",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/v:055",
+  "copy_from": "am/v:062",
+  "note_number": "Fr 51",
+  "notes": [ "Fr Y\u2020" ]
+}
+
+]

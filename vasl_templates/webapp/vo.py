@@ -121,14 +121,13 @@ def _do_load_vo_listings( vo_type, merge_common, report ): #pylint: disable=too-
 
     return listings
 
-def _copy_vo_entry( placeholder_vo_entry, src_vo_entry ):
+def _copy_vo_entry( placeholder_vo_entry, src_vo_entry ): #pylint: disable=too-many-branches
     """Create a new vehicle/ordnance entry by copying an existing one."""
     # Anjuna, India (FEB/19)
+
     # create the new vehicle/ordnance entry
     new_vo_entry = copy.deepcopy( src_vo_entry )
     new_vo_entry["id"] = placeholder_vo_entry["id"]
-    if "note_number" in placeholder_vo_entry:
-        new_vo_entry["note_number"] = placeholder_vo_entry["note_number"]
     if "name" in placeholder_vo_entry:
         new_vo_entry["name"] = placeholder_vo_entry["name"]
     if "gpid" in placeholder_vo_entry:
@@ -137,19 +136,33 @@ def _copy_vo_entry( placeholder_vo_entry, src_vo_entry ):
         if not isinstance( new_vo_entry["gpid"], list ):
             new_vo_entry["gpid"] = [ new_vo_entry["gpid"] ]
         new_vo_entry["gpid"].extend( placeholder_vo_entry["extra_gpids"] )
-    # fixup any multi-applicable notes
-    if "notes" in new_vo_entry:
-        vo_id = placeholder_vo_entry[ "copy_from" ]
-        if vo_id.startswith( "br/" ):
-            prefix = "Br"
-        elif vo_id.startswith( "am/" ):
-            prefix = "US"
-        else:
-            logging.warning( "Unexpected vehicle/ordnance reference nationality: %s", vo_id )
-            prefix = ""
+
+    # fixup any note numbers and multi-applicable notes
+    vo_id = placeholder_vo_entry[ "copy_from" ]
+    if vo_id.startswith( "br/" ):
+        prefix = "Br"
+    elif vo_id.startswith( "am/" ):
+        prefix = "US"
+    elif vo_id.startswith( "fr/" ):
+        prefix = "Fr"
+    else:
+        logging.warning( "Unexpected vehicle/ordnance reference nationality: %s", vo_id )
+        prefix = ""
+    if "note_number" in placeholder_vo_entry:
+        # replace the note# with the explicitly-defined one
+        new_vo_entry["note_number"] = placeholder_vo_entry["note_number"]
+    else:
+        # fixup the note# from the original vehicle/ordnance
+        new_vo_entry["note_number"] = "{} {}".format(  prefix, new_vo_entry["note_number"] )
+    if "notes" in placeholder_vo_entry:
+        # replace the multi-applicable notes with the explicitly-defined ones
+        new_vo_entry["notes"] = placeholder_vo_entry["notes"]
+    elif "notes" in new_vo_entry:
+        # fixup the multi-applicable notes from the original vehicle/ordnance
         new_vo_entry["notes"] = [ "{} {}".format( prefix, n ) for n in new_vo_entry["notes"] ]
         if "extra_notes" in placeholder_vo_entry:
             new_vo_entry["notes"].extend( placeholder_vo_entry["extra_notes"] )
+
     return new_vo_entry
 
 def _apply_extn_info( listings, extn_fname, extn_info, vo_index, vo_type ):

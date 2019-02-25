@@ -1,0 +1,107 @@
+[
+
+{ "id": "ff/o:000",
+  "copy_from": "fr/o:000"
+},
+{ "id": "ff/o:001",
+  "copy_from": "br/o:000",
+  "note_number": "Fr 22\u2020<sup>1</sup>",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/o:002",
+  "copy_from": "fr/o:001",
+  "name": "Mortier de 60 mle 35(f)"
+},
+{ "id": "ff/o:003",
+  "copy_from": "am/o:000",
+  "note_number": "Fr 22",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/o:004",
+  "copy_from": "br/o:002",
+  "note_number": "Fr 22\u2020<sup>1</sup>",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/o:005",
+  "copy_from": "fr/o:002",
+  "name": "Mortier de 81 mle 27/31(f)"
+},
+{ "id": "ff/o:006",
+  "copy_from": "am/o:002",
+  "note_number": "Fr 22",
+  "notes": [ "Fr D", "Fr Y\u2020" ]
+},
+{ "id": "ff/o:007",
+  "copy_from": "fr/o:003",
+  "name": "Boys ATR"
+},
+{ "id": "ff/o:008",
+  "copy_from": "br/o:004",
+  "note_number": "Fr 23\u2020<sup>1</sup>",
+  "notes": [ "Fr V", "Fr W\u2020" ]
+},
+{ "id": "ff/o:009",
+  "copy_from": "fr/o:005",
+  "name": "Canon AC de 47 SA 37 APX(f)"
+},
+{ "id": "ff/o:010",
+  "copy_from": "br/o:006",
+  "note_number": "Fr 24",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/o:011",
+  "copy_from": "am/o:006",
+  "note_number": "Fr 24",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/o:012",
+  "copy_from": "br/o:010",
+  "note_number": "Fr 25\u2020<sup>1</sup>",
+  "notes": [ "Fr V", "Fr W\u2020" ]
+},
+{ "id": "ff/o:013",
+  "copy_from": "br/o:013",
+  "note_number": "Fr 26\u2020<sup>1</sup>",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/o:014",
+  "copy_from": "am/o:013",
+  "note_number": "Fr 27",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/o:015",
+  "copy_from": "am/o:014",
+  "note_number": "Fr 27",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/o:016",
+  "copy_from": "br/o:017",
+  "note_number": "Fr 28\u2020<sup>1</sup>",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/o:017",
+  "copy_from": "am/o:017",
+  "note_number": "Fr 29",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/o:018",
+  "copy_from": "am/o:018",
+  "note_number": "Fr 29",
+  "notes": [ "Fr Y\u2020" ]
+},
+{ "id": "ff/o:019",
+  "copy_from": "fr/o:017",
+  "name": "Mitrailleuse de 13.2 CAJ"
+},
+{ "id": "ff/o:020",
+  "copy_from": "br/o:022",
+  "note_number": "Fr 30",
+  "notes": [ "Fr W\u2020" ]
+},
+{ "id": "ff/o:021",
+  "copy_from": "am/o:023",
+  "note_number": "Fr 30",
+  "notes": [ "Fr Y\u2020" ]
+}
+
+]

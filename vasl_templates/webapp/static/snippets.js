@@ -392,7 +392,7 @@ function get_vo_note_key( vo_entry )
     if ( ! vo_entry.note_number )
         return null ;
     // NOTE: There are some note numbers of the form "1.2" :-/ We also need to handle redirects.
-    var match = vo_entry.note_number.match( new RegExp( "^((Br|US) )?([0-9]+(.\\d)?)" ) ) ;
+    var match = vo_entry.note_number.match( new RegExp( "^((Br|US|Fr) )?([0-9]+(.\\d)?)" ) ) ;
     if ( ! match )
         return null ;
     var key = match[0] ;
@@ -407,7 +407,7 @@ function make_vo_note_key_url( vo_type, nat, key )
         return null ;
 
     // check for redirects
-    var match = key.match( /^(Br|US) (.+)$/ ) ;
+    var match = key.match( /^(Br|US|Fr) (.+)$/ ) ;
     if ( match ) {
         nat = MA_NOTE_REDIRECTS[ match[1] ] ;
         key = match[2] ;

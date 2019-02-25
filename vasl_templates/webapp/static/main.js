@@ -657,7 +657,8 @@ function on_player_change( player_no )
     // show/hide the vehicle/ordnance multi-applicable notes controls
     function update_ma_notes_controls( vo_type ) {
         var show = ( gVehicleOrdnanceNotes[vo_type] && gVehicleOrdnanceNotes[vo_type][player_nat] ) ||
-                   ["allied-minor","axis-minor"].indexOf( gTemplatePack.nationalities[ player_nat ].type ) !== -1 ;
+                   ["allied-minor","axis-minor"].indexOf( gTemplatePack.nationalities[ player_nat ].type ) !== -1 ||
+                   player_nat === "free-french" ;
         var $fieldset = $( "#tabs-ob" + player_no + " fieldset[name='ob_" + vo_type + "_" + player_no ) ;
         $fieldset.find( ".snippets-notes" ).css( "display", show?"block":"none" ) ;
         $fieldset.find( "label[for='ob']" ).css( "display", show?"inline-block":"none" ) ;

@@ -95,11 +95,11 @@ Carrier C             sD5[4+]†[1] CS 3                             sD5†[1] C
 Carrier, MMG A        sD5[4+]†[2] CS 3                             sD5†[2] CS 3             57      Br N Br P Br Q†<sup>1</sup> Br U†<sup>2</sup> LL
 Carrier, MMG B        sD5[4+]†[2] CS 4                             sD5†[2] CS 4             57      Br U†<sup>2</sup> Br BB†<sup>1</sup> LL
 Jeep(a)               cs 2                                         cs 2                     58      H† L†<sup>1</sup> LL
-&#190;-Ton Truck(a)   cs 4                                         cs 4                     Br 85   Br A Br N LL
-1&#189;-Ton Truck(a)  cs 6                                         cs 6                     Br 85   Br A Br N LL
-2&#189;-Ton Truck(a)  cs 7                                         cs 7                     Br 85   Br A Br N LL
-7&#189;-Ton Truck(a)  cs 7                                         cs 7                     Br 85   Br A Br N LL
-DUKW                  cs 7†[1]                                     cs 7†[1]                 US 52†  US D†<sup>3</sup> US O†<sup>2</sup> US CC†<sup>1</sup> LL
+&#190;-Ton Truck(a)   cs 4                                         cs 4                     n/a     Br A Br N LL
+1&#189;-Ton Truck(a)  cs 6                                         cs 6                     n/a     Br A Br N LL
+2&#189;-Ton Truck(a)  cs 7                                         cs 7                     n/a     Br A Br N LL
+7&#189;-Ton Truck(a)  cs 7                                         cs 7                     n/a     Br A Br N LL
+DUKW                  cs 7†[1]                                     cs 7†[1]                 n/a     US D†<sup>3</sup> US O†<sup>2</sup> US CC†<sup>1</sup> LL
 BT-2A                 ® C5†[2] CS 3                                ® C5†[2] CS 3            1†      C†<sup>2</sup> Ru M†<sup>1</sup>                           CMG 2:00 from MA
 BT-2A(L)              ® C6†[2] CS 3                                ® C6†[2] CS 3            2†      C†<sup>2</sup> Ru M†<sup>1</sup>
 BT-2B                 ® CS 3                                       ® CS 3                   3†      Ru M†<sup>1</sup>                                          2 TK DR (MG)
