@@ -177,14 +177,14 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         var data = $btn.parent().parent().data( "sortable2-data" ) ;
         var key = (vo_type === "vehicles") ? "VEHICLE" : "ORDNANCE" ;
         params[ key + "_NAME" ] = data.vo_entry.name ;
-        if ( data.vo_note.substr( 0, 7 ) === "http://" )
+        if ( data.vo_note.substr( 0, 7 ) === "http://" ) {
+            // the vehicle/ordnance note is an image - just include it directly
             params[ key + "_NOTE_HTML" ] = '<img src="' + data.vo_note + '">' ;
-        else {
+        } else {
+            // the vehicle/ordnance is HTML - check if we should show it as HTML or as an image
             if ( gUserSettings["vo-notes-as-images"] ) {
                 // show the vehicle/ordnance note as an image
-                var nat = params[ "PLAYER_" + player_no ] ;
-                var url = APP_URL_BASE + "/" + vo_type + "/" + nat + "/note/" + get_vo_note_key(data.vo_entry) ;
-                params[ key + "_NOTE_HTML" ] = '<img src="' + url + '">' ;
+                params[ key + "_NOTE_HTML" ] = '<img src="' + data.vo_note_image_url + '">' ;
             } else {
                 // insert the raw HTML into the snippet
                 params[ key + "_NOTE_HTML" ] = data.vo_note ;

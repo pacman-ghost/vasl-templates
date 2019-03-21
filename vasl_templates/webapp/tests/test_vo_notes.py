@@ -11,7 +11,8 @@ import lxml.etree
 import tabulate
 
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, get_nationalities, select_tab, set_player, find_child, find_children, wait_for, wait_for_clipboard
+    init_webapp, get_nationalities, select_tab, set_player, select_menu_option, click_dialog_button, \
+    find_child, find_children, wait_for, wait_for_clipboard
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, save_scenario
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo, delete_vo
 
@@ -132,7 +133,7 @@ def test_ma_html_notes( webapp, webdriver ):
 
     # check the snippets
     _check_vo_snippets( 1, "vehicles", [
-        ( "PNG note", "vehicles/allied-minor/note/201" ),
+        ( "PNG note", "vehicles/greek/note/201" ),
         "HTML note: <table width='500'><tr><td>\nThis is an HTML vehicle note (202).\n</table>",
         "PNG + HTML notes: <table width='500'><tr><td>\nThis is an HTML vehicle note (203).\n</table>",
     ] )
@@ -173,6 +174,38 @@ def test_common_vo_notes( webapp, webdriver ):
     _check_vo_snippets( 2, "ordnance", [
         ( "romanian ordnance", "ordnance/romanian/note/4" ),
         ( "common axis minor ordnance", "ordnance/axis-minor/note/104" ),
+    ] )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def test_common_vo_notes2( webapp, webdriver ):
+    """Test handling of Allied/Axis Minor common vehicles/ordnance (as images)."""
+
+    # initialize
+    init_webapp( webapp, webdriver, scenario_persistence=1,
+        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
+    )
+
+    # load the test scenario
+    load_scenario( {
+        "PLAYER_1": "greek",
+        "OB_VEHICLES_1": [
+            { "name": "HTML note" },
+            { "name": "common allied minor vehicle" },
+        ],
+    } )
+
+    # enable "show vehicle/ordnance notes as images"
+    select_menu_option( "user_settings" )
+    elem = find_child( ".ui-dialog.user-settings input[name='vo-notes-as-images']" )
+    assert not elem.is_selected()
+    elem.click()
+    click_dialog_button( "OK" )
+
+    # check the snippets
+    _check_vo_snippets( 1, "vehicles", [
+        ( "HTML note", "vehicles/greek/note/202" ),
+        ( "common allied minor vehicle", "vehicles/allied-minor/note/101" ),
     ] )
 
 # ---------------------------------------------------------------------
