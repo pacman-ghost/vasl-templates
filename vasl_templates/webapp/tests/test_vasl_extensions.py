@@ -124,7 +124,7 @@ def test_dedupe_ma_notes( webapp, webdriver ):
 
     # do the tests
     do_test( [ "Type 92A (Tt)", "M3(a) (LT)" ], [
-        ( False, "A", "The MA <i>and all</i" ),
+        ( False, "A", "The MA and <i>all MG" ),
         ( True, "A", "The (a) indicates U." ),
         ( True, "B", "This vehicle uses Re" ),
         ( True, "C", "Although a captured " ),
@@ -132,7 +132,7 @@ def test_dedupe_ma_notes( webapp, webdriver ):
         ( True, "US B", "Due to two of the MG" ),
     ] )
     do_test( [ "Type 92A (Tt)", "Type 98 MCT (AAtr)" ], [
-        ( False, "A", "The MA <i>and all</i" ),
+        ( False, "A", "The MA and <i>all MG" ),
         ( True, "Br H", 'As signified by "Inf' ),
         ( True, "Ge A", "MA and CMG (if so eq" ), # nb: this is "Ge A", which is different to the Japanese "A"
     ] )
@@ -142,11 +142,11 @@ def test_dedupe_ma_notes( webapp, webdriver ):
         ( True, "C", "Although a captured " ),
         ( True, "Br H", 'As signified by "Inf' ),
         ( True, "Ge A", "MA and CMG (if so eq" ),
-        ( True, "Jp A", "The MA <i>and all</i" ),
+        ( True, "Jp A", "The MA and <i>all MG" ),
         ( True, "US B", "Due to two of the MG" ),
     ] )
     do_test( [ "Type 92A (Tt)", "M3(a) (LT)", "Type 98 MCT (AAtr)" ], [
-        ( False, "A", "The MA <i>and all</i" ),
+        ( False, "A", "The MA and <i>all MG" ),
         ( True, "A", "The (a) indicates U." ),
         ( True, "B", "This vehicle uses Re" ),
         ( True, "C", "Although a captured " ),
@@ -285,7 +285,7 @@ def test_bfp_extensions( webapp, webdriver ):
         ( True, "A", "The (a) indicates U." ),
         ( True, "C", "Although a captured " ),
         ( True, "Ch F", "This vehicle, despit" ),
-        ( True, "Jp A", "The MA <i>and all</i" ),
+        ( True, "Jp A", "The MA and <i>all MG" ),
     ], transform=_extract_extn_ma_notes )
 
     # test the Chapter H note
@@ -293,9 +293,9 @@ def test_bfp_extensions( webapp, webdriver ):
     elems = find_children( "li img.snippet", vehicles_sortable )
     assert len(elems) == 2
     elems[0].click()
-    wait_for_clipboard( 2, re.compile( r'<img src=".*?/vehicles/japanese/note/8">' ) )
+    wait_for_clipboard( 2, "By 1935 the latest European tanks", contains=True )
     elems[1].click()
-    wait_for_clipboard( 2, re.compile( r'<img src=".*?/vehicles/japanese/note/adf-bj:17">' ) )
+    wait_for_clipboard( 2, "The Japanese captured hundreds of vehicles", contains=True )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

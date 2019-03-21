@@ -165,17 +165,17 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
         "</div>"
     ] ;
     var vo_note_key = get_vo_note_key( vo_entry ) ;
-    var vo_note_url = make_vo_note_key_url( vo_type, nat, vo_note_key ) ;
-    if ( ! vo_note_url ) {
+    var vo_note = get_vo_note( vo_type, nat, vo_note_key ) ;
+    if ( ! vo_note ) {
         // NOTE: Note numbers seem to be distinct across all Allied Minor or all Axis Minor vehicles/ordnance,
         // so if we don't find a note in a given nationality's normal vehicles/ordnance, we can get away with
         // just checking their corresponding common vehicles/ordnance.
         var nat_type = gTemplatePack.nationalities[ nat ].type ;
         if ( ["allied-minor","axis-minor"].indexOf( nat_type ) !== -1 ) {
-            vo_note_url = make_vo_note_key_url( vo_type, nat_type, vo_note_key ) ;
+            vo_note = get_vo_note( vo_type, nat_type, vo_note_key ) ;
         }
     }
-    if ( vo_note_url ) {
+    if ( vo_note ) {
         var template_id = (vo_type === "vehicles") ? "ob_vehicle_note" : "ob_ordnance_note" ;
         if ( is_template_available( template_id ) ) {
             buf.push(
@@ -183,7 +183,7 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
                 " class='snippet' data-id='" + template_id + "' title='" + GENERATE_SNIPPET_HINT + "'>"
             ) ;
         }
-        data.vo_note_url = vo_note_url ;
+        data.vo_note = vo_note ;
     }
     buf.push( "</div>" ) ;
     var $content = $( buf.join("") ) ;

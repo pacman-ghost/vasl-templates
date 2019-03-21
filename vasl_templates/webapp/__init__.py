@@ -17,6 +17,10 @@ from vasl_templates.webapp.config.constants import BASE_DIR
 def _on_startup():
     """Do startup initialization."""
 
+    # load the default template_pack
+    from vasl_templates.webapp.snippets import load_default_template_pack
+    load_default_template_pack()
+
     # configure the VASL module
     fname = app.config.get( "VASL_MOD" )
     if fname:

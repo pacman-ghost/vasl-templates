@@ -46,9 +46,12 @@ _webdriver = None
 
 def init_webapp( webapp, webdriver, **options ):
     """Initialize the webapp."""
+
+    # initialize
     global _webapp, _webdriver
     _webapp = webapp
     _webdriver = webdriver
+
     # reset the server
     # NOTE: We have to do this manually, since we can't use pytest's monkeypatch'ing,
     # since we could be talking to a remote server (see ControlTests for more details).
@@ -65,6 +68,10 @@ def init_webapp( webapp, webdriver, **options ):
     if "reset" in options:
         options.pop( "reset" )( control_tests )
 
+    # force the default template pack to be reloaded (using the new settings)
+    control_tests.reset_template_pack()
+
+    # load the webapp
     webdriver.get( webapp.url_for( "main", **options ) )
     wait_for( 5, lambda: find_child("#_page-loaded_") is not None )
 

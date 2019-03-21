@@ -112,6 +112,33 @@ def test_ma_notes( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+def test_ma_html_notes( webapp, webdriver ):
+    """Test how we load vehicle/ordnance notes (HTML vs. PNG)."""
+
+    # initialize
+    init_webapp( webapp, webdriver, scenario_persistence=1,
+        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
+    )
+
+    # load the test scenario
+    load_scenario( {
+        "PLAYER_1": "greek",
+        "OB_VEHICLES_1": [
+            { "name": "PNG note" },
+            { "name": "HTML note" },
+            { "name": "PNG + HTML notes" }
+        ],
+    } )
+
+    # check the snippets
+    _check_vo_snippets( 1, "vehicles", [
+        ( "PNG note", "vehicles/allied-minor/note/201" ),
+        "HTML note: <table width='500'><tr><td>\nThis is an HTML vehicle note (202).\n</table>",
+        "PNG + HTML notes: <table width='500'><tr><td>\nThis is an HTML vehicle note (203).\n</table>",
+    ] )
+
+# ---------------------------------------------------------------------
+
 def test_common_vo_notes( webapp, webdriver ):
     """Test handling of Allied/Axis Minor common vehicles/ordnance."""
 
@@ -550,5 +577,8 @@ def _check_vo_snippets( player_no, vo_type, expected ):
 
 def _extract_vo_note( clipboard ):
     """Extract the details from a vehicle/ordnance note snippet."""
-    mo = re.search( "^(.+?): http://.+?/(.*)$", clipboard )
-    return ( mo.group(1), mo.group(2) )
+    mo = re.search( r'^(.+?): \<img src="http://.+?/(.*)"\>$', clipboard )
+    if mo:
+        return ( mo.group(1), mo.group(2) )
+    else:
+        return clipboard

@@ -82,8 +82,8 @@ Sherman III(a)        WP6[J4+]† s8 CS 5[brewup]                    s8 CS 5[bre
 Sherman III(L)(a)     WP7 s5 sM8 CS 6[brewup]                      WP7 s5 sM8 CS 6[brewup]  50.1    N O R† LL
 Matilda II(b)         sD6 CS 5                                     sD6 CS 5                 51†     M†<sup>1</sup> N LL
 Valentine II(b)       sM8 CS 4                                     sM8 CS 4                 52      Br N LL
-Valentine V(b)        sM8 CS 4                                     sM8 CS 4                 52†     Br K†<sup>1</sup> Br N<sup>T</sup> LL
-Valentine VIII(b)     HE7 sD6 CS 4                                 HE7 sD6 CS 4             52†     Br N<sup>T</sup> LL
+Valentine V(b)        sM8 CS 4                                     sM8 CS 4                 52.1†   Br K†<sup>1</sup> Br N<sup>T</sup> LL
+Valentine VIII(b)     HE7 sD6 CS 4                                 HE7 sD6 CS 4             52.2†   Br N<sup>T</sup> LL
 Churchill III(b)      D6[J4]7[5]† HE7[F3]8[4+]† sD6[4+] sM8† CS 7  sM8† CS 7                53†     N LL
 M3A1 Scout Car(a)     CS 4                                         CS 4                     54      US E† US H US I† US N LL
 M5(a)                 cs 5†[1]                                     cs 5†[1]                 55      Br A Br I†<sup>1</sup> Br N LL

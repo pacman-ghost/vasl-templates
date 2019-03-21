@@ -47,7 +47,7 @@ class ControlTests:
 
     def __getattr__( self, name ):
         """Generic entry point for handling control requests."""
-        if name.startswith( ("get_","set_") ):
+        if name.startswith( ("get_","set_","reset_") ):
             # check if we are talking to a local or remote server
             if self.server_url:
                 # remote: return a function that will invoke the handler function on the remote server
@@ -281,3 +281,9 @@ class ControlTests:
         """Get the vasl_mod startup warnings."""
         _logger.info( "Returning the vasl_mod startup warnings: %s", vasl_mod_module.warnings )
         return vasl_mod_module.warnings
+
+    def _reset_template_pack( self ):
+        """Force the default template pack to be reloaded."""
+        _logger.info( "Reseting the default template pack." )
+        globvars.template_pack = None
+        return self

@@ -277,7 +277,9 @@ def test_latw_update( webapp, webdriver ):
 
         # update the scenario (German/Russian, no date)
         load_scenario_params( { "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "" } } )
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 2, "deleted": 2 } )
+        # NOTE: We changed the MOL-P template (to add custom list bullets), so the snippet is different
+        # to when this test was originally written, and so #updated changed from 2 to 3.
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 3, "deleted": 2 } )
         _check_vsav_dump( updated_vsav_dump, {
             "pf": "Panzerfaust", "psk": "Panzerschrek", "atmm": "ATMM check:", # nb: the PF label now has a snippet ID
             "mol": "Kindling Attempt:", "mol-p": "TH#", # nb: the MOL label now has a snippet ID

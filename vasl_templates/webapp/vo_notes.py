@@ -2,13 +2,17 @@
 # Pokhara, Nepal (DEC/18).
 
 import os
+import pathlib
+import io
+import re
 import logging
 from collections import defaultdict
 
-from flask import render_template, jsonify, abort
+from flask import request, render_template, jsonify, send_file, abort, Response, url_for
 
 from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.files import FileServer
+from vasl_templates.webapp.webdriver import WebDriver
 from vasl_templates.webapp.utils import resize_image_response, is_image_file, is_empty_file
 
 # ---------------------------------------------------------------------
@@ -32,7 +36,7 @@ def load_vo_notes(): #pylint: disable=too-many-statements,too-many-locals,too-ma
     dname = app.config.get( "CHAPTER_H_NOTES_DIR" )
     if not dname:
         globvars.vo_notes = { "vehicles": {}, "ordnance": {} }
-        globvars.file_server = None
+        globvars.vo_notes_file_server = None
         return
     dname = os.path.abspath( dname )
     if not os.path.isdir( dname ):
@@ -68,9 +72,12 @@ def load_vo_notes(): #pylint: disable=too-many-statements,too-many-locals,too-ma
     # multi-applicable notes, so we force them to appear in the final results.
     vo_notes["vehicles"]["anzac"] = {}
     vo_notes["ordnance"]["indonesian"] = {}
+    vo_note_layout_width = app.config.get( "VO_NOTE_LAYOUT_WIDTH", 500 )
 
     # load the vehicle/ordnance notes
     for root,_,fnames in os.walk( dname, followlinks=True ):
+
+        # initialize
         dname2, vo_type2 = os.path.split( root )
         if vo_type2 in extn_ids:
             extn_id = vo_type2
@@ -86,38 +93,77 @@ def load_vo_notes(): #pylint: disable=too-many-statements,too-many-locals,too-ma
             vo_type2, nat2 = "vehicles", "landing-craft"
         else:
             nat2 = nat
+
+        # process each file in the next directory
         ma_notes = {}
         for fname in fnames:
+
+            # ignore placeholder files
+            fname = os.path.join( root, fname )
+            if is_empty_file( fname ):
+                continue
+
+            # figure out what kind of file we have
             extn = os.path.splitext( fname )[1].lower()
             if is_image_file( extn ):
-                key = os.path.splitext(fname)[0]
-                if not all( ch.isdigit() or ch in (".") for ch in key ):
-                    logging.warning( "Unexpected vehicle/ordnance note key: %s", key )
-                fname = os.path.join( root, fname )
-                if is_empty_file( fname ):
-                    continue # nb: ignore placeholder files
-                prefix = os.path.commonpath( [ dname, fname ] )
-                if prefix:
-                    if extn_id:
-                        key = "{}:{}".format( extn_id, key )
-                    vo_notes[vo_type2][nat2][key] = fname[len(prefix)+1:]
-                else:
-                    logging.warning( "Unexpected vehicle/ordnance note path: %s", fname )
-            elif extn == ".html":
-                key = get_ma_note_key( nat2, fname )
+
+                # image file - check if this looks like a vehicle/ordnance note
+                key = os.path.splitext( os.path.split( fname )[1] )[0]
+                if not all( ch.isdigit() or ch == "." for ch in key ):
+                    # nope (this could be e.g. an image that's part of an HTML vehicle/ordnance note)
+                    continue
+
+                # yup - save it as a vehicle/ordnance note
                 if extn_id:
                     key = "{}:{}".format( extn_id, key )
+                # NOTE: We only do this if we don't already have an HTML version.
+                if not vo_notes.get( vo_type2, {} ).get( nat2, {} ).get( key ):
+                    rel_path = pathlib.PosixPath( fname ).relative_to( dname )
+                    vo_notes[vo_type2][nat2][key] = str(rel_path)
+
+            elif extn == ".html":
+
+                # HTML file - read the content
                 fname = os.path.join( root, fname )
                 with open( fname, "r" ) as fp:
-                    buf = fp.read().strip()
-                    if not buf:
-                        continue # nb: ignore placeholder files
-                    if buf.startswith( "<p>" ):
-                        buf = buf[3:].strip()
-                    if "&half;" in buf:
-                        # NOTE: VASSAL doesn't like this, use "frac12;" :-/
-                        logging.warning( "Found &half; in HTML: %s", fname )
-                    ma_notes[key] = buf
+                    html_content = fp.read().strip()
+                if "&half;" in html_content:
+                    # NOTE: VASSAL doesn't like this, use "frac12;" :-/
+                    logging.warning( "Found &half; in HTML: %s", fname )
+
+                # check what kind of file we have
+                key = get_ma_note_key( nat2, os.path.split(fname)[1] )
+                if re.search( r"^\d+(\.\d+)?$", key ):
+
+                    # check if the content is specifying its own layout
+                    if "<!-- vasl-templates:manual-layout -->" not in html_content:
+                        # nope - use the default one
+                        html_content = "<table width='{}'><tr><td>\n{}\n</table>".format(
+                            vo_note_layout_width, html_content
+                        )
+
+                    # save it as a vehicle/ordnance note
+                    if extn_id:
+                        key = "{}:{}".format( extn_id, key )
+                    rel_path = pathlib.PosixPath( os.path.split(fname)[0] ).relative_to( dname )
+                    vo_notes[ vo_type2 ][ nat2 ][ key ] = _fixup_urls(
+                        html_content,
+                        "{{CHAPTER_H}}/" + str(rel_path) + "/"
+                    )
+
+                else:
+
+                    # save it as a multi-applicable note
+                    if extn_id:
+                        key = "{}:{}".format( extn_id, key )
+                    if html_content.startswith( "<p>" ):
+                        html_content = html_content[3:].strip()
+                    rel_path = pathlib.PosixPath( os.path.split(fname)[0] ).relative_to( dname )
+                    ma_notes[ key ] = _fixup_urls(
+                        html_content,
+                        "{{CHAPTER_H}}/" + str(rel_path) + "/"
+                    )
+
         if "multi-applicable" in vo_notes[ vo_type2 ][ nat2 ]:
             vo_notes[ vo_type2 ][ nat2 ][ "multi-applicable" ].update( ma_notes )
         else:
@@ -131,7 +177,14 @@ def load_vo_notes(): #pylint: disable=too-many-statements,too-many-locals,too-ma
 
     # install the vehicle/ordnance notes
     globvars.vo_notes = { k: dict(v) for k,v in vo_notes.items() }
-    globvars.file_server = file_server
+    globvars.vo_notes_file_server = file_server
+
+def _fixup_urls( html, url_stem ):
+    """Fixup URL's to Chapter H files."""
+    matches = list( re.finditer( r"<img [^>]*src=(['\"])(.*?)\1", html ) )
+    for mo in reversed(matches):
+        html = html[:mo.start(2)] + url_stem+ html[mo.start(2):]
+    return html
 
 # ---------------------------------------------------------------------
 
@@ -139,19 +192,69 @@ def load_vo_notes(): #pylint: disable=too-many-statements,too-many-locals,too-ma
 def get_vo_note( vo_type, nat, key ):
     """Return a Chapter H vehicle/ordnance note."""
 
-    # locate the file
+    # get the vehicle/ordnance note
     vo_notes = globvars.vo_notes[ vo_type ]
-    fname = vo_notes.get( nat, {} ).get( key )
-    if not fname:
+    vo_note = vo_notes.get( nat, {} ).get( key )
+    if not vo_note:
         abort( 404 )
-    if not globvars.file_server:
-        abort( 404 )
-    resp = globvars.file_server.serve_file( fname, ignore_empty=True )
-    if not resp:
+    if not globvars.vo_notes_file_server:
         abort( 404 )
 
-    default_scaling = app.config.get( "CHAPTER_H_IMAGE_SCALING", 100 )
-    return resize_image_response( resp, default_scaling=default_scaling )
+    # serve the file
+    if is_image_file( vo_note ):
+        resp = globvars.vo_notes_file_server.serve_file( vo_note, ignore_empty=True )
+        if not resp:
+            abort( 404 )
+        default_scaling = app.config.get( "CHAPTER_H_IMAGE_SCALING", 100 )
+        return resize_image_response( resp, default_scaling=default_scaling )
+    else:
+        buf = _make_vo_note_html( vo_note )
+        if request.args.get( "f" ) == "html":
+            # return the content as HTML
+            return Response( buf, mimetype="text/html" )
+        else:
+            # return the content as an image
+            # NOTE: We offer this option since VASSAL's HTML engine is so ancient, it doesn't support
+            # floating images (which we really need), either via CSS "float", or the HTML "align" attribute.
+            # NOTE: We need our own WebDriver instance in case the user is trying to generate a snippet image,
+            # which will use the shared instance (thus locking it), but vehicle/ordnance notes can contain
+            # a link that calls us here to generate the Chapter H content as an image, and if this 2nd request
+            # gets handled in a different thread (which it certainly will, since the 1st request is still
+            # in progress), we will deadlock waiting for the shared instance to become available.
+            with WebDriver.get_instance( "vo_note" ) as webdriver:
+                img = webdriver.get_snippet_screenshot( None, buf )
+            buf = io.BytesIO()
+            img.save( buf, format="PNG" )
+            buf.seek( 0 )
+            return send_file( buf, mimetype="image/png" )
+
+def _make_vo_note_html( vo_note ):
+    """Generate the HTML for a vehicle/ordnance note."""
+
+    # initialize
+    url_root = request.url_root
+    if url_root.endswith( "/" ):
+        url_root = url_root[:-1]
+
+    # inject the CSS (we do it like this since VASSAL doesn't support <link> :-/)
+    css = globvars.template_pack.get( "css", {} ).get( "vo_note" )
+    if css:
+        vo_note = "<head>\n<style>\n{}\n</style>\n</head>\n\n{}".format( css, vo_note )
+
+    # update any parameters
+    vo_note = vo_note.replace( "{{CHAPTER_H}}", url_root+"/chapter-h" )
+    vo_note = vo_note.replace( "{{IMAGES_BASE_URL}}", url_root+url_for("static",filename="images") )
+
+    return vo_note
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+@app.route( "/chapter-h/<path:path>" )
+def get_chapter_h_file( path ):
+    """Return a Chapter H file."""
+    if not globvars.vo_notes_file_server:
+        abort( 404 )
+    return globvars.vo_notes_file_server.serve_file( path, ignore_empty=True )
 
 # ---------------------------------------------------------------------
 

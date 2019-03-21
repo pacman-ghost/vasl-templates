@@ -5,6 +5,7 @@ USER_SETTINGS = {
     "hide-unavailable-ma-notes": "checkbox",
     "include-vasl-images-in-snippets": "checkbox",
     "include-flags-in-snippets": "checkbox",
+    "vo-notes-as-images": "checkbox",
 } ;
 
 // --------------------------------------------------------------------
@@ -44,7 +45,7 @@ function user_settings()
         dialogClass: "user-settings",
         modal: true,
         width: 440,
-        height: 270,
+        height: 300,
         resizable: false,
         create: function() {
             init_dialog( $(this), "OK", true ) ;

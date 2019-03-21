@@ -1,0 +1,21 @@
+img.piece { float: left ; margin-right: 0.5em ; }
+
+.header { margin-bottom: 0.25em ; }
+.header .note-number { font-weight: bold ; }
+.header .name { font-weight: bold ; font-style: italic ; }
+
+.content { text-align: justify ; }
+.content p { margin-top: 5px ; }
+.content ul { margin-left: 0 ; padding-left: 25px ; list-style-image: url("{{IMAGES_BASE_URL}}/bullet.png") ; }
+.content li { margin-bottom: 2px ; }
+.content .example { font-size: 90% ; font-style: italic ; }
+.content .rf { font-style: italic ; color: #444 ; }
+.content .lfloat { float: left ; margin-right: 0.5em ; }
+.content .rfloat { float: right ; margin-left: 0.5em ; }
+.content table { margin: 0 10px 0 10px ; margin-top: -0.5em ; }
+.content table th { padding: 2px 10px 2px 5px ; text-align: left ; background: #f0f0f0 ; }
+.content table td { padding: 0 10px 0 5px ; }
+
+table.layout td { padding: 0 5px 0 5px ; }
+
+.content .rf { display: none ; }

@@ -1,12 +1,13 @@
 """ Test the user settings. """
 
 import json
+import re
 
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, find_child, wait_for_clipboard, \
+    init_webapp, find_child, find_children, wait_for_clipboard, \
     select_tab, select_menu_option, set_player, click_dialog_button, add_simple_note
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
@@ -228,6 +229,58 @@ def test_hide_unavailable_ma_notes( webapp, webdriver ):
 
     # generate the multi-applicable notes
     test_ma_notes( True )
+
+# ---------------------------------------------------------------------
+
+def test_vo_notes_as_images( webapp, webdriver ):
+    """Test showing vehicle/ordnance notes as HTML/images."""
+
+    # initialize
+    init_webapp( webapp, webdriver, scenario_persistence=1,
+        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
+    )
+
+    # load the test vehicle
+    load_scenario( {
+        "PLAYER_1": "greek",
+        "OB_VEHICLES_1": [ { "name": "HTML note" } ],
+    } )
+    select_tab( "ob1" )
+
+    def check_snippet( expected ):
+        """Generate and check the vehicle note snippet."""
+        sortable = find_child( "#ob_vehicles-sortable_1" )
+        elems = find_children( "li", sortable )
+        assert len(elems) == 1
+        btn = find_child( "img.snippet", elems[0] )
+        btn.click()
+        contains = True if isinstance( expected, str ) else None
+        wait_for_clipboard( 2, expected, contains=contains )
+
+    # generate the vehicle snippet (should get the raw HTML)
+    check_snippet( "This is an HTML vehicle note (202)." )
+
+    # enable "show vehicle/ordnance notes as images"
+    select_menu_option( "user_settings" )
+    elem = find_child( ".ui-dialog.user-settings input[name='vo-notes-as-images']" )
+    assert not elem.is_selected()
+    elem.click()
+    click_dialog_button( "OK" )
+    _check_cookies( webdriver, "vo-notes-as-images", True )
+
+    # generate the vehicle snippet (should get a link to return an image)
+    check_snippet( re.compile( r"http://.+?:\d+/vehicles/greek/note/202" ) )
+
+    # disable "show vehicle/ordnance notes as images"
+    select_menu_option( "user_settings" )
+    elem = find_child( ".ui-dialog.user-settings input[name='vo-notes-as-images']" )
+    assert elem.is_selected()
+    elem.click()
+    click_dialog_button( "OK" )
+    _check_cookies( webdriver, "vo-notes-as-images", False )
+
+    # generate the vehicle snippet (should get the raw HTML)
+    check_snippet( "This is an HTML vehicle note (202)." )
 
 # ---------------------------------------------------------------------
 

@@ -11,7 +11,7 @@ import threading
 from flask import request, jsonify, send_file, abort
 from PIL import Image
 
-from vasl_templates.webapp import app
+from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.utils import SimpleError
 from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp.webdriver import WebDriver
@@ -29,6 +29,12 @@ def get_template_pack():
     If, in the future, we support loading other template packs from the backend,
     we can add a parameter here to specify which one to return.
     """
+    if not globvars.template_pack:
+        load_default_template_pack()
+    return jsonify( globvars.template_pack )
+
+def load_default_template_pack():
+    """Load the default template pack."""
 
     # initialize
     # NOTE: We always start with the default nationalities data. Unlike template files,
@@ -46,7 +52,7 @@ def get_template_pack():
     # can add to them, or modify existing ones, but not remove them.
     dname = os.path.join( base_dir, "extras" )
     if os.path.isdir( dname ):
-        _, extra_templates = _do_get_template_pack( dname )
+        _, extra_templates, _ = _do_get_template_pack( dname )
         for key,val in extra_templates.items():
             data["templates"]["extras/"+key] = val
 
@@ -61,13 +67,14 @@ def get_template_pack():
     # check if we're loading the template pack from a directory
     if os.path.isdir( dname ):
         # yup - return the files in it
-        nat, templates =_do_get_template_pack( dname )
+        nat, templates, css =_do_get_template_pack( dname )
         data["nationalities"].update( nat )
         data["templates"] = templates
+        data["css"] = css
     else:
         # extract the template pack files from the specified ZIP file
         if not os.path.isfile( dname ):
-            return jsonify( { "error": "Can't find template pack: {}".format(dname) } )
+            raise RuntimeError( "Can't find template pack: {}".format( dname ) )
         data["templates"] = {}
         with zipfile.ZipFile( dname, "r" ) as zip_file:
             for fname in zip_file.namelist():
@@ -82,7 +89,7 @@ def get_template_pack():
                     fname2 = "extras/" + fname2
                 data["templates"][ fname2 ] = fdata
 
-    return jsonify( data )
+    globvars.template_pack = data
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -91,23 +98,24 @@ def _do_get_template_pack( dname ):
     dname = os.path.abspath( dname )
     if not os.path.isdir( dname ):
         abort( 404 )
-    nationalities, templates = {}, {}
+    nationalities, templates, css = {}, {}, {}
     for root,_,fnames in os.walk(dname):
         for fname in fnames:
             # add the next file to the results
-            words = os.path.splitext( fname )
+            fname_stem, extn = os.path.splitext( fname )
             fname = os.path.join( root, fname )
             with open( fname, "r" ) as fp:
                 if fname.lower() == "nationalities.json":
                     nationalities = json.load( fp )
                     continue
-                if words[1] == ".j2":
-                    fname2 = words[0]
+                if extn == ".j2":
                     relpath = os.path.relpath( os.path.abspath(fname), dname )
                     if relpath.startswith( "extras" + os.sep ):
-                        fname2 = "extras/" + fname2
-                    templates[fname2] = fp.read()
-    return nationalities, templates
+                        fname_stem = "extras/" + fname_stem
+                    templates[fname_stem] = fp.read()
+                elif extn == ".css":
+                    css[fname_stem] = fp.read().strip()
+    return nationalities, templates, css
 
 # ---------------------------------------------------------------------
 

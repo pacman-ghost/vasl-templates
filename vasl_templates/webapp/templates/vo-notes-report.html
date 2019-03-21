@@ -146,9 +146,10 @@ function load_vo_notes( vo_entries )
         for ( var i=0 ; i < keys.length ; ++i ) {
             if ( keys[i] === "multi-applicable" )
                 continue ;
+            var vo_note = vo_notes[ keys[i] ] ;
             buf.push( "<tr>",
                 "<td class='key'>", keys[i]+":",
-                "<td>", vo_notes[keys[i]]
+                "<td>", vo_note.substr(vo_note.length-4) === ".png" ? vo_note : "(HTML content)"
             ) ;
         }
         buf.push( "</table>" ) ;
@@ -181,7 +182,7 @@ function load_vo_notes( vo_entries )
         buf.push( "<td class='vo-note-raw'>", vo_entry.note_number) ;
         var vo_note_key = get_vo_note_key( vo_entry ) ;
         if ( vo_note_key ) {
-            if ( ! make_vo_note_key_url( vo_type, nat, vo_note_key ) )
+            if ( ! get_vo_note( vo_type, nat, vo_note_key ) )
                 vo_note_key  += " (missing)" ;
         }
         buf.push( "<td class='vo-note'>", vo_note_key  ) ;

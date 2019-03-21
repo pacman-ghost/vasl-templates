@@ -123,6 +123,9 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     var template_id = $btn.data( "id" ) ;
     var snippet_save_name = null ;
 
+    // add simple parameters
+    params.IMAGES_BASE_URL = APP_URL_BASE + gImagesBaseUrl ;
+
     // set player-specific parameters
     var player_no = get_player_no_for_element( $btn ) ;
     if ( player_no ) {
@@ -174,13 +177,37 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         var data = $btn.parent().parent().data( "sortable2-data" ) ;
         var key = (vo_type === "vehicles") ? "VEHICLE" : "ORDNANCE" ;
         params[ key + "_NAME" ] = data.vo_entry.name ;
-        params[ key + "_NOTE_URL" ] = data.vo_note_url ;
+        if ( data.vo_note.substr( 0, 7 ) === "http://" )
+            params[ key + "_NOTE_HTML" ] = '<img src="' + data.vo_note + '">' ;
+        else {
+            if ( gUserSettings["vo-notes-as-images"] ) {
+                // show the vehicle/ordnance note as an image
+                var nat = params[ "PLAYER_" + player_no ] ;
+                var url = APP_URL_BASE + "/" + vo_type + "/" + nat + "/note/" + get_vo_note_key(data.vo_entry) ;
+                params[ key + "_NOTE_HTML" ] = '<img src="' + url + '">' ;
+            } else {
+                // insert the raw HTML into the snippet
+                params[ key + "_NOTE_HTML" ] = data.vo_note ;
+            }
+        }
         snippet_save_name = data.vo_entry.name ;
     }
     if ( template_id === "ob_vehicle_note" )
         set_vo_note( "vehicles" ) ;
     else if ( template_id === "ob_ordnance_note" )
         set_vo_note( "ordnance" ) ;
+
+    // install the CSS
+    function install_css( key ) {
+        if ( gTemplatePack.css[ key ] ) {
+            params[ key.toUpperCase() + "_CSS" ] = strReplaceAll(
+                gTemplatePack.css[key], "{{IMAGES_BASE_URL}}", params.IMAGES_BASE_URL
+            ) ;
+        }
+    }
+    install_css( "vo" ) ;
+    install_css( "vo_note" ) ;
+    install_css( "ma_note" ) ;
 
     // generate snippets for multi-applicable vehicle/ordnance notes
     var pos ;
@@ -335,7 +362,6 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     // add in any extra parameters
     if ( extra_params )
         $.extend( true, params, extra_params ) ;
-    params.IMAGES_BASE_URL = APP_URL_BASE + gImagesBaseUrl ;
 
     // check that the players have different nationalities
     if ( params.PLAYER_1 === params.PLAYER_2 )
@@ -376,7 +402,8 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     }
 
     // fixup any user file URL's
-    snippet = snippet.replace( "{{USER_FILES}}", APP_URL_BASE + "/user" ) ;
+    snippet = strReplaceAll( snippet, "{{USER_FILES}}", APP_URL_BASE+"/user" ) ;
+    snippet = strReplaceAll( snippet, "{{CHAPTER_H}}", APP_URL_BASE+"/chapter-h" ) ;
 
     return {
         content: snippet,
@@ -401,7 +428,7 @@ function get_vo_note_key( vo_entry )
     return key ;
 }
 
-function make_vo_note_key_url( vo_type, nat, key )
+function get_vo_note( vo_type, nat, key )
 {
     if ( ! key )
         return null ;
@@ -421,8 +448,13 @@ function make_vo_note_key_url( vo_type, nat, key )
     if ( !( key in gVehicleOrdnanceNotes[ vo_type ][ nat ] ) )
         return null ;
 
-    // generate the URL
-    return APP_URL_BASE + "/" + vo_type + "/" + nat + "/note/" + key ;
+    var vo_note = gVehicleOrdnanceNotes[ vo_type ][ nat ][ key ] ;
+    // FUDGE! We need to detect between a full HTML note and an image-based one.
+    // This is not great, but it'll do... :-/
+    if ( vo_note.substr( 0, nat.length+1 ) === nat+"/" )
+        return APP_URL_BASE + "/" + vo_type + "/" + nat + "/note/" + key ;
+    else
+        return vo_note ;
 }
 
 function get_ma_notes_keys( nat, vo_entries, vo_type )
@@ -1625,7 +1657,7 @@ function on_template_pack()
         var pos = data.indexOf( "|" ) ;
         var fname = data.substring( 0, pos ).trim() ;
         data = data.substring( pos+1 ).trim() ;
-        if ( fname.substring(fname.length-4) === ".zip" )
+        if ( getFilenameExtn( fname ) === ".zip" )
             data = atob( data ) ;
         do_load_template_pack( fname, data ) ;
         return ;
@@ -1664,6 +1696,7 @@ function do_load_template_pack( fname, data )
     var template_pack = {
         nationalities: $.extend( true, {}, gDefaultTemplatePack.nationalities ),
         templates: {},
+        css: {},
     } ;
 
     // NOTE: We always start with the default extras templates; user-defined template packs
@@ -1687,17 +1720,22 @@ function do_load_template_pack( fname, data )
             $.extend( true, template_pack.nationalities, nationalities ) ;
             return ;
         }
-        if ( fname.substring(fname.length-3) != ".j2" ) {
+        var extn = getFilenameExtn( fname ) ;
+        if ( [".j2",".css"].indexOf( extn ) === -1 ) {
             invalid_filename_extns.push( fname ) ;
             return ;
         }
-        var template_id = fname.substring( 0, fname.length-3 ).toLowerCase() ;
-        if ( gValidTemplateIds.indexOf( template_id ) === -1 && template_id.substr(0,7) !== "extras/" ) {
-            unknown_template_ids.push( fname ) ;
-            return ;
-        }
         // save the template pack file
-        template_pack.templates[template_id] = data ;
+        var template_id = fname.substring( 0, fname.length-extn.length ).toLowerCase() ;
+        if ( extn === ".css" )
+            template_pack.css[template_id] = data ;
+        else {
+            if ( gValidTemplateIds.indexOf( template_id ) === -1 && template_id.substr(0,7) !== "extras/" ) {
+                unknown_template_ids.push( fname ) ;
+                return ;
+            }
+            template_pack.templates[template_id] = data ;
+        }
     }
 
     // initialize
@@ -1746,7 +1784,7 @@ function do_load_template_pack( fname, data )
 
     // check if we have a ZIP file
     fname = fname.toLowerCase() ;
-    if ( fname.substring(fname.length-4) === ".zip" ) {
+    if ( getFilenameExtn( fname ) === ".zip" ) {
         // yup - process each file in the ZIP
         var nFiles = 0 ;
         JSZip.loadAsync( data ).then( function( zip ) {

@@ -365,6 +365,30 @@ function pluralString( n, str1, str2 )
     return (n == 1) ? str1 : str2 ;
 }
 
+function strReplaceAll( val, searchFor, replaceWith )
+{
+    // str.replace() only replaces a single instance!?!? :wtf:
+    if ( ! searchFor )
+        return val ;
+    var pos = 0 ;
+    for ( ; ; ) {
+        pos = val.indexOf( searchFor, pos ) ;
+        if ( pos === -1 )
+            return val ;
+        val = val.substr(0,pos) + replaceWith + val.substr(pos+searchFor.length) ;
+    }
+}
+
+function getFilenameExtn( fname )
+{
+    // get the filename extension
+    var pos = fname.lastIndexOf( "." ) ;
+    if ( pos !== -1 )
+        return fname.substr( pos ) ;
+    else
+        return null ;
+}
+
 function isIE()
 {
     // check if we're running in IE :-/

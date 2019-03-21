@@ -59,14 +59,14 @@
 { "id": "ru/v:079",
   "copy_from": "br/v:042",
   "name": "Valentine V(b)",
-  "note_number": "52\u2020",
+  "note_number": "52.1\u2020",
   "extra_notes": [ "LL" ],
   "gpid": [ 726, 728, 7432, 7434 ]
 },
 { "id": "ru/v:080",
   "copy_from": "br/v:043",
   "name": "Valentine VIII(b)",
-  "note_number": "52\u2020",
+  "note_number": "52.2\u2020",
   "extra_notes": [ "LL" ],
   "gpid": [ 730, 7111 ]
 },

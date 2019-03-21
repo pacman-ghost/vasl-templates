@@ -19,10 +19,10 @@ _logger = logging.getLogger( "webdriver" )
 class WebDriver:
     """Wrapper for a Selenium webdriver."""
 
-    # NOTE: The thread-safety lock controls access to the _shared_instance variable,
+    # NOTE: The thread-safety lock controls access to the _shared_instances variable,
     # not the WebDriver it points to (it has its own lock).
-    _shared_instance_lock = threading.RLock()
-    _shared_instance = None
+    _shared_instances_lock = threading.RLock()
+    _shared_instances = {}
 
     def __init__( self ):
         self.driver = None
@@ -159,7 +159,7 @@ class WebDriver:
         return self.get_screenshot( snippet, window_size, window_size2 )
 
     @staticmethod
-    def get_instance():
+    def get_instance( key="default" ):
         """Return the shared WebDriver instance.
 
         A Selenium webdriver has a hefty startup time, so we create one on first use, and then re-use it.
@@ -178,26 +178,26 @@ class WebDriver:
         if app.config.get( "DISABLE_SHARED_WEBDRIVER" ):
             return WebDriver()
 
-        with WebDriver._shared_instance_lock:
+        with WebDriver._shared_instances_lock:
 
             # check if we've already created the shared WebDriver
-            if WebDriver._shared_instance:
+            if key in WebDriver._shared_instances:
                 # yup - just return it (nb: the caller is responsible for locking it)
-                _logger.info( "Returning shared WebDriver: %x", id(WebDriver._shared_instance) )
+                _logger.info( "Returning shared WebDriver (%s): %x", key, id(WebDriver._shared_instances[key]) )
 
-                return WebDriver._shared_instance
+                return WebDriver._shared_instances[ key ]
 
             # nope - create a new WebDriver instance
             # NOTE: We start it here to keep it alive even after the caller has finished with it,
             # and take steps to make sure it gets stopped and cleaned up when the program exits.
             wdriver = WebDriver()
-            _logger.info( "Created shared WebDriver: %x", id(wdriver) )
+            _logger.info( "Created shared WebDriver (%s): %x", key, id(wdriver) )
             wdriver._do_start() #pylint: disable=protected-access
-            WebDriver._shared_instance = wdriver
+            WebDriver._shared_instances[ key ] = wdriver
 
             # make sure the shared WebDriver gets cleaned up
             def cleanup(): #pylint: disable=missing-docstring
-                _logger.info( "Cleaning up shared WebDriver: %x", id(wdriver) )
+                _logger.info( "Cleaning up shared WebDriver (%s): %x", key, id(wdriver) )
                 wdriver._do_stop() #pylint: disable=protected-access
             atexit.register( cleanup )
             globvars.cleanup_handlers.append( cleanup )

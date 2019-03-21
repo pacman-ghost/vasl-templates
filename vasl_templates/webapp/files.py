@@ -43,8 +43,10 @@ class FileServer:
             return send_file( buf, mimetype=mime_type )
         else:
             path = path.replace( "\\", "/" ) # nb: for Windows :-/
-            if ignore_empty and is_empty_file( os.path.join( self.base_dir, path ) ):
-                return None
+            if ignore_empty:
+                fname = os.path.join( self.base_dir, path )
+                if os.path.isfile( fname ) and is_empty_file( fname ):
+                    return None
             return send_from_directory( self.base_dir, path )
 
     @staticmethod

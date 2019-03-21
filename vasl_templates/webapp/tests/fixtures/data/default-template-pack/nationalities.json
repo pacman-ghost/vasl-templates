@@ -45,6 +45,11 @@
   "ob_colors": [ "OBCOL:dutch","OBCOL2:dutch", "OBCOL-BORDER:dutch" ],
   "type": "allied-minor"
 },
+"greek": {
+  "display_name": "Greek",
+  "ob_colors": [ "OBCOL:greek","OBCOL2:greek", "OBCOL-BORDER:greek" ],
+  "type": "allied-minor"
+},
 
 "romanian": {
   "display_name": "Romanian",
