@@ -157,6 +157,7 @@ function _generate_snippets()
 {
     // initialize
     var snippets = {} ;
+    var vo_index = {} ;
 
     // figure out which templates we don't want to auto-create labels for
     var no_autocreate = {} ;
@@ -197,6 +198,18 @@ function _generate_snippets()
         }
         if ( ["ob_vehicle_note","ob_ordnance_note"].indexOf( template_id ) !== -1 ) {
             data = $btn.parent().parent().data( "sortable2-data" ) ;
+            if ( data.vo_entry.id in vo_index ) {
+                // NOTE: There are two ways we can end up creating duplicate snippets for vehicle/ordnance notes:
+                //   (1) the OB contains multiple variants of the same vehicle/ordnance
+                //   (2) the OB contains different vehicles/ordnance that happen to have the same note
+                //       e.g. the German Opel Blitz and Buessing-NAG both have Vehicle Note 96.
+                // Deuping the first case is a no-brainer, but the second is tricker. If we only create a snippet
+                // for the Opel Blitz, it's not immediately clear to someone looking at the VASL scenario why
+                // there is no snippet for the Buessing-NAG. However, this situation should be rare enough
+                // for us to not worry about it... :-/
+                return ;
+            }
+            vo_index[ data.vo_entry.id ] = true ;
             snippet_id = template_id + "_" + player_no + "." + data.id ;
         }
         var raw_content = _get_raw_content( snippet_id, $btn, params ) ;
