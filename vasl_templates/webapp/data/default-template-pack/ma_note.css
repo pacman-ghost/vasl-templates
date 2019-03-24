@@ -1,4 +1,4 @@
-.ma-note { text-align: justify ; }
+.ma-note { margin: 2px 0 3px 0 ; text-align: justify ; }
 .ma-note .key { font-weight: bold ; }
 .ma-note table { margin-left: 10px ; }
 .ma-note td { padding: 0 ; }
@@ -12,5 +12,6 @@
 .extra-notes-caption { border: 1px solid #e0e0e0 ; background: #fcfcfc ; font-weight: bold ; padding: 2px 5px ; }
 .slashed { text-decoration: line-through ; }
 
+p { margin-top: 5px ; margin-bottom: 0 ; }
 ul { margin: 0 0 0 15px ; padding: 0 ; }
 sup { font-size: 75% ; }
