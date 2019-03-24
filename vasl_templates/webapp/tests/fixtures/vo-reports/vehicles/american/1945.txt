@@ -65,12 +65,12 @@ DUKW                 cs 7†[1]                                   cs 7†[1]    
 1&#189;-Ton          cs 6                                       cs 6                         56†     N
 2&#189;-Ton          cs 7                                       cs 7                         57†     N
 7&#189;-Ton          cs 7                                       cs 7                         58†     N
-LVT(A)1(L)           C10[P]†[2] CS 6                            CS 6                         1       US 46†<sup>3</sup> C†<sup>2</sup> G H P T† X                               Refer to U.S. Vehicle Note 46 and diagram for the AAMG.
+LVT(A)1(L)           C10[P]†[2] CS 6                            CS 6                         1       C†<sup>2</sup> G H P T† X                                                  Refer to U.S. Vehicle Note 46 and diagram for the AAMG.
 LVT(A)2F             CS 7                                       CS 7                         2       US H P Q†<sup>1</sup> T†<sup>1</sup>
-LVT4F                cs 7                                       cs 7                         3†[2]   US 51† D†<sup>3</sup> H P T†<sup>1</sup>
+LVT4F                cs 7                                       cs 7                         3†[2]   D†<sup>3</sup> H P T†<sup>1</sup>
 LVT(A)2FS            CS 7                                       CS 7                         4†[1]   US D†<sup>2</sup> H P T†
-LVT4(L)              CS 7                                       CS 7                         5       US 51† D†<sup>4</sup> H Q†<sup>3</sup> T†<sup>1</sup> X†<sup>2</sup>
-LVT(A)4(L)           C7[P]†[3] H8 WP9 CS 6                      H8 WP9 CS 6                  6       US 46†<sup>2</sup> C†<sup>3</sup> G H P T† X†<sup>1</sup>
+LVT4(L)              CS 7                                       CS 7                         5       D†<sup>4</sup> H Q†<sup>3</sup> T†<sup>1</sup> X†<sup>2</sup>
+LVT(A)4(L)           C7[P]†[3] H8 WP9 CS 6                      H8 WP9 CS 6                  6       C†<sup>3</sup> G H P T† X†<sup>1</sup>
 M3A1F                C7[P]† CS 4                                CS 4                         7       US C† G P
 M5A1 Satan           CS 4                                       CS 4                         8†      US P
 M4A2F                WP7 s5 sM5 cs 5                            WP7 s5 sM5 cs 5              9       US G P R

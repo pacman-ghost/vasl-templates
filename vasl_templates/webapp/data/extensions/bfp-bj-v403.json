@@ -830,7 +830,7 @@
   "CS#": 6,
   "capabilities2": { "C": [ [10,"P"], "\u2020<sup>2</sup>" ] },
   "note_number": "1",
-  "notes": [ "US 46\u2020<sup>3</sup>", "C\u2020<sup>2</sup>", "G", "H", "P", "T\u2020", "X" ],
+  "notes": [ "C\u2020<sup>2</sup>", "G", "H", "P", "T\u2020", "X" ],
   "comments": [ "Refer to U.S. Vehicle Note 46 and diagram for the AAMG." ],
   "id": "am/v:900",
   "gpid": "adf:196"
@@ -847,7 +847,7 @@
   "type": "aAPCv",
   "cs#": 7,
   "note_number": "3\u2020<sup>2</sup>",
-  "notes": [ "US 51\u2020", "D\u2020<sup>3</sup>", "H", "P", "T\u2020<sup>1</sup>"],
+  "notes": [ "D\u2020<sup>3</sup>", "H", "P", "T\u2020<sup>1</sup>"],
   "id": "am/v:902",
   "gpid": "adf:200"
 },
@@ -863,7 +863,7 @@
   "type": "aAPC",
   "CS#": 7,
   "note_number": "5",
-  "notes": [ "US 51\u2020", "D\u2020<sup>4</sup>", "H", "Q\u2020<sup>3</sup>", "T\u2020<sup>1</sup>", "X\u2020<sup>2</sup>"],
+  "notes": [ "D\u2020<sup>4</sup>", "H", "Q\u2020<sup>3</sup>", "T\u2020<sup>1</sup>", "X\u2020<sup>2</sup>"],
   "id": "am/v:904",
   "gpid": "adf:205"
 },
@@ -872,7 +872,7 @@
   "CS#": 6,
   "capabilities2": { "C": [ [7,"P"], "\u2020<sup>3</sup>" ], "H": 8, "WP": 9 },
   "note_number": "6",
-  "notes": [ "US 46\u2020<sup>2</sup>", "C\u2020<sup>3</sup>", "G", "H", "P", "T\u2020", "X\u2020<sup>1</sup>"],
+  "notes": [ "C\u2020<sup>3</sup>", "G", "H", "P", "T\u2020", "X\u2020<sup>1</sup>"],
   "id": "am/v:905",
   "gpid": "adf:207"
 },
