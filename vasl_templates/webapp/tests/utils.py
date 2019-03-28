@@ -89,7 +89,14 @@ def for_each_template( func ): #pylint: disable=too-many-branches
         fname,extn = os.path.splitext( fname )
         if extn != ".j2":
             continue
-        templates_to_test.add( fname )
+        if fname == "ob_vo":
+            templates_to_test.update( [ "ob_vehicles", "ob_ordnance" ] )
+        elif fname == "ob_vo_note":
+            templates_to_test.update( [ "ob_vehicle_note", "ob_ordnance_note" ] )
+        elif fname == "ob_ma_notes":
+            templates_to_test.update( [ "ob_vehicles_ma_notes", "ob_ordnance_ma_notes" ] )
+        else:
+            templates_to_test.add( fname )
 
     # test the standard templates
     for tab_id,template_ids in _STD_TEMPLATES.items():

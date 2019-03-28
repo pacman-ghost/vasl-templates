@@ -148,46 +148,54 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     } else
         params.SNIPPET_ID = template_id ;
 
+    // set the vehicle/ordnance labels
+    if ( template_id.indexOf( "_vehicles_" ) !== -1 ) {
+        params.VO_TYPE = "Vehicle" ;
+        params.VO_TYPES = "Vehicles" ;
+    } else if ( template_id.indexOf( "_ordnance_" ) !== -1 ) {
+        params.VO_TYPE = "Ordnance" ;
+        params.VO_TYPES = "Ordnance" ;
+    }
+
     // set player-specific parameters
     if ( template_id === "ob_vehicles_1" ) {
         template_id = "ob_vehicles" ;
-        params.OB_VEHICLES = params.OB_VEHICLES_1 ;
-        params.OB_VEHICLES_WIDTH = params.OB_VEHICLES_WIDTH_1 ;
+        params.OB_VO = params.OB_VEHICLES_1 ;
+        params.OB_VO_WIDTH = params.OB_VEHICLES_WIDTH_1 ;
         snippet_save_name = params.PLAYER_1 + " vehicles" ;
     } else if ( template_id === "ob_vehicles_2" ) {
         template_id = "ob_vehicles" ;
-        params.OB_VEHICLES = params.OB_VEHICLES_2 ;
-        params.OB_VEHICLES_WIDTH = params.OB_VEHICLES_WIDTH_2 ;
+        params.OB_VO = params.OB_VEHICLES_2 ;
+        params.OB_VO_WIDTH = params.OB_VEHICLES_WIDTH_2 ;
         snippet_save_name = params.PLAYER_2 + " vehicles" ;
     }
     if ( template_id === "ob_ordnance_1" ) {
         template_id = "ob_ordnance" ;
-        params.OB_ORDNANCE = params.OB_ORDNANCE_1 ;
-        params.OB_ORDNANCE_WIDTH = params.OB_ORDNANCE_WIDTH_1 ;
+        params.OB_VO = params.OB_ORDNANCE_1 ;
+        params.OB_VO_WIDTH = params.OB_ORDNANCE_WIDTH_1 ;
         snippet_save_name = params.PLAYER_1 + " ordnance" ;
     } else if ( template_id === "ob_ordnance_2" ) {
         template_id = "ob_ordnance" ;
-        params.OB_ORDNANCE = params.OB_ORDNANCE_2 ;
-        params.OB_ORDNANCE_WIDTH = params.OB_ORDNANCE_WIDTH_2 ;
+        params.OB_VO = params.OB_ORDNANCE_2 ;
+        params.OB_VO_WIDTH = params.OB_ORDNANCE_WIDTH_2 ;
         snippet_save_name = params.PLAYER_2 + " ordnance" ;
     }
 
     // set vehicle/ordnance note parameters
     function set_vo_note( vo_type ) {
         var data = $btn.parent().parent().data( "sortable2-data" ) ;
-        var key = (vo_type === "vehicles") ? "VEHICLE" : "ORDNANCE" ;
-        params[ key + "_NAME" ] = data.vo_entry.name ;
+        params.VO_NAME = data.vo_entry.name ;
         if ( data.vo_note.substr( 0, 7 ) === "http://" ) {
             // the vehicle/ordnance note is an image - just include it directly
-            params[ key + "_NOTE_HTML" ] = '<img src="' + data.vo_note + '">' ;
+            params.VO_NOTE_HTML = '<img src="' + data.vo_note + '">' ;
         } else {
             // the vehicle/ordnance is HTML - check if we should show it as HTML or as an image
             if ( gUserSettings["vo-notes-as-images"] ) {
                 // show the vehicle/ordnance note as an image
-                params[ key + "_NOTE_HTML" ] = '<img src="' + data.vo_note_image_url + '">' ;
+                params.VO_NOTE_HTML = '<img src="' + data.vo_note_image_url + '">' ;
             } else {
                 // insert the raw HTML into the snippet
-                params[ key + "_NOTE_HTML" ] = data.vo_note ;
+                params.VO_NOTE_HTML = data.vo_note ;
             }
         }
         snippet_save_name = data.vo_entry.name ;
@@ -196,18 +204,6 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         set_vo_note( "vehicles" ) ;
     else if ( template_id === "ob_ordnance_note" )
         set_vo_note( "ordnance" ) ;
-
-    // install the CSS
-    function install_css( key ) {
-        if ( gTemplatePack.css[ key ] ) {
-            params[ key.toUpperCase() + "_CSS" ] = strReplaceAll(
-                gTemplatePack.css[key], "{{IMAGES_BASE_URL}}", params.IMAGES_BASE_URL
-            ) ;
-        }
-    }
-    install_css( "vo" ) ;
-    install_css( "vo_note" ) ;
-    install_css( "ma_note" ) ;
 
     // generate snippets for multi-applicable vehicle/ordnance notes
     var pos ;
@@ -266,8 +262,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         var vo_type_uc = vo_type.toUpperCase() ;
         var postfixes = [ "MA_NOTES", "MA_NOTES_WIDTH", "EXTRA_MA_NOTES", "EXTRA_MA_NOTES_CAPTION" ] ;
         for ( var i=0 ; i < postfixes.length ; ++i ) {
-            var stem = "OB_" + vo_type_uc + "_" + postfixes[i] ;
-            params[ stem ] = params[ stem + "_" + player_no ] ;
+            params[ "OB_" + postfixes[i] ] = params[ "OB_" + vo_type_uc + "_" + postfixes[i] + "_" + player_no ] ;
         }
         snippet_save_name = params["PLAYER_"+player_no] + (vo_type === "vehicles" ? " vehicle notes" : " ordnance notes") ;
     }
@@ -1729,6 +1724,12 @@ function do_load_template_pack( fname, data )
         var template_id = fname.substring( 0, fname.length-extn.length ).toLowerCase() ;
         if ( extn === ".css" )
             template_pack.css[template_id] = data ;
+        else if ( template_id === "ob_vo" )
+            template_pack.templates.ob_vehicles = template_pack.templates.ob_ordnance = data ;
+        else if ( template_id === "ob_vo_note" )
+            template_pack.templates.ob_vehicle_note = template_pack.templates.ob_ordnance_note = data ;
+        else if ( template_id === "ob_ma_notes" )
+            template_pack.templates.ob_vehicles_ma_notes = template_pack.templates.ob_ordnance_ma_notes = data ;
         else {
             if ( gValidTemplateIds.indexOf( template_id ) === -1 && template_id.substr(0,7) !== "extras/" ) {
                 unknown_template_ids.push( fname ) ;

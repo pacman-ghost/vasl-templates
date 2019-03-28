@@ -1,6 +1,0 @@
-[{{PLAYER_NAME}}] ; width={{OB_VEHICLES_WIDTH}}{%for veh in OB_VEHICLES %}
-[*] {{veh.name}}: #={{veh.note_number}}{%if veh.notes%}
-- notes:{%for n in veh.notes%} "{{n}}"{%endfor%}{%endif%}{%if veh.capabilities%}
-- capabilities:{%for c in veh.capabilities%} "{{c}}"{%endfor%}{%endif%}{%if veh.raw_capabilities%}
-- raw capabilities:{%for c in veh.raw_capabilities%} "{{c}}"{%endfor%}{%endif%}{%if veh.comments%}
-- comments:{%for c in veh.comments%} "{{c}}"{%endfor%}{%endif%}{%endfor%}

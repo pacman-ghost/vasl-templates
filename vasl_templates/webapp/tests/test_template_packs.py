@@ -5,6 +5,7 @@ import zipfile
 import tempfile
 import base64
 import re
+import random
 
 import pytest
 
@@ -148,16 +149,29 @@ def test_missing_templates( webapp, webdriver ):
     dname = os.path.normpath( os.path.join( os.path.split(__file__)[0], "../data/default-template-pack" ) )
     for root,_,fnames in os.walk( dname ):
         for fname in fnames:
+            if os.path.splitext( fname )[1] == ".swp":
+                continue
             fname = os.path.join( root, fname )
             fname2 = os.path.relpath( fname, start=dname )
             if fname2.startswith( "extras/" ):
                 continue
+            if fname2 == "ob_vo":
+                fname2 = random.choice( [ "ob_vehicles", "ob_ordnance" ] )
+            elif fname2 == "ob_vo_note":
+                fname2 = random.choice( [ "ob_vehicles_note", "ob_ordnance_note" ] )
+            elif fname2 == "ob_ma_note":
+                fname2 = random.choice( [ "ob_vehicles_ma_note", "ob_ordnance_ma_note" ] )
             files[ fname2 ] = "dummy template" # nb: we don't care about the content
 
     def adjust_template_id( template_id ): #pylint: disable=missing-docstring
-        if template_id.startswith( ( "ob_vehicles_", "ob_ordnance_" ) ) and template_id.endswith( ( "_1", "_2" ) ):
-            return template_id[:-2]
-        return template_id
+        if re.search( r"^ob_(vehicles|ordnance)_\d$", template_id ):
+            return "ob_vo"
+        elif re.search(  r"^ob_(vehicle|ordnance)_note_\d$", template_id ):
+            return "ob_vo_note"
+        elif re.search( r"^ob_(vehicles|ordnance)_ma_notes_\d$", template_id ):
+            return "ob_ma_notes"
+        else:
+            return template_id
 
     # upload the template pack, with one file missing each time
     for fname in files:

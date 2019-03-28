@@ -112,9 +112,24 @@ def _do_get_template_pack( dname ):
                     relpath = os.path.relpath( os.path.abspath(fname), dname )
                     if relpath.startswith( "extras" + os.sep ):
                         fname_stem = "extras/" + fname_stem
-                    templates[fname_stem] = fp.read()
+                    # FUDGE! In early versions of this program, the vehicles and ordnance templates were different
+                    # (e.g. because only vehicles can be radioless, only ordnance can be QSU), but once everything
+                    # was handled via generic capabilities, they became the same. We would therefore like to have
+                    # a single template file handle both vehicles and ordnance, but the program had been architected
+                    # in such a way that vehicles and ordnance snippets are generated from their own templates,
+                    # so rather than re-architect the program, we maintain separate templates, that just happen
+                    # to be read from the same file. This causes a bit of stuffing around when the code needs to know
+                    # what file a template comes from (e.g. loading a template pack), but it's mostly transparent...
+                    if fname_stem == "ob_vo":
+                        templates["ob_vehicles"] = templates["ob_ordnance"] = fp.read()
+                    elif fname_stem == "ob_vo_note":
+                        templates["ob_vehicle_note"] = templates["ob_ordnance_note"] = fp.read()
+                    elif fname_stem == "ob_ma_notes":
+                        templates["ob_vehicles_ma_notes"] = templates["ob_ordnance_ma_notes"] = fp.read()
+                    else:
+                        templates[fname_stem] = fp.read()
                 elif extn == ".css":
-                    css[fname_stem] = fp.read().strip()
+                    css[fname_stem] = fp.read()
     return nationalities, templates, css
 
 # ---------------------------------------------------------------------

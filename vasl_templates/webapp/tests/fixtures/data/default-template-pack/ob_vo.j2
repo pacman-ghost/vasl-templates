@@ -1,0 +1,6 @@
+[{{PLAYER_NAME}}] ; width={{OB_VO_WIDTH}}{%for vo in OB_VO %}
+[*] {{vo.name}}: #={{vo.note_number}}{%if vo.notes%}
+- notes:{%for n in vo.notes%} "{{n}}"{%endfor%}{%endif%}{%if vo.capabilities%}
+- capabilities:{%for c in vo.capabilities%} "{{c}}"{%endfor%}{%endif%}{%if vo.raw_capabilities%}
+- raw capabilities:{%for c in vo.raw_capabilities%} "{{c}}"{%endfor%}{%endif%}{%if vo.comments%}
+- comments:{%for c in vo.comments%} "{{c}}"{%endfor%}{%endif%}{%endfor%}
