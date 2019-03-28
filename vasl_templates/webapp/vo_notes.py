@@ -2,7 +2,6 @@
 # Pokhara, Nepal (DEC/18).
 
 import os
-import pathlib
 import io
 import re
 import logging
@@ -118,8 +117,8 @@ def load_vo_notes(): #pylint: disable=too-many-statements,too-many-locals,too-ma
                     key = "{}:{}".format( extn_id, key )
                 # NOTE: We only do this if we don't already have an HTML version.
                 if not vo_notes.get( vo_type2, {} ).get( nat2, {} ).get( key ):
-                    rel_path = pathlib.PosixPath( fname ).relative_to( dname )
-                    vo_notes[vo_type2][nat2][key] = str(rel_path)
+                    rel_path = os.path.relpath( fname, dname )
+                    vo_notes[vo_type2][nat2][key] = rel_path.replace( "\\", "/" )
 
             elif extn == ".html":
 
@@ -145,10 +144,10 @@ def load_vo_notes(): #pylint: disable=too-many-statements,too-many-locals,too-ma
                     # save it as a vehicle/ordnance note
                     if extn_id:
                         key = "{}:{}".format( extn_id, key )
-                    rel_path = pathlib.PosixPath( os.path.split(fname)[0] ).relative_to( dname )
+                    rel_path = os.path.relpath( os.path.split(fname)[0], dname )
                     vo_notes[ vo_type2 ][ nat2 ][ key ] = _fixup_urls(
                         html_content,
-                        "{{CHAPTER_H}}/" + str(rel_path) + "/"
+                        "{{CHAPTER_H}}/" + rel_path.replace( "\\", "/" ) + "/"
                     )
 
                 else:
@@ -158,10 +157,10 @@ def load_vo_notes(): #pylint: disable=too-many-statements,too-many-locals,too-ma
                         key = "{}:{}".format( extn_id, key )
                     if html_content.startswith( "<p>" ):
                         html_content = html_content[3:].strip()
-                    rel_path = pathlib.PosixPath( os.path.split(fname)[0] ).relative_to( dname )
+                    rel_path = os.path.relpath( os.path.split(fname)[0], dname )
                     ma_notes[ key ] = _fixup_urls(
                         html_content,
-                        "{{CHAPTER_H}}/" + str(rel_path) + "/"
+                        "{{CHAPTER_H}}/" + rel_path.replace( "\\", "/" ) + "/"
                     )
 
         if "multi-applicable" in vo_notes[ vo_type2 ][ nat2 ]:
