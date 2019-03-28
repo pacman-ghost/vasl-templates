@@ -208,6 +208,13 @@ def test_common_vo_notes2( webapp, webdriver ):
         ( "common allied minor vehicle", "vehicles/allied-minor/note/101" ),
     ] )
 
+    # restore "show vehicle/ordnance notes as images"
+    select_menu_option( "user_settings" )
+    elem = find_child( ".ui-dialog.user-settings input[name='vo-notes-as-images']" )
+    assert elem.is_selected()
+    elem.click()
+    click_dialog_button( "OK" )
+
 # ---------------------------------------------------------------------
 
 def test_extra_ma_notes( webapp, webdriver ):
@@ -283,6 +290,31 @@ def test_extra_ma_notes( webapp, webdriver ):
         "Landing Craft",
         ( "B", 'Landing Craft Multi-Applicable Note "B".' ),
     ], transform=extract_ma_notes )
+
+# ---------------------------------------------------------------------
+
+def test_landing_craft_notes( webapp, webdriver ):
+    """Test handling of Landing Craft notes."""
+
+    # initialize
+    init_webapp( webapp, webdriver, scenario_persistence=1,
+        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
+    )
+
+    # load the test scenario
+    load_scenario( {
+        "PLAYER_1": "japanese",
+        "OB_VEHICLES_1": [
+            { "name": "japanese vehicle" },
+            { "name": "Daihatsu" },
+        ],
+    } )
+
+    # check the vehicle notes
+    _check_vo_snippets( 1, "vehicles", [
+        "japanese vehicle: <table width='500'><tr><td>\nJapanese Vehicle Note #2.\n</table>",
+        "Daihatsu: <table width='500'><tr><td>\nLanding Craft Note #2.\n</table>",
+    ] )
 
 # ---------------------------------------------------------------------
 

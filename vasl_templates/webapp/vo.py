@@ -43,7 +43,7 @@ def load_vo_listings():
         "ordnance": _do_load_vo_listings( "ordnance", True, False )
     }
 
-def _do_load_vo_listings( vo_type, merge_common, report ): #pylint: disable=too-many-locals,too-many-branches
+def _do_load_vo_listings( vo_type, merge_common, report ): #pylint: disable=too-many-locals,too-many-branches,too-many-statements
     """Load the vehicle/ordnance listings."""
 
     # locate the data directory
@@ -97,6 +97,11 @@ def _do_load_vo_listings( vo_type, merge_common, report ): #pylint: disable=too-
         # add in any landing craft
         if vo_type == "vehicles":
             for lc in listings.get("landing-craft",[]):
+                # FUDGE! Landing Craft get appended to the vehicles for the Japanese/American/British,
+                # so we need to tag the note numbers so that they refer to the *Landing Craft* note,
+                # not the Japanese/American/British vehicle note.
+                if "note_number" in lc:
+                    lc["note_number"] = "LC {}".format( lc["note_number"] )
                 if lc["name"] in ("Daihatsu","Shohatsu"):
                     listings["japanese"].append( lc )
                 else:

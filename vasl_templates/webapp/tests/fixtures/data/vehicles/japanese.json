@@ -1,6 +1,7 @@
 [
 
 { "name": "japanese vehicle",
+  "note_number": "2",
   "notes": [ "A\u2020<sup>1</sup>" ],
   "id": "ja/v:000"
 }
