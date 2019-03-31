@@ -375,8 +375,10 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     var templ = get_template( template_id, true ) ;
     if ( templ === null )
         return { content: "[error: can't find template]" } ;
-    for ( var incl in gTemplatePack.includes )
-        templ = strReplaceAll( templ, "{{INCLUDE:"+incl+"}}", gTemplatePack.includes[incl] ) ;
+    for ( var key in gTemplatePack.css )
+        templ = strReplaceAll( templ, "{{CSS:"+key+"}}", gTemplatePack.css[key] ) ;
+    for ( key in gTemplatePack.includes )
+        templ = strReplaceAll( templ, "{{INCLUDE:"+key+"}}", gTemplatePack.includes[key] ) ;
     var func ;
     try {
         func = jinja.compile( templ ).render ;
