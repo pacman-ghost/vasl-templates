@@ -13,7 +13,7 @@ from vasl_templates.webapp.vassal import VassalShim
 from vasl_templates.webapp.utils import TempFile, change_extn
 from vasl_templates.webapp import globvars
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, select_menu_option, get_stored_msg, set_stored_msg, set_stored_msg_marker, wait_for
+    init_webapp, refresh_webapp, select_menu_option, get_stored_msg, set_stored_msg, set_stored_msg_marker, wait_for
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, load_scenario_params, \
     assert_scenario_params_complete
 
@@ -41,7 +41,7 @@ def test_full_update( webapp, webdriver ):
 
         # initialize
         control_tests.set_vo_notes_dir( dtype = "test" if enable_vo_notes else None )
-        webdriver.refresh()
+        refresh_webapp( webdriver )
 
         # load the scenario fields
         SCENARIO_PARAMS = {
@@ -345,7 +345,7 @@ def test_legacy_labels( webapp, webdriver ):
 
         # initialize
         control_tests.set_vo_notes_dir( dtype = "test" if enable_vo_notes else None )
-        webdriver.refresh()
+        refresh_webapp( webdriver )
 
         # dump the VASL scenario
         # NOTE: We implemented snippet ID's in v0.5, this scenario is the "Hill 621" example from v0.4.

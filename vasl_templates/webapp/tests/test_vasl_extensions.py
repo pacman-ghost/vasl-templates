@@ -10,7 +10,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.utils import TempFile
-from vasl_templates.webapp.tests.utils import init_webapp, set_player, select_tab, new_scenario, \
+from vasl_templates.webapp.tests.utils import init_webapp, refresh_webapp, set_player, select_tab, new_scenario, \
     find_child, find_children, wait_for_clipboard
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
@@ -212,7 +212,7 @@ def test_kgs_extensions( webapp, webdriver ):
         control_tests.set_vasl_mod( vmod="random",
             extns_dtype = "real" if enable_extns else None
         )
-        webdriver.refresh()
+        refresh_webapp( webdriver )
         set_player( 2, "russian" )
 
         # check the Matilda II(b)

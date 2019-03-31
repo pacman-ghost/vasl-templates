@@ -74,9 +74,25 @@ def init_webapp( webapp, webdriver, **options ):
 
     # load the webapp
     webdriver.get( webapp.url_for( "main", **options ) )
-    wait_for( 5, lambda: find_child("#_page-loaded_") is not None )
+    _wait_for_webapp()
 
     return control_tests
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def refresh_webapp( webdriver ):
+    """Refresh the webapp."""
+    webdriver.refresh()
+    _wait_for_webapp()
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def _wait_for_webapp():
+    """Wait for the webapp to finish initialization."""
+    # FUDGE! The webapp sometimes takes a while to initialize (if we have a NIC active but
+    # no internet connectivity? Is Chrome looking for some update, or something like that?)
+    timeout = 30 if os.name == "nt" else 15
+    wait_for( timeout, lambda: find_child("#_page-loaded_") is not None )
 
 # ---------------------------------------------------------------------
 
