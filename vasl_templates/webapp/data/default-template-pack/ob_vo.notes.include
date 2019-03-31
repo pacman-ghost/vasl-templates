@@ -1,0 +1,6 @@
+{%if vo.extn_id%} &#x2756; {%endif%}
+{%if vo.notes%}
+    {{vo.note_number}}, {{vo.notes | join(", ",true)}}
+{%else%}
+    {{vo.note_number}}
+ {%endif%}

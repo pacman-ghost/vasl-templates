@@ -157,6 +157,12 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         params.VO_TYPE = "Ordnance" ;
         params.VO_TYPES = "Ordnance" ;
     }
+    if ( params.PLAYER_NAME && params.VO_TYPE ) {
+        // NOTE: How long the vehicle/ordnance name can be before we force it to be full-width
+        // depends on how wide the snippet is, which depends on the nationality + vehicle/ordnance type.
+        var max_cap_width = 5 ; // FIXME! We should really calculate this :-/
+        params.MAX_VO_NAME_LEN = ( params.PLAYER_NAME.length + 1 + params.VO_TYPE.length ) - max_cap_width ;
+    }
 
     // set player-specific parameters
     if ( template_id === "ob_vehicles_1" ) {
@@ -367,6 +373,8 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     var templ = get_template( template_id, true ) ;
     if ( templ === null )
         return { content: "[error: can't find template]" } ;
+    for ( var incl in gTemplatePack.includes )
+        templ = strReplaceAll( templ, "{{INCLUDE:"+incl+"}}", gTemplatePack.includes[incl] ) ;
     var func ;
     try {
         func = jinja.compile( templ ).render ;
@@ -387,7 +395,15 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         snippet = func( params, {
             autoEscape: false,
             filters: {
-                join: function(snippet,sep) { return snippet.join(sep) ; }
+                join: function( snippet, sep, nbsp ) {
+                    // nb: we get better results using &nbsp; than <nobr> :shrug:
+                    var vals = [] ;
+                    for ( var i=0 ; i < snippet.length ; ++i )
+                        vals.push( nbsp ? strReplaceAll( snippet[i], " ", "&nbsp;" ) : snippet[i] ) ;
+                    return vals.join( sep ) ;
+                },
+                nobr: function( snippet ) { return "<nobr>" + snippet + "</nobr>" ; },
+                nbsp: function( snippet ) { return strReplaceAll( snippet, " ", "&nbsp;" ) ; },
             } ,
         } ) ;
         snippet = snippet.trim() ;
@@ -706,16 +722,18 @@ function unload_snippet_params( unpack_scenario_date, template_id )
     function get_vo( vo_type, player_no, key, show_warnings ) {
         var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
         var objs = [] ;
-        $sortable2.children( "li" ).each( function() {
+        $sortable2.children( "li" ).each( function( index ) {
             var data = $(this).data( "sortable2-data" ) ;
             var vo_entry = data.vo_entry ;
             var vo_image_id = data.vo_image_id ;
             var elite = data.elite ;
             var obj = {
+                index: index,
                 id: vo_entry.id,
                 seq_id: data.id,
                 image_id: (vo_image_id !== null) ? vo_image_id[0]+"/"+vo_image_id[1] : null,
                 name: vo_entry.name,
+                name_len: vo_entry.name.length,
                 note_number: vo_entry.note_number,
                 notes: vo_entry.notes
             } ;
@@ -737,6 +755,7 @@ function unload_snippet_params( unpack_scenario_date, template_id )
             var capabilities = $(this).data( "sortable2-data" ).custom_capabilities ;
             if ( capabilities ) {
                 obj.capabilities = capabilities ;
+                obj.capabilities_len = capabilities.length ;
                 obj.custom_capabilities = capabilities.slice() ;
             } else {
                 // NOTE: We don't show warnings here; if there's something wrong,
@@ -747,8 +766,10 @@ function unload_snippet_params( unpack_scenario_date, template_id )
                     params.SCENARIO_THEATER, params.SCENARIO_YEAR, params.SCENARIO_MONTH,
                     false
                 ) ;
-                if ( capabilities )
+                if ( capabilities ) {
                     obj.capabilities = capabilities ;
+                    obj.capabilities_len = capabilities.length ;
+                }
             }
             capabilities = make_capabilities(
                 true,
@@ -1693,6 +1714,7 @@ function do_load_template_pack( fname, data )
         nationalities: $.extend( true, {}, gDefaultTemplatePack.nationalities ),
         templates: {},
         css: {},
+        includes: {},
     } ;
 
     // NOTE: We always start with the default extras templates; user-defined template packs
@@ -1717,7 +1739,7 @@ function do_load_template_pack( fname, data )
             return ;
         }
         var extn = getFilenameExtn( fname ) ;
-        if ( [".j2",".css"].indexOf( extn ) === -1 ) {
+        if ( [".j2",".css",".include"].indexOf( extn ) === -1 ) {
             invalid_filename_extns.push( fname ) ;
             return ;
         }
@@ -1725,6 +1747,8 @@ function do_load_template_pack( fname, data )
         var template_id = fname.substring( 0, fname.length-extn.length ).toLowerCase() ;
         if ( extn === ".css" )
             template_pack.css[template_id] = data ;
+        else if ( extn === ".include" )
+            template_pack.includes[template_id] = data ;
         else if ( template_id === "ob_vo" )
             template_pack.templates.ob_vehicles = template_pack.templates.ob_ordnance = data ;
         else if ( template_id === "ob_vo_note" )

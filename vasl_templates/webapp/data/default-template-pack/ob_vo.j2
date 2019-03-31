@@ -6,40 +6,68 @@
 td { margin: 0 ; padding: 0 ; }
 sup { font-size: 75% ; }
 
-.note { margin-top: 2px ; font-size: 90% ; font-style: italic ; color: #808080 ; }
+.note { font-size: 90% ; font-style: italic ; color: #808080 ; }
+.capability {}
 .comment { font-size: 90% ; font-style: italic ; color: #404040 ; }
 </style>
 </head>
 
+{# NOTE: We set a narrow width to stop lots of notes making us very wide. #}
 <table style="
-  {%if OB_VO_WIDTH%} width: {{OB_VO_WIDTH}} ; {%endif%}
+  {%if OB_VO_WIDTH%} width: {{OB_VO_WIDTH}} ; {%else%} width: 1px ; {%endif%}
 ">
 
 <tr>
-<td colspan="2" style="
-  background: {{OB_COLOR}} ;
-  border-bottom: 1px solid {{OB_COLOR_2}} ;
-  padding: 2px 5px ;
-  font-weight: bold ;
-">
-    {%if PLAYER_FLAG%}<img src="{{PLAYER_FLAG}}">&nbsp;{%endif%}{{PLAYER_NAME}} {{VO_TYPES}}
+    <td colspan="2" style="
+      background: {{OB_COLOR}} ;
+      border-bottom: 1px solid {{OB_COLOR_2}} ;
+      padding: 2px 5px 0 5px ;
+      font-weight: bold ;
+    ">
+        <nobr>{%if PLAYER_FLAG%}<img src="{{PLAYER_FLAG}}">&nbsp;{%endif%}{{PLAYER_NAME|nbsp}}&nbsp;{{VO_TYPES}}</nobr>
 
 {%for vo in OB_VO%}
-<tr style="border-bottom:1px dotted #e0e0e0;">
-<td valign="top" style="padding:2px 5px 5px;">
-    <b>{{vo.name}}</b> {%if vo.elite%}&#x24ba;{%endif%}
-    {%if vo.image%} <br> <img src="{{vo.image}}"> {%endif%}
-    <div class="note">
-        {%if vo.extn_id%} &#x2756; {%endif%}
-        {%if vo.notes%}
-            {{vo.note_number}}, {{vo.notes | join(", ")}}
-        {%else%}
-            {{vo.note_number}}
-        {%endif%}
-    </div>
-<td valign="top" style="padding:2px 5px;">
-    {%for cap in vo.capabilities%} <div class="capability"> {{cap}} </div> {%endfor%}
-    {%for cmnt in vo.comments%} <div class="comment"> {{cmnt}} </div> {%endfor%}
+
+{% if vo.index == 0 %}
+    <tr>
+{%else%}
+    <tr style="border-top:1px dotted #e0e0e0;">
+{%endif%}
+
+{% if vo.name_len <= MAX_VO_NAME_LEN %}
+{# NOTE: If the vehicle/ordnance name is short, put the capabilities to the right of it. #}
+        <td valign="top" style="padding:5px 5px 2px 5px;">
+            {{INCLUDE:ob_vo.name}} <br>
+            {{INCLUDE:ob_vo.image}}
+{%else%}
+{# NOTE: If the vehicle/ordnance name is long, put it on its own line, and the capabilities underneath. #}
+        <td colspan="2" valign="top" style="padding:5px 5px 0 5px;">
+            {{INCLUDE:ob_vo.name}}
+    <tr>
+        <td valign="top" style="padding:0 5px 2px 5px;">
+            {{INCLUDE:ob_vo.image}}
+{%endif%}
+
+{% if vo.capabilities_len >= 5 or !vo.image %}
+{# NOTE: If there are a lot of capabilities, tuck the note number & notes under the image. #}
+{# But if there is no image, we always do this, and squeeze them in to the left of the capabilities. #}
+            <div class="note" style="margin-top:5px;">
+                {{INCLUDE:ob_vo.notes}}
+            </div>
+{%endif%}
+
+        <td valign="top" style="padding:5px 5px 2px 5px;">
+            {%for cap in vo.capabilities%} <div class="capability"> {{cap|nobr}} </div> {%endfor%}
+            {%for cmnt in vo.comments%} <div class="comment"> {{cmnt}} </div> {%endfor%}
+
+{% if vo.capabilities_len < 5 and vo.image %}
+{# NOTE: If there are only a few capabilities, let the note number & notes spread full-width. #}
+{# But if there is no image, we never do this (see above). #}
+    <tr>
+        <td class="note" valign="top" colspan="2" style="padding:2px 5px;">
+            {{INCLUDE:ob_vo.notes}}
+{%endif%}
+
 {%endfor%}
 
 </table>

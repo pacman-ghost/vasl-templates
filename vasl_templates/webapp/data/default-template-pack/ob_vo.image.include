@@ -1,0 +1,1 @@
+{%if vo.image%} <img src="{{vo.image}}"> {%endif%}

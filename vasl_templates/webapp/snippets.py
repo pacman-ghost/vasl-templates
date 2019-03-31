@@ -33,7 +33,7 @@ def get_template_pack():
         load_default_template_pack()
     return jsonify( globvars.template_pack )
 
-def load_default_template_pack():
+def load_default_template_pack(): #pylint: disable=too-many-locals
     """Load the default template pack."""
 
     # initialize
@@ -52,7 +52,7 @@ def load_default_template_pack():
     # can add to them, or modify existing ones, but not remove them.
     dname = os.path.join( base_dir, "extras" )
     if os.path.isdir( dname ):
-        _, extra_templates, _ = _do_get_template_pack( dname )
+        _, extra_templates, _, _ = _do_get_template_pack( dname )
         for key,val in extra_templates.items():
             data["templates"]["extras/"+key] = val
 
@@ -67,10 +67,11 @@ def load_default_template_pack():
     # check if we're loading the template pack from a directory
     if os.path.isdir( dname ):
         # yup - return the files in it
-        nat, templates, css =_do_get_template_pack( dname )
+        nat, templates, css, includes =_do_get_template_pack( dname )
         data["nationalities"].update( nat )
         data["templates"] = templates
         data["css"] = css
+        data["includes"] = includes
     else:
         # extract the template pack files from the specified ZIP file
         if not os.path.isfile( dname ):
@@ -98,7 +99,7 @@ def _do_get_template_pack( dname ):
     dname = os.path.abspath( dname )
     if not os.path.isdir( dname ):
         abort( 404 )
-    nationalities, templates, css = {}, {}, {}
+    nationalities, templates, css, includes = {}, {}, {}, {}
     for root,_,fnames in os.walk(dname):
         for fname in fnames:
             # add the next file to the results
@@ -130,7 +131,9 @@ def _do_get_template_pack( dname ):
                         templates[fname_stem] = fp.read()
                 elif extn == ".css":
                     css[fname_stem] = fp.read()
-    return nationalities, templates, css
+                elif extn == ".include":
+                    includes[fname_stem] = fp.read()
+    return nationalities, templates, css, includes
 
 # ---------------------------------------------------------------------
 

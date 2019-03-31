@@ -1,0 +1,1 @@
+<nobr><b>{{vo.name}}</b>&nbsp;{%if vo.elite%}&#x24ba;{%endif%}</nobr>
