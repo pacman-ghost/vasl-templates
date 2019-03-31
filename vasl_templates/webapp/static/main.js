@@ -15,6 +15,7 @@ var NATIONALITY_SPECIFIC_BUTTONS = {
     "german": [ "pf", "psk", "atmm" ],
     "american": [ "baz" ],
     "british": [ "piat" ],
+    "japanese": [ "thh" ],
 } ;
 
 GENERATE_SNIPPET_HINT = "Generate an HTML snippet (shift-click to get an image)." ;

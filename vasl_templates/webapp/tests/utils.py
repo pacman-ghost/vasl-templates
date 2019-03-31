@@ -37,6 +37,7 @@ _NAT_TEMPLATES = {
     "russian": [ "mol", "mol-p" ],
     "american": [ "baz" ],
     "british": [ "piat" ],
+    "japanese": [ "thh" ],
 }
 
 _webapp = None

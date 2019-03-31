@@ -183,6 +183,7 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
         "atmm": [ "german", check_atmm_snippets ],
         "baz": [ "american", check_baz_snippets ],
         "piat": [ "british", "piat template ; col=[OBCOL:british]/[OBCOL-BORDER:british]" ],
+        "thh": [ "japanese", "Banzai!!!" ],
     }
     btn_elems = {
         btn: find_child( "button[data-id='{}']".format( btn ) )

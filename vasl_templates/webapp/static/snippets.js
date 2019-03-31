@@ -359,6 +359,8 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
             showWarningMsg( "BAZ are only available from November 1942." ) ;
         if ( template_id === "atmm" && ! is_atmm_available() )
             showWarningMsg( "ATMM are only available from 1944." ) ;
+        if ( template_id == "thh" && ! params.SCENARIO_YEAR )
+            showWarningMsg( "Can't determine the THH ATMM check dr without the scenario year." ) ;
     }
 
     // add in any extra parameters

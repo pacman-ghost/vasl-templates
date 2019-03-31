@@ -1,0 +1,44 @@
+<html> <!-- vasl-templates:id {{SNIPPET_ID}} -->
+
+<head>
+<meta charset="utf-8">
+<style>
+td { margin: 0 ; padding: 0 ; }
+</style>
+</head>
+
+<table>
+
+<tr>
+<td colspan="3" style="
+  background: {{OB_COLOR}} ;
+  border-bottom: 1px solid {{OB_COLOR_2}} ;
+  padding: 2px 5px ;
+  font-weight: bold ;
+">
+    {%if PLAYER_FLAG%}<img src="{{PLAYER_FLAG}}">&nbsp;{%endif%}Tank-Hunter Heroes
+
+<tr>
+
+<td valign="top" style="padding:2px 0 0 3px;">
+    THH creation: dr &le; 3 (&#9651;)
+    <table style="margin-left:10px;">
+        <tr>
+            <td style="width:20px;"> +2 <td> if Conscript
+        <tr>
+            <td> +1 <td> if HS
+        <tr>
+            <td> -2 <td> if DC Hero
+    </table>
+    original 6 = pinned (unless Banzai Charge)
+
+<tr>
+
+{% if SCENARIO_YEAR %}
+<td valign="top" style="padding:10px 0 0 3px;">
+    ATMM check: dr &le; {%if SCENARIO_YEAR < 1944%} 2 {%else%} 3 {%endif%} (&#9651;)
+{%endif%}
+
+</table>
+
+</html>

@@ -164,9 +164,10 @@ function _generate_snippets()
     for ( var nat in NATIONALITY_SPECIFIC_BUTTONS ) {
         for ( var i=0 ; i < NATIONALITY_SPECIFIC_BUTTONS[nat].length ; ++i ) {
             var template_id = NATIONALITY_SPECIFIC_BUTTONS[nat][i] ;
-            if ( ["pf","atmm"].indexOf( template_id ) !== -1 ) {
-                // NOTE: PF and ATMM are always available as an inherent part of a squad's capabilities (subject to date restrictions),
-                // so we always auto-create these labels, unlike, say MOL or BAZ, which are only present by SSR or OB counter).
+            if ( ["pf","atmm","thh"].indexOf( template_id ) !== -1 ) {
+                // NOTE: PF, ATMM, THH are always available as an inherent part of a squad's capabilities
+                // (subject to date restrictions), so we always auto-create these labels, unlike, say MOL or BAZ,
+                // which are only present by SSR or OB counter).
                 continue ;
             }
             no_autocreate[template_id] = true ;
@@ -291,6 +292,8 @@ function _get_raw_content( snippet_id, $btn, params )
         return [ "PIAT", "Range", "TH#", "B#", "TK#" ] ;
     if ( snippet_id === "baz" )
         return [ "Bazooka", "Range", "TH#" ] ;
+    if ( snippet_id === "thh" )
+        return [ "Tank-Hunter Heroes", "Banzai Charge" ] ;
 
     // handle vehicle/ordnance notes
     // NOTE: These were implemented after we added snippet ID's, so there's no need to support legacy labels.
