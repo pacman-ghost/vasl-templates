@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8">
 <style>
-ul { margin: 0 ; padding-left: 0 ; list-style-image: url("{{IMAGES_BASE_URL}}/bullet.png") ; }
+{{CSS:common}}
+ul#ssr { padding: 0 5px 0 10px ; }
+ul#ssr li { margin-top: 2px ; }
 </style>
 </head>
 
@@ -15,15 +17,14 @@ ul { margin: 0 ; padding-left: 0 ; list-style-image: url("{{IMAGES_BASE_URL}}/bu
 <td style="
   background: #f0f0f0 ;
   border-bottom: 1px solid #c0c0c0 ;
+  padding: 2px 5px ;
 ">
     <b>Scenario Special Rules</b>
 
 <tr>
 <td>
-<ul style="margin:0 0 0 10px;">
-{%for ssr in SSR%}
-    <li> {{ssr}}
-{%endfor%}
+<ul id="ssr">
+{%for ssr in SSR%} <li> {{ssr}} {%endfor%}
 </ul>
 
 </table>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <style>
-td { padding: 5px 10px 5px 10px ; }
+{{CSS:common}}
 </style>
 </head>
 
@@ -13,6 +13,7 @@ td { padding: 5px 10px 5px 10px ; }
 
 <tr>
 <td style="
+  padding: 5px 10px 5px 10px ;
   background: #f0f0f0 ;
   border-bottom: 1px solid #c0c0c0 ;
 ">
@@ -24,7 +25,6 @@ td { padding: 5px 10px 5px 10px ; }
     {%if SCENARIO_DATE%}
         <small><i>({{SCENARIO_MONTH_NAME}} {{SCENARIO_DAY_OF_MONTH_POSTFIX}}, {{SCENARIO_YEAR}})</i></small>
     {%endif%}
-</div>
 
 </table>
 

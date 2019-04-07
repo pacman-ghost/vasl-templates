@@ -126,6 +126,8 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
 
     // add simple parameters
     params.IMAGES_BASE_URL = APP_URL_BASE + gImagesBaseUrl ;
+    if ( gUserSettings["custom-list-bullets"] )
+        params.CUSTOM_LIST_BULLETS = true ;
 
     // set player-specific parameters
     var player_no = get_player_no_for_element( $btn ) ;

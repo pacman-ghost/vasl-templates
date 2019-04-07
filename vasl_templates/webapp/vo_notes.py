@@ -236,9 +236,12 @@ def _make_vo_note_html( vo_note ):
         url_root = url_root[:-1]
 
     # inject the CSS (we do it like this since VASSAL doesn't support <link> :-/)
-    css = globvars.template_pack.get( "css", {} ).get( "ob_vo_note" )
-    if css:
-        vo_note = "<head>\n<style>\n{}\n</style>\n</head>\n\n{}".format( css, vo_note )
+    css = [
+        globvars.template_pack.get( "css", {} ).get( "common", "" ),
+        globvars.template_pack.get( "css", {} ).get( "ob_vo_note", "" ),
+    ]
+    if any( css ):
+        vo_note = "<head>\n<style>\n{}\n</style>\n</head>\n\n{}".format( "\n".join(css), vo_note )
 
     # update any parameters
     vo_note = vo_note.replace( "{{CHAPTER_H}}", url_root+"/chapter-h" )

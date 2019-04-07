@@ -7,8 +7,6 @@ img.piece { float: left ; margin-right: 0.5em ; }
 .header .name { font-weight: bold ; font-style: italic ; }
 
 .content { text-align: justify ; }
-.content p { margin-top: 5px ; }
-.content ul { margin-left: 0 ; padding-left: 25px ; list-style-image: url("{{IMAGES_BASE_URL}}/bullet.png") ; }
 .content li { margin-bottom: 2px ; }
 .content .example { font-size: 90% ; font-style: italic ; }
 .content .rf { font-style: italic ; color: #444 ; }

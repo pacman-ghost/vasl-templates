@@ -279,7 +279,8 @@ def test_latw_update( webapp, webdriver ):
         load_scenario_params( { "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "" } } )
         # NOTE: We changed the MOL-P template (to add custom list bullets), so the snippet is different
         # to when this test was originally written, and so #updated changed from 2 to 3.
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 3, "deleted": 2 } )
+        # NOTE: Same thing happened when we factored out the common CSS into common.css :-/ Sigh...
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 5, "deleted": 2 } )
         _check_vsav_dump( updated_vsav_dump, {
             "pf": "Panzerfaust", "psk": "Panzerschrek", "atmm": "ATMM check:", # nb: the PF label now has a snippet ID
             "mol": "Kindling Attempt:", "mol-p": "TH#", # nb: the MOL label now has a snippet ID
@@ -290,7 +291,7 @@ def test_latw_update( webapp, webdriver ):
         load_scenario_params( {
             "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "12/31/1943" }
         } )
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 1, "deleted": 3 } )
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 2, "deleted": 3 } )
         _check_vsav_dump( updated_vsav_dump, {
             # nb: the PSK/ATMM and MOL-P label are now gone
             "piat": "TH#",

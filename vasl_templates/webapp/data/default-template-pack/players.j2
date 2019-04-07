@@ -2,6 +2,9 @@
 
 <head>
 <meta charset="utf-8">
+<style>
+{{CSS:common}}
+</style>
 </head>
 
 <table style="
@@ -12,10 +15,12 @@
 <td style="font-weight:bold;">
      {%if PLAYER_FLAG_1%}<img src="{{PLAYER_FLAG_1}}">&nbsp;{%endif%}{{PLAYER_1_NAME}}: <br>
      {%if PLAYER_FLAG_2%}<img src="{{PLAYER_FLAG_2}}">&nbsp;{%endif%}{{PLAYER_2_NAME}}:
-<td>
+
+<td style="padding-left:2px;">
     ELR: {{PLAYER_1_ELR}} <br>
     ELR: {{PLAYER_2_ELR}}
-<td>
+
+<td style="padding-left:5px;">
     SAN: {{PLAYER_1_SAN}} <br>
     SAN: {{PLAYER_2_SAN}}
 
