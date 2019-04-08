@@ -8,10 +8,9 @@ img.sortable-reset { vertical-align: middle ; height: 15px ; margin-right: 0.25e
 .sortable li { margin-bottom: 2px ; padding: 5px ; font-size: 90% ; }
 .sortable li:hover { cursor: pointer ; }
 .sortable li.ui-sortable-helper { opacity: 0.8 ; }
-
-.sortable ul ul li { margin-top: -0.75em ; }
-.sortable ul ol li { margin-top: -0.75em ; }
 .sortable li img.snippet { height: 1.25em ; margin: -2px -2px ; padding-left: 1em ; float: right ; }
+
+.sortable ul li, .sortable ol li { margin-top: -0.75em ; } /* nb: tighten up lists in sortable2 entries */
 
 .sortable-hint { width: 100% ; height: calc(100% - 1.5em) ; color: #666 ; }
 .sortable-hint .instructions { margin: 1em 0 0 1em ; font-size: 80% ; font-style: italic ; color: #888 ; }
