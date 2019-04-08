@@ -13,8 +13,8 @@ _logger = logging.getLogger( "vasl_mod" )
 from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import DATA_DIR
 
-SUPPORTED_VASL_MOD_VERSIONS = [ "6.4.0", "6.4.1", "6.4.2", "6.4.3" ]
-SUPPORTED_VASL_MOD_VERSIONS_DISPLAY = "6.4.0-6.4.3"
+SUPPORTED_VASL_MOD_VERSIONS = [ "6.4.0", "6.4.1", "6.4.2", "6.4.3", "6.4.4" ]
+SUPPORTED_VASL_MOD_VERSIONS_DISPLAY = "6.4.0-6.4.4"
 
 warnings = [] # nb: for the test suite
 
@@ -31,7 +31,7 @@ def set_vasl_mod( vmod_fname, msg_store ):
         if globvars.vasl_mod.vasl_version not in SUPPORTED_VASL_MOD_VERSIONS:
             if msg_store:
                 msg_store.warning(
-                    "VASL {} is unsupported.<p>Things might work, but they might not...".format(
+                    "This program has not been tested with VASL {}.<p>Things might work, but they might not...".format(
                         globvars.vasl_mod.vasl_version
                     )
                 )

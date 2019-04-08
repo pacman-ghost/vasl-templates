@@ -79,7 +79,7 @@ and then connect to it in a browser at <tt>http://localhost:5010</tt>.
 <div class="code">
 docker run --rm -it --name vasl-templates \
     -p 5010:5010 \
-    -v /home/pacman-ghost/vasl/vasl-6.4.3.vmod:/data/vasl.vmod \
+    -v /home/pacman-ghost/vasl/vasl-6.4.4.vmod:/data/vasl.vmod \
     vasltemplates/images:latest
 </div>
 If you have Chapter H data, add the following:
@@ -87,7 +87,7 @@ If you have Chapter H data, add the following:
 <p> Then open a browser and connect to the webapp at <tt>http://localhost:5010</tt>.
 <p> Note that some features (e.g. updating a VASL scenario file) may not be available.
 <div class="warning"> If you have SElinux enabled, it may prevent the container from accessing the VASL <tt>.vmod</tt> file, in which case, you can allow access like this:
-<div class="code"> chcon -Rt svirt_sandbox_file_t /home/pacman-ghost/vasl/vasl-6.4.3.vmod </div>
+<div class="code"> chcon -Rt svirt_sandbox_file_t /home/pacman-ghost/vasl/vasl-6.4.4.vmod </div>
 </div>
 
 <h2>Installing a webdriver</h2>
@@ -219,7 +219,7 @@ or a <tt>width</tt> and/or <tt>height</tt> parameter to explicitly set the image
 <li> If you are running the Windows desktop application, open the <em>Server settings</em> dialog from the <em>File</em> menu and configure it there.
 <li> If you are running the web server directly, create a file called <tt>site.cfg</tt> in the <tt>$/config/</tt> directory and configure it there (there is an example file you can rename and edit).
 </ul>
-<div class="info"> You should configure version 6.4.0 thru 6.4.3, of the VASL module. </div>
+<div class="info"> You should configure version 6.4.0 thru 6.4.4, of the VASL module. </div>
 <p> Once you've configured the VASL module, if you want to also show VASL counter images in the OB snippets that you copy in the VASL scenario, turn this on in the <em>User settings</em> dialog from the main application menu.
 <div class="info"> If you turn this feature on, the program must be running every time you load the scenario into VASL. </div>
 
@@ -421,14 +421,14 @@ docker build --tag vasl-templates .
 <div class="code">
 docker run --rm -it --name vasl-templates \
     -p 5010:5010 \
-    -v /home/pacman-ghost/vasl/vasl-6.4.3.vmod:/data/vasl.vmod \
+    -v /home/pacman-ghost/vasl/vasl-6.4.4.vmod:/data/vasl.vmod \
     vasl-templates
 </div>
 <div class="warning"> The "Update VASL scenario" feature is currently not working in a container. </div>
 
 <p> Note that if you have SElinux enabled, it may prevent the container from accessing the VASL <tt>.vmod</tt> file, in which case, you can allow access like this:
 <div class="code">
-chcon -Rt svirt_sandbox_file_t /home/pacman-ghost/vasl/vasl-6.4.3.vmod
+chcon -Rt svirt_sandbox_file_t /home/pacman-ghost/vasl/vasl-6.4.4.vmod
 </div>
 
 <h2> Creating a pre-compiled package </h2>
