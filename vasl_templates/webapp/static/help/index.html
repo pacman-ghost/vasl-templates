@@ -223,6 +223,10 @@ or a <tt>width</tt> and/or <tt>height</tt> parameter to explicitly set the image
 <p> Once you've configured the VASL module, if you want to also show VASL counter images in the OB snippets that you copy in the VASL scenario, turn this on in the <em>User settings</em> dialog from the main application menu.
 <div class="info"> If you turn this feature on, the program must be running every time you load the scenario into VASL. </div>
 
+<h4> Show Chapter H vehicle/ordnance notes as images </h4>
+
+<p> If you have set up the <a href="#" onclick="select_tab('chapterh');">Chapter H vehicle/ordnance notes</a> as HTML, it may not be possible to get the layout you want, since VASSAL's HTML engine is so old. To work around this, this option tells <em>VASL Templates</em> to render the HTML itself (using a modern browser) and send it as an image to VASSAL, which is slower but gives better results.
+
 </div>
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -245,6 +249,10 @@ or a <tt>width</tt> and/or <tt>height</tt> parameter to explicitly set the image
 
 <p> <img src="images/chapter-h/psw-234.1-note74.png" style="float:left;" class="preview"> The vehicle and ordnance notes themselves are stored as image files, so you need to scan your Chapter H pages, and crop each individual note. For example, an image for the German PSW 234/1 can be seen to the left. Right-click on it, download it, and save it on top of <tt>german/vehicles/74.png</tt> (because it's note #74).
 <br clear="all">
+
+<div class="hint"> It is also possible to store the vehicle/ordnance notes as HTML, and while it is significantly more work to set things up this way, it gives much better results. Using the placeholder files from the ZIP above, wherever there is a <tt>.png</tt> file, rename it to have a <tt>.html</tt> extension, and then put the HTML in there.
+    <p> Note that the HTML engine used by VASSAL is ancient and doesn't support floating images, which is needed to format this content in the same way as the ASLRB. To work around this, an option is provided (in the User Settings) to show these vehicle/ordnance notes as images. If this is enabled, the vehicle/ordnance notes will be rendered by the <em>VASL Templates</em> program (using a modern browser), and sent to VASSAL as an image, which is slower but gives the expected layout. If you don't use images in your HTML, you can leave this option disabled, and the raw HTML will be inserted into the VASL scenario, where it will be displayed much more quickly by VASSAL.
+</div>
 
 <h2> Adding Chapter H notes to your VASL scenario </h2>
 
