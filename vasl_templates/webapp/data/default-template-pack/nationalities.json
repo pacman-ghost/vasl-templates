@@ -19,6 +19,14 @@
   "display_name": "British",
   "ob_colors": [ "#f6edda","#e5cea0", "#e5cea0" ]
 },
+"british~canadian": {
+  "display_name": "Canadian",
+  "ob_colors": [ "#f6edda","#e5cea0", "#e5cea0" ]
+},
+"british~newzealand": {
+  "display_name": "New Zealand",
+  "ob_colors": [ "#f6edda","#e5cea0", "#e5cea0" ]
+},
 
 "french": {
   "display_name": "French",

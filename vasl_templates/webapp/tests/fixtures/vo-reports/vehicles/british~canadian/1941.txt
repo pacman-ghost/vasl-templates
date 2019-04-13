@@ -1,0 +1,131 @@
+=== vehicles/british~canadian/1941 ===
+
+Name                       Capabilities                                          (effective)                 #       Notes                                                 Comments
+-------------------------  ----------------------------------------------------  --------------------------  ------  ----------------------------------------------------  ----------
+Mark VIB                   sD6 CS 3                                              sD6 CS 3                    1†      N P
+Mark VIC                   sD6 CS 3                                              sD6 CS 3                    1†      n/a
+Tetrarch                   sD6 CS 3                                              sD6 CS 3                    2†      n/a
+Tetrarch CS                HE9†[1] s†[1] sD6 CS 3                                HE9†[1] s†[1] sD6 CS 3      2†      S†<sup>1</sup>
+Stuart I(a)                sD5 CS 4                                              sD5 CS 4                    3†      A N P
+Stuart III(a)              C6[4+]†[1] HE[4+] sD5 CS 4                            sD5 CS 4                    3†      A C†<sup>1</sup> G N P
+Stuart V(a)                C6†[1] sD5 CS 4                                       C6†[1] sD5 CS 4             4†      A C†<sup>1</sup> G
+Locust(a)                  C6† sD6 CS 3                                          C6† sD6 CS 3                5       A C†
+A9                         sD6 CS 5[brewup]                                      sD6 CS 5[brewup]            6†      K†<sup>1</sup> N
+A9 CS                      s†[2] sD6 CS 5[brewup]                                s†[2] sD6 CS 5[brewup]      6†      K†<sup>1</sup> N S†<sup>2</sup>
+A10 Mk IA                  sD6 CS 5[brewup]†                                     sD6 CS 5[brewup]†           7†      B†<sup>1</sup> K†<sup>2</sup> N
+A10 Mk IA CS               s†[2] sD6 CS 5[brewup]†                               s†[2] sD6 CS 5[brewup]†     7†      K†<sup>1</sup> N S†<sup>2</sup>
+A13 Mk I                   sD6 CS 4[brewup]                                      sD6 CS 4[brewup]            8       K†
+A13 Mk II                  sD6 CS 4[brewup]                                      sD6 CS 4[brewup]            8†      B†<sup>1</sup> K†<sup>2</sup> N
+A13 Mk II CS               s†[2] sD6 CS 4[brewup]                                s†[2] sD6 CS 4[brewup]      8†      K†<sup>1</sup> N S†<sup>2</sup>
+Crusader I                 sM8 CS 5[brewup]                                      sM8 CS 5[brewup]            9†      K†<sup>1</sup> N
+Crusader I CS              HE9 s†[2] sM8 CS 5[brewup]                            HE9 s†[2] sM8 CS 5[brewup]  9†      K†<sup>1</sup> N S†<sup>2</sup>
+Crusader II                sM8 CS 4[brewup]                                      sM8 CS 4[brewup]            9†      K†<sup>1</sup> N
+Crusader II CS             HE9 s†[2] sM8 CS 4[brewup]                            HE9 s†[2] sM8 CS 4[brewup]  9†      K†<sup>1</sup> N S†<sup>2</sup>
+Crusader III               HE7[F3+]†[1] sD7 sM8†[2] CS 3[brewup]                 sD7 sM8†[2] CS 3[brewup]    10†     N Y†<sup>1</sup> Z†<sup>2</sup>
+Grant(a)                   C5[4+]†[1] HE[4+] s8† sM8 CS 6                        s8† sM8 CS 6                11†     A C†<sup>1</sup> G N P
+Lee(a)                     C5[4+]†[1] HE[4+] s8† sD6 CS 7                        s8† sD6 CS 7                11†     A C†<sup>1</sup> G N P
+Sherman II(a)              WP6[J4+]†[3] s8 sD6 CS 5[brewup]                      s8 sD6 CS 5[brewup]         12†     A G K†<sup>2</sup> N R†<sup>1</sup> W†<sup>3</sup>
+Sherman III(a)             WP6[J4+]†[3] s8 sD6 CS 5[brewup]                      s8 sD6 CS 5[brewup]         13†     A G K†<sup>2</sup> N R†<sup>1</sup> W†<sup>3</sup>
+Sherman V(a)               WP6[J4+]†[3] s8 sD6 CS 5[brewup]                      s8 sD6 CS 5[brewup]         14†     A G K†<sup>2</sup> P R†<sup>1</sup> W†<sup>3</sup>
+Sherman IIA(a)             A4[4]5[5] s5[5] sM8 CS 6                              sM8 CS 6                    15†     A G K†<sup>1</sup>
+Sherman IIC(a)             D5[S4]6[5]†[2] HE7 sM8 CS 5[brewup]                   HE7 sM8 CS 5[brewup]        16†     A J†<sup>2</sup> K†<sup>1</sup>
+Sherman VC(a)              D5[S4]6[5]†[2] HE7 sM8 CS 5[brewup]                   HE7 sM8 CS 5[brewup]        16†     A J†<sup>2</sup> K†<sup>1</sup>
+Sherman IB(a)              H9 WP9 s7 sM8 CS 6                                    H9 WP9 s7 sM8 CS 6          17†     A K†<sup>1</sup>
+Centaur IV                 H6 s9 sD7 sM8† CS 5                                   H6 s9 sD7 sM8† CS 5         18      S Z†
+Cromwell IV                WP6 s8 sD7 sM8†[1] CS 5                               WP6 s8 sD7 sM8†[1] CS 5     19†     Z†<sup>1</sup>
+Cromwell VI                H6 s9 sD7 sM8†[1] CS 5                                H6 s9 sD7 sM8†[1] CS 5      20†     S Z†<sup>1</sup>
+Cromwell VII               WP6 s8 sD7 sM8† CS 6                                  WP6 s8 sD7 sM8† CS 6        19†     Z†<sup>1</sup>
+Cromwell VIII              H6 s9 sD7 sM8†[1] CS 6                                H6 s9 sD7 sM8†[1] CS 6      20†     S Z†<sup>1</sup>
+Challenger                 D5[S4]6[5]†[1] HE7 sD7 sM8†[2] CS 6                   HE7 sD7 sM8†[2] CS 6        21†     J†<sup>1</sup> Z†<sup>2</sup>
+Comet                      sD7 sM8† CS 6                                         sD7 sM8† CS 6               22      Z†
+Sherman Dozer(a)           WP6 s8 sD6 CS 5[brewup]                               WP6 s8 sD6 CS 5[brewup]     23†     A G K†<sup>2</sup> P R†<sup>1</sup>
+Sherman Crab(a)            WP6 s8 sD6 CS 5[brewup]                               WP6 s8 sD6 CS 5[brewup]     24†     A G K†<sup>2</sup> P R†<sup>1</sup>
+Matilda I                  ® sD5 CS 2                                            ® sD5 CS 2                  25†     B†<sup>1</sup>
+Matilda II                 sD6 CS 5                                              sD6 CS 5                    26†     B†<sup>1</sup> K†<sup>2</sup> N P
+Matilda II CS              HE9†[2] s†[2] sD6 CS 5                                HE9†[2] s†[2] sD6 CS 5      26†     K†<sup>1</sup> N P S†<sup>2</sup>
+Valentine II               sM8 CS 4                                              sM8 CS 4                    27†     N
+Valentine V                sM8 CS 4                                              sM8 CS 4                    28†     K†<sup>1</sup> N<sup>T</sup>
+Valentine VIII             HE7 sD6 CS 4                                          HE7 sD6 CS 4                29      N<sup>T</sup>
+Valentine XI               WP6 s8 sD8 CS 4                                       WP6 s8 sD8 CS 4             30      n/a
+Churchill I                HE9†[2] s†[2] sD5[4] sM8†[1] CS 7                     HE9†[2] s†[2] sM8†[1] CS 7  31†     N<sup>T</sup> S†<sup>2</sup> Z†<sup>1</sup> CC
+Churchill IV               D6[J4]7[5]†[2] HE7[F3]8[4+]†[1] sD6[4+] sM8†[3] CS 7  sM8†[3] CS 7                32†     J†<sup>2</sup> N Y†<sup>1</sup> Z†<sup>3</sup> CC
+Churchill V                H6 s9 sD7 sM8†[1] CS 7                                H6 s9 sD7 sM8†[1] CS 7      33†     S Z†<sup>1</sup> CC
+Churchill VI               WP6[J4+]†[1] s8 sD7 sM8†[2] CS 7                      s8 sD7 sM8†[2] CS 7         34†     W†<sup>1</sup> Z†<sup>2</sup> CC
+Churchill VII              WP6 s8 sD7 sM8†[1] CS 7                               WP6 s8 sD7 sM8†[1] CS 7     35†     Z†<sup>1</sup> CC
+Churchill VIII             H6 s9 sD7 sM8†[1] CS 7                                H6 s9 sD7 sM8†[1] CS 7      35†     S Z†<sup>1</sup> CC
+Valentine Bridgelayer      sD7 CS 2                                              sD7 CS 2                    36†     M P
+Churchill Bridgelayer      sD7 CS 2                                              sD7 CS 2                    36†     M CC
+Churchill AVRE             no IF sD7 sM8†[1] CS 8                                no IF sD7 sM8†[1] CS 8      37†     Z†<sup>1</sup> CC
+Churchill Crocodile        WP6 s8 sD7 sM8†[1] CS 7                               WP6 s8 sD7 sM8†[1] CS 7     38†     Z†<sup>1</sup> CC
+Deacon                     HE7[F3+]†[2] CS 5                                     CS 5                        39†     L†<sup>1</sup> N Y†<sup>2</sup>
+Wolverine(a)               A5[S4]6[5]†[1] HE7 s5[5] CS 7                         HE7 CS 7                    40†     A J†<sup>1</sup>
+Achilles(a)                D6[S4]7[5]†[1] HE7 CS 7                               HE7 CS 7                    40†     A J†<sup>1</sup>
+Archer                     D6[4]7[5]†[1] HE7 sD7 CS 5                            HE7 sD7 CS 5                41†     J†<sup>1</sup>
+Daimler                    sD4[4+]† CS 2                                         CS 2                        42†     M N P
+Lynx                       sD5 CS 2                                              sD5 CS 2                    42†     L†<sup>1</sup> M P
+Humber                     sD4[4+]† CS 2                                         CS 2                        43†     L†<sup>1</sup> M P BB†<sup>2</sup>
+Stuart Recce               CS 5                                                  CS 5                        44†     A D N<sup>T</sup> P
+Humber III LRC             sD5 CS 3                                              sD5 CS 3                    45†     L†<sup>1</sup> N P Q†<sup>2</sup>
+Otter LRC                  sD5 CS 3                                              sD5 CS 3                    45†     L†<sup>1</sup> P Q†<sup>2</sup>
+Morris CS9                 sD5 CS 4                                              sD5 CS 4                    46†     N Q†<sup>2</sup> T†<sup>3</sup> X†<sup>1</sup>
+Rolls Royce                sD5 CS 3                                              sD5 CS 3                    47†     N Q†<sup>2</sup> T†<sup>3</sup> X†<sup>1</sup>
+Marmon-Herrington II ME    CS 4                                                  CS 4                        48†     L†<sup>1</sup> N Q†<sup>2</sup> T†<sup>3</sup>
+Marmon-Herrington IIv      CS 4                                                  CS 4                        49†     L†<sup>1</sup> N AA†<sup>2</sup>
+Marmon-Herrington III MFF  CS 4                                                  CS 4                        48†     L†<sup>1</sup> P Q†<sup>2</sup>
+Marmon-Herrington III ME   CS 4                                                  CS 4                        48†     L†<sup>1</sup> N Q†<sup>2</sup> T†<sup>3</sup>
+Marmon-Herrington IIIv     CS 4                                                  CS 4                        49†     K†<sup>2</sup> L†<sup>1</sup> N T†<sup>2</sup>
+Humber II                  sD6 CS 3                                              sD6 CS 3                    50†     L†<sup>1</sup> N
+Humber III                 sD6 CS 4                                              sD6 CS 4                    50†     K†<sup>2</sup> L†<sup>1</sup> N P
+Humber IV                  C6[4+]†[2] sD6 CS 3                                   sD6 CS 3                    51†     A C†<sup>2</sup> L†<sup>1</sup> P
+Daimler                    sD6 CS 3                                              sD6 CS 3                    52†     K†<sup>1</sup> N P
+AEC I                      sM8 CS 3                                              sM8 CS 3                    53†     N X†<sup>1</sup>
+AEC II                     D6[J4]7[5]†[2] HE7[3]8[4+]†[1] sM8 CS 4               sM8 CS 4                    53      J†<sup>2</sup> X† Y†<sup>1</sup>
+AEC III                    WP6 s8 sM8 CS 4                                       WP6 s8 sM8 CS 4             53      X†
+Staghound I(a)             C6[4+]†[3] sM8 CS 5                                   sM8 CS 5                    54†     A C†<sup>3</sup> G K†<sup>2</sup> X†<sup>1</sup>
+Staghound II(a)            s9 sD6 CS 4                                           s9 sD6 CS 4                 54†     A K†<sup>3</sup> S†<sup>2</sup> X†<sup>1</sup>
+Bishop                     no IF s8 CS 5                                         no IF s8 CS 5               55†     K†<sup>1</sup> N P
+Priest(a)                  H6 WP7 s8 CS 7                                        H6 WP7 s8 CS 7              56†     A N P
+Sexton(a)                  s8 CS 7                                               s8 CS 7                     57†     A K†<sup>1</sup>
+M3 GMC(a)                  WP7[J4+]†[1] s8 CS 4                                  s8 CS 4                     58†     A N<sup>T</sup> W†<sup>1</sup>
+Mk VI AA                   CS 2                                                  CS 2                        59†     N O†<sup>1</sup> AA†<sup>2</sup>
+Crusader AA                sD7 CS 4[brewup]                                      sD7 CS 4[brewup]            60†     AA†<sup>1</sup>
+M17 MGMC(a)                CS 4                                                  CS 4                        61†     A F† AA†<sup>1</sup>
+Humber AA                  CS 2                                                  CS 2                        62†     L†<sup>1</sup> N O†<sup>2</sup> AA†<sup>3</sup>
+Staghound AA(a)            CS 3                                                  CS 3                        62†     A F† X†<sup>1</sup> AA†<sup>2</sup>
+M5(a)                      cs 5†[1]                                              cs 5†[1]                    63†     A I†<sup>1</sup> N
+M9(a)                      cs 4†[1]                                              cs 4†[1]                    63†     A I†<sup>1</sup> N
+M5A1(a)                    cs 5†                                                 cs 5†                       63      A I†
+M9A1(a)                    cs 4†                                                 cs 4†                       63      A I†
+Carrier A                  sD5[4+]†[1] CS 3                                      CS 3                        64†     N P U†<sup>1</sup>
+Carrier B                  sD5[4+]†[2] CS 3                                      CS 3                        64†     N P Q†<sup>1</sup> U†<sup>2</sup>
+Carrier C                  sD5[4+]†[1] CS 3                                      CS 3                        64†     N P U†<sup>1</sup>
+Carrier, MMG A             sD5[4+]†[2] CS 3                                      CS 3                        65†     N P Q†<sup>1</sup> U†<sup>2</sup>
+Carrier, MMG B             sD5[4+]†[2] CS 4                                      CS 4                        65†     U†<sup>2</sup> BB†<sup>1</sup>
+Carrier, 2-in. MTR         IR[2+]† s7 CS 3                                       s7 CS 3                     66†     N P U†<sup>1</sup>
+Carrier, 3-in. MTR         CS 4[brewup]†[1]                                      CS 4[brewup]†[1]            67†     H†<sup>1</sup> N P U BB†<sup>2</sup>
+Priest Kangaroo(a)         CS 7                                                  CS 7                        68†     A D
+Ram Kangaroo(a)            CS 7                                                  CS 7                        68†     A D K†<sup>1</sup>
+White(a) SC                cs 4†[1]                                              cs 4†[1]                    69†     A I†<sup>1</sup> N
+IP Carrier Mk IIA          CS 4                                                  CS 4                        70†     N P V X†<sup>1</sup>
+IP Carrier Mk IIB          CS 4                                                  CS 4                        70†     N P Q†<sup>2</sup> V X†<sup>1</sup>
+IP Carrier AOV             CS 4                                                  CS 4                        70†     P Q†<sup>1</sup> V X†
+IP Carrier, 3-in. MTR      IR WP7 s8 CS 5[brewup]†                               IR WP7 s8 CS 5[brewup]†     71†[2]  E†<sup>3</sup> H† P V X†<sup>1</sup> BB†<sup>4</sup>
+Wasp                       sD5† CS 3[brewup]                                     sD5† CS 3[brewup]           72†     K†<sup>1</sup> U
+Badger(a)                  CS 3                                                  CS 3                        72†     A K†<sup>1</sup> M
+Buffalo Mk II(a)           sD5† CS 6                                             sD5† CS 6                   73†     A D AA†<sup>1</sup>
+Buffalo Mk IV(a)           sD5† CS 6                                             sD5† CS 6                   73†     A D E†<sup>1</sup> AA†<sup>2</sup>
+Sherman III DD(a)          WP6 s8 sD6 CS 5[brewup]                               WP6 s8 sD6 CS 5[brewup]     74†     A G K†<sup>2</sup> R†<sup>1</sup>
+DUKW(a)                    cs 7†[1]                                              cs 7†[1]                    75†     A D I†<sup>1</sup> P
+Terrapin Mk I              cs 7                                                  cs 7                        76†     D
+2pdr Portee                CS 4†[1]                                              CS 4†[1]                    77†     H†<sup>1</sup> N P
+Morris C9/B                CS 4                                                  CS 4                        78†     P AA†<sup>1</sup>
+Loyd Carrier               cs 5                                                  cs 5                        79†     N P
+Quad FAT                   CS 5[brewup]†                                         CS 5[brewup]†               80†     N P
+15-cwt Truck               cs 5                                                  cs 5                        81†     N P
+30-cwt Lorry               cs 6                                                  cs 6                        82†     N P
+3-Ton Lorry                cs 7                                                  cs 7                        83†     N P
+&#188;-Ton Jeep(a)         cs 2†[1]                                              cs 2†[1]                    84†     A I†<sup>1</sup> N P
+&#190;-Ton Truck(a)        cs 4                                                  cs 4                        85      A N
+1&#189;-Ton Truck(a)       cs 6                                                  cs 6                        85      A N
+2&#189;-Ton Truck(a)       cs 7                                                  cs 7                        85      A N
+7&#189;-Ton Truck(a)       cs 7                                                  cs 7                        85†     A N

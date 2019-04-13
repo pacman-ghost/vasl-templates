@@ -85,7 +85,25 @@ def _do_load_vo_listings( vo_type, merge_common, report ): #pylint: disable=too-
             if vo_id:
                 vo_entries[i] = _copy_vo_entry( vo_entry, vo_index[vo_id] )
 
+    # apply any changes for VASL extensions
+    # NOTE: We do this here, rather than in VaslMod, because VaslMod is a wrapper around a VASL module, and so
+    # only knows about GPID's and counter images, rather than Chapter H pieces and piece ID's (e.g. "ge/v:001").
+    if globvars.vasl_mod:
+        # process each VASL extension
+        vo_index = _make_vo_index( listings )
+        for extn in globvars.vasl_mod.get_extns():
+            _apply_extn_info( listings, extn[0], extn[1], vo_index, vo_type )
+
+    # update nationality variants with the listings from their base nationality
+    for nat in listings:
+        if "~" not in nat:
+            continue
+        base_nat = nat.split( "~" )[0]
+        listings[nat] = listings[base_nat] + listings[nat]
+
     # add in any common vehicles/ordnance and landing craft
+    # NOTE: We do this after updating nationality variants, so that the British variants (i.e. Canada
+    # and New Zealand) don't get the landing craft.
     if merge_common:
         # add in any common Allied/Axis Minor vehicles/ordnance
         for minor_type in ("allied-minor","axis-minor"):
@@ -107,22 +125,6 @@ def _do_load_vo_listings( vo_type, merge_common, report ): #pylint: disable=too-
                 else:
                     listings["american"].append( lc )
                     listings["british"].append( lc )
-
-    # apply any changes for VASL extensions
-    # NOTE: We do this here, rather than in VaslMod, because VaslMod is a wrapper around a VASL module, and so
-    # only knows about GPID's and counter images, rather than Chapter H pieces and piece ID's (e.g. "ge/v:001").
-    if globvars.vasl_mod:
-        # process each VASL extension
-        vo_index = _make_vo_index( listings )
-        for extn in globvars.vasl_mod.get_extns():
-            _apply_extn_info( listings, extn[0], extn[1], vo_index, vo_type )
-
-    # update nationality variants with the listings from their base nationality
-    for nat in listings:
-        if "~" not in nat:
-            continue
-        base_nat = nat.split( "~" )[0]
-        listings[nat] = listings[base_nat] + listings[nat]
 
     return listings
 

@@ -170,9 +170,12 @@ def load_vo_notes(): #pylint: disable=too-many-statements,too-many-locals,too-ma
 
     # update nationality variants with the notes from their base nationality
     for vo_type2 in vo_notes:
-        # FUDGE! The Chinese GMD don't have any vehicles/ordnance of their own, so we have to do this manually.
+        # FUDGE! Some nationalities don't have any vehicles/ordnance of their own, so we have to do this manually.
         if "chinese" in vo_notes[vo_type2]:
             vo_notes[vo_type2]["chinese~gmd"] = vo_notes[vo_type2]["chinese"]
+        if "british" in vo_notes[vo_type2]:
+            vo_notes[vo_type2]["british~canadian"] = vo_notes[vo_type2]["british"]
+            vo_notes[vo_type2]["british~newzealand"] = vo_notes[vo_type2]["british"]
 
     # install the vehicle/ordnance notes
     globvars.vo_notes = { k: dict(v) for k,v in vo_notes.items() }

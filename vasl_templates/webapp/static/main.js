@@ -571,14 +571,27 @@ function install_template_pack( data )
     gTemplatePack = data ;
     init_extras() ;
 
+    // sort the nationalities
+    var nats = Object.keys( gTemplatePack.nationalities ) ;
+    nats.sort( function( lhs, rhs ) {
+        lhs = gTemplatePack.nationalities[lhs].display_name.toUpperCase() ;
+        rhs = gTemplatePack.nationalities[rhs].display_name.toUpperCase() ;
+        if ( lhs < rhs )
+            return -1 ;
+        else if ( lhs > rhs )
+            return +1 ;
+        else
+            return 0 ;
+    } ) ;
+
     // update the player droplists
     var curSel = {
         1: $("select[name='PLAYER_1']").val(),
         2: $("select[name='PLAYER_2']").val()
     } ;
     var buf = [] ;
-    for ( var id in gTemplatePack.nationalities )
-        buf.push( "<option value='" + id + "'>" + get_nationality_display_name(id) + "</option>" ) ;
+    for ( var i=0 ; i < nats.length ; ++i )
+        buf.push( "<option value='" + nats[i] + "'>" + get_nationality_display_name(nats[i]) + "</option>" ) ;
     buf = buf.join( "" ) ;
     for ( var player_no=1 ; player_no <= 2 ; ++player_no ) {
         var $sel = $( "select[name='PLAYER_" + player_no + "']" ) ;
