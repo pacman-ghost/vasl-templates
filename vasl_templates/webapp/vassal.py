@@ -350,10 +350,11 @@ class VassalShim:
             return
         version = VassalShim().get_version()
         if version not in SUPPORTED_VASSAL_VERSIONS:
-            msg_store.warning(
-                "This program has not been tested with VASSAL {}." \
-                "<p>Things might work, but they might not...".format( version )
-            )
+            if msg_store:
+                msg_store.warning(
+                    "This program has not been tested with VASSAL {}." \
+                    "<p>Things might work, but they might not...".format( version )
+                )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
