@@ -33,13 +33,18 @@ def load_vo_notes(): #pylint: disable=too-many-statements,too-many-locals,too-ma
 
     # locate the data directory
     dname = app.config.get( "CHAPTER_H_NOTES_DIR" )
+    if dname:
+        # NOTE: If the Chapter H directory has been configured but is incorrect, we want to keep going,
+        # since this may well happen when running in a container (the directory has to be always configured,
+        # but the user may not have mapped it to a directory outside the container).
+        dname = os.path.abspath( dname )
+        if not os.path.isdir( dname ):
+            logging.warning( "Missing Chapter H directory: %s", dname )
+            dname = None
     if not dname:
         globvars.vo_notes = { "vehicles": {}, "ordnance": {} }
         globvars.vo_notes_file_server = None
         return
-    dname = os.path.abspath( dname )
-    if not os.path.isdir( dname ):
-        raise RuntimeError( "Missing Chapter H directory: {}".format( dname ) )
     file_server = FileServer( dname )
 
     # generate a list of extension ID's
