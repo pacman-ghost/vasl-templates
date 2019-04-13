@@ -167,23 +167,32 @@ def make_snippet_image():
 @app.route( "/flags/<nat>" )
 def get_flag( nat ):
     """Get a flag image."""
-    return _get_small_image(
-        "static/images/flags/", nat,
-        app.config.get( "DEFAULT_FLAG_HEIGHT", 11 )
-    )
+
+    # initialize
+    if not re.search( "^[-a-z~]+$", nat ):
+        abort( 404 )
+    key = "flags:{}".format( nat )
+    height = app.config.get( "DEFAULT_FLAG_HEIGHT", 11 )
+
+    # check if a custom flag has been configured
+    if globvars.template_pack:
+        fname = globvars.template_pack.get( "nationalities", {} ).get( nat, {} ).get( "flag" )
+        if fname:
+            with open( fname, "rb" ) as fp:
+                return _get_small_image( fp, key, height )
+
+    # serve the standard flag
+    fname = os.path.join( "static/images/flags/", nat+".png" )
+    with app.open_resource( fname, "rb" ) as fp:
+        return _get_small_image( fp, key, height )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 _small_image_cache = {}
 _small_image_cache_lock = threading.Lock()
 
-def _get_small_image( base_dir, key, default_height ):
+def _get_small_image( fp, key, default_height ):
     """Get a small image (cached)."""
-
-    # locate the image file
-    if not re.search( "^[-a-z~]+$", key ):
-        abort( 404 )
-    fname = os.path.join( base_dir, key+".png" )
 
     # check how we should resize the image
     # NOTE: Resizing images in the HTML snippets looks dreadful (presumably
@@ -199,19 +208,18 @@ def _get_small_image( base_dir, key, default_height ):
         if cache_key not in _small_image_cache:
 
             # nope - load it
-            with app.open_resource( fname, "rb" ) as fp:
-                img = Image.open( fp )
-                # resize the image
-                height = int( height )
-                if height > 0:
-                    width = img.size[0] / ( float(img.size[1]) / height )
-                    width = int( width + 0.5 )
-                    img = img.resize( (width,height), Image.ANTIALIAS )
-                # add the image to the cache
-                buf = io.BytesIO()
-                img.save( buf, format="PNG" )
-                buf.seek( 0 )
-                _small_image_cache[ cache_key ] = buf.read()
+            img = Image.open( fp )
+            # resize the image
+            height = int( height )
+            if height > 0:
+                width = img.size[0] / ( float(img.size[1]) / height )
+                width = int( width + 0.5 )
+                img = img.resize( (width,height), Image.ANTIALIAS )
+            # add the image to the cache
+            buf = io.BytesIO()
+            img.save( buf, format="PNG" )
+            buf.seek( 0 )
+            _small_image_cache[ cache_key ] = buf.read()
 
         # return the flag image
         img_data =_small_image_cache[ cache_key ]
