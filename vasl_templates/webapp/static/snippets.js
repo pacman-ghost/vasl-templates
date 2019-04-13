@@ -749,6 +749,8 @@ function unload_snippet_params( unpack_scenario_date, template_id )
                 var url = get_vo_image_url( vo_entry, vo_image_id ) ;
                 if ( url )
                     obj.image = APP_URL_BASE + url ;
+                if ( $(this).find( ".vo-entry" ).hasClass( "small-piece" ) )
+                    obj.small_piece = true ;
             }
             // NOTE: It would be nice to have a Jinja2 filter that inserted the raw capabilities or selected
             // the correct one for the scenario date e.g.

@@ -28,25 +28,33 @@
 
 {% if vo.index == 0 %}
     <tr>
+    {% set PADDING_TOP = 2 %}
 {%else%}
     <tr style="border-top:1px dotted #e0e0e0;">
+    {% set PADDING_TOP = 5 %}
 {%endif%}
 
 {% if vo.name_len <= MAX_VO_NAME_LEN %}
 {# NOTE: If the vehicle/ordnance name is short, put the capabilities to the right of it. #}
-        <td valign="top" style="padding:5px 5px 2px 5px;">
+        <td valign="top" style="padding:{{PADDING_TOP}} 5px 2px 5px;">
             {{INCLUDE:ob_vo.name}} <br>
             {{INCLUDE:ob_vo.image}}
+        {% set MAX_CAPABILITIES = 4 %}
 {%else%}
 {# NOTE: If the vehicle/ordnance name is long, put it on its own line, and the capabilities underneath. #}
-        <td colspan="2" valign="top" style="padding:5px 5px 0 5px;">
+        <td colspan="2" valign="top" style="padding:{{PADDING_TOP}} 5px 0 5px;">
             {{INCLUDE:ob_vo.name}}
     <tr>
         <td valign="top" style="padding:0 5px 2px 5px;">
             {{INCLUDE:ob_vo.image}}
+        {% set MAX_CAPABILITIES = 3 %}
 {%endif%}
 
-{% if vo.capabilities_len >= 5 or !vo.image %}
+{% if vo.small_piece %}
+    {% set MAX_CAPABILITIES = MAX_CAPABILITIES - 1 %}
+{%endif%}
+
+{% if vo.capabilities_len > MAX_CAPABILITIES or !vo.image %}
 {# NOTE: If there are a lot of capabilities, tuck the note number & notes under the image. #}
 {# But if there is no image, we always do this, and squeeze them in to the left of the capabilities. #}
             <div class="note" style="margin-top:5px;">
@@ -58,7 +66,7 @@
             {%for cap in vo.capabilities%} <div class="capability"> {{cap|nobr}} </div> {%endfor%}
             {%for cmnt in vo.comments%} <div class="comment"> {{cmnt}} </div> {%endfor%}
 
-{% if vo.capabilities_len < 5 and vo.image %}
+{% if vo.capabilities_len <= MAX_CAPABILITIES and vo.image %}
 {# NOTE: If there are only a few capabilities, let the note number & notes spread full-width. #}
 {# But if there is no image, we never do this (see above). #}
     <tr>
