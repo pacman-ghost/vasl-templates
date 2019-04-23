@@ -4,7 +4,7 @@ import sys
 import os
 
 APP_NAME = "VASL Templates"
-APP_VERSION = "v0.9" # nb: also update setup.py
+APP_VERSION = "v0.10" # nb: also update setup.py
 APP_DESCRIPTION = "Generate HTML for use in VASL scenarios."
 
 if getattr( sys, "frozen", False ):

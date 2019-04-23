@@ -27,7 +27,7 @@ def parse_requirements( fname ):
 
 setup(
     name = "vasl_templates",
-    version = "0.9", # nb: also update constants.py
+    version = "0.10", # nb: also update constants.py
     description = "Create HTML snippets for use in VASL.",
     license = "AGPLv3",
     url = "https://github.com/pacman-ghost/vasl-templates",
