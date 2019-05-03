@@ -365,6 +365,16 @@ function pluralString( n, str1, str2 )
     return (n == 1) ? str1 : str2 ;
 }
 
+function percentString( val )
+{
+    val = Math.round( val ) ;
+    if ( val < 0 )
+        val = 0 ;
+    else if ( val > 100 )
+        val = 100 ;
+    return val + "%" ;
+}
+
 function strReplaceAll( val, searchFor, replaceWith )
 {
     // str.replace() only replaces a single instance!?!? :wtf:

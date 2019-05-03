@@ -103,6 +103,15 @@ $(document).ready( function () {
     var navHeight = $("#tabs .ui-tabs-nav").height() ;
     $("#tabs .ui-tabs-nav a").click( function() { $(this).blur() ; } ) ;
 
+    // initialize ROAR integration
+    $("#search-roar").button( {} )
+        .html( "<img src='" + gImagesBaseUrl + "/search.png'>" )
+        .click( search_roar ) ;
+    $("#go-to-roar").button( {} ).click( go_to_roar_scenario ) ;
+    $("#disconnect-roar").button( {} )
+        .html( "<img src='" + gImagesBaseUrl + "/cross.png'>" )
+        .click( disconnect_roar ) ;
+
     // initialize the scenario theater
     init_select2( $("select[name='SCENARIO_THEATER']"), "5em", false, null ) ;
 
@@ -634,12 +643,7 @@ function on_player_change_with_confirm( player_no )
         return ;
 
     // check if we should confirm this operation
-    var is_empty = true ;
-    $( "#tabs-ob" + player_no + " .sortable" ).each( function() {
-        if ( $(this).children( "li" ).length > 0 )
-            is_empty = false ;
-    } ) ;
-    if ( is_empty ) {
+    if ( is_player_ob_empty( player_no ) ) {
         // nope - just do it
         on_player_change( player_no ) ;
     } else {
@@ -652,6 +656,17 @@ function on_player_change_with_confirm( player_no )
             },
         } ) ;
     }
+}
+
+function is_player_ob_empty( player_no )
+{
+    // check if the specified player's OB is empty
+    var is_empty = true ;
+    $( "#tabs-ob" + player_no + " .sortable" ).each( function() {
+        if ( $(this).children( "li" ).length > 0 )
+            is_empty = false ;
+    } ) ;
+    return is_empty ;
 }
 
 function on_player_change( player_no )
@@ -689,6 +704,9 @@ function on_player_change( player_no )
     $("input[name='OB_VEHICLES_WIDTH_"+player_no+"']").val( "" ) ;
     $( "#ob_ordnance-sortable_" + player_no ).sortable2( "delete-all" ) ;
     $("input[name='OB_ORDNANCE_WIDTH_"+player_no+"']").val( "" ) ;
+
+    // update the ROAR info panel
+    set_roar_scenario( $("input[name='ROAR_ID']").val() ) ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

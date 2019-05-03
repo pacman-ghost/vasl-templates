@@ -36,6 +36,11 @@ def _on_startup():
     from vasl_templates.webapp.vo_notes import load_vo_notes #pylint: disable=cyclic-import
     load_vo_notes()
 
+    # initialize ROAR integration
+    from vasl_templates.webapp.roar import init_roar #pylint: disable=cyclic-import
+    from vasl_templates.webapp.main import startup_msg_store #pylint: disable=cyclic-import
+    init_roar( startup_msg_store )
+
 # ---------------------------------------------------------------------
 
 def _load_config( fname, section ):
@@ -95,6 +100,7 @@ import vasl_templates.webapp.snippets #pylint: disable=cyclic-import
 import vasl_templates.webapp.files #pylint: disable=cyclic-import
 import vasl_templates.webapp.vassal #pylint: disable=cyclic-import
 import vasl_templates.webapp.vo_notes #pylint: disable=cyclic-import
+import vasl_templates.webapp.roar #pylint: disable=cyclic-import
 if app.config.get( "ENABLE_REMOTE_TEST_CONTROL" ):
     print( "*** WARNING: Remote test control enabled! ***" )
     import vasl_templates.webapp.testing #pylint: disable=cyclic-import

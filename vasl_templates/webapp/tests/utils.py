@@ -65,7 +65,8 @@ def init_webapp( webapp, webdriver, **options ):
         .set_vasl_mod( vmod=None, extns_dtype=None ) \
         .set_vassal_engine( vengine=None ) \
         .set_vo_notes_dir( dtype=None ) \
-        .set_user_files_dir( dtype=None )
+        .set_user_files_dir( dtype=None ) \
+        .set_roar_scenario_index( fname="roar-scenario-index.json" )
     if "reset" in options:
         options.pop( "reset" )( control_tests )
 
@@ -260,13 +261,20 @@ def set_template_params( params ): #pylint: disable=too-many-branches
         if elem.tag_name == "select":
             select_droplist_val( Select(elem), val )
         else:
-            elem.clear()
-            if val:
-                elem.send_keys( val )
-                if key == "SCENARIO_DATE":
-                    elem.send_keys( Keys.TAB ) # nb: force the calendar popup to close :-/
-                    wait_for( 5, lambda: find_child("#ui-datepicker-div").value_of_css_property("display") == "none" )
-                    time.sleep( 0.25 )
+            if elem.is_displayed():
+                elem.clear()
+                if val:
+                    elem.send_keys( val )
+                    if key == "SCENARIO_DATE":
+                        elem.send_keys( Keys.TAB ) # nb: force the calendar popup to close :-/
+                        wait_for( 5,
+                            lambda: find_child( "#ui-datepicker-div" ).value_of_css_property( "display" ) == "none"
+                        )
+                        time.sleep( 0.25 )
+            else:
+                # FUDGE! Selenium can't interact with hidden elements, so we do it like this.
+                # However, we don't do this for everything since it doesn't always triggers events.
+                _webdriver.execute_script( "arguments[0].value = arguments[1]", elem, val )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

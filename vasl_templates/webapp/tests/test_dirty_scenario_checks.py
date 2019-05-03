@@ -57,9 +57,12 @@ def test_dirty_scenario_checks( webapp, webdriver ):
         ] if e  )
         if target.tag_name in ("input","textarea"):
             prev_val = target.get_attribute( "value" )
-            target.clear()
             new_val = "01/01/2000" if param == "SCENARIO_DATE" else "changed value"
-            target.send_keys( new_val )
+            if target.is_displayed():
+                target.clear()
+                target.send_keys( new_val )
+            else:
+                webdriver.execute_script( "arguments[0].value = arguments[1]", target, new_val )
             return target, prev_val, new_val
         elif target.tag_name == "select":
             sel = Select( target )
@@ -90,8 +93,11 @@ def test_dirty_scenario_checks( webapp, webdriver ):
         elif param in VEHICLE_ORDNANCE:
             drag_sortable_entry_to_trash( state, 0 )
         elif state[0].tag_name in ("input","textarea"):
-            state[0].clear()
-            state[0].send_keys( state[1] )
+            if state[0].is_displayed():
+                state[0].clear()
+                state[0].send_keys( state[1] )
+            else:
+                webdriver.execute_script( "arguments[0].value = arguments[1]", state[0], state[1] )
         elif state[0].tag_name == "select":
             select_droplist_val( Select(state[0]), state[1] )
         else:

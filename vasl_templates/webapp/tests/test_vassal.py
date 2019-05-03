@@ -52,6 +52,7 @@ def test_full_update( webapp, webdriver ):
                 "SCENARIO_THEATER": "PTO",
                 "SCENARIO_DATE": "12/31/1945",
                 "SCENARIO_WIDTH": "101",
+                "ROAR_ID": "",
                 "PLAYER_1": "russian", "PLAYER_1_ELR": "5", "PLAYER_1_SAN": "4",
                 "PLAYER_2": "german", "PLAYER_2_ELR": "3", "PLAYER_2_SAN": "2",
                 "VICTORY_CONDITIONS": "Just do it!", "VICTORY_CONDITIONS_WIDTH": "102",

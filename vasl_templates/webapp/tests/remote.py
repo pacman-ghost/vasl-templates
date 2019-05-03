@@ -22,6 +22,7 @@ from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp.vasl_mod import set_vasl_mod
 from vasl_templates.webapp import main as webapp_main
 from vasl_templates.webapp import snippets as webapp_snippets
+from vasl_templates.webapp import roar as webapp_roar
 from vasl_templates.webapp import vasl_mod as vasl_mod_module
 
 _logger = logging.getLogger( "control_tests" )
@@ -286,4 +287,17 @@ class ControlTests:
         """Force the default template pack to be reloaded."""
         _logger.info( "Reseting the default template pack." )
         globvars.template_pack = None
+        return self
+
+    def _set_roar_scenario_index( self, fname=None ):
+        """Set the ROAR scenario index file."""
+        if fname:
+            dname = os.path.join( os.path.split(__file__)[0], "fixtures" )
+            fname = os.path.join( dname, fname )
+            _logger.info( "Setting the ROAR scenario index file: %s", fname )
+            with open( fname, "r" ) as fp:
+                with webapp_roar._roar_scenario_index_lock: #pylint: disable=protected-access
+                    webapp_roar._roar_scenario_index = json.load( fp ) #pylint: disable=protected-access
+        else:
+            assert False
         return self

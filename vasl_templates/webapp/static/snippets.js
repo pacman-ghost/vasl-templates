@@ -1294,8 +1294,11 @@ function do_load_scenario_data( params )
                 warnings.push( "Invalid scenario date: " + escapeHTML( params[key] ) ) ;
             }
         }
-        else
+        else {
             $elem.val( params[key] ) ;
+            if ( key === "ROAR_ID" )
+                set_roar_scenario( params[key] ) ;
+        }
         if ( $elem[0].nodeName.toLowerCase() === "select" )
             $elem.trigger( "change" ) ;
         params_loaded[key] = true ;
@@ -1387,6 +1390,8 @@ function do_load_scenario_data( params )
                 set_param( $(this), key ).trigger( "change" ) ;
         } ) ;
     }
+    if ( ! params.ROAR_ID )
+        set_roar_scenario( null ) ;
 
     // look for unrecognized keys
     var buf = [] ;

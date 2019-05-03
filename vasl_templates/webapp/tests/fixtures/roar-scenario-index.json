@@ -1,0 +1,29 @@
+{
+
+"1": { "scenario_id": "TEST 1", "name": "Fighting Withdrawal",
+  "publication": "Beyond Valor",
+  "results": [ [ "Finnish", 200 ], [ "Russian", 300 ] ],
+  "url": "http://test.com/1"
+},
+
+"2": { "scenario_id": "TEST 2", "name": "Whitewash 1",
+  "results": [ [ "American", 10 ], [ "Japanese", 0 ] ],
+  "url": "http://test.com/2"
+},
+
+"3": { "scenario_id": "TEST 3", "name": "Whitewash 2",
+  "results": [ [ "American", 0 ], [ "Japanese", 10 ] ],
+  "url": "http://test.com/3"
+},
+
+"4": { "scenario_id": "TEST 4", "name": "No playings",
+  "results": [ [ "British", 0 ], [ "French", 0 ] ],
+  "url": "http://test.com/4"
+},
+
+"5": { "scenario_id": "TEST 5", "name": "Unknown nationality",
+  "results": [ [ "American", 1 ], [ "Martian", 1 ] ],
+  "url": "http://test.com/5"
+}
+
+}

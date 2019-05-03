@@ -22,6 +22,7 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/ask-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/select-vo-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/edit-vo-dialog.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/select-roar-scenario-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/vassal.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/snippets.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/user-settings-dialog.css')}}" />
@@ -63,6 +64,7 @@
 {%include "select-vo-dialog.html"%}
 {%include "select-vo-image-dialog.html"%}
 {%include "edit-vo-dialog.html"%}
+{%include "select-roar-scenario-dialog.html"%}
 
 {%include "vassal.html"%}
 {%include "snippets.html"%}
@@ -98,6 +100,7 @@ gOrdnanceListingsUrl = "{{url_for('get_ordnance_listings',merge_common=1)}}" ;
 gVehicleNotesUrl = "{{url_for('get_vehicle_notes')}}" ;
 gOrdnanceNotesUrl = "{{url_for('get_ordnance_notes')}}" ;
 gGetVaslPieceInfoUrl = "{{url_for('get_vasl_piece_info')}}" ;
+gGetRoarScenarioIndexUrl = "{{url_for('get_roar_scenario_index')}}" ;
 gUpdateVsavUrl = "{{url_for('update_vsav')}}" ;
 gMakeSnippetImageUrl = "{{url_for('make_snippet_image')}}" ;
 gHelpUrl = "{{url_for('show_help')}}" ;
@@ -110,6 +113,7 @@ gHelpUrl = "{{url_for('show_help')}}" ;
 <script src="{{url_for('static',filename='vo.js')}}"></script>
 <script src="{{url_for('static',filename='vo2.js')}}"></script>
 <script src="{{url_for('static',filename='vassal.js')}}"></script>
+<script src="{{url_for('static',filename='roar.js')}}"></script>
 <script src="{{url_for('static',filename='sortable.js')}}"></script>
 <script src="{{url_for('static',filename='user_settings.js')}}"></script>
 <script src="{{url_for('static',filename='utils.js')}}"></script>

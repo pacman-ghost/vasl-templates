@@ -4,12 +4,13 @@
 
     <fieldset name="scenario" class="tl" style="display:none;"> <legend>S<u>c</u>enario</legend>
         <div id="panel-scenario">
-            <div class='row'>
+            <div class="row">
                 <label for="SCENARIO_NAME">Name:</label>
                 <input name="SCENARIO_NAME" type="text" class="param">
                 <input name="SCENARIO_ID" type="text" class="param" title="Scenario ID">
+                <button id="search-roar" title="Search ROAR"></button>
             </div>
-            <div class='row'>
+            <div class="row">
                 <label for="SCENARIO_LOCATION">Location:</label>
                 <input name="SCENARIO_LOCATION" type="text" class="param">
                 <select name="SCENARIO_THEATER" class="param" title="Scenario theater">
@@ -19,7 +20,7 @@
                     <option value="other">other</option>
                 </select>
             </div>
-            <div class='row'>
+            <div class="row">
                 <label for="SCENARIO_DATE">Date:</label>
                 <input name="SCENARIO_DATE" type="text" size="10" class="param">
                 <span class="spacer"></span>
@@ -28,19 +29,19 @@
                     <button class="generate" data-id="scenario">Snippet</button>
                 </span>
             </div>
-            <div class='row' style="margin-top:0.5em;">
+            <div class="row" style="margin-top:0.5em;">
                 <label></label>
                 <span style='width:9.45em'></span>
                 <label class="header" for="ELR">ELR</label>
                 <label class="header" for="SAN">SAN</label>
             </div>
-            <div class='row'>
+            <div class="row">
                 <label for="PLAYER_1"><u>P</u>layer 1:</label>
                 <select name="PLAYER_1" class="param"></select>
                 <select name="PLAYER_1_ELR" class="param"></select>
                 <select name="PLAYER_1_SAN" class="param"></select>
             </div>
-            <div class='row'>
+            <div class="row">
                 <label for="PLAYER_2">Player 2:</label>
                 <select name="PLAYER_2" class="param"></select>
                 <select name="PLAYER_2_ELR" class="param"></select>
@@ -49,6 +50,17 @@
                 <span class="small">
                     <button class="generate" data-id="players">Snippet</button>
                 </span>
+            </div>
+            <div id="roar-info" class="row" style="display:none;">
+                <button id="go-to-roar">ROAR</button>
+                <input name="ROAR_ID" type="text" size="2" class="param" style="display:none;"> &nbsp;
+                <span class="name player1"></span>&nbsp;<span class="count player1"></span>
+                    &nbsp;
+                    <div class="progressbar player1"><div class="label"></div></div>
+                <div class="progressbar player2"><div class="label"></div></div>
+                    &nbsp;
+                    <span class="name player2"></span>&nbsp;<span class="count player2"></span>
+                <button id="disconnect-roar" title="Unlink from this ROAR scenario."></button>
             </div>
         </div>
     </fieldset>
