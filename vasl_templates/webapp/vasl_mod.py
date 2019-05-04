@@ -165,8 +165,6 @@ class VaslMod:
         if not isinstance( image_paths, list ):
             image_paths = [ image_paths ]
         image_path = image_paths[ index ]
-        if not os.path.splitext( image_path )[1]:
-            image_path += ".gif"
 
         # load the image data
         image_path = os.path.join( "images", image_path )
@@ -182,11 +180,16 @@ class VaslMod:
             if not piece[key]:
                 return 0
             return len(piece[key]) if isinstance( piece[key], list ) else 1
+        def get_image_paths( piece ):
+            """Return the piece's image paths."""
+            paths = piece[ "front_images" ]
+            return paths if isinstance(paths,list) else [paths]
         return {
             p["gpid"]: {
                 "name": p["name"],
                 "front_images": image_count( p, "front_images" ),
                 "back_images": image_count( p, "back_images" ),
+                "paths": get_image_paths( p ),
                 "is_small": p["is_small"],
             }
             for p in self._pieces.values()
@@ -375,11 +378,18 @@ class VaslMod:
                 front_images.pop()
                 assert not back_images
 
-        def delistify( val ): #pylint: disable=missing-docstring
-            if val is None:
+        def tidy_paths( paths ):
+            """Tidy up image paths."""
+            if paths is None:
                 return None
-            return val[0] if len(val) == 1 else val
-        return delistify(front_images), delistify(back_images)
+            assert isinstance( paths, list )
+            # ensure every path has an extension
+            for i,path in enumerate(paths):
+                if not os.path.splitext( path )[1]:
+                    paths[i] += ".gif"
+            # de-listify the paths
+            return paths[0] if len(paths) == 1 else paths
+        return tidy_paths(front_images), tidy_paths(back_images)
 
 # ---------------------------------------------------------------------
 

@@ -48,6 +48,26 @@ def get_startup_msgs():
 
 # ---------------------------------------------------------------------
 
+_APP_CONFIG_DEFAULTS = { # Bodhgaya, India (APR/19)
+    # NOTE: We use HTTP for static images, since VASSAL is already insanely slow loading images (done in serial?),
+    # so I don't even want to think about what it might be doing during a TLS handshake... :-/
+    "ONLINE_IMAGES_URL_BASE": "http://vasl-templates.org/services/static-images",
+    # NOTE: We would rather use https://github.com/vasl-developers/vasl/raw/develop/dist/images/ in the template,
+    # but VASSAL is already so slow to load images, and doing everything twice would make it that much worse :-/
+    "ONLINE_COUNTER_IMAGES_URL_TEMPLATE": "https://raw.githubusercontent.com/vasl-developers/vasl/develop/dist/images/{{PATH}}", #pylint: disable=line-too-long
+    "ONLINE_EXTN_COUNTER_IMAGES_URL_TEMPLATE": "http://vasl-templates.org/services/counter/{{EXTN_ID}}/{{PATH}}",
+}
+
+@app.route( "/app-config" )
+def get_app_config():
+    """Get the application config."""
+    return jsonify( {
+        key: app.config.get( key, default )
+        for key,default in _APP_CONFIG_DEFAULTS.items()
+    } )
+
+# ---------------------------------------------------------------------
+
 @app.route( "/help" )
 def show_help():
     """Show the help page."""

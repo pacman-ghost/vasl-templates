@@ -104,7 +104,9 @@ class ControlTests:
 
     def _set_default_template_pack( self, dname=None ):
         """Set the default template pack."""
-        if dname:
+        if dname == "real":
+            dname = os.path.join( os.path.split(__file__)[0], "../data/default-template-pack" )
+        elif dname:
             dname2 = os.path.join( os.path.split(__file__)[0], "fixtures" )
             dname = os.path.join( dname2, dname )
         _logger.info( "Setting default template pack: %s", dname )

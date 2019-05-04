@@ -77,6 +77,9 @@ def init_webapp( webapp, webdriver, **options ):
     webdriver.get( webapp.url_for( "main", **options ) )
     _wait_for_webapp()
 
+    # reset the user settings
+    webdriver.delete_all_cookies()
+
     return control_tests
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -538,7 +541,7 @@ def wait_for_elem( timeout, elem_id, parent=None ):
     args = { "elem": None }
     def check_elem(): #pylint: disable=missing-docstring
         args["elem"] = find_child( elem_id, parent )
-        return args["elem"] is not None
+        return args["elem"] is not None and args["elem"].is_displayed()
     wait_for( timeout, check_elem )
     return args["elem"]
 

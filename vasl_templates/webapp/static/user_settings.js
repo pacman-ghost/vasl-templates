@@ -2,6 +2,7 @@ gUserSettings = Cookies.getJSON( "user-settings" ) || {} ;
 
 USER_SETTINGS = {
     "date-format": "droplist",
+    "use-online-images": "checkbox",
     "hide-unavailable-ma-notes": "checkbox",
     "include-vasl-images-in-snippets": "checkbox",
     "include-flags-in-snippets": "checkbox",
@@ -20,6 +21,7 @@ function user_settings()
             var func = handlers[ "load_" + USER_SETTINGS[name] ] ;
             func( $elem, gUserSettings[name] ) ;
         }
+        update_ui() ;
     }
 
     function unload_settings() {
@@ -31,6 +33,27 @@ function user_settings()
             settings[name] = func( $elem ) ;
         }
         return settings ;
+    }
+
+    function update_ui() {
+        // update the UI
+        var use_online_images = $( ".ui-dialog.user-settings input[name='use-online-images']" ).prop( "checked" ) ;
+        $( ".ui-dialog.user-settings img.need-localhost.sometimes" ).css(
+            "display", use_online_images ? "none" : "inline-block"
+        ) ;
+        // update the UI
+        var rc = false ;
+        $( ".ui-dialog.user-settings input.need-localhost:checked" ).each( function() {
+            if ( $(this).hasClass( "sometimes" ) ) {
+                if ( ! use_online_images )
+                    rc = true ;
+            }
+            else
+                rc = true ;
+        } ) ;
+        $( ".ui-dialog.user-settings div.need-localhost" ).css(
+            "display", rc ? "block" : "none"
+        ) ;
     }
 
     var handlers = {
@@ -46,10 +69,30 @@ function user_settings()
         dialogClass: "user-settings",
         modal: true,
         width: 440,
-        height: 315,
+        height: 305,
         resizable: false,
         create: function() {
             init_dialog( $(this), "OK", true ) ;
+            // initialize the "this program must be running" warnings
+            $( "input.need-localhost" ).each( function() {
+                var $img = $( "<img src='" + gImagesBaseUrl+"/warning.gif" + "'class='need-localhost'>" ) ;
+                if ( $(this).hasClass( "sometimes" ) )
+                    $img.addClass( "sometimes" ) ;
+                $img.attr( "title", "If you turn this option on, this program must be running\nbefore you load the scenario into VASSAL." ) ;
+                $(this).next().before( $img ) ;
+            } ) ;
+            var $btn_pane = $(".ui-dialog.user-settings .ui-dialog-buttonpane") ;
+            $btn_pane.prepend( $(
+                "<div class='need-localhost'><img src='" + gImagesBaseUrl+"/warning.gif" + "'>" +
+                "This program must be running before<br>you load the scenario into VASSAL.</div>"
+            ) ) ;
+            // install handlers to keep the UI updated
+            for ( var name in USER_SETTINGS ) {
+                if ( USER_SETTINGS[name] === "checkbox" ) {
+                    var $elem = $( ".ui-dialog.user-settings [name='" + name + "']" ) ;
+                    $elem.click( update_ui ) ;
+                }
+            }
         },
         open: function() {
             on_dialog_open( $(this) ) ;

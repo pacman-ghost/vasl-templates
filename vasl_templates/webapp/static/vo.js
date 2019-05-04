@@ -21,7 +21,7 @@ function add_vo( vo_type, player_no )
         if ( is_small_vasl_piece( vo_entry ) )
             div_class += " small-piece" ;
         var buf2 = [ "<div class='" + div_class + "' data-index='" + opt.id + "'>",
-            "<img src='" + get_vo_image_url(vo_entry,null,true) + "' class='vasl-image'>",
+            "<img src='" + get_vo_image_url(vo_entry,null,true,false) + "' class='vasl-image'>",
             "<div class='content'><div>",
             vo_entry.name,
             vo_entry.type ? "&nbsp;<span class='vo-type'>("+vo_entry.type+")</span>" : "",
@@ -230,7 +230,7 @@ function update_vo_sortable2_entry( $entry, snippet_params )
     }
 
     // update the vehicle/ordnance's sortable2 entry
-    var url = get_vo_image_url( vo_entry, vo_image_id, true ) ;
+    var url = get_vo_image_url( vo_entry, vo_image_id, true, false ) ;
     var $content = $entry.children( ".vo-entry" ) ;
     $content.find( "img.vasl-image" ).attr( "src", url ) ;
     var name = vo_entry.name ;
@@ -318,7 +318,7 @@ function on_select_vo_image( $btn, on_ok ) {
         for ( var i=0 ; i < vo_images.length ; ++i ) {
             var $elem = $( "<img data-index='" + i + "'>" )
                 .bind( "load", on_image_loaded )
-                .attr( "src", get_vo_image_url( null, vo_images[i], true ) ) ;
+                .attr( "src", get_vo_image_url( null, vo_images[i], true, false ) ) ;
             $images.append( $elem ) ;
         }
 
@@ -344,7 +344,7 @@ function on_select_vo_image( $btn, on_ok ) {
         // handle image selection
         $images.children( "img" ).click( function() {
             vo_image_id = vo_images[ $(this).data("index") ] ;
-            $img.attr( "src", get_vo_image_url(null,vo_image_id,true) ) ;
+            $img.attr( "src", get_vo_image_url(null,vo_image_id,true,false) ) ;
             $img.data( "vo-image-id", vo_image_id ) ;
             $dlg.dialog( "close" ) ;
             if ( on_ok )
@@ -379,18 +379,64 @@ function _find_vo_image_id( vo_images, vo_image_id )
     return -1 ;
 }
 
-function get_vo_image_url( vo_entry, vo_image_id, allow_missing_image )
+function get_vo_image_url( vo_entry, vo_image_id, allow_missing_image, for_snippet )
 {
-    if ( vo_image_id )
-        return "/counter/" + vo_image_id[0] + "/front/" + vo_image_id[1] ;
-    else {
+    // generate the image URL for the specified vehicle/ordnance
+    var gpid, index=null ;
+    if ( vo_image_id ) {
+        gpid = vo_image_id[0] ;
+        index = vo_image_id[1] ;
+    } else {
         // no V/O image ID was provided, just use the first available image
-        if ( $.isArray( vo_entry.gpid ) )
-            return "/counter/" + vo_entry.gpid[0] + "/front" ;
-        if ( vo_entry.gpid )
-            return "/counter/" + vo_entry.gpid + "/front" ;
+        gpid = $.isArray( vo_entry.gpid ) ? vo_entry.gpid[0] : vo_entry.gpid ;
     }
-    return allow_missing_image ? gImagesBaseUrl + "/missing-image.png" : null ;
+    if ( gpid ) {
+        if ( for_snippet && gUserSettings["use-online-images"] )
+            return make_online_counter_image_url( gpid, index ) ;
+        else
+            return make_local_counter_image_url( gpid, index ) ;
+    }
+
+    // couldn't find an image
+    if ( allow_missing_image ) {
+        if ( for_snippet && gUserSettings["use-online-images"] )
+            return gAppConfig.ONLINE_IMAGES_URL_BASE + "/missing-image.png" ;
+        else
+            return gImagesBaseUrl + "/missing-image.png" ;
+    }
+    return null ;
+}
+
+function make_local_counter_image_url( gpid, index )
+{
+    url = APP_URL_BASE + "/counter/" + gpid + "/front" ;
+    if ( index !== null )
+        url += "/" + index ;
+    return url ;
+}
+
+function make_online_counter_image_url( gpid, index )
+{
+    // check if we have a piece from the core VASL module or an extension
+    var url, extn_id ;
+    var pos = gpid.toString().indexOf( ":" ) ;
+    if ( pos === -1 )
+        url = gAppConfig.ONLINE_COUNTER_IMAGES_URL_TEMPLATE ;
+    else {
+        url = gAppConfig.ONLINE_EXTN_COUNTER_IMAGES_URL_TEMPLATE ;
+        extn_id = gpid.substr( 0, pos ) ;
+    }
+
+    // generate the URL
+    url = strReplaceAll( url, "{{GPID}}", gpid ) ;
+    if ( index === null )
+        index = 0 ;
+    url = strReplaceAll( url, "{{INDEX}}", index ) ;
+    url = strReplaceAll( url, "{{PATH}}", gVaslPieceInfo[gpid].paths[index] ) ;
+    if ( extn_id )
+        url = strReplaceAll( url, "{{EXTN_ID}}", extn_id ) ;
+
+    return url ;
 }
 
 function is_small_vasl_piece( vo_entry )

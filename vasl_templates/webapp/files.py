@@ -6,7 +6,7 @@ import urllib.request
 import urllib.parse
 import mimetypes
 
-from flask import send_file, send_from_directory, jsonify, redirect, url_for, abort
+from flask import send_file, send_from_directory, jsonify, redirect, url_for, abort, render_template
 
 from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.utils import resize_image_response, is_empty_file
@@ -99,3 +99,14 @@ def get_vasl_piece_info():
 
     # return the VASL piece info
     return jsonify( globvars.vasl_mod.get_piece_info() )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+@app.route( "/counter-image-urls/<nat>/<vo_type>" )
+def get_counter_image_urls( nat, vo_type ):
+    """Get the URL's for each counter image (for testing porpoises)."""
+    return render_template( "counter-image-urls.html",
+        NATIONALITY = nat,
+        VO_TYPE = vo_type,
+        VO_TYPE0 = vo_type[:-1] if vo_type.endswith("s") else vo_type,
+    )

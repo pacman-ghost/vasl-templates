@@ -3,22 +3,22 @@
 "2474": {
     "expected": {
         "name": "Goliath",
-        "front_images": [ "ge/gegol", "ge/gegolb" ],
+        "front_images": [ "ge/gegol.gif", "ge/gegolb.gif" ],
         "back_images": null
     },
     "updated": {
-        "front_images": "ge/gegol"
+        "front_images": "ge/gegol.gif"
     }
 },
 
 "1555": {
     "expected": {
         "name": "2pdr Portee",
-        "front_images": "br/vehicles/portee",
-        "back_images": [ "br/vehicles/portee", "br/vehicles/portee0" ]
+        "front_images": "br/vehicles/portee.gif",
+        "back_images": [ "br/vehicles/portee.gif", "br/vehicles/portee0.gif" ]
     },
     "updated": {
-        "front_images": [ "br/vehicles/portee", "br/vehicles/portee0" ],
+        "front_images": [ "br/vehicles/portee.gif", "br/vehicles/portee0.gif" ],
         "back_images": null
     }
 },
@@ -26,34 +26,34 @@
 "3463": {
     "expected": {
         "name": "75L AA 75/46",
-        "front_images": [ "it/gun/itAA7546", "it/gun/itAA7546b" ],
-        "back_images": [ "it/gun/itAA7546b", "it/gun/itAA7546lb" ]
+        "front_images": [ "it/gun/itAA7546.gif", "it/gun/itAA7546b.gif" ],
+        "back_images": [ "it/gun/itAA7546b.gif", "it/gun/itAA7546lb.gif" ]
     },
     "updated": {
-        "front_images": "it/gun/itAA7546",
-        "back_images": "it/gun/itAA7546b"
+        "front_images": "it/gun/itAA7546.gif",
+        "back_images": "it/gun/itAA7546b.gif"
     }
 },
 
 "3776": {
     "expected": {
         "name": "37* INF Skoda IG",
-        "front_images": [ "ax/gun/buIN37s", "ax/gun/buIN37s2" ],
-        "back_images": "ax/gun/buIN37sb"
+        "front_images": [ "ax/gun/buIN37s.gif", "ax/gun/buIN37s2.gif" ],
+        "back_images": "ax/gun/buIN37sb.gif"
     },
     "updated": {
-        "front_images": "ax/gun/buIN37s"
+        "front_images": "ax/gun/buIN37s.gif"
     }
 },
 
 "3777": {
     "expected": {
         "name": "70* INF Skoda IG",
-        "front_images": [ "ax/gun/buIN37s", "ax/gun/buIN37s2" ],
-        "back_images": "ax/gun/buIN37sb"
+        "front_images": [ "ax/gun/buIN37s.gif", "ax/gun/buIN37s2.gif" ],
+        "back_images": "ax/gun/buIN37sb.gif"
     },
     "updated": {
-        "front_images": "ax/gun/buIN37s2"
+        "front_images": "ax/gun/buIN37s2.gif"
     }
 },
 
@@ -104,8 +104,8 @@
 "adf:1824": {
     "expected": {
         "name": "37L AT PTP obr. 30",
-        "front_images": "ru/gun/ruAT37L",
-        "back_images": "ru/gun/ruAT37Lb"
+        "front_images": "ru/gun/ruAT37L.gif",
+        "back_images": "ru/gun/ruAT37Lb.gif"
     },
     "updated": {
         "front_images": "ru/gun/ru37LPTPobr30.png"
@@ -114,8 +114,8 @@
 "adf:1822": {
     "expected": {
         "name": "37* INF PP obr. 15R",
-        "front_images": "ru/gun/ruINF37s",
-        "back_images": "ru/gun/ruINF37sb"
+        "front_images": "ru/gun/ruINF37s.gif",
+        "back_images": "ru/gun/ruINF37sb.gif"
     },
     "updated": {
         "front_images": "ru/gun/ru37PPobr15R.png"
@@ -124,8 +124,8 @@
 "adf:1823": {
     "expected": {
         "name": "76* INF PP obr. 27",
-        "front_images": "ru/gun/ruINF76s",
-        "back_images": "ru/gun/ruINF76sb"
+        "front_images": "ru/gun/ruINF76s.gif",
+        "back_images": "ru/gun/ruINF76sb.gif"
     },
     "updated": {
         "front_images": "ru/gun/ru76PPobr27.png"

@@ -287,7 +287,9 @@ class VassalShim:
         args2.extend( args[1:] )
 
         # figure out how long to the let the VASSAL shim run
-        timeout = int( app.config.get( "VASSAL_SHIM_TIMEOUT", 120 ) )
+        # NOTE: This used to be 2 minutes, but adding the ability to load images from the internet
+        # slows the process down, since VASSAL loads images insanely slowly :-/
+        timeout = int( app.config.get( "VASSAL_SHIM_TIMEOUT", 5*60 ) )
         if timeout <= 0:
             timeout = None
 

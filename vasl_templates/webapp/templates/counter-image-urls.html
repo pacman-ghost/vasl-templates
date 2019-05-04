@@ -1,0 +1,121 @@
+<!doctype html> <!-- NOTE: For testing porpoises only! -->
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<title> Counter image URL's ({{NATIONALITY}}) </title>
+<style>
+th, td { text-align: left ; vertical-align: top ; padding-right: 1em ; }
+th { background: #eee ; }
+td { border-bottom: 1px solid #eee ; font-size: 90% ; }
+</style>
+</head>
+
+<body>
+<div id="results" style="display:none;"></div>
+</body>
+
+<script src="{{url_for('static',filename='jquery/jquery-3.3.1.min.js')}}"></script>
+<script src="{{url_for('static',filename='vo.js')}}"></script>
+<script src="{{url_for('static',filename='utils.js')}}"></script>
+
+<script>
+APP_URL_BASE = window.location.origin ;
+gAppConfig = null ;
+gVaslPieceInfo = null ;
+
+$(document).ready( function () {
+
+    // initialize
+    var counter_image_urls ;
+    var on_load_counter = 3 ;
+    function on_data_loaded() {
+        if ( --on_load_counter == 0 )
+            show_counter_image_urls( counter_image_urls ) ;
+    }
+
+    // get the app config
+    $.getJSON( "{{url_for('get_app_config')}}", function(data) {
+        gAppConfig = data ;
+        on_data_loaded() ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        alert( "Can't get the application config:\n\n" + errorMsg ) ;
+    } ) ;
+
+    // get the VASL piece info
+    $.getJSON( "{{url_for('get_vasl_piece_info')}}", function(data) {
+        gVaslPieceInfo = data ;
+        on_data_loaded() ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        alert( "Can't get the VASL piece info:\n\n" + errorMsg ) ;
+    } ) ;
+
+    // get the vehicle/ordnance listings
+    var url ;
+    if ( "{{VO_TYPE}}" == "ordnance" )
+        url = "{{url_for( 'get_ordnance_listings', report=1 )}}" ;
+    else
+        url = "{{url_for( 'get_vehicle_listings', report=1 )}}" ; // nb: includes landing craft
+    url += "&merge_common=1" ;
+    $.getJSON( url, function(data) {
+        counter_image_urls = data[ "{{NATIONALITY}}" ] ;
+        on_data_loaded() ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        alert( "Can't get the {{VO_TYPE0}} listings:\n\n" + errorMsg ) ;
+    } ) ;
+} ) ;
+
+function show_counter_image_urls( counters )
+{
+    // initialize
+    if ( ! counters )
+        counters = [] ;
+    var buf = [] ;
+    buf.push( "<table>" ) ;
+    buf.push( "<tr>", "<th>ID", "<th>Name", "<th>GPID", "<th>Local URL's", "<th>Online URL's" ) ;
+
+    // process each counter
+    for ( var i=0 ; i < counters.length ; ++i ) {
+
+        var counter = counters[i] ;
+        buf.push( "<tr>",
+            "<td>", counter.id,
+            "<td>", counter.name,
+        ) ;
+
+        // process each counter variant
+        var gpids = $.isArray( counter.gpid ) ? counter.gpid : [ counter.gpid ] ;
+        var gpids2=[] , local_urls=[] , online_urls=[] ;
+        for ( var j=0 ; j < gpids.length ; ++j ) {
+
+            if ( gpids[j] === null || [7140,7146].indexOf( gpids[j] ) !== -1 ) {
+                buf.push( "<td>", "<td>", "<td>" ) ;
+                continue ;
+            }
+            gpids2.push( gpids[j] ) ;
+
+            // NOTE: We don't handle the case where there are multiple images available for a GPID,
+            // but this happens so infrequently, we can live with it (see expected-multiple-images.json).
+            var index = 0 ;
+
+            // generate the counter image URL's
+            var url = make_local_counter_image_url( gpids[j], index ) ;
+            local_urls.push( "<a href='" + url + "' target='_blank'>" + url + "</a>" ) ;
+            url = make_online_counter_image_url( gpids[j], index ) ;
+            online_urls.push( "<a href='" + url + "' target='_blank'>" + url + "</a>" ) ;
+        }
+
+        buf.push(
+            "<td>", gpids2.join( "<br>" ),
+            "<td>", local_urls.join( "<br>" ),
+            "<td>", online_urls.join( "<br>" ),
+        ) ;
+    }
+
+    buf.push( "</table>" ) ;
+    $("#results").html( buf.join("") ).show() ;
+}
+
+</script>
+
+</html>

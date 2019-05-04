@@ -284,6 +284,18 @@ def test_vo_notes_as_images( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+def set_user_settings( opts ):
+    """Configure the user settings."""
+    select_menu_option( "user_settings" )
+    for key,val in opts.items():
+        assert isinstance( val, bool ) # nb: we currently only support checkboxes
+        elem = find_child( ".ui-dialog.user-settings input[name='{}']".format( key ) )
+        if (val and not elem.is_selected()) or (not val and elem.is_selected()):
+            elem.click()
+    click_dialog_button( "OK" )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 def _check_cookies( webdriver, name, expected ):
     """Check that a user setting was stored in the cookies correctly."""
     cookies = [ c for c in webdriver.get_cookies() if c["name"] == "user-settings" ]

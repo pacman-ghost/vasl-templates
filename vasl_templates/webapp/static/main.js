@@ -1,5 +1,6 @@
 APP_URL_BASE = window.location.origin ;
 
+gAppConfig = {} ;
 gDefaultTemplatePack = null ;
 gTemplatePack = {} ;
 gValidTemplateIds = [] ;
@@ -198,7 +199,7 @@ $(document).ready( function () {
     function format_player_droplist_item( opt ) {
         if ( ! opt.id )
             return opt.text ;
-        var url = make_player_flag_url( opt.id ) ;
+        var url = make_player_flag_url( opt.id, false ) ;
         return $( "<div style='display:flex;align-items:center;'>" +
             "<img src='" + url + "' style='height:0.9em;margin-right:0.25em;'>" +
             " " + opt.text +
@@ -240,6 +241,14 @@ $(document).ready( function () {
         ).html( buf ) ;
         $sel.data( "select2" ).$results.css( "max-height", "15em" ) ;
     }
+
+    // get the application config
+    $.getJSON( gAppConfigUrl, function(data) {
+        gAppConfig = data ;
+        update_page_load_status( "app-config" ) ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        showErrorMsg( "Can't get the application config:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+    } ) ;
 
     // get the vehicle/ordnance listings
     $.getJSON( gVehicleListingsUrl, function(data) {
@@ -452,7 +461,7 @@ function init_snippet_button( $btn )
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 gPageLoadStatus = [
-    "main",
+    "main", "app-config",
     "vehicle-listings", "ordnance-listings", "reset-scenario",
     "vehicle-notes", "ordnance-notes",
     "vasl-piece-info", "template-pack", "default-scenario"
@@ -519,7 +528,7 @@ function update_page_load_status( id )
         // preload the flag images (so that the player droplist renders immediately)
         for ( var nat in gTemplatePack.nationalities ) {
             $("body").append( $(
-                "<img src='" + make_player_flag_url(nat) + "' style='display:none;'>"
+                "<img src='" + make_player_flag_url(nat,false) + "' style='display:none;'>"
             ) ) ;
         }
     }
@@ -716,7 +725,7 @@ function update_ob_tab_header( player_no )
     // update the OB tab header for the specified player
     var player_nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
     var display_name = get_nationality_display_name( player_nat ) ;
-    var image_url = make_player_flag_url( player_nat ) ;
+    var image_url = make_player_flag_url( player_nat, false ) ;
     var $elem = $( "#tabs .ui-tabs-nav a[href='#tabs-ob" + player_no + "']" ) ;
     $elem.html(
         "<img src='" + image_url + "'>&nbsp;" +

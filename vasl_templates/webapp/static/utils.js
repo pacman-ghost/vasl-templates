@@ -33,8 +33,11 @@ function get_player_colors_for_element( $elem )
     return get_player_colors( player_no ) ;
 }
 
-function make_player_flag_url( player_nat ) {
-    return APP_URL_BASE + "/flags/" + player_nat ;
+function make_player_flag_url( nat, for_snippet ) {
+    if ( for_snippet && gUserSettings["use-online-images"] )
+        return gAppConfig.ONLINE_IMAGES_URL_BASE + "/flags/" + nat + ".png" ;
+    else
+        return APP_URL_BASE + "/flags/" + nat ;
 }
 
 function get_player_no_for_element( $elem )
@@ -334,7 +337,7 @@ function add_flag_to_dialog_titlebar( $dlg, player_no )
     if ( ! player_nat )
         return ;
     var $titlebar = $dlg.dialog( "instance" ).uiDialogTitlebar ;
-    var url = make_player_flag_url( player_nat ) ;
+    var url = make_player_flag_url( player_nat, false ) ;
     $titlebar.find( ".ui-dialog-title" ).prepend(
         $( "<img src='" + url + "' class='flag'>" )
     ).css( { display: "flex", "align-items": "center" } ) ;

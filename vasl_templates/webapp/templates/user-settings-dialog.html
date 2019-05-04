@@ -6,21 +6,18 @@
         <option value="dd/mm/yy">DD/MM/YYYY</option>
         <option value="yy-mm-dd">YYYY-MM-DD</option>
     </select>
-
-    <div style="margin-top:0.5em;">
-    <input type="checkbox" name="hide-unavailable-ma-notes">&nbsp;Hide unavailable multi-applicable notes <br>
+    <div style="margin-top:0.25em;">
+        <input type="checkbox" name="hide-unavailable-ma-notes"> Hide unavailable multi-applicable notes <br>
     </div>
 
-    <fieldset> <legend> Provide services to VASL </legend>
-        <div class="run-as-server-note">
-            <img src="{{url_for('static',filename='images/info.gif')}}">
-            If you enable any of these options, this program must be running before you load the scenario in VASL.
-        </div>
-        <input type="checkbox" name="include-vasl-images-in-snippets">&nbsp;Include VASL counter images in snippets <br>
-        <input type="checkbox" name="include-flags-in-snippets">&nbsp;Include flags in snippets <br>
-        <input type="checkbox" name="custom-list-bullets">&nbsp;Use custom list bullets <br>
-        <div style="height:0.25em;"> &nbsp; </div>
-        <input type="checkbox" name="vo-notes-as-images">&nbsp;Show Chapter H vehicle/ordnance notes as images
+    <fieldset> <legend> Images in scenarios </legend>
+        <input type="checkbox" name="use-online-images"> Get images from the internet <br>
+        <div style="height:0.25em;"></div>
+        <input type="checkbox" name="include-vasl-images-in-snippets" class="need-localhost sometimes"> Include VASL counter images in snippets <br>
+        <input type="checkbox" name="include-flags-in-snippets" class="need-localhost sometimes"> Include flags in snippets <br>
+        <input type="checkbox" name="custom-list-bullets" class="need-localhost sometimes"> Use custom list bullets <br>
+        <div style="height:0.25em;"></div>
+        <input type="checkbox" name="vo-notes-as-images" class="need-localhost"> Show Chapter H vehicle/ordnance notes as images <br>
     </fieldset>
 
 </div>

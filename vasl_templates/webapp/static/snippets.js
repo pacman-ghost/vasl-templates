@@ -125,7 +125,9 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     var snippet_save_name = null ;
 
     // add simple parameters
-    params.IMAGES_BASE_URL = APP_URL_BASE + gImagesBaseUrl ;
+    params.IMAGES_BASE_URL = gUserSettings["use-online-images"] ?
+        gAppConfig.ONLINE_IMAGES_URL_BASE :
+        APP_URL_BASE + gImagesBaseUrl ;
     if ( gUserSettings["custom-list-bullets"] )
         params.CUSTOM_LIST_BULLETS = true ;
 
@@ -137,7 +139,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         params.OB_COLOR = colors[0] ;
         params.OB_COLOR_2 = colors[2] ;
         if ( gUserSettings["include-flags-in-snippets"] )
-            params.PLAYER_FLAG = make_player_flag_url( get_player_nat( player_no ) ) ;
+            params.PLAYER_FLAG = make_player_flag_url( get_player_nat(player_no), true ) ;
     }
 
     // set the snippet ID
@@ -288,8 +290,8 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     params.PLAYER_1_NAME = get_nationality_display_name( params.PLAYER_1 ) ;
     params.PLAYER_2_NAME = get_nationality_display_name( params.PLAYER_2 ) ;
     if ( gUserSettings["include-flags-in-snippets"] ) {
-        params.PLAYER_FLAG_1 = make_player_flag_url( get_player_nat( 1 ) ) ;
-        params.PLAYER_FLAG_2 = make_player_flag_url( get_player_nat( 2 ) ) ;
+        params.PLAYER_FLAG_1 = make_player_flag_url( get_player_nat(1), true ) ;
+        params.PLAYER_FLAG_2 = make_player_flag_url( get_player_nat(2), true ) ;
     }
 
     // pass through all the player colors and names
@@ -300,7 +302,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         params.PLAYER_NAMES[nat] = gTemplatePack.nationalities[nat].display_name ;
         params.PLAYER_COLORS[nat] = gTemplatePack.nationalities[nat].ob_colors ;
         if ( gUserSettings["include-flags-in-snippets"] )
-            params.PLAYER_FLAGS[nat] = make_player_flag_url( nat ) ;
+            params.PLAYER_FLAGS[nat] = make_player_flag_url( nat, true ) ;
     } ) ;
 
     // generate PF parameters
@@ -746,9 +748,9 @@ function unload_snippet_params( unpack_scenario_date, template_id )
             if ( vo_entry.extn_id )
                 obj.extn_id = vo_entry.extn_id ;
             if ( gUserSettings["include-vasl-images-in-snippets"] ) {
-                var url = get_vo_image_url( vo_entry, vo_image_id ) ;
+                var url = get_vo_image_url( vo_entry, vo_image_id, false, true ) ;
                 if ( url )
-                    obj.image = APP_URL_BASE + url ;
+                    obj.image = url ;
                 if ( $(this).find( ".vo-entry" ).hasClass( "small-piece" ) )
                     obj.small_piece = true ;
             }

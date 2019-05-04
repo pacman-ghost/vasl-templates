@@ -2,14 +2,14 @@
 
 "1555": {
     "name": "2pdr Portee",
-    "front_images": [ "br/vehicles/portee", "br/vehicles/portee0" ],
+    "front_images": [ "br/vehicles/portee.gif", "br/vehicles/portee0.gif" ],
     "back_images": null
 },
 
 "2212": {
     "name": "76* INF FRC",
-    "front_images": [ "al/gun/alINF76", "al/gun/alINF76u" ],
-    "back_images": "al/gun/alINF76b"
+    "front_images": [ "al/gun/alINF76.gif", "al/gun/alINF76u.gif" ],
+    "back_images": "al/gun/alINF76b.gif"
 },
 
 "adf:1828": {

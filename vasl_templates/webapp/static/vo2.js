@@ -58,7 +58,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
 
     // load the dialog
     var vo_image_id = $entry.data( "sortable2-data" ).vo_image_id ;
-    var url = get_vo_image_url( vo_entry, vo_image_id, true ) ;
+    var url = get_vo_image_url( vo_entry, vo_image_id, true, false ) ;
     var buf = [ "<div class='header'>",
         "<img src='" + url + "' class='vasl-image'>",
         "<div class='content'>",

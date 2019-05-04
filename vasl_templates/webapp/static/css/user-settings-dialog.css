@@ -1,6 +1,8 @@
 .ui-dialog.user-settings .ui-dialog-titlebar { background: #80d0ff ; }
 .ui-dialog.user-settings .ui-dialog-buttonpane { border: none ; margin-top: 0 !important ; padding-top: 0 !important ; }
 
-.ui-dialog.user-settings fieldset { margin: 1em 0 0 0 ; padding-top: 0.25em ; border-radius: 0 ; }
-.ui-dialog.user-settings .run-as-server-note { margin-bottom: 0.5em ; font-size: 80% ; font-style: italic ; color: #666 ; }
-.ui-dialog.user-settings .run-as-server-note img { float: left ; margin-right: 0.25em ; }
+.ui-dialog.user-settings fieldset { margin: 0.5em 0 0 0 ; padding-top: 0.5em ; border-radius: 0 ; }
+
+.ui-dialog.user-settings img.need-localhost { display: inline-block ; height: 0.75em ; }
+.ui-dialog.user-settings div.need-localhost { float: left ; width: 290px ; font-size: 80% ; font-style: italic ; color: #c02020 ; }
+.ui-dialog.user-settings div.need-localhost img { float: left ; height: 1.5em ; margin-right: 0.25em ; }
