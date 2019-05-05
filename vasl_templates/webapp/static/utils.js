@@ -345,6 +345,19 @@ function add_flag_to_dialog_titlebar( $dlg, player_no )
 
 // --------------------------------------------------------------------
 
+function fixup_external_links( $root )
+{
+    // NOTE: We want to open externals links in a new browser window, but simply adding target="_blank"
+    // breaks the desktop app's ability to intercept clicks (in AppWebPage.acceptNavigationRequest()),
+    // so we do it dynamically here.
+    var regex = new RegExp(  "^https?://" ) ;
+    $root.find( "a" ).each( function() {
+        var url = $(this).attr( "href" ) ;
+        if ( url && url.match( regex ) )
+            $(this).attr( "target", gWebChannelHandler?"":"_blank" ) ;
+    } ) ;
+}
+
 function getUrlParam( param )
 {
     // look for the specified URL parameter

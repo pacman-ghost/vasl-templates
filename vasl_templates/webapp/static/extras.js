@@ -90,6 +90,7 @@ function _show_extra_template( template_id )
     buf.push( "<button class='generate' data-id='" + template_info.template_id + "'>Snippet</button>" ) ;
     buf.push( "</div>" ) ;
     var $form = $( buf.join("") ) ;
+    fixup_external_links( $form ) ;
 
     // initialize the "generate" button
     init_snippet_button( $form.find( "button.generate" ) ) ;

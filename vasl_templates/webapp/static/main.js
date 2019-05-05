@@ -34,6 +34,7 @@ $(document).ready( function () {
                 // FUDGE! If the page finishes loading before the web channel is ready,
                 // the desktop won't get this notification. To be sure, we issue it again...
                 gWebChannelHandler.on_app_loaded() ;
+                fixup_external_links( $("body") ) ; // ditto for this :-/
             } ) ;
         } ) ;
     }
@@ -518,7 +519,7 @@ function update_page_load_status( id )
         // notify the PyQT desktop application
         if ( gWebChannelHandler )
             gWebChannelHandler.on_app_loaded() ;
-        // show any startuup messages
+        // show any startup messages
         $.get( gGetStartupMsgsUrl, function( resp ) {
             $("body").append( $("<div id='_startup-msgs-ready_'></div>") ) ;
             show_startup_msgs( resp, "error" ) ;
