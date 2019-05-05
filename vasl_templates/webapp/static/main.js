@@ -361,7 +361,9 @@ $(document).ready( function () {
     // check for a dirty scenario before leaving the page
     if ( ! getUrlParam( "disable_close_window_check" ) ) {
         window.addEventListener( "beforeunload", function(evt) {
-            if ( is_scenario_dirty() ) {
+            // NOTE: We don't check for this if we're running inside the desktop app, since it will intercept the click
+            // and open the page in a new external browser window (see AppWebPage.acceptNavigationRequest()).
+            if ( !gWebChannelHandler && is_scenario_dirty() ) {
                 evt.returnValue = "This scenario has been changed. Do you want to leave the page, and lose your changes?" ;
                 return evt.returnValue ;
             }
