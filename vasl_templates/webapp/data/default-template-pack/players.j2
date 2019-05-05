@@ -13,8 +13,9 @@
 ">
 
 <td style="font-weight:bold;">
-     {%if PLAYER_FLAG_1%}<img src="{{PLAYER_FLAG_1}}">&nbsp;{%endif%}{{PLAYER_1_NAME}}: <br>
-     {%if PLAYER_FLAG_2%}<img src="{{PLAYER_FLAG_2}}">&nbsp;{%endif%}{{PLAYER_2_NAME}}:
+    {# Some versions of Java require <img> tags to have the width and height specified!?! #}
+    {%if PLAYER_FLAG_1%}<img src="{{PLAYER_FLAG_1}}" {{PLAYER_FLAG_SIZE}}>&nbsp;{%endif%}{{PLAYER_1_NAME}}: <br>
+    {%if PLAYER_FLAG_2%}<img src="{{PLAYER_FLAG_2}}" {{PLAYER_FLAG_SIZE}}>&nbsp;{%endif%}{{PLAYER_2_NAME}}:
 
 <td style="padding-left:2px;">
     ELR: {{PLAYER_1_ELR}} <br>

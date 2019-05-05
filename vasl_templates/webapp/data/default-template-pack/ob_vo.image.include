@@ -1,1 +1,4 @@
-{%if vo.image%} <img src="{{vo.image}}"> {%endif%}
+{# Some versions of Java require <img> tags to have the width and height specified!?! #}
+{%if vo.image%} <img src="{{vo.image}}"
+    {%if vo.small_piece%} width="48" height="48" {%else%} width="60" height="60" {%endif%}
+> {%endif%}

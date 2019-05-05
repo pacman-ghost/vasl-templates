@@ -28,7 +28,7 @@
   padding: 2px 5px ;
   font-weight: bold ;
 ">
-    {%if PLAYER_FLAG%}<img src="{{PLAYER_FLAG}}">&nbsp;{%endif%}{{PLAYER_NAME}} {{VO_TYPE}} Notes
+    {{INCLUDE:player_flag}}{{PLAYER_NAME}} {{VO_TYPE}} Notes
 
 {%if OB_MA_NOTES%}
 <tr> <td style="padding: 0 5px;">

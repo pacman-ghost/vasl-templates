@@ -48,8 +48,8 @@ def test_online_images( webapp, webdriver ):
 
     # test player flags
     do_test( "players",
-        re.compile( r'<img src="http://vasl-templates.org/.+/flags/german.png">' ),
-        re.compile( r'<img src="http://[a-z0-9.]+:\d+/flags/german">' )
+        re.compile( r'<img src="http://vasl-templates.org/.+/flags/german.png"' ),
+        re.compile( r'<img src="http://[a-z0-9.]+:\d+/flags/german"' )
     )
 
     # test custom list bullets
@@ -61,8 +61,8 @@ def test_online_images( webapp, webdriver ):
     # test VASL counter images
     select_tab( "ob1" )
     do_test( "ob_vehicles_1",
-        re.compile( r'<img src="https://raw.githubusercontent.com/.+/ge/veh/pzivh.gif">' ),
-        re.compile( r'<img src="http://[a-z0-9.]+:\d+/counter/2584/front">' )
+        re.compile( r'<img src="https://raw.githubusercontent.com/.+/ge/veh/pzivh.gif"' ),
+        re.compile( r'<img src="http://[a-z0-9.]+:\d+/counter/2584/front"' )
     )
 
 # ---------------------------------------------------------------------
@@ -95,7 +95,7 @@ def test_multiple_images( webapp, webdriver ):
     btn = find_child( "button[data-id='ob_vehicles_1']" )
     btn.click()
     wait_for_clipboard( 2,
-        re.compile( r'<img src="https://raw.githubusercontent.com/.+/br/vehicles/portee.gif">')
+        re.compile( r'<img src="https://raw.githubusercontent.com/.+/br/vehicles/portee.gif"')
     )
 
     # select the second image for the vehicle
@@ -114,7 +114,7 @@ def test_multiple_images( webapp, webdriver ):
     btn = find_child( "button[data-id='ob_vehicles_1']" )
     btn.click()
     wait_for_clipboard( 2,
-        re.compile( r'<img src="https://raw.githubusercontent.com/.+/br/vehicles/portee0.gif">')
+        re.compile( r'<img src="https://raw.githubusercontent.com/.+/br/vehicles/portee0.gif"')
     )
 
 # ---------------------------------------------------------------------
@@ -152,11 +152,11 @@ def test_extensions( webapp, webdriver ):
     btn = find_child( "button[data-id='ob_vehicles_1']" )
     btn.click()
     wait_for_clipboard( 2, re.compile(
-        '<img src="http://vasl-templates.org/.+/f97/matii2-4cmg.gif">'
+        '<img src="http://vasl-templates.org/.+/f97/matii2-4cmg.gif"'
         '.+'
-        '<img src="http://vasl-templates.org/.+/f97/matii2-6cmg.gif">'
+        '<img src="http://vasl-templates.org/.+/f97/matii2-6cmg.gif"'
         '.+'
-        '<img src="https://raw.githubusercontent.com/.+/ru/veh/T60M40.gif">'
+        '<img src="https://raw.githubusercontent.com/.+/ru/veh/T60M40.gif"'
         '.+'
-        '<img src="http://vasl-templates.org/.+/f97/T60M40.gif">'
+        '<img src="http://vasl-templates.org/.+/f97/T60M40.gif"'
     , re.DOTALL ) )

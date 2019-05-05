@@ -17,7 +17,7 @@
   font-weight: bold ;
   {%if OB_SETUP_WIDTH%} width: {{OB_SETUP_WIDTH}} ; {%endif%}
 ">
-    {%if PLAYER_FLAG%}<img src="{{PLAYER_FLAG}}">&nbsp;{%endif%}{{OB_SETUP}}
+    {{INCLUDE:player_flag}}{{OB_SETUP}}
 
 </table>
 

@@ -130,6 +130,8 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         APP_URL_BASE + gImagesBaseUrl ;
     if ( gUserSettings["custom-list-bullets"] )
         params.CUSTOM_LIST_BULLETS = true ;
+    // some versions of Java require <img> tags to have the width and height specified!?!
+    params.PLAYER_FLAG_SIZE = "width='11' height='11'" ;
 
     // set player-specific parameters
     var player_no = get_player_no_for_element( $btn ) ;
@@ -382,7 +384,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     for ( var key in gTemplatePack.css )
         templ = strReplaceAll( templ, "{{CSS:"+key+"}}", gTemplatePack.css[key] ) ;
     for ( key in gTemplatePack.includes )
-        templ = strReplaceAll( templ, "{{INCLUDE:"+key+"}}", gTemplatePack.includes[key] ) ;
+        templ = strReplaceAll( templ, "{{INCLUDE:"+key+"}}", gTemplatePack.includes[key].trim() ) ;
     var func ;
     try {
         func = jinja.compile( templ ).render ;

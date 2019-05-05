@@ -22,7 +22,7 @@
       padding: 2px 5px 0 5px ;
       font-weight: bold ;
     ">
-        <nobr>{%if PLAYER_FLAG%}<img src="{{PLAYER_FLAG}}">&nbsp;{%endif%}{{PLAYER_NAME|nbsp}}&nbsp;{{VO_TYPES}}</nobr>
+        <nobr>{{INCLUDE:player_flag}}{{PLAYER_NAME|nbsp}}&nbsp;{{VO_TYPES}}</nobr>
 
 {%for vo in OB_VO%}
 
