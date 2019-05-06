@@ -77,6 +77,7 @@ function _show_extra_template( template_id )
             var display_name = template_info.params[i].caption || template_info.params[i].name ;
             buf.push( "<td class='caption'>", escapeHTML(display_name)+":" ) ;
             buf.push( "<td class='value'>" ) ;
+            var j ;
             if ( template_info.params[i].type === "input" ) {
                 buf.push( "<input class='param' name='" + escapeHTML(template_info.params[i].name) + "' type='text'" ) ;
                 if ( template_info.params[i].width )
@@ -88,8 +89,18 @@ function _show_extra_template( template_id )
                 buf.push( ">" ) ;
             } else if ( template_info.params[i].type === "select" ) {
                 buf.push( "<select class='param' name='" + escapeHTML(template_info.params[i].name) + "'>" ) ;
-                for ( var j=0 ; j < template_info.params[i].options.length ; ++j )
+                for ( j=0 ; j < template_info.params[i].options.length ; ++j )
                     buf.push( "<option>", template_info.params[i].options[j], "</option>" ) ;
+                buf.push( "</select>" ) ;
+            } else if ( template_info.params[i].type.substr(0,22) === "player-color2-droplist" ) {
+                buf.push( "<select class='param' name='PLAYER_COLOR2_DROPLIST' style='width:9em;'>" ) ;
+                if ( template_info.params[i].type === "player-color2-droplist-ex" )
+                    buf.push( "<option value='black'>black</option>", "<option value='#c0c0c0'>gray</option>" ) ;
+                var nats = get_sorted_nats() ;
+                for ( j=0 ; j < nats.length ; ++j ) {
+                    var nat_info = gTemplatePack.nationalities[ nats[j] ] ;
+                    buf.push( "<option value='", nat_info.ob_colors[2], "'>", nat_info.display_name, "</option>" ) ;
+                }
                 buf.push( "</select>" ) ;
             }
         }
@@ -98,7 +109,11 @@ function _show_extra_template( template_id )
     buf.push( "<button class='generate' data-id='" + template_info.template_id + "'>Snippet</button>" ) ;
     buf.push( "</div>" ) ;
     var $form = $( buf.join("") ) ;
-    $form.find( "select" ).select2( { minimumResultsForSearch: -1 } ) ;
+    $form.find( "select" ).select2( {
+        minimumResultsForSearch: -1
+    } ).on( "select2:open", function() {
+        restrict_droplist_height( $(this) ) ;
+    } ) ;
     fixup_external_links( $form ) ;
 
     // initialize the "generate" button
@@ -140,7 +155,11 @@ function _parse_extra_template( template_id, template )
             // we have a <select>
             param.type = "select" ;
             param.options = val.split( "::" ) ;
-        } else {
+        } else if ( param.name === "PLAYER_COLOR2_DROPLIST" )
+            param.type = "player-color2-droplist" ;
+        else if ( param.name === "PLAYER_COLOR2_DROPLIST_EX" )
+            param.type = "player-color2-droplist-ex" ;
+        else {
             // we have an <input>
             param.type = "input" ;
             // extract the default value and field width

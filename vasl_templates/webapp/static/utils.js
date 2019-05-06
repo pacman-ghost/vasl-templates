@@ -15,6 +15,23 @@ function get_player_nat( player_no )
     return $( "select[name='PLAYER_" + player_no + "']" ).val() ;
 }
 
+function get_sorted_nats()
+{
+    // sort the nationalities by display name
+    var nats = Object.keys( gTemplatePack.nationalities ) ;
+    nats.sort( function( lhs, rhs ) {
+        lhs = gTemplatePack.nationalities[lhs].display_name.toUpperCase() ;
+        rhs = gTemplatePack.nationalities[rhs].display_name.toUpperCase() ;
+        if ( lhs < rhs )
+            return -1 ;
+        else if ( lhs > rhs )
+            return +1 ;
+        else
+            return 0 ;
+    } ) ;
+    return nats ;
+}
+
 function get_player_colors( player_no )
 {
     // get the colors for the specified player
