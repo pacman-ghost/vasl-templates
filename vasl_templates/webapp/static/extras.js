@@ -76,20 +76,29 @@ function _show_extra_template( template_id )
             buf.push( "<tr>" ) ;
             var display_name = template_info.params[i].caption || template_info.params[i].name ;
             buf.push( "<td class='caption'>", escapeHTML(display_name)+":" ) ;
-            buf.push( "<td class='value'>", "<input class='param' name='" + escapeHTML(template_info.params[i].name) + "' type='text'" ) ;
-            if ( template_info.params[i].width )
-                buf.push( " size='" + escapeHTML(template_info.params[i].width) + "'" ) ;
-            if ( template_info.params[i].default )
-                buf.push( " value='" + escapeHTML(template_info.params[i].default) + "'" ) ;
-            if ( template_info.params[i].description )
-                buf.push( " title='" + escapeHTML(template_info.params[i].description) + "'" ) ;
-            buf.push( ">" ) ;
+            buf.push( "<td class='value'>" ) ;
+            if ( template_info.params[i].type === "input" ) {
+                buf.push( "<input class='param' name='" + escapeHTML(template_info.params[i].name) + "' type='text'" ) ;
+                if ( template_info.params[i].width )
+                    buf.push( " size='" + escapeHTML(template_info.params[i].width) + "'" ) ;
+                if ( template_info.params[i].default )
+                    buf.push( " value='" + escapeHTML(template_info.params[i].default) + "'" ) ;
+                if ( template_info.params[i].description )
+                    buf.push( " title='" + escapeHTML(template_info.params[i].description) + "'" ) ;
+                buf.push( ">" ) ;
+            } else if ( template_info.params[i].type === "select" ) {
+                buf.push( "<select class='param' name='" + escapeHTML(template_info.params[i].name) + "'>" ) ;
+                for ( var j=0 ; j < template_info.params[i].options.length ; ++j )
+                    buf.push( "<option>", template_info.params[i].options[j], "</option>" ) ;
+                buf.push( "</select>" ) ;
+            }
         }
         buf.push( "</table>" ) ;
     }
     buf.push( "<button class='generate' data-id='" + template_info.template_id + "'>Snippet</button>" ) ;
     buf.push( "</div>" ) ;
     var $form = $( buf.join("") ) ;
+    $form.find( "select" ).select2( { minimumResultsForSearch: -1 } ) ;
     fixup_external_links( $form ) ;
 
     // initialize the "generate" button
@@ -124,13 +133,24 @@ function _parse_extra_template( template_id, template )
         var pos = param.name.indexOf( ":" ) ;
         if ( pos === -1 )
             continue ;
-        param.default = param.name.substr( pos+1 ) ;
+        var val = param.name.substr( pos+1 ) ;
         param.name = param.name.substr( 0, pos ) ;
-        // extract the field width
-        pos = param.default.indexOf( "/" ) ;
-        if ( pos !== -1 ) {
-            param.width = param.default.substr( pos+1 ) ;
-            param.default = param.default.substr( 0, pos ) ;
+        // figure out what type of parameter we have
+        if ( val.indexOf( "::" ) !== -1 ) {
+            // we have a <select>
+            param.type = "select" ;
+            param.options = val.split( "::" ) ;
+        } else {
+            // we have an <input>
+            param.type = "input" ;
+            // extract the default value and field width
+            pos = val.indexOf( "/" ) ;
+            if ( pos === -1 )
+                param.default = val ;
+            else {
+                param.default = val.substr( 0, pos ) ;
+                param.width = val.substr( pos+1 ) ;
+            }
         }
         // extract the caption and description
         if ( words.length >= 2 )

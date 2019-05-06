@@ -1,9 +1,10 @@
 """ Test the extras templates. """
 
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 
-from vasl_templates.webapp.tests.utils import \
-    init_webapp, find_child, find_children, wait_for, wait_for_clipboard, select_tab
+from vasl_templates.webapp.tests.utils import init_webapp, select_tab, get_droplist_vals, select_droplist_val, \
+    find_child, find_children, wait_for, wait_for_clipboard
 from vasl_templates.webapp.tests.test_template_packs import make_zip_from_files, upload_template_pack_zip
 
 # ---------------------------------------------------------------------
@@ -18,7 +19,8 @@ def test_extras_templates( webapp, webdriver ):
     # check that the extras templates were loaded correctly
     assert _get_extras_template_index() == [
         ( "extras/minimal", None ),
-        ( "Full template", "This is the caption." )
+        ( "Full template", "This is the caption." ),
+        ( "select", None ),
     ]
 
     # check that the "full" template was loaded correctly
@@ -60,6 +62,31 @@ def test_extras_templates( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+def test_droplists( webapp, webdriver ):
+    """Test droplist's in  extras templates."""
+
+    # initialize
+    init_webapp( webapp, webdriver )
+    select_tab( "extras" )
+
+    # load the "droplist" template
+    _select_extras_template( webdriver, "extras/droplist" )
+    content = find_child( "#tabs-extras .right-panel" )
+    params = find_children( "tr", content )
+    assert len(params) == 1
+    sel = Select( find_child( "td.value select", params[0] ) )
+    vals = get_droplist_vals( sel )
+    assert vals == [ ("item 1","item 1"), ("item 2","item 2"), ("item 3","item 3") ]
+
+    # generate the snippet for each droplist choice
+    for i in range(1,3+1):
+        select_droplist_val( sel, "item {}".format(i) )
+        snippet_btn = find_child( "button.generate", content )
+        snippet_btn.click()
+        wait_for_clipboard( 2, "Selected: item {}".format(i) )
+
+# ---------------------------------------------------------------------
+
 def test_template_pack( webapp, webdriver ):
     """Test uploading a template pack that contains extras templates."""
 
@@ -70,7 +97,8 @@ def test_template_pack( webapp, webdriver ):
     # check that the extras templates were loaded correctly
     assert _get_extras_template_index() == [
         ( "extras/minimal", None ),
-        ( "Full template", "This is the caption." )
+        ( "Full template", "This is the caption." ),
+        ( "select", None ),
     ]
 
     # upload the template pack
@@ -82,6 +110,7 @@ def test_template_pack( webapp, webdriver ):
         ( "extras/minimal", None ),
         ( "Full template (modified)", "This is the caption (modified)." ),
         ( "New template", None ),
+        ( "select", None ),
     ]
 
     # check that the modified "full" template is being used
