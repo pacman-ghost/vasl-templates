@@ -7,6 +7,7 @@ import zipfile
 import io
 import base64
 import threading
+import urllib.request
 
 from flask import request, jsonify, send_file, abort
 from PIL import Image
@@ -178,8 +179,11 @@ def get_flag( nat ):
     if globvars.template_pack:
         fname = globvars.template_pack.get( "nationalities", {} ).get( nat, {} ).get( "flag" )
         if fname:
-            with open( fname, "rb" ) as fp:
-                return _get_small_image( fp, key, height )
+            if fname.startswith( ("http://","https://") ):
+                fp = urllib.request.urlopen( fname )
+            else:
+                fp = open( fname, "rb" )
+            return _get_small_image( fp, key, height )
 
     # serve the standard flag
     fname = os.path.join( "static/images/flags/", nat+".png" )

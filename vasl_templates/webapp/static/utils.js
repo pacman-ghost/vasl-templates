@@ -34,6 +34,9 @@ function get_player_colors_for_element( $elem )
 }
 
 function make_player_flag_url( nat, for_snippet ) {
+    var flag = gTemplatePack.nationalities[nat].flag ;
+    if ( flag )
+        return flag ; // nb:  custom flag, just use that
     if ( for_snippet && gUserSettings["scenario-images-source"] == SCENARIO_IMAGES_SOURCE_INTERNET )
         return gAppConfig.ONLINE_IMAGES_URL_BASE + "/flags/" + nat + ".png" ;
     else
