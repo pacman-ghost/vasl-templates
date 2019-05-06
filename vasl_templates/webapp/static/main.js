@@ -189,19 +189,21 @@ $(document).ready( function () {
             return opt.text ;
         var url = make_player_flag_url( opt.id, false ) ;
         return $( "<div style='display:flex;align-items:center;'>" +
+            "<div style='display:inline-block;width:1em;text-align:center;margin-right:5px;'>" +
             "<img src='" + url + "' style='height:0.9em;margin-right:0.25em;'>" +
+            "</div>" +
             " " + opt.text +
         "</div>" ) ;
     }
     init_select2( $( "select[name='PLAYER_1']" ),
-        "9.5em", false, format_player_droplist_item
+        "10em", false, format_player_droplist_item
     ).on( "select2:open", function() {
         on_player_droplist_open( $(this) ) ;
     } ).on( "change", function() {
         on_player_change_with_confirm( 1 ) ;
     } ) ;
     init_select2( $( "select[name='PLAYER_2']" ),
-        "9.5em", false, format_player_droplist_item
+        "10em", false, format_player_droplist_item
     ).on( "select2:open", function() {
         on_player_droplist_open( $(this) ) ;
     } ).on( "change", function() {
