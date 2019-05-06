@@ -71,10 +71,20 @@ function add_vo( vo_type, player_no )
         minHeight: 350,
         create: function() {
             init_dialog( $(this), "OK", false ) ;
-            // handle ESCAPE
+            // handle ENTER, ESCAPE and double-click
+            function auto_select_vo( evt ) {
+                if ( $( "#select-vo select" ).val() ) {
+                    $( ".ui-dialog.select-vo button:contains('OK')" ).click() ;
+                    evt.preventDefault() ;
+                }
+            }
             $(this).keydown( function(evt) {
-                if ( evt.keyCode == $.ui.keyCode.ESCAPE )
+                if ( evt.keyCode == $.ui.keyCode.ENTER )
+                    auto_select_vo( evt ) ;
+                else if ( evt.keyCode == $.ui.keyCode.ESCAPE )
                     $(this).dialog( "close" ) ;
+            } ).dblclick( function(evt) {
+                auto_select_vo( evt ) ;
             } ) ;
         },
         open: function() {

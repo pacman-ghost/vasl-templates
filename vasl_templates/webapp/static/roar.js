@@ -101,14 +101,14 @@ function do_search_roar( on_ok )
         create: function() {
             // initialize the dialog
             init_dialog( $(this), "OK", false ) ;
-            // handle ENTER and double-click
+            // handle ENTER, ESCAPE and double-click
             function auto_select_scenario( evt ) {
                 if ( $sel.val() ) {
                     $( ".ui-dialog.select-roar-scenario button:contains('OK')" ).click() ;
                     evt.preventDefault() ;
                 }
             }
-            $("#select-roar-scenario").keydown( function(evt) {
+            $(this).keydown( function(evt) {
                 if ( evt.keyCode == $.ui.keyCode.ENTER )
                     auto_select_scenario( evt ) ;
                 else if ( evt.keyCode == $.ui.keyCode.ESCAPE )

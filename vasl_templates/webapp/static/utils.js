@@ -191,7 +191,7 @@ function on_dialog_open( $dlg )
 function auto_dismiss_dialog( $dlg, evt, btn_text )
 {
     // check if the user pressed Ctrl-Enter
-    if ( evt.keyCode == 13 && evt.ctrlKey ) {
+    if ( evt.keyCode == $.ui.keyCode.ENTER && evt.ctrlKey ) {
         // yup - locate the target button and click it
         click_dialog_button( $dlg, btn_text ) ;
         evt.preventDefault() ;

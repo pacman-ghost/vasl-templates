@@ -177,19 +177,6 @@ $(document).ready( function () {
         edit: function( $sortable2, $entry ) { edit_ob_ordnance( $entry, 2 ) ; },
     } ) ;
 
-    // handle ENTER and double-clicks in the "select vehicle/ordnance" dialog
-    function auto_select_vo( evt ) {
-        if ( $("#select-vo select").val() ) {
-            $(".ui-dialog.select-vo button:contains('OK')").click() ;
-            evt.preventDefault() ;
-        }
-    }
-    $("#select-vo").keydown( function(evt) {
-        if ( evt.keyCode == 13 )
-            auto_select_vo( evt ) ;
-    } ) ;
-    $("#select-vo").dblclick( function(evt) { auto_select_vo(evt) ; } ) ;
-
     // initialize the player droplists
     function on_player_droplist_open( $sel ) {
         // remember the current selection
