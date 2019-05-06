@@ -188,9 +188,9 @@ $(document).ready( function () {
         if ( ! opt.id )
             return opt.text ;
         var url = make_player_flag_url( opt.id, false ) ;
-        return $( "<div style='display:flex;align-items:center;'>" +
+        return $( "<div style='display:flex;align-items:center;height:23px;'>" +
             "<div style='display:inline-block;width:1em;text-align:center;margin-right:5px;'>" +
-            "<img src='" + url + "' style='height:0.9em;margin-right:0.25em;'>" +
+            "<img src='" + url + "' style='height:0.8em;'>" +
             "</div>" +
             " " + opt.text +
         "</div>" ) ;
