@@ -44,6 +44,9 @@ def get_startup_msgs():
         if msgs:
             startup_msgs[ msg_type ] = msgs
 
+    # NOTE: Because we don't clear the collected messages here, if the web page is refreshed, or loaded
+    # via another browser instance, the user will see the same messages again, which, depending on
+    # the exact nature of those messages, could look odd, but is probably what we want.
     return jsonify( startup_msgs )
 
 # ---------------------------------------------------------------------
