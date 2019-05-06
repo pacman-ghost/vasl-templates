@@ -34,7 +34,7 @@ function get_player_colors_for_element( $elem )
 }
 
 function make_player_flag_url( nat, for_snippet ) {
-    if ( for_snippet && gUserSettings["use-online-images"] )
+    if ( for_snippet && gUserSettings["scenario-images-source"] == SCENARIO_IMAGES_SOURCE_INTERNET )
         return gAppConfig.ONLINE_IMAGES_URL_BASE + "/flags/" + nat + ".png" ;
     else
         return APP_URL_BASE + "/flags/" + nat ;

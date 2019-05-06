@@ -9,6 +9,10 @@ from vasl_templates.webapp.tests.utils import init_webapp, select_tab, \
 from vasl_templates.webapp.tests.test_user_settings import set_user_settings
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
 
+# nb: these are taken from user_settings.js
+SCENARIO_IMAGES_SOURCE_THIS_PROGRAM = 1
+SCENARIO_IMAGES_SOURCE_INTERNET = 2
+
 # ---------------------------------------------------------------------
 
 def test_online_images( webapp, webdriver ):
@@ -37,12 +41,12 @@ def test_online_images( webapp, webdriver ):
 
     def do_test( snippet_id, expected1, expected2 ): #pylint: disable=missing-docstring
         # generate the snippet with online images enabled
-        set_user_settings( { "use-online-images": True } )
+        set_user_settings( { "scenario-images-source": SCENARIO_IMAGES_SOURCE_INTERNET } )
         btn = find_child( "button[data-id='{}']".format( snippet_id ) )
         btn.click()
         wait_for_clipboard( 2, expected1 )
         # generate the snippet with online images disabled
-        set_user_settings( { "use-online-images": False } )
+        set_user_settings( { "scenario-images-source": SCENARIO_IMAGES_SOURCE_THIS_PROGRAM } )
         btn.click()
         wait_for_clipboard( 2, expected2 )
 
@@ -86,7 +90,7 @@ def test_multiple_images( webapp, webdriver ):
 
     # configure the user settings
     set_user_settings( {
-        "use-online-images": True,
+        "scenario-images-source": SCENARIO_IMAGES_SOURCE_INTERNET,
         "include-vasl-images-in-snippets": True,
     } )
 
@@ -143,7 +147,7 @@ def test_extensions( webapp, webdriver ):
 
     # configure the user settings
     set_user_settings( {
-        "use-online-images": True,
+        "scenario-images-source": SCENARIO_IMAGES_SOURCE_INTERNET,
         "include-vasl-images-in-snippets": True,
     } )
 

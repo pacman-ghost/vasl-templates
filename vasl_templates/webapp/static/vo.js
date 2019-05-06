@@ -391,7 +391,7 @@ function get_vo_image_url( vo_entry, vo_image_id, allow_missing_image, for_snipp
         gpid = $.isArray( vo_entry.gpid ) ? vo_entry.gpid[0] : vo_entry.gpid ;
     }
     if ( gpid ) {
-        if ( for_snippet && gUserSettings["use-online-images"] )
+        if ( for_snippet && gUserSettings["scenario-images-source"] == SCENARIO_IMAGES_SOURCE_INTERNET )
             return make_online_counter_image_url( gpid, index ) ;
         else
             return make_local_counter_image_url( gpid, index ) ;
@@ -399,7 +399,7 @@ function get_vo_image_url( vo_entry, vo_image_id, allow_missing_image, for_snipp
 
     // couldn't find an image
     if ( allow_missing_image ) {
-        if ( for_snippet && gUserSettings["use-online-images"] )
+        if ( for_snippet && gUserSettings["scenario-images-source"] == SCENARIO_IMAGES_SOURCE_INTERNET )
             return gAppConfig.ONLINE_IMAGES_URL_BASE + "/missing-image.png" ;
         else
             return gImagesBaseUrl + "/missing-image.png" ;

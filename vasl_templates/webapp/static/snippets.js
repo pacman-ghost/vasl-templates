@@ -125,7 +125,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     var snippet_save_name = null ;
 
     // add simple parameters
-    params.IMAGES_BASE_URL = gUserSettings["use-online-images"] ?
+    params.IMAGES_BASE_URL = gUserSettings["scenario-images-source"] == SCENARIO_IMAGES_SOURCE_INTERNET ?
         gAppConfig.ONLINE_IMAGES_URL_BASE :
         APP_URL_BASE + gImagesBaseUrl ;
     if ( gUserSettings["custom-list-bullets"] )

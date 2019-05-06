@@ -8,7 +8,7 @@ from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import \
     init_webapp, find_child, find_children, wait_for_clipboard, \
-    select_tab, select_menu_option, set_player, click_dialog_button, add_simple_note
+    select_tab, select_menu_option, select_droplist_val, set_player, click_dialog_button, add_simple_note
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
 from vasl_templates.webapp.tests.test_template_packs import upload_template_pack_file
@@ -149,7 +149,7 @@ def test_date_format( webapp, webdriver ):
     # change the date format to YYYY-MM-DD
     select_menu_option( "user_settings" )
     date_format_sel = Select( find_child( ".ui-dialog.user-settings select[name='date-format']" ) )
-    date_format_sel.select_by_visible_text( "YYYY-MM-DD" )
+    select_droplist_val( date_format_sel, "yy-mm-dd" )
     click_dialog_button( "OK" )
     _check_cookies( webdriver, "date-format", "yy-mm-dd" )
 
@@ -160,7 +160,7 @@ def test_date_format( webapp, webdriver ):
     # clear the scenario date, set the date format to DD-MM-YYY
     set_scenario_date( "" )
     select_menu_option( "user_settings" )
-    date_format_sel.select_by_visible_text( "DD/MM/YYYY" )
+    select_droplist_val( date_format_sel, "dd/mm/yy" )
     click_dialog_button( "OK" )
     _check_cookies( webdriver, "date-format", "dd/mm/yy" )
 
@@ -172,11 +172,6 @@ def test_date_format( webapp, webdriver ):
     load_scenario( saved_scenario )
     check_scenario_date( (1,2,1940) )
     assert scenario_date.get_attribute( "value" ) == "02/01/1940"
-
-    # restore the date format back to default (for the rest of the tests :-/)
-    select_menu_option( "user_settings" )
-    date_format_sel.select_by_visible_text( "MM/DD/YYYY" )
-    click_dialog_button( "OK" )
 
 # ---------------------------------------------------------------------
 
@@ -288,10 +283,15 @@ def set_user_settings( opts ):
     """Configure the user settings."""
     select_menu_option( "user_settings" )
     for key,val in opts.items():
-        assert isinstance( val, bool ) # nb: we currently only support checkboxes
-        elem = find_child( ".ui-dialog.user-settings input[name='{}']".format( key ) )
-        if (val and not elem.is_selected()) or (not val and elem.is_selected()):
-            elem.click()
+        if isinstance( val, bool ):
+            elem = find_child( ".ui-dialog.user-settings input[name='{}']".format( key ) )
+            if (val and not elem.is_selected()) or (not val and elem.is_selected()):
+                elem.click()
+        elif isinstance( val, int ):
+            elem = find_child( ".ui-dialog.user-settings select[name='{}']".format( key ) )
+            select_droplist_val( Select(elem), val )
+        else:
+            assert False
     click_dialog_button( "OK" )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

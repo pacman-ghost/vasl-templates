@@ -1,7 +1,7 @@
 <div id="user-settings" style="display:none;">
 
     <label for="">Date format:</label>
-    <select name="date-format">
+    <select name="date-format" style="width:9em;">
         <option value="mm/dd/yy">MM/DD/YYYY</option>
         <option value="dd/mm/yy">DD/MM/YYYY</option>
         <option value="yy-mm-dd">YYYY-MM-DD</option>
@@ -11,12 +11,15 @@
     </div>
 
     <fieldset> <legend> Images in scenarios </legend>
-        <input type="checkbox" name="use-online-images"> Get images from the internet <br>
-        <div style="height:0.25em;"></div>
+        Get images from:
+        <select name="scenario-images-source" style="width:8em;">
+            <option value="1">this program</option>
+            <option value="2">the internet</option>
+        </select> <br>
         <input type="checkbox" name="include-vasl-images-in-snippets" class="need-localhost sometimes"> Include VASL counter images in snippets <br>
-        <input type="checkbox" name="include-flags-in-snippets" class="need-localhost sometimes"> Include flags in snippets <br>
+        <input type="checkbox" name="include-flags-in-snippets" class="need-localhost sometimes"> Include player flags in snippets <br>
         <input type="checkbox" name="custom-list-bullets" class="need-localhost sometimes"> Use custom list bullets <br>
-        <div style="height:0.25em;"></div>
+        <div style="height:0.5em;"></div>
         <input type="checkbox" name="vo-notes-as-images" class="need-localhost"> Show Chapter H vehicle/ordnance notes as images <br>
     </fieldset>
 

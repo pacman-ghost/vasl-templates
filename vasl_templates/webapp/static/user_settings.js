@@ -1,8 +1,11 @@
-gUserSettings = Cookies.getJSON( "user-settings" ) || {} ;
+SCENARIO_IMAGES_SOURCE_THIS_PROGRAM = 1 ;
+SCENARIO_IMAGES_SOURCE_INTERNET = 2 ;
+
+gUserSettings = Cookies.getJSON( "user-settings" ) || { "scenario-images-source": SCENARIO_IMAGES_SOURCE_THIS_PROGRAM } ;
 
 USER_SETTINGS = {
     "date-format": "droplist",
-    "use-online-images": "checkbox",
+    "scenario-images-source": "droplist",
     "hide-unavailable-ma-notes": "checkbox",
     "include-vasl-images-in-snippets": "checkbox",
     "include-flags-in-snippets": "checkbox",
@@ -37,15 +40,15 @@ function user_settings()
 
     function update_ui() {
         // update the UI
-        var use_online_images = $( ".ui-dialog.user-settings input[name='use-online-images']" ).prop( "checked" ) ;
+        var images_source = $( ".ui-dialog.user-settings select[name='scenario-images-source']" ).val() ;
         $( ".ui-dialog.user-settings img.need-localhost.sometimes" ).css(
-            "display", use_online_images ? "none" : "inline-block"
+            "display", (images_source == SCENARIO_IMAGES_SOURCE_THIS_PROGRAM) ? "inline-block" : "none"
         ) ;
         // update the UI
         var rc = false ;
         $( ".ui-dialog.user-settings input.need-localhost:checked" ).each( function() {
             if ( $(this).hasClass( "sometimes" ) ) {
-                if ( ! use_online_images )
+                if ( images_source == SCENARIO_IMAGES_SOURCE_THIS_PROGRAM )
                     rc = true ;
             }
             else
@@ -68,8 +71,8 @@ function user_settings()
         title: "User settings",
         dialogClass: "user-settings",
         modal: true,
-        width: 440,
-        height: 305,
+        width: 450,
+        height: 290,
         resizable: false,
         create: function() {
             init_dialog( $(this), "OK", true ) ;
@@ -78,26 +81,30 @@ function user_settings()
                 var $img = $( "<img src='" + gImagesBaseUrl+"/warning.gif" + "'class='need-localhost'>" ) ;
                 if ( $(this).hasClass( "sometimes" ) )
                     $img.addClass( "sometimes" ) ;
-                $img.attr( "title", "If you turn this option on, this program must be running\nbefore you load the scenario into VASSAL." ) ;
+                $img.attr( "title", "If you turn this option on, this program must be running\nbefore you load scenarios into VASSAL." ) ;
                 $(this).next().before( $img ) ;
             } ) ;
             var $btn_pane = $(".ui-dialog.user-settings .ui-dialog-buttonpane") ;
             $btn_pane.prepend( $(
                 "<div class='need-localhost'><img src='" + gImagesBaseUrl+"/warning.gif" + "'>" +
-                "This program must be running before<br>you load the scenario into VASSAL.</div>"
+                "This program must be running before<br>you load scenarios into VASSAL.</div>"
             ) ) ;
             // install handlers to keep the UI updated
             for ( var name in USER_SETTINGS ) {
-                if ( USER_SETTINGS[name] === "checkbox" ) {
-                    var $elem = $( ".ui-dialog.user-settings [name='" + name + "']" ) ;
+                var $elem = $( ".ui-dialog.user-settings [name='" + name + "']" ) ;
+                if ( USER_SETTINGS[name] === "checkbox" )
                     $elem.click( update_ui ) ;
-                }
+                else if ( USER_SETTINGS[name] === "droplist" )
+                    $elem.change( update_ui ) ;
             }
         },
         open: function() {
             on_dialog_open( $(this) ) ;
             // load the current user settings
             load_settings( $(this) ) ;
+            // FUDGE! Doing this in the "open" handler breaks loading the scenario-images-source droplist :shrug:
+            // FIXME! Using select2 breaks Ctrl-Enter handling :-(
+            $(this).find( "select" ).select2( { minimumResultsForSearch: -1 } ) ;
         },
         buttons: {
             OK: function() {
