@@ -41,7 +41,10 @@ class MsgStore:
     def _add_msg( self, msg_type, msg, *args, **kwargs ):
         """Add a message to the store."""
         logger = kwargs.pop( "logger", None )
-        msg = msg.format( *args, **kwargs )
+        if args or kwargs:
+            # NOTE: We only format the message if there are any parameters, to handle the case
+            # where the caller passed us a single string that happens to contain a {.
+            msg = msg.format( *args, **kwargs )
         self._msgs[ msg_type ].append( msg )
         if logger:
             func = getattr( logger, "warn" if msg_type == "warning" else msg_type )

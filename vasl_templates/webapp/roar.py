@@ -53,7 +53,7 @@ def init_roar( msg_store ):
     # check if we should download the ROAR scenario index
     if download:
         if app.config.get("DISABLE_ROAR_SCENARIO_INDEX_DOWNLOAD"):
-            _logger.warning( "Downloading the ROAR scenario index has been disabled." )
+            _logger.critical( "Downloading the ROAR scenario index has been disabled." )
         else:
             # yup - make it so (nb: we do it in a background thread to avoid blocking the startup process)
             # NOTE: This is the only place we do this, so if it fails, the program needs to be restarted to try again.
@@ -73,10 +73,10 @@ def _download_roar_scenario_index( save_fname, msg_store ):
         data = fp.read().decode( "utf-8" )
     except Exception as ex: #pylint: disable=broad-except
         # NOTE: We catch all exceptions, since we don't want an error here to stop us from running :-/
-        error_msg = "Can't download ROAR scenario index: {}".format( getattr(ex,"reason",str(ex)) )
-        _logger.warning( error_msg )
+        msg = "Can't download the ROAR scenario index: {}".format( getattr(ex,"reason",str(ex)) )
+        _logger.warning( "%s", msg )
         if msg_store:
-            msg_store.warning( error_msg )
+            msg_store.warning( msg )
         return
     if not _load_roar_scenario_index( data, "downloaded", msg_store ):
         # NOTE: If we fail to load the scenario index (e.g. because of invalid JSON), we exit here
@@ -97,10 +97,10 @@ def _load_roar_scenario_index( data, data_type, msg_store ):
         scenario_index = json.loads( data )
     except Exception as ex: #pylint: disable=broad-except
         # NOTE: We catch all exceptions, since we don't want an error here to stop us from running :-/
-        error_msg = "Can't load {} ROAR scenario index: {}".format( data_type, ex )
-        _logger.warning( error_msg )
+        msg = "Can't load the {} ROAR scenario index: {}".format( data_type, ex )
+        _logger.error( "%s", msg )
         if msg_store:
-            msg_store.warning( error_msg )
+            msg_store.error( msg )
         return False
     _logger.debug( "Loaded %s ROAR scenario index OK: #scenarios=%d", data_type, len(scenario_index) )
     _logger.debug( "- Last updated: %s", scenario_index.get( "_lastUpdated_", "n/a" ) )

@@ -257,7 +257,7 @@ class ControlTests:
         _logger.info( "Setting vehicle/ordnance notes: %s", dname )
         app.config["CHAPTER_H_NOTES_DIR"] = dname
         from vasl_templates.webapp.vo_notes import load_vo_notes
-        load_vo_notes()
+        load_vo_notes( None )
         return self
 
     def _set_user_files_dir( self, dtype=None ):

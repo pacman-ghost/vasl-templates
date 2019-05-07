@@ -76,7 +76,7 @@ function do_update_vsav( vsav_data, fname )
             }
             $("#vassal-shim-error").dialog( {
                 dialogClass: "vassal-shim-error",
-                title: "Scenario update error",
+                title: "Can't update the scenario",
                 modal: true,
                 width: 600, height: "auto",
                 open: function() {

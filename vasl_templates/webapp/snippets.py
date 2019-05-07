@@ -13,7 +13,6 @@ from flask import request, jsonify, send_file, abort
 from PIL import Image
 
 from vasl_templates.webapp import app, globvars
-from vasl_templates.webapp.utils import SimpleError
 from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp.webdriver import WebDriver
 
@@ -150,7 +149,7 @@ def make_snippet_image():
     try:
         with WebDriver.get_instance() as webdriver:
             img = webdriver.get_snippet_screenshot( None, snippet )
-    except SimpleError as ex:
+    except Exception as ex: #pylint: disable=broad-except
         return "ERROR: {}".format( ex )
 
     # get the image data

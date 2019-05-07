@@ -34,8 +34,9 @@ def get_startup_msgs():
         try:
             VassalShim.check_vassal_version( startup_msg_store )
         except Exception as ex: #pylint: disable=broad-except
-            # NOTE: We can get here is VASSAL has been configured, but not Java - don't show an error to the user :-/
-            logging.warning( "Can't get the VASSAL version: %s", ex )
+            msg = "Can't get the VASSAL version: {}".format( ex )
+            logging.error( "%s", msg )
+            startup_msg_store.error( msg )
 
     # collect all the startup messages
     startup_msgs = {}

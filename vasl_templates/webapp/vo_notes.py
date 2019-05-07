@@ -28,7 +28,7 @@ def get_ordnance_notes():
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def load_vo_notes(): #pylint: disable=too-many-statements,too-many-locals,too-many-branches
+def load_vo_notes( msg_store ): #pylint: disable=too-many-statements,too-many-locals,too-many-branches
     """Load the Chapter H vehicle/ordnance notes."""
 
     # locate the data directory
@@ -39,7 +39,10 @@ def load_vo_notes(): #pylint: disable=too-many-statements,too-many-locals,too-ma
         # but the user may not have mapped it to a directory outside the container).
         dname = os.path.abspath( dname )
         if not os.path.isdir( dname ):
-            logging.warning( "Missing Chapter H directory: %s", dname )
+            error_msg = "Missing Chapter H directory: {}".format( dname )
+            logging.error( "%s", error_msg )
+            if msg_store:
+                msg_store.error( error_msg )
             dname = None
     if not dname:
         globvars.vo_notes = { "vehicles": {}, "ordnance": {} }

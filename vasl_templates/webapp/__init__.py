@@ -34,11 +34,11 @@ def _on_startup():
 
     # load the vehicle/ordnance notes
     from vasl_templates.webapp.vo_notes import load_vo_notes #pylint: disable=cyclic-import
-    load_vo_notes()
+    from vasl_templates.webapp.main import startup_msg_store #pylint: disable=cyclic-import
+    load_vo_notes( startup_msg_store )
 
     # initialize ROAR integration
     from vasl_templates.webapp.roar import init_roar #pylint: disable=cyclic-import
-    from vasl_templates.webapp.main import startup_msg_store #pylint: disable=cyclic-import
     init_roar( startup_msg_store )
 
 # ---------------------------------------------------------------------

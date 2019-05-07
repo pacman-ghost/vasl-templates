@@ -5,6 +5,7 @@ import io
 import urllib.request
 import urllib.parse
 import mimetypes
+import logging
 
 from flask import send_file, send_from_directory, jsonify, redirect, url_for, abort, render_template
 
@@ -62,6 +63,8 @@ def get_user_file( path ):
     dname = app.config.get( "USER_FILES_DIR" )
     if not dname:
         abort( 404 )
+    if not os.path.isdir( dname ):
+        logging.error( "Missing user files directory: %s", dname )
     resp = FileServer( dname ).serve_file( path )
     if not resp:
         abort( 404 )

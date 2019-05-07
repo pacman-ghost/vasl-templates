@@ -22,11 +22,20 @@ warnings = [] # nb: for the test suite
 
 def set_vasl_mod( vmod_fname, msg_store ):
     """Install a new global VaslMod object."""
+    globvars.vasl_mod = None
     if vmod_fname:
         # load and install the specified VASL module
         extns_dir = app.config.get( "VASL_EXTNS_DIR" )
-        extns = _load_vasl_extns( extns_dir )
-        globvars.vasl_mod = VaslMod( vmod_fname, DATA_DIR, extns )
+        extns = _load_vasl_extns( extns_dir, msg_store )
+        try:
+            vasl_mod = VaslMod( vmod_fname, DATA_DIR, extns )
+        except Exception as ex: #pylint: disable=broad-except
+            msg = "Can't load the VASL module: {}".format( ex )
+            _logger.error( "%s", msg )
+            if msg_store:
+                msg_store.error( msg )
+            return
+        globvars.vasl_mod = vasl_mod
         # make sure the VASL version is one we support
         if globvars.vasl_mod.vasl_version not in SUPPORTED_VASL_MOD_VERSIONS:
             if msg_store:
@@ -35,20 +44,23 @@ def set_vasl_mod( vmod_fname, msg_store ):
                         globvars.vasl_mod.vasl_version
                     )
                 )
-    else:
-        # no VASL module has been specified
-        globvars.vasl_mod = None
 
-def _load_vasl_extns( extn_dir ): #pylint: disable=too-many-locals,too-many-statements,too-many-branches
+def _load_vasl_extns( extn_dir, msg_store ): #pylint: disable=too-many-locals,too-many-statements,too-many-branches
     """Locate VASL extensions and their corresponding vehicle/ordnance info files."""
 
     if not extn_dir:
+        return []
+    if not os.path.isdir( extn_dir ):
+        msg = "Can't find the VASL extensions directory: {}".format( extn_dir )
+        _logger.error( "%s", msg )
+        if msg_store:
+            msg_store.error( msg )
         return []
 
     def log_warning( fmt, *args, **kwargs ): #pylint: disable=missing-docstring
         msg = fmt.format( *args, **kwargs )
         warnings.append( msg )
-        _logger.warning( msg )
+        _logger.warning( "%s", msg )
 
     # load our extension info files
     all_extn_info = {}

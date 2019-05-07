@@ -75,7 +75,7 @@ def update_vsav(): #pylint: disable=too-many-statements
                         vsav_data = fp.read()
                     fname = app.config.get( "UPDATE_VSAV_RESULT" ) # nb: for diagnosing problems
                     if fname:
-                        _logger.debug( "Saving a copy of the update VSAV: %s", fname )
+                        _logger.debug( "Saving a copy of the updated VSAV: %s", fname )
                         with open( app.config.get("UPDATE_VSAV_RESULT"), "wb" ) as fp:
                             fp.write( vsav_data )
                     # read the report
@@ -354,8 +354,8 @@ class VassalShim:
         if version not in SUPPORTED_VASSAL_VERSIONS:
             if msg_store:
                 msg_store.warning(
-                    "This program has not been tested with VASSAL {}." \
-                    "<p>Things might work, but they might not...".format( version )
+                    "This program has not been tested with VASSAL {}.<p>Things might work, but they might not...",
+                    version
                 )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
