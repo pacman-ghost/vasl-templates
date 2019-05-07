@@ -66,7 +66,7 @@
         <widget class="QLineEdit" name="java_path"/>
        </item>
        <item>
-        <widget class="QPushButton" name="select_java_button">
+        <widget class="QPushButton" name="select_java_path_button">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -111,7 +111,7 @@
         <widget class="QLineEdit" name="webdriver_path"/>
        </item>
        <item>
-        <widget class="QPushButton" name="select_webdriver_button">
+        <widget class="QPushButton" name="select_webdriver_path_button">
          <property name="minimumSize">
           <size>
            <width>22</width>
@@ -582,9 +582,9 @@
   <tabstop>user_files_dir</tabstop>
   <tabstop>select_user_files_dir_button</tabstop>
   <tabstop>java_path</tabstop>
-  <tabstop>select_java_button</tabstop>
+  <tabstop>select_java_path_button</tabstop>
   <tabstop>webdriver_path</tabstop>
-  <tabstop>select_webdriver_button</tabstop>
+  <tabstop>select_webdriver_path_button</tabstop>
   <tabstop>ok_button</tabstop>
   <tabstop>cancel_button</tabstop>
  </tabstops>
