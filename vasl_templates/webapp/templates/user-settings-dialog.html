@@ -1,18 +1,23 @@
 <div id="user-settings" style="display:none;">
 
-    <label for="">Date format:</label>
-    <select name="date-format" style="width:9em;">
-        <option value="mm/dd/yy">MM/DD/YYYY</option>
-        <option value="dd/mm/yy">DD/MM/YYYY</option>
-        <option value="yy-mm-dd">YYYY-MM-DD</option>
-    </select>
-    <div style="margin-top:0.25em;">
-        <input type="checkbox" name="hide-unavailable-ma-notes"> Hide unavailable multi-applicable notes <br>
+    <div style="display:flex;align-items:center;margin-bottom:0.25em;">
+        HTML snippet font:&nbsp;
+        <input type="text" name="snippet-font-family" title='CSS font family (e.g. "Verdana" or "sans-serif")' style="flex-grow:1;">&nbsp;
+        <input type="text" name="snippet-font-size" size="3" title='CSS font size (e.g. "12px")'>
+    </div>
+    <input type="checkbox" name="hide-unavailable-ma-notes"> Hide unavailable multi-applicable notes <br>
+    <div style="margin-top:0.5em;">
+        <label for="">Date format:</label>
+        <select name="date-format" style="width:9em;">
+            <option value="mm/dd/yy">MM/DD/YYYY</option>
+            <option value="dd/mm/yy">DD/MM/YYYY</option>
+            <option value="yy-mm-dd">YYYY-MM-DD</option>
+        </select>
     </div>
 
     <fieldset> <legend> Images in scenarios </legend>
         Get images from:
-        <select name="scenario-images-source" style="width:8em;">
+        <select name="scenario-images-source" style="width:7.5em;">
             <option value="1">this program</option>
             <option value="2">the internet</option>
         </select> <br>

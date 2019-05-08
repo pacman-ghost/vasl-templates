@@ -4,6 +4,8 @@ SCENARIO_IMAGES_SOURCE_INTERNET = 2 ;
 gUserSettings = Cookies.getJSON( "user-settings" ) || { "scenario-images-source": SCENARIO_IMAGES_SOURCE_THIS_PROGRAM } ;
 
 USER_SETTINGS = {
+    "snippet-font-family": "text",
+    "snippet-font-size": "text",
     "date-format": "droplist",
     "scenario-images-source": "droplist",
     "hide-unavailable-ma-notes": "checkbox",
@@ -64,6 +66,8 @@ function user_settings()
         unload_checkbox: function( $elem ) { return $elem.prop( "checked" ) ; },
         load_droplist: function( $elem, val ) { if ( val ) $elem.val( val ) ; },
         unload_droplist: function( $elem ) { return $elem.children(":selected").val() ; },
+        load_text: function( $elem, val ) { $elem.val( val ? val.trim() : "" ) ; },
+        unload_text: function( $elem ) { return $elem.val().trim() ; },
     } ;
 
     // show the "user settings" dialog
@@ -71,8 +75,8 @@ function user_settings()
         title: "User settings",
         dialogClass: "user-settings",
         modal: true,
-        width: 450,
-        height: 290,
+        width: 460,
+        height: 320,
         resizable: false,
         create: function() {
             init_dialog( $(this), "OK", true ) ;

@@ -128,6 +128,14 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     params.IMAGES_BASE_URL = gUserSettings["scenario-images-source"] == SCENARIO_IMAGES_SOURCE_INTERNET ?
         gAppConfig.ONLINE_IMAGES_URL_BASE :
         APP_URL_BASE + gImagesBaseUrl ;
+    if ( gUserSettings["snippet-font-family"] ) {
+        // NOTE: Layout of snippets ends up being slightly different on Windows and Linux, presumably because
+        // VASSAL is using different fonts. Unfortunately, explicitly specifying which font to use doesn't
+        // fix this, even web-safe ones :-(
+        params.SNIPPET_FONT_FAMILY = gUserSettings["snippet-font-family"] ;
+    }
+    if ( gUserSettings["snippet-font-size"] )
+        params.SNIPPET_FONT_SIZE = gUserSettings["snippet-font-size"] ;
     if ( gUserSettings["custom-list-bullets"] )
         params.CUSTOM_LIST_BULLETS = true ;
     // some versions of Java require <img> tags to have the width and height specified!?!

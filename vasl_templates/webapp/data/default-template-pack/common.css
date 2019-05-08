@@ -1,9 +1,12 @@
+body {
+    {%if SNIPPET_FONT_FAMILY%} font-family: "{{SNIPPET_FONT_FAMILY}}" ; {%endif%}
+    {%if SNIPPET_FONT_SIZE%} font-size: {{SNIPPET_FONT_SIZE}} ; {%endif%}
+}
+
 p { margin-top: 5px ; margin-bottom: 0 ; }
 
 ul { margin: 0 ; padding: 0 0 0 10px ; }
-{% if CUSTOM_LIST_BULLETS %}
-ul { list-style-image: url("{{IMAGES_BASE_URL}}/bullet.png") ; }
-{%endif%}
+{%if CUSTOM_LIST_BULLETS%} ul { list-style-image: url("{{IMAGES_BASE_URL}}/bullet.png") ; } {%endif%}
 
 td { margin: 0 ; padding: 0 ; }
 td.c { text-align: center ; }
