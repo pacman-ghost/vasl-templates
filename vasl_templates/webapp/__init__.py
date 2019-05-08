@@ -37,10 +37,6 @@ def _on_startup():
     from vasl_templates.webapp.main import startup_msg_store #pylint: disable=cyclic-import
     load_vo_notes( startup_msg_store )
 
-    # initialize ROAR integration
-    from vasl_templates.webapp.roar import init_roar #pylint: disable=cyclic-import
-    init_roar( startup_msg_store )
-
 # ---------------------------------------------------------------------
 
 def _load_config( fname, section ):
@@ -107,6 +103,12 @@ if app.config.get( "ENABLE_REMOTE_TEST_CONTROL" ):
 
 # install our signal handler (must be done in the main thread)
 signal.signal( signal.SIGINT, _on_sigint )
+
+# initialize ROAR integration
+# NOTE:  We do this here, rather in _on_startup(), so that we can start downloading the latest scenario index file
+# without having to wait for the first request (e.g. if we are running as a standalone server, not the desktop app).
+from vasl_templates.webapp.roar import init_roar
+init_roar()
 
 # register startup initialization
 app.before_first_request( _on_startup )

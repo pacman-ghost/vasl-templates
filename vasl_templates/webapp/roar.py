@@ -24,8 +24,12 @@ CACHE_TTL = 6 * 60*60
 
 # ---------------------------------------------------------------------
 
-def init_roar( msg_store ):
+def init_roar():
     """Initialize ROAR integration."""
+
+    # initialize
+    from vasl_templates.webapp.main import startup_msg_store
+    msg_store = startup_msg_store
 
     # initialize
     download = True
@@ -45,7 +49,7 @@ def init_roar( msg_store ):
         age = int( time.time() - mtime )
         _logger.debug( "Cached scenario index age: %s (ttl=%s) (mtime=%s)",
             datetime.timedelta(seconds=age), datetime.timedelta(seconds=CACHE_TTL),
-            time.strftime( "%Y-%m-%d %H:%M:%S", time.gmtime(mtime) )
+            time.strftime( "%Y-%m-%d %H:%M:%S", time.localtime(mtime) )
         )
         if age < CACHE_TTL:
             download = False
