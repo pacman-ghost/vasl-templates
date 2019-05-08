@@ -150,6 +150,8 @@ function _parse_extra_template( template_id, template )
             continue ;
         var val = param.name.substr( pos+1 ) ;
         param.name = param.name.substr( 0, pos ) ;
+        if ( param.name === "CSS" )
+            continue ;
         // figure out what type of parameter we have
         if ( val.indexOf( "::" ) !== -1 ) {
             // we have a <select>

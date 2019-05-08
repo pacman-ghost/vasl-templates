@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <style>
 {{CSS:common}}
+.small { font-size: 75% ; font-style: italic ; }
 </style>
 </head>
 
@@ -13,17 +14,17 @@
 
 <tr>
 <td style="
-  padding: 5px 10px 5px 10px ;
+  padding: 5px 10px ;
   background: #f0f0f0 ;
   border-bottom: 1px solid #c0c0c0 ;
 ">
     <div style="font-size:115%;">
         <b> {%if SCENARIO_NAME%} {{SCENARIO_NAME}} {%else%} Untitled scenario {%endif%} </b>
-        {%if SCENARIO_ID%} <small><i> ({{SCENARIO_ID}}) </i></small> {%endif%}
+        {%if SCENARIO_ID%} <span class="small"> ({{SCENARIO_ID}}) </span> {%endif%}
     </div>
     {%if SCENARIO_LOCATION%} {{SCENARIO_LOCATION}} {%endif%}
     {%if SCENARIO_DATE%}
-        <small><i>({{SCENARIO_DAY_OF_MONTH_POSTFIX}} {{SCENARIO_MONTH_NAME}}, {{SCENARIO_YEAR}})</i></small>
+        <span class="small"> ({{SCENARIO_DAY_OF_MONTH_POSTFIX}} {{SCENARIO_MONTH_NAME}}, {{SCENARIO_YEAR}}) </span>
     {%endif%}
 
 </table>

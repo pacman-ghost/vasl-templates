@@ -26,19 +26,19 @@
   background: {{OB_COLOR}} ;
   border-bottom: 1px solid {{OB_COLOR_2}} ;
   padding: 2px 5px ;
-  font-weight: bold ;
+  font-size: 105% ; font-weight: bold ;
 ">
     {{INCLUDE:player_flag}}{{PLAYER_NAME}} {{VO_TYPE}} Notes
 
 {%if OB_MA_NOTES%}
-<tr> <td style="padding: 0 5px;">
+<tr> <td style="padding:0 5px;">
 {%for ma_note in OB_MA_NOTES%}
     <div class="ma-note"> {{ma_note}} </div>
 {%endfor%}
 {%endif%}
 
 {%if OB_EXTRA_MA_NOTES%}
-<tr> <td style="padding: 0 5px;">
+<tr> <td style="padding:0 5px;">
 {%if OB_EXTRA_MA_NOTES_CAPTION%} <div class="extra-notes-caption"> {{OB_EXTRA_MA_NOTES_CAPTION}} </div> {%endif%}
 {%for ma_note in OB_EXTRA_MA_NOTES%}
     <div class="ma-note"> {{ma_note}} </div>

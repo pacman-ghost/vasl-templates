@@ -5,22 +5,28 @@
 
 <head>
 <meta charset="utf-8">
-<style>
-td { margin: 0 ; padding: 0 ; }
-</style>
+<style> {{CSS:common}} </style>
 </head>
 
 <table>
 
 <tr>
-<td colspan="2" style="background: {{PLAYER_COLORS["german"][0]}} ; border-bottom: 1px solid {{PLAYER_COLORS["german"][2]}} ; padding: 2px 5px ; font-weight: bold ;">
+<td colspan="2" style="
+    background: {{PLAYER_COLORS["german"][0]}} ;
+    border-bottom: 1px solid {{PLAYER_COLORS["german"][2]}} ;
+    padding: 2px 5px ;
+    font-size: 105% ; font-weight: bold ;
+">
     {# Some versions of Java require <img> tags to have the width and height specified!?! #}
     {%if PLAYER_FLAGS["german"]%}<img src="{{PLAYER_FLAGS["german"]}}" {{PLAYER_FLAG_SIZE}}>&nbsp;{%endif%}Grenade Bundles
 
 <tr>
-<td style="padding:2px 5px;">
-    -2 CC Attack DRM <br>
-    ATMM check: dr &le; 3 (&#9651;) <br>
+<td style="padding:3px 5px 0 5px;">
+    -2 CC Attack DRM
+
+<tr>
+<td style="padding:3px 5px 0 5px;">
+    ATMM check: dr &le; 3 (&#9651;)
     <table style="margin-left:10px;">
         <tr>
             <td style="width:20px;"> +1

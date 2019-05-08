@@ -1149,8 +1149,11 @@ function get_template( template_id, fixup )
     if ( template_id in gTemplatePack.templates ) {
         var template = gTemplatePack.templates[ template_id ] ;
         if ( fixup ) {
-            if ( template_id.substr(0,7) === "extras/" )
+            if ( template_id.substr(0,7) === "extras/" ) {
+                for ( var key in gTemplatePack.css )
+                    template = strReplaceAll( template, "{{CSS:"+key+"}}", gTemplatePack.css[key] ) ;
                 template = fixup_template_parameters( template ) ;
+            }
         }
         return template ;
     }

@@ -2,9 +2,7 @@
 
 <head>
 <meta charset="utf-8">
-<style>
-{{CSS:common}}
-</style>
+<style> {{CSS:common}} </style>
 </head>
 
 <table>
@@ -14,13 +12,13 @@
   background: {{OB_COLOR}} ;
   border-bottom: 1px solid {{OB_COLOR_2}} ;
   padding: 2px 5px ;
-  font-weight: bold ;
+  font-size: 105% ; font-weight: bold ;
 ">
     {{INCLUDE:player_flag}}Tank-Hunter Heroes
 
 <tr>
 
-<td valign="top" style="padding:2px 0 0 3px;">
+<td valign="top" style="padding:2px 5px;">
     THH creation: dr &le; 3 (&#9651;)
     <table style="margin-left:10px;">
         <tr>
@@ -35,7 +33,7 @@
 <tr>
 
 {% if SCENARIO_YEAR %}
-<td valign="top" style="padding:10px 0 0 3px;">
+<td valign="top" style="padding:10px 5px;">
     ATMM check: dr &le; {%if SCENARIO_YEAR < 1944%} 2 {%else%} 3 {%endif%} (&#9651;)
 {%endif%}
 
