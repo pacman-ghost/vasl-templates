@@ -106,7 +106,7 @@ def _do_get_template_pack( dname ):
             fname_stem, extn = os.path.splitext( fname )
             fname = os.path.join( root, fname )
             with open( fname, "r" ) as fp:
-                if fname.lower() == "nationalities.json":
+                if (fname_stem, extn) == ("nationalities", ".json"):
                     nationalities = json.load( fp )
                     continue
                 if extn == ".j2":
