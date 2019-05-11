@@ -1,6 +1,7 @@
 _work_/
 _releases_/
 
+.vscode
 .venv*
 *.pyc
 .pytest_cache/
