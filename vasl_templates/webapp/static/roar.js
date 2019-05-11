@@ -279,6 +279,9 @@ function set_roar_scenario( roar_id )
             $( "input[name='ROAR_ID']" ).val( "" ) ;
             $( "#roar-info" ).hide() ;
         }
+        // FUDGE! The scenario notes panel doesn't always resize itself after showing the ROAR info panel,
+        // causing the main window to show a vertical scrollbar. We hack around this by forcing a resize.
+        $(window).trigger( "resize" ) ;
     }
 
     // set the ROAR scenario
