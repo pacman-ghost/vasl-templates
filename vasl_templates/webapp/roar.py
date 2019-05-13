@@ -19,7 +19,7 @@ _roar_scenario_index_lock = threading.Lock()
 
 _logger = logging.getLogger( "roar" )
 
-ROAR_SCENARIO_INDEX_URL = "http://vasl-templates.org/services/roar/scenario-index.json"
+ROAR_SCENARIO_INDEX_URL = "https://vasl-templates.org/services/roar/scenario-index.json"
 CACHE_TTL = 6 * 60*60
 
 # ---------------------------------------------------------------------
@@ -70,7 +70,7 @@ def _download_roar_scenario_index( save_fname, msg_store ):
     """Download the ROAR scenario index."""
 
     # download the ROAR scenario index
-    url = app.config.get( "ROAR_SCENARIO_INDEX_URL", "https://vasl-templates.org/services/roar/scenario-index.json" )
+    url = app.config.get( "ROAR_SCENARIO_INDEX_URL", ROAR_SCENARIO_INDEX_URL )
     _logger.info( "Downloading ROAR scenario index: %s", url )
     try:
         fp = urllib.request.urlopen( url )
