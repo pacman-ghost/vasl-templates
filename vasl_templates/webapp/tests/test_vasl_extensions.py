@@ -17,6 +17,10 @@ from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 
 # ---------------------------------------------------------------------
 
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_mods, #pylint: disable=no-member
+    reason = "--vasl-mods not specified"
+)
 def test_load_vasl_extensions( webapp, webdriver ):
     """Test loading VASL extensions."""
 
@@ -55,6 +59,10 @@ def test_load_vasl_extensions( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_mods, #pylint: disable=no-member
+    reason = "--vasl-mods not specified"
+)
 def test_vasl_extension_info( webapp, webdriver ):
     """Test matching VASL extensions with our extension info files."""
 
@@ -87,6 +95,10 @@ def test_vasl_extension_info( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_mods, #pylint: disable=no-member
+    reason = "--vasl-mods not specified"
+)
 @pytest.mark.skipif(
     not pytest.config.option.vasl_extensions, #pylint: disable=no-member
     reason = "--vasl-extensions not specified"
@@ -158,6 +170,10 @@ def test_dedupe_ma_notes( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_mods, #pylint: disable=no-member
+    reason = "--vasl-mods not specified"
+)
 @pytest.mark.skipif(
     not pytest.config.option.vasl_extensions, #pylint: disable=no-member
     reason = "--vasl-extensions not specified"
@@ -232,6 +248,10 @@ def test_kgs_extensions( webapp, webdriver ):
 # ---------------------------------------------------------------------
 
 @pytest.mark.skipif(
+    not pytest.config.option.vasl_mods, #pylint: disable=no-member
+    reason = "--vasl-mods not specified"
+)
+@pytest.mark.skipif(
     not pytest.config.option.vasl_extensions, #pylint: disable=no-member
     reason = "--vasl-extensions not specified"
 )
@@ -297,6 +317,10 @@ def test_bfp_extensions( webapp, webdriver ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_mods, #pylint: disable=no-member
+    reason = "--vasl-mods not specified"
+)
 @pytest.mark.skipif(
     not pytest.config.option.vasl_extensions, #pylint: disable=no-member
     reason = "--vasl-extensions not specified"

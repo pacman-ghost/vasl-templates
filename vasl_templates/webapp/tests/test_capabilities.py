@@ -396,6 +396,10 @@ def test_theater_capabilities( webapp, webdriver ):
     reason = "--short-tests specified"
 )
 @pytest.mark.skipif(
+    not pytest.config.option.vasl_mods, #pylint: disable=no-member
+    reason = "--vasl-mods not specified"
+)
+@pytest.mark.skipif(
     not pytest.config.option.vasl_extensions, #pylint: disable=no-member
     reason = "--vasl-extensions not specified"
 )

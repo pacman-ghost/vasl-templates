@@ -135,6 +135,7 @@ class ControlTests:
         """Return the available VASL modules."""
         try:
             dname = pytest.config.option.vasl_mods #pylint: disable=no-member
+            assert dname, "--vasl-mods was not specified."
         except AttributeError:
             dname = app.config[ "TEST_VASL_MODS" ]
         fspec = os.path.join( dname, "*.vmod" )
@@ -148,6 +149,7 @@ class ControlTests:
             if extns_dtype == "real":
                 try:
                     dname = pytest.config.option.vasl_extensions #pylint: disable=no-member
+                    assert dname, "--vasl-extensions was not specified."
                 except AttributeError:
                     dname = app.config[ "TEST_VASL_EXTNS_DIR" ]
             elif extns_dtype == "test":
@@ -223,6 +225,7 @@ class ControlTests:
         """Get the available VASSAL engines."""
         try:
             dname = pytest.config.option.vassal #pylint: disable=no-member
+            assert dname, "--vassal was not specified."
         except AttributeError:
             dname = app.config[ "TEST_VASSAL_ENGINES" ]
         vassal_engines = []
@@ -247,6 +250,7 @@ class ControlTests:
         if dtype == "real":
             try:
                 dname = pytest.config.option.vo_notes #pylint: disable=no-member
+                assert dname, "--vo-notes was not specified."
             except AttributeError:
                 dname = _ORIG_CHAPTER_H_NOTES_DIR
         elif dtype == "test":

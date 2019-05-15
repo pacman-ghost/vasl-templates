@@ -449,6 +449,10 @@ def test_special_cases( webapp, webdriver ):
 # NOTE: The expected output files contain pieces from the supported extensions,
 # so the VASL extensions directory must be loaded.
 @pytest.mark.skipif(
+    not pytest.config.option.vasl_mods, #pylint: disable=no-member
+    reason = "--vasl-mods not specified"
+    )
+@pytest.mark.skipif(
     not pytest.config.option.vasl_extensions, #pylint: disable=no-member
     reason = "--vasl-extensions not specified"
     ) #pylint: disable=too-many-locals

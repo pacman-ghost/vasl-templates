@@ -2,6 +2,7 @@
 
 import re
 
+import pytest
 from selenium.webdriver.common.action_chains import ActionChains
 
 from vasl_templates.webapp.tests.utils import init_webapp, select_tab, \
@@ -15,6 +16,10 @@ SCENARIO_IMAGES_SOURCE_INTERNET = 2
 
 # ---------------------------------------------------------------------
 
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_mods, #pylint: disable=no-member
+    reason = "--vasl-mods not specified"
+)
 def test_online_images( webapp, webdriver ):
     """Test using online images in VASL scenarios."""
 
@@ -71,6 +76,10 @@ def test_online_images( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_mods, #pylint: disable=no-member
+    reason = "--vasl-mods not specified"
+)
 def test_multiple_images( webapp, webdriver ):
     """Test handling of VASL counters that have multiple images."""
 
@@ -123,6 +132,14 @@ def test_multiple_images( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_mods, #pylint: disable=no-member
+    reason = "--vasl-mods not specified"
+)
+@pytest.mark.skipif(
+    not pytest.config.option.vasl_extensions, #pylint: disable=no-member
+    reason = "--vasl-extensions not specified"
+)
 def test_extensions( webapp, webdriver ):
     """Test handling of VASL counters in extensions."""
 
