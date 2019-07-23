@@ -29,13 +29,8 @@ import java.awt.Dimension ;
 import javax.xml.parsers.DocumentBuilderFactory ;
 import javax.xml.parsers.DocumentBuilder ;
 import javax.xml.parsers.ParserConfigurationException ;
-import javax.xml.transform.Transformer ;
 import javax.xml.transform.TransformerException ;
 import javax.xml.transform.TransformerConfigurationException ;
-import javax.xml.transform.TransformerFactory ;
-import javax.xml.transform.OutputKeys ;
-import javax.xml.transform.dom.DOMSource ;
-import javax.xml.transform.stream.StreamResult ;
 import javax.xml.xpath.XPathExpressionException  ;
 import org.w3c.dom.Document ;
 import org.w3c.dom.NodeList ;
@@ -61,7 +56,9 @@ import VASSAL.command.ConditionalCommand ;
 import VASSAL.command.AlertCommand ;
 import VASSAL.build.module.map.boardPicker.Board ;
 import VASSAL.counters.GamePiece ;
+import VASSAL.counters.BasicPiece ;
 import VASSAL.counters.DynamicProperty ;
+import VASSAL.counters.Hideable ;
 import VASSAL.counters.PieceCloner ;
 import VASSAL.preferences.Prefs ;
 import VASSAL.tools.DataArchive ;
@@ -77,6 +74,7 @@ import vassal_shim.Snippet ;
 import vassal_shim.GamePieceLabelFields ;
 import vassal_shim.LabelArea ;
 import vassal_shim.ReportNode ;
+import vassal_shim.AnalyzeNode ;
 import vassal_shim.ModuleManagerMenuManager ;
 import vassal_shim.Utils ;
 
@@ -143,20 +141,43 @@ public class VassalShim
         dumpCommand( cmd, "" ) ;
     }
 
+    public void analyzeScenario( String scenarioFilename, String reportFilename )
+        throws IOException, ParserConfigurationException, TransformerConfigurationException, TransformerException
+    {
+        // load the scenario
+        configureBoards() ;
+        Command cmd = loadScenario( scenarioFilename ) ;
+        cmd.execute() ;
+
+        // analyze the scenario
+        HashMap<String,AnalyzeNode> results = new HashMap<String,AnalyzeNode>() ;
+        analyzeCommand( cmd, results ) ;
+
+        // generate the report
+        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument() ;
+        Element rootElem = doc.createElement( "analyzeReport" ) ;
+        doc.appendChild( rootElem ) ;
+        for ( String gpid: results.keySet() ) {
+            AnalyzeNode node = results.get( gpid ) ;
+            Element elem = doc.createElement( "piece" ) ;
+            elem.setAttribute( "gpid", gpid ) ;
+            elem.setAttribute( "name", node.name ) ;
+            elem.setAttribute( "count", Integer.toString( node.count ) ) ;
+            rootElem.appendChild( elem ) ;
+        }
+
+        // save the report
+        Utils.saveXml( doc, reportFilename ) ;
+    }
+
     public void updateScenario( String scenarioFilename, String snippetsFilename, String saveFilename, String reportFilename )
         throws IOException, ParserConfigurationException, SAXException, XPathExpressionException, TransformerException
     {
         // load the snippets supplied to us by the web server
         Map<String,Snippet> snippets = parseSnippets( snippetsFilename ) ;
 
-        // NOTE: While we can get away with just disabling warnings about missing boards when dumping scenarios,
-        // they need to be present when we update a scenario, otherwise they get removed from the scenario :-/
-        logger.info( "Configuring boards directory: {}", boardsDir ) ;
-        Prefs prefs = GameModule.getGameModule().getPrefs() ;
-        String BOARD_DIR = "boardURL" ;
-        prefs.setValue( BOARD_DIR, new File(boardsDir) ) ;
-
         // load the scenario
+        configureBoards() ;
         Command cmd = loadScenario( scenarioFilename ) ;
         // NOTE: The call to execute() is what's causing the VASSAL UI to appear on-screen. If we take it out,
         // label creation still works, but any boards and existing labels are not detected, presumably because
@@ -600,7 +621,7 @@ public class VassalShim
     }
 
     private void generateLabelReport( Map<String,ArrayList<ReportNode>> labelReport, String reportFilename )
-        throws TransformerException, TransformerConfigurationException, ParserConfigurationException, FileNotFoundException
+        throws TransformerException, TransformerConfigurationException, ParserConfigurationException, IOException
     {
         // generate the report
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument() ;
@@ -626,12 +647,7 @@ public class VassalShim
         rootElem.setAttribute( "wasModified", wasModified?"true":"false" ) ;
 
         // save the report
-        Transformer trans = TransformerFactory.newInstance().newTransformer() ;
-        trans.setOutputProperty( OutputKeys.INDENT, "yes" ) ;
-        trans.setOutputProperty( "{http://xml.apache.org/xslt}indent-amount", "4" ) ;
-        trans.setOutputProperty( OutputKeys.METHOD, "xml" ) ;
-        trans.setOutputProperty( OutputKeys.ENCODING, "UTF-8" ) ;
-        trans.transform( new DOMSource(doc), new StreamResult(new FileOutputStream(reportFilename)) ) ;
+        Utils.saveXml( doc, reportFilename ) ;
     }
 
     private String makeVassalCoordString( Point pos, Snippet snippet )
@@ -792,6 +808,27 @@ public class VassalShim
         buf.append( ": " + cmd.getAllowedIds() ) ;
     }
 
+    private static void analyzeCommand( Command cmd, Map<String,AnalyzeNode> results )
+    {
+        // analyze the command
+        if ( cmd instanceof AddPiece ) {
+            GamePiece target = ((AddPiece)cmd).getTarget() ;
+            // NOTE: Hideable's don't seem to be just a thing with old versions of VASSAL. We still get them
+            // when adding a "46mm granatnik wz. 36" (GPID 2172) using VASL 6.4.4 :-/
+            if ( target instanceof DynamicProperty || target instanceof Hideable || target.getClass().getName().equals("VASL.counters.TextInfo") ) {
+                int pos = target.getState().lastIndexOf( ";" ) ;
+                String gpid = target.getState().substring( pos+1 ) ;
+                if ( ! results.containsKey( gpid ) )
+                    results.put( gpid, new AnalyzeNode( target.getName() ) ) ;
+                results.get( gpid ).incrementCount() ;
+            }
+        }
+
+        // analyze any sub-commands
+        for ( Command c: cmd.getSubCommands() )
+            analyzeCommand( c, results ) ;
+    }
+
     private static void parseGamePieceState( String state, ArrayList<String> separators, ArrayList<String> fields )
     {
         // parse the GamePiece state
@@ -803,6 +840,16 @@ public class VassalShim
             pos = matcher.end() ;
         }
         fields.add( state.substring( pos ) ) ;
+    }
+
+    private void configureBoards()
+    {
+        // NOTE: While we can get away with just disabling warnings about missing boards when dumping scenarios,
+        // they need to be present when we update a scenario, otherwise they get removed from the scenario :-/
+        logger.info( "Configuring boards directory: {}", boardsDir ) ;
+        Prefs prefs = GameModule.getGameModule().getPrefs() ;
+        String BOARD_DIR = "boardURL" ;
+        prefs.setValue( BOARD_DIR, new File(boardsDir) ) ;
     }
 
     private void disableBoardWarnings()

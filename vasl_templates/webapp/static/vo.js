@@ -5,7 +5,7 @@ function add_vo( vo_type, player_no )
 {
     // load the available vehicles/ordnance
     var nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
-    var entries = gVehicleOrdnanceListings[vo_type][nat] ;
+    var entries = gVehicleOrdnanceListings[ vo_type ][ nat ] ;
     if ( entries === undefined ) {
         showWarningMsg( "There are no " + get_nationality_display_name(nat) + " " + vo_type + " listings." ) ;
         return ;
@@ -111,17 +111,15 @@ function add_vo( vo_type, player_no )
                     return ;
                 var sel_index = $elem.children( ".vo-entry" ).data( "index" ) ;
                 var sel_entry = entries[ sel_index ] ;
-                var usedVoIds=[], usedSeqIds={} ;
+                var usedVoIds = [] ;
                 $sortable2.find( "li" ).each( function() {
                     usedVoIds.push( $(this).data( "sortable2-data" ).vo_entry.id ) ;
-                    usedSeqIds[ $(this).data( "sortable2-data" ).id ] = true ;
                 } ) ;
                 // check for duplicates
                 function add_sel_entry() {
                     var $img = $elem.find( "img[class='vasl-image']" ) ;
                     var vo_image_id = $img.data( "vo-image-id" ) ;
-                    var seq_id = auto_assign_id( usedSeqIds, "seq_id" ) ;
-                    do_add_vo( vo_type, player_no, sel_entry, vo_image_id, false, null, null, seq_id ) ;
+                    do_add_vo( vo_type, player_no, sel_entry, vo_image_id, false, null, null, null ) ;
                     $dlg.dialog( "close" ) ;
                 }
                 if ( usedVoIds.indexOf( sel_entry.id ) !== -1 ) {
@@ -143,11 +141,21 @@ function add_vo( vo_type, player_no )
 
 function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_capabilities, custom_comments, seq_id )
 {
+    // initialize
+    var nat = get_player_nat( player_no ) ;
+    var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
+    if ( seq_id === null ) {
+        // auto-assign a sequence ID
+        var usedSeqIds = {} ;
+        $sortable2.find( "li" ).each( function() {
+            usedSeqIds[ $(this).data( "sortable2-data" ).id ] = true ;
+        } ) ;
+        seq_id = auto_assign_id( usedSeqIds, "seq_id" ) ;
+    }
+
     // add the specified vehicle/ordnance
     // NOTE: We set a fixed height for the sortable2 entries (based on the CSS settings in tabs-ob.css),
     // so that the vehicle/ordnance images won't get truncated if there are a lot of them.
-    var nat = get_player_nat( player_no ) ;
-    var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
     var div_tag = "<div class='vo-entry" ;
     var fixed_height = "3.25em" ;
     if ( is_small_vasl_piece( vo_entry ) ) {

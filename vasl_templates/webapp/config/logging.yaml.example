@@ -27,6 +27,6 @@ loggers:
     vasl_mod:
         level: "WARNING"
         handlers: [ "file" ]
-    update_vsav:
+    vassal_shim:
         level: "WARNING"
         handlers: [ "file" ]

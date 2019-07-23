@@ -28,6 +28,12 @@ public class Main
                 shim.dumpScenario( args[2] ) ;
                 System.exit( 0 ) ;
             }
+            else if ( cmd.equals( "analyze" ) ) {
+                checkArgs( args, 5, "the VASL .vmod file, boards directory, scenario file and output file" ) ;
+                VassalShim shim = new VassalShim( args[1], args[2] ) ;
+                shim.analyzeScenario( args[3], args[4] ) ;
+                System.exit( 0 ) ;
+            }
             else if ( cmd.equals( "update" ) ) {
                 checkArgs( args, 7, "the VASL .vmod file, boards directory, scenario file, snippets file and output/report files" ) ;
                 VassalShim shim = new VassalShim( args[1], args[2] ) ;

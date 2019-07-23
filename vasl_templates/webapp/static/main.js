@@ -45,10 +45,11 @@ $(document).ready( function () {
         new_scenario: { label: "New scenario", action: function() { on_new_scenario() ; } },
         load_scenario: { label: "Load scenario", action: on_load_scenario },
         save_scenario: { label: "Save scenario", action: on_save_scenario },
-        update_vsav: { label: "Update VASL scenario", action: on_update_vsav },
         separator: { type: "separator" },
-        template_pack: { label: "Load template pack", action: on_template_pack },
+        analyze_vsav: { label: "Analyze VASL scenario", action: on_analyze_vsav },
+        update_vsav: { label: "Update VASL scenario", action: on_update_vsav },
         separator2: { type: "separator" },
+        template_pack: { label: "Load template pack", action: on_template_pack },
         user_settings: { label: "Settings", action: user_settings },
         show_help: { label: "Help", action: show_help },
     } ) ;

@@ -13,8 +13,9 @@ from vasl_templates.webapp.vassal import VassalShim
 from vasl_templates.webapp.utils import TempFile, change_extn
 from vasl_templates.webapp import globvars
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, refresh_webapp, select_menu_option, get_stored_msg, set_stored_msg, set_stored_msg_marker, wait_for
-from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, load_scenario_params, \
+    init_webapp, refresh_webapp, select_menu_option, get_stored_msg, set_stored_msg, set_stored_msg_marker, wait_for, \
+    new_scenario, set_player
+from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, load_scenario_params, save_scenario, \
     assert_scenario_params_complete
 
 # ---------------------------------------------------------------------
@@ -335,7 +336,7 @@ def test_dump_vsav( webapp, webdriver ):
 @pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
 @pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 @pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
-def test_legacy_labels( webapp, webdriver ):
+def test_update_legacy_labels( webapp, webdriver ):
     """Test detection and updating of legacy labels."""
 
     # initialize
@@ -420,7 +421,7 @@ def test_legacy_labels( webapp, webdriver ):
 @pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
 @pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 @pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
-def test_legacy_latw_labels( webapp, webdriver ):
+def test_update_legacy_latw_labels( webapp, webdriver ):
     """Test detection and updating of legacy LATW labels."""
 
     # initialize
@@ -491,6 +492,89 @@ def test_legacy_latw_labels( webapp, webdriver ):
 
     # run the test
     _run_tests( control_tests, do_test, False )
+
+# ---------------------------------------------------------------------
+
+@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
+def test_analyze_vsav( webapp, webdriver ):
+    """Test analyzing a scenario."""
+
+    # initialize
+    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1,
+        reset = lambda ct:
+            ct.set_data_dir( dtype="real" ) \
+              .set_vasl_mod( vmod="random", extns_dtype="real" )
+    )
+
+    def do_test(): #pylint: disable=missing-docstring
+
+        # analyze a basic scenario
+        new_scenario()
+        _analyze_vsav( "basic.vsav",
+            [ [ "ge/v:033", "ge/v:066" ], [ "ge/o:029" ] ],
+            [ [ "ru/v:064" ], [ "ru/o:002", "ru/o:006" ] ],
+            [ "Imported 2 German vehicles and 1 ordnance.", "Imported 1 Russian vehicle and 2 ordnance." ]
+        )
+
+        # try again with different nationalities
+        new_scenario()
+        set_player( 1, "french" )
+        set_player( 2, "british" )
+        _analyze_vsav( "basic.vsav",
+            [ [], [] ],
+            [ [], [] ],
+            [ "No vehicles/ordnance were imported." ]
+        )
+
+        # analyze a scenario with landing craft
+        new_scenario()
+        set_player( 1, "american" )
+        set_player( 2, "japanese" )
+        _analyze_vsav( "landing-craft.vsav",
+            [ [ ("sh/v:000","397/0"), ("sh/v:000","399/0"), ("sh/v:006","413/0"), ("sh/v:006","415/0") ], [] ],
+            [ [ "sh/v:007", "sh/v:008" ], [] ],
+            [ "Imported 4 American vehicles.", "Imported 2 Japanese vehicles." ]
+        )
+
+        # analyze a scenario with common vehicles/ordnance
+        new_scenario()
+        set_player( 1, "belgian" )
+        set_player( 2, "romanian" )
+        _analyze_vsav( "common-vo.vsav",
+            [ [ "be/v:000", "alc/v:011" ], [ "be/o:001", "alc/o:012" ] ],
+            [ [ "ro/v:000", "axc/v:027" ], [ "ro/o:003", "axc/o:002" ] ],
+            [ "Imported 2 Belgian vehicles and 2 ordnance.", "Imported 2 Romanian vehicles and 2 ordnance." ]
+        )
+        # try again with the Yugoslavians/Croatians
+        new_scenario()
+        set_player( 1, "yugoslavian" )
+        set_player( 2, "croatian" )
+        _analyze_vsav( "common-vo.vsav",
+            [ [ "alc/v:011" ], [ "alc/o:012" ] ],
+            [ [ "axc/v:027" ], [ "axc/o:002" ] ],
+            [ "Imported 1 Yugoslavian vehicle and 1 ordnance.", "Imported 1 Croatian vehicle and 1 ordnance." ]
+        )
+        # try again with the Germans/Russians
+        new_scenario()
+        _analyze_vsav( "common-vo.vsav",
+            [ [], [] ],
+            [ [], [] ],
+            [ "No vehicles/ordnance were imported." ]
+        )
+
+        # analyze a scenario using counters from an extension
+        new_scenario()
+        set_player( 1, "american" )
+        set_player( 2, "japanese" )
+        _analyze_vsav( "extensions-bfp.vsav",
+            [ [ "am/v:906" ], [ "am/o:900" ] ],
+            [ [ "ja/v:902" ], [ "ja/o:902" ] ],
+            [ "Imported 1 American vehicle and 1 ordnance.", "Imported 1 Japanese vehicle and 1 ordnance." ]
+        )
+
+    # run the test against all versions of VASSAL+VASL
+    _run_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
 
 # ---------------------------------------------------------------------
 
@@ -623,3 +707,44 @@ def _get_vsav_labels( vsav_dump ):
     regex = re.compile( r"<html>.*?</html>" )
     matches = [ regex.search(label) for label in labels ]
     return [ mo.group() if mo else "<???>" for mo in matches ]
+
+# ---------------------------------------------------------------------
+
+def _analyze_vsav( fname, expected_ob1, expected_ob2, expected_report ):
+    """Analyze a VASL scenario."""
+
+    # read the VSAV data
+    fname = os.path.join( os.path.split(__file__)[0], "fixtures/analyze-vsav/"+fname )
+    vsav_data = open( fname, "rb" ).read()
+
+    # send the VSAV data to the front-end to be analyzed
+    set_stored_msg( "_vsav-persistence_", base64.b64encode( vsav_data ).decode( "utf-8" ) )
+    prev_info_msg = set_stored_msg_marker( "_last-info_" )
+    prev_warning_msg = set_stored_msg_marker( "_last-warning_" )
+    select_menu_option( "analyze_vsav" )
+    wait_for( 60,
+        lambda: get_stored_msg("_last-info_") != prev_info_msg or get_stored_msg("_last-warning_") != prev_warning_msg
+    ) # nb: wait for the analysis to finish
+
+    # check the results
+    saved_scenario = save_scenario()
+    def get_ids( key ): #pylint: disable=missing-docstring
+        return set(
+            ( v["id"], v.get("image_id") )
+            for v in saved_scenario.get( key, [] )
+        )
+    def adjust_expected( vals ): #pylint: disable=missing-docstring
+        return set(
+            v if isinstance(v,tuple) else (v,None)
+            for v in vals
+        )
+    assert get_ids( "OB_VEHICLES_1" ) == adjust_expected( expected_ob1[0] )
+    assert get_ids( "OB_ORDNANCE_1" ) == adjust_expected( expected_ob1[1] )
+    assert get_ids( "OB_VEHICLES_2" ) == adjust_expected( expected_ob2[0] )
+    assert get_ids( "OB_ORDNANCE_2" ) == adjust_expected( expected_ob2[1] )
+
+    # check the report
+    msg = get_stored_msg( "_last-info_" )
+    if msg == prev_info_msg:
+        msg = get_stored_msg( "_last-warning_" )
+    assert all( e in msg for e in expected_report )

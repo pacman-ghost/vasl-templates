@@ -5,21 +5,20 @@ import sys
 import os
 import subprocess
 import traceback
-import json
 import re
 import logging
 import base64
 import time
 import xml.etree.cElementTree as ET
 
-from flask import request
+from flask import request, jsonify
 
 from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import BASE_DIR, IS_FROZEN
 from vasl_templates.webapp.utils import TempFile, SimpleError
 from vasl_templates.webapp.webdriver import WebDriver
 
-_logger = logging.getLogger( "update_vsav" )
+_logger = logging.getLogger( "vassal_shim" )
 
 SUPPORTED_VASSAL_VERSIONS = [ "3.2.15" ,"3.2.16", "3.2.17" ]
 SUPPORTED_VASSAL_VERSIONS_DISPLAY = "3.2.15-.17"
@@ -45,6 +44,7 @@ def update_vsav(): #pylint: disable=too-many-statements
         _logger.info( "Updating VSAV (#bytes=%d): %s", len(vsav_data), vsav_filename )
 
         with TempFile() as input_file:
+
             # save the VSAV data in a temp file
             input_file.write( vsav_data )
             input_file.close()
@@ -53,6 +53,7 @@ def update_vsav(): #pylint: disable=too-many-statements
                 _logger.debug( "Saving a copy of the VSAV data: %s", fname )
                 with open( fname, "wb" ) as fp:
                     fp.write( vsav_data )
+
             with TempFile() as snippets_file:
                 # save the snippets in a temp file
                 xml = _save_snippets( snippets, snippets_file )
@@ -62,6 +63,7 @@ def update_vsav(): #pylint: disable=too-many-statements
                     _logger.debug( "Saving a copy of the snippets: %s", fname )
                     with open( fname, "wb" ) as fp:
                         ET.ElementTree( xml ).write( fp )
+
                 # run the VASSAL shim to update the VSAV file
                 with TempFile() as output_file, TempFile() as report_file:
                     output_file.close()
@@ -79,49 +81,26 @@ def update_vsav(): #pylint: disable=too-many-statements
                         with open( app.config.get("UPDATE_VSAV_RESULT"), "wb" ) as fp:
                             fp.write( vsav_data )
                     # read the report
-                    label_report = _parse_label_report( report_file.name )
-    except VassalShimError as ex:
-        _logger.error( "VASSAL shim error: rc=%d", ex.retcode )
-        if ex.retcode != 0:
-            return json.dumps( {
-                "error": "Unexpected return code from the VASSAL shim: {}".format( ex.retcode ),
-                "stdout": ex.stdout,
-                "stderr": ex.stderr,
-            } )
-        return json.dumps( {
-            "error": "Unexpected error output from the VASSAL shim.",
-            "stdout": ex.stdout,
-            "stderr": ex.stderr,
-        } )
-    except subprocess.TimeoutExpired:
-        return json.dumps( {
-            "error": "<p>The updater took too long to run, please try again." \
-                     "<p>If this problem persists, try configuring a longer timeout."
-        } )
-    except SimpleError as ex:
-        _logger.error( "VSAV update error: %s", ex )
-        return json.dumps( { "error": str(ex) } )
+                    report = _parse_label_report( report_file.name )
+
     except Exception as ex: #pylint: disable=broad-except
-        _logger.error( "Unexpected VSAV update error: %s", ex )
-        return json.dumps( {
-            "error": str(ex),
-            "stdout": traceback.format_exc(),
-        } )
+
+        return VassalShim.translate_vassal_shim_exception( ex )
 
     # return the results
     _logger.debug( "Updated the VSAV file OK: elapsed=%.3fs", time.time()-start_time )
     # NOTE: We adjust the recommended save filename to encourage users to not overwrite the original file :-/
     vsav_filename = os.path.split( vsav_filename )[1]
     fname, extn = os.path.splitext( vsav_filename )
-    return json.dumps( {
+    return jsonify( {
         "vsav_data": base64.b64encode(vsav_data).decode( "utf-8" ),
         "filename": fname+" (updated)" + extn,
         "report": {
-            "was_modified": label_report["was_modified"],
-            "labels_created": len(label_report["created"]),
-            "labels_updated": len(label_report["updated"]),
-            "labels_deleted": len(label_report["deleted"]),
-            "labels_unchanged": len(label_report["unchanged"]),
+            "was_modified": report["was_modified"],
+            "labels_created": len(report["created"]),
+            "labels_updated": len(report["updated"]),
+            "labels_deleted": len(report["deleted"]),
+            "labels_unchanged": len(report["unchanged"]),
         },
     } )
 
@@ -200,13 +179,62 @@ def _parse_label_report( fname ):
 
 # ---------------------------------------------------------------------
 
+@app.route( "/analyze-vsav", methods=["POST"] )
+def analyze_vsav():
+    """Analyze a VASL scenario file."""
+
+    # parse the request
+    start_time = time.time()
+    vsav_data = request.json[ "vsav_data" ]
+    vsav_filename = request.json[ "filename" ]
+
+    try:
+
+        # get the VSAV data (we do this inside the try block so that the user gets shown
+        # a proper error dialog if there's a problem decoding the base64 data)
+        vsav_data = base64.b64decode( vsav_data )
+        _logger.info( "Analyzing VSAV (#bytes=%d): %s", len(vsav_data), vsav_filename )
+
+        with TempFile() as input_file:
+
+            # save the VSAV data in a temp file
+            input_file.write( vsav_data )
+            input_file.close()
+            fname = app.config.get( "ANALYZE_VSAV_INPUT" ) # nb: for diagnosing problems
+            if fname:
+                _logger.debug( "Saving a copy of the VSAV data: %s", fname )
+                with open( fname, "wb" ) as fp:
+                    fp.write( vsav_data )
+
+            # run the VASSAL shim to analyze the VSAV file
+            with TempFile() as report_file:
+                report_file.close()
+                vassal_shim = VassalShim()
+                vassal_shim.analyze_scenario( input_file.name, report_file.name )
+                report = _parse_analyze_report( report_file.name )
+
+    except Exception as ex: #pylint: disable=broad-except
+
+        return VassalShim.translate_vassal_shim_exception( ex )
+
+    # return the results
+    _logger.debug( "Analyzed the VSAV file OK: elapsed=%.3fs\n%s", time.time()-start_time, report )
+    return jsonify( report )
+
+def _parse_analyze_report( fname ):
+    """Read the analysis report generated by the VASSAL shim."""
+    doc = ET.parse( fname )
+    report = {}
+    for node in doc.getroot():
+        report[ node.attrib["gpid"] ] = { "name": node.attrib["name"], "count": node.attrib["count"] }
+    return report
+
+# ---------------------------------------------------------------------
+
 class VassalShim:
     """Provide access to VASSAL via the Java shim."""
 
     def __init__( self ): #pylint: disable=too-many-branches
-
-        # initialize
-        self.boards_dir = None
 
         # locate the VASSAL engine
         vassal_dir = app.config.get( "VASSAL_DIR" )
@@ -245,22 +273,18 @@ class VassalShim:
         """Dump a scenario file."""
         return self._run_vassal_shim( "dump", fname )
 
+    def analyze_scenario( self, vsav_fname, report_fname ):
+        """Analyze a scenario file."""
+        return self._run_vassal_shim(
+            "analyze", VassalShim.get_boards_dir(), vsav_fname, report_fname
+        )
+
     def update_scenario( self, vsav_fname, snippets_fname, output_fname, report_fname ):
         """Update a scenario file."""
 
         # locate the boards
-        self.boards_dir = app.config.get( "BOARDS_DIR" )
-        if not self.boards_dir:
-            raise SimpleError( "The VASL boards directory has not been configured." )
-        if not os.path.isdir( self.boards_dir ):
-            raise SimpleError( "Can't find the VASL boards: {}".format( self.boards_dir ) )
-
-        # locate the VASL module
-        if not globvars.vasl_mod:
-            raise SimpleError( "The VASL module has not been configured." )
-
         return self._run_vassal_shim(
-            "update", self.boards_dir, vsav_fname, snippets_fname, output_fname, report_fname
+            "update", VassalShim.get_boards_dir(), vsav_fname, snippets_fname, output_fname, report_fname
         )
 
     def _run_vassal_shim( self, *args ): #pylint: disable=too-many-locals
@@ -282,7 +306,9 @@ class VassalShim:
             java_path, "-classpath", class_path, "vassal_shim.Main",
             args[0]
         ]
-        if args[0] in ("dump","update"):
+        if args[0] in ("dump","analyze","update"):
+            if not globvars.vasl_mod:
+                raise SimpleError( "The VASL module has not been configured." )
             args2.append( globvars.vasl_mod.filename )
         args2.extend( args[1:] )
 
@@ -344,6 +370,48 @@ class VassalShim:
         if proc.returncode != 0:
             raise VassalShimError( proc.returncode, stdout, stderr )
         return stdout
+
+    @staticmethod
+    def get_boards_dir():
+        """Get the configured boards directory."""
+        boards_dir = app.config.get( "BOARDS_DIR" )
+        if not boards_dir:
+            raise SimpleError( "The VASL boards directory has not been configured." )
+        if not os.path.isdir( boards_dir ):
+            raise SimpleError( "Can't find the VASL boards: {}".format( boards_dir ) )
+        return boards_dir
+
+    @staticmethod
+    def translate_vassal_shim_exception( ex ):
+        """Convert an exception thrown by the VassalShim to a JSON response to return to the caller."""
+
+        if isinstance( ex, VassalShimError ):
+            _logger.error( "VASSAL shim error: rc=%d", ex.retcode )
+            if ex.retcode != 0:
+                return jsonify( {
+                    "error": "Unexpected return code from the VASSAL shim: {}".format( ex.retcode ),
+                    "stdout": ex.stdout,
+                    "stderr": ex.stderr,
+                } )
+            return jsonify( {
+                "error": "Unexpected error output from the VASSAL shim.",
+                "stdout": ex.stdout,
+                "stderr": ex.stderr,
+            } )
+        if isinstance( ex, subprocess.TimeoutExpired ):
+            return jsonify( {
+                "error": "<p>The VASSAL shim took too long to run, please try again." \
+                         "<p>If this problem persists, try configuring a longer timeout."
+            } )
+        if isinstance( ex, SimpleError ):
+            _logger.error( "VSAV update error: %s", ex )
+            return jsonify( { "error": str(ex) } )
+
+        _logger.error( "Unexpected VSAV update error: %s", ex )
+        return jsonify( {
+            "error": str(ex),
+            "stdout": traceback.format_exc(),
+        } )
 
     @staticmethod
     def check_vassal_version( msg_store ):

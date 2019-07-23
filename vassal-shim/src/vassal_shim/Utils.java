@@ -1,5 +1,16 @@
 package vassal_shim ;
 
+import java.io.FileOutputStream ;
+import java.io.IOException ;
+import javax.xml.transform.TransformerFactory ;
+import javax.xml.transform.Transformer ;
+import javax.xml.transform.OutputKeys ;
+import javax.xml.transform.TransformerException ;
+import javax.xml.transform.TransformerConfigurationException ;
+import javax.xml.transform.dom.DOMSource ;
+import javax.xml.transform.stream.StreamResult ;
+
+import org.w3c.dom.Document ;
 import org.w3c.dom.NodeList ;
 import org.w3c.dom.Node ;
 
@@ -7,6 +18,19 @@ import org.w3c.dom.Node ;
 
 public class Utils
 {
+
+    public static void saveXml( Document doc, String fname )
+        throws IOException, TransformerConfigurationException, TransformerException
+    {
+        // save the XML
+        Transformer trans = TransformerFactory.newInstance().newTransformer() ;
+        trans.setOutputProperty( OutputKeys.INDENT, "yes" ) ;
+        trans.setOutputProperty( "{http://xml.apache.org/xslt}indent-amount", "4" ) ;
+        trans.setOutputProperty( OutputKeys.METHOD, "xml" ) ;
+        trans.setOutputProperty( OutputKeys.ENCODING, "UTF-8" ) ;
+        trans.transform( new DOMSource(doc), new StreamResult(new FileOutputStream(fname)) ) ;
+    }
+
     public static String getNodeTextContent( Node node )
     {
         // get the text content for an XML node (just itself, no descendants)
@@ -42,4 +66,5 @@ public class Utils
         }
         return buf.toString() ;
     }
+
 }

@@ -1,63 +1,17 @@
+gLoadVsavHandler = null ;
 
 // --------------------------------------------------------------------
 
-function on_update_vsav()
+function on_update_vsav() { _load_and_process_vsav( _do_update_vsav ) ; }
+
+function _do_update_vsav( vsav_data, fname )
 {
-    // FOR TESTING PORPOISES! We can't control a file upload from Selenium (since
-    // the browser will use native controls), so we get the data from a <textarea>).
-    if ( getUrlParam( "vsav_persistence" ) ) {
-        var $elem = $( "#_vsav-persistence_" ) ;
-        var vsav_data = $elem.val() ;
-        $elem.val( "" ) ; // nb: let the test suite know we've received the data
-        do_update_vsav( vsav_data, "test.vsav" ) ;
-        return ;
-    }
-
-    // if we are running inside the PyQt wrapper, let it handle everything
-    if ( gWebChannelHandler ) {
-        gWebChannelHandler.load_vsav( function( data ) {
-            if ( ! data )
-                return ;
-            do_update_vsav( data.data, data.filename ) ;
-        } ) ;
-        return ;
-    }
-
-    // ask the user to upload the VSAV file
-    $("#load-vsav").trigger( "click" ) ; // nb: this will call on_load_vsav_file_selected() when a file has been selected
-}
-
-function on_load_vsav_file_selected()
-{
-    // read the selected file
-    var fileReader = new FileReader() ;
-    var file = $("#load-vsav").prop( "files" )[0] ;
-    fileReader.onload = function() {
-        vsav_data = fileReader.result ;
-        if ( vsav_data.substring(0,5) === "data:" )
-            vsav_data = vsav_data.split( "," )[1] ;
-        do_update_vsav( vsav_data, file.name ) ;
-    } ;
-    fileReader.readAsDataURL( file ) ;
-}
-
-function do_update_vsav( vsav_data, fname )
-{
-    // show the progress dialog
-    var $dlg = $( "#update-vsav" ).dialog( {
-        dialogClass: "update-vsav",
-        modal: true,
-        width: 300,
-        height: 60,
-        resizable: false,
-        closeOnEscape: false,
-    } ) ;
-
     // generate all the snippets
+    var $dlg = _show_vassal_shim_progress_dlg( "Updating your VASL scenario..." ) ;
     var snippets = _generate_snippets() ;
 
     // send a request to update the VSAV
-    var data = { "filename": fname, vsav_data: vsav_data, snippets: snippets } ;
+    var data = { filename: fname, vsav_data: vsav_data, snippets: snippets } ;
     $.ajax( {
         url: gUpdateVsavUrl,
         type: "POST",
@@ -65,40 +19,9 @@ function do_update_vsav( vsav_data, fname )
         contentType: "application/json",
     } ).done( function( data ) {
         $dlg.dialog( "close" ) ;
-        data = JSON.parse( data ) ;
-        // check if there was an error
-        if ( data.error ) {
-            if ( getUrlParam( "vsav_persistence" ) ) {
-                $("#_vsav-persistence_").val(
-                    "ERROR: " + data.error + "\n\n=== STDOUT ===\n" + data.stdout + "\n=== STDERR ===\n" + data.stderr
-                ) ;
-                return ;
-            }
-            $("#vassal-shim-error").dialog( {
-                dialogClass: "vassal-shim-error",
-                title: "Can't update the scenario",
-                modal: true,
-                width: 600, height: "auto",
-                open: function() {
-                    $( "#vassal-shim-error .message" ).html( data.error ) ;
-                    var log = "" ;
-                    if ( data.stdout && data.stderr )
-                        log = "=== STDOUT ===\n" + data.stdout + "\n=== STDERR ===\n" + data.stderr ;
-                    else if ( data.stdout )
-                        log = data.stdout ;
-                    else if ( data.stderr )
-                        log = data.stderr ;
-                    if ( log )
-                        $( "#vassal-shim-error .log" ).val( log ).show() ;
-                    else
-                        $( "#vassal-shim-error .log" ).hide() ;
-                },
-                buttons: {
-                    Close: function() { $(this).dialog( "close" ) ; },
-                },
-            } ) ;
+        data = _check_vassal_shim_response( data, "Can't update the VASL scenario." ) ;
+        if ( ! data )
             return ;
-        }
         // check if anything was changed
         if ( ! data.report.was_modified ) {
             showInfoMsg( "No changes were made to the VASL scenario." ) ;
@@ -347,4 +270,213 @@ function _get_raw_content( snippet_id, $btn, params )
         return get_vo_entries( snippet_id.substring(3,11), snippet_id.substring(12), true ) ;
 
     return null ;
+}
+
+// --------------------------------------------------------------------
+
+function on_analyze_vsav()
+{
+    // check if there are any vehicles/ordnance already defined
+    var voDefined1 = $( "#ob_vehicles-sortable_1 .vo-entry" ).length > 0 || $( "#ob_ordnance-sortable_1 .vo-entry" ).length > 0 ;
+    var voDefined2 = $( "#ob_vehicles-sortable_2 .vo-entry" ).length > 0 || $( "#ob_ordnance-sortable_2 .vo-entry" ).length > 0 ;
+    if ( voDefined1 || voDefined2 ) {
+        // yup - confirm the operation
+        ask( "Analyze VASL scenario",
+            "<p>There are some vehicles/ordnance already configured. <p>They will be <i>replaced</i> with those found in the analyzed VASL scenario.", {
+            ok: function() { _load_and_process_vsav( _do_analyze_vsav ) ; },
+        } ) ;
+        return ;
+    }
+
+    // ask the user to select a VASL scenario, then analyze it
+    _load_and_process_vsav( _do_analyze_vsav ) ;
+}
+
+function _do_analyze_vsav( vsav_data, fname )
+{
+    // show the progress dialog
+    var $dlg = _show_vassal_shim_progress_dlg( "Analyzing the VASL scenario..." ) ;
+
+    // send a request to analyze the VSAV
+    var data = { filename: fname, vsav_data: vsav_data } ;
+    $.ajax( {
+        url: gAnalyzeVsavUrl,
+        type: "POST",
+        data: JSON.stringify( data ),
+        contentType: "application/json",
+    } ).done( function( data ) {
+        $dlg.dialog( "close" ) ;
+        data = _check_vassal_shim_response( data, "Can't analyze the VASL scenario." ) ;
+        if ( ! data )
+            return ;
+        _create_vo_entries_from_analysis( data ) ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        $dlg.dialog( "close" ) ;
+        showErrorMsg( "Can't analyze the VASL scenario:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+    } ) ;
+}
+
+function _create_vo_entries_from_analysis( report )
+{
+    function create_vo_entries( player_no, vo_type ) {
+        // clear the existing vehicles/ordnance
+        $( "#ob_" + vo_type + "-sortable_" + player_no ).sortable2( "delete-all" ) ;
+        // build an index of GPID's that belong to the specified player and V/O type
+        var entries_index = {} ;
+        var entries = gVehicleOrdnanceListings[ vo_type ][ get_player_nat(player_no) ] ;
+        var gpids, i ;
+        for ( i=0 ; i < entries.length ; ++i ) {
+            gpids = $.isArray( entries[i].gpid ) ? entries[i].gpid : [entries[i].gpid] ;
+            for ( var j=0 ; j < gpids.length ; ++j )
+                entries_index[ gpids[j] ] = entries[i] ;
+        }
+        // add a vehicle/ordnance for each relevant GPID
+        var nCreated = 0 ;
+        gpids = Object.keys( report ) ;
+        for ( i=0 ; i < gpids.length ; ++i ) {
+            var gpid = gpids[ i ] ;
+            var entry = entries_index[ gpid ] ;
+            if ( ! entry )
+                continue ;
+            var image_id = $.isArray( entry.gpid ) ? [gpid,0] : null ;
+            do_add_vo( vo_type, player_no, entry, image_id, false, null, null, null ) ;
+            ++ nCreated ;
+        }
+        return nCreated ;
+    }
+
+    // import any vehicles/ordnance found
+    var imported = [
+        [ create_vo_entries( 1, "vehicles" ), create_vo_entries( 1, "ordnance" ) ],
+        [ create_vo_entries( 2, "vehicles" ), create_vo_entries( 2, "ordnance" ) ]
+    ] ;
+
+    // report what happened
+    var report_strings = [] ;
+    function make_report_string( nat, nVehicles, nOrdnance ) {
+        var buf = [] ;
+        if ( nVehicles > 0 )
+            buf.push( nVehicles + "{{NAT}} " + pluralString(nVehicles,"vehicle","vehicles") ) ;
+        if ( nOrdnance > 0 )
+            buf.push( nOrdnance + "{{NAT}} ordnance" ) ;
+        if ( buf.length == 1 ) {
+            report_strings.push(
+                "Imported " + buf[0].replace("{{NAT}}"," "+nat) + "."
+            ) ;
+        } else if ( buf.length == 2 ) {
+            report_strings.push(
+                "Imported " + buf[0].replace( "{{NAT}}", " "+nat ) + " and " + buf[1].replace( "{{NAT}}", "" ) + "."
+            ) ;
+        }
+    }
+    make_report_string( get_nationality_display_name(get_player_nat(1)), imported[0][0], imported[0][1] ) ;
+    make_report_string( get_nationality_display_name(get_player_nat(2)), imported[1][0], imported[1][1] ) ;
+    if ( report_strings.length === 0 )
+        showWarningMsg( "<p>No vehicles/ordnance were imported. <p style='margin-top:0.25em;'>Have you set the player nationalities?" ) ;
+    else
+        showInfoMsg( report_strings.join( "<p style='margin-top:0.25em;'>" ) ) ;
+}
+
+// --------------------------------------------------------------------
+
+function _load_and_process_vsav( handler )
+{
+    // FOR TESTING PORPOISES! We can't control a file upload from Selenium (since
+    // the browser will use native controls), so we get the data from a <textarea>).
+    if ( getUrlParam( "vsav_persistence" ) ) {
+        var $elem = $( "#_vsav-persistence_" ) ;
+        var vsav_data = $elem.val() ;
+        $elem.val( "" ) ; // nb: let the test suite know we've received the data
+        handler( vsav_data, "test.vsav" ) ;
+        return ;
+    }
+
+    // if we are running inside the PyQt wrapper, let it handle everything
+    if ( gWebChannelHandler ) {
+        gWebChannelHandler.load_vsav( function( data ) {
+            if ( ! data )
+                return ;
+            handler( data.data, data.filename ) ;
+        } ) ;
+        return ;
+    }
+
+    // ask the user to upload the VSAV file
+    gLoadVsavHandler = handler ;
+    $("#load-vsav").trigger( "click" ) ; // nb: this will call on_load_vsav_file_selected() when a file has been selected
+}
+
+function on_load_vsav_file_selected()
+{
+    // read the selected file
+    var fileReader = new FileReader() ;
+    var file = $("#load-vsav").prop( "files" )[0] ;
+    fileReader.onload = function() {
+        vsav_data = fileReader.result ;
+        if ( vsav_data.substring(0,5) === "data:" )
+            vsav_data = vsav_data.split( "," )[1] ;
+        gLoadVsavHandler( vsav_data, file.name ) ;
+        gLoadVsavHandler = null ;
+    } ;
+    fileReader.readAsDataURL( file ) ;
+}
+
+// --------------------------------------------------------------------
+
+function _check_vassal_shim_response( data, caption )
+{
+    // check if there was an error
+    if ( ! data.error )
+        return data ;
+
+    // yup - report the error
+    if ( getUrlParam( "vsav_persistence" ) ) {
+        $( "#_vsav-persistence_" ).val(
+            "ERROR: " + data.error + "\n\n=== STDOUT ===\n" + data.stdout + "\n=== STDERR ===\n" + data.stderr
+        ) ;
+        return null ;
+    }
+    $( "#vassal-shim-error" ).dialog( {
+        dialogClass: "vassal-shim-error",
+        title: caption,
+        modal: true,
+        width: 600, height: "auto",
+        open: function() {
+            $( "#vassal-shim-error .message" ).html( data.error ) ;
+            var log = "" ;
+            if ( data.stdout && data.stderr )
+                log = "=== STDOUT ===\n" + data.stdout + "\n=== STDERR ===\n" + data.stderr ;
+            else if ( data.stdout )
+                log = data.stdout ;
+            else if ( data.stderr )
+                log = data.stderr ;
+            if ( log )
+                $( "#vassal-shim-error .log" ).val( log ).show() ;
+            else
+                $( "#vassal-shim-error .log" ).hide() ;
+        },
+        buttons: {
+            Close: function() { $(this).dialog( "close" ) ; },
+        },
+    } ) ;
+
+    return null ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function _show_vassal_shim_progress_dlg( caption )
+{
+    // show the progress dialog
+    return $( "#vassal-shim-progress" ).dialog( {
+        dialogClass: "vassal-shim-progress",
+        modal: true,
+        width: 300,
+        height: 60,
+        resizable: false,
+        closeOnEscape: false,
+        open: function() {
+            $(this).find( ".message" ).text( caption ) ;
+        },
+    } ) ;
 }
