@@ -718,17 +718,17 @@ function unload_snippet_params( unpack_scenario_date, template_id )
     }
 
     // collect all the template parameters
-    add_param = function($elem) { params[ $elem.attr("name") ] = $elem.val() ; } ;
-    $("input[type='text'].param").each( function() {
+    add_param = function( $elem ) {
         // NOTE: We only unload parameters on the EXTRAS tab if we're processing an extras template.
-        if ( $.contains( $("#tabs-extras")[0], $(this)[0] ) ) {
+        if ( $.contains( $("#tabs-extras")[0], $elem[0] ) ) {
             if ( template_id === null || template_id.substr(0,7) !== "extras/" )
                 return ;
         }
-        add_param( $(this) ) ;
-    } ) ;
-    $("textarea.param").each( function() { add_param($(this)) ; } ) ;
-    $("select.param").each( function() { add_param($(this)) ; } ) ;
+        params[ $elem.attr("name") ] = $elem.val() ;
+    } ;
+    $("input[type='text'].param").each( function() { add_param( $(this) ) ; } ) ;
+    $("textarea.param").each( function() { add_param( $(this) ) ; } ) ;
+    $("select.param").each( function() { add_param( $(this) ) ; } ) ;
 
     // collect the SSR's
     params.SSR = [] ;
