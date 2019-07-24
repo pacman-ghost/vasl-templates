@@ -782,7 +782,7 @@ function unload_snippet_params( unpack_scenario_date, template_id )
                 // we will show the warnings when we make the raw capabilities.
                 capabilities = make_capabilities(
                     false,
-                    vo_entry, nat, elite,
+                    vo_entry, vo_type, nat, elite,
                     params.SCENARIO_THEATER, params.SCENARIO_YEAR, params.SCENARIO_MONTH,
                     false
                 ) ;
@@ -793,7 +793,7 @@ function unload_snippet_params( unpack_scenario_date, template_id )
             }
             capabilities = make_capabilities(
                 true,
-                vo_entry, nat, elite,
+                vo_entry, vo_type, nat, elite,
                 params.SCENARIO_THEATER, params.SCENARIO_YEAR, params.SCENARIO_MONTH,
                 show_warnings
             ) ;
@@ -824,7 +824,7 @@ function unload_snippet_params( unpack_scenario_date, template_id )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function make_capabilities( raw, vo_entry, nat, elite, scenario_theater, scenario_year, scenario_month, show_warnings )
+function make_capabilities( raw, vo_entry, vo_type, nat, elite, scenario_theater, scenario_year, scenario_month, show_warnings )
 {
     var capabilities = [] ;
 
@@ -933,18 +933,20 @@ function make_capabilities( raw, vo_entry, nat, elite, scenario_theater, scenari
     if ( crew_survival )
         capabilities.push( crew_survival ) ;
 
+    // do any special adjustments
+    if ( nat === "american" && vo_type === "ordnance" && scenario_theater === "PTO" )
+        adjust_capabilities_for_us_ordnance_note_c( capabilities, vo_entry ) ;
+    if ( elite )
+        adjust_capabilities_for_elite( capabilities, +1 ) ;
+
     // remove uninteresting capabilities
-    var capabilities2 = [] ;
+    var adjusted_capabilities = [] ;
     for ( i=0 ; i < capabilities.length ; ++i ) {
         if ( ["T","NT","ST"].indexOf( capabilities[i] ) === -1 )
-            capabilities2.push( capabilities[i] ) ;
+            adjusted_capabilities.push( capabilities[i] ) ;
     }
 
-    // check for elite vehicles/ordnance
-    if ( elite )
-        adjust_capabilities_for_elite( capabilities2, +1 ) ;
-
-    return capabilities2 ;
+    return adjusted_capabilities ;
 }
 
 function make_raw_capability( name, capability )
@@ -1124,6 +1126,41 @@ function make_crew_survival( vo_entry )
         crew_survival = crew_survival.substring(0,pos) + " <small><i>(brew up)</i></small>" + crew_survival.substring(pos+7) ;
 
     return crew_survival ;
+}
+
+function adjust_capabilities_for_us_ordnance_note_c( capabilities, vo_entry )
+{
+    // NOTE: American Ordnance Note C: Canister depletion number is increased by 3 in the PTO,
+    // unless it has a "P" superscript. This seems to affect the following ordnance:
+    // - M3A1 37mm AT Gun
+    // - T32 37mm Manpack Gun
+    // - M1A1 75mm Pack Howitzer
+    // - M2A1 105mm Howitzer (*)
+    // - M3 105mm Howitzer (*)
+    // (*) = has "P" superscript.
+
+    // check if the ordnance has Note C
+    if ( ! vo_entry.notes )
+        return ;
+    var hasNoteC=false, i ;
+    for ( i=0 ; i < vo_entry.notes.length ; ++i ) {
+        if ( vo_entry.notes[i].match( /^C\u2020?/ ) )
+            hasNoteC = true ;
+    }
+    if ( ! hasNoteC )
+        return ;
+
+    // FUDGE! Figuring out if a capability has a "P" subscript would be incredibly messy, since it gets removed
+    // in _check_capability_timestamp() :-/ We just hard-code the relevant counters instead :-/
+    if ( ["am/o:013","am/o:014"].indexOf( vo_entry.id ) !== -1 )
+        return ;
+
+    // update the Canister depletion number
+    for ( i=0 ; i < capabilities.length ; ++i ) {
+        var match = capabilities[i].match( /^C(\d+)/ ) ;
+        if ( match )
+            capabilities[i] = "C" + (parseInt(match[1]) + 3) + capabilities[i].substr(match[0].length) ;
+    }
 }
 
 function adjust_capabilities_for_elite( capabilities, delta )
@@ -1915,15 +1952,23 @@ function on_scenario_date_change()
     update_ui( "baz", is_baz_available() ) ;
     update_ui( "atmm", is_atmm_available() ) ;
 
+    // update the vehicle/ordnance entries
+    _update_vo_sortable2_entries() ;
+}
+
+function _update_vo_sortable2_entries()
+{
+    // update all the vehicle/ordnance entries
     var snippet_params = unload_snippet_params( true, null ) ;
-    function update_vo( $sortable2 ) {
+    function update_vo( vo_type, player_no ) {
+        var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
         $sortable2.children( "li" ).each( function() {
-            update_vo_sortable2_entry( $(this), snippet_params ) ;
+            update_vo_sortable2_entry( $(this), vo_type, snippet_params ) ;
         } ) ;
     }
     for ( var player_no=1 ; player_no <= 2 ; ++player_no ) {
-        update_vo( $( "#ob_vehicles-sortable_" + player_no ) ) ;
-        update_vo( $( "#ob_ordnance-sortable_" + player_no ) ) ;
+        update_vo( "vehicles", player_no ) ;
+        update_vo( "ordnance", player_no ) ;
     }
 }
 
@@ -1948,4 +1993,10 @@ function on_scenario_details_change()
     // notify the PyQt wrapper application
     if ( gWebChannelHandler )
         gWebChannelHandler.on_scenario_details_change( caption ) ;
+}
+
+function on_scenario_theater_change()
+{
+    // update the vehicle/ordnance entries
+    _update_vo_sortable2_entries() ;
 }

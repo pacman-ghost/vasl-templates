@@ -215,7 +215,7 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
         content: $content,
         data: data,
     } ) ;
-    update_vo_sortable2_entry( $entry ) ;
+    update_vo_sortable2_entry( $entry, vo_type ) ;
 
     // add a handler for the snippet button
     $content.children("img.snippet").click( function( evt ) {
@@ -224,7 +224,7 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
     } ) ;
 }
 
-function update_vo_sortable2_entry( $entry, snippet_params )
+function update_vo_sortable2_entry( $entry, vo_type, snippet_params )
 {
     // initialize
     if ( ! snippet_params )
@@ -239,7 +239,7 @@ function update_vo_sortable2_entry( $entry, snippet_params )
         var player_no = get_player_no_for_element( $entry ) ;
         capabilities = make_capabilities(
             false,
-            vo_entry,
+            vo_entry, vo_type,
             snippet_params[ "PLAYER_"+player_no ],
             data.elite,
             snippet_params.SCENARIO_THEATER, snippet_params.SCENARIO_YEAR, snippet_params.SCENARIO_MONTH,

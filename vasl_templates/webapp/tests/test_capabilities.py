@@ -432,6 +432,34 @@ def test_theater_capabilities_bfp( webapp, webdriver ):
     pytest.config.option.short_tests, #pylint: disable=no-member
     reason = "--short-tests specified"
 )
+def test_american_ordnance_note_c( webapp, webdriver ):
+    """Test handling of American Ordnance Note C."""
+
+    # M3A1 37mm AT Gun: QSU C7[A2+]†[1]
+    ordnance = [ "american", "ordnance", "M3A1 37mm AT Gun" ]
+    _check_capabilities( webdriver, webapp, *ordnance , "ETO", "07/1942", "QSU" )
+    _check_capabilities( webdriver, webapp, *ordnance , "PTO", "07/1942", "QSU" )
+    _check_capabilities( webdriver, webapp, *ordnance , "ETO", "08/1942", "QSU C7[!1]" )
+    _check_capabilities( webdriver, webapp, *ordnance , "PTO", "08/1942", "QSU C10[!1]" ) # nb: C# += 3
+
+    # M2A1 105mm Howitzer: C7[4+P]†[1] H6 WP8 s7
+    ordnance = [ "american", "ordnance", "M2A1 105mm Howitzer" ]
+    _check_capabilities( webdriver, webapp, *ordnance , "ETO", "12/1943", "H6 WP8 s7" )
+    _check_capabilities( webdriver, webapp, *ordnance , "PTO", "12/1943", "H6 WP8 s7" )
+    _check_capabilities( webdriver, webapp, *ordnance , "ETO", "01/1944", "H6 WP8 s7" )
+    _check_capabilities( webdriver, webapp, *ordnance , "PTO", "01/1944", "C7[!1] H6 WP8 s7" ) # nb: no += 3
+
+    # M3 105mm Howitzer: C7[P]†[1] H7 WP8 s7
+    ordnance = [ "american", "ordnance", "M3 105mm Howitzer" ]
+    _check_capabilities( webdriver, webapp, *ordnance , "ETO", "01/1940", "H7 WP8 s7" )
+    _check_capabilities( webdriver, webapp, *ordnance , "PTO", "01/1940", "C7[!1] H7 WP8 s7" ) # nb: no += 3
+
+# ---------------------------------------------------------------------
+
+@pytest.mark.skipif(
+    pytest.config.option.short_tests, #pylint: disable=no-member
+    reason = "--short-tests specified"
+)
 def test_nationality_capabilities( webapp, webdriver ):
     """Test nationality-specific capabilities."""
 

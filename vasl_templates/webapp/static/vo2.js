@@ -9,7 +9,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
     function get_default_capabilities( vo_entry, params, show_warnings ) {
         return make_capabilities(
             false,
-            vo_entry,
+            vo_entry, vo_type,
             params[ "PLAYER_"+player_no ],
             false,
             params.SCENARIO_THEATER, params.SCENARIO_YEAR, params.SCENARIO_MONTH,
@@ -198,7 +198,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
                     delete $entry.data( "sortable2-data" ).custom_comments ;
                 }
                 // update the original V/O entry to reflect the changes
-                update_vo_sortable2_entry( $entry ) ;
+                update_vo_sortable2_entry( $entry, vo_type ) ;
                 $(this).dialog( "close" ) ;
             },
             Cancel: function() { $(this).dialog( "close" ) ; },

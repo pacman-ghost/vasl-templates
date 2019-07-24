@@ -116,7 +116,11 @@ $(document).ready( function () {
         .click( disconnect_roar ) ;
 
     // initialize the scenario theater
-    init_select2( $("select[name='SCENARIO_THEATER']"), "5em", false, null ) ;
+    init_select2(
+        $("select[name='SCENARIO_THEATER']"), "5em", false, null
+    ).on( "change", function() {
+        on_scenario_theater_change() ;
+    } ) ;
 
     // initialize the scenario date picker
     $("input[name='SCENARIO_DATE']").datepicker( {
