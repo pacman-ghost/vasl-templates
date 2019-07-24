@@ -90,7 +90,7 @@ function _do_edit_simple_note( $sortable2, $entry, default_width )
                         data = { caption: caption, width: width } ;
                         if ( note_type === "scenario_notes" || note_type === "ob_setups" || note_type === "ob_notes" ) {
                             var usedIds = {} ;
-                            $sortable2.find( "li" ).each( function() {
+                            $sortable2.children( "li" ).each( function() {
                                 usedIds[ $(this).data("sortable2-data").id ] = true ;
                             } ) ;
                             data.id = auto_assign_id( usedIds, "id" ) ;

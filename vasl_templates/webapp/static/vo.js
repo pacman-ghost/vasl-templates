@@ -112,7 +112,7 @@ function add_vo( vo_type, player_no )
                 var sel_index = $elem.children( ".vo-entry" ).data( "index" ) ;
                 var sel_entry = entries[ sel_index ] ;
                 var usedVoIds = [] ;
-                $sortable2.find( "li" ).each( function() {
+                $sortable2.children( "li" ).each( function() {
                     usedVoIds.push( $(this).data( "sortable2-data" ).vo_entry.id ) ;
                 } ) ;
                 // check for duplicates
@@ -147,7 +147,7 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
     if ( seq_id === null ) {
         // auto-assign a sequence ID
         var usedSeqIds = {} ;
-        $sortable2.find( "li" ).each( function() {
+        $sortable2.children( "li" ).each( function() {
             usedSeqIds[ $(this).data( "sortable2-data" ).id ] = true ;
         } ) ;
         seq_id = auto_assign_id( usedSeqIds, "seq_id" ) ;
