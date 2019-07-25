@@ -467,7 +467,6 @@ def test_nationality_capabilities( webapp, webdriver ):
     ordnance = [ "romanian", "ordnance", "G obr. 38" ]
     val = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1940", merge_common=True )
     assert "s5[!]" not in val
-    ordnance = [ "romanian", "ordnance", "G obr. 38" ]
     val = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1941", merge_common=True )
     assert "s5[!]" in val
     ordnance = [ "slovakian", "ordnance", "G obr. 38" ]
@@ -489,7 +488,6 @@ def test_nationality_capabilities( webapp, webdriver ):
     ordnance = [ "slovakian", "ordnance", "Kanon PUV vz. 37(t)" ]
     val = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1940", merge_common=True )
     assert "A4" not in val
-    ordnance = [ "slovakian", "ordnance", "Kanon PUV vz. 37(t)" ]
     val = _get_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1941", merge_common=True )
     assert "A4" in val
     ordnance = [ "croatian", "ordnance", "Kanon PUV vz. 37(t)" ]

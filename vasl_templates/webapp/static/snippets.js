@@ -878,6 +878,11 @@ function make_capabilities( raw, vo_entry, vo_type, nat, elite, scenario_theater
             }
             // check if we should return the raw capability, or select the one for the scenario date
             if ( ! scenario_year ) {
+                // NOTE: We should really check for theater/nationality flags here (e.g. perhaps by calling
+                // _check_capability_timestamp()), but at this stage (just before the v1.0 release),
+                // it's not worth the risk. The superscripts will still appear in the UI/snippets,
+                // so we're not completely doing the wrong thing, and in practice, the scenario date
+                // will always be set.
                 indeterminate_caps.push( key ) ;
                 raw = true ;
             }
@@ -1016,35 +1021,24 @@ function _check_capability_timestamp( capabilities, timestamp, nat, scenario_the
     var MONTH_NAMES = { F:2, J:6, A:8, S:9, N:11 } ;
 
     // check for a theater flag
-    if ( timestamp.substring( timestamp.length-1 ) === "E" ) {
-        if ( scenario_theater != "ETO" )
-            return "<ignore>" ;
+    THEATER_FLAGS = { E: "ETO", P: "PTO", B: "BURMA" } ;
+    var required_theater = THEATER_FLAGS[ timestamp.substring( timestamp.length-1 ) ] ;
+    if ( required_theater ) {
         timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
-    }
-    if ( timestamp.substring( timestamp.length-1 ) === "P" ) {
-        if ( scenario_theater != "PTO" )
+        if ( scenario_theater !== required_theater )
             return "<ignore>" ;
-        timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
     }
-    if ( timestamp.substring( timestamp.length-1 ) === "B" ) {
-        if ( scenario_theater != "BURMA" )
-            return "<ignore>" ;
-        timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
-    }
-    if ( timestamp.substring( timestamp.length-1 ) === "R" ) {
-        if ( nat != "romanian" )
-            return "<ignore>" ;
-        timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
-    }
-    if ( timestamp.substring( timestamp.length-2 ) === "CS" ) {
-        if ( nat != "croatian" && nat != "slovakian" )
-            return "<ignore>" ;
-        timestamp = timestamp.substring( 0, timestamp.length-2 ) ;
-    }
-    if ( timestamp.substring( timestamp.length-1 ) === "S" ) {
-        if ( nat != "slovakian" )
-            return "<ignore>" ;
-        timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
+
+    // check for a nationality flag
+    NAT_FLAGS = { R: ["romanian"], S: ["slovakian"], CS: ["croatian","slovakian"] } ;
+    for ( var i=2 ; i >= 1 ; --i ) {
+        var required_nats = NAT_FLAGS[ timestamp.substring( timestamp.length-i ) ];
+        if ( required_nats ) {
+            timestamp = timestamp.substring( 0, timestamp.length-i ) ;
+            if ( required_nats.indexOf( nat ) === -1 )
+                return "<ignore>" ;
+            break ;
+        }
     }
 
     // remove any trailing "+" (FIXME! What does it even mean? Doesn't make sense :-/)
