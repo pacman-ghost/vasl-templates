@@ -7,12 +7,9 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 from vasl_templates.webapp.tests.utils import init_webapp, select_tab, \
     find_child, find_children, click_dialog_button, wait_for_clipboard, wait_for_elem
-from vasl_templates.webapp.tests.test_user_settings import set_user_settings
+from vasl_templates.webapp.tests.test_user_settings import set_user_settings, \
+    SCENARIO_IMAGES_SOURCE_THIS_PROGRAM, SCENARIO_IMAGES_SOURCE_INTERNET
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
-
-# nb: these are taken from user_settings.js
-SCENARIO_IMAGES_SOURCE_THIS_PROGRAM = 1
-SCENARIO_IMAGES_SOURCE_INTERNET = 2
 
 # ---------------------------------------------------------------------
 

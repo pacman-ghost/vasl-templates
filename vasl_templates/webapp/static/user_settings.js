@@ -1,7 +1,7 @@
 SCENARIO_IMAGES_SOURCE_THIS_PROGRAM = 1 ;
 SCENARIO_IMAGES_SOURCE_INTERNET = 2 ;
 
-gUserSettings = Cookies.getJSON( "user-settings" ) || { "scenario-images-source": SCENARIO_IMAGES_SOURCE_THIS_PROGRAM } ;
+gUserSettings = Cookies.getJSON( "user-settings" ) || { "scenario-images-source": SCENARIO_IMAGES_SOURCE_INTERNET } ;
 
 USER_SETTINGS = {
     "snippet-font-family": "text",

@@ -14,6 +14,10 @@ from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario,
 from vasl_templates.webapp.tests.test_template_packs import upload_template_pack_file
 from vasl_templates.webapp.tests.test_vo_notes import extract_ma_notes
 
+# nb: these are taken from user_settings.js
+SCENARIO_IMAGES_SOURCE_THIS_PROGRAM = 1
+SCENARIO_IMAGES_SOURCE_INTERNET = 2
+
 # ---------------------------------------------------------------------
 
 def test_include_vasl_images_in_snippets( webapp, webdriver ):
@@ -23,6 +27,7 @@ def test_include_vasl_images_in_snippets( webapp, webdriver ):
     init_webapp( webapp, webdriver,
         reset = lambda ct: ct.set_data_dir( dtype="real" )
     )
+    set_user_settings( { "scenario-images-source": SCENARIO_IMAGES_SOURCE_THIS_PROGRAM } )
 
     # add a vehicle
     set_player( 1, "german" )
