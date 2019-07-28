@@ -81,3 +81,15 @@ function select_tab( tab_id )
     $( "a[href='#helptabs-" + tab_id + "']" ).click() ;
     $( "#helptabs-content" ).animate( { scrollTop: 0 }, 0 ) ;
 }
+
+function getUrlParam( param )
+{
+    // look for the specified URL parameter
+    var url = window.location.search.substring( 1 ) ;
+    var params = url.split( "&" ) ;
+    for ( var i=0 ; i < params.length ; i++ ) {
+        var keyval = params[i].split( "=" ) ;
+        if ( keyval[0] == param )
+            return keyval[1] ;
+    }
+}

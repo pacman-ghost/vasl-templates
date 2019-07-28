@@ -14,7 +14,8 @@ You can find more examples of the program in action [here](https://github.com/pa
 
 ### Documentation
 
-* [User Guide](https://rawgit.com/pacman-ghost/vasl-templates/master/vasl_templates/webapp/static/help/index.html?tab=userguide)
-* [Installation](https://rawgit.com/pacman-ghost/vasl-templates/master/vasl_templates/webapp/static/help/index.html?tab=installation)
-* [Writing your own templates](https://rawgit.com/pacman-ghost/vasl-templates/master/vasl_templates/webapp/static/help/index.html?tab=templatepacks)
-* [For developers](https://rawgit.com/pacman-ghost/vasl-templates/master/vasl_templates/webapp/static/help/index.html?tab=fordevelopers)
+* [User Guide](https://vasl-templates.org/help?tab=userguide)
+* [Installation](https://vasl-templates.org/help?tab=installation)
+* [Setting up Chapter H data](https://vasl-templates.org/help?tab=chapterh)
+* [Writing your own templates](https://vasl-templates.org/help?tab=templatepacks)
+* [For developers](https://vasl-templates.org/help?tab=fordevelopers)
