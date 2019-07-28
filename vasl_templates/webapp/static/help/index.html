@@ -80,14 +80,15 @@ and then connect to it in a browser at <tt>http://localhost:5010</tt>.
 docker run --rm -it --name vasl-templates \
     -p 5010:5010 \
     -v /home/pacman-ghost/vasl/vasl-6.4.4.vmod:/data/vasl.vmod \
+    -v /home/pacman-ghost/vasl/extensions/:/data/vasl-extensions \
     vasltemplates/images:latest
 </div>
-If you have Chapter H data, add the following:
+To include Chapter H data, add the following:
 <div class="code"> -v /home/pacman-ghost/vasl/chapter-h:/data/chapter-h-notes </div>
 <p> Then open a browser and connect to the webapp at <tt>http://localhost:5010</tt>.
-<p> Note that some features (e.g. updating a VASL scenario file) may not be available.
-<div class="warning"> If you have SElinux enabled, it may prevent the container from accessing the VASL <tt>.vmod</tt> file, in which case, you can allow access like this:
-<div class="code"> chcon -Rt svirt_sandbox_file_t /home/pacman-ghost/vasl/vasl-6.4.4.vmod </div>
+<p> Note that some features (e.g. updating and analyzing VASL scenario files) may not be available.
+<div class="warning"> If you have SElinux enabled, it may prevent the container from accessing files on the host. Access can be allowed like this:
+<div class="code"> chcon -Rt svirt_sandbox_file_t /home/pacman-ghost/vasl/ </div>
 </div>
 
 <h2>Installing a webdriver</h2>
@@ -126,7 +127,7 @@ The program will then not attempt to create the embedded browser, and will just 
 <div id="helptabs-userguide">
 
 <p> <img src="images/hill-621.png" class="preview" style="width:20em;float:right;">
-<em>VASL Templates</em> makes it easy to set up attractive <a href="http://vasl.info">VASL</a> scenarios, with loads of useful information embedded to assist with game play.
+<a href="https://vasl-templates.org"><em>VASL Templates</em></a> makes it easy to set up attractive <a href="http://vasl.info">VASL</a> scenarios, with loads of useful information embedded to assist with game play.
 <p> We'll show how by walking through a setup of everyone's favorite scenario, <em>Hill 621</em>. Click on the screenshot to the right to see the finished scenario.
 
 <p> <small><em>You can find more examples <a href="https://github.com/pacman-ghost/vasl-templates/tree/master/examples/">here</a>, with files that you can load into the program, together with the generated VASL scenarios</em></small>.
@@ -148,6 +149,12 @@ To create a label in VASL, open the <em>Draggable Overlays</em> window, and drag
 <p> <img src="images/scenario-vasl.png" class="preview" style="width:20em;float:left;">
 Once you have a label in VASL, copy the HTML snippet generated above into it.
 <p> Repeat the process to add the ELR and SAN for both players, and you will now have two labels that you can position in the VASL scenario.
+
+<h4 style="clear:none;"> Automatically adding labels to the VASL scenario </h4>
+<p>Once you've got the hang of adding labels to your VASL scenario, you can get <em>VASL Templates</em> to do it automatically for you. After entering all the scenario details, choose <em>Update VASL scenario</em> from the menu, select the <tt>.vsav</tt> file you want to update, and all the labels will be inserted into the scenario (or updated, if they're already there).
+<div class="info"> VASSAL will be run to update the scenario, so you may see it temporarily appear on-screen. The process can be a little slow, and may take several minutes to complete. </div>
+
+<br clear="all">
 
 <h2> Adding victory conditions and SSR's </h2>
 
@@ -172,14 +179,11 @@ Once they're all in, click on the <em>Snippet</em> button to get a nicely format
 <p> <img src="images/ob_vehicles.png" class="preview" style="width:20em;float:right;">
 Adding each vehicle and ordnance for each player is just a matter of selecting them from a list, and the generated HTML snippet will produce a table of information for each one (see right). Very handy if you have a menagerie of armor and you're, say, looking for something that can fire Smoke.
 <p> The scenario date is taken into account when generating these tables e.g. APCR for the Pz IVH is A5<sup>2</sup>, but since the program knows the scenario is set in 1944, it just shows A5. Had the scenario been set in 1941, it wouldn't be shown at all.
-<p> Double-click on an entry to make changes to it e.g. because an SSR changes its capabilities, or you'd like to add a note.
 
 <div class="hint"> It's also possible to include Chapter H notes in your scenarios, although you will need to <a href="#" onclick="select_tab('chapterh');">set some things up</a> first. </div>
 
-<h4 style="clear:none;"> Analyzing a VASL scenario </h4>
-
-<p> If you have already set up the VASL scenario, you can also choose <em>"Analyze VASL scenario"</em> from the menu, and the program will identify vehicles and ordnance, and automatically create entries for each one. Only counters from the two configured nationalities will be imported, so make sure you set these first.
-
+<p> <img src="images/edit-vehicle.png" class="preview" style="width:15em;float:left;">
+Double-click on an entry to make changes to it e.g. because an SSR changes its capabilities, or you'd like to add a note.
 <br clear="all">
 
 <p> <img src="images/ob_setup.png" class="preview" style="width:15em;float:left;">
@@ -188,12 +192,16 @@ We can also add ad-hoc notes describing where and how units should setup.
 <br clear="all">
 
 <p> <img src="images/pf.png" class="preview" style="width:15em;float:right;">
-Finally, if special support weapons such as PF and BAZ are in play, snippets are available with information for them, and as with vehicles/ordnance, they are date-aware and update themselves accordingly.
+Finally, if special support weapons such as PF and BAZ are in play, snippets are available with information for them. As with vehicles/ordnance, they are date-aware and update themselves accordingly.
+
+<h4> Analyzing a VASL scenario </h4>
+
+<p> If you have already set up the VASL scenario, you can choose <em>"Analyze VASL scenario"</em> from the menu, and the program will scan the <tt>.vsav</tt> file for vehicles and ordnance, and automatically create entries for each one. Only counters from the two configured nationalities will be imported, so make sure you set these first.
 
 <h2> Extra templates </h2>
 
 <p> <img src="images/extras-templates.png" class="preview" style="width:15em;float:right;">
-<p> Extra templates are also available to generate ad-hoc snippets e.g. to keep track of how many PF shots you have left, or to generate a shaded box that can be inserted behind the Turn Track to indicate an LV Hindrance.
+<p> Extra templates are also available to generate other kinds of snippets e.g. to keep track of how many PF shots you have left, or to generate a shaded box that can be inserted behind the Turn Track to indicate an LV Hindrance.
 
 <h2> Including your own images </h2>
 
@@ -221,7 +229,7 @@ or a <tt>width</tt> and/or <tt>height</tt> parameter to explicitly set the image
 <p>
 <ul>
     <li> Set up the VASL scenario, with the boards and counters.
-    <li> In <em>VASL Templates</em>, set the two player nationalities, then analyze the VASL scenario to automatically create entries for vehicles and ordnance.
+    <li> In <em>VASL Templates</em>, set the two player nationalities, then analyze the VASL scenario, to automatically create entries for vehicles and ordnance.
     <li> Enter the other scenario details e.g. the scenario name and date, Victory Conditions and SSR's, setup instructions.
     <li> Update the VASL scenario file, to automatically create labels for all the scenario details and vehicles/ordnance.
 </ul>
@@ -235,13 +243,11 @@ or a <tt>width</tt> and/or <tt>height</tt> parameter to explicitly set the image
 <li> If you are running the Windows desktop application, open the <em>Server settings</em> dialog from the <em>File</em> menu and configure it there.
 <li> If you are running the web server directly, create a file called <tt>site.cfg</tt> in the <tt>$/config/</tt> directory and configure it there (there is an example file you can rename and edit).
 </ul>
-<div class="info"> You should configure version 6.4.0 thru 6.4.4, of the VASL module. </div>
 <p> Once you've configured the VASL module, if you want to also show VASL counter images in the OB snippets that you copy in the VASL scenario, turn this on in the <em>User settings</em> dialog from the main application menu.
-<div class="info"> If you turn this feature on, the program must be running every time you load the scenario into VASL. </div>
 
 <h4> Show Chapter H vehicle/ordnance notes as images </h4>
 
-<p> If you have set up the <a href="#" onclick="select_tab('chapterh');">Chapter H vehicle/ordnance notes</a> as HTML, it may not be possible to get the layout you want, since VASSAL's HTML engine is so old. To work around this, this option tells <em>VASL Templates</em> to render the HTML itself (using a modern browser) and send it as an image to VASSAL, which is slower but gives better results.
+<p> If you have set up the <a href="#" onclick="select_tab('chapterh');">Chapter H vehicle/ordnance notes</a> as HTML, it may not be possible to get the layout you want, since VASSAL's HTML engine is very old and doesn't support many HTML/CSS features. To work around this, this option tells <em>VASL Templates</em> to render the HTML itself (using a modern browser) and send it as an image to VASSAL, which is slower but gives better results.
 
 </div>
 
@@ -308,7 +314,16 @@ We'll take a look at the <tt>ssr.j2</tt> file, which is used to generate snippet
 
 <p> Open the file in a text editor (if you're on Windows, you will probably need to right-click on the file and choose <em>Open with...</em>), and you'll see something like this:
 <div class="code">
-&lt;html&gt;
+&lt;html&gt; &lt;!-- vasl-templates:id {{SNIPPET_ID}} --&gt;
+
+&lt;head&gt;
+&lt;meta charset="utf-8"&gt;
+&lt;style&gt;
+{{CSS:common}}
+ul#ssr { padding: 0 5px 0 13px ; }
+ul#ssr li { margin-top: 2px ; }
+&lt;/style&gt;
+&lt;/head&gt;
 
 &lt;table style="
   {%if SSR_WIDTH%} width: {{SSR_WIDTH}} ; {%endif%}
@@ -318,15 +333,15 @@ We'll take a look at the <tt>ssr.j2</tt> file, which is used to generate snippet
 &lt;td style="
   background: #f0f0f0 ;
   border-bottom: 1px solid #c0c0c0 ;
+  padding: 2px 5px ;
+  font-size: 105% ; font-weight: bold ;
 "&gt;
-    &lt;b&gt;Scenario Special Rules&lt;/b&gt;
+    Scenario Special Rules
 
 &lt;tr&gt;
 &lt;td&gt;
-&lt;ul style="margin:0 0 0 10px;"&gt;
-{%for ssr in SSR%}
-    &lt;li&gt; {{ssr}}
-{%endfor%}
+&lt;ul id="ssr"&gt;
+{%for ssr in SSR%} &lt;li&gt; {{ssr}} {%endfor%}
 &lt;/ul&gt;
 
 &lt;/table&gt;
@@ -359,10 +374,8 @@ But if the user hasn't specified anything for this field, what's between the <tt
 
 <p> There will often be multiple SSR's, and near the bottom of the file, we can see how these are handled:
 <div class="code">
-&lt;ul style="margin:0 0 0 10px;"&gt;
-{%for ssr in SSR%}
-    &lt;li&gt; {{ssr}}
-{%endfor%}
+&lt;ul id="ssr"&gt;
+{%for ssr in SSR%} &lt;li&gt; {{ssr}} {%endfor%}
 &lt;/ul&gt;
 </div>
 This sets up an HTML list (<tt>&lt;ul&gt;</tt>) and repeats everything between the <tt>{%for ...%}</tt> and <tt>{%endfor%}</tt>, once for each entry in the <tt>SSR</tt> variable, which contains the SSR's entered by the user in the UI. Each time around, <tt>{{ssr}}</tt> will be updated to hold the next entry, which will be inserted into the generated HTML snippet as a <tt>&lt;li&gt;</tt> node.
@@ -446,13 +459,14 @@ docker build --tag vasl-templates .
 docker run --rm -it --name vasl-templates \
     -p 5010:5010 \
     -v /home/pacman-ghost/vasl/vasl-6.4.4.vmod:/data/vasl.vmod \
+    -v /home/pacman-ghost/vasl/extensions/:/data/vasl-extensions \
     vasl-templates
 </div>
-<div class="warning"> The "Update VASL scenario" feature is currently not working in a container. </div>
+<div class="warning"> The "Update VASL scenario" and "Analyze VASL scenario" features are currently not available in a container. </div>
 
-<p> Note that if you have SElinux enabled, it may prevent the container from accessing the VASL <tt>.vmod</tt> file, in which case, you can allow access like this:
+<p> Note that if you have SElinux enabled, it may prevent the container from accessing files on the host, in which case access can be allowed like this:
 <div class="code">
-chcon -Rt svirt_sandbox_file_t /home/pacman-ghost/vasl/vasl-6.4.4.vmod
+chcon -Rt svirt_sandbox_file_t /home/pacman-ghost/vasl/
 </div>
 
 <h2> Creating a pre-compiled package </h2>
