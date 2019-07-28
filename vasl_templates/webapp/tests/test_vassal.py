@@ -497,6 +497,7 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
 
 @pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
 @pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( not pytest.config.option.vasl_extensions, reason="--vasl-extensions not specified" ) #pylint: disable=no-member
 def test_analyze_vsav( webapp, webdriver ):
     """Test analyzing a scenario."""
 
