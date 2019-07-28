@@ -91,10 +91,9 @@ def update_vsav(): #pylint: disable=too-many-statements
     _logger.debug( "Updated the VSAV file OK: elapsed=%.3fs", time.time()-start_time )
     # NOTE: We adjust the recommended save filename to encourage users to not overwrite the original file :-/
     vsav_filename = os.path.split( vsav_filename )[1]
-    fname, extn = os.path.splitext( vsav_filename )
     return jsonify( {
         "vsav_data": base64.b64encode(vsav_data).decode( "utf-8" ),
-        "filename": fname+" (updated)" + extn,
+        "filename": vsav_filename,
         "report": {
             "was_modified": report["was_modified"],
             "labels_created": len(report["created"]),
