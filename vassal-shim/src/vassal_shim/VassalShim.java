@@ -151,6 +151,7 @@ public class VassalShim
         cmd.execute() ;
 
         // analyze the scenario
+        logger.info( "Analyzing scenario: " + scenarioFilename ) ;
         HashMap<String,AnalyzeNode> results = new HashMap<String,AnalyzeNode>() ;
         analyzeCommand( cmd, results ) ;
 
@@ -814,6 +815,7 @@ public class VassalShim
         // analyze the command
         if ( cmd instanceof AddPiece ) {
             GamePiece target = ((AddPiece)cmd).getTarget() ;
+            logger.debug( "Found piece: " + cmd.getClass().getName() + " ; target=" + target.getClass().getName() ) ;
             // NOTE: Hideable's don't seem to be just a thing with old versions of VASSAL. We still get them
             // when adding a "46mm granatnik wz. 36" (GPID 2172) using VASL 6.4.4 :-/ This also seems to happen
             // with other 1/2" SW counters.
@@ -824,9 +826,13 @@ public class VassalShim
             ) {
                 int pos = target.getState().lastIndexOf( ";" ) ;
                 String gpid = target.getState().substring( pos+1 ) ;
-                if ( ! results.containsKey( gpid ) )
+                if ( ! results.containsKey( gpid ) ) {
+                    logger.debug( "Found new GPID " + gpid + ": " + target.getName() ) ;
                     results.put( gpid, new AnalyzeNode( target.getName() ) ) ;
-                results.get( gpid ).incrementCount() ;
+                } else {
+                    int newCount = results.get( gpid ).incrementCount() ;
+                    logger.debug( "Updating count for GPID " + gpid + ": #=" + newCount ) ;
+                }
             }
         }
 

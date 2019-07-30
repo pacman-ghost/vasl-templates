@@ -13,8 +13,8 @@ public class AnalyzeNode
     {
         // initialize the AnalyzeNode
         this.name = name ;
-        this.count = 0 ;
+        this.count = 1 ;
     }
 
-    public void incrementCount() { ++count ; }
+    public int incrementCount() { return ++count ; }
 }

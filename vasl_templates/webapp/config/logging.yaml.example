@@ -27,6 +27,15 @@ loggers:
     vasl_mod:
         level: "WARNING"
         handlers: [ "file" ]
-    vassal_shim:
+    update_vsav:
+        level: "WARNING"
+        handlers: [ "file" ]
+    analyze_vsav:
+        level: "WARNING"
+        handlers: [ "file" ]
+    webdriver:
+        level: "WARNING"
+        handlers: [ "file" ]
+    roar:
         level: "WARNING"
         handlers: [ "file" ]

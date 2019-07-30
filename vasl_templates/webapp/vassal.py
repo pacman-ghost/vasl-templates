@@ -7,6 +7,7 @@ import subprocess
 import traceback
 import re
 import logging
+import pprint
 import base64
 import time
 import xml.etree.cElementTree as ET
@@ -17,8 +18,6 @@ from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import BASE_DIR, IS_FROZEN
 from vasl_templates.webapp.utils import TempFile, SimpleError
 from vasl_templates.webapp.webdriver import WebDriver
-
-_logger = logging.getLogger( "vassal_shim" )
 
 SUPPORTED_VASSAL_VERSIONS = [ "3.2.15" ,"3.2.16", "3.2.17" ]
 SUPPORTED_VASSAL_VERSIONS_DISPLAY = "3.2.15-.17"
@@ -35,13 +34,16 @@ def update_vsav(): #pylint: disable=too-many-statements
     vsav_filename = request.json[ "filename" ]
     snippets = request.json[ "snippets" ]
 
+    # initialize
+    logger = logging.getLogger( "update_vsav" )
+
     # update the VASL scenario file
     try:
 
         # get the VSAV data (we do this inside the try block so that the user gets shown
         # a proper error dialog if there's a problem decoding the base64 data)
         vsav_data = base64.b64decode( vsav_data )
-        _logger.info( "Updating VSAV (#bytes=%d): %s", len(vsav_data), vsav_filename )
+        logger.info( "Updating VSAV (#bytes=%d): %s", len(vsav_data), vsav_filename )
 
         with TempFile() as input_file:
 
@@ -50,17 +52,17 @@ def update_vsav(): #pylint: disable=too-many-statements
             input_file.close()
             fname = app.config.get( "UPDATE_VSAV_INPUT" ) # nb: for diagnosing problems
             if fname:
-                _logger.debug( "Saving a copy of the VSAV data: %s", fname )
+                logger.debug( "Saving a copy of the VSAV data: %s", fname )
                 with open( fname, "wb" ) as fp:
                     fp.write( vsav_data )
 
             with TempFile() as snippets_file:
                 # save the snippets in a temp file
-                xml = _save_snippets( snippets, snippets_file )
+                xml = _save_snippets( snippets, snippets_file, logger )
                 snippets_file.close()
                 fname = app.config.get( "UPDATE_VSAV_SNIPPETS" ) # nb: for diagnosing problems
                 if fname:
-                    _logger.debug( "Saving a copy of the snippets: %s", fname )
+                    logger.debug( "Saving a copy of the snippets: %s", fname )
                     with open( fname, "wb" ) as fp:
                         ET.ElementTree( xml ).write( fp )
 
@@ -77,7 +79,7 @@ def update_vsav(): #pylint: disable=too-many-statements
                         vsav_data = fp.read()
                     fname = app.config.get( "UPDATE_VSAV_RESULT" ) # nb: for diagnosing problems
                     if fname:
-                        _logger.debug( "Saving a copy of the updated VSAV: %s", fname )
+                        logger.debug( "Saving a copy of the updated VSAV: %s", fname )
                         with open( app.config.get("UPDATE_VSAV_RESULT"), "wb" ) as fp:
                             fp.write( vsav_data )
                     # read the report
@@ -85,10 +87,10 @@ def update_vsav(): #pylint: disable=too-many-statements
 
     except Exception as ex: #pylint: disable=broad-except
 
-        return VassalShim.translate_vassal_shim_exception( ex )
+        return VassalShim.translate_vassal_shim_exception( ex, logger )
 
     # return the results
-    _logger.debug( "Updated the VSAV file OK: elapsed=%.3fs", time.time()-start_time )
+    logger.info( "Updated the VSAV file OK: elapsed=%.3fs", time.time()-start_time )
     # NOTE: We adjust the recommended save filename to encourage users to not overwrite the original file :-/
     vsav_filename = os.path.split( vsav_filename )[1]
     return jsonify( {
@@ -103,7 +105,7 @@ def update_vsav(): #pylint: disable=too-many-statements
         },
     } )
 
-def _save_snippets( snippets, fp ): #pylint: disable=too-many-locals
+def _save_snippets( snippets, fp, logger ): #pylint: disable=too-many-locals
     """Save the snippets in a file.
 
     NOTE: We save the snippets as XML because Java :-/
@@ -143,7 +145,7 @@ def _save_snippets( snippets, fp ): #pylint: disable=too-many-locals
                     img = webdriver.get_snippet_screenshot( snippet_id, snippet_info["content"] )
                     width, height = img.size
                     elapsed_time = time.time() - start_time
-                    _logger.debug( "Generated screenshot for %s (%.3fs): %dx%d",
+                    logger.debug( "Generated screenshot for %s (%.3fs): %dx%d",
                         snippet_id, elapsed_time, width, height
                     )
                     # FUDGE! There's something weird going on in VASSAL e.g. "<table width=300>" gives us something
@@ -187,12 +189,15 @@ def analyze_vsav():
     vsav_data = request.json[ "vsav_data" ]
     vsav_filename = request.json[ "filename" ]
 
+    # initialize
+    logger = logging.getLogger( "analyze_vsav" )
+
     try:
 
         # get the VSAV data (we do this inside the try block so that the user gets shown
         # a proper error dialog if there's a problem decoding the base64 data)
         vsav_data = base64.b64decode( vsav_data )
-        _logger.info( "Analyzing VSAV (#bytes=%d): %s", len(vsav_data), vsav_filename )
+        logger.info( "Analyzing VSAV (#bytes=%d): %s", len(vsav_data), vsav_filename )
 
         with TempFile() as input_file:
 
@@ -201,7 +206,7 @@ def analyze_vsav():
             input_file.close()
             fname = app.config.get( "ANALYZE_VSAV_INPUT" ) # nb: for diagnosing problems
             if fname:
-                _logger.debug( "Saving a copy of the VSAV data: %s", fname )
+                logger.debug( "Saving a copy of the VSAV data: %s", fname )
                 with open( fname, "wb" ) as fp:
                     fp.write( vsav_data )
 
@@ -214,10 +219,13 @@ def analyze_vsav():
 
     except Exception as ex: #pylint: disable=broad-except
 
-        return VassalShim.translate_vassal_shim_exception( ex )
+        return VassalShim.translate_vassal_shim_exception( ex, logger )
 
     # return the results
-    _logger.debug( "Analyzed the VSAV file OK: elapsed=%.3fs\n%s", time.time()-start_time, report )
+    logger.info( "Analyzed the VSAV file OK: elapsed=%.3fs\n%s",
+        time.time() - start_time,
+        pprint.pformat( report, indent=2, width=120 )
+    )
     return jsonify( report )
 
 def _parse_analyze_report( fname ):
@@ -289,6 +297,9 @@ class VassalShim:
     def _run_vassal_shim( self, *args ): #pylint: disable=too-many-locals
         """Run the VASSAL shim."""
 
+        # initialize
+        logger = logging.getLogger( "vassal_shim" )
+
         # prepare the command
         java_path = app.config.get( "JAVA_PATH" )
         if not java_path:
@@ -319,7 +330,7 @@ class VassalShim:
             timeout = None
 
         # run the VASSAL shim
-        _logger.debug( "Running VASSAL shim (timeout=%s): %s", str(timeout), " ".join(args2) )
+        logger.info( "Running VASSAL shim (timeout=%s): %s", str(timeout), " ".join(args2) )
         start_time = time.time()
         # NOTE: We can't use pipes to capture the output here when we're frozen on Windows ("invalid handle" errors),
         # I suspect because we freeze the application using --noconsole, which causes problems when
@@ -352,7 +363,7 @@ class VassalShim:
             buf2.close()
             stderr = open( buf2.name, "r", encoding="utf-8" ).read()
         elapsed_time = time.time() - start_time
-        _logger.debug( "- Completed OK: %.3fs", elapsed_time )
+        logger.info( "- Completed OK: %.3fs", elapsed_time )
 
         # check the result
         stderr = stderr.replace( "Warning: Could not get charToByteConverterClass!", "" ).strip()
@@ -365,7 +376,7 @@ class VassalShim:
         # saved the scenario successfully and exited cleanly; any output on stderr means that some part
         # of VASSAL barfed as it was trying to start up and can (hopefully) be safely ignored.
         if stderr:
-            _logger.info( "VASSAL shim stderr output:\n%s", stderr )
+            logger.warning( "VASSAL shim stderr output:\n%s", stderr )
         if proc.returncode != 0:
             raise VassalShimError( proc.returncode, stdout, stderr )
         return stdout
@@ -381,11 +392,11 @@ class VassalShim:
         return boards_dir
 
     @staticmethod
-    def translate_vassal_shim_exception( ex ):
+    def translate_vassal_shim_exception( ex, logger ):
         """Convert an exception thrown by the VassalShim to a JSON response to return to the caller."""
 
         if isinstance( ex, VassalShimError ):
-            _logger.error( "VASSAL shim error: rc=%d", ex.retcode )
+            logger.error( "VASSAL shim error: rc=%d", ex.retcode )
             if ex.retcode != 0:
                 return jsonify( {
                     "error": "Unexpected return code from the VASSAL shim: {}".format( ex.retcode ),
@@ -403,10 +414,10 @@ class VassalShim:
                          "<p>If this problem persists, try configuring a longer timeout."
             } )
         if isinstance( ex, SimpleError ):
-            _logger.error( "VSAV update error: %s", ex )
+            logger.error( "VSAV update error: %s", ex )
             return jsonify( { "error": str(ex) } )
 
-        _logger.error( "Unexpected VSAV update error: %s", ex )
+        logger.error( "Unexpected VSAV update error: %s", ex )
         return jsonify( {
             "error": str(ex),
             "stdout": traceback.format_exc(),
