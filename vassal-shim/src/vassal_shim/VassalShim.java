@@ -59,6 +59,7 @@ import VASSAL.counters.GamePiece ;
 import VASSAL.counters.BasicPiece ;
 import VASSAL.counters.DynamicProperty ;
 import VASSAL.counters.Hideable ;
+import VASSAL.counters.FreeRotator ;
 import VASSAL.counters.PieceCloner ;
 import VASSAL.preferences.Prefs ;
 import VASSAL.tools.DataArchive ;
@@ -814,8 +815,13 @@ public class VassalShim
         if ( cmd instanceof AddPiece ) {
             GamePiece target = ((AddPiece)cmd).getTarget() ;
             // NOTE: Hideable's don't seem to be just a thing with old versions of VASSAL. We still get them
-            // when adding a "46mm granatnik wz. 36" (GPID 2172) using VASL 6.4.4 :-/
-            if ( target instanceof DynamicProperty || target instanceof Hideable || target.getClass().getName().equals("VASL.counters.TextInfo") ) {
+            // when adding a "46mm granatnik wz. 36" (GPID 2172) using VASL 6.4.4 :-/ This also seems to happen
+            // with other 1/2" SW counters.
+            // NOTE: Other pieces also occasionally appear with weird class types e.g. the Japanese Type 88 75 AA Gun
+            // appears as a FreeRotator?!
+            if ( target instanceof DynamicProperty || target instanceof Hideable || target instanceof FreeRotator
+                 || target.getClass().getName().equals("VASL.counters.TextInfo")
+            ) {
                 int pos = target.getState().lastIndexOf( ";" ) ;
                 String gpid = target.getState().substring( pos+1 ) ;
                 if ( ! results.containsKey( gpid ) )
