@@ -87,6 +87,7 @@ public class VassalShim
 
     private String baseDir ;
     private Properties config ;
+    private String labelGpid ;
     private String vmodFilename ;
     private String boardsDir ;
 
@@ -118,6 +119,7 @@ public class VassalShim
                     logger.debug( "- {} = {}", key, config.getProperty(key) ) ;
             }
         }
+        labelGpid = config.getProperty( "LABEL_GPID", "6295" ) ;
 
         // FUDGE! Need this to be able to load the VASL module :-/
         logger.debug( "Creating the menu manager." ) ;
@@ -382,7 +384,6 @@ public class VassalShim
         // then become much more complicated). It's just not worth it for something that will rarely happen.
 
         // locate the PieceSlot we will use to create labels
-        String labelGpid = config.getProperty( "LABEL_GPID", "6295" ) ;
         logger.debug( "- Locating PieceSlot: gpid={}", labelGpid ) ;
         PieceSlot labelPieceSlot = null ;
         GpIdChecker gpidChecker = new GpIdChecker() ;
@@ -810,7 +811,7 @@ public class VassalShim
         buf.append( ": " + cmd.getAllowedIds() ) ;
     }
 
-    private static void analyzeCommand( Command cmd, Map<String,AnalyzeNode> results )
+    private void analyzeCommand( Command cmd, Map<String,AnalyzeNode> results )
     {
         // analyze the command
         if ( cmd instanceof AddPiece ) {
@@ -826,12 +827,14 @@ public class VassalShim
             ) {
                 int pos = target.getState().lastIndexOf( ";" ) ;
                 String gpid = target.getState().substring( pos+1 ) ;
-                if ( ! results.containsKey( gpid ) ) {
-                    logger.debug( "Found new GPID " + gpid + ": " + target.getName() ) ;
-                    results.put( gpid, new AnalyzeNode( target.getName() ) ) ;
-                } else {
-                    int newCount = results.get( gpid ).incrementCount() ;
-                    logger.debug( "Updating count for GPID " + gpid + ": #=" + newCount ) ;
+                if ( ! gpid.equals( labelGpid ) ) {
+                    if ( ! results.containsKey( gpid ) ) {
+                        logger.debug( "Found new GPID " + gpid + ": " + target.getName() ) ;
+                        results.put( gpid, new AnalyzeNode( target.getName() ) ) ;
+                    } else {
+                        int newCount = results.get( gpid ).incrementCount() ;
+                        logger.debug( "Updating count for GPID " + gpid + ": #=" + newCount ) ;
+                    }
                 }
             }
         }
