@@ -57,9 +57,8 @@ import VASSAL.command.AlertCommand ;
 import VASSAL.build.module.map.boardPicker.Board ;
 import VASSAL.counters.GamePiece ;
 import VASSAL.counters.BasicPiece ;
+import VASSAL.counters.Decorator ;
 import VASSAL.counters.DynamicProperty ;
-import VASSAL.counters.Hideable ;
-import VASSAL.counters.FreeRotator ;
 import VASSAL.counters.PieceCloner ;
 import VASSAL.preferences.Prefs ;
 import VASSAL.tools.DataArchive ;
@@ -155,7 +154,31 @@ public class VassalShim
         // analyze the scenario
         logger.info( "Analyzing scenario: " + scenarioFilename ) ;
         HashMap<String,AnalyzeNode> results = new HashMap<String,AnalyzeNode>() ;
-        analyzeCommand( cmd, results ) ;
+        for ( GamePiece gamePiece: GameModule.getGameModule().getGameState().getAllPieces() ) {
+            if ( gamePiece.getProperty(VASSAL.counters.Properties.OBSCURED_BY) != null || gamePiece.getProperty(VASSAL.counters.Properties.HIDDEN_BY) != null ) {
+               // IMPORTANT: VASSAL blanks out the name of concealed/HIP pieces if they don't belong to the calling user,
+               // but we still get the GPID, which is enough for the main program to figure out which entry to create.
+               // This means that people could use this feature to analyze a scenario in progess, to figure out
+               // what their opponent's concealed/hidden OB is. To avoid this, we exclude these pieces from the report.
+               continue ;
+            }
+            // see if this piece has a GPID
+            GamePiece gp = Decorator.getInnermost( gamePiece ) ;
+            if ( !( gp instanceof BasicPiece ) )
+                continue ;
+            // yup - check if it's one we're interested in
+            String gpid = ((BasicPiece)gp).getGpId() ;
+            if ( gpid.equals( "" ) || gpid.equals( labelGpid ) )
+                continue ;
+            // yup - add it to the results
+            if ( ! results.containsKey( gpid ) ) {
+                logger.debug( "Found new GPID " + gpid + ": " + gamePiece.getName() ) ;
+                results.put( gpid, new AnalyzeNode( gamePiece.getName() ) ) ;
+            } else {
+                int newCount = results.get( gpid ).incrementCount() ;
+                logger.debug( "Updating count for GPID " + gpid + ": #=" + newCount ) ;
+            }
+        }
 
         // generate the report
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument() ;
@@ -240,6 +263,8 @@ public class VassalShim
     private void extractLabels( Command cmd, Map<String,GamePieceLabelFields> ourLabels, ArrayList<GamePieceLabelFields> otherLabels )
     {
         // check if this command is a label we're interested in
+        // NOTE: We shouldn't really be looking at the object type, see analyzeScenario().
+        //   http://www.gamesquad.com/forums/index.php?threads/new-program-to-help-set-up-vasl-scenarios.148281/post-1983751
         if ( cmd instanceof AddPiece ) {
             AddPiece addPieceCmd = (AddPiece) cmd ;
             if ( addPieceCmd.getTarget() instanceof DynamicProperty ) {
@@ -809,39 +834,6 @@ public class VassalShim
     {
         // dump extra command info
         buf.append( ": " + cmd.getAllowedIds() ) ;
-    }
-
-    private void analyzeCommand( Command cmd, Map<String,AnalyzeNode> results )
-    {
-        // analyze the command
-        if ( cmd instanceof AddPiece ) {
-            GamePiece target = ((AddPiece)cmd).getTarget() ;
-            logger.debug( "Found piece: " + cmd.getClass().getName() + " ; target=" + target.getClass().getName() ) ;
-            // NOTE: Hideable's don't seem to be just a thing with old versions of VASSAL. We still get them
-            // when adding a "46mm granatnik wz. 36" (GPID 2172) using VASL 6.4.4 :-/ This also seems to happen
-            // with other 1/2" SW counters.
-            // NOTE: Other pieces also occasionally appear with weird class types e.g. the Japanese Type 88 75 AA Gun
-            // appears as a FreeRotator?!
-            if ( target instanceof DynamicProperty || target instanceof Hideable || target instanceof FreeRotator
-                 || target.getClass().getName().equals("VASL.counters.TextInfo")
-            ) {
-                int pos = target.getState().lastIndexOf( ";" ) ;
-                String gpid = target.getState().substring( pos+1 ) ;
-                if ( ! gpid.equals( labelGpid ) ) {
-                    if ( ! results.containsKey( gpid ) ) {
-                        logger.debug( "Found new GPID " + gpid + ": " + target.getName() ) ;
-                        results.put( gpid, new AnalyzeNode( target.getName() ) ) ;
-                    } else {
-                        int newCount = results.get( gpid ).incrementCount() ;
-                        logger.debug( "Updating count for GPID " + gpid + ": #=" + newCount ) ;
-                    }
-                }
-            }
-        }
-
-        // analyze any sub-commands
-        for ( Command c: cmd.getSubCommands() )
-            analyzeCommand( c, results ) ;
     }
 
     private static void parseGamePieceState( String state, ArrayList<String> separators, ArrayList<String> fields )

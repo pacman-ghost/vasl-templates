@@ -577,6 +577,33 @@ def test_analyze_vsav( webapp, webdriver ):
     # run the test against all versions of VASSAL+VASL
     _run_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
+def test_analyze_vsav_hip_concealed( webapp, webdriver ):
+    """Test analyzing a scenario that contains HIP and concealed units."""
+
+    # initialize
+    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1,
+        reset = lambda ct: ct.set_data_dir( dtype="real" )
+    )
+
+    def do_test(): #pylint: disable=missing-docstring
+
+        # NOTE: The test scenario contains hidden/concealed units belonging to the Russians and Germans,
+        # but because the owning user is test/password, they should be ignored (unless you configure VASSAL
+        # with these credentials, so don't do that :-/).
+        new_scenario()
+        _analyze_vsav( "hip-concealed.vsav",
+            [ [], [] ],
+            [ [], [] ],
+            [ "No vehicles/ordnance were imported." ]
+        )
+
+    # run the test against all versions of VASSAL+VASL
+    _run_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
+
 # ---------------------------------------------------------------------
 
 def _run_tests( control_tests, func, test_all ):
