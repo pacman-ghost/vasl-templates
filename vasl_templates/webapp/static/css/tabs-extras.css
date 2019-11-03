@@ -20,3 +20,9 @@
 #tabs-extras .right-panel table { margin-top: 1em ; }
 #tabs-extras .right-panel td.caption { font-weight: bold ; padding-right: 0.25em ; }
 #tabs-extras .right-panel .snippet-control { margin-top: 0.5em ; }
+
+#tabs-extras .right-panel .footer { margin-top: 1em ; font-size: 80% ; font-style: italic ; color: #444 ; }
+#tabs-extras .right-panel .footer table { margin: 0 ; }
+#tabs-extras .right-panel .footer td { vertical-align: top ; }
+#tabs-extras .right-panel .footer td.key, td.val { padding: 0.2em  0.5em; border: 1px dotted #ccc ; }
+#tabs-extras .right-panel .footer td.key { background: #f8f8f8 ; font-weight: bold ; }

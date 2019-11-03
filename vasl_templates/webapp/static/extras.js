@@ -107,6 +107,9 @@ function _show_extra_template( template_id )
         buf.push( "</table>" ) ;
     }
     buf.push( "<button class='generate' data-id='" + template_info.template_id + "'>Snippet</button>" ) ;
+    if ( template_info.footer ) {
+        buf.push( "<div class='footer'>", template_info.footer, "</div>" ) ;
+    }
     buf.push( "</div>" ) ;
     var $form = $( buf.join("") ) ;
     $form.find( "select" ).select2( {
@@ -130,13 +133,15 @@ function _parse_extra_template( template_id, template )
     // extract the main details
     var result = { template_id: template_id, name: template_id } ;
     function extract_val( key ) {
-        var match = template.match( new RegExp( "<!-- vasl-templates:" + key + " (.*?) -->" ) ) ;
+        var ch = (key === "footer") ? "[^]" : "." ; // FUDGE! Allow multi-line values for "footer" :-/
+        var match = template.match( new RegExp( "<!-- vasl-templates:" + key + " (" + ch + "*?) -->" ) ) ;
         if ( match )
-            result[key] = match[1] ;
+            result[key] = match[1].trim() ;
     }
     extract_val( "name" ) ;
     extract_val( "caption" ) ;
     extract_val( "description" ) ;
+    extract_val( "footer" ) ;
 
     // extract the template parameters
     result.params = [] ;
@@ -203,7 +208,7 @@ function fixup_template_parameters( template )
     }
 
     // remove all our special comments, except for the snippet ID
-    regex = /<!-- vasl-templates:(.*?) .*? -->\n*/g ;
+    regex = /<!-- vasl-templates:(.*?) [^]*? -->\n*/g ; // nb: we use "[^]" to match newline as well
     matches = [] ;
     while( (match = regex.exec( template )) !== null ) {
         if ( match[1] !== "id" )
