@@ -74,6 +74,7 @@ class MainWindow( QWidget ):
             file_menu.addAction( action )
         add_action( "&Settings", self.on_settings )
         add_action( "&About", self.on_about )
+        file_menu.addSeparator()
         add_action( "E&xit", self.on_exit )
 
         # set the window geometry

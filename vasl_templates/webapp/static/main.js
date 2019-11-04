@@ -51,6 +51,7 @@ $(document).ready( function () {
         separator2: { type: "separator" },
         template_pack: { label: "Load template pack", action: on_template_pack },
         user_settings: { label: "Settings", action: user_settings },
+        separator3: { type: "separator" },
         show_help: { label: "Help", action: show_help },
     } ) ;
     // nb: we only show the popmenu on left click (not the normal right-click)
