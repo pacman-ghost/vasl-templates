@@ -25,6 +25,7 @@
 
 <ul>
     <li> <a href="#helptabs-installation">Installation</a>
+    <li> <a href="#helptabs-quickstart">Quick Start</a>
     <li> <a href="#helptabs-userguide">User Guide</a>
     <li> <a href="#helptabs-chapterh">Chapter H</a>
     <li> <a href="#helptabs-templatepacks">Template packs</a>
@@ -124,13 +125,69 @@ The program will then not attempt to create the embedded browser, and will just 
 
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
+<div id="helptabs-quickstart">
+
+<h2 style="margin-top:0;"> Configuring the program </h2>
+
+<p> <img src="images/quick-start/settings.png" class="preview" style="float:right;">
+The first thing we want to do is configure the program.
+
+<p> Choose <em>Settings</em> from the <em>File</em> menu and configure the highlighted settings. As a guide, here are some example settings:
+<table class="settings">
+    <tr> <td class="key"> VASSAL installation: </td> <td class="val"> C:/bin/vassal-3.2.17/
+    <tr> <td class="key"> VASL module: </td> <td class="val"> C:/bin/vasl/vasl-6.4.4.vmod
+    <tr> <td class="key"> VASL extensions: </td> <td class="val"> C:/bin/vasl/extensions/
+    <tr> <td class="key"> VASL boards: </td> <td class="val"> C:/bin/vasl/boards/
+    <tr> <td class="key"> Java: </td> <td class="val"> C:/bin/jPortable-8u201-x64/bin/java.exe
+    <tr> <td class="key"> Web driver: </td> <td class="val"> C:/bin/geckodriver.exe
+</table>
+For the webdriver, download and unpack one of the following:
+<ul>
+    <li> <a href="https://github.com/mozilla/geckodriver/releases">geckodriver</a> (you must have Firefox installed)
+    <li> <a href="http://chromedriver.chromium.org/downloads">chromedriver</a> (you must have Chrome installed)
+</ul>
+
+<h2> Setting up a scenario </h2>
+
+<p> <img src="images/quick-start/scenario-card.png" class="preview" style="float:right;">
+We'll set up <em>The Streets Of Stalingrad</em>, and the scenario card tells us that this is played on Board 1, so fire up VASL, add this board, then save the scenario somewhere (e.g. <tt>streets-of-stalingrad.vsav</tt>).
+<br clear=all>
+
+<p> <img src="images/quick-start/load-scenario.png" class="preview" style="float:left;">
+In <em>vasl-templates</em>, open the save file for this scenario (<tt>The Streets Of Stalingrad (Scenario C).json</tt>; you'll find it in the <tt>examples/</tt> directory).
+<p> Browse through the tabs, and you'll see all the scenario details e.g. Victory Conditions, SSR's, setup instructions. The program also shows the latest results from <a href="http://www.jrvdev.com/ROAR/VER1/RecordByName.asp">ROAR</a>.
+<br clear=all>
+
+<p> <img src="images/quick-start/update-scenario.png" class="preview" style="float:right;">
+We now want to create labels in the VASL scenario for all this information. Choose <em>Update VASL scenario</em> from the menu, and select the VASL scenario file you created earlier (e.g. <tt>streets-of-stalingrad.vsav</tt>). The program will now launch VASSAL to do the work, so be patient since it may take a minute or two, and you may see VASSAL momentarily appear on-screen.
+<p> Once it's done, save the updated <tt>.vsav</tt> file somewhere. Go back to VASSAL, open the updated <tt>.vsav</tt> file, and you will see all the labels with the scenario information: <br>
+<img src="images/quick-start/updated-scenario.png" class="preview" style="margin:0.5em 0 0 2em;"> <br>
+In particular, note the data tables for the vehicles, which contain useful information that will need during your game.
+
+<h2> Including pictures in the labels </h2>
+
+<p> <img src="images/quick-start/user-settings.png" class="preview" style="float:right;">
+We can pretty-up the labels by including pictures in them. Open the <em>User Settings</em> dialog and turn on <em>Images in scenarios</em>.
+<p> Update the VASL scenario again (as above), open it again in VASSAL, and you will see that the labels now include nationality flags, and the vehicle data tables show the counter images: <br>
+<img src="images/quick-start/images-in-labels.png" class="preview" style="margin:0.5em 0 0 2em;">
+<div class="warning"> If you turn this option on, you must choose where VASSAL will get the images from:
+    <ul>
+        <li> <span style="border-bottom:1px solid #ccc;">From this program</span>: the <em>vasl-templates</em> program must be running before you open the scenario in VASSAL. If you are playing with someone online, they must have the program running as well.
+            <li> <span style="border-bottom:1px solid #ccc;">From the internet</span>: you must have a working internet connection when you open the scenario in VASSAL. There will be a short delay when opening the scenario, as VASSAL downloads the images.
+    </ul>
+</div>
+
+</div>
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
 <div id="helptabs-userguide">
 
 <p> <img src="images/hill-621.png" class="preview" style="width:20em;float:right;">
 <a href="https://vasl-templates.org"><em>VASL Templates</em></a> makes it easy to set up attractive <a href="http://vasl.info">VASL</a> scenarios, with loads of useful information embedded to assist with game play.
 <p> We'll show how by walking through a setup of everyone's favorite scenario, <em>Hill 621</em>. Click on the screenshot to the right to see the finished scenario.
 
-<p> <small><em>You can find more examples <a href="https://github.com/pacman-ghost/vasl-templates/tree/master/examples/">here</a>, with files that you can load into the program, together with the generated VASL scenarios</em></small>.
+<div class="info"> You can find more examples <a href="https://github.com/pacman-ghost/vasl-templates/tree/master/examples/">here</a>, with files that you can load into the program, together with the generated VASL scenarios. </div>
 
 <h2> Adding the scenario details </h2>
 

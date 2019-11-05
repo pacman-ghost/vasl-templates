@@ -32,6 +32,13 @@ li { margin: 0.2em 0 0 1em ; }
 
 /* -------------------------------------------------------------------- */
 
+table.settings { margin: 0.5em 0 1em 1em ; }
+table.settings td { padding: 0 0.5em ; }
+table.settings td.key { font-weight: bold ; }
+table.settings td.val { font-family: monospace ; }
+
+/* -------------------------------------------------------------------- */
+
 div.info {
     margin: 0.5em ; padding: 0.5em 0.5em 0.5em 30px ;
     background: url(images/info.gif) 2px 2px no-repeat ;

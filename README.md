@@ -16,6 +16,7 @@ You can find more examples of the program in action [here](https://github.com/pa
 
 * [User Guide](https://vasl-templates.org/help?tab=userguide)
 * [Installation](https://vasl-templates.org/help?tab=installation)
+* [Quick Start Guide](https://vasl-templates.org/help?tab=quickstart)
 * [Setting up Chapter H data](https://vasl-templates.org/help?tab=chapterh)
 * [Writing your own templates](https://vasl-templates.org/help?tab=templatepacks)
 * [For developers](https://vasl-templates.org/help?tab=fordevelopers)
