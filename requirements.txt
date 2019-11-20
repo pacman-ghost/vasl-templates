@@ -1,3 +1,5 @@
+# python 3.6.8
+
 flask==1.0.2
 pyyaml==3.13
 pillow==5.3.0
