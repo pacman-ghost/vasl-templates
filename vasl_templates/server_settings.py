@@ -235,7 +235,7 @@ def install_server_settings( is_startup ):
     """Install the server settings."""
 
     # install the server settings
-    from vasl_templates.webapp import app as app
+    from vasl_templates.webapp import app
     for key in SERVER_SETTINGS:
         key2 = key.replace( "-", "_" ).upper()
         app.config[ key2 ] = app_settings.value( "ServerSettings/"+key )

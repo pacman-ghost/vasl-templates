@@ -349,11 +349,8 @@ def test_snippet_images( webapp, webdriver ):
         webdriver.execute_script( "arguments[0].value = arguments[1]", ret_buffer, "" )
 
         # shift-click the snippet button
-        ActionChains( webdriver ) \
-            .key_down( Keys.SHIFT ) \
-            .click( snippet_btn ) \
-            .key_up( Keys.SHIFT ) \
-            .perform()
+        ActionChains( webdriver ).key_down( Keys.SHIFT ).click( snippet_btn ).perform()
+        ActionChains( webdriver ).key_up( Keys.SHIFT ).perform()
 
         # wait for the snippet image to be generated
         wait_for( 20, lambda: ret_buffer.get_attribute( "value" ) )

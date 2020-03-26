@@ -528,7 +528,7 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     vehicles_sortable = find_child( "#ob_vehicles-sortable_1" )
     elems = find_children( "li", vehicles_sortable )
     assert len(elems) == 1
-    ActionChains(webdriver).double_click( elems[0] ).perform()
+    ActionChains( webdriver ).double_click( elems[0] ).perform()
     elems = check_capabilities_in_dialog( [ "QSU", "cs 4 <small><i>(brew up)</i></small>" ] )
 
     # edit one of the capabilities
@@ -537,7 +537,8 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     elem.send_keys( "QSU (modified)" )
 
     # delete a capability
-    ActionChains(webdriver).key_down( Keys.CONTROL ).click( elems[1] ).key_up( Keys.CONTROL ).perform()
+    ActionChains( webdriver ).key_down( Keys.CONTROL ).click( elems[1] ).perform()
+    ActionChains( webdriver ).key_up( Keys.CONTROL ).perform()
 
     # add a new capability
     elem = find_child( "#vo_capabilities-add" )
@@ -564,12 +565,13 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     # make sure the capabilities are loaded correcly when editing the vehicle
     elems = find_children( "li", vehicles_sortable )
     assert len(elems) == 1
-    ActionChains(webdriver).double_click( elems[0] ).perform()
+    ActionChains( webdriver ).double_click( elems[0] ).perform()
     elems = check_capabilities_in_dialog( [ "QSU (modified)", "a <i>new</i> capability" ] )
 
     # delete all capabilities
     for elem in elems:
-        ActionChains(webdriver).key_down( Keys.CONTROL ).click( elem ).key_up( Keys.CONTROL ).perform()
+        ActionChains( webdriver ).key_down( Keys.CONTROL ).click( elem ).perform()
+        ActionChains( webdriver ).key_up( Keys.CONTROL ).perform()
     click_dialog_button( "OK" )
     check_snippet( "" )
 
@@ -583,7 +585,7 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     select_tab( "ob1" )
     elems = find_children( "li", vehicles_sortable )
     assert len(elems) == 1
-    ActionChains(webdriver).double_click( elems[0] ).perform()
+    ActionChains( webdriver ).double_click( elems[0] ).perform()
     btn = find_child( "#vo_capabilities-reset" )
     btn.click()
     click_dialog_button( "OK" )
@@ -599,7 +601,7 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     select_tab( "ob1" )
     elems = find_children( "li", vehicles_sortable )
     assert len(elems) == 1
-    ActionChains(webdriver).double_click( elems[0] ).perform()
+    ActionChains( webdriver ).double_click( elems[0] ).perform()
     elems = find_children( "#vo_capabilities-sortable input[type='text']" )
     assert len(elems) == 2
     elems[0].clear()
@@ -650,7 +652,7 @@ def test_custom_comments( webapp, webdriver ): #pylint: disable=too-many-stateme
     vehicles_sortable = find_child( "#ob_vehicles-sortable_1" )
     elems = find_children( "li", vehicles_sortable )
     assert len(elems) == 1
-    ActionChains(webdriver).double_click( elems[0] ).perform()
+    ActionChains( webdriver ).double_click( elems[0] ).perform()
     elems = check_comments_in_dialog( [ "a comment", "another comment" ] )
 
     # edit one of the comments
@@ -659,7 +661,8 @@ def test_custom_comments( webapp, webdriver ): #pylint: disable=too-many-stateme
     elem.send_keys( "a comment (modified)" )
 
     # delete a comment
-    ActionChains(webdriver).key_down( Keys.CONTROL ).click( elems[1] ).key_up( Keys.CONTROL ).perform()
+    ActionChains( webdriver ).key_down( Keys.CONTROL ).click( elems[1] ).perform()
+    ActionChains( webdriver ).key_up( Keys.CONTROL ).perform()
 
     # add a new comment
     elem = find_child( "#vo_comments-add" )
@@ -686,12 +689,13 @@ def test_custom_comments( webapp, webdriver ): #pylint: disable=too-many-stateme
     # make sure the comments are loaded correcly when editing the vehicle
     elems = find_children( "li", vehicles_sortable )
     assert len(elems) == 1
-    ActionChains(webdriver).double_click( elems[0] ).perform()
+    ActionChains( webdriver ).double_click( elems[0] ).perform()
     elems = check_comments_in_dialog( [ "a comment (modified)", "a <i>new</i> comment" ] )
 
     # delete all comments
     for elem in elems:
-        ActionChains(webdriver).key_down( Keys.CONTROL ).click( elem ).key_up( Keys.CONTROL ).perform()
+        ActionChains( webdriver ).key_down( Keys.CONTROL ).click( elem ).perform()
+        ActionChains( webdriver ).key_up( Keys.CONTROL ).perform()
     click_dialog_button( "OK" )
     check_snippet( "" )
 
@@ -705,7 +709,7 @@ def test_custom_comments( webapp, webdriver ): #pylint: disable=too-many-stateme
     select_tab( "ob1" )
     elems = find_children( "li", vehicles_sortable )
     assert len(elems) == 1
-    ActionChains(webdriver).double_click( elems[0] ).perform()
+    ActionChains( webdriver ).double_click( elems[0] ).perform()
     btn = find_child( "#vo_comments-reset" )
     btn.click()
     click_dialog_button( "OK" )
@@ -721,7 +725,7 @@ def test_custom_comments( webapp, webdriver ): #pylint: disable=too-many-stateme
     select_tab( "ob1" )
     elems = find_children( "li", vehicles_sortable )
     assert len(elems) == 1
-    ActionChains(webdriver).double_click( elems[0] ).perform()
+    ActionChains( webdriver ).double_click( elems[0] ).perform()
     elems = find_children( "#vo_comments-sortable input[type='text']" )
     assert len(elems) == 2
     elems[0].clear()
@@ -803,7 +807,7 @@ def test_capability_updates_in_ui( webapp, webdriver ):
     vehicles_sortable = find_child( "#ob_vehicles-sortable_1" )
     elems = find_children( "li", vehicles_sortable )
     assert len(elems) == 2
-    ActionChains(webdriver).double_click( elems[1] ).perform()
+    ActionChains( webdriver ).double_click( elems[1] ).perform()
     elem = find_child( "#vo_capabilities-add" )
     elem.click()
     elems = find_children( "#vo_capabilities-sortable input[type='text']" )
@@ -930,7 +934,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     check_elite( False, False )
 
     # add a custom capability
-    ActionChains(webdriver).double_click( get_sortable_elem() ).perform()
+    ActionChains( webdriver ).double_click( get_sortable_elem() ).perform()
     elem = find_child( "#vo_capabilities-add" )
     elem.click()
     elems = find_children( "#vo_capabilities-sortable input[type='text']" )
@@ -939,7 +943,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     click_dialog_button( "OK" )
 
     # make the vehicle elite
-    ActionChains(webdriver).double_click( get_sortable_elem() ).perform()
+    ActionChains( webdriver ).double_click( get_sortable_elem() ).perform()
     check_elite2( False, True )
     elem = find_child( "#edit-vo .capabilities .elite" )
     elem.click()
@@ -959,7 +963,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     check_elite( True, True )
 
     # make the vehicle non-elite
-    ActionChains(webdriver).double_click( get_sortable_elem() ).perform()
+    ActionChains( webdriver ).double_click( get_sortable_elem() ).perform()
     check_elite2( True, True )
     elem = find_child( "#edit-vo .capabilities .elite" )
     elem.click()
@@ -975,14 +979,15 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
         [ "A6<sup>2</sup>", "M7\u2020", "sD7", "CS 6", "HE10" ]
 
     # make the vehicle elite, remove the custom capability
-    ActionChains(webdriver).double_click( get_sortable_elem() ).perform()
+    ActionChains( webdriver ).double_click( get_sortable_elem() ).perform()
     check_elite2( False, True )
     elem = find_child( "#edit-vo .capabilities .elite" )
     elem.click()
     check_elite2( True, True )
     elems = find_children( "#vo_capabilities-sortable li" )
     webdriver.execute_script( "arguments[0].scrollIntoView(true);", elems[4] )
-    ActionChains(webdriver).key_down( Keys.CONTROL ).click( elems[4] ).key_up( Keys.CONTROL ).perform()
+    ActionChains( webdriver ).key_down( Keys.CONTROL ).click( elems[4] ).perform()
+    ActionChains( webdriver ).key_up( Keys.CONTROL ).perform()
     click_dialog_button( "OK" )
     check_elite( True, False )
 
@@ -997,7 +1002,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     check_elite( True, False )
 
     # make the vehicle non-elite
-    ActionChains(webdriver).double_click( get_sortable_elem() ).perform()
+    ActionChains( webdriver ).double_click( get_sortable_elem() ).perform()
     check_elite2( True, False )
     elem = find_child( "#edit-vo .capabilities .elite" )
     elem.click()

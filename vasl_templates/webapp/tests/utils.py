@@ -470,7 +470,7 @@ def _do_select_droplist( sel, val ):
 
 def get_droplist_vals_index( sel ):
     """Get the value/text for each option in a droplist."""
-    return { k: v for k,v in get_droplist_vals(sel) }
+    return dict( get_droplist_vals( sel ) )
 
 def get_droplist_vals( sel ):
     """Get the value/text for each option in a droplist."""
