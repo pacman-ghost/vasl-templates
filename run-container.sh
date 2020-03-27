@@ -108,15 +108,15 @@ fi
 
 # build the container
 if [ -z "$NO_BUILD" ]; then
-    echo Building the container...
+    echo Building the \"$TAG\" container...
     docker build . --tag vasl-templates:$TAG 2>&1 \
         | sed -e 's/^/  /'
-    if [ $? -ne 0 ]; then exit 10 ; fi
+    if [ ${PIPESTATUS[0]} -ne 0 ]; then exit 10 ; fi
     echo
 fi
 
 # launch the container
-echo Launching the container...
+echo Launching the \"$TAG\" container...
 docker run \
     --publish $PORT:5010 \
     --name vasl-templates \
@@ -127,3 +127,4 @@ docker run \
     vasl-templates:$TAG \
     2>&1 \
 | sed -e 's/^/  /'
+exit ${PIPESTATUS[0]}
