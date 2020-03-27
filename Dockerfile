@@ -1,15 +1,4 @@
-# To build the image:
-#   docker build --tag vasl-templates .
-# Add "--build-arg ENABLE_TESTS=1" to allow the test suite to be run against a container.
-#
-# To run a container:
-#   docker run --rm -it --name vasl-templates \
-#     -p 5010:5010 \
-#     -v .../vasl-6.4.3.vmod:/data/vasl.vmod \
-#     -v .../vasl-extensions:/data/vasl-extensions \
-#     vasl-templates
-# If you have Chapter H data, add the following:
-#     -v .../chapter-h-notes:/data/chapter-h-notes
+# NOTE: Use the run-container.sh script to build and launch this container.
 
 FROM python:alpine3.6
 

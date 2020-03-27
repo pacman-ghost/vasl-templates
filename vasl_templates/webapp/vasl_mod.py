@@ -25,7 +25,8 @@ def set_vasl_mod( vmod_fname, msg_store ):
     globvars.vasl_mod = None
     if vmod_fname:
         # load and install the specified VASL module
-        extns_dir = app.config.get( "VASL_EXTNS_DIR" )
+        # NOTE: The Docker container configures this setting via an environment variable.
+        extns_dir = app.config.get( "VASL_EXTNS_DIR", os.environ.get("VASL_EXTNS_DIR") )
         extns = _load_vasl_extns( extns_dir, msg_store )
         try:
             vasl_mod = VaslMod( vmod_fname, DATA_DIR, extns )

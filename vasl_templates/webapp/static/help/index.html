@@ -76,16 +76,13 @@ and then connect to it in a browser at <tt>http://localhost:5010</tt>.
 
 <h2>Running a Docker container</h2>
 
-<p> If you have Docker installed, the webapp can be run in a container:
+<p> If you have Docker installed, the webapp can be run in a container e.g.
 <div class="code">
-docker run --rm -it --name vasl-templates \
-    -p 5010:5010 \
-    -v /home/pacman-ghost/vasl/vasl-6.4.4.vmod:/data/vasl.vmod \
-    -v /home/pacman-ghost/vasl/extensions/:/data/vasl-extensions \
-    vasltemplates/images:latest
+./run-container.sh --port 5010 \
+    --vasl-vmod ~/vasl/vasl-6.4.4.vmod \
+    --vasl-extensions ~/vasl/extensions/ \
+    --chapter-h ~/vasl/chapter-h/
 </div>
-To include Chapter H data, add the following:
-<div class="code"> -v /home/pacman-ghost/vasl/chapter-h:/data/chapter-h-notes </div>
 <p> Then open a browser and connect to the webapp at <tt>http://localhost:5010</tt>.
 <p> Note that some features (e.g. updating and analyzing VASL scenario files) may not be available.
 <div class="warning"> If you have SElinux enabled, it may prevent the container from accessing files on the host. Access can be allowed like this:
@@ -502,29 +499,6 @@ where <tt>VASSAL_DIR</tt> points to VASSAL's <tt>lib/</tt> directory (the progra
 export JSHINT_RHINO=~/bin/jshint-2.6.3/dist/jshint-rhino.js
 </div>
 Note that both of these are run as part of a normal <tt>pytest</tt> run.
-
-<h2> Docker </h2>
-
-<p> The webapp can be run using Docker. To create an image, <tt>cd</tt> to the project root and build the image e.g.
-<div class="code">
-docker build --tag vasl-templates .
-</div>
-<div class="info"> To allow the test suite to be run against the container, add <tt>--build-arg ENABLE_TESTS=1</tt> to the command. </div>
-
-<p> Then run the container:
-<div class="code">
-docker run --rm -it --name vasl-templates \
-    -p 5010:5010 \
-    -v /home/pacman-ghost/vasl/vasl-6.4.4.vmod:/data/vasl.vmod \
-    -v /home/pacman-ghost/vasl/extensions/:/data/vasl-extensions \
-    vasl-templates
-</div>
-<div class="warning"> The "Update VASL scenario" and "Analyze VASL scenario" features are currently not available in a container. </div>
-
-<p> Note that if you have SElinux enabled, it may prevent the container from accessing files on the host, in which case access can be allowed like this:
-<div class="code">
-chcon -Rt svirt_sandbox_file_t /home/pacman-ghost/vasl/
-</div>
 
 <h2> Creating a pre-compiled package </h2>
 

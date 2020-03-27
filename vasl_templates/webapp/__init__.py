@@ -22,7 +22,8 @@ def _on_startup():
     load_default_template_pack()
 
     # configure the VASL module
-    fname = app.config.get( "VASL_MOD" )
+    # NOTE: The Docker container configures this setting via an environment variable.
+    fname = app.config.get( "VASL_MOD", os.environ.get("VASL_MOD") )
     if fname:
         from vasl_templates.webapp.vasl_mod import set_vasl_mod #pylint: disable=cyclic-import
         from vasl_templates.webapp.main import startup_msg_store #pylint: disable=cyclic-import

@@ -32,7 +32,8 @@ def load_vo_notes( msg_store ): #pylint: disable=too-many-statements,too-many-lo
     """Load the Chapter H vehicle/ordnance notes."""
 
     # locate the data directory
-    dname = app.config.get( "CHAPTER_H_NOTES_DIR" )
+    # NOTE: The Docker container configures this setting via an environment variable.
+    dname = app.config.get( "CHAPTER_H_NOTES_DIR", os.environ.get("CHAPTER_H_NOTES_DIR") )
     if dname:
         # NOTE: If the Chapter H directory has been configured but is incorrect, we want to keep going,
         # since this may well happen when running in a container (the directory has to be always configured,
