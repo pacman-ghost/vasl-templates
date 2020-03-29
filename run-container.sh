@@ -15,6 +15,8 @@ function print_help {
     echo "    -t  --tag              Docker tag."
     echo "    -d  --detach           Detach from the container and let it run in the background."
     echo "        --no-build         Launch the container as-is (i.e. without rebuilding it first)."
+    echo "        --build-network    Docker network to use when building the container."
+    echo "        --run-network      Docker network to use when running the container."
 }
 
 # ---------------------------------------------------------------------
@@ -31,13 +33,15 @@ CHAPTER_H_NOTES=
 TAG=latest
 DETACH=
 NO_BUILD=
+BUILD_NETWORK=
+RUN_NETWORK=
 
 # parse the command-line arguments
 if [ $# -eq 0 ]; then
     print_help
     exit 0
 fi
-params="$(getopt -o p:v:e:h:t:d -l port:,vasl-vmod:,vasl-extensions:,chapter-h:,tag:,detach,no-build,help --name "$0" -- "$@")"
+params="$(getopt -o p:v:e:h:t:d -l port:,vasl-vmod:,vasl-extensions:,chapter-h:,tag:,detach,no-build,build-network:,run-network:,help --name "$0" -- "$@")"
 if [ $? -ne 0 ]; then exit 1; fi
 eval set -- "$params"
 while true; do
@@ -63,6 +67,14 @@ while true; do
         --no-build )
             NO_BUILD=1
             shift 1 ;;
+        --build-network )
+            # FUDGE! We sometimes can't get out to the internet from the container (DNS problems) using the default
+            # "bridge" network, so we offer the option of using an alternate network (e.g. "host").
+            BUILD_NETWORK="--network $2"
+            shift 2 ;;
+        --run-network )
+            RUN_NETWORK="--network $2"
+            shift 2 ;;
         --help )
             print_help
             exit 0 ;;
@@ -109,7 +121,7 @@ fi
 # build the container
 if [ -z "$NO_BUILD" ]; then
     echo Building the \"$TAG\" container...
-    docker build . --tag vasl-templates:$TAG 2>&1 \
+    docker build $BUILD_NETWORK --tag vasl-templates:$TAG . 2>&1 \
         | sed -e 's/^/  /'
     if [ ${PIPESTATUS[0]} -ne 0 ]; then exit 10 ; fi
     echo
@@ -122,7 +134,7 @@ docker run \
     --name vasl-templates \
     $VASL_MOD_VOLUME $VASL_EXTNS_VOLUME $CHAPTER_H_NOTES_VOLUME \
     $VASL_MOD_ENV $VASL_EXTNS_ENV $CHAPTER_H_NOTES_ENV \
-    $DETACH \
+    $RUN_NETWORK $DETACH \
     -it --rm \
     vasl-templates:$TAG \
     2>&1 \
