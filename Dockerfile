@@ -3,15 +3,21 @@
 # We do a multi-stage build (requires Docker >= 17.05) to install everything, then copy it all
 # to the final target image.
 
-FROM python:alpine3.6 AS base
+FROM centos:8 AS base
+
+# update packages and install Python
+RUN dnf -y upgrade-minimal && \
+    dnf install -y python36 && \
+    dnf clean all
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 FROM base AS build
 
-# install the requirements
-# NOTE: pillow needs zlib and jpeg, lxml needs libxslt, we need build-base for gcc, etc.
-RUN apk add --no-cache build-base zlib-dev jpeg-dev libxslt-dev
+# set up a virtualenv
+RUN python3.6 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+RUN pip install --upgrade pip
 
 # install the application requirements
 COPY requirements.txt requirements-dev.txt ./
@@ -22,8 +28,10 @@ RUN if [ "$ENABLE_TESTS" ]; then pip install -r requirements-dev.txt ; fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 FROM base
-COPY --from=build /usr/local/lib/python3.6/site-packages /usr/local/lib/python3.6/site-packages
-RUN apk add --no-cache libjpeg
+
+# copy the virtualenv from the build image
+COPY --from=build /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
 # install the application
 WORKDIR /app
@@ -35,6 +43,10 @@ RUN pip install -e .
 COPY docker/config/* vasl_templates/webapp/config/
 ARG ENABLE_TESTS
 RUN if [ "$ENABLE_TESTS" ]; then echo "ENABLE_REMOTE_TEST_CONTROL = 1" >>vasl_templates/webapp/config/debug.cfg ; fi
+
+# create a new user
+RUN useradd --create-home app
+USER app
 
 EXPOSE 5010
 COPY docker/run.sh .
