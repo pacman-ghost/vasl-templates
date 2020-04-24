@@ -13,8 +13,8 @@ _logger = logging.getLogger( "vasl_mod" )
 from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import DATA_DIR
 
-SUPPORTED_VASL_MOD_VERSIONS = [ "6.4.0", "6.4.1", "6.4.2", "6.4.3", "6.4.4" ]
-SUPPORTED_VASL_MOD_VERSIONS_DISPLAY = "6.4.0-6.4.4"
+SUPPORTED_VASL_MOD_VERSIONS = [ "6.4.0", "6.4.1", "6.4.2", "6.4.3", "6.4.4", "6.5.0" ]
+SUPPORTED_VASL_MOD_VERSIONS_DISPLAY = "6.4.0-6.5.0"
 
 warnings = [] # nb: for the test suite
 
@@ -167,10 +167,10 @@ class VaslMod:
         """Get the image for the specified piece."""
 
         # get the image path
-        gpid = get_effective_gpid( gpid )
+        gpid = get_remapped_gpid( self.vasl_version, gpid )
         if gpid not in self._pieces:
             return None, None
-        piece = self._pieces[ get_effective_gpid( gpid ) ]
+        piece = self._pieces[ gpid ]
         assert side in ("front","back")
         image_paths = piece[ side + "_images" ]
         if not image_paths:
@@ -198,7 +198,7 @@ class VaslMod:
             paths = piece[ "front_images" ]
             return paths if isinstance(paths,list) else [paths]
         return {
-            p["gpid"]: {
+            get_reverse_remapped_gpid( self.vasl_version, p["gpid"] ): {
                 "name": p["name"],
                 "front_images": image_count( p, "front_images" ),
                 "back_images": image_count( p, "back_images" ),
@@ -225,8 +225,13 @@ class VaslMod:
         fname = os.path.join( data_dir, "expected-multiple-images.json" )
         expected_multiple_images = json.load( open( fname, "r" ) )
 
+        # get the VASL version
+        build_info = self._files[0][0].read( "buildFile" )
+        doc = xml.etree.ElementTree.fromstring( build_info )
+        vasl_version = doc.attrib.get( "version" )
+
         # figure out which pieces we're interested in
-        target_gpids = get_vo_gpids( data_dir, self.get_extns() )
+        target_gpids = get_vo_gpids( vasl_version, data_dir, self.get_extns() )
 
         # parse the VASL module and any extensions
         for i,files in enumerate( self._files ):
@@ -330,6 +335,8 @@ class VaslMod:
                 return False
             if val.endswith( (".gif",".png") ):
                 return True
+            if val.startswith( "," ):
+                val = val[1:]
             if val.startswith( ("ru/","ge/","am/","br/","it/","ja/","ch/","sh/","fr/","al/","ax/","hu/","fi/") ):
                 return True
             return False
@@ -406,7 +413,7 @@ class VaslMod:
 
 # ---------------------------------------------------------------------
 
-def get_vo_gpids( data_dir, extns ): #pylint: disable=too-many-locals,too-many-branches
+def get_vo_gpids( vasl_version, data_dir, extns ): #pylint: disable=too-many-locals,too-many-branches
     """Get the GPID's for the vehicles/ordnance."""
 
     gpids = set()
@@ -434,7 +441,7 @@ def get_vo_gpids( data_dir, extns ): #pylint: disable=too-many-locals,too-many-b
                         entry_gpids = [ entry_gpids ]
                     for gpid in entry_gpids:
                         if gpid:
-                            gpids.add( get_effective_gpid( str(gpid) ) )
+                            gpids.add( get_remapped_gpid( vasl_version, str(gpid) ) )
 
     # process any extensions
     if extns: #pylint: disable=too-many-nested-blocks
@@ -452,6 +459,16 @@ def get_vo_gpids( data_dir, extns ): #pylint: disable=too-many-locals,too-many-b
 
     return gpids
 
+def compare_vasl_versions( lhs, rhs ):
+    """Compare two VASL version strings."""
+    # NOTE: We can do this with a simple string comparison, but see test_compare_vasl_versions().
+    if lhs < rhs:
+        return -1
+    elif lhs > rhs:
+        return +1
+    else:
+        return 0
+
 # ---------------------------------------------------------------------
 
 # VASL 6.4.3 removed several PieceSlot's. There's no comment for the commmit (0a27c24)
@@ -461,11 +478,52 @@ def get_vo_gpids( data_dir, extns ): #pylint: disable=too-many-locals,too-many-b
 # but we can't just remove the now-missing GPID's, since any scenarios that use them
 # will break. This kind of thing is going to happen again, so we provide a generic mechanism
 # for dealing with this kind of thing...
-GPID_REMAPPINGS = {
-    "7140": "2775", # SdKfz 10/5
-    "7146": "2772", # SdKfz 10/4
-}
+# VASL 6.5.0 introduced a bunch of changes, where pieces were mysteriously assigned a new GPID :-/
+GPID_REMAPPINGS = [
+    [ "6.4.3", {
+        "7140": "2775", # SdKfz 10/5
+        "7146": "2772", # SdKfz 10/4
+    } ],
+    [ "6.5.0", {
+        "879": "12483", # 81* MTR M1 (American)
+        "900": "3b5:3741", # 12.7 AA M51 (American)
+        "1002": "11340", # M8 AC (American)
+        "1380": "3b5:7681", # Churchill Bridgelayer (British)
+        "3741": "11500", # 45L AT PTP obr. 32 (Axis Minor)
+        "3756": "11501", # 150L ART Skoda M28(NOa) (Axis Minor)
+        "3766": "11502", # 47L AA Skoda 47L40(t) (Axis Minor)
+        "3772": "11503", # 65* INF Cannone da 65/17 (Axis Minor)
+        "3896": "11504", # L6/40(i) (Axis Minor)
+        "3898": "11506", # wz. 34-I (Axis Minor)
+        "4059": "11524", # 40M Nimrod (Hungarian)
+        "4065": "11532", # 39M Csaba (Hungarian)
+        "6873": "7461", # T-26C (r) nb: also 7463 (Finnish)
+        # NOTE: Doug Rimmer confirms that the "FT-17 730m(f)" and "FT-17 730(f)" were probably incorrectly renamed
+        # to "FT-17 730(f)" and "FT-17 730(m)". However, the 7124 -> 11479 GPID change is still probably correct.
+        # He also suggests that 7124 and 7128 are incorrectly-added duplicates, and the correct ones
+        # are 2542 and 2544.
+        "7124": "11479", # FT-17 730m(f) (German)
+    } ]
+]
 
-def get_effective_gpid(  gpid ):
-    """Return the effective GPID."""
-    return GPID_REMAPPINGS.get( gpid, gpid )
+REVERSE_GPID_REMAPPINGS = [
+    [ row[0], { v: k for k,v in row[1].items() } ]
+    for row in GPID_REMAPPINGS
+]
+
+def get_remapped_gpid( vasl_version, gpid ):
+    """Check if a GPID has been remapped."""
+    for remappings in GPID_REMAPPINGS:
+        # FUDGE! Early versions of this code (pre-6.5.0) always applied the remappings for 6.4.3,
+        # even for versions of VASL earlier than that. For simplicity, we preserve that behavior.
+        if compare_vasl_versions( remappings[0], "6.5.0" ) < 0 \
+           or compare_vasl_versions( vasl_version, remappings[0] ) >= 0:
+            gpid = remappings[1].get( gpid, gpid )
+    return gpid
+
+def get_reverse_remapped_gpid( vasl_version, gpid ):
+    """Check if a GPID has been remapped."""
+    for remappings in REVERSE_GPID_REMAPPINGS:
+        if compare_vasl_versions( vasl_version, remappings[0] ) >= 0:
+            gpid = remappings[1].get( gpid, gpid )
+    return gpid

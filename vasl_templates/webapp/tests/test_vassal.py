@@ -10,6 +10,7 @@ import typing.re #pylint: disable=import-error
 import pytest
 
 from vasl_templates.webapp.vassal import VassalShim
+from vasl_templates.webapp.vasl_mod import compare_vasl_versions
 from vasl_templates.webapp.utils import TempFile, change_extn
 from vasl_templates.webapp import globvars
 from vasl_templates.webapp.tests.utils import \
@@ -604,9 +605,38 @@ def test_analyze_vsav_hip_concealed( webapp, webdriver ):
     # run the test against all versions of VASSAL+VASL
     _run_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
+def test_reverse_remapped_gpids( webapp, webdriver ):
+    """Test reverse mapping of GPID's."""
+
+    # initialize
+    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1,
+        reset = lambda ct: ct.set_data_dir( dtype="real" )
+    )
+
+    def do_test(): #pylint: disable=missing-docstring
+
+        new_scenario()
+        set_player( 1, "american" )
+        set_player( 2, "croatian" )
+        _analyze_vsav( "reverse-remapped-gpids-650.vsav",
+            [ ["am/v:044"], ["am/o:002","am/o:021"] ],
+            [ ["cr/v:002","cr/v:003"], ["cr/o:000"] ],
+            [ "Imported 1 American vehicle and 2 ordnance.", "Imported 2 Croatian vehicles and 1 ordnance." ]
+        )
+
+    # run the test against all versions of VASSAL+VASL
+    _run_tests( control_tests, do_test,
+        not pytest.config.option.short_tests,  #pylint: disable=no-member
+        min_vasl_version="6.5.0"
+    )
+
 # ---------------------------------------------------------------------
 
-def _run_tests( control_tests, func, test_all ):
+def _run_tests( control_tests, func, test_all, min_vasl_version=None ):
     """Run the test function for each combination of VASSAL + VASL.
 
     This is, of course, going to be insanely slow, since we need to spin up a JVM
@@ -634,6 +664,12 @@ def _run_tests( control_tests, func, test_all ):
     for vassal_engine in vassal_engines:
         control_tests.set_vassal_engine( vengine=vassal_engine )
         for vasl_mod in vasl_mods:
+            # FUDGE! We assume the version number is part of the filename. Otherwise, we have to load
+            # the vmod, extract the buildFile, parse the XML, etc. :-/
+            mo = re.search( r"\d+\.\d+\.\d+", vasl_mod )
+            vasl_version = mo.group()
+            if min_vasl_version and compare_vasl_versions( vasl_version, min_vasl_version ) < 0:
+                continue
             control_tests.set_vasl_mod( vmod=vasl_mod )
             func()
 
@@ -730,7 +766,11 @@ def _check_vsav_dump( vsav_dump, expected, ignore=None ):
 
 def _get_vsav_labels( vsav_dump ):
     """Extract the labels from a VSAV dump."""
-    matches = re.finditer( r"AddPiece: DynamicProperty/User-Labeled.*?- Map", vsav_dump, re.DOTALL )
+    # NOTE: We used to see things like:
+    #   Map0;119;44;6295
+    # but from 6.5.0, we're getting:
+    #   Main Map;119;44;6295
+    matches = re.finditer( r"AddPiece: DynamicProperty/User-Labeled.*?- (Main )?Map", vsav_dump, re.DOTALL )
     labels = [ mo.group() for mo in matches ]
     regex = re.compile( r"<html>.*?</html>" )
     matches = [ regex.search(label) for label in labels ]

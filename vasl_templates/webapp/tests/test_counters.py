@@ -9,7 +9,7 @@ import urllib.request
 import pytest
 import tabulate
 
-from vasl_templates.webapp.vasl_mod import VaslMod, get_vo_gpids
+from vasl_templates.webapp.vasl_mod import VaslMod, get_vo_gpids, compare_vasl_versions, SUPPORTED_VASL_MOD_VERSIONS
 from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp.tests.utils import init_webapp, select_tab, find_child, find_children
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
@@ -30,10 +30,7 @@ def test_counter_images( webapp ):
 
     # NOTE: This is ridiculously slow on Windows :-/
 
-    # figure out which pieces we're interested in
-    gpids = get_vo_gpids( DATA_DIR, None )
-
-    def check_images( check_front, check_back ): #pylint: disable=unused-argument
+    def check_images( gpids, check_front, check_back ): #pylint: disable=unused-argument
         """Check getting the front and back images for each counter."""
         for gpid in gpids:
             for side in ("front","back"):
@@ -50,16 +47,17 @@ def test_counter_images( webapp ):
     # test counter images when no VASL module has been configured
     control_tests = ControlTests( webapp )
     control_tests.set_vasl_mod( vmod=None )
+    # NOTE: It doesn't really matter which set of GPID's we use, since we're expecting
+    # a missing image for everything anyway. We just use the most recent supported version.
+    gpids = get_vo_gpids( SUPPORTED_VASL_MOD_VERSIONS[-1], DATA_DIR, None )
     fname = os.path.join( os.path.split(__file__)[0], "../static/images/missing-image.png" )
     missing_image_data = open( fname, "rb" ).read()
-    check_images(
+    check_images( gpids,
         check_front = lambda code,data: code == 200 and data == missing_image_data,
         check_back = lambda code,data: code == 200 and data == missing_image_data
     )
 
     # test each VASL module file in the specified directory
-    fname = os.path.join( os.path.split(__file__)[0], "fixtures/vasl-pieces.txt" )
-    expected_vasl_pieces = open( fname, "r" ).read()
     vmod_fnames = control_tests.get_vasl_mods()
     for vmod_fname in vmod_fnames:
 
@@ -72,14 +70,23 @@ def test_counter_images( webapp ):
         vasl_mods_dir = pytest.config.option.vasl_mods #pylint: disable=no-member
         fname = os.path.join( vasl_mods_dir, fname )
 
-        # check the pieces loaded
+        # figure out what we're expecting to see
+        # NOTE: The results were the same across 6.4.0-6.4.4, but 6.5.0 introduced some changes.
         vasl_mod = VaslMod( fname, DATA_DIR, None )
+        dname = os.path.join( os.path.split(__file__)[0], "fixtures" )
+        fname = os.path.join( dname, "vasl-pieces-{}.txt".format( vasl_mod.vasl_version ) )
+        if not os.path.isfile( fname ):
+            fname = os.path.join( dname, "vasl-pieces-legacy.txt" )
+        expected_vasl_pieces = open( fname, "r" ).read()
+
+        # check the pieces loaded
         buf = io.StringIO()
         _dump_pieces( vasl_mod, buf )
         assert buf.getvalue() == expected_vasl_pieces
 
         # check each counter
-        check_images(
+        gpids = get_vo_gpids( vasl_mod.vasl_version, DATA_DIR, None )
+        check_images( gpids,
             check_front = lambda code,data: code == 200 and data,
             check_back = lambda code,data: (code == 200 and data) or (code == 404 and not data)
         )
@@ -92,12 +99,20 @@ def _dump_pieces( vasl_mod, out ):
     # dump the VASL pieces
     results = [ [ "GPID", "Name", "Front images", "Back images"] ]
     pieces = vasl_mod._pieces #pylint: disable=protected-access
-    gpids = sorted( pieces.keys(), key=int ) # nb: because GPID's changed from int to str :-/
+    # GPID's were originally int's but then changed to str's. We then started seeing non-numeric GPID's :-/
+    # For back-compat, we try to maintain sort order for numeric values.
+    def sort_key( val ): #pylint: disable=missing-docstring
+        if val.isdigit():
+            return ( "0"*10 + val )[-10:]
+        else:
+            # nb: we make sure that alphanumeric values appear after numeric values, even if they start with a number
+            return "_" + val
+    gpids = sorted( pieces.keys(), key=sort_key ) # nb: because GPID's changed from int to str :-/
     for gpid in gpids:
         piece = pieces[ gpid ]
         assert piece["gpid"] == gpid
         results.append( [ gpid, piece["name"], piece["front_images"], piece["back_images"] ] )
-    print( tabulate.tabulate( results, headers="firstrow" ), file=out )
+    print( tabulate.tabulate( results, headers="firstrow", numalign="left" ), file=out )
 
 # ---------------------------------------------------------------------
 
@@ -147,8 +162,14 @@ def test_gpid_remapping( webapp, webdriver ):
         vehicles_sortable = find_child( "#ob_vehicles-sortable_1" )
         entries = find_children( "li", vehicles_sortable )
         assert len(entries) == 2
-        check_entry( entries[0], "/counter/7140/front/0", valid_images )
-        check_entry( entries[1], "/counter/7146/front", valid_images )
+        check_entry( entries[0], "/counter/2542/front", True )
+        check_entry( entries[1], "/counter/7124/front/0", valid_images )
+        # check that the American ordnance loaded correctly
+        select_tab( "ob2" )
+        vehicles_sortable = find_child( "#ob_ordnance-sortable_2" )
+        entries = find_children( "li", vehicles_sortable )
+        assert len(entries) == 1
+        check_entry( entries[0], "/counter/879/front", valid_images )
 
     # load the test scenario
     fname = os.path.join( os.path.split(__file__)[0], "fixtures/gpid-remapping.json" )
@@ -162,16 +183,27 @@ def test_gpid_remapping( webapp, webdriver ):
         assert len(matches) == 1
         return matches[0]
 
-    # run the tests using VASL 6.4.2 and 6.4.3
-    do_test( find_vasl_mod("6.4.2"), True )
-    do_test( find_vasl_mod("6.4.3"), True )
+    # run the tests using VASL 6.4.4 and 6.5.0
+    do_test( find_vasl_mod("6.4.4"), True )
+    do_test( find_vasl_mod("6.5.0"), True )
 
     # disable GPID remapping and try again
-    prev_gpid_mappings = control_tests.set_gpid_remappings( gpids={} )
+    prev_gpid_mappings = control_tests.set_gpid_remappings( gpids=[] )
     try:
-        do_test( find_vasl_mod("6.4.2"), True )
-        do_test( find_vasl_mod("6.4.3"), False )
+        do_test( find_vasl_mod("6.4.4"), True )
+        do_test( find_vasl_mod("6.5.0"), False )
     finally:
         # NOTE: This won't get done if Python exits unexpectedly in the try block,
         # which will leave the server in the wrong state if it's remote.
         control_tests.set_gpid_remappings( gpids=prev_gpid_mappings )
+
+# ---------------------------------------------------------------------
+
+def test_compare_vasl_versions():
+    """Test comparing VASL version strings."""
+    for i,vasl_version in enumerate(SUPPORTED_VASL_MOD_VERSIONS):
+        if i > 0:
+            assert compare_vasl_versions( SUPPORTED_VASL_MOD_VERSIONS[i-1], vasl_version ) < 0
+        assert compare_vasl_versions( vasl_version, vasl_version ) == 0
+        if i < len(SUPPORTED_VASL_MOD_VERSIONS)-1:
+            assert compare_vasl_versions( vasl_version, SUPPORTED_VASL_MOD_VERSIONS[i+1] ) < 0

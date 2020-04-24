@@ -64,6 +64,8 @@ class ControlTests:
         """Invoke a handler function on the remote server."""
         if "bin_data" in kwargs:
             kwargs["bin_data"] = base64.b64encode( kwargs["bin_data"] )
+        if "gpids" in kwargs:
+            kwargs["gpids"] = json.dumps( kwargs["gpids"] )
         resp = urllib.request.urlopen(
             self.webapp.url_for( "control_tests", action=action, **kwargs )
         ).read()
@@ -117,7 +119,8 @@ class ControlTests:
         """Configure the GPID remappings."""
         if isinstance( gpids, str ):
             gpids = json.loads( gpids.replace( "'", '"' ) )
-            gpids = { str(k): v for k,v in gpids.items() }
+            for row in gpids:
+                row[1] = { str(k): v for k,v in row[1].items() }
         _logger.info( "Setting GPID remappings: %s", gpids )
         prev_gpid_mappings = vasl_mod_module.GPID_REMAPPINGS
         vasl_mod_module.GPID_REMAPPINGS = gpids

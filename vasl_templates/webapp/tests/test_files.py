@@ -117,10 +117,10 @@ def test_local_user_files( webapp, webdriver ):
             assert ex.code == 404
 
         # try getting a file outside the configured directory (nb: should always fail)
-        fname = os.path.join( os.path.split(__file__)[0], "fixtures/vasl-pieces.txt" )
+        fname = os.path.join( os.path.split(__file__)[0], "fixtures/vasl-pieces-legacy.txt" )
         assert os.path.isfile( fname )
         with pytest.raises( urllib.error.HTTPError ) as exc_info:
-            url = webapp.url_for( "get_user_file", path="../vasl-pieces.txt" )
+            url = webapp.url_for( "get_user_file", path="../vasl-pieces-legacy.txt" )
             resp = urllib.request.urlopen( url )
         assert exc_info.value.code == 404
 

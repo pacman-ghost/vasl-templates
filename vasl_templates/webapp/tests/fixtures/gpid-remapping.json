@@ -2,7 +2,11 @@
     "SCENARIO_NAME": "GPID remapping test",
     "PLAYER_1": "german",
     "OB_VEHICLES_1": [
-        { "id":"ge/v:106", "name":"SdKfz 10/5", "image_id":"7140/0" },
-        { "id":"ge/v:105", "name":"SdKfz 10/4" }
+        { "id": "ge/v:009", "name": "FT-17 730m(f)" },
+        { "id": "ge/v:009", "name": "FT-17 730m(f)", "image_id": "7124/0" }
+    ],
+    "PLAYER_2": "american",
+    "OB_ORDNANCE_2": [
+        { "id": "am/o:002", "name": "M1 81mm Mortar" }
     ]
 }
