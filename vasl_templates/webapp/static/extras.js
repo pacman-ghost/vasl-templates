@@ -71,7 +71,7 @@ function _show_extra_template( template_id )
     if ( template_info.description )
         buf.push( "<div class='description'>", template_info.description, "</div>" ) ;
     if ( template_info.params.length > 0 ) {
-        buf.push( "<table>" ) ;
+        buf.push( "<table name='" + template_info.template_id + "'>" ) ;
         for ( var i=0 ; i < template_info.params.length ; ++i ) {
             buf.push( "<tr>" ) ;
             var display_name = template_info.params[i].caption || template_info.params[i].name ;
