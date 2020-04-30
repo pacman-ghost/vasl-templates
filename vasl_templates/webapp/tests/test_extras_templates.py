@@ -153,7 +153,7 @@ def test_edit_extras_template( webapp, webdriver ):
     # generate the template (we should still be using the old template)
     snippet_btn = find_child( "button.generate", content )
     snippet_btn.click()
-    wait_for_clipboard( 2, "param = ", contains=True )
+    wait_for_clipboard( 2, "param =", contains=True )
 
     # switch to another template, then back again
     _select_extras_template( webdriver, "extras/full" )
@@ -170,7 +170,7 @@ def test_edit_extras_template( webapp, webdriver ):
     # generate the template (we should be using the new template)
     snippet_btn = find_child( "button.generate", content )
     snippet_btn.click()
-    wait_for_clipboard( 2, "added = added-val\nparam = ", contains=True )
+    wait_for_clipboard( 2, "added = added-val\nparam =", contains=True )
 
 # ---------------------------------------------------------------------
 

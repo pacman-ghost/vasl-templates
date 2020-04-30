@@ -435,6 +435,9 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     snippet = strReplaceAll( snippet, "{{USER_FILES}}", APP_URL_BASE+"/user" ) ;
     snippet = strReplaceAll( snippet, "{{CHAPTER_H}}", APP_URL_BASE+"/chapter-h" ) ;
 
+    // tidy up the final snippet
+    snippet = snippet.replace( /[^\S\r\n]+$/gm, "" ) ; // nb: trim trailing whitespace
+
     return {
         content: snippet,
         template_id: template_id,
