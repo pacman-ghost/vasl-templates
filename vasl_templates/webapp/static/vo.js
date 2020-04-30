@@ -454,7 +454,7 @@ function make_online_counter_image_url( gpid, index )
     if ( extn_id )
         url = strReplaceAll( url, "{{EXTN_ID}}", extn_id ) ;
 
-    return url ;
+    return encodeURI( url ) ;
 }
 
 function is_small_vasl_piece( vo_entry )
