@@ -27,7 +27,7 @@ from vasl_templates.webapp import vasl_mod as vasl_mod_module
 
 _logger = logging.getLogger( "control_tests" )
 
-_ORIG_CHAPTER_H_NOTES_DIR = app.config.get( "CHAPTER_H_NOTES_DIR" )
+_ORIG_CHAPTER_H_NOTES_DIR = app.config.get( "CHAPTER_H_NOTES_DIR", os.environ.get("CHAPTER_H_NOTES_DIR") )
 
 # ---------------------------------------------------------------------
 
@@ -163,7 +163,7 @@ class ControlTests:
             app.config[ "VASL_EXTNS_DIR" ] = dname
         else:
             _logger.info( "Disabling VASL extensions." )
-            app.config.pop( "VASL_EXTNS_DIR", None )
+            app.config[ "VASL_EXTNS_DIR" ] = None
 
         # configure the VASL module
         if vmod:
@@ -176,7 +176,7 @@ class ControlTests:
                 assert vmod in vmod_fnames
             app.config[ "VASL_MOD" ] = vmod
         else:
-            app.config.pop( "VASL_MOD", None )
+            app.config[ "VASL_MOD" ] = None
         _logger.info( "Installing VASL module: %s", vmod )
 
         # install the new VASL module
@@ -213,7 +213,7 @@ class ControlTests:
             app.config[ "_VASL_EXTN_INFO_DIR_" ] = dname
         else:
             _logger.info( "Using the default VASL extension info directory." )
-            app.config.pop( "_VASL_EXTN_INFO_DIR_", None )
+            app.config[ "_VASL_EXTN_INFO_DIR_" ] = None
         return self
 
     def _get_vassal_engines( self ):

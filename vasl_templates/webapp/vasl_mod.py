@@ -65,9 +65,8 @@ def _load_vasl_extns( extn_dir, msg_store ): #pylint: disable=too-many-locals,to
 
     # load our extension info files
     all_extn_info = {}
-    if "_VASL_EXTN_INFO_DIR_" in app.config:
-        dname = app.config["_VASL_EXTN_INFO_DIR_"] # nb: for the test suite
-    else:
+    dname = app.config.get( "_VASL_EXTN_INFO_DIR_" ) # nb: this is set by the test suite
+    if not dname:
         dname = os.path.join( DATA_DIR, "extensions" )
     for fname in glob.glob( os.path.join(dname,"*.json") ):
         _logger.debug( "Loading VASL extension info: %s", fname )
