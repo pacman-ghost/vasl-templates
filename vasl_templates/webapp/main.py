@@ -8,7 +8,9 @@ from flask import request, render_template, jsonify, send_file, redirect, url_fo
 
 from vasl_templates.webapp import app
 from vasl_templates.webapp.utils import MsgStore
+import vasl_templates.webapp.config.constants
 from vasl_templates.webapp.config.constants import BASE_DIR, DATA_DIR
+from vasl_templates.webapp import globvars
 
 startup_msg_store = MsgStore() # store messages generated during startup
 _check_versions = True
@@ -65,10 +67,20 @@ _APP_CONFIG_DEFAULTS = { # Bodhgaya, India (APR/19)
 @app.route( "/app-config" )
 def get_app_config():
     """Get the application config."""
-    return jsonify( {
+    vals = {
         key: app.config.get( key, default )
         for key,default in _APP_CONFIG_DEFAULTS.items()
-    } )
+    }
+    for key in ["APP_NAME","APP_VERSION","APP_DESCRIPTION","APP_HOME_URL"]:
+        vals[ key ] = getattr( vasl_templates.webapp.config.constants, key )
+    try:
+        from vasl_templates.webapp.vassal import VassalShim
+        vals[ "VASSAL_VERSION" ] = VassalShim().get_version()
+    except: #pylint: disable=bare-except
+        pass
+    if globvars.vasl_mod:
+        vals["VASL_VERSION"] = globvars.vasl_mod.vasl_version
+    return jsonify( vals )
 
 # ---------------------------------------------------------------------
 

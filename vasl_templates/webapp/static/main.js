@@ -492,7 +492,7 @@ function update_page_load_status( id )
     function show_startup_msgs( msgs, msg_type ) {
         if ( msg_type in msgs ) {
             for ( var i=0 ; i < msgs[msg_type].length ; ++i )
-            doShowNotificationMsg( msg_type, msgs[msg_type][i] ) ;
+                doShowNotificationMsg( msg_type, msgs[msg_type][i] ) ;
         }
     }
 

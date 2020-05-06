@@ -35,7 +35,7 @@ def test_full_update( webapp, webdriver ):
     """Test updating a scenario that contains the full set of snippets."""
 
     # initialize
-    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1,
+    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, no_app_config_snippet_params=1,
         reset = lambda ct: ct.set_data_dir( dtype="real" )
     )
 

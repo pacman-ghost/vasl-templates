@@ -124,7 +124,16 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     var template_id = $btn.data( "id" ) ;
     var snippet_save_name = null ;
 
+    // add server constants
+    if ( ! getUrlParam( "no_app_config_snippet_params" ) ) {
+        params.APP_NAME = gAppConfig.APP_NAME ;
+        params.APP_VERSION = gAppConfig.APP_VERSION ;
+        params.VASSAL_VERSION = gAppConfig.VASSAL_VERSION ;
+        params.VASL_VERSION = gAppConfig.VASL_VERSION ;
+    }
+
     // add simple parameters
+    params.TIMESTAMP = (new Date()).toISOString() ;
     params.IMAGES_BASE_URL = gUserSettings["scenario-images-source"] == SCENARIO_IMAGES_SOURCE_INTERNET ?
         gAppConfig.ONLINE_IMAGES_URL_BASE :
         APP_URL_BASE + gImagesBaseUrl ;
