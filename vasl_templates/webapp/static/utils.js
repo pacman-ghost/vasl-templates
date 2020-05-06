@@ -445,6 +445,13 @@ function isIE()
     return false ;
 }
 
+isKeyDown = ( function( key ) {
+    var keyState = {} ;
+    window.addEventListener( "keyup", function(e) { keyState[e.key] = false ; } ) ;
+    window.addEventListener( "keydown", function(e) { keyState[e.key] = true ; } ) ;
+    return function( key ) { return keyState.hasOwnProperty(key) && keyState[key] || false ; } ;
+} )() ;
+
 // --------------------------------------------------------------------
 
 ( function( scope ) {

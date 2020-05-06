@@ -95,8 +95,14 @@ function _do_edit_simple_note( $sortable2, $entry, default_width )
                             } ) ;
                             data.id = auto_assign_id( usedIds, "id" ) ;
                         }
-                        _do_add_simple_note( $sortable2, data ) ;
+                        $entry = _do_add_simple_note( $sortable2, data ) ;
                     }
+                }
+                // check if we should automatically generate a snippet
+                if ( isKeyDown( "Shift" ) ) {
+                    var $elem = $entry.find( "img.snippet" ) ;
+                    if ( $elem.length !== 0 )
+                        $elem.click() ;
                 }
                 $(this).dialog( "close" ) ;
             },
@@ -111,7 +117,7 @@ function _do_add_simple_note( $sortable2, data )
 {
     // add a new sortable2 entry
     var note_type = _get_note_type_for_sortable( $sortable2 ) ;
-    $sortable2.sortable2( "add", {
+    return $sortable2.sortable2( "add", {
         content: _make_simple_note( note_type, data.caption ),
         data: data,
     } ) ;
