@@ -3,7 +3,8 @@
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 
-from vasl_templates.webapp.tests.utils import init_webapp, select_tab, get_droplist_vals, select_droplist_val, \
+from vasl_templates.webapp.tests.utils import init_webapp, select_tab, \
+    set_template_params, get_droplist_vals, select_droplist_val, \
     find_child, find_children, wait_for, wait_for_clipboard
 from vasl_templates.webapp.tests.test_template_packs import make_zip_from_files, upload_template_pack_zip
 
@@ -171,6 +172,71 @@ def test_edit_extras_template( webapp, webdriver ):
     snippet_btn = find_child( "button.generate", content )
     snippet_btn.click()
     wait_for_clipboard( 2, "added = added-val\nparam =", contains=True )
+
+# ---------------------------------------------------------------------
+
+def test_count_remaining_hilites( webapp, webdriver ):
+    """Test highlighting in the "count remaining" extras template."""
+
+    # initialize
+    init_webapp( webapp, webdriver,
+        reset = lambda ct: ct.set_data_dir( dtype="real" )
+    )
+
+    def do_test( year, expected ): #pylint: disable=missing-docstring
+
+        # set the specified year
+        set_template_params( {
+            "SCENARIO_DATE": "01/01/{}".format( year ) if year else ""
+        } )
+
+        # select the "count remaining" template and check what's been highlighted
+        select_tab( "extras" )
+        _select_extras_template( webdriver, "extras/count-remaining" )
+        for count_type in expected:
+            table = find_child( "table.{}".format( count_type ) )
+            cells = []
+            for row in find_children( "tr", table ):
+                row = list( find_children( "td", row ) )
+                assert len(row) == 2
+                bgd_col = row[1].value_of_css_property( "background-color" )
+                assert bgd_col.startswith( ( "rgb(", "rgba(" ) )
+                cells.append( bgd_col != "rgba(0, 0, 0, 0)" )
+            assert cells == expected[count_type]
+
+    # do the tests
+    do_test( None, {
+        "pf": [ False, False, False ],
+        "thh": [ False, False, False, False ]
+    } )
+    do_test( 1940, {
+        "pf": [ True, False, False ],
+        "thh": [ True, False, False, False ]
+    } )
+    do_test( 1941, {
+        "pf": [ True, False, False ],
+        "thh": [ True, False, False, False ]
+    } )
+    do_test( 1942, {
+        "pf": [ True, False, False ],
+        "thh": [ True, False, False, False ]
+    } )
+    do_test( 1943, {
+        "pf": [ True, False, False ],
+        "thh": [ False, True, False, False ]
+    } )
+    do_test( 1944, {
+        "pf": [ False, True, False ],
+        "thh": [ False, False, True, False ]
+    } )
+    do_test( 1945, {
+        "pf": [ False, False, True ],
+        "thh": [ False, False, False, True ]
+    } )
+    do_test( 1946, {
+        "pf": [ False, False, False ],
+        "thh": [ False, False, False, False ]
+    } )
 
 # ---------------------------------------------------------------------
 

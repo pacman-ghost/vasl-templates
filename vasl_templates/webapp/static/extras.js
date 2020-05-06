@@ -111,7 +111,28 @@ function _show_extra_template( template_id )
         buf.push( "<div class='footer'>", template_info.footer, "</div>" ) ;
     }
     buf.push( "</div>" ) ;
-    var $form = $( buf.join("") ) ;
+    buf = buf.join( "" ) ;
+
+    // pass some basic parameters through to the form
+    // NOTE: We should really re-generate the form every time it gets focus (since the scenario parameters
+    // might have changed) but this would be horribly expensive (not to mention mostly un-necessary).
+    // The user can always click on the navbar to re-generate it.
+    try {
+        func = jinja.compile( buf ).render ;
+    } catch( ex ) {
+        showErrorMsg( "Can't compile template:<div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
+        return ;
+    }
+    var params = unload_snippet_params( true, null ) ;
+    try {
+        buf = func( params, { autoEscape: false } ) ;
+    } catch( ex ) {
+        showErrorMsg( "Can't process template: <span class='pre'>" + template_id + "</span><div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
+        return ;
+    }
+
+    // generate the form
+    var $form = $( buf ) ;
     $form.find( "select" ).select2( {
         minimumResultsForSearch: -1
     } ).on( "select2:open", function() {
