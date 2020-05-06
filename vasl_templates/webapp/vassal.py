@@ -282,12 +282,16 @@ class VassalShim:
         if not os.path.isfile( self.shim_jar ):
             raise SimpleError( "Can't find the VASSAL shim JAR." )
 
-    def get_version( self ):
+    @staticmethod
+    def get_version():
         """Get the VASSAL version."""
+        vassal_dir = app.config.get( "VASSAL_DIR" )
+        if not vassal_dir:
+            return None
         # FUDGE! We can't capture the output on Windows, get the result in a temp file instead :-/
         with TempFile() as temp_file:
             temp_file.close()
-            self._run_vassal_shim( "version", temp_file.name )
+            VassalShim()._run_vassal_shim( "version", temp_file.name ) #pylint: disable=protected-access
             with open( temp_file.name, "r" ) as fp:
                 return fp.read()
 
@@ -443,7 +447,12 @@ class VassalShim:
         """Check the version of VASSAL."""
         if not app.config.get( "VASSAL_DIR" ) or not msg_store:
             return
-        version = VassalShim().get_version()
+        try:
+            version = VassalShim.get_version()
+        except Exception as ex: #pylint: disable=broad-except
+            if msg_store:
+                msg_store.error( "Can't get the VASSAL version: <p> {}", ex )
+            return
         if version not in SUPPORTED_VASSAL_VERSIONS:
             if msg_store:
                 msg_store.warning(
@@ -461,3 +470,6 @@ class VassalShimError( Exception ):
         self.retcode = retcode
         self.stdout = stdout
         self.stderr = stderr
+
+    def __str__( self ):
+        return "VassalShim error: rc={}".format( self.retcode )

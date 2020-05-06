@@ -73,11 +73,11 @@ def get_app_config():
     }
     for key in ["APP_NAME","APP_VERSION","APP_DESCRIPTION","APP_HOME_URL"]:
         vals[ key ] = getattr( vasl_templates.webapp.config.constants, key )
+    from vasl_templates.webapp.vassal import VassalShim
     try:
-        from vasl_templates.webapp.vassal import VassalShim
-        vals[ "VASSAL_VERSION" ] = VassalShim().get_version()
-    except: #pylint: disable=bare-except
-        pass
+        vals[ "VASSAL_VERSION" ] = VassalShim.get_version()
+    except Exception as ex: #pylint: disable=broad-except
+        logging.error( "Can't check the VASSAL version: %s", str(ex) )
     if globvars.vasl_mod:
         vals["VASL_VERSION"] = globvars.vasl_mod.vasl_version
     return jsonify( vals )
