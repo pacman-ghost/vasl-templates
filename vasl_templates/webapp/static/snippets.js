@@ -1485,8 +1485,8 @@ function do_load_scenario_data( params )
 
     // update the UI
     $("#tabs").tabs( "option", "active", 0 ) ;
-    on_scenario_details_change() ;
     on_scenario_date_change() ;
+    update_scenario_status() ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1716,10 +1716,10 @@ function reset_scenario()
 
 // --------------------------------------------------------------------
 
-function is_scenario_dirty()
+function is_scenario_dirty( force )
 {
     // nb: confirming operations is insanely annoying during development :-/
-    if ( getUrlParam( "disable-dirty-scenario-check" ) )
+    if ( !force && getUrlParam( "disable-dirty-scenario-check" ) )
         return false ;
 
     // check if the scenario has been changed since it was loaded, or last saved
@@ -1731,7 +1731,7 @@ function is_scenario_dirty()
             last_saved_scenario[key] = gLastSavedScenario[key] ;
     }
     var params = unload_params_for_save( false ) ;
-    return (JSON.stringify(params) != JSON.stringify(last_saved_scenario) ) ;
+    return JSON.stringify( params ) != JSON.stringify( last_saved_scenario ) ;
 }
 
 // --------------------------------------------------------------------
@@ -1980,9 +1980,9 @@ function _update_vo_sortable2_entries()
 
 // --------------------------------------------------------------------
 
-function on_scenario_details_change()
+function update_scenario_status()
 {
-    // update the document title to include the scenario details
+    // get the scenario details
     var scenario_name = $("input[name='SCENARIO_NAME']").val().trim() ;
     var scenario_id = $("input[name='SCENARIO_ID']").val().trim() ;
     var caption = "" ;
@@ -1992,13 +1992,19 @@ function on_scenario_details_change()
         caption = scenario_name ;
     else if ( scenario_id )
         caption = scenario_id ;
-    document.title = gAppName ;
+
+    // update the window title
+    var title = gAppName ;
     if ( caption )
-        document.title += " - " + caption ;
+        title += " - " + caption ;
+    var is_dirty = is_scenario_dirty( true ) ;
+    if ( is_dirty )
+        title += " (*)" ;
+    document.title = title ;
 
     // notify the PyQt wrapper application
     if ( gWebChannelHandler )
-        gWebChannelHandler.on_scenario_details_change( caption ) ;
+        gWebChannelHandler.on_update_scenario_status( caption, is_dirty ) ;
 }
 
 function on_scenario_theater_change()

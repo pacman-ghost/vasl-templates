@@ -110,7 +110,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
         },
     }
     load_scenario_params( SCENARIO_PARAMS )
-    check_window_title( "my test scenario (xyz123)" )
+    check_window_title( "my test scenario (xyz123) (*)" )
     check_ob_tabs( "russian", "german" )
     assert_scenario_params_complete( SCENARIO_PARAMS, True )
 

@@ -335,12 +335,12 @@ $(document).ready( function () {
         .button( {} ) ;
 
     // watch for changes to the scenario details
-    $("input[name='SCENARIO_NAME']").on( "input propertychange paste", function() {
-        on_scenario_details_change() ;
-    } ) ;
-    $("input[name='SCENARIO_ID']").on( "input propertychange paste", function() {
-        on_scenario_details_change() ;
-    } ) ;
+    $("input[name='SCENARIO_NAME']").on( "input propertychange paste", update_scenario_status ) ;
+    $("input[name='SCENARIO_ID']").on( "input propertychange paste", update_scenario_status ) ;
+    // NOTE: The following is to add/remove the "scenario modified" indicator. It's pretty inefficent
+    // to do this using a timer, but we would otherwise have to attach a "on change" event handler
+    // to every single input field, simple note, etc., which would be far more complicated and error-prone.
+    setInterval( update_scenario_status, 1*1000 ) ;
 
     // adjust the layout on resize
     $(window).resize( function() {

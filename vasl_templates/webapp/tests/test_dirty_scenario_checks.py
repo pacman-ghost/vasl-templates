@@ -103,12 +103,29 @@ def test_dirty_scenario_checks( webapp, webdriver ):
         else:
             assert False
 
+    def check_is_dirty( expected ):
+        """Check if the scenario is being flagged as dirty."""
+        if expected:
+            func = lambda: webdriver.title.endswith( " (*)" )
+        else:
+            func = lambda: not webdriver.title.endswith( " (*)" )
+        # NOTE: There is a race condition here if things are not working properly. Since the window title
+        # is updated on a timer, if we're expecting it to be (say) not modified, but the UI thinks that
+        # it is modified, we could check the window title here, see that the scenario is being flagged
+        # as not modified and continue on. The timer then fires, updates the UI to flag the scenario
+        # as modified, and we will have missed the error.
+        # To fix this, we force the scenario status to be updated.
+        webdriver.execute_script( "update_scenario_status()" )
+        wait_for( 2, func )
+
     def do_test( tab_id, param ):
         """Test checking for a dirty scenario."""
 
         # change the specified field
+        check_is_dirty( False )
         select_tab( tab_id )
         state = change_field( param )
+        check_is_dirty( True )
 
         # make sure we get asked to confirm a "new scenario" operation
         select_menu_option( "new_scenario" )
@@ -120,9 +137,11 @@ def test_dirty_scenario_checks( webapp, webdriver ):
         click_dialog_button( "Cancel" )
         select_tab( tab_id )
         check_field( param, state )
+        check_is_dirty( True )
 
         # revert the change
         revert_field( param, state )
+        check_is_dirty( False )
 
         # we should now be able to reset the scenario without a confirmation
         _ = set_stored_msg_marker( "_last-info_" )
@@ -132,6 +151,7 @@ def test_dirty_scenario_checks( webapp, webdriver ):
         # change the field again
         select_tab( tab_id )
         state = change_field( param )
+        check_is_dirty( True )
 
         # make sure we get asked to confirm a "load scenario" operation
         select_menu_option( "load_scenario" )
@@ -143,9 +163,11 @@ def test_dirty_scenario_checks( webapp, webdriver ):
         click_dialog_button( "Cancel" )
         select_tab( tab_id )
         check_field( param, state )
+        check_is_dirty( True )
 
         # revert the change
         revert_field( param, state )
+        check_is_dirty( False )
 
         # we should be able to load a scenario without a confirmation
         # NOTE: We don't do this, since it will cause the OPEN FILE dialog to come up :-/

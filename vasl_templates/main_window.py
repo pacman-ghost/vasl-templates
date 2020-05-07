@@ -297,11 +297,11 @@ class MainWindow( QWidget ):
         for key,val in user_settings.items():
             app_settings.setValue( "UserSettings/{}".format(key), val )
 
-    @pyqtSlot( str )
+    @pyqtSlot( str, bool )
     @catch_exceptions( caption="SLOT EXCEPTION" )
-    def on_scenario_details_change( self, val ):
-        """Update the main window title to show the scenario details."""
-        self._web_channel_handler.on_scenario_details_change( val )
+    def on_update_scenario_status( self, caption, is_dirty ):
+        """Update the UI to show the scenario's status."""
+        self._web_channel_handler.on_update_scenario_status( caption, is_dirty )
 
     @pyqtSlot( str )
     @catch_exceptions( caption="SLOT EXCEPTION" )

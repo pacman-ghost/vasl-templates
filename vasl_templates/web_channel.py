@@ -53,11 +53,14 @@ class WebChannelHandler:
             return None
         return self.scenario_file_dialog.curr_fname
 
-    def on_scenario_details_change( self, val ):
+    def on_update_scenario_status( self, caption, is_dirty ):
         """Update the main window title to show the scenario details."""
-        self.parent.setWindowTitle(
-            "{} - {}".format( APP_NAME, val ) if val else APP_NAME
-        )
+        title = APP_NAME
+        if caption:
+            title += " - {}".format( caption )
+        if is_dirty:
+            title += " (*)"
+        self.parent.setWindowTitle( title )
 
     def on_snippet_image( self, img_data ): #pylint: disable=no-self-use
         """Called when a snippet image has been generated."""
