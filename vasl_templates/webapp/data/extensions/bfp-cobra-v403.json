@@ -3,6 +3,8 @@
 "parentExtensionId": "adf",
 "extensionId": "adf-cobra",
 "version": "4.03",
+"displayName": "Operation Cobra",
+"displayNameAbbrev": "Op. Cobra",
 "id_range": [ 850, 899 ],
 "comment": "These are F (flamethrower) and C (Culin) versions of the same vehicles (from Operation Cobra).",
 

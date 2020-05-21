@@ -2,6 +2,8 @@
 
 "parentExtensionId": "adf",
 "extensionId": "adf-pif",
+"displayName": "Poland In Flames",
+"displayNameAbbrev": "PiF",
 "version": "4.03",
 "id_range": [ 800, 849 ],
 

@@ -20,11 +20,20 @@ function add_vo( vo_type, player_no )
         var div_class = "vo-entry" ;
         if ( is_small_vasl_piece( vo_entry ) )
             div_class += " small-piece" ;
+        var extn_name ;
+        if ( vo_entry.extn_id ) {
+            extn_name = gAppConfig.VASL_EXTENSIONS[ vo_entry.extn_id ].displayNameAbbrev ;
+            if ( ! extn_name )
+                extn_name = gAppConfig.VASL_EXTENSIONS[ vo_entry.extn_id ].displayName ;
+            if ( ! extn_name )
+                extn_name = vo_entry.extn_id ;
+        }
         var buf2 = [ "<div class='" + div_class + "' data-index='" + opt.id + "'>",
             "<img src='" + get_vo_image_url(vo_entry,null,true,false) + "' class='vasl-image'>",
             "<div class='content'><div>",
             vo_entry.name,
             vo_entry.type ? "&nbsp;<span class='vo-type'>("+vo_entry.type+")</span>" : "",
+            extn_name ? "&nbsp;<span class='vo-extn'>[" + extn_name + "]</span>" : "",
             "</div></div>",
             "</div>"
         ] ;

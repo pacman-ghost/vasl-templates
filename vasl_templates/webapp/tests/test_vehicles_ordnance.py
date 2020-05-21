@@ -795,7 +795,10 @@ def add_vo( webdriver, vo_type, player_no, name ):
     entries = find_children( "#select-vo .select2-results li" )
     if name.endswith( "s" ):
         name = name[:-1]
-    matches = [ e for e in entries if e.text == name ]
+    matches = [ e
+        for e in entries
+        if re.sub( r" \[.+\]$", "", e.text ) == name # nb: remove extension ID's
+    ]
     assert len(matches) == 1
     elem = matches[0]
     webdriver.execute_script( "arguments[0].scrollIntoView()", elem )

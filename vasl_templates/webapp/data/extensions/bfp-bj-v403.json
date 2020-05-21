@@ -3,6 +3,8 @@
 "parentExtensionId": "adf",
 "extensionId": "adf-bj",
 "version": "4.03",
+"displayName": "Blood &amp; Jungle",
+"displayNameAbbrev": "B+J",
 "id_range": [ 900, 999 ],
 
 "japanese": {

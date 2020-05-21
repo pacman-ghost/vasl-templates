@@ -67,12 +67,16 @@ _APP_CONFIG_DEFAULTS = { # Bodhgaya, India (APR/19)
 @app.route( "/app-config" )
 def get_app_config():
     """Get the application config."""
+
+    # include the basic app config
     vals = {
         key: app.config.get( key, default )
         for key,default in _APP_CONFIG_DEFAULTS.items()
     }
     for key in ["APP_NAME","APP_VERSION","APP_DESCRIPTION","APP_HOME_URL"]:
         vals[ key ] = getattr( vasl_templates.webapp.config.constants, key )
+
+    # include information about VASSAL and VASL
     from vasl_templates.webapp.vassal import VassalShim
     try:
         vals[ "VASSAL_VERSION" ] = VassalShim.get_version()
@@ -80,6 +84,17 @@ def get_app_config():
         logging.error( "Can't check the VASSAL version: %s", str(ex) )
     if globvars.vasl_mod:
         vals["VASL_VERSION"] = globvars.vasl_mod.vasl_version
+
+    # include information about VASL extensions
+    if globvars.vasl_mod and globvars.vasl_mod.extns:
+        vals["VASL_EXTENSIONS"] = {}
+        for extn in globvars.vasl_mod.extns:
+            extn_info = {}
+            for key in ("version","displayName","displayNameAbbrev"):
+                if key in extn[1]:
+                    extn_info[ key ] = extn[1][ key ]
+                vals["VASL_EXTENSIONS"][ extn[1]["extensionId"] ] = extn_info
+
     return jsonify( vals )
 
 # ---------------------------------------------------------------------

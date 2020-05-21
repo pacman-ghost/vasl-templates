@@ -198,6 +198,7 @@ def _apply_extn_info( listings, extn_fname, extn_info, vo_index, vo_type ):
                 else:
                     prev_gpids = "(none)"
                     vo_entry["gpid"] = entry["gpid"]
+                # NOTE: We can't really set the extension ID here because the counter is also in the core VASL module.
                 logger.debug( "  - %s => %s", prev_gpids, vo_entry["gpid"] )
             else:
                 # add a new vehicle/ordnance
