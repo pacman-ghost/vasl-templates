@@ -1,7 +1,7 @@
 === vehicles/british/1944 ===
 
-Name                       Capabilities                                          (effective)                       #       Notes                                                 Comments
--------------------------  ----------------------------------------------------  --------------------------------  ------  ----------------------------------------------------  ----------
+Name                       Capabilities                                          (effective)                       #       Notes                                                               Comments
+-------------------------  ----------------------------------------------------  --------------------------------  ------  ------------------------------------------------------------------  ----------
 Mark VIB                   sD6 CS 3                                              sD6 CS 3                          1†      N P
 Mark VIC                   sD6 CS 3                                              sD6 CS 3                          1†      n/a
 Tetrarch                   sD6 CS 3                                              sD6 CS 3                          2†      n/a
@@ -129,3 +129,34 @@ Quad FAT                   CS 5[brewup]†                                      
 1&#189;-Ton Truck(a)       cs 6                                                  cs 6                              85      A N
 2&#189;-Ton Truck(a)       cs 7                                                  cs 7                              85      A N
 7&#189;-Ton Truck(a)       cs 7                                                  cs 7                              85†     A N
+M4A3E8(a)                  A†[1] s5 sM8 CS 6                                     A†[1] s5 sM8 CS 6                 34      A†<sup>1</sup> FF† UU
+M4A3E8 Dozer(a)            A†[1] s5 sM8 CS 6                                     A†[1] s5 sM8 CS 6                 34      A†<sup>1</sup> TT† UU
+Cromwell VII               s8† sD7 sM8†[1] CS 6                                  s8† sD7 sM8†[1] CS 6              35†     N ZZ†<sup>1</sup>
+Centaur Dozer              sD7 CS 2†[1]                                          sD7 CS 2†[1]                      36†[1]  TT†
+Churchill VII              WP6 s8 sD7 sM8†[1] CS 7                               WP6 s8 sD7 sM8†[1] CS 7           37†     N CC ZZ†<sup>1</sup>
+Centurion III              D† HE8 WP6 s8 sD7 sM8†[1] CS 7                        D† HE8 WP6 s8 sD7 sM8†[1] CS 7    38†     CC ZZ†<sup>1</sup>
+Centurion III(L)           D8 WP6 s8 sD7 sM8†[2] CS 7                            D8 WP6 s8 sD7 sM8†[2] CS 7        38†     CC FF†<sup>1</sup> ZZ†<sup>2</sup>
+Churchill Bridgelayer      sD7 CS 2                                              sD7 CS 2                          39†     N CC
+M4A1 MC(a)                 IR WP8 CS 4[brewup]                                   IR WP8 CS 4[brewup]               40†     Q†<sup>1</sup> NN UU
+M9(a)                      cs 4                                                  cs 4                              41      N UU
+Daimler                    sD4 CS 2                                              sD4 CS 2                          42†     N
+Carrier A                  sD5 CS 3                                              sD5 CS 3                          43†     N U†<sup>1</sup>
+Carrier C                  sD5 CS 3                                              sD5 CS 3                          43†     N U†<sup>2</sup> Z†<sup>1</sup>
+Carrier, MMG A             sD5 CS 3                                              sD5 CS 3                          44†     N U†<sup>1</sup>
+Carrier, 3-in. Mtr         CS 4[brewup]                                          CS 4[brewup]                      45†     U MM†<sup>1</sup> NN
+Oxford Carrier             CS 5†                                                 CS 5†                             46†     EE†<sup>1</sup>
+Oxford Carrier, MMG        CS 5                                                  CS 5                              47†     EE†<sup>1</sup>
+Oxford Carrier, HMG        CS 5                                                  CS 5                              47†     G†<sup>1</sup> EE†<sup>2</sup>
+Oxford Carrier, 3-in Mtr   CS 5                                                  CS 5                              48†     EE†<sup>2</sup> MM†<sup>1</sup> NN
+IP Carrier AOV             CS 4                                                  CS 4                              49†     N W†<sup>1</sup>
+Wasp                       sD5† CS 3[brewup]                                     sD5† CS 3[brewup]                 50†     N U
+Morris C9/B                CS 4                                                  CS 4                              51†     N AA†<sup>1</sup>
+Quad FAT                   cs 5[brewup]†                                         cs 5[brewup]†                     52†     N
+15-cwt                     cs 5                                                  cs 5                              53†     N
+3-Ton Lorry                cs 7                                                  cs 7                              53†     N
+M3A1                       CS 5                                                  CS 5                              54†     E† H K Y Z†<sup>1</sup> UU
+M20                        sP5 CS 4                                              sP5 CS 4                          55†     D†<sup>4</sup> K Q†<sup>2</sup> W†<sup>1</sup> Y Z†<sup>3</sup> UU
+M8                         C7 sP5 CS 4                                           C7 sP5 CS 4                       56†     C K W†<sup>1</sup> Y UU
+&#188;-Ton Jeep            cs 2†[1]                                              cs 2†[1]                          57†     K L†<sup>2</sup> M N O P Q†<sup>1</sup> Y UU
+&#190;-Ton                 cs 4                                                  cs 4                              57†     K N O Y UU
+2&#189;-Ton                cs 7                                                  cs 7                              57†     K M N O P Y UU

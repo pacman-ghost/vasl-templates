@@ -74,7 +74,8 @@ def test_vasl_extension_info( webapp, webdriver ):
     _set_test_vasl_extn( control_tests, open(fname,"r").read() )
 
     def do_test( dtype, expected ): #pylint: disable=missing-docstring
-        control_tests.set_vasl_extn_info_dir( dtype=dtype ) \
+        control_tests.set_data_dir( dtype="real" ) \
+                     .set_vasl_extn_info_dir( dtype=dtype ) \
                      .set_vasl_mod( vmod="random", extns_dtype="test" )
         _check_warning_msgs( control_tests, expected )
 

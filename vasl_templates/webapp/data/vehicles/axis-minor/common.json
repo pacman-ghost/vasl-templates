@@ -5,7 +5,7 @@
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "29\u2020",
-  "notes": [ "K\u2020<sup>1</sup>", "E", "F", "G\u2020<sup>2</sup>", "H", "C", "B" ],
+  "notes": [ "B", "C", "E", "F", "G\u2020<sup>2</sup>", "H", "K\u2020<sup>1</sup>" ],
   "id": "axc/v:000",
   "gpid": 3787
 },
@@ -15,7 +15,7 @@
   "CS#": 2,
   "no_if": true,
   "note_number": "30\u2020",
-  "notes": [ "D", "R", "C" ],
+  "notes": [ "C", "D", "R" ],
   "id": "axc/v:001",
   "gpid": 3789
 },
@@ -25,7 +25,7 @@
   "CS#": 2,
   "capabilities2": { "AP": 9 },
   "note_number": "30\u2020",
-  "notes": [ "D", "R", "C" ],
+  "notes": [ "C", "D", "R" ],
   "id": "axc/v:002",
   "gpid": 3791
 },
@@ -34,7 +34,7 @@
   "CS#": 2,
   "capabilities2": { "sD": 6 },
   "note_number": "31\u2020",
-  "notes": [ "K\u2020<sup>1</sup>", "E", "H", "C" ],
+  "notes": [ "C", "E", "H", "K\u2020<sup>1</sup>" ],
   "id": "axc/v:003",
   "gpid": 3827
 },
@@ -44,7 +44,7 @@
   "CS#": 2,
   "capabilities2": { "AP": 10 },
   "note_number": "32\u2020",
-  "notes": [ "A\u2020<sup>1</sup>", "D", "E", "R", "H", "B" ],
+  "notes": [ "A\u2020<sup>1</sup>", "B", "D", "E", "H", "R" ],
   "id": "axc/v:004",
   "gpid": [ 3795, 3906 ]
 },
@@ -54,7 +54,7 @@
   "CS#": 2,
   "capabilities2": { "AP": 10 },
   "note_number": "33\u2020",
-  "notes": [ "A\u2020<sup>1</sup>", "D", "E", "H", "C", "B" ],
+  "notes": [ "A\u2020<sup>1</sup>", "B", "C", "D", "E", "H" ],
   "id": "axc/v:005",
   "gpid": 3793
 },
@@ -63,7 +63,7 @@
   "CS#": 4,
   "capabilities2": { "sD": 5 },
   "note_number": "34\u2020",
-  "notes": [ "E", "R", "S", "B" ],
+  "notes": [ "B", "E", "R", "S" ],
   "id": "axc/v:006",
   "gpid": 3825
 },
@@ -72,7 +72,7 @@
   "CS#": 4,
   "capabilities2": { "A": [ [3,1], [4,2], [3,3] ], "sD": 6 },
   "note_number": "35\u2020",
-  "notes": [ "E", "R", "H", "S" ],
+  "notes": [ "E", "H", "R", "S" ],
   "id": "axc/v:007",
   "gpid": 3799
 },
@@ -81,11 +81,11 @@
   "CS#": 4,
   "capabilities2": { "A": [ [4,2], [3,3] ], "sD": 7 },
   "note_number": "35\u2020",
-  "notes": [ "E", "H", "S", "B" ],
+  "notes": [ "B", "E", "H", "S" ],
   "id": "axc/v:008",
   "gpid": 3801
 },
-{ "name": "S-35(f)",
+{ "name": "S35(f)",
   "type": "MT",
   "CS#": 4,
   "note_number": "36\u2020",
@@ -98,7 +98,7 @@
   "CS#": 5,
   "capabilities2": { "A": [ [5,2], [4,3], [3,4] ], "sD": 5 },
   "note_number": "37\u2020",
-  "notes": [ "E", "O\u2020<sup>1</sup>", "Q", "R", "H", "C" ],
+  "notes": [ "C", "E", "H", "O\u2020<sup>1</sup>", "Q", "R" ],
   "id": "axc/v:010",
   "gpid": [ 3829, 3831 ]
 },
@@ -125,7 +125,7 @@
   "CS#": 6,
   "capabilities2": { "AP": 7, "H": [ [5,"3+"] ], "s": 8, "sD": 7 },
   "note_number": "39\u2020",
-  "notes": [ "E", "Q", "R", "H", "B" ],
+  "notes": [ "B", "E", "H", "Q", "R" ],
   "id": "axc/v:013",
   "gpid": 3839
 },
@@ -134,7 +134,7 @@
   "CS#": 6,
   "capabilities2": { "A": [ [4,2], [3,3] ], "s": 7, "sD": 5 },
   "note_number": "39\u2020",
-  "notes": [ "E", "O\u2020<sup>1</sup>", "Q", "R", "H", "B" ],
+  "notes": [ "B", "E", "H", "O\u2020<sup>1</sup>", "Q", "R" ],
   "id": "axc/v:014",
   "gpid": [ 3841, 3843 ]
 },
@@ -143,7 +143,7 @@
   "CS#": 4,
   "capabilities2": { "A": [ [3,4] ], "s": 8, "sD": 7 },
   "note_number": "40\u2020",
-  "notes": [ "E", "Q", "R", "H", "B" ],
+  "notes": [ "B", "E", "H", "Q", "R" ],
   "id": "axc/v:015",
   "gpid": 3845
 },
@@ -152,14 +152,14 @@
   "CS#": 4,
   "capabilities2": { "A": [ [3,4] ], "HE": 7 },
   "note_number": "41\u2020",
-  "notes": [ "E", "H", "B" ],
+  "notes": [ "B", "E", "H" ],
   "id": "axc/v:016",
   "gpid": 3803
 },
 { "name": "SPW 250/1(g)",
   "type": "ht",
   "CS#": 4,
-  "note_number": "42\u2020",
+  "note_number": "42",
   "notes": [ "E", "R" ],
   "id": "axc/v:017",
   "gpid": 3847
@@ -168,7 +168,7 @@
   "type": "ht",
   "CS#": 5,
   "note_number": "42\u2020",
-  "notes": [ "E", "R", "C" ],
+  "notes": [ "C", "E", "R" ],
   "id": "axc/v:018",
   "gpid": 3849
 },
@@ -194,7 +194,7 @@
   "type": "AC",
   "CS#": 4,
   "note_number": "44\u2020",
-  "notes": [ "E", "R", "C" ],
+  "notes": [ "C", "E", "R" ],
   "id": "axc/v:021",
   "gpid": 3807
 },
@@ -203,7 +203,7 @@
   "CS#": 3,
   "capabilities2": { "sD": 6 },
   "note_number": "45\u2020",
-  "notes": [ "P\u2020<sup>1</sup>", "E", "M\u2020<sup>2</sup>", "R", "B" ],
+  "notes": [ "B", "E", "M\u2020<sup>2</sup>", "P\u2020<sup>1</sup>", "R" ],
   "id": "axc/v:022",
   "gpid": 3853
 },
@@ -212,7 +212,7 @@
   "CS#": 3,
   "capabilities2": { "sD": 6 },
   "note_number": "45\u2020",
-  "notes": [ "P\u2020<sup>1</sup>", "E", "M\u2020<sup>2</sup>", "R", "B" ],
+  "notes": [ "B", "E", "M\u2020<sup>2</sup>", "P\u2020<sup>1</sup>", "R" ],
   "id": "axc/v:023",
   "gpid": 3855
 },
@@ -221,7 +221,7 @@
   "CS#": 3,
   "capabilities2": { "sD": 6 },
   "note_number": "46\u2020",
-  "notes": [ "E", "M\u2020<sup>1</sup>", "P\u2020<sup>2</sup>", "R", "B" ],
+  "notes": [ "B", "E", "M\u2020<sup>1</sup>", "P\u2020<sup>2</sup>", "R" ],
   "id": "axc/v:024",
   "gpid": 3857
 },
@@ -229,7 +229,7 @@
   "type": "APC",
   "cs#": "2\u2020<sup>1</sup>",
   "note_number": "47\u2020",
-  "notes": [ "E", "F", "I\u2020<sup>1</sup>", "J", "R", "H", "S", "C", "B" ],
+  "notes": [ "B", "C", "E", "F", "H", "I\u2020<sup>1</sup>", "J", "R", "S" ],
   "id": "axc/v:025",
   "gpid": [ 3809, 3811 ]
 },
@@ -237,7 +237,7 @@
   "type": "PC",
   "cs#": 5,
   "note_number": "48",
-  "notes": [ "S", "B" ],
+  "notes": [ "B", "S" ],
   "id": "axc/v:026",
   "gpid": 3859
 },
@@ -245,7 +245,7 @@
   "type": "PC",
   "cs#": 4,
   "note_number": "49",
-  "notes": [ "R", "H", "S", "C", "B" ],
+  "notes": [ "B", "C", "H", "R", "S" ],
   "id": "axc/v:027",
   "gpid": 3813
 },
@@ -253,7 +253,7 @@
   "type": "PC",
   "cs#": 5,
   "note_number": "49",
-  "notes": [ "R", "H", "S", "C", "B" ],
+  "notes": [ "B", "C", "H", "R", "S" ],
   "id": "axc/v:028",
   "gpid": 3815
 },
@@ -261,7 +261,7 @@
   "type": "PC",
   "cs#": 6,
   "note_number": "49",
-  "notes": [ "R", "H", "S", "C", "B" ],
+  "notes": [ "B", "C", "H", "R", "S" ],
   "id": "axc/v:029",
   "gpid": 3817
 },
@@ -269,7 +269,7 @@
   "type": "tr",
   "cs#": 4,
   "note_number": "50",
-  "notes": [ "R", "H", "S", "C", "B" ],
+  "notes": [ "B", "C", "H", "R", "S" ],
   "id": "axc/v:030",
   "gpid": 3819
 },
@@ -277,7 +277,7 @@
   "type": "tr",
   "cs#": 5,
   "note_number": "50",
-  "notes": [ "R", "H", "S", "C", "B" ],
+  "notes": [ "B", "C", "H", "R", "S" ],
   "id": "axc/v:031",
   "gpid": 3821
 },
@@ -285,7 +285,7 @@
   "type": "tr",
   "cs#": 7,
   "note_number": "50",
-  "notes": [ "R", "H", "S", "C", "B" ],
+  "notes": [ "B", "C", "H", "R", "S" ],
   "id": "axc/v:032",
   "gpid": 3823
 }

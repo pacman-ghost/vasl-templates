@@ -1,23 +1,5 @@
 [
 
-{ "name": "M9A1 Rocket Launcher",
-  "type": null,
-  "capabilities2": { "WP": 6 },
-  "capabilities_other": [ "1PP" ],
-  "note_number": "21",
-  "notes": [ "K", "R", "Y" ],
-  "id": "unc/o:000",
-  "gpid": null
-},
-{ "name": "M20 Rocket Launcher",
-  "type": null,
-  "capabilities2": { "WP": [ [6,"2+"], "\u2020" ] },
-  "capabilities_other": [ "1PP" ],
-  "note_number": "22\u2020",
-  "notes": [ "K", "M", "O", "P", "R" ],
-  "id": "unc/o:001",
-  "gpid": null
-},
 { "name": "M2 60mm Mortar",
   "type": "MTR",
   "capabilities": [ "IR" ],
@@ -25,8 +7,8 @@
   "capabilities_other": [ "5PP", "OBA\u2020" ],
   "note_number": "23\u2020",
   "notes": [ "A", "K", "M", "O", "P", "Y" ],
-  "id": "unc/o:002",
-  "gpid": null
+  "id": "kfw-un-common/o:002",
+  "gpid": [ 12689, 11391, 11359, 11440, 849 ]
 },
 { "name": "M1(L) 81mm Mortar",
   "type": "MTR",
@@ -34,8 +16,8 @@
   "capabilities2": { "WP": 8 },
   "note_number": "24\u2020",
   "notes": [ "A", "K", "M", "O", "P", "R" ],
-  "id": "unc/o:003",
-  "gpid": null
+  "id": "kfw-un-common/o:003",
+  "gpid": [ 11416, "3b5:2460", 11363, "3b5:8410" ]
 },
 { "name": "M20(L) 75mm Recoilless Rifle",
   "type": "RCL",
@@ -44,8 +26,8 @@
   "comments": [ "crewed\u2020" ],
   "note_number": "25\u2020",
   "notes": [ "K", "M", "O", "P", "R" ],
-  "id": "unc/o:004",
-  "gpid": null
+  "id": "kfw-un-common/o:004",
+  "gpid": [ 11396, 11337, "3b5:11259", "3b5:8402" ]
 }
 
 ]

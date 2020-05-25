@@ -19,7 +19,7 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #tabs-scenario { display: flex ; }
-#tabs-scenario .left { width: 32em ; min-width: 32em ; }
+#tabs-scenario .left { width: 33.5em ; min-width: 33.5em ; }
 #tabs-scenario .right { flex-grow: 1 ; min-width: 25em ; }
 
 #tabs-scenario .left { display: flex ; flex-direction: column ; }

@@ -1068,7 +1068,7 @@
   "id": "br/v:121",
   "gpid": 1567
 },
-{ "name": "\u00bc-Ton Jeep(a)",
+{ "name": "&#188;-Ton Jeep(a)",
   "type": "tr",
   "cs#": "2\u2020<sup>1</sup>",
   "note_number": "84\u2020",
@@ -1076,7 +1076,7 @@
   "id": "br/v:122",
   "gpid": [ 1569, 1570 ]
 },
-{ "name": "\u00be-Ton Truck(a)",
+{ "name": "&#190;-Ton Truck(a)",
   "type": "tr",
   "cs#": 4,
   "note_number": "85",
@@ -1084,7 +1084,7 @@
   "id": "br/v:123",
   "gpid": 1571
 },
-{ "name": "1\u00bd-Ton Truck(a)",
+{ "name": "1&#189;-Ton Truck(a)",
   "type": "tr",
   "cs#": 6,
   "note_number": "85",
@@ -1092,7 +1092,7 @@
   "id": "br/v:124",
   "gpid": 1573
 },
-{ "name": "2\u00bd-Ton Truck(a)",
+{ "name": "2&#189;-Ton Truck(a)",
   "type": "tr",
   "cs#": 7,
   "note_number": "85",
@@ -1100,7 +1100,7 @@
   "id": "br/v:125",
   "gpid": 1575
 },
-{ "name": "7\u00bd-Ton Truck(a)",
+{ "name": "7&#189;-Ton Truck(a)",
   "type": "tr",
   "cs#": 7,
   "note_number": "85\u2020",

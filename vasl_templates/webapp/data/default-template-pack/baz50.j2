@@ -1,0 +1,60 @@
+<html> <!-- vasl-templates:id {{SNIPPET_ID}} -->
+
+<head>
+<meta charset="utf-8">
+<style>
+{{CSS:common}}
+</style>
+</head>
+
+<table>
+
+<tr>
+<td colspan="2" style="
+  background: {{OB_COLOR}} ;
+  border-bottom: 1px solid {{OB_COLOR_2}} ;
+  padding: 2px 5px ;
+  font-size: 105% ; font-weight: bold ;
+">
+    {{INCLUDE:player_flag}}Bazooka '50
+
+<tr>
+
+<td style="padding:0 5px;">
+    <table>
+    <tr>
+        <td> <b>Range</b> <td> <b>TH#</b>
+    <tr>
+        <td class="c"> 0 <td class="c"> 11
+    <tr>
+        <td class="c"> 1 <td class="c"> 10
+    <tr>
+        <td class="c"> 2 <td class="c"> 9
+    <tr>
+        <td class="c"> 3 <td class="c"> 8
+    <tr>
+        <td class="c"> 4 <td class="c"> 6
+    <tr>
+        <td class="c"> 5 <td class="c"> 4
+    </table>
+
+<td valign="top" style="padding:0 5px;">
+    <table>
+        <tr>
+            <td> <b>X#:</b>
+            <td class="r"> 11
+{%if SCENARIO_YEAR >= 1952%}
+        <tr>
+            <td> <b>WP#:</b>
+            <td class="r"> 6
+{%endif%}
+        <tr>
+            <td> <b>TK#:</b>
+            <td class="r"> 32
+        <tr>
+            <td colspan="2" class="r"> 12-5
+    </table>
+
+</table>
+
+</html>

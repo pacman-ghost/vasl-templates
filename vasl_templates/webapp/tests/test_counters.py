@@ -11,6 +11,7 @@ import tabulate
 
 from vasl_templates.webapp.vasl_mod import VaslMod, get_vo_gpids, compare_vasl_versions, SUPPORTED_VASL_MOD_VERSIONS
 from vasl_templates.webapp.config.constants import DATA_DIR
+from vasl_templates.webapp.vo import _kfw_listings #pylint: disable=protected-access
 from vasl_templates.webapp.tests.utils import init_webapp, select_tab, find_child, find_children
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
 from vasl_templates.webapp.tests.remote import ControlTests
@@ -24,7 +25,7 @@ from vasl_templates.webapp.tests.remote import ControlTests
 @pytest.mark.skipif(
     pytest.config.option.short_tests, #pylint: disable=no-member
     reason = "--short-tests specified"
-) #pylint: disable=too-many-statements
+) #pylint: disable=too-many-statements,too-many-locals
 def test_counter_images( webapp ):
     """Test that counter images are served correctly."""
 
@@ -33,6 +34,7 @@ def test_counter_images( webapp ):
     def check_images( gpids, check_front, check_back ): #pylint: disable=unused-argument
         """Check getting the front and back images for each counter."""
         for gpid in gpids:
+
             for side in ("front","back"):
                 url = webapp.url_for( "get_counter_image", gpid=gpid, side=side )
                 try:
@@ -42,20 +44,64 @@ def test_counter_images( webapp ):
                 except urllib.error.HTTPError as ex:
                     resp_code = ex.code
                     resp_data = None
-                assert locals()["check_"+side]( resp_code, resp_data )
+                assert locals()["check_"+side]( gpid, resp_code, resp_data )
 
     # test counter images when no VASL module has been configured
     control_tests = ControlTests( webapp )
     control_tests.set_vasl_mod( vmod=None )
     # NOTE: It doesn't really matter which set of GPID's we use, since we're expecting
     # a missing image for everything anyway. We just use the most recent supported version.
-    gpids = get_vo_gpids( SUPPORTED_VASL_MOD_VERSIONS[-1], DATA_DIR, None )
+    gpids = get_vo_gpids( None )
     fname = os.path.join( os.path.split(__file__)[0], "../static/images/missing-image.png" )
     missing_image_data = open( fname, "rb" ).read()
     check_images( gpids,
-        check_front = lambda code,data: code == 200 and data == missing_image_data,
-        check_back = lambda code,data: code == 200 and data == missing_image_data
+        check_front = lambda gpid,code,data: code == 200 and data == missing_image_data,
+        check_back = lambda gpid,code,data: code == 200 and data == missing_image_data
     )
+
+    # FUDGE! 6.5.0 introduced a lot of new counters for K:FW. The vehicle/ordnance entries for these
+    # will always be loaded, but if an older version of VASL has been configured, requests to get images
+    # for these counters will, of course, fail, since the new counters won't be in the older VASL modules.
+    # We figure out here what those GPID's are.
+    # NOTE: All of this is horrendously complicated, and the problem will re-appear if new counters
+    # are added to the core VASL module in the future. At that point, we should probably drop testing
+    # against older versions of VASL and just test against the latest version :-/
+    expected_missing_gpids = set()
+    for vo_type in ("vehicles","ordnance"):
+        kfw_listings = _kfw_listings[ vo_type ]
+        for entries in kfw_listings.values():
+            for entry in entries:
+                if isinstance( entry["gpid"], list ):
+                    expected_missing_gpids.update( entry["gpid"] )
+                else:
+                    expected_missing_gpids.add( entry["gpid"] )
+    expected_missing_gpids = set( str(e) for e in expected_missing_gpids )
+    # NOTE: However, some of the GPID's used by the new K:FW counters use old images that are available
+    # even in older versions of VASL, so we figure out here what those are.
+    def get_gpids( fname ):
+        """Extract the GPID's from the specified file."""
+        dname = os.path.join( os.path.split(__file__)[0], "fixtures" )
+        fname = os.path.join( dname, fname )
+        gpids = set()
+        for line_buf in open(fname,"r"):
+            mo = re.search( "^[0-9a-z:]+", line_buf )
+            if mo:
+                gpids.add( mo.group() )
+        return gpids
+    legacy_gpids = get_gpids( "vasl-pieces-legacy.txt" )
+    latest_gpids = get_gpids( "vasl-pieces-6.5.0.txt" )
+    common_gpids = legacy_gpids.intersection( latest_gpids )
+    expected_missing_gpids = expected_missing_gpids.difference( common_gpids )
+    expected_missing_gpids.remove( "1002" ) # FUDGE! this is a remapped GPID (11340)
+
+    def _do_check_front( gpid, code, data ):
+        if vasl_version != SUPPORTED_VASL_MOD_VERSIONS[-1] and gpid in expected_missing_gpids:
+            return code == 404 and not data
+        return code == 200 and data
+    def _do_check_back( gpid, code, data ):
+        if vasl_version != SUPPORTED_VASL_MOD_VERSIONS[-1] and gpid in expected_missing_gpids:
+            return code == 404 and not data
+        return (code == 200 and data) or (code == 404 and not data)
 
     # test each VASL module file in the specified directory
     vmod_fnames = control_tests.get_vasl_mods()
@@ -73,8 +119,9 @@ def test_counter_images( webapp ):
         # figure out what we're expecting to see
         # NOTE: The results were the same across 6.4.0-6.4.4, but 6.5.0 introduced some changes.
         vasl_mod = VaslMod( fname, DATA_DIR, None )
+        vasl_version = vasl_mod.vasl_version
         dname = os.path.join( os.path.split(__file__)[0], "fixtures" )
-        fname = os.path.join( dname, "vasl-pieces-{}.txt".format( vasl_mod.vasl_version ) )
+        fname = os.path.join( dname, "vasl-pieces-{}.txt".format( vasl_version ) )
         if not os.path.isfile( fname ):
             fname = os.path.join( dname, "vasl-pieces-legacy.txt" )
         expected_vasl_pieces = open( fname, "r" ).read()
@@ -85,11 +132,8 @@ def test_counter_images( webapp ):
         assert buf.getvalue() == expected_vasl_pieces
 
         # check each counter
-        gpids = get_vo_gpids( vasl_mod.vasl_version, DATA_DIR, None )
-        check_images( gpids,
-            check_front = lambda code,data: code == 200 and data,
-            check_back = lambda code,data: (code == 200 and data) or (code == 404 and not data)
-        )
+        gpids = get_vo_gpids( vasl_mod )
+        check_images( gpids, check_front=_do_check_front, check_back=_do_check_back )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

@@ -93,7 +93,7 @@ function _show_extra_template( template_id )
                     buf.push( "<option>", template_info.params[i].options[j], "</option>" ) ;
                 buf.push( "</select>" ) ;
             } else if ( template_info.params[i].type.substr(0,22) === "player-color2-droplist" ) {
-                buf.push( "<select class='param' name='PLAYER_COLOR2_DROPLIST' style='width:9em;'>" ) ;
+                buf.push( "<select class='param' name='PLAYER_COLOR2_DROPLIST' style='width:11.5em;'>" ) ;
                 if ( template_info.params[i].type === "player-color2-droplist-ex" )
                     buf.push( "<option value='black'>black</option>", "<option value='#c0c0c0'>gray</option>" ) ;
                 var nats = get_sorted_nats() ;

@@ -2,5 +2,5 @@
 
 Name              Capabilities    (effective)      #  Notes    Comments
 ----------------  --------------  -------------  ---  -------  -------------
-Canonne da 65/17                                  35  A        No Gunshield.
+Cannone da 65/17                                  35  A        No Gunshield.
 Skoda M28(FE)                                     36  A

@@ -56,10 +56,12 @@ def make_chapter_h_placeholders( output_fname, log=None \
                     # (instead of being copied from an existing piece), but we can live with that... :-/
                     continue
                 dname2, fname2 = os.path.split( fname )
+                if os.path.split( dname2 )[1] == "kfw":
+                    continue # nb: we do these files later
                 nat = os.path.splitext( fname2 )[0]
                 if nat == "common":
                     nat = os.path.split( dname2 )[1]
-                if nat in ("free-french","british-commonwealth-forces-korea","cvpa","kpa","us-rok-ounc","un-forces"):
+                if nat == "free-french" or nat.startswith("kfw-"):
                     continue
                 notes, ma_notes = load_vo_data( fname, nat )
                 if nat not in results:
@@ -68,6 +70,29 @@ def make_chapter_h_placeholders( output_fname, log=None \
                     results[ nat ][ vo_type ] = { "notes": notes, "ma_notes": ma_notes }
                 else:
                     results[ nat ][ vo_type ] = { "notes": notes, "ma_notes": ma_notes }
+
+    # insert the K:FW vehicles/ordnance
+    kfw_vo_data = load_kfw_vo_data()
+    results["kfw-un"] = {
+        "vehicles": {
+            "notes": kfw_vo_data["kfw-un"]["vehicles"][0],
+            "ma_notes": kfw_vo_data["kfw-un"]["vehicles"][1]
+        },
+        "ordnance": {
+            "notes": kfw_vo_data["kfw-un"]["ordnance"][0],
+            "ma_notes": kfw_vo_data["kfw-un"]["ordnance"][1]
+        }
+    }
+    results["kfw-comm"] = {
+        "vehicles": {
+            "notes": kfw_vo_data["kfw-comm"]["vehicles"][0],
+            "ma_notes": kfw_vo_data["kfw-comm"]["vehicles"][1]
+        },
+        "ordnance": {
+            "notes": kfw_vo_data["kfw-comm"]["ordnance"][0],
+            "ma_notes": kfw_vo_data["kfw-comm"]["ordnance"][1]
+        }
+    }
 
     # load the extensions
     base_dir = os.path.join( os.path.split(__file__)[0], "../webapp/data/extensions" )
@@ -139,6 +164,48 @@ def load_vo_data( fname, nat ):
             )
 
     return sorted(notes), sorted(ma_notes)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def load_kfw_vo_data():
+    """Load the K:FW vehicle/ordnance data files."""
+
+    # load the K:FW vehicles
+    un_veh_notes, un_veh_ma_notes = set(), set()
+    dname = os.path.join( os.path.split(__file__)[0], "../webapp/data/vehicles/kfw" )
+    for fname in ( "us-rok-ounc.json", "bcfk.json", "un-common.json" ):
+        notes, ma_notes = load_vo_data( os.path.join(dname,fname), None )
+        un_veh_notes.update( notes )
+        un_veh_ma_notes.update( ma_notes )
+    comm_veh_notes, comm_veh_ma_notes = set(), set()
+    for fname in ( "kpa.json", ):
+        notes, ma_notes = load_vo_data( os.path.join(dname,"kpa.json"), None )
+        comm_veh_notes.update( notes )
+        comm_veh_ma_notes.update( ma_notes )
+
+    # load the K:FW ordnance
+    un_ord_notes, un_ord_ma_notes = set(), set()
+    dname = os.path.join( os.path.split(__file__)[0], "../webapp/data/ordnance/kfw" )
+    for fname in ( "us-rok-ounc.json", "bcfk.json", "un-common.json" ):
+        notes, ma_notes = load_vo_data( os.path.join(dname,fname), None )
+        un_ord_notes.update( notes )
+        un_ord_ma_notes.update( ma_notes )
+    comm_ord_notes, comm_ord_ma_notes = set(), set()
+    for fname in ( "kpa.json", "cpva.json" ):
+        notes, ma_notes = load_vo_data( os.path.join(dname,fname), None )
+        comm_ord_notes.update( notes )
+        comm_ord_ma_notes.update( ma_notes )
+
+    return {
+        "kfw-un": {
+            "vehicles": ( un_veh_notes, un_veh_ma_notes ),
+            "ordnance": ( un_ord_notes, un_ord_ma_notes )
+        },
+        "kfw-comm": {
+            "vehicles": ( comm_veh_notes, comm_veh_ma_notes ),
+            "ordnance": ( comm_ord_notes, comm_ord_ma_notes )
+        }
+    }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

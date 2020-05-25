@@ -5,7 +5,7 @@
   "no_radio": "\u00ae",
   "CS#": 2,
   "note_number": "17\u2020",
-  "notes": [ "K\u2020<sup>1</sup>", "E", "F", "G\u2020<sup>2</sup>" ],
+  "notes": [ "E", "F", "G\u2020<sup>2</sup>", "K\u2020<sup>1</sup>" ],
   "id": "sl/v:000",
   "gpid": 3879
 },
@@ -31,7 +31,7 @@
   "CS#": 4,
   "capabilities2": { "sD": 6 },
   "note_number": "20\u2020",
-  "notes": [ "K\u2020<sup>1</sup>", "E" ],
+  "notes": [ "E", "K\u2020<sup>1</sup>" ],
   "id": "sl/v:003",
   "gpid": 3885
 },
@@ -48,7 +48,7 @@
   "type": "tr",
   "cs#": "2\u2020<sup>1</sup>",
   "note_number": "22\u2020",
-  "notes": [ "E", "L\u2020<sup>2</sup>", "I\u2020<sup>1</sup>" ],
+  "notes": [ "E", "I\u2020<sup>1</sup>", "L\u2020<sup>2</sup>" ],
   "id": "sl/v:005",
   "gpid": 3889
 },

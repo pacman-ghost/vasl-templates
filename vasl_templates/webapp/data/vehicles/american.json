@@ -497,7 +497,7 @@
   "id": "am/v:056",
   "gpid": 1032
 },
-{ "name": "\u00bc-Ton Jeep GPA",
+{ "name": "&#188;-Ton Jeep GPA",
   "type": "atr",
   "cs#": 2,
   "note_number": "53\u2020",
@@ -505,7 +505,7 @@
   "id": "am/v:057",
   "gpid": 1036
 },
-{ "name": "\u00bc-Ton Jeep",
+{ "name": "&#188;-Ton Jeep",
   "type": "tr",
   "cs#": "2\u2020<sup>1</sup>",
   "note_number": "54\u2020",
@@ -513,7 +513,7 @@
   "id": "am/v:058",
   "gpid": [ 1039, 1040, 1041 ]
 },
-{ "name": "\u00be-Ton",
+{ "name": "&#190;-Ton",
   "type": "tr",
   "cs#": 4,
   "note_number": "55\u2020",
@@ -521,7 +521,7 @@
   "id": "am/v:059",
   "gpid": 1042
 },
-{ "name": "1\u00bd-Ton",
+{ "name": "1&#189;-Ton",
   "type": "tr",
   "cs#": 6,
   "note_number": "56\u2020",
@@ -529,7 +529,7 @@
   "id": "am/v:060",
   "gpid": 1044
 },
-{ "name": "2\u00bd-Ton",
+{ "name": "2&#189;-Ton",
   "type": "tr",
   "cs#": 7,
   "note_number": "57\u2020",
@@ -537,7 +537,7 @@
   "id": "am/v:061",
   "gpid": 1046
 },
-{ "name": "7\u00bd-Ton",
+{ "name": "7&#189;-Ton",
   "type": "tr",
   "cs#": 7,
   "note_number": "58\u2020",

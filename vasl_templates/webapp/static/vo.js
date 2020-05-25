@@ -21,7 +21,9 @@ function add_vo( vo_type, player_no )
         if ( is_small_vasl_piece( vo_entry ) )
             div_class += " small-piece" ;
         var extn_name ;
-        if ( vo_entry.extn_id ) {
+        if ( vo_entry.id.substr(0,4) === "kfw-" )
+            extn_name = "KFW" ;
+        else if ( vo_entry.extn_id ) {
             extn_name = gAppConfig.VASL_EXTENSIONS[ vo_entry.extn_id ].displayNameAbbrev ;
             if ( ! extn_name )
                 extn_name = gAppConfig.VASL_EXTENSIONS[ vo_entry.extn_id ].displayName ;
@@ -447,7 +449,10 @@ function make_online_counter_image_url( gpid, index )
     // check if we have a piece from the core VASL module or an extension
     var url, extn_id ;
     var pos = gpid.toString().indexOf( ":" ) ;
-    if ( pos === -1 )
+    // FUDGE! K:FW was originally done as an extension, then moved into the main VASL module.
+    // One of the consequences of this is that a lot of the new counters have a GPID that
+    // looks like they come from an extension (3b5), but are actually in the main module.
+    if ( pos === -1 || gpid.substr(0,pos) === "3b5" )
         url = gAppConfig.ONLINE_COUNTER_IMAGES_URL_TEMPLATE ;
     else {
         url = gAppConfig.ONLINE_EXTN_COUNTER_IMAGES_URL_TEMPLATE ;

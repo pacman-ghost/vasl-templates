@@ -26,6 +26,12 @@
     "name": "155 ART wz.17",
     "front_images": "po/gun/poARTwz17-BFP.png",
     "back_images": [ "po/gun/poARTwz17-BFP.png", "po/gun/poARTwz17-BFPb.png" ]
+},
+
+"3b5:3676": {
+    "name": "M19A1 MGMC",
+    "front_images": [ "us/veh/usM19A1MGMC(trailer)KFW.png", "us/veh/usM19A1MGMC(KFW).png" ],
+    "back_images": null
 }
 
 }

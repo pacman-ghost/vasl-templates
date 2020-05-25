@@ -1,0 +1,49 @@
+=== vehicles/kfw-rok/1951 ===
+
+Name               Capabilities              (effective)            #    Notes                                                               Comments
+-----------------  ------------------------  ---------------------  ---  ------------------------------------------------------------------  ----------
+M24                WP7 s5 sM8 CS 5           WP7 s5 sM8 CS 5        1†   O Y
+M4A3E8             A†[1] s5 sM8 CS 6         A†[1] s5 sM8 CS 6      2†   A†<sup>1</sup> P
+M4A3E8(105)        C7 H9 WP9 s7 sM8 CS 6     C7 H9 WP9 s7 sM8 CS 6  3†   C M
+M4A3E8 Dozer       A†[1] s5 sM8 CS 6         A†[1] s5 sM8 CS 6      4    A†<sup>1</sup> TT†
+M4A3E8(105) Dozer  C7 H9 WP9 s7 sM8 CS 6     C7 H9 WP9 s7 sM8 CS 6  4†   C M TT†<sup>1</sup>
+POA-CWS-H5         C5 sM8 CS 6               C5 sM8 CS 6            5†   C M
+M32A1B3 TRV        CS 6                      CS 6                   6†   K M P
+M26A1              A†[1] WP6[M51+]†[2] CS 6  A†[1] CS 6             7†   A†<sup>1</sup> J†<sup>2</sup> M
+M45                H7 WP9 s7 CS 6            H7 WP9 s7 CS 6         8    n/a
+M46                A†[2] WP6[M51+]†[3] CS 6  A†[2] CS 6             9†   A†<sup>2</sup> J†<sup>3</sup> M FF†<sup>1</sup>
+M36B2 GMC(a)       A† sP5 CS 7               A† sP5 CS 7            10   A† K UU
+M38A1C Jeep        H† CS 2                   H† CS 2                11†  n/a
+M3                 CS 5                      CS 5                   12†  K Y
+M3(MMG)            CS 5                      CS 5                   13†  E† H K Y
+M3(HMG)            CS 5                      CS 5                   13†  E† H K Y
+M19A1 MGMC         CS 4                      CS 4                   14†  AA†<sup>1</sup>
+M15A1 MGMC         CS 4                      CS 4                   15†  O V†<sup>1</sup> Y AA†<sup>2</sup> DD†<sup>1</sup>
+M15 Special        CS 4                      CS 4                   16†  AA†<sup>2</sup> DD†<sup>1</sup>
+M16 MGMC           CS 4                      CS 4                   17†  F†<sup>1</sup> V†<sup>1</sup> Y AA†<sup>2</sup> DD†<sup>1</sup>
+M16A1 MGMC         CS 5                      CS 5                   18†  F†<sup>1</sup> V†<sup>1</sup> AA†<sup>2</sup> DD†<sup>1</sup>
+M39 AUV            CS 6                      CS 6                   19†  G†<sup>1</sup> M
+M39 MC             WP8 CS 5[brewup]          WP8 CS 5[brewup]       19†  n/a
+M7 HMC             C7 H7 WP8 s7 CS 7         C7 H7 WP8 s7 CS 7      20†  C Y
+M37 HMC            H9 WP9 s7 CS 7            H9 WP9 s7 CS 7         21   n/a
+M41 HMC            no IF WP8 s7 CS 9         no IF WP8 s7 CS 9      22†  S†<sup>1</sup>
+M40 GMC            no IF AP4 WP8 s7 CS 9     no IF AP4 WP8 s7 CS 9  23   S†
+M43 HMC            no IF CS 9                no IF CS 9             23   S†
+LVT(A)5            C7 H8 WP8 CS 6            C7 H8 WP8 CS 6         24†  H T†<sup>1</sup> X†<sup>2</sup>
+LVT(A)5m           C7 H8 WP8 CS 6            C7 H8 WP8 CS 6         24   M T†
+LVT3               CS 7                      CS 7                   25†  D† H M T†<sup>1</sup> X†<sup>2</sup>
+LVT3C              CS 7                      CS 7                   25†  D† M T†<sup>1</sup> X†<sup>2</sup> BB†
+M75                CS 6                      CS 6                   26   G† BB†<sup>1</sup>
+M29 Weasel         CS 3                      CS 3                   27†  B†<sup>1</sup> M T†<sup>1</sup>
+M29C Weasel        CS 3                      CS 3                   28†  B†<sup>1</sup> M T†<sup>1</sup>
+M4 hst             CS 6                      CS 6                   29   G† Y
+DUKW               CS 7†[1]                  CS 7†[1]               30†  D†<sup>2</sup> M Q†<sup>1</sup> Y
+TACP Jeep          CS 2†                     CS 2†                  31†  L†<sup>1</sup> M
+7&#189;-Ton        CS 7                      CS 7                   32   Y
+Searchlight Truck  CS 7†                     CS 7†                  33†  n/a
+M3A1               CS 5                      CS 5                   54†  E† H K Y Z†<sup>1</sup> UU
+M20                sP5 CS 4                  sP5 CS 4               55†  D†<sup>4</sup> K Q†<sup>2</sup> W†<sup>1</sup> Y Z†<sup>3</sup> UU
+M8                 C7 sP5 CS 4               C7 sP5 CS 4            56†  C K W†<sup>1</sup> Y UU
+&#188;-Ton Jeep    cs 2†[1]                  cs 2†[1]               57†  K L†<sup>2</sup> M N O P Q†<sup>1</sup> Y UU
+&#190;-Ton         cs 4                      cs 4                   57†  K N O Y UU
+2&#189;-Ton        cs 7                      cs 7                   57†  K M N O P Y UU

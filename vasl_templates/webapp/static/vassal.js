@@ -84,17 +84,14 @@ function _generate_snippets()
 
     // figure out which templates we don't want to auto-create labels for
     var no_autocreate = {} ;
-    for ( var nat in NATIONALITY_SPECIFIC_BUTTONS ) {
-        for ( var i=0 ; i < NATIONALITY_SPECIFIC_BUTTONS[nat].length ; ++i ) {
-            var template_id = NATIONALITY_SPECIFIC_BUTTONS[nat][i] ;
-            if ( ["pf","atmm","thh"].indexOf( template_id ) !== -1 ) {
-                // NOTE: PF, ATMM, THH are always available as an inherent part of a squad's capabilities
-                // (subject to date restrictions), so we always auto-create these labels, unlike, say MOL or BAZ,
-                // which are only present by SSR or OB counter).
-                continue ;
-            }
-            no_autocreate[template_id] = true ;
+    for ( var template_id in NATIONALITY_SPECIFIC_BUTTONS ) {
+        if ( ["pf","atmm","thh"].indexOf( template_id ) !== -1 ) {
+            // NOTE: PF, ATMM, THH are always available as an inherent part of a squad's capabilities
+            // (subject to date restrictions), so we always auto-create these labels, unlike, say MOL or BAZ,
+            // which are only present by SSR or OB counter).
+            continue ;
         }
+        no_autocreate[template_id] = true ;
     }
 
     function on_snippet_button( $btn, inactive ) {
@@ -201,6 +198,8 @@ function _get_raw_content( snippet_id, $btn, params )
     }
 
     // handle simple cases
+    // NOTE: These checks also have the side-effect of not deleting these labels if they are already in
+    //  a scenario that is being updated.
     if ( snippet_id === "mol" )
         return [ "Molotov Cocktail", "MOL check:", "IFT DR original colored dr:" ] ;
     if ( snippet_id === "mol-p" )
@@ -213,7 +212,7 @@ function _get_raw_content( snippet_id, $btn, params )
         return [ "Anti-Tank Magnetic Mines", "ATMM check:", "vs. non-armored vehicle" ] ;
     if ( snippet_id === "piat" )
         return [ "PIAT", "Range", "TH#", "B#", "TK#" ] ;
-    if ( snippet_id === "baz" )
+    if ( snippet_id === "baz" || snippet_id === "baz45" || snippet_id === "baz50" || snippet_id.substr(0,8) === "baz-cpva" )
         return [ "Bazooka", "Range", "TH#" ] ;
     if ( snippet_id === "thh" )
         return [ "Tank-Hunter Heroes", "Banzai Charge" ] ;
@@ -318,24 +317,62 @@ function _do_analyze_vsav( vsav_data, fname )
 
 function _create_vo_entries_from_analysis( report )
 {
+    // initialize
+    var theater = $( "select.param[name='SCENARIO_THEATER']" ).val() ;
+
     function create_vo_entries( player_no, vo_type ) {
+
+        var gpids, i ;
+
         // clear the existing vehicles/ordnance
         $( "#ob_" + vo_type + "-sortable_" + player_no ).sortable2( "delete-all" ) ;
         // build an index of GPID's that belong to the specified player and V/O type
         var entries_index = {} ;
         var entries = gVehicleOrdnanceListings[ vo_type ][ get_player_nat(player_no) ] ;
-        var gpids, i ;
-        for ( i=0 ; i < entries.length ; ++i ) {
-            gpids = $.isArray( entries[i].gpid ) ? entries[i].gpid : [entries[i].gpid] ;
-            for ( var j=0 ; j < gpids.length ; ++j )
-                entries_index[ gpids[j] ] = entries[i] ;
+        if ( entries ) {
+            for ( i=0 ; i < entries.length ; ++i ) {
+                gpids = $.isArray( entries[i].gpid ) ? entries[i].gpid : [entries[i].gpid] ;
+                for ( var j=0 ; j < gpids.length ; ++j ) {
+                    if ( entries_index[ gpids[j] ] === undefined )
+                        entries_index[ gpids[j] ] = [ entries[i] ] ;
+                    else
+                        entries_index[ gpids[j] ].push( entries[i] ) ;
+                }
+            }
         }
+
+        // IMPORTANT: Adding support for the new K:FW counters in VASL 6.5.0 caused problems for
+        // the "analyze scenario" feature, since quite a few of the new counters use images
+        // from the old counter set e.g. the American "M2 60mm Mortar" has a K:FW variant (kfw-un-common/o:002)
+        // that has GPID 849 (as well as 11391, 11359, 11440 for the ROK, BCFK, OUNC variants),
+        // but GPID 849 is also used by the old American "M2 60mm Mortar" counter (am/o:000).
+        // So, if we find GPID 849 in a .vsav file, we don't know if we should create the K:FW entry
+        // or the normal American entry. To work around this, we added a new scenario theater for Korea,
+        // and use that to decide.
+        function chooseEntry( gpid ) {
+            var entries = entries_index[ gpid ] ;
+            if ( !entries || entries.length === 0 )
+                return null ;
+            if ( entries.length === 1 )
+                return entries[0] ;
+            var entries2 = [] ;
+            for ( var i=0 ; i < entries.length ; ++i ) {
+                var isKFW = entries[i].id.substr( 0, 4 ) === "kfw-" ;
+                if ( (theater == "Korea" && isKFW) || (theater != "Korea" && !isKFW) )
+                    entries2.push( entries[i] ) ;
+            }
+            if ( entries2.length === 1 )
+                return entries2[0] ;
+            console.log( "WARNING: Found multiple entries for GPID " + gpid + " during analysis:", entries ) ;
+            return entries[0] ;
+        }
+
         // add a vehicle/ordnance for each relevant GPID
         var nCreated = 0 ;
         gpids = Object.keys( report ) ;
         for ( i=0 ; i < gpids.length ; ++i ) {
             var gpid = gpids[ i ] ;
-            var entry = entries_index[ gpid ] ;
+            var entry = chooseEntry( gpid ) ;
             if ( ! entry )
                 continue ;
             var image_id = $.isArray( entry.gpid ) ? [gpid,0] : null ;

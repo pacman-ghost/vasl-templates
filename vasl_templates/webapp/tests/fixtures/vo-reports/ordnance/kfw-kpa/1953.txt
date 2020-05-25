@@ -1,0 +1,20 @@
+=== ordnance/kfw-kpa/1953 ===
+
+Name                Capabilities    (effective)    #    Notes    Comments
+------------------  --------------  -------------  ---  -------  ----------
+50mm RM obr. 40     4PP             4PP            1    A B
+82mm BM obr. 37     QSU IR s8       QSU IR s8      2†   A B
+120mm PM obr. 38    QSU s8          QSU s8         3†   B
+14.5mm PTRD-41      1PP             1PP            4    B
+14.5mm PTRS-41      2PP TK#: 6†     2PP TK#: 6†    5†   n/a
+45mm PTP obr. 37    QSU A7          QSU A7         6†   B
+45mm PTP obr. 42    QSU A7          QSU A7         6†   B
+76.2mm PP obr. 27   QSU H6 s8       QSU H6 s8      7†   A B
+76.2mm obr. 02/30   QSU h-d s8      QSU h-d s8     8†   B
+76.2mm obr. 42      QSU A7 s8       QSU A7 s8      9†   B
+107mm P obr. 10/30  h-d s8          h-d s8         10   B
+122mm G obr. 38     H6 s8           H6 s8          11†  B
+122mm obr. 31       s8              s8             12   B
+152mm GP obr. 37                                   13   B
+37mm ZP obr. 39                                    14†  B
+85mm ZP obr. 39                                    15   B

@@ -1,0 +1,13 @@
+=== vehicles/kfw-kpa/1950 ===
+
+Name     Capabilities     (effective)      #    Notes    Comments
+-------  ---------------  ---------------  ---  -------  ----------
+T-34/85  A6 sD6† CS 6     A6 sD6† CS 6     1†   n/a
+SU-76M   A7 CS 4[brewup]  A7 CS 4[brewup]  2†   n/a
+BA-64B   CS 2             CS 2             3†   B
+GAZ-67B  cs 2             cs 2             4†   B
+GAZ-MM   cs 6             cs 6             4†   B
+ZIS-5    cs 7             cs 7             4†   B
+IAG-6    cs 7             cs 7             4†   B
+GAZ-51   cs 6             cs 6             5†   n/a
+ZIS-151  cs 7             cs 7             6†   n/a

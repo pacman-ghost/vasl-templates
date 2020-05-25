@@ -1,0 +1,54 @@
+[
+
+{ "name": "M3A1",
+  "type": "ht",
+  "CS#": 5,
+  "note_number": "54\u2020",
+  "notes": [ "E\u2020", "H", "K", "Y", "Z\u2020<sup>1</sup>", "UU" ],
+  "id": "kfw-un-common/v:000",
+  "gpid": [ 969, "3b5:7703", "3b5:4019" ]
+},
+{ "name": "M20",
+  "type": "SC",
+  "CS#": 4,
+  "capabilities2": { "sP": 5 },
+  "note_number": "55\u2020",
+  "notes": [ "D\u2020<sup>4</sup>", "K", "Q\u2020<sup>2</sup>", "W\u2020<sup>1</sup>", "Y", "Z\u2020<sup>3</sup>", "UU" ],
+  "id": "kfw-un-common/v:001",
+  "gpid": [ 998, "3b5:7697", "3b5:4036" ]
+},
+{ "name": "M8",
+  "type": "AC",
+  "CS#": 4,
+  "capabilities2": { "C": 7, "sP": 5 },
+  "note_number": "56\u2020",
+  "notes": [ "C", "K", "W\u2020<sup>1</sup>", "Y", "UU" ],
+  "id": "kfw-un-common/v:002",
+  "gpid": [ 1002, "3b5:7699", "3b5:4038" ]
+},
+{ "name": "&#188;-Ton Jeep",
+  "type": "tr",
+  "cs#": "2\u2020<sup>1</sup>",
+  "note_number": "57\u2020",
+  "notes": [ "K", "L\u2020<sup>2</sup>", "M", "N", "O", "P", "Q\u2020<sup>1</sup>", "Y", "UU" ],
+  "id": "kfw-un-common/v:003",
+  "gpid": [ 1039, 1569, "3b5:10746", "3b5:8423" ]
+},
+{ "name": "&#190;-Ton",
+  "type": "tr",
+  "cs#": 4,
+  "note_number": "57\u2020",
+  "notes": [ "K", "N", "O", "Y", "UU" ],
+  "id": "kfw-un-common/v:004",
+  "gpid": [ 1042, 1571, "3b5:4050", "3b5:8425" ]
+},
+{ "name": "2&#189;-Ton",
+  "type": "tr",
+  "cs#": 7,
+  "note_number": "57\u2020",
+  "notes": [ "K", "M", "N", "O", "P", "Y", "UU" ],
+  "id": "kfw-un-common/v:005",
+  "gpid": [ 1046, 1575, "3b5:4052", "3b5:8427" ]
+}
+
+]

@@ -430,6 +430,9 @@ def test_common_vo( webapp, webdriver ):
             if nat in ["thai","indonesian","anzac","burmese","filipino"]: # nb: these are in the BFP extension
                 assert last_warning.startswith( "There are no" )
                 continue
+            elif nat == "kfw-cpva" and vo_type == "vehicles":
+                assert last_warning.startswith( "There are no" )
+                continue
             else:
                 assert last_warning == last_warning_marker
             vo_entries = find_children( "#select-vo .select2-results li" )

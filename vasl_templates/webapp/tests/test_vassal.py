@@ -316,7 +316,9 @@ def test_dump_vsav( webapp, webdriver ):
     """Test dumping a scenario."""
 
     # initialize
-    control_tests = init_webapp( webapp, webdriver )
+    control_tests = init_webapp( webapp, webdriver,
+        reset = lambda ct: ct.set_data_dir( dtype="real" )
+     )
 
     def do_test(): #pylint: disable=missing-docstring
 
@@ -633,6 +635,52 @@ def test_reverse_remapped_gpids( webapp, webdriver ):
         not pytest.config.option.short_tests,  #pylint: disable=no-member
         min_vasl_version="6.5.0"
     )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
+def test_vo_entry_selection_for_theater( webapp, webdriver ):
+    """Test selection of vehicle/ordnance entries by theater."""
+
+    # initialize
+    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1,
+        reset = lambda ct:
+            ct.set_data_dir( dtype="real" )
+    )
+
+    def do_test( theater, expected ): #pylint: disable=missing-docstring
+        new_scenario()
+        load_scenario_params( { "scenario": {
+            "SCENARIO_THEATER": theater,
+            "PLAYER_1": "american",
+        } } )
+        _analyze_vsav( "vo-entry-selection-for-theater.vsav",
+            [ [], expected ],
+            [ [], [] ],
+            [ "Imported 4 American ordnance." ]
+        )
+
+    # do the tests
+    def do_tests(): #pylint: disable=missing-docstring
+        # NOTE: The .vsav file contains ROK and OUNC variants of the M2 60* Mortar which, strictly speaking,
+        # should only be imported for ROK and OUNC players respectively. However, due to the way the data files
+        # are currently set up (the kfw/un-common.json file gets appended to the US, British, ROK and OUNC
+        # player lists, and all the GPID's become available to all the players), they are currently (incorrectly)
+        # imported. However, this isn't a big problem since these players will never be fighting against each other.
+        do_test( "ETO", [
+            # NOTE: The normal M2 60* Mortar gets imported as an old-style American entry (because we're in ETO).
+            ("am/o:000",None),
+            # NOTE The other variants always get imported as K:FW counters.
+            ("kfw-un-common/o:002","12689/0"), ("kfw-un-common/o:002","11391/0"), ("kfw-un-common/o:002","11440/0")
+        ] )
+        do_test( "Korea", [
+            # NOTE: The normal M2 60* Mortar gets imported as new-style K:FW entry (because we're in Korea).
+            ("kfw-un-common/o:002","849/0"),
+            # NOTE The other variants always get imported as K:FW counters.
+            ("kfw-un-common/o:002","12689/0"), ("kfw-un-common/o:002","11391/0"), ("kfw-un-common/o:002","11440/0")
+        ] )
+    _run_tests( control_tests, do_tests, True, min_vasl_version="6.5.0" )
 
 # ---------------------------------------------------------------------
 

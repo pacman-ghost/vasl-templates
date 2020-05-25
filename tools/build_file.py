@@ -102,6 +102,7 @@ def _get_pieceslot_images( node, opts ):
     # identify fields that look like an image path
     valid_prefixes = ( "ru/", "ge/", "am/", "br/", "it/", "ja/", "ch/", "sh/", "fr/", "al/", "ax/", "hu/", "fi/",
         "po/", "ss/", # nb: for BFP
+        "nk/", # nb: for K:FW
     )
     def is_image_path( val ):
         """Check if a value looks like an image path."""

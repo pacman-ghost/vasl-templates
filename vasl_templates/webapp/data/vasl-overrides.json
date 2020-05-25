@@ -130,6 +130,18 @@
     "updated": {
         "front_images": "ru/gun/ru76PPobr27.png"
     }
+},
+
+"3b5:10093": {
+    "expected": {
+        "name": "SL truck",
+        "front_images": [ "sh/SL3b(KFW).png", "sh/SL4b(KFW).png", "sh/SL5b(KFW).png", "sh/SL6b(KFW).png", "sh/SL1b(KFW).png", "sh/SL2b(KFW).png" ],
+        "back_images": [ "sh/SL3(KFW).png", "sh/SL4(KFW).png", "sh/SL5(KFW).png", "sh/SL6(KFW).png", "sh/SL1(KFW).png", "sh/SL2(KFW).png" ]
+    },
+    "updated": {
+        "front_images": "us/veh/usSearchlight(KFW).png",
+        "back_images": null
+    }
 }
 
 }

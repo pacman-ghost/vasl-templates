@@ -24,7 +24,7 @@ from vasl_templates.webapp.tests.utils import init_webapp, get_nationalities, fi
 @pytest.mark.skipif(
     not pytest.config.option.vasl_extensions, #pylint: disable=no-member
     reason = "--vasl-extensions not specified"
-) #pylint: disable=too-many-locals
+) #pylint: disable=too-many-statements,too-many-locals
 def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
     """Check the vehicle/ordnance reports."""
 
@@ -55,13 +55,22 @@ def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
     # check each vehicle/ordnance report
     nationalities = list( get_nationalities( webapp ).keys() )
     nationalities.extend( [ "allied-minor-common", "axis-minor-common" ] )
+    failed = False
     for nat in nationalities:
+
         for vo_type in ["vehicles","ordnance"]:
-            for year in range(1940,1945+1):
+
+            # figure out which years we should generate reports for
+            # NOTE: The Americans and British are in K:FW, so we should really check 1950-53 for these as well,
+            # but there are only a few vehicles that have date-specific capabilities, so we don't bother testing
+            # for them here, and check those specific cases in test_kfw().
+            years = (1950,1953) if nat.startswith( "kfw-" ) else (1940,1945)
+
+            for year in range(years[0],years[1]+1):
 
                 # get the next report
                 results = get_vo_report( webapp, webdriver, vo_type, nat, "ETO", year, 1 )
-                if nat in ("burmese","filipino") or (nat,vo_type) in [("anzac","ordnance")]:
+                if nat in ("burmese","filipino") or (nat,vo_type) in [("anzac","ordnance"),("kfw-cpva","vehicles")]:
                     assert not results
                     continue
 
@@ -97,7 +106,14 @@ def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
 
                 # check the report
                 fname = os.path.join( check_dir, fname )
-                assert open(fname,"r",encoding="utf-8").read() == report
+                if open(fname,"r",encoding="utf-8").read() != report:
+                    if save_dir:
+                        print( "FAILED:", fname )
+                        failed = True
+                    else:
+                        assert False, "Report mismatch: {}".format( fname )
+
+    assert not failed
 
     # get the landing craft report
     url = webapp.url_for( "get_lc_report" )

@@ -4,6 +4,7 @@
 import os
 import io
 import re
+import copy
 import logging
 from collections import defaultdict
 
@@ -52,10 +53,11 @@ def load_vo_notes( msg_store ): #pylint: disable=too-many-statements,too-many-lo
     file_server = FileServer( dname )
 
     # generate a list of extension ID's
-    extn_ids = {}
+    extn_ids = set()
     if globvars.vasl_mod:
         extns = globvars.vasl_mod.get_extns()
         extn_ids = set( e[1]["extensionId"] for e in extns )
+    extn_ids.update( [ "kfw-un", "kfw-comm" ] )
 
     def get_ma_note_key( nat, fname ):
         """Get the key for a multi-applicable note."""
@@ -180,11 +182,64 @@ def load_vo_notes( msg_store ): #pylint: disable=too-many-statements,too-many-lo
     # update nationality variants with the notes from their base nationality
     for vo_type2 in vo_notes:
         # FUDGE! Some nationalities don't have any vehicles/ordnance of their own, so we have to do this manually.
+        # NOTE: We do a deep copy so that these new nationalities don't get affected by changes we make
+        # to the base nationality later (e.g. adding K:FW counters to the British).
         if "chinese" in vo_notes[vo_type2]:
-            vo_notes[vo_type2]["chinese~gmd"] = vo_notes[vo_type2]["chinese"]
+            vo_notes[vo_type2]["chinese~gmd"] = copy.deepcopy( vo_notes[vo_type2]["chinese"] )
         if "british" in vo_notes[vo_type2]:
-            vo_notes[vo_type2]["british~canadian"] = vo_notes[vo_type2]["british"]
-            vo_notes[vo_type2]["british~newzealand"] = vo_notes[vo_type2]["british"]
+            vo_notes[vo_type2]["british~canadian"] = copy.deepcopy( vo_notes[vo_type2]["british"] )
+            vo_notes[vo_type2]["british~newzealand"] = copy.deepcopy( vo_notes[vo_type2]["british"] )
+
+    def install_kfw_vo_notes( nat, vo_type, extn_id, include ):
+        """Install the K:FW vehicle/ordnance notes into the specified nationality."""
+        target_vo_notes = vo_notes[vo_type].get( nat )
+        if not target_vo_notes:
+            return
+        kfw_vo_notes = vo_notes[vo_type].get( extn_id )
+        if not kfw_vo_notes:
+            return
+        target_vo_notes.update( {
+            "{}:{}".format( extn_id, key ): val
+            for key,val in kfw_vo_notes.items()
+            if not include or include( int(key) )
+        } )
+    def install_kfw_ma_notes( nat, vo_type, kfw_ma_notes, extn_id ):
+        """Install the K:FW vehicle/ordnance multi-applicable notes into the specified nationality."""
+        if not kfw_ma_notes:
+            return
+        if nat not in vo_notes[vo_type]:
+            vo_notes[vo_type][nat] = {}
+        ma_notes = vo_notes[vo_type][nat].get( "multi-applicable" )
+        if not ma_notes:
+            ma_notes = vo_notes[vo_type][nat]["multi-applicable"] = {}
+        ma_notes.update( {
+            "{}:{}".format( extn_id, key ): val
+            for key,val in kfw_ma_notes.items()
+        } )
+
+    # install the UN vehicle/ordnance notes and multi-applicable notes
+    kfw_ma_notes = vo_notes["vehicles"].get( "kfw-un", {} ).pop( "multi-applicable", None )
+    for nat in ("american","kfw-rok","kfw-ounc"):
+        install_kfw_ma_notes( nat, "vehicles", kfw_ma_notes, "kfw-un" )
+        install_kfw_vo_notes( nat, "vehicles", "kfw-un", lambda key: key <= 33 or key >= 54 )
+    install_kfw_ma_notes( "british", "vehicles", kfw_ma_notes, "kfw-un" )
+    install_kfw_vo_notes( "british", "vehicles", "kfw-un", lambda key: key >= 34 )
+    kfw_ma_notes = vo_notes["ordnance"].get( "kfw-un", {} ).pop( "multi-applicable", None )
+    for nat in ("american","kfw-rok","kfw-ounc"):
+        install_kfw_ma_notes( nat, "ordnance", kfw_ma_notes, "kfw-un" )
+        install_kfw_vo_notes( nat, "ordnance", "kfw-un", lambda key: key <= 13 or key >= 21 )
+    install_kfw_ma_notes( "british", "ordnance", kfw_ma_notes, "kfw-un" )
+    install_kfw_vo_notes( "british", "ordnance", "kfw-un", lambda key: key >= 14 )
+
+    # install the Communist vehicle/ordnance notes and multi-applicable notes
+    kfw_ma_notes = vo_notes["vehicles"].get( "kfw-comm", {} ).pop( "multi-applicable", None )
+    install_kfw_ma_notes( "kfw-kpa", "vehicles", kfw_ma_notes, "kfw-comm" )
+    install_kfw_vo_notes( "kfw-kpa", "vehicles", "kfw-comm", None )
+    kfw_ma_notes = vo_notes["ordnance"].get( "kfw-comm", {} ).pop( "multi-applicable", None )
+    for nat in ("kfw-kpa","kfw-cpva"):
+        install_kfw_ma_notes( nat, "ordnance", kfw_ma_notes, "kfw-comm" )
+    install_kfw_vo_notes( "kfw-kpa", "ordnance", "kfw-comm", lambda key: key <= 15 )
+    install_kfw_vo_notes( "kfw-cpva", "ordnance", "kfw-comm", lambda key: key >= 16 )
 
     # install the vehicle/ordnance notes
     globvars.vo_notes = { k: dict(v) for k,v in vo_notes.items() }

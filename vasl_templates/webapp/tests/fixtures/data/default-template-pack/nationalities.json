@@ -55,6 +55,11 @@
   "display_name": "Romanian",
   "ob_colors": [ "OBCOL:romanian","OBCOL2:romanian", "OBCOL-BORDER:romanian" ],
   "type": "axis-minor"
+},
+
+"kfw-cpva": {
+  "display_name": "Communist Chinese",
+  "ob_colors": [ "OBCOL:kfw-cpva","OBCOL2:kfw-cpva", "OBCOL-BORDER:kfw-cpva" ]
 }
 
 }

@@ -12,11 +12,18 @@ gWebChannelHandler = null ;
 gEmSize = null ;
 
 var NATIONALITY_SPECIFIC_BUTTONS = {
-    "russian": [ "mol", "mol-p" ],
-    "german": [ "pf", "psk", "atmm" ],
-    "american": [ "baz" ],
-    "british": [ "piat" ],
-    "japanese": [ "thh" ],
+    "pf": [ "german" ],
+    "atmm": [ "german" ],
+    "psk": [ "german" ],
+    "mol": [ "russian" ],
+    "mol-p": [ "russian" ],
+    "baz": [ "american!korea" ],
+    "baz45": [ "american@korea", "kfw-rok", "kfw-ounc" ],
+    "baz50": [ "american@korea", "kfw-rok", "kfw-ounc" ],
+    "baz-cpva16": [ "kfw-cpva" ],
+    "baz-cpva17": [ "kfw-cpva" ],
+    "piat": [ "british" ],
+    "thh": [ "japanese" ],
 } ;
 
 GENERATE_SNIPPET_HINT = "Generate an HTML snippet (shift-click to get an image)." ;
@@ -202,14 +209,14 @@ $(document).ready( function () {
         "</div>" ) ;
     }
     init_select2( $( "select[name='PLAYER_1']" ),
-        "10em", false, format_player_droplist_item
+        "12.5em", false, format_player_droplist_item
     ).on( "select2:open", function() {
         on_player_droplist_open( $(this) ) ;
     } ).on( "change", function() {
         on_player_change_with_confirm( 1 ) ;
     } ) ;
     init_select2( $( "select[name='PLAYER_2']" ),
-        "10em", false, format_player_droplist_item
+        "12.5em", false, format_player_droplist_item
     ).on( "select2:open", function() {
         on_player_droplist_open( $(this) ) ;
     } ).on( "change", function() {
@@ -670,13 +677,7 @@ function on_player_change( player_no )
     var player_nat = update_ob_tab_header( player_no ) ;
 
     // show/hide the nationality-specific buttons
-    for ( var nat in NATIONALITY_SPECIFIC_BUTTONS ) {
-        for ( var i=0 ; i < NATIONALITY_SPECIFIC_BUTTONS[nat].length ; ++i ) {
-            var button_id = NATIONALITY_SPECIFIC_BUTTONS[nat][i] ;
-            var $elem = $( "#panel-ob_notes_" + player_no + " div.snippet-control[data-id='" + button_id + "']" ) ;
-            $elem.css( "display", nat == player_nat ? "inline-block" : "none" ) ;
-        }
-    }
+    update_nationality_specific_buttons( player_no ) ;
 
     // show/hide the vehicle/ordnance multi-applicable notes controls
     function update_ma_notes_controls( vo_type ) {
@@ -719,6 +720,34 @@ function update_ob_tab_header( player_no )
     ) ;
 
     return player_nat ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function update_nationality_specific_buttons( player_no )
+{
+    // initialize
+    var player_nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
+    var theater = $( "select.param[name='SCENARIO_THEATER']" ).val().toLowerCase() ;
+
+    // hide/show each nationality-specific button
+    for ( var button_id in NATIONALITY_SPECIFIC_BUTTONS ) {
+        var show = false ;
+        for ( var i=0 ; i < NATIONALITY_SPECIFIC_BUTTONS[button_id].length ; ++i ) {
+            var nat = NATIONALITY_SPECIFIC_BUTTONS[button_id][i] ;
+            if ( nat == player_nat )
+                show = true ;
+            else if ( nat == player_nat+"@"+theater )
+                show = true ;
+            else {
+                var pos = nat.indexOf( "!" ) ;
+                if ( pos !== -1 )
+                    show = nat.substr(0,pos) == player_nat && nat.substr(pos+1) !== theater ;
+            }
+        }
+        var $elem = $( "#panel-ob_notes_" + player_no + " div.snippet-control[data-id='" + button_id + "']" ) ;
+        $elem.css( "display", show ? "inline-block" : "none" ) ;
+    }
 }
 
 // --------------------------------------------------------------------

@@ -346,18 +346,18 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     if ( params.SCENARIO_YEAR >= 1945 ) {
         params.BAZ_TYPE = 45 ;
         params.BAZ_BREAKDOWN = 11 ;
-        params.BAZ_TOKILL = 16 ;
+        params.BAZ_TK = 16 ;
         params.BAZ_WP = 6 ;
         params.BAZ_RANGE = 5 ;
     } else if ( params.SCENARIO_YEAR >= 1944 ) {
         params.BAZ_TYPE = 44 ;
         params.BAZ_BREAKDOWN = 11 ;
-        params.BAZ_TOKILL = 16 ;
+        params.BAZ_TK = 16 ;
         params.BAZ_RANGE = 4 ;
     } else if ( params.SCENARIO_YEAR === 1943 || (params.SCENARIO_YEAR === 1942 && params.SCENARIO_MONTH >= 11) ) {
         params.BAZ_TYPE = 43 ;
         params.BAZ_BREAKDOWN = 10 ;
-        params.BAZ_TOKILL = 13 ;
+        params.BAZ_TK = 13 ;
         params.BAZ_RANGE = 4 ;
     }
 
@@ -465,8 +465,13 @@ function get_vo_note_key( vo_entry )
     if ( ! match )
         return null ;
     var key = match[0] ;
+    // NOTE: The K:FW counters appear in the main VASL module, but we handle them as if they were an extension.
     if ( vo_entry.extn_id )
         key = vo_entry.extn_id + ":" + key ;
+    else if ( vo_entry.id.match( /^kfw-(uro|bcfk|rok|ounc|un-common)\// ) )
+        key = "kfw-un:" + key ;
+    else if ( vo_entry.id.match( /^kfw-(kpa|cpva)\// ) )
+        key = "kfw-comm:" + key ;
     return key ;
 }
 
@@ -501,6 +506,16 @@ function get_vo_note( vo_type, nat, key )
 
 function get_ma_notes_keys( nat, vo_entries, vo_type )
 {
+    function translate_kfw_key( vo_entry, notes_index, regex, extn_id ) {
+        if ( ! vo_entry.id.match( regex ) )
+            return null ;
+        var key = extn_id + ":" + vo_entry.notes[notes_index] ;
+        var pos = key.indexOf( "\u2020" ) ;
+        if ( pos >= 0 )
+            key = key.substr( 0, pos ) ;
+        return key ;
+    }
+
     // figure out which multi-applicable notes are being referenced
     if ( ! vo_entries )
         return null ;
@@ -528,17 +543,33 @@ function get_ma_notes_keys( nat, vo_entries, vo_type )
         if ( ! vo_entry.notes )
             continue ;
         for ( j=0 ; j < vo_entry.notes.length ; ++j ) {
-            if ( vo_entry.notes[j] === "US <s>P</s>" ) { // nb: can't do this with a regex
+
+            // NOTE: The K:FW counters appear in the main VASL module, but we handle them as if they were an extension.
+            var key = translate_kfw_key( vo_entry, j, /^kfw-(uro|bcfk|rok|ounc|un-common)\//, "kfw-un" ) ;
+            if ( key ) {
+                keys[0][ key ] = true ;
+                continue ;
+            }
+            key = translate_kfw_key( vo_entry, j, /^kfw-(kpa|cpva)\//, "kfw-comm" ) ;
+            if ( key ) {
+                keys[0][ key ] = true ;
+                continue ;
+            }
+
+            // handle a special case we can't do with a regex
+            if ( vo_entry.notes[j] === "US <s>P</s>" ) {
                 keys[0][ vo_entry.extn_id + ":US P" ] = true ;
                 continue ;
             }
+
+            // check all the regex's
             var rc = false ;
             for ( k=0 ; k < regexes.length ; ++k ) {
                 var match = vo_entry.notes[j].match( regexes[k] ) ;
                 if ( match ) {
                     var vo_id = vo_entry.id.split( ":", 1 )[0] ;
                     var is_extra = ( nat !== "landing-craft" && vo_id === "sh/v" ) ;
-                    var key = match[1] ;
+                    key = match[1] ;
                     if ( vo_entry.extn_id && !( vo_entry.extn_id === "adf-bj" && nat === "american" && key.length === 1 ) ) {
                         // NOTE: We include the extension ID as part of the key, except for BFP American vehicles,
                         // whose multi-applicable notes refer to the main American multi-applicable notes,
@@ -683,11 +714,12 @@ function get_ma_note( nat, vo_type, key )
 function get_ma_notes_for_nat( nat, vo_type )
 {
     // get the multi-applicable vehicle/ordnance notes for the specified nationality
+    var ma_notes ;
     if ( nat === "landing-craft" && nat in gVehicleOrdnanceNotes.vehicles )
-        return gVehicleOrdnanceNotes.vehicles[ "landing-craft" ][ "multi-applicable" ] ;
+        ma_notes = gVehicleOrdnanceNotes.vehicles[ "landing-craft" ][ "multi-applicable" ] ;
     if ( vo_type in gVehicleOrdnanceNotes && nat in gVehicleOrdnanceNotes[vo_type] )
-        return gVehicleOrdnanceNotes[ vo_type ][ nat ][ "multi-applicable" ] ;
-    return {} ;
+        ma_notes = gVehicleOrdnanceNotes[ vo_type ][ nat ][ "multi-applicable" ] ;
+    return ma_notes || {} ;
 }
 
 function _make_snippet_image_filename( snippet )
@@ -951,8 +983,12 @@ function make_capabilities( raw, vo_entry, vo_type, nat, elite, scenario_theater
         capabilities.push( crew_survival ) ;
 
     // do any special adjustments
-    if ( nat === "american" && vo_type === "ordnance" && scenario_theater === "PTO" )
+    if ( vo_entry.id.substr(0,3) === "am/"  && vo_type === "ordnance" && scenario_theater === "PTO" ) {
+        // NOTE: We used to do this if nat == "american" here, but the addition of K:FW broke that,
+        // since it contains counters (e.g. M3A1 37mm AT Gun) that has a Note C which is similar
+        // to the standard Note C, but doesn't have this special case.
         adjust_capabilities_for_us_ordnance_note_c( capabilities, vo_entry ) ;
+    }
     if ( elite )
         adjust_capabilities_for_elite( capabilities, +1 ) ;
 
@@ -1009,6 +1045,8 @@ function _select_capability_by_date( capabilities, nat, scenario_theater, scenar
     // initialize
     capabilities = capabilities.slice() ;
     var ref = has_ref( capabilities ) ;
+    if ( ref && capabilities.length === 0 )
+        return ref ;
 
     // check all the capability timestamps
     var retval = "???" ;
@@ -1030,7 +1068,7 @@ function _select_capability_by_date( capabilities, nat, scenario_theater, scenar
 
 function _check_capability_timestamp( capabilities, timestamp, nat, scenario_theater, scenario_year, scenario_month )
 {
-    var MONTH_NAMES = { F:2, J:6, A:8, S:9, N:11 } ;
+    var MONTH_NAMES = { F:2, M:3, J:6, A:8, S:9, N:11 } ;
 
     // check for a theater flag
     THEATER_FLAGS = { E: "ETO", P: "PTO", B: "BURMA" } ;
@@ -1074,10 +1112,12 @@ function _check_capability_timestamp( capabilities, timestamp, nat, scenario_the
     var month = MONTH_NAMES[ timestamp.substring(0,1) ] ;
     if ( month )
         timestamp = timestamp.substring( 1 ) ;
-    if ( /^\d$/.test( timestamp ) ) {
+    if ( /^\d+$/.test( timestamp ) ) {
         // this is a single year
         timestamp = parseInt( timestamp ) ;
         // check if the capabilitity is available
+        if ( timestamp >= 50 )
+            timestamp -= 40 ;
         if ( scenario_year > 1940 + timestamp )
             return capabilities[0] ;
         else if ( scenario_year === 1940 + timestamp ) {
@@ -2011,4 +2051,8 @@ function on_scenario_theater_change()
 {
     // update the vehicle/ordnance entries
     _update_vo_sortable2_entries() ;
+
+    // show/hide the nationality-specific buttons
+    update_nationality_specific_buttons( 1 ) ;
+    update_nationality_specific_buttons( 2 ) ;
 }

@@ -138,6 +138,7 @@ function apply_user_settings()
     $scenario_date.datepicker( "option", "defaultDate",
         $.datepicker.formatDate( date_format, new Date(1940,0,1) )
     ) ;
+    $scenario_date.datepicker( "option", "yearRange", "c-10:c+15" ) ;
     if ( curr_date ) {
         $scenario_date.val(
             $.datepicker.formatDate( date_format, curr_date )

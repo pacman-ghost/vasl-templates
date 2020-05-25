@@ -12,6 +12,7 @@ _logger = logging.getLogger( "vasl_mod" )
 
 from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import DATA_DIR
+from vasl_templates.webapp.vo import get_vo_listings
 
 SUPPORTED_VASL_MOD_VERSIONS = [ "6.4.0", "6.4.1", "6.4.2", "6.4.3", "6.4.4", "6.5.0" ]
 SUPPORTED_VASL_MOD_VERSIONS_DISPLAY = "6.4.0-6.5.0"
@@ -158,7 +159,7 @@ class VaslMod:
                 )
 
         # load the VASL module and any extensions
-        self.vasl_version = self._load_vmod( data_dir )
+        self._load_vmod( data_dir )
         if self.vasl_version not in SUPPORTED_VASL_MOD_VERSIONS:
             _logger.warning( "Unsupported VASL version: %s", self.vasl_version )
 
@@ -166,7 +167,7 @@ class VaslMod:
         """Get the image for the specified piece."""
 
         # get the image path
-        gpid = get_remapped_gpid( self.vasl_version, gpid )
+        gpid = get_remapped_gpid( self, gpid )
         if gpid not in self._pieces:
             return None, None
         piece = self._pieces[ gpid ]
@@ -197,7 +198,7 @@ class VaslMod:
             paths = piece[ "front_images" ]
             return paths if isinstance(paths,list) else [paths]
         return {
-            get_reverse_remapped_gpid( self.vasl_version, p["gpid"] ): {
+            get_reverse_remapped_gpid( self, p["gpid"] ): {
                 "name": p["name"],
                 "front_images": image_count( p, "front_images" ),
                 "back_images": image_count( p, "back_images" ),
@@ -227,17 +228,20 @@ class VaslMod:
         # get the VASL version
         build_info = self._files[0][0].read( "buildFile" )
         doc = xml.etree.ElementTree.fromstring( build_info )
-        vasl_version = doc.attrib.get( "version" )
+        self.vasl_version = doc.attrib.get( "version" )
 
         # figure out which pieces we're interested in
-        target_gpids = get_vo_gpids( vasl_version, data_dir, self.get_extns() )
+        target_gpids = get_vo_gpids( self )
 
         # parse the VASL module and any extensions
         for i,files in enumerate( self._files ):
             _logger.info( "Loading VASL %s: %s", ("module" if i == 0 else "extension"), files[0].filename )
-            version = self._parse_zip_file( files[0], target_gpids, vasl_overrides, expected_multiple_images )
-            if i == 0:
-                vasl_version = version
+            self._parse_zip_file( files[0], target_gpids, vasl_overrides, expected_multiple_images )
+
+        # NOTE: The code below may log warnings if we're using an older version of VASL (because we know
+        # about pieces that were added in a later version, but, of course, aren't in the older version).
+        # However, we don't disable these log messages, since they might be useful if somebody reports
+        # a problem, and it turns out they have an older version of VASL configured :-/
 
         # make sure we found all the pieces we need
         _logger.info( "Loaded %d pieces.", len(self._pieces) )
@@ -251,8 +255,6 @@ class VaslMod:
         if expected_multiple_images:
             gpids = ", ".join( expected_multiple_images.keys() )
             _logger.warning( "Expected multiple images but didn't find them: %s", gpids )
-
-        return vasl_version
 
     def _parse_zip_file( self, zip_file, target_gpids, vasl_overrides, expected_multiple_images ): #pylint: disable=too-many-locals
         """Parse a VASL module or extension."""
@@ -336,7 +338,7 @@ class VaslMod:
                 return True
             if val.startswith( "," ):
                 val = val[1:]
-            if val.startswith( ("ru/","ge/","am/","br/","it/","ja/","ch/","sh/","fr/","al/","ax/","hu/","fi/") ):
+            if val.startswith( ("ru/","ge/","am/","br/","it/","ja/","ch/","sh/","fr/","al/","ax/","hu/","fi/","nk/") ):
                 return True
             return False
         fields = [ f for f in fields if is_image_path(f) ]
@@ -355,34 +357,38 @@ class VaslMod:
             front_images, back_images = split_fields(fields[0]), None
         else:
             # the piece has front and back image(s)
-            if len(fields) > 2:
-                _logger.warning( "Found > 2 image paths for gpid=%s", gpid )
             front_images, back_images = split_fields(fields[1]), split_fields(fields[0])
+
+        def check_pair( pair ):
+            """Check if the front/back images end with the specified strings."""
+            return front_images[-1].endswith( pair[0] ) and back_images[-1].endswith( pair[1] )
 
         # ignore dismantled ordnance
         if len(front_images) > 1:
-            if front_images[-1].endswith( "dm" ):
-                if back_images[-1].endswith( "dmb" ):
+            for pair in [
+              ("dm","dmb"), ("dm.png","dmm.png"), ("-dm.png","-dm-malf.png"), ("(KFW)dm.png","(KFW)dmx.png")
+            ]:
+                if check_pair( pair ):
                     _logger.debug( "Ignoring dismantled images: gpid=%s, front=%s, back=%s",
                         gpid, front_images, back_images
                     )
                     front_images.pop()
                     back_images.pop()
-                else:
-                    _logger.warning( "Unexpected dismantled images: %s %s", front_images, back_images )
 
         # ignore limbered ordnance
         if len(front_images) > 1:
-            if front_images[-1].endswith( "l" ):
-                if back_images[-1].endswith( ("lb","l-b") ):
+            for pair in [ ("l","lb"), ("l","l-b"),
+              ("(KFW)l.png","(KFW)lx.png"), ("(KFW)-limbered.png","(KFW)-limbered-malf.png"),
+              ("l(KFW).png","lm(KFW).png")
+            ]:
+                if check_pair( pair ):
+                    # nb: this is for some K:FW ordnance
                     _logger.debug( "Ignoring limbered images: gpid=%s, front=%s, back=%s",
                         gpid, front_images, back_images
                     )
                     front_images.pop()
                     back_images.pop()
-                else:
-                    _logger.warning( "Unexpected limbered images: %s %s", front_images, back_images )
-            elif front_images[-1].endswith( "B.png" ) and front_images[0] == front_images[-1][:-5]+".png":
+            if front_images[-1].endswith( "B.png" ) and front_images[0] == front_images[-1][:-5]+".png":
                 # nb: this is for Finnish Guns
                 _logger.debug( "Ignoring limbered images: gpid=%s, front=%s, back=%s",
                     gpid, front_images, back_images
@@ -412,51 +418,27 @@ class VaslMod:
 
 # ---------------------------------------------------------------------
 
-def get_vo_gpids( vasl_version, data_dir, extns ): #pylint: disable=too-many-locals,too-many-branches
+def get_vo_gpids( vasl_mod ):
     """Get the GPID's for the vehicles/ordnance."""
 
+    # initialize
+    listings = get_vo_listings( vasl_mod )
+
+    # figure out which GPID's we know about
     gpids = set()
-    for vo_type in ("vehicles","ordnance"): #pylint: disable=too-many-nested-blocks
-
-        # process each file
-        dname = os.path.join( data_dir, vo_type )
-        for root,_,fnames in os.walk(dname):
-            for fname in fnames:
-
-                if os.path.splitext( fname )[1] != ".json":
+    for vo_type in ("vehicles","ordnance"):
+        for vo_entries in listings[ vo_type ].values():
+            for vo_entry in vo_entries:
+                vo_gpids = vo_entry[ "gpid" ]
+                if not vo_gpids:
                     continue
-
-                # load the GPID's from the next file
-                # NOTE: We originally assumed that GPID's are integers, but the main VASL build file started
-                # to have non-numeric values, as do, apparently, extensions :-/ For back-compat, we support both.
-                entries = json.load( open( os.path.join(root,fname), "r" ) )
-                for entry in entries:
-                    entry_gpids = entry.get( "gpid" )
-                    if not entry_gpids:
-                        entry_gpids = entry.get( "extra_gpids" ) # nb: for lend-lease vehicles/ordnance
-                        if not entry_gpids:
-                            continue
-                    if not isinstance( entry_gpids, list ):
-                        entry_gpids = [ entry_gpids ]
-                    for gpid in entry_gpids:
-                        if gpid:
-                            gpids.add( get_remapped_gpid( vasl_version, str(gpid) ) )
-
-    # process any extensions
-    if extns: #pylint: disable=too-many-nested-blocks
-        for extn in extns:
-            extn_info = extn[1]
-            for nat in extn_info:
-                if not isinstance( extn_info[nat], dict ):
-                    continue
-                for vo_type in ("vehicles","ordnance"):
-                    for piece in extn_info[ nat ].get( vo_type, [] ):
-                        if isinstance( piece["gpid"], list ):
-                            gpids.update( piece["gpid"] )
-                        else:
-                            gpids.add( piece["gpid"] )
+                gpids.update(
+                    get_remapped_gpid( vasl_mod, str(gpid) )
+                    for gpid in (vo_gpids if isinstance(vo_gpids,list) else [vo_gpids])
+                )
 
     return gpids
+
 
 def compare_vasl_versions( lhs, rhs ):
     """Compare two VASL version strings."""
@@ -510,19 +492,23 @@ REVERSE_GPID_REMAPPINGS = [
     for row in GPID_REMAPPINGS
 ]
 
-def get_remapped_gpid( vasl_version, gpid ):
+def get_remapped_gpid( vasl_mod, gpid ):
     """Check if a GPID has been remapped."""
+    if not vasl_mod:
+        return gpid
     for remappings in GPID_REMAPPINGS:
         # FUDGE! Early versions of this code (pre-6.5.0) always applied the remappings for 6.4.3,
         # even for versions of VASL earlier than that. For simplicity, we preserve that behavior.
         if compare_vasl_versions( remappings[0], "6.5.0" ) < 0 \
-           or compare_vasl_versions( vasl_version, remappings[0] ) >= 0:
+           or compare_vasl_versions( vasl_mod.vasl_version, remappings[0] ) >= 0:
             gpid = remappings[1].get( gpid, gpid )
     return gpid
 
-def get_reverse_remapped_gpid( vasl_version, gpid ):
+def get_reverse_remapped_gpid( vasl_mod, gpid ):
     """Check if a GPID has been remapped."""
+    if not vasl_mod:
+        return gpid
     for remappings in REVERSE_GPID_REMAPPINGS:
-        if compare_vasl_versions( vasl_version, remappings[0] ) >= 0:
+        if compare_vasl_versions( vasl_mod.vasl_version, remappings[0] ) >= 0:
             gpid = remappings[1].get( gpid, gpid )
     return gpid

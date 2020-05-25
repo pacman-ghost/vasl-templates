@@ -1,0 +1,20 @@
+=== ordnance/kfw-ounc/1953 ===
+
+Name                              Capabilities                      (effective)                       #    Notes               Comments
+--------------------------------  --------------------------------  --------------------------------  ---  ------------------  -----------
+Type 89 Heavy Grenade Launcher    4PP                               4PP                               1†   A P
+M2 4.2-in. Mortar                 QSU WP10                          QSU WP10                          2†   K M O P Y
+M3A1 37mm AT Gun                  QSU C7                            QSU C7                            3†   C K P
+M1 57mm AT Gun                    QSU D4 HE7                        QSU D4 HE7                        4†   K
+M18(L) 57mm Recoilless Rifle      C7 H7 WP6 3PP                     C7 H7 WP6 3PP                     5†   C K O               non-crewed†
+M2A1 105mm Howitzer               C7 H6 WP8 s7                      C7 H6 WP8 s7                      6†   C K M O P Y
+M3 105mm Howitzer                 C7 H7 WP8 s7                      C7 H7 WP8 s7                      7†   C K
+M1 155mm Howitzer                 WP8 s7                            WP8 s7                            8†   K M P Y
+M1A1 155mm Gun                    RFNM AP4 WP8 s7                   RFNM AP4 WP8 s7                   9    Y                   No IF.
+M1 8-in. Howitzer                 RFNM                              RFNM                              10†  Y                   No IF.
+M51 Multiple .50-cal MG Carriage  LF [2 ROF, 20 IFE, B11] 4 TK DR†  LF [2 ROF, 20 IFE, B11] 4 TK DR†  11†  M Y
+M1 40mm AA Gun                    LF [40†, 2 ROF]                   LF [40†, 2 ROF]                   12   B† Y
+M2 90mm AA Gun                    LF [90†[1], 1 ROF, B11]           LF [90†[1], 1 ROF, B11]           13†  B†<sup>1</sup> M Y
+M2 60mm Mortar                    IR WP7 5PP OBA†                   IR WP7 5PP OBA†                   23†  A K M O P Y
+M1(L) 81mm Mortar                 QSU IR WP8                        QSU IR WP8                        24†  A K M O P R
+M20(L) 75mm Recoilless Rifle      WP7 5PP H†                        WP7 5PP H†                        25†  K M O P R           crewed†

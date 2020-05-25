@@ -38,6 +38,7 @@ _NAT_TEMPLATES = {
     "american": [ "baz" ],
     "british": [ "piat" ],
     "japanese": [ "thh" ],
+    "kfw-cpva": [ "baz-cpva16", "baz-cpva17" ],
 }
 
 _webapp = None
@@ -146,6 +147,16 @@ def for_each_template( func ): #pylint: disable=too-many-branches
         for template_id in template_ids:
             func( template_id, template_id )
             templates_to_test.remove( template_id )
+
+    # test the American BAZ 45 and BAZ 50
+    load_scenario_params( { "scenario": {
+        "PLAYER_1": "american",
+        "SCENARIO_THEATER": "Korea",
+    } } )
+    select_tab( "ob1" )
+    for template_id in ("baz45","baz50"):
+        func( template_id, template_id )
+        templates_to_test.remove( template_id )
 
     # make sure we tested everything
     assert not templates_to_test

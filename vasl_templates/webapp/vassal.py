@@ -229,7 +229,7 @@ def analyze_vsav():
     # back-compatibility for as long as we can :-/
     report2 = {}
     for gpid,vals in report.items():
-        orig_gpid = get_reverse_remapped_gpid( globvars.vasl_mod.vasl_version, gpid )
+        orig_gpid = get_reverse_remapped_gpid( globvars.vasl_mod, gpid )
         if orig_gpid == gpid:
             report2[ gpid ] = vals
         else:

@@ -1113,6 +1113,7 @@ GPID    Name                          Front images                              
 5854    20L AA 20/65                  ch/gun/chAA20LC2.gif                                   ch/gun/chAA20LCb.gif
 5855    75L AA Bofors M29             ch/gun/chAA75L2.gif                                    ch/gun/chAA75Lb.gif
 5856    88L AA FlaK 18                ch/gun/chAA88L2.gif                                    ch/gun/chAA88Lb.gif
+5944    81* MTR OML 3.2"              br/guns/brMTR81.gif                                    br/guns/brMTR76sb.gif
 6364    Stuart III(a)                 ru/veh/ruM3A1.gif
 6730    47 MTR                        fi/fi47mtr.png                                         fi/fi47mtrB.png
 6765    81* MTR Krh/32                fi81mmMTR.png                                          fi/gun/fi81mmMTRB.png

@@ -137,6 +137,23 @@
 "filipino": {
   "display_name": "Filipino",
   "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]
+},
+
+"kfw-rok": {
+  "display_name": "South Korean",
+  "ob_colors": [ "#e5cea0","#d2ac5b", "#cdf000" ]
+},
+"kfw-ounc": {
+  "display_name": "OUNC",
+  "ob_colors": [ "#55aeff","#118eff", "#b8e527" ]
+},
+"kfw-kpa": {
+  "display_name": "North Korean",
+  "ob_colors": [ "#eabe51","#d68d1a", "#d68d1a" ]
+},
+"kfw-cpva": {
+  "display_name": "Communist Chinese",
+  "ob_colors": [ "#e5cea0","#d2ac5b", "#d3870e" ]
 }
 
 }

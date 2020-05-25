@@ -74,7 +74,7 @@
   "capabilities": [ "NT" ],
   "capabilities2": { "AP": 6 },
   "note_number": "9\u2020",
-  "notes": [ "A" ],
+  "notes": [ "A\u2020" ],
   "id": "ro/o:008",
   "gpid": 3747
 },

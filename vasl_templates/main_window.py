@@ -87,7 +87,7 @@ class MainWindow( QWidget ):
                 self.restoreGeometry( val )
             else :
                 self.resize( 1000, 600 )
-            self.setMinimumSize( 980, 520 )
+            self.setMinimumSize( 1000, 520 )
 
         # initialize the layout
         layout = QVBoxLayout( self )

@@ -2,36 +2,36 @@
 
 Name            Capabilities            (effective)         #    Notes                                    Comments
 --------------  ----------------------  ------------------  ---  ---------------------------------------  ----------
-L3/35(i)        ® CS 2                  ® CS 2              29†  K†<sup>1</sup> E F G†<sup>2</sup> H C B
-FT-17M(f)       ® no IF CS 2            ® no IF CS 2        30†  D R C
-FT-17C(f)       ® AP9 CS 2              ® AP9 CS 2          30†  D R C
-PzKpfw IB(g)    sD6 CS 2                sD6 CS 2            31†  K†<sup>1</sup> E H C
-R-35(f)         ® AP10 CS 2             ® AP10 CS 2         32†  A†<sup>1</sup> D E R H B
-H39(f)          ® AP10 CS 2             ® AP10 CS 2         33†  A†<sup>1</sup> D E H C B
-LT vz 35(g)     sD5 CS 4                sD5 CS 4            34†  E R S B
-LT vz 38(t)A    A3[1]4[2]3[3] sD6 CS 4  sD6 CS 4            35†  E R H S
-LT vz 38(t)E    A4[2]3[3] sD7 CS 4      sD7 CS 4            35†  E H S B
-S-35(f)         CS 4                    CS 4                36†  A†<sup>1</sup> D E H S
-PzKpfw IIIL(g)  A5[2]4[3]3[4] sD5 CS 5  sD5 CS 5            37†  E O†<sup>1</sup> Q R H C
+L3/35(i)        ® CS 2                  ® CS 2              29†  B C E F G†<sup>2</sup> H K†<sup>1</sup>
+FT-17M(f)       ® no IF CS 2            ® no IF CS 2        30†  C D R
+FT-17C(f)       ® AP9 CS 2              ® AP9 CS 2          30†  C D R
+PzKpfw IB(g)    sD6 CS 2                sD6 CS 2            31†  C E H K†<sup>1</sup>
+R-35(f)         ® AP10 CS 2             ® AP10 CS 2         32†  A†<sup>1</sup> B D E H R
+H39(f)          ® AP10 CS 2             ® AP10 CS 2         33†  A†<sup>1</sup> B C D E H
+LT vz 35(g)     sD5 CS 4                sD5 CS 4            34†  B E R S
+LT vz 38(t)A    A3[1]4[2]3[3] sD6 CS 4  sD6 CS 4            35†  E H R S
+LT vz 38(t)E    A4[2]3[3] sD7 CS 4      sD7 CS 4            35†  B E H S
+S35(f)          CS 4                    CS 4                36†  A†<sup>1</sup> D E H S
+PzKpfw IIIL(g)  A5[2]4[3]3[4] sD5 CS 5  sD5 CS 5            37†  C E H O†<sup>1</sup> Q R
 PzKpfw IIIN(g)  H8[3+] s8 sD7 CS 5      s8 sD7 CS 5         38†  E O†<sup>1</sup> Q R S
 PzKpfw IVD(g)   AP7 H5[3+] s8 sD7 CS 5  AP7 s8 sD7 CS 5     39†  E Q R
-PzKpfw IVF1(g)  AP7 H5[3+] s8 sD7 CS 6  AP7 s8 sD7 CS 6     39†  E Q R H B
-PzKpfw IVH(g)   A4[2]3[3] s7 sD5 CS 6   s7 sD5 CS 6         39†  E O†<sup>1</sup> Q R H B
-StuG IIIG(g)    A3[4] s8 sD7 CS 4       s8 sD7 CS 4         40†  E Q R H B
-JgdPz 38(t)     A3[4] HE7 CS 4          HE7 CS 4            41†  E H B
-SPW 250/1(g)    CS 4                    CS 4                42†  E R
-SPW 251/1(g)    CS 5                    CS 5                42†  E R C
+PzKpfw IVF1(g)  AP7 H5[3+] s8 sD7 CS 6  AP7 s8 sD7 CS 6     39†  B E H Q R
+PzKpfw IVH(g)   A4[2]3[3] s7 sD5 CS 6   s7 sD5 CS 6         39†  B E H O†<sup>1</sup> Q R
+StuG IIIG(g)    A3[4] s8 sD7 CS 4       s8 sD7 CS 4         40†  B E H Q R
+JgdPz 38(t)     A3[4] HE7 CS 4          HE7 CS 4            41†  B E H
+SPW 250/1(g)    CS 4                    CS 4                42   E R
+SPW 251/1(g)    CS 5                    CS 5                42†  C E R
 SPW 251/9(g)    H5 s8 CS 4[brewup]      H5 s8 CS 4[brewup]  42†  E R
 OA vz 30(t)     ® CS 2                  ® CS 2              43†  E R S
-AB 41(i)        CS 4                    CS 4                44†  E R C
-PSW 222(g)      sD6 CS 3                sD6 CS 3            45†  P†<sup>1</sup> E M†<sup>2</sup> R B
-PSW 222(L)(g)   sD6 CS 3                sD6 CS 3            45†  P†<sup>1</sup> E M†<sup>2</sup> R B
-PSW 223(g)      sD6 CS 3                sD6 CS 3            46†  E M†<sup>1</sup> P†<sup>2</sup> R B
-Komsomolet(r)   cs 2†[1]                cs 2†[1]            47†  E F I†<sup>1</sup> J R H S C B
-RSO(g)          cs 5                    cs 5                48   S B
-Light Tractor   cs 4                    cs 4                49   R H S C B
-Medium Tractor  cs 5                    cs 5                49   R H S C B
-Heavy Tractor   cs 6                    cs 6                49   R H S C B
-Light Truck     cs 4                    cs 4                50   R H S C B
-Medium Truck    cs 5                    cs 5                50   R H S C B
-Heavy Truck     cs 7                    cs 7                50   R H S C B
+AB 41(i)        CS 4                    CS 4                44†  C E R
+PSW 222(g)      sD6 CS 3                sD6 CS 3            45†  B E M†<sup>2</sup> P†<sup>1</sup> R
+PSW 222(L)(g)   sD6 CS 3                sD6 CS 3            45†  B E M†<sup>2</sup> P†<sup>1</sup> R
+PSW 223(g)      sD6 CS 3                sD6 CS 3            46†  B E M†<sup>1</sup> P†<sup>2</sup> R
+Komsomolet(r)   cs 2†[1]                cs 2†[1]            47†  B C E F H I†<sup>1</sup> J R S
+RSO(g)          cs 5                    cs 5                48   B S
+Light Tractor   cs 4                    cs 4                49   B C H R S
+Medium Tractor  cs 5                    cs 5                49   B C H R S
+Heavy Tractor   cs 6                    cs 6                49   B C H R S
+Light Truck     cs 4                    cs 4                50   B C H R S
+Medium Truck    cs 5                    cs 5                50   B C H R S
+Heavy Truck     cs 7                    cs 7                50   B C H R S

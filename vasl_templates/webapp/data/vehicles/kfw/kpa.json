@@ -1,0 +1,74 @@
+[
+
+{ "name": "T-34/85",
+  "type": "MT",
+  "CS#": 6,
+  "capabilities2": { "A": 6, "sD": "6\u2020" },
+  "note_number": "1\u2020",
+  "id": "kfw-kpa/v:000",
+  "gpid": "3b5:8212"
+},
+{ "name": "SU-76M",
+  "type": "AG",
+  "CS#": "4:brewup",
+  "capabilities2": { "A": 7 },
+  "note_number": "2\u2020",
+  "id": "kfw-kpa/v:001",
+  "gpid": "3b5:8214"
+},
+{ "name": "BA-64B",
+  "type": "AC",
+  "CS#": 2,
+  "note_number": "3\u2020",
+  "notes": [ "B" ],
+  "id": "kfw-kpa/v:002",
+  "gpid": "3b5:8216"
+},
+{ "name": "GAZ-67B",
+  "type": "tr",
+  "cs#": 2,
+  "note_number": "4\u2020",
+  "notes": [ "B" ],
+  "id": "kfw-kpa/v:003",
+  "gpid": "3b5:11102"
+},
+{ "name": "GAZ-MM",
+  "type": "tr",
+  "cs#": 6,
+  "note_number": "4\u2020",
+  "notes": [ "B" ],
+  "id": "kfw-kpa/v:004",
+  "gpid": "3b5:11098"
+},
+{ "name": "ZIS-5",
+  "type": "tr",
+  "cs#": 7,
+  "note_number": "4\u2020",
+  "notes": [ "B" ],
+  "id": "kfw-kpa/v:005",
+  "gpid": "3b5:11103"
+},
+{ "name": "IAG-6",
+  "type": "tr",
+  "cs#": 7,
+  "note_number": "4\u2020",
+  "notes": [ "B" ],
+  "id": "kfw-kpa/v:006",
+  "gpid": "3b5:11107"
+},
+{ "name": "GAZ-51",
+  "type": "tr",
+  "cs#": 6,
+  "note_number": "5\u2020",
+  "id": "kfw-kpa/v:007",
+  "gpid": "3b5:11100"
+},
+{ "name": "ZIS-151",
+  "type": "tr",
+  "cs#": 7,
+  "note_number": "6\u2020",
+  "id": "kfw-kpa/v:008",
+  "gpid": "3b5:11105"
+}
+
+]

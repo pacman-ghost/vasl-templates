@@ -471,7 +471,7 @@ def test_vo_notes_reports( webapp, webdriver ):
 
     # initialize
     check_dir = os.path.join( vo_notes_dir, "tests/" )
-    save_dir = None # nb: define this to save the generated reports
+    save_dir = None # nb: define this to save the generated reports (compare against ~/projects/chapter-h-data/tests/)
 
     # initialize
     if save_dir and os.path.isdir(save_dir):
@@ -480,12 +480,14 @@ def test_vo_notes_reports( webapp, webdriver ):
     # check each nationality's multi-applicable notes
     nationalities = list( get_nationalities( webapp ).keys() )
     nationalities.extend( [ "allied-minor", "axis-minor", "landing-craft" ] )
+    failed = False
     for nat in nationalities:
         for vo_type in ["vehicles","ordnance"]:
 
             # get the next report
             vo_notes, ma_notes, keys = get_vo_notes_report( webapp, webdriver, nat, vo_type )
-            if nat in ("burmese","filipino") or (nat,vo_type) in [("landing-craft","ordnance"),("anzac","ordnance")]:
+            if nat in ("burmese","filipino") \
+              or (nat,vo_type) in [ ("landing-craft","ordnance"), ("anzac","ordnance"), ("kfw-cpva","vehicles") ]:
                 assert not vo_notes and not ma_notes and not keys
                 continue
 
@@ -523,7 +525,14 @@ def test_vo_notes_reports( webapp, webdriver ):
 
             # check the report
             fname = os.path.join( check_dir, fname )
-            assert open( fname, "r", encoding="utf-8" ).read() == report
+            if open( fname, "r", encoding="utf-8" ).read() != report:
+                if save_dir:
+                    print( "FAILED:", fname )
+                    failed = True
+                else:
+                    assert False, "Report mismatch: {}".format( fname )
+
+    assert not failed
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

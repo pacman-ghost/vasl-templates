@@ -7,8 +7,8 @@
   "capabilities_other": [ "4PP" ],
   "note_number": "14",
   "notes": [ "A", "N" ],
-  "id": "bcfk/o:000",
-  "gpid": null
+  "id": "kfw-bcfk/o:000",
+  "gpid": 12687
 },
 { "name": "M19 60mm Mortar",
   "type": "MTR",
@@ -17,8 +17,8 @@
   "capabilities_other": [ "4PP" ],
   "note_number": "15",
   "notes": [ "A", "R" ],
-  "id": "bcfk/o:001",
-  "gpid": null
+  "id": "kfw-bcfk/o:001",
+  "gpid": "3b5:7613"
 },
 { "name": "OML 3-in. Mortar",
   "type": "MTR",
@@ -26,8 +26,8 @@
   "capabilities2": { "s": 8, "WP": 7 },
   "note_number": "16",
   "notes": [ "A" ],
-  "id": "bcfk/o:002",
-  "gpid": null
+  "id": "kfw-bcfk/o:002",
+  "gpid": 5944
 },
 { "name": "OSB 4.2-in. Mortar",
   "type": "MTR",
@@ -36,8 +36,8 @@
   "comments": [ "Towed\u2020" ],
   "note_number": "17\u2020",
   "notes": [ "N" ],
-  "id": "bcfk/o:003",
-  "gpid": null
+  "id": "kfw-bcfk/o:003",
+  "gpid": 1181
 },
 { "name": "OQF 17-Pounder",
   "type": "AT",
@@ -45,8 +45,8 @@
   "capabilities2": { "HE": 8, "D": 6 },
   "note_number": "18",
   "notes": [ "N" ],
-  "id": "bcfk/o:004",
-  "gpid": null
+  "id": "kfw-bcfk/o:004",
+  "gpid": 12439
 },
 { "name": "OQF 25-Pounder",
   "type": "ART",
@@ -54,8 +54,8 @@
   "capabilities_other": [ "ST" ],
   "note_number": "19\u2020",
   "notes": [ "N" ],
-  "id": "bcfk/o:005",
-  "gpid": null
+  "id": "kfw-bcfk/o:005",
+  "gpid": 1194
 },
 { "name": "OQF 40mm AA",
   "type": "AA",
@@ -63,8 +63,8 @@
   "capabilities2": { "LF": [ "40\u2020", "2 ROF" ] },
   "note_number": "20",
   "notes": [ "B\u2020", "N" ],
-  "id": "bcfk/o:006",
-  "gpid": null
+  "id": "kfw-bcfk/o:006",
+  "gpid": 1204
 }
 
 ]

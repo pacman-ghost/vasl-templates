@@ -10,7 +10,7 @@ Resita M43             QSU AP TK#18†   QSU AP TK#18†   4†   n/a      Blk T
 Breda 47               QSU             QSU             6†   A        No Gunshield.
 75mm PP obr. 27        QSU H6 s8       QSU H6 s8       7    A
 75 M mle 28            QSU h-d AP5 s5  QSU h-d AP5 s5  8    A
-Skoda M14/34           AP6             AP6             9†   A
+Skoda M14/34           AP6             AP6             9†   A†
 76.2mm P obr. 00/02    QSU h-d s7      QSU h-d s7      10   n/a
 76.2mm P obr. 02/30    QSU h-d s7      QSU h-d s7      11   n/a
 76.2mm P obr. 39(r)    QSU s5          QSU s5          12   K†
