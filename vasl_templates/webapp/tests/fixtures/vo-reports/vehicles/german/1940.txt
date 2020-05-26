@@ -104,7 +104,6 @@ GSW 39H(f)              H4 s7 CS 4                     H4 s7 CS 4               
 PzA III/IV              no IF H5 s8 CS 6               no IF H5 s8 CS 6          83      n/a
 FlaKPz 38(t)            CS 4                           CS 4                      84      A† E
 37 FlaK/Pz IV           CS 5                           CS 5                      85†     A†
-(Moebelwagen)           CS 6                           CS 6                      85†     A†
 FlaKPz IV/20            CS 6                           CS 6                      86      A†
 FlaKPz IV/37            CS 6                           CS 6                      87      A†
 SdKfz 10/4              CS 5                           CS 5                      88      A† D† N

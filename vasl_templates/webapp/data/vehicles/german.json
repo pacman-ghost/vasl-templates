@@ -373,7 +373,7 @@
   "note_number": "37.1\u2020",
   "notes": [ "K" ],
   "id": "ge/v:042",
-  "gpid": null
+  "gpid": 2670
 },
 { "name": "PzJg Tiger",
   "type": "AG/TD",
@@ -891,13 +891,6 @@
   "notes": [ "A\u2020" ],
   "id": "ge/v:101",
   "gpid": 2765
-},
-{ "name": "(Moebelwagen)",
-  "CS#": 6,
-  "note_number": "85\u2020",
-  "notes": [ "A\u2020" ],
-  "id": "ge/v:102",
-  "gpid": null
 },
 { "name": "FlaKPz IV/20",
   "type": "SPAA",

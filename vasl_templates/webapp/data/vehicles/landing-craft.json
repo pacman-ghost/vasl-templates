@@ -23,13 +23,6 @@
   "id": "sh/v:002",
   "gpid": [ 403, 405 ]
 },
-{ "name": "LCV",
-  "CS#": 5,
-  "damage_points": 3,
-  "note_number": "3\u2020",
-  "id": "sh/v:003",
-  "gpid": null
-},
 { "name": "LCM(3)",
   "CS#": 6,
   "damage_points": 5,
