@@ -189,7 +189,7 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
     var buf = [ div_tag,
         "<img class='vasl-image'>",
         "<div class='detail'>",
-            "<div class='vo-name'></div>",
+            "<div class='caption'></div>",
             "<div class='vo-capabilities'></div>",
         "</div>"
     ] ;
@@ -262,10 +262,13 @@ function update_vo_sortable2_entry( $entry, vo_type, snippet_params )
     var url = get_vo_image_url( vo_entry, vo_image_id, true, false ) ;
     var $content = $entry.children( ".vo-entry" ) ;
     $content.find( "img.vasl-image" ).attr( "src", url ) ;
-    var name = vo_entry.name ;
+    var caption = "<span class='vo-name'>" + vo_entry.name ;
     if ( data.elite )
-        name += " \u24ba" ;
-    $content.find( "div.vo-name" ).html( name ) ;
+        caption += " \u24ba" ;
+    caption += "</span>" ;
+    if ( vo_entry.type )
+        caption += " <span class='vo-type'>(" + vo_entry.type + ")</span>" ;
+    $content.find( "div.caption" ).html( caption ) ;
     for ( var i=0 ; i < capabilities.length ; ++i )
         capabilities[i] = "<span class='vo-capability'>" + capabilities[i] + "</span>" ;
     $content.find( "div.vo-capabilities" ).html( capabilities.join("") ) ;
