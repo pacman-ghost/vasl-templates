@@ -762,6 +762,7 @@ GPID    Name                          Front images                              
 2664    JgdPz V                       ge/veh/jgpzv.gif
 2666    JgdPz VI                      ge/veh/jgpzvi.gif
 2668    StuIG 33B                     ge/veh/sig33b.gif
+2670    StuMr Tiger                   ge/veh/stumr.gif
 2674    SPW 250/1                     ge/veh/spw2501.gif
 2676    SPW 250/sMG                   ge/veh/spw250mg.gif
 2678    SPW 250/7                     ge/veh/spw2507.gif
@@ -849,6 +850,7 @@ GPID    Name                          Front images                              
 3296    140L ART                      ja/gun/jaAR140L.gif                                    ja/gun/jaAR140Lb.gif
 3297    150* ART                      ja/gun/jaAR150s.gif                                    ja/gun/jaAR150sb.gif
 3298    150 ART                       ja/gun/jaAR150.gif                                     ja/gun/jaAR150b.gif
+3299    200L ART                      ja/gun/jaAR200L.gif                                    ja/gun/jaAR200Lb.gif
 3301    12.7 AA Twin                  ja/gun/jaAA127.gif                                     ja/gun/jaAA127b.gif
 3302    20L AA                        ja/gun/jaAA20L.gif                                     ja/gun/jaAA20Lb.gif
 3303    25LL AA                       ja/gun/jaAA25LL.gif                                    ja/gun/jaAA25LLb.gif
