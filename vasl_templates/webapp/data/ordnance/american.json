@@ -78,7 +78,7 @@
   "note_number": "9\u2020",
   "notes": [ "C\u2020<sup>1</sup>", "D\u2020<sup>2</sup>", "F" ],
   "id": "am/o:008",
-  "gpid": null
+  "gpid": 856
 },
 { "name": "M18 57mm Recoilless Rifle",
   "type": "RCL",
@@ -87,7 +87,7 @@
   "note_number": "10",
   "notes": [ "D\u2020<sup>1</sup>", "E\u2020" ],
   "id": "am/o:009",
-  "gpid": null
+  "gpid": 857
 },
 { "name": "M20 75mm Recoilless Rifle",
   "type": "RCL",
@@ -96,7 +96,7 @@
   "note_number": "11",
   "notes": [ "D\u2020<sup>1</sup>", "E\u2020" ],
   "id": "am/o:010",
-  "gpid": null
+  "gpid": 858
 },
 { "name": "M1A1 75mm Pack Howitzer",
   "type": "ART",

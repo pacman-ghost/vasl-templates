@@ -127,6 +127,9 @@ GPID       Name                          Front images                           
 759        Jeep(a) MMG                   br/vehicles/jeep2.gif
 849        60* MTR M2                    am/amMTR.gif                                                           am/amMTRb.gif
 850        60* MTR M19                   am/amMTRa.gif                                                          am/amMTRab.gif
+856        37* INF                       am/amINF.gif                                                           am/amINFb.gif
+857        57 RCL                        am/amRCLa.gif                                                          am/amRCLab.gif
+858        75 RCL                        am/amRCL.gif                                                           am/amRCLb.gif
 881        107* MTR M2                   am/gun/amMTR107.gif                                                    am/gun/amMTR107b.gif
 882        155* MTR T25                  am/gun/amMT155s.gif                                                    am/gun/amMT155sb.gif
 884        37L AT M3A1                   am/gun/amAT37LL.gif                                                    am/gun/amAT37LLb.gif
@@ -410,6 +413,7 @@ GPID       Name                          Front images                           
 1632       37* INF                       fr/frINF.gif                                                           fr/frINFb.gif
 1636       50 MTR(f)                     fr/frMTR.gif                                                           fr/frMTRb.gif
 1641       60* MTR(a)                    br/brMTRa.gif                                                          br/brMTRab.gif
+1648       ATR                           fr/frATR.gif                                                           fr/frATRb.gif
 1667       81* MTR(f) mle 27/31          fr/gun/frMTR81sf.gif                                                   fr/gun/frMTR81sfb.gif
 1669       25LL AT SA-L mle 34           fr/gun/frAT25LL.gif                                                    fr/gun/frAT25LLb.gif
 1670       47L AT SA mle 37 APX <41      fr/gun/frAT47L-40.gif                                                  fr/gun/frAT47Lb.gif
@@ -946,10 +950,11 @@ GPID       Name                          Front images                           
 3567       Autocarro Pesante             it/veh/autpes.gif
 3605       50* MTR (g)                   fi/fiMTR.gif                                                           fi/fiMTRb.gif
 3608       20L ATR                       fi/fiATR.gif                                                           fi/fiATRb.gif
-3679       50 MTR(f)                     ax/axMTRf.gif                                                          ax/axMTRfb.gif
 3680       50* MTR                       ax/axMTR.gif                                                           ax/axMTRb.gif
 3681       50* MTR(r)                    ax/axMTRr.gif                                                          ax/axMTRrb.gif
 3682       60* MTR(f)                    ax/axMTR60f.gif                                                        ax/axMTR60fb.gif
+3691       ATR                           ax/axATR.gif                                                           ax/axATRb.gif
+3692       20L ATR                       ax/axATR20.gif                                                         ax/axATR20b.gif
 3709       81* MTR GrW 34                ax/gun/axMT81sg.gif                                                    ax/gun/axMT81sgb.gif
 3711       81* MTR Brandt M27/31         ax/gun/axMT81s.gif                                                     ax/gun/axMT81sb.gif
 3713       120* MTR PM obr. 38           ax/gun/axMT120s.gif                                                    ax/gun/axMT120sb.gif

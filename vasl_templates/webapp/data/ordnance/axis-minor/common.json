@@ -49,7 +49,7 @@
   "note_number": "49",
   "notes": [ "B", "C", "H", "R", "S" ],
   "id": "axc/o:005",
-  "gpid": null
+  "gpid": 3691
 },
 { "name": "s18-1100",
   "type": "ATR",
@@ -57,7 +57,7 @@
   "note_number": "50",
   "notes": [ "A", "H", "R" ],
   "id": "axc/o:006",
-  "gpid": null
+  "gpid": 3692
 },
 { "name": "Kanon PUV vz. 37(t)",
   "type": "AT",
