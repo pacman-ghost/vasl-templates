@@ -1657,11 +1657,18 @@ function unload_params_for_save( user_requested )
 
     // unload the template parameters
     var params = unload_snippet_params( false, null ) ;
-    params.SCENARIO_NOTES = $("#scenario_notes-sortable").sortable2( "get-entry-data" ) ;
-    params.OB_SETUPS_1 = $("#ob_setups-sortable_1").sortable2( "get-entry-data" ) ;
-    params.OB_SETUPS_2 = $("#ob_setups-sortable_2").sortable2( "get-entry-data" ) ;
-    params.OB_NOTES_1 = $("#ob_notes-sortable_1").sortable2( "get-entry-data" ) ;
-    params.OB_NOTES_2 = $("#ob_notes-sortable_2").sortable2( "get-entry-data" ) ;
+    function get_sortable2_data( $elem ) {
+        // IMPORTANT: "get-entry-data" returns a *reference* to the data associated with each sortable2 entry,
+        // but we need to return a completely independent data structure that contains the unloaded parameters,
+        // otherwise we run into problems when checking if a scenario has been modified (because the copy of
+        // the last-saved scenario has references to the same underlying data structures as the sortable2 entries).
+        return $.extend( true, [], $elem.sortable2( "get-entry-data" ) ) ;
+    }
+    params.SCENARIO_NOTES = get_sortable2_data( $("#scenario_notes-sortable") ) ;
+    params.OB_SETUPS_1 = get_sortable2_data( $("#ob_setups-sortable_1") ) ;
+    params.OB_SETUPS_2 = get_sortable2_data( $("#ob_setups-sortable_2") ) ;
+    params.OB_NOTES_1 = get_sortable2_data( $("#ob_notes-sortable_1") ) ;
+    params.OB_NOTES_2 = get_sortable2_data( $("#ob_notes-sortable_2") ) ;
     extract_vo_entries( "OB_VEHICLES_1" ) ;
     extract_vo_entries( "OB_ORDNANCE_1" ) ;
     extract_vo_entries( "OB_VEHICLES_2" ) ;
