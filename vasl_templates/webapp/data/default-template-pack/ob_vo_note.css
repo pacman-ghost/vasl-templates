@@ -12,7 +12,7 @@ img.piece { float: left ; margin-right: 0.5em ; }
 .content .rf { font-style: italic ; color: #444 ; }
 .content .lfloat { float: left ; margin-right: 0.5em ; }
 .content .rfloat { float: right ; margin-left: 0.5em ; }
-.content table { margin: 0 10px 0 10px ; margin-top: -0.5em ; }
+.content table { margin: 0 10px 0 10px ; margin-top: 0.5em ; font-size: 95% ; }
 .content table th { padding: 2px 10px 2px 5px ; text-align: left ; background: #f0f0f0 ; }
 .content table td { padding: 0 10px 0 5px ; }
 
