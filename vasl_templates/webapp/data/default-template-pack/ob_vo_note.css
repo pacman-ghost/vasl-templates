@@ -11,6 +11,8 @@ img.piece { float: left ; margin-right: 0.5em ; }
 .content .example { font-size: 90% ; font-style: italic ; }
 .content .dagger-note { font-size:95% ; font-style: italic ; color: #404040 ; }
 .content .rf { font-size: 95% ; font-style: italic ; color: #404040 ; }
+.content p.errata { font-size: 95% ; font-style: italic ; color: #404040 ; }
+.content span.errata { font-style: italic ; color: #404040 ; }
 .content .lfloat { float: left ; margin-right: 0.5em ; }
 .content .rfloat { float: right ; margin-left: 0.5em ; }
 .content table { margin: 0 10px 0 10px ; margin-top: 0.5em ; font-size: 95% ; }
