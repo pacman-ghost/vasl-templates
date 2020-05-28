@@ -2,13 +2,13 @@
 
 import os
 import zipfile
-import tempfile
 import base64
 import re
 import random
 
 import pytest
 
+from vasl_templates.webapp.utils import TempFile
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.utils import \
     select_tab, select_menu_option, set_player, \
@@ -215,7 +215,7 @@ def test_missing_templates( webapp, webdriver ):
 
 def _make_zip( files ):
     """Generate a ZIP file."""
-    with tempfile.NamedTemporaryFile() as temp_file:
+    with TempFile() as temp_file:
         temp_file.close()
         with zipfile.ZipFile( temp_file.name, "w" ) as zip_file:
             for fname,fdata in files.items():
