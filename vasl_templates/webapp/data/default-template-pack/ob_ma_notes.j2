@@ -16,6 +16,7 @@
 .ma-note table th { padding: 2px 10px 2px 5px ; text-align: left ; background: #f0f0f0 ; }
 .ma-note table td { padding: 0 10px 0 5px ; }
 .extra-notes-caption { border: 1px solid #e0e0e0 ; background: #fcfcfc ; font-weight: bold ; padding: 2px 5px ; }
+.disabled { color: #808080 ; }
 .slashed { text-decoration: line-through ; }
 </style>
 </head>
@@ -36,7 +37,9 @@
 {%if OB_MA_NOTES%}
 <tr> <td style="padding:0 5px;">
 {%for ma_note in OB_MA_NOTES%}
-    <div class="ma-note"> {{ma_note}} </div>
+    {%if not ma_note[0]%} <div class="disabled"> {%endif%}
+    <div class="ma-note"> {{ma_note[1]}} </div>
+    {%if not ma_note[0]%} </div> {%endif%}
 {%endfor%}
 {%endif%}
 
@@ -44,7 +47,9 @@
 <tr> <td style="padding:0 5px;">
 {%if OB_EXTRA_MA_NOTES_CAPTION%} <div class="extra-notes-caption"> {{OB_EXTRA_MA_NOTES_CAPTION}} </div> {%endif%}
 {%for ma_note in OB_EXTRA_MA_NOTES%}
-    <div class="ma-note"> {{ma_note}} </div>
+    {%if not ma_note[0]%} <div class="disabled"> {%endif%}
+    <div class="ma-note"> {{ma_note[1]}} </div>
+    {%if not ma_note[0]%} </div> {%endif%}
 {%endfor%}
 {%endif%}
 

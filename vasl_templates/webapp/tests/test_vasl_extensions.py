@@ -422,6 +422,7 @@ def _extract_extn_ma_notes( clipboard ): #pylint: disable=missing-docstring
     # just enough for us to determine whether we're showing the right one or not.
     for i,ma_note in enumerate(ma_notes):
         is_extn = "&#x2756;" in ma_note
-        mo = re.search( r"<span class='key'>(.+?):</span>(.*)", ma_note )
-        ma_notes[i] = is_extn, mo.group(1).strip(), mo.group(2).strip()[:20]
+        mo = re.search( r"<span class='key'>(.+?):</span>(.*)", ma_note, re.DOTALL )
+        val = mo.group(2).replace( "<!-- disabled -->", "" )
+        ma_notes[i] = is_extn, mo.group(1).strip(), val.strip()[:20]
     return ma_notes

@@ -254,13 +254,17 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
                     key = key.substring( pos+1 ) ;
                 }
             }
-            if ( ! ma_note && gUserSettings["hide-unavailable-ma-notes"] )
+            if ( !ma_note && gUserSettings["hide-unavailable-ma-notes"] )
                 continue ;
-            params[ param_name ].push(
+            // NOTE: We don't exclude disabled multi-applicable notes, since it can be confusing for
+            // the user (e.g. a vehicle references note X, but note X is not there), so instead,
+            // we allow them to be styled to have less visual impact.
+            var ma_note_enabled = ma_note && ma_note.indexOf( "<!-- disabled -->" ) === -1 ;
+            params[ param_name ].push( [ ma_note_enabled,
                 extn_marker +
                 "<span class='key'>" + key + ":" + "</span> " +
                 (ma_note || "Unavailable.")
-            ) ;
+            ] ) ;
         }
     }
     function get_ma_notes( vo_type, player_no, param_name ) {

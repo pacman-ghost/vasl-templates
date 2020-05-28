@@ -1,8 +1,8 @@
-{%for ma_note in OB_MA_NOTES%} [*] {{ma_note}}
+{%for ma_note in OB_MA_NOTES%} [*] {{ma_note[1]}}
 {%endfor%}
 
 {%if OB_EXTRA_MA_NOTES%}
 {%if OB_EXTRA_MA_NOTES_CAPTION%} === {{OB_EXTRA_MA_NOTES_CAPTION}} === {%endif%}
-{%for ma_note in OB_EXTRA_MA_NOTES%} [*] {{ma_note}}
+{%for ma_note in OB_EXTRA_MA_NOTES%} [*] {{ma_note[1]}}
 {%endfor%}
 {%endif%}

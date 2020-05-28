@@ -429,7 +429,7 @@ def get_vo_gpids( vasl_mod ):
     for vo_type in ("vehicles","ordnance"):
         for vo_entries in listings[ vo_type ].values():
             for vo_entry in vo_entries:
-                vo_gpids = vo_entry[ "gpid" ]
+                vo_gpids = vo_entry.get( "gpid" )
                 if not vo_gpids:
                     continue
                 gpids.update(
