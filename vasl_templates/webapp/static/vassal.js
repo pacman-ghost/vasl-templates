@@ -11,7 +11,12 @@ function _do_update_vsav( vsav_data, fname )
     var snippets = _generate_snippets() ;
 
     // send a request to update the VSAV
-    var data = { filename: fname, vsav_data: vsav_data, snippets: snippets } ;
+    var data = {
+        filename: fname,
+        vsav_data: vsav_data,
+        players: [ get_player_nat(1), get_player_nat(2) ],
+        snippets: snippets
+    } ;
     $.ajax( {
         url: gUpdateVsavUrl,
         type: "POST",
@@ -111,9 +116,9 @@ function _generate_snippets()
         var data ;
         if ( ["scenario_note","ob_setup","ob_note"].indexOf( template_id ) !== -1 ) {
             data = $btn.parent().parent().data( "sortable2-data" ) ;
-            if ( player_no )
+            if ( player_no ) {
                 snippet_id = template_id + "_" + player_no + "." + data.id ;
-            else
+            } else
                 snippet_id = template_id + "." + data.id ;
             extra_params = get_simple_note_snippet_extra_params( $btn ) ;
         }
@@ -141,6 +146,8 @@ function _generate_snippets()
                 return ;
             }
         }
+        if ( player_no )
+            snippet_id = get_player_nat(player_no) + "/" + snippet_id ;
         snippets[snippet_id] = {
             content: make_snippet( $btn, params, extra_params, false ).content,
             auto_create: ! no_autocreate[template_id] && ! inactive,

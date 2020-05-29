@@ -76,6 +76,7 @@ import vassal_shim.LabelArea ;
 import vassal_shim.ReportNode ;
 import vassal_shim.AnalyzeNode ;
 import vassal_shim.ModuleManagerMenuManager ;
+import vassal_shim.AppBoolean ;
 import vassal_shim.Utils ;
 
 // --------------------------------------------------------------------
@@ -201,7 +202,9 @@ public class VassalShim
         throws IOException, ParserConfigurationException, SAXException, XPathExpressionException, TransformerException
     {
         // load the snippets supplied to us by the web server
-        Map<String,Snippet> snippets = parseSnippets( snippetsFilename ) ;
+        String[] players = new String[2] ;
+        Map<String,Snippet> snippets = new HashMap<String,Snippet>() ;
+        parseSnippets( snippetsFilename, players, snippets ) ;
 
         // load the scenario
         configureBoards() ;
@@ -214,8 +217,39 @@ public class VassalShim
         // extract the labels from the scenario
         Map<String,GamePieceLabelFields> ourLabels = new HashMap<String,GamePieceLabelFields>() ;
         ArrayList<GamePieceLabelFields> otherLabels = new ArrayList<GamePieceLabelFields>() ;
-        logger.info( "Searching the VASL scenario for labels..." ) ;
-        extractLabels( cmd, ourLabels, otherLabels ) ;
+        logger.info( "Searching the VASL scenario for labels (players={};{})...", players[0], players[1] ) ;
+        AppBoolean hasPlayerOwnedLabels = new AppBoolean( false ) ;
+        extractLabels( cmd, players, hasPlayerOwnedLabels, ourLabels, otherLabels ) ;
+
+        // NOTE: vasl-templates v1.2 started tagging labels with their owning player e.g. "germans/ob_setup_1.1".
+        // This is so that we can ignore labels owned by nationalities not directly involved in the scenario.
+        // For example, if it's Germans vs. Americans, the Americans might have borrowed some British tanks,
+        // and so the save file might contain British labels (for the setup instructions and Chapter H notes).
+        // If we updated such a scenario, the old code would delete the British labels, since it couldn't tell
+        // the difference between a British "ob_setup_1.1" label and an American one. But now labels are tagged
+        // with their nationality, we can process only German and American labels, and ignore the British ones.
+        // However, if don't see any of these new-style labels, we must be updating an older save file, and so
+        // we want to retain the old behavior, which means we need to revert the new-style snippet ID's back
+        // into the old format.
+        if ( ! hasPlayerOwnedLabels.getVal() ) {
+            logger.debug( "Converting snippet ID's to legacy format:" ) ;
+            // locate new-style snippet ID's
+            ArrayList< String[] > snippetIdsToReplace = new ArrayList< String[] >() ;
+            Iterator< Map.Entry<String,Snippet> > iter2 = snippets.entrySet().iterator() ;
+            while( iter2.hasNext() ) {
+                String snippetId = iter2.next().getKey() ;
+                int pos = snippetId.indexOf( "/" ) ;
+                if ( pos >= 0 )
+                    snippetIdsToReplace.add( new String[]{ snippetId, snippetId.substring(pos+1) } ) ;
+            }
+            // replace the new-style snippet ID's with their old-style version
+            for ( int i=0 ; i < snippetIdsToReplace.size() ; ++i ) {
+                String[] snippetIds = snippetIdsToReplace.get( i ) ;
+                logger.debug( "- {} => {}", snippetIds[0], snippetIds[1] ) ;
+                snippets.put( snippetIds[1], snippets.get(snippetIds[0]) ) ;
+                snippets.remove( snippetIds[0] ) ;
+            }
+        }
 
         // update the labels from the snippets
         Map< String, ArrayList<ReportNode> > labelReport = processSnippets( ourLabels, otherLabels, snippets ) ;
@@ -232,17 +266,24 @@ public class VassalShim
         // any possible problems caused by reusing the current session (e.g. there might be some saved state somewhere).
     }
 
-    private Map<String,Snippet> parseSnippets( String snippetsFilename ) throws IOException, ParserConfigurationException, SAXException, XPathExpressionException
+    private void parseSnippets( String snippetsFilename, String[] players, Map<String,Snippet> snippets ) throws IOException, ParserConfigurationException, SAXException, XPathExpressionException
     {
         logger.info( "Loading snippets: {}", snippetsFilename ) ;
-        Map<String,Snippet> snippets = new HashMap<String,Snippet>() ;
 
-        // load the snippets
+        // load the XML
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance() ;
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder() ;
         Document doc = docBuilder.parse( new File( snippetsFilename ) ) ;
         doc.getDocumentElement().normalize() ;
-        NodeList nodes = doc.getElementsByTagName( "snippet" ) ;
+
+        // get the player details
+        NodeList nodes = doc.getElementsByTagName( "player1" ) ;
+        players[0] = ((Element)nodes.item(0)).getAttribute( "nat" ) ;
+        nodes = doc.getElementsByTagName( "player2" ) ;
+        players[1] = ((Element)nodes.item(0)).getAttribute( "nat" ) ;
+
+        // load the snippets
+        nodes = doc.getElementsByTagName( "snippet" ) ;
         for ( int i=0 ; i < nodes.getLength() ; ++i ) {
             Node node = nodes.item( i ) ;
             if ( node.getNodeType() != Node.ELEMENT_NODE )
@@ -256,11 +297,9 @@ public class VassalShim
             ) ;
             snippets.put( snippet.snippetId, snippet ) ;
         }
-
-        return snippets ;
     }
 
-    private void extractLabels( Command cmd, Map<String,GamePieceLabelFields> ourLabels, ArrayList<GamePieceLabelFields> otherLabels )
+    private void extractLabels( Command cmd, String[] players, AppBoolean hasPlayerOwnedLabels, Map<String,GamePieceLabelFields> ourLabels, ArrayList<GamePieceLabelFields> otherLabels )
     {
         // check if this command is a label we're interested in
         // NOTE: We shouldn't really be looking at the object type, see analyzeScenario().
@@ -279,10 +318,24 @@ public class VassalShim
                 // check if the label is one of ours
                 String snippetId = isVaslTemplatesLabel( fields, GamePieceLabelFields.FIELD_INDEX_LABEL1 ) ;
                 if ( snippetId != null ) {
-                    logger.debug( "- Found label (1): {}", snippetId ) ;
-                    ourLabels.put( snippetId,
-                        new GamePieceLabelFields( target, separators, fields, GamePieceLabelFields.FIELD_INDEX_LABEL1 )
-                    ) ;
+                    boolean addSnippet = true ;
+                    // check if the label is associated with a player nationality
+                    int pos = snippetId.indexOf( '/' ) ;
+                    if ( pos >= 0 ) {
+                        // yup - the nationality must be one of the 2 passed in to us
+                        String nat = snippetId.substring( 0, pos ) ;
+                        hasPlayerOwnedLabels.setVal( true ) ;
+                        if ( ! nat.equals( players[0] ) && ! nat.equals( players[1] ) ) {
+                            addSnippet = false ;
+                            logger.debug( "- Skipping label: {} (owner={})", snippetId, nat ) ;
+                        }
+                    }
+                    if ( addSnippet ) {
+                        logger.debug( "- Found label (1): {}", snippetId ) ;
+                        ourLabels.put( snippetId,
+                            new GamePieceLabelFields( target, separators, fields, GamePieceLabelFields.FIELD_INDEX_LABEL1 )
+                        ) ;
+                    }
                 }
                 else {
                     snippetId = isVaslTemplatesLabel( fields, GamePieceLabelFields.FIELD_INDEX_LABEL2 ) ;
@@ -302,7 +355,7 @@ public class VassalShim
 
         // extract labels in sub-commands
         for ( Command c: cmd.getSubCommands() )
-            extractLabels( c, ourLabels, otherLabels ) ;
+            extractLabels( c, players, hasPlayerOwnedLabels, ourLabels, otherLabels ) ;
     }
 
     private String isVaslTemplatesLabel( ArrayList<String> fields, int fieldIndex )

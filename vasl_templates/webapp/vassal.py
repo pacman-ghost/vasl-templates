@@ -26,13 +26,14 @@ SUPPORTED_VASSAL_VERSIONS_DISPLAY = "3.2.15-.17"
 # ---------------------------------------------------------------------
 
 @app.route( "/update-vsav", methods=["POST"] )
-def update_vsav(): #pylint: disable=too-many-statements
+def update_vsav(): #pylint: disable=too-many-statements,too-many-locals
     """Update labels in a VASL scenario file."""
 
     # parse the request
     start_time = time.time()
     vsav_data = request.json[ "vsav_data" ]
     vsav_filename = request.json[ "filename" ]
+    players = request.json[ "players" ]
     snippets = request.json[ "snippets" ]
 
     # initialize
@@ -59,7 +60,7 @@ def update_vsav(): #pylint: disable=too-many-statements
 
             with TempFile() as snippets_file:
                 # save the snippets in a temp file
-                xml = _save_snippets( snippets, snippets_file, logger )
+                xml = _save_snippets( snippets, players, snippets_file, logger )
                 snippets_file.close()
                 fname = app.config.get( "UPDATE_VSAV_SNIPPETS" ) # nb: for diagnosing problems
                 if fname:
@@ -106,7 +107,7 @@ def update_vsav(): #pylint: disable=too-many-statements
         },
     } )
 
-def _save_snippets( snippets, fp, logger ): #pylint: disable=too-many-locals
+def _save_snippets( snippets, players, fp, logger ): #pylint: disable=too-many-locals
     """Save the snippets in a file.
 
     NOTE: We save the snippets as XML because Java :-/
@@ -122,7 +123,12 @@ def _save_snippets( snippets, fp, logger ): #pylint: disable=too-many-locals
     # will run ridiculously slowly, since we will be launching a new webdriver for each snippet.
     # We optimize for the case where things work properly... :-/
 
+    # add the player details
     root = ET.Element( "snippets" )
+    ET.SubElement( root, "player1", nat=players[0] )
+    ET.SubElement( root, "player2", nat=players[1] )
+
+    # add the snippets
     for snippet_id,snippet_info in snippets.items():
 
         # add the next snippet

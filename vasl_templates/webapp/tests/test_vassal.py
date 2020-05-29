@@ -55,8 +55,11 @@ def test_full_update( webapp, webdriver ):
                 "SCENARIO_DATE": "12/31/1945",
                 "SCENARIO_WIDTH": "101",
                 "ROAR_ID": "",
-                "PLAYER_1": "russian", "PLAYER_1_ELR": "5", "PLAYER_1_SAN": "4",
-                "PLAYER_2": "german", "PLAYER_2_ELR": "3", "PLAYER_2_SAN": "2",
+                # NOTE: We used to change both nationalities here, but since we started tagging labels
+                # with their owning player, the old labels would be left in-place, so we have to test
+                # using the same nationalities.
+                "PLAYER_1": "american", "PLAYER_1_ELR": "5", "PLAYER_1_SAN": "4",
+                "PLAYER_2": "belgian", "PLAYER_2_ELR": "3", "PLAYER_2_SAN": "2",
                 "VICTORY_CONDITIONS": "Just do it!", "VICTORY_CONDITIONS_WIDTH": "102",
                 "SCENARIO_NOTES": [
                     { "caption": "Modified scenario note #1", "width": "" },
@@ -67,32 +70,32 @@ def test_full_update( webapp, webdriver ):
             },
             "ob1": {
                 "OB_SETUPS_1": [
-                    { "caption": "Modified Russian setup #1", "width": "" },
-                    { "caption": "Modified Russian setup #2", "width": "200px" },
-                    { "caption": "Modified Russian setup #3", "width": "" },
-                    { "caption": "Modified Russian setup #4", "width": "" },
-                    { "caption": "Modified Russian setup #5", "width": "" },
+                    { "caption": "Modified American setup #1", "width": "" },
+                    { "caption": "Modified American setup #2", "width": "200px" },
+                    { "caption": "Modified American setup #3", "width": "" },
+                    { "caption": "Modified American setup #4", "width": "" },
+                    { "caption": "Modified American setup #5", "width": "" },
                 ],
                 "OB_NOTES_1": [
-                    { "caption": "Modified Russian note #1", "width": "10em" },
+                    { "caption": "Modified American note #1", "width": "10em" },
                 ],
-                "OB_VEHICLES_1": [ "T-34/85 (MT)" ],
+                "OB_VEHICLES_1": [ "M2A4 (LT)" ],
                 "OB_VEHICLES_WIDTH_1": "202",
-                "OB_ORDNANCE_1": [ "82mm BM obr. 37 (MTR)" ],
+                "OB_ORDNANCE_1": [ "M19 60mm Mortar (MTR)" ],
                 "OB_ORDNANCE_WIDTH_1": "204",
             },
             "ob2": {
-                "OB_SETUPS_2": [ { "caption": "Modified German setup #1", "width": "" } ],
+                "OB_SETUPS_2": [ { "caption": "Modified Belgian setup #1", "width": "" } ],
                 "OB_NOTES_2": [
-                    { "caption": "Modified German note #1", "width": "" },
-                    { "caption": "Modified German note #2", "width": "" },
-                    { "caption": "Modified German note #3", "width": "" },
-                    { "caption": "Modified German note #4", "width": "" },
-                    { "caption": "Modified German note #5", "width": "" },
+                    { "caption": "Modified Belgian note #1", "width": "" },
+                    { "caption": "Modified Belgian note #2", "width": "" },
+                    { "caption": "Modified Belgian note #3", "width": "" },
+                    { "caption": "Modified Belgian note #4", "width": "" },
+                    { "caption": "Modified Belgian note #5", "width": "" },
                 ],
-                "OB_VEHICLES_2": [ "PzKpfw VG (MT)" ],
+                "OB_VEHICLES_2": [ "T-15(b) (LT)" ],
                 "OB_VEHICLES_WIDTH_2": "302",
-                "OB_ORDNANCE_2": [ "3.7cm PaK 35/36 (AT)" ],
+                "OB_ORDNANCE_2": [ "DBT (MTR)" ],
                 "OB_ORDNANCE_WIDTH_2": "304",
             },
         }
@@ -115,20 +118,31 @@ def test_full_update( webapp, webdriver ):
             "victory_conditions": "Make the other guy",
             "ssr": re.compile( r"SSR #1.*SSR #2.*SSR #3" ),
             "scenario_note.1": "scenario note #1",
-            "ob_setup_1.1": "U.S. setup #1", "ob_setup_1.2": "U.S. setup #2", "ob_setup_1.3": "U.S. setup #3",
-            "ob_note_1.1": "U.S. note #1", "ob_note_1.2": "U.S. note #2",
-            "ob_vehicles_1": re.compile( r"M4A1.*Sherman Crab" ),
-            "ob_ordnance_1": "M1 81mm Mortar",
-            "baz": "Bazooka",
-            "ob_setup_2.1": "Belgian setup #1", "ob_setup_2.2": "Belgian setup #2", "ob_setup_2.3": "Belgian setup #3",
-            "ob_note_2.1": "Belgian note #1", "ob_note_2.2": "Belgian note #2",
-            "ob_vehicles_2": re.compile( r"R-35\(f\).*Medium Truck" ),
-            "ob_ordnance_2": re.compile( r"Bofors M34.*DBT" ),
+            "american/ob_setup_1.1": "U.S. setup #1", "american/ob_setup_1.2": "U.S. setup #2",
+            "american/ob_setup_1.3": "U.S. setup #3",
+            "american/ob_note_1.1": "U.S. note #1", "american/ob_note_1.2": "U.S. note #2",
+            "american/ob_vehicles_1": re.compile( r"M4A1.*Sherman Crab" ),
+            "american/ob_ordnance_1": "M1 81mm Mortar",
+            "american/baz": "Bazooka",
+            "belgian/ob_setup_2.1": "Belgian setup #1", "belgian/ob_setup_2.2": "Belgian setup #2",
+            "belgian/ob_setup_2.3": "Belgian setup #3",
+            "belgian/ob_note_2.1": "Belgian note #1", "belgian/ob_note_2.2": "Belgian note #2",
+            "belgian/ob_vehicles_2": re.compile( r"R-35\(f\).*Medium Truck" ),
+            "belgian/ob_ordnance_2": re.compile( r"Bofors M34.*DBT" ),
         } )
 
         # update the VASL scenario with the new snippets
-        expected = 13 if enable_vo_notes else 8
-        updated_vsav_data = _update_vsav( fname, { "created": expected, "updated": 16, "deleted": 4 } )
+        # NOTE: The expected changes are:
+        #   - created: scenario note 2 ; american setup 4-5 ; belgian note 3-5
+        #   - updated: scenario ; players ; VC ; SSR ; scenario note 1
+        #     - american: setup 1-3 ; note 1 ; vehicles ; ordnance ; baz
+        #     - belgian: setup 1 ; note 1-2 ; vehicles ; ordnance
+        #     nb: the BAZ label wouldn't normally be updated, but the template has changed since we created the .vsav
+        #   - deleted: american note 2 ; belgian setup 2-3
+        # If v/o notes are enabled, we will also see 8 new labels created (one for each of the new
+        # American and Belgian vehicle/ordnance added, and 4 more for the multi-applicable notes).
+        expected = 14 if enable_vo_notes else 6
+        updated_vsav_data = _update_vsav( fname, { "created": expected, "updated": 17, "deleted": 3 } )
         with TempFile() as temp_file:
             # check the results
             temp_file.write( updated_vsav_data )
@@ -136,40 +150,57 @@ def test_full_update( webapp, webdriver ):
             updated_vsav_dump = _dump_vsav( temp_file.name )
             expected = {
                 "scenario":  "Modified scenario name (<>{}\"'\\)",
-                "players": re.compile( r"Russian:.*German:" ),
+                "players": re.compile( r"American:.*Belgian:" ),
                 "victory_conditions": "Just do it!",
                 "ssr": re.compile( r"Modified SSR #1.*Modified SSR #2" ),
                 "scenario_note.1": "Modified scenario note #1",
                 "scenario_note.2": "Modified scenario note #2",
-                "ob_setup_1.1": "Modified Russian setup #1", "ob_setup_1.2": "Modified Russian setup #2",
-                "ob_setup_1.3": "Modified Russian setup #3", "ob_setup_1.4": "Modified Russian setup #4",
-                "ob_setup_1.5": "Modified Russian setup #5",
-                "ob_note_1.1": "Modified Russian note #1",
-                "ob_vehicles_1": "T-34/85",
-                "ob_ordnance_1": "82mm BM obr. 37",
-                "ob_setup_2.1": "Modified German setup #1",
-                "ob_note_2.1": "Modified German note #1", "ob_note_2.2": "Modified German note #2",
-                "ob_note_2.3": "Modified German note #3", "ob_note_2.4": "Modified German note #4",
-                "ob_note_2.5": "Modified German note #5",
-                "pf": "Panzerfaust", "atmm": "Anti-Tank Magnetic Mines",
-                "ob_vehicles_2": "PzKpfw VG",
-                "ob_ordnance_2": "3.7cm PaK 35/36",
+                "american/ob_setup_1.1": "Modified American setup #1",
+                "american/ob_setup_1.2": "Modified American setup #2",
+                "american/ob_setup_1.3": "Modified American setup #3",
+                "american/ob_setup_1.4": "Modified American setup #4",
+                "american/ob_setup_1.5": "Modified American setup #5",
+                "american/ob_note_1.1": "Modified American note #1",
+                "american/ob_vehicles_1": "M2A4",
+                "american/ob_ordnance_1": "M19 60mm Mortar",
+                "american/baz": "Bazooka",
+                "belgian/ob_setup_2.1": "Modified Belgian setup #1",
+                "belgian/ob_note_2.1": "Modified Belgian note #1",
+                "belgian/ob_note_2.2": "Modified Belgian note #2",
+                "belgian/ob_note_2.3": "Modified Belgian note #3",
+                "belgian/ob_note_2.4": "Modified Belgian note #4",
+                "belgian/ob_note_2.5": "Modified Belgian note #5",
+                "belgian/ob_vehicles_2": "T-15(b)",
+                "belgian/ob_ordnance_2": "DBT",
             }
             if enable_vo_notes:
-                expected[ "ob_vehicle_note_1.1" ] = re.compile(
-                    r'T-34/85.*<img src="http://[^/]+/vehicles/russian/note/18">'
+                expected[ "american/ob_vehicle_note_1.1" ] = re.compile(
+                    r'M2A4.*<img src="http://[^/]+/vehicles/american/note/1">'
                 )
-                expected[ "ob_vehicles_ma_notes_1" ] = "<span class='key'>J:</span> Unavailable."
-                expected[ "ob_ordnance_note_2.1" ] = re.compile(
-                    r'3.7cm PaK 35/36.*<img src="http://[^/]+/ordnance/german/note/6">'
+                expected[ "american/ob_vehicles_ma_notes_1" ] = re.compile(
+                    "<span class='key'>B:</span> Unavailable." + ".*" \
+                    "<span class='key'>C:</span> American Multi-Applicable Vehicle Note \"C\"." + ".*" \
+                    "<span class='key'>P:</span> Unavailable."
                 )
-                expected[ "ob_vehicles_ma_notes_2" ] = "<span class='key'>H:</span> Unavailable."
-                expected[ "ob_ordnance_ma_notes_2" ] = re.compile(
-                    r"<span class='key'>B:</span> German Multi-Applicable Ordnance Note \"B\"." + ".*" \
-                    r"<span class='key'>N:</span> Unavailable." + ".*" \
-                    r"<span class='key'>P:</span> Unavailable."
+                expected[ "american/ob_ordnance_note_1.1" ] = re.compile(
+                    r'M19 60mm Mortar.*<img src="http://[^/]+/ordnance/american/note/2">'
+                )
+                expected[ "american/ob_ordnance_ma_notes_1" ] = "<span class='key'>F:</span> Unavailable."
+                expected[ "belgian/ob_vehicle_note_2.1" ] = re.compile(
+                    r'T-15\(b\)..*<img src="http://[^/]+/vehicles/allied-minor/note/17">'
+                )
+                expected[ "belgian/ob_vehicles_ma_notes_2" ] = \
+                    "<span class='key'>A:</span> Allied Minor Multi-Applicable Vehicle Note \"A\"."
+                expected[ "belgian/ob_ordnance_note_2.1" ] = re.compile(
+                    r'DBT.*<img src="http://[^/]+/ordnance/allied-minor/note/6">'
+                )
+                expected[ "belgian/ob_ordnance_ma_notes_2" ] = re.compile(
+                    r"<span class='key'>A:</span> Allied Minor Multi-Applicable Ordnance Note \"A\"." + ".*" \
+                    r"<span class='key'>B:</span> Unavailable." + ".*" \
+                    r"<span class='key'>D:</span> Unavailable."
                 )
             _check_vsav_dump( updated_vsav_dump, expected )
+
             # update the VASL scenario again (nothing should change)
             updated_vsav_data = _update_vsav( temp_file.name, {} )
             assert updated_vsav_data == b"No changes."
@@ -216,7 +247,7 @@ def test_latw_autocreate( webapp, webdriver ):
         } )
         updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 4 } )
         _check_vsav_dump( updated_vsav_dump, {
-            "pf": "Panzerfaust",
+            "german/pf": "Panzerfaust",
         }, ignore_labels )
 
         # update the scenario (German/Russian, JAN/44)
@@ -225,7 +256,7 @@ def test_latw_autocreate( webapp, webdriver ):
         } )
         updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 5 } )
         _check_vsav_dump( updated_vsav_dump, {
-            "pf": "Panzerfaust", "atmm": "ATMM check:",
+            "german/pf": "Panzerfaust", "german/atmm": "ATMM check:",
         }, ignore_labels )
 
         # update the scenario (British/American, no date)
@@ -272,10 +303,10 @@ def test_latw_update( webapp, webdriver ):
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/latw.vsav" )
         vsav_dump = _dump_vsav( fname )
         _check_vsav_dump( vsav_dump, {
-            "psk": "Panzerschrek", "atmm": "ATMM check:", # nb: the PF label has no snippet ID
-            "mol-p": "TH#", # nb: the MOL label has no snippet ID
-            "piat": "TH#",
-            "baz": "Bazooka",
+            "german/psk": "Panzerschrek", "german/atmm": "ATMM check:", # nb: the PF label has no snippet ID
+            "russian/mol-p": "TH#", # nb: the MOL label has no snippet ID
+            "british/piat": "TH#",
+            "american/baz": "Bazooka",
         }, ignore_labels )
 
         # update the scenario (German/Russian, no date)
@@ -283,22 +314,26 @@ def test_latw_update( webapp, webdriver ):
         # NOTE: We changed the MOL-P template (to add custom list bullets), so the snippet is different
         # to when this test was originally written, and so #updated changed from 2 to 3.
         # NOTE: Same thing happened when we factored out the common CSS into common.css :-/ Sigh...
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 5, "deleted": 2 } )
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 5 } )
         _check_vsav_dump( updated_vsav_dump, {
-            "pf": "Panzerfaust", "psk": "Panzerschrek", "atmm": "ATMM check:", # nb: the PF label now has a snippet ID
-            "mol": "Kindling Attempt:", "mol-p": "TH#", # nb: the MOL label now has a snippet ID
-            # nb: the PIAT and BAZ labels are now gone
+            "german/pf": "Panzerfaust", # nb: the PF label now has a snippet ID
+            "german/psk": "Panzerschrek", "german/atmm": "ATMM check:",
+            "russian/mol": "Kindling Attempt:", "russian/mol-p": "TH#", # nb: the MOL label now has a snippet ID
+            # NOTE: We used to delete the PIAT and BAZ labels, but this no longer happens with player-owned labels.
+            "british/piat": "TH#", "american/baz": "Bazooka",
         }, ignore_labels )
 
         # update the scenario (British/American, DEC/1943)
         load_scenario_params( {
             "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "12/31/1943" }
         } )
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 2, "deleted": 3 } )
+        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 2 } )
         _check_vsav_dump( updated_vsav_dump, {
-            # nb: the PSK/ATMM and MOL-P label are now gone
-            "piat": "TH#",
-            "baz": "Bazooka  ('43)", # nb: this has changed from '45
+            # NOTE: We used to delete the PSK/ATMM/MOL-P labels, but this no longer happens with player-owned labels.
+            "german/psk": "Panzerschrek", "german/atmm": "ATMM check:",
+            "russian/mol-p": "TH#", # nb: the MOL label now has a snippet ID
+            "british/piat": "TH#",
+            "american/baz": "Bazooka  ('43)", # nb: this has changed from '45
         }, ignore_labels )
 
     # run the test
@@ -379,28 +414,29 @@ def test_update_legacy_labels( webapp, webdriver ):
             "victory_conditions": "five Level 3 hill hexes",
             "ssr": re.compile( r"no wind at start.*must take a TC" ),
             "scenario_note.1": "Download the scenario card",
-            "ob_setup_1.1": "whole hex of Board 3",
-            "ob_setup_1.2": "Enter on Turn 2", "ob_setup_1.3": "Enter on Turn 5",
-            "ob_vehicles_1": re.compile( r"T-34 M43.*SU-152.*SU-122.*ZIS-5" ),
-            "ob_setup_2.1": "whole hex of Board 4",
-            "ob_setup_2.2": "Enter on Turn 1", "ob_setup_2.3": "Enter on Turn 2", "ob_setup_2.4": "Enter on Turn 4",
-            "ob_setup_2.5": "Enter on Turn 5", "ob_setup_2.6": "Enter on Turn 8",
-            "ob_note_2.1": "80+mm Battalion Mortar",
-            "ob_note_2.2": "100+mm OBA",
-            "ob_vehicles_2": re.compile(
+            "russian/ob_setup_1.1": "whole hex of Board 3",
+            "russian/ob_setup_1.2": "Enter on Turn 2", "russian/ob_setup_1.3": "Enter on Turn 5",
+            "russian/ob_vehicles_1": re.compile( r"T-34 M43.*SU-152.*SU-122.*ZIS-5" ),
+            "german/ob_setup_2.1": "whole hex of Board 4",
+            "german/ob_setup_2.2": "Enter on Turn 1", "german/ob_setup_2.3": "Enter on Turn 2",
+            "german/ob_setup_2.4": "Enter on Turn 4", "german/ob_setup_2.5": "Enter on Turn 5",
+            "german/ob_setup_2.6": "Enter on Turn 8",
+            "german/ob_note_2.1": "80+mm Battalion Mortar",
+            "german/ob_note_2.2": "100+mm OBA",
+            "german/ob_vehicles_2": re.compile(
                 r"PzKpfw IVH.*PzKpfw IIIN.*StuG IIIG \(L\).*StuH 42.*SPW 250/1.*SPW 251/1.*SPW 251/sMG"
             ),
-            "ob_ordnance_2": re.compile( r"7.5cm PaK 40.*5cm PaK 38" ),
-            "pf": "Panzerfaust", "atmm": "Anti-Tank Magnetic Mines",
+            "german/ob_ordnance_2": re.compile( r"7.5cm PaK 40.*5cm PaK 38" ),
+            "german/pf": "Panzerfaust", "german/atmm": "Anti-Tank Magnetic Mines",
         }
         if enable_vo_notes:
-            expected[ "ob_vehicle_note_1.1" ] = re.compile(
+            expected[ "russian/ob_vehicle_note_1.1" ] = re.compile(
                 r'T-34 M43.*<img src="http://[^/]+/vehicles/russian/note/16">'
             )
-            expected[ "ob_ordnance_note_2.2" ] = re.compile(
+            expected[ "german/ob_ordnance_note_2.2" ] = re.compile(
                 r'5cm PaK 38.*<img src="http://[^/]+/ordnance/german/note/8">'
             )
-            expected[ "ob_vehicles_ma_notes_2" ] = re.compile(
+            expected[ "german/ob_vehicles_ma_notes_2" ] = re.compile(
                 r"<span class='key'>B:</span> German Multi-Applicable Vehicle Note \"B\"." + ".*" \
                 r"<span class='key'>C:</span> German Multi-Applicable Vehicle Note \"C\"." + ".*" \
                 r"<span class='key'>J:</span> Unavailable." + ".*" \
@@ -410,7 +446,7 @@ def test_update_legacy_labels( webapp, webdriver ):
                 r"<span class='key'>Q:</span> Unavailable." + ".*" \
                 r"<span class='key'>S:</span> Unavailable." + ".*"
             )
-            expected["ob_ordnance_ma_notes_2"] = r"<span class='key'>N:</span> Unavailable."
+            expected["german/ob_ordnance_ma_notes_2"] = r"<span class='key'>N:</span> Unavailable."
         _check_vsav_dump( updated_vsav_dump, expected )
 
     # run the test
@@ -451,8 +487,8 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
         } )
         updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 5 } )
         _check_vsav_dump( updated_vsav_dump, {
-            "pf": "Panzerfaust", "psk": "Panzerschrek", "atmm": "ATMM check:",
-            "mol": "Kindling Attempt:", "mol-p": "TH#",
+            "german/pf": "Panzerfaust", "german/psk": "Panzerschrek", "german/atmm": "ATMM check:",
+            "russian/mol": "Kindling Attempt:", "russian/mol-p": "TH#",
         }, ignore_labels )
         labels = _get_vsav_labels( updated_vsav_dump )
         # nb: the legacy labels left in place: the scenario comment, and the PIAT/BAZ labels
@@ -464,8 +500,8 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
         } )
         updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 2 } )
         _check_vsav_dump( updated_vsav_dump, {
-            "piat": "PIAT",
-            "baz": "Bazooka  ('45)",
+            "british/piat": "PIAT",
+            "american/baz": "Bazooka  ('45)",
         }, ignore_labels )
         labels = _get_vsav_labels( updated_vsav_dump )
         # nb: the legacy labels left in place: the scenario comment, the PF/PSK/ATMM and MOL/MOL-P labels
@@ -475,8 +511,8 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
         load_scenario_params( { "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "" } } )
         updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 5 } )
         _check_vsav_dump( updated_vsav_dump, {
-            "pf": "Panzerfaust", "psk": "Panzerschrek", "atmm": "ATMM check:",
-            "mol": "Kindling Attempt:", "mol-p": "TH#",
+            "german/pf": "Panzerfaust", "german/psk": "Panzerschrek", "german/atmm": "ATMM check:",
+            "russian/mol": "Kindling Attempt:", "russian/mol-p": "TH#",
         }, ignore_labels )
         labels = _get_vsav_labels( updated_vsav_dump )
         # nb: the legacy labels left in place: the scenario comment, the PIAT/BAZ labels
@@ -486,8 +522,8 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
         load_scenario_params( { "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "" } } )
         updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 2 } )
         _check_vsav_dump( updated_vsav_dump, {
-            "piat": "PIAT",
-            "baz": "Bazooka",
+            "british/piat": "PIAT",
+            "american/baz": "Bazooka",
         }, ignore_labels )
         labels = _get_vsav_labels( updated_vsav_dump )
         # nb: the legacy labels left in place: the scenario comment, the PF/PSK/ATMM, MOL/MOL-P and BAZ labels
@@ -495,6 +531,63 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
 
     # run the test
     _run_tests( control_tests, do_test, False )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+def test_player_owned_labels( webapp, webdriver ):
+    """Test how we update labels owned by different player nationalities."""
+
+    # initialize
+    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1,
+        reset = lambda ct: ct.set_data_dir( dtype="real" )
+    )
+
+    # initialize
+    load_scenario_params( {
+        "scenario": {
+            "SCENARIO_NAME": "Player-owned labels",
+            "SCENARIO_DATE": "01/01/1940",
+            "PLAYER_1": "german",
+            "PLAYER_2": "american",
+        },
+        "ob1": { "OB_SETUPS_1": [ { "caption": "german setup #1" } ] },
+        "ob2": { "OB_SETUPS_2": [ { "caption": "american setup #1" } ] },
+    } )
+
+    def do_test(): #pylint: disable=missing-docstring
+
+        # update a legacy scenario (i.e. labels have *not* been tagged with their owner player nationality)
+        # NOTE: We expect to see 4 labels updated:
+        #   - the 2 OB setup labels (they will get the new-style ID's)
+        #   - scenario (timestamp)
+        #   - players (new American player)
+        fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/player-owned-labels-legacy.vsav" )
+        updated_vsav_dump  = _update_vsav_and_dump( fname, { "updated": 4 } )
+        _check_vsav_dump( updated_vsav_dump , {
+            "german/ob_setup_1.1": "german setup #1",
+            "american/ob_setup_2.1": "american setup #1",
+        }, ignore=["scenario","players","victory_conditions"] )
+
+        # update a new-style scenario (i.e. labels *have* been tagged with their owner player nationality)
+        # NOTE: We expect to see 1 label created:
+        #   - a new American OB setup label
+        # and 2 labels updated:
+        #   - scenario (timestamp)
+        #   - players (new American player)
+        # The existing Russian OB setup label should be ignored and left in-place.
+        fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/player-owned-labels.vsav" )
+        updated_vsav_dump  = _update_vsav_and_dump( fname, { "created": 1, "updated": 2 } )
+        _check_vsav_dump( updated_vsav_dump , {
+            "german/ob_setup_1.1": "german setup #1",
+            "american/ob_setup_2.1": "american setup #1",
+            "russian/ob_setup_2.1": "russian setup #1",
+        }, ignore=["scenario","players","victory_conditions"] )
+
+    # run the test against all versions of VASSAL+VASL
+    _run_tests( control_tests, do_test, True )
 
 # ---------------------------------------------------------------------
 
@@ -814,11 +907,10 @@ def _check_vsav_dump( vsav_dump, expected, ignore=None ):
 
 def _get_vsav_labels( vsav_dump ):
     """Extract the labels from a VSAV dump."""
-    # NOTE: We used to see things like:
-    #   Map0;119;44;6295
-    # but from 6.5.0, we're getting:
-    #   Main Map;119;44;6295
-    matches = re.finditer( r"AddPiece: DynamicProperty/User-Labeled.*?- (Main )?Map", vsav_dump, re.DOTALL )
+    matches = re.finditer( r"AddPiece: DynamicProperty/User-Labeled.*?^\s*?(?=[^- ])",
+        vsav_dump,
+        re.MULTILINE+re.DOTALL
+    )
     labels = [ mo.group() for mo in matches ]
     regex = re.compile( r"<html>.*?</html>" )
     matches = [ regex.search(label) for label in labels ]

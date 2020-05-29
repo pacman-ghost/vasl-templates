@@ -152,13 +152,14 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
 
     // set player-specific parameters
     var player_no = get_player_no_for_element( $btn ) ;
+    var player_nat = get_player_nat( player_no ) ;
     if ( player_no ) {
         params.PLAYER_NAME = get_nationality_display_name( params["PLAYER_"+player_no] ) ;
         var colors = get_player_colors( player_no ) ;
         params.OB_COLOR = colors[0] ;
         params.OB_COLOR_2 = colors[2] ;
         if ( gUserSettings["include-flags-in-snippets"] )
-            params.PLAYER_FLAG = make_player_flag_url( get_player_nat(player_no), true ) ;
+            params.PLAYER_FLAG = make_player_flag_url( player_nat, true ) ;
     }
 
     // set the snippet ID
@@ -171,6 +172,8 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         params.SNIPPET_ID = template_id + "." + data.id ;
     } else
         params.SNIPPET_ID = template_id ;
+    if ( player_nat )
+        params.SNIPPET_ID = player_nat + "/" + params.SNIPPET_ID ;
 
     // set the vehicle/ordnance labels
     if ( template_id.indexOf( "_vehicles_" ) !== -1 ) {
@@ -733,8 +736,10 @@ function _make_snippet_image_filename( snippet )
     if ( ! snippet.save_name ) {
         // no save filename was specified, generate one automatically
         fname = snippet.snippet_id ;
-        if ( fname.substr( 0, 7 ) === "extras/" )
-            fname = fname.substr( 7 ) ;
+        // strip off "extras/" and owning player nationalities
+        var pos = fname.indexOf( "/" ) ;
+        if ( pos >= 0 )
+            fname = fname.substr( pos+1 ) ;
         fname = fname.replace( /_|-/g, " " ) ;
         // handle characters that are not allowed in filenames
         fname = fname.replace( /:|\||\//g, "-" ) ;
