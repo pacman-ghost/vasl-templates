@@ -422,19 +422,17 @@ def test_common_vo( webapp, webdriver ):
         select_tab( "ob1" )
         for vo_type in ("vehicles","ordnance"):
 
-            # get the vehicles/ordnance
-            last_warning_marker = set_stored_msg_marker( "_last-warning_" )
+            # check if the nationality has any vehicles/ordnance
             elem = find_child( "#ob_{}-add_1".format( vo_type ) )
-            elem.click()
-            last_warning = get_stored_msg( "_last-warning_" )
             if nat in ["thai","indonesian","anzac","burmese","filipino"]: # nb: these are in the BFP extension
-                assert last_warning.startswith( "There are no" )
+                assert not elem.is_enabled()
                 continue
             elif nat == "kfw-cpva" and vo_type == "vehicles":
-                assert last_warning.startswith( "There are no" )
+                assert not elem.is_enabled()
                 continue
-            else:
-                assert last_warning == last_warning_marker
+            elem.click()
+
+            # get the vehicles/ordnance
             vo_entries = find_children( "#select-vo .select2-results li" )
             vo_entries = [ get_vo_entry(e) for e in vo_entries ]
             click_dialog_button( "Cancel" )

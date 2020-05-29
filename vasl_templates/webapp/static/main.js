@@ -701,6 +701,15 @@ function on_player_change( player_no )
     $( "#ob_ordnance-sortable_" + player_no ).sortable2( "delete-all" ) ;
     $("input[name='OB_ORDNANCE_WIDTH_"+player_no+"']").val( "" ) ;
 
+    // enable/disable the "add vehicle/ordnance" buttons
+    function update_add_vo_button( vo_type ) {
+        $( "#ob_"+vo_type+"-add_"+player_no ).button(
+            gVehicleOrdnanceListings[vo_type][player_nat] ? "enable": "disable"
+        ) ;
+    }
+    update_add_vo_button( "vehicles" ) ;
+    update_add_vo_button( "ordnance" ) ;
+
     // update the ROAR info panel
     set_roar_scenario( $("input[name='ROAR_ID']").val() ) ;
 }
