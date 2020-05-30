@@ -478,11 +478,7 @@ public class VassalShim
         int xMargin = Integer.parseInt( config.getProperty( "AUTOCREATE_LABEL_XMARGIN", "20" ) ) ;
         int yMargin = Integer.parseInt( config.getProperty( "AUTOCREATE_LABEL_YMARGIN", "20" ) ) ;
         Map< String, LabelArea > labelAreas = new HashMap<String,LabelArea>() ;
-        VASSAL.build.module.Map map ;
-        List<VASSAL.build.module.Map> maps = VASSAL.build.module.Map.getMapList() ;
-        if ( maps.size() > 1 )
-            logger.warn( "WARNING: Found multiple maps - using the first one." ) ;
-        map = maps.get( 0 ) ;
+        VASSAL.build.module.Map map = selectMap() ;
         if ( map.getBoardCount() == 0 )
             // the scenario doesn't contain any boards - we create a single GENERAL area that spans
             // the entire map (we assume a single board width, and unlimited height)
@@ -729,6 +725,28 @@ public class VassalShim
 
         // save the report
         Utils.saveXml( doc, reportFilename ) ;
+    }
+
+    private VASSAL.build.module.Map selectMap()
+    {
+        // NOTE: VASL 6.5.0 introduced a new map ("Casualties") as part of the new Casualties Bin feature,
+        // and also renamed the default map ("Main Map").
+        List<VASSAL.build.module.Map> vaslMaps = VASSAL.build.module.Map.getMapList() ;
+        List<VASSAL.build.module.Map> otherMaps = new ArrayList<VASSAL.build.module.Map>() ;
+        for ( int i=0 ; i < vaslMaps.size() ; ++i ) {
+            VASSAL.build.module.Map map = vaslMaps.get( i ) ;
+            if ( map.getMapName().equals( "Main Map" ) )
+                return map ; // nb: we always prefer this map
+            if ( map.getMapName().equals( "Casualties" ) )
+                continue ; // nb: we ignore this map
+            otherMaps.add( map ) ;
+        }
+        if ( otherMaps.size() == 0 ) {
+            logger.warn( "WARNING: Couldn't find any maps!" ) ;
+            return null ;
+        }
+        logger.warn( "WARNING: Couldn't find the main map, using the first alternate." ) ;
+        return otherMaps.get( 0 ) ;
     }
 
     private String makeVassalCoordString( Point pos, Snippet snippet )
