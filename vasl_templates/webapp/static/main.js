@@ -347,7 +347,8 @@ $(document).ready( function () {
     // NOTE: The following is to add/remove the "scenario modified" indicator. It's pretty inefficent
     // to do this using a timer, but we would otherwise have to attach a "on change" event handler
     // to every single input field, simple note, etc., which would be far more complicated and error-prone.
-    setInterval( update_scenario_status, 1*1000 ) ;
+    if ( ! getUrlParam( "disable-dirty-scenario-check" ) )
+        setInterval( update_scenario_status, 1*1000 ) ;
 
     // adjust the layout on resize
     $(window).resize( function() {
