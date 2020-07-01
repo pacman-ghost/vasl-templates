@@ -2,7 +2,7 @@
 
 { "name": "Machinecannon 20mm M-35",
   "type": "AT",
-  "capabilities": [ "NT", "QSU\u2020<sup>1</sup>", "R2", "IFE=B10" ],
+  "comments": [ "QSU", "No Gunshield", "IFE: B# = 10", "R2, X6" ],
   "note_number": "19\u2020",
   "notes": [ "De", "T\u2020<sup>1</sup>" ],
   "id": "da/o:000",

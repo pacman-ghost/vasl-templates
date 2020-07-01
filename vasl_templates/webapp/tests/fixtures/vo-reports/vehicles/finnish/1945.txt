@@ -1,36 +1,36 @@
 === vehicles/finnish/1945 ===
 
-Name                         Capabilities                (effective)                 #    Notes             Comments
----------------------------  --------------------------  --------------------------  ---  ----------------  ----------
-T-37(r)                      ® CS 2                      ® CS 2                      1†   D M
-T-50(r)                      CS 4                        CS 4                        2†   D
-Vikkersi(b)                  ® CS 3                      ® CS 3                      3†   B†<sup>1</sup> D
-T-26E(b)                     ® CS 3                      ® CS 3                      4    B† D
-T-26A(r)                     ® CS 3                      ® CS 3                      5†   D M
-T-26B(r)                     ® CS 3                      ® CS 3                      6    C† D M
-T-26C(r)                     ® CS 3                      ® CS 3                      7    C† D M
-OT-133(r)                    ® CS 3                      ® CS 3                      8    D M
-BT-5(r)                      ® CS 3                      ® CS 3                      9    D M
-BT-7(r)                      ® CS 3                      ® CS 3                      9    D M
-Postijuna(r)                 ® s8 CS 5                   ® s8 CS 5                   10   D F† M
-Postijuna(L)(r)              ® s8 CS 6                   ® s8 CS 6                   11   D F† M
-Sotka(r)                     A3[2+] CS 5                 A3 CS 5                     12†  D E M
-Sotka(L)(r)                  A3 CS 5                     A3 CS 5                     13†  D E
-Pitk&#228;putkinen Sotka(r)  A3 sD6† CS 6                A3 sD6† CS 6                14†  D
-KV-1E(r)                     CS 6                        CS 6                        15†  D E M
-KV-1 M42(r)                  A3 CS 6                     A3 CS 6                     15†  D E M
-BT-42(r)                     ® no IF H† s6 CS 3[brewup]  ® no IF H† s6 CS 3[brewup]  16†  D M
-Sturmi(g)                    A3 H4 s8 CS 4               A3 H4 s8 CS 4               17†  D
-Landsverk Anti II(s)         ® CS 6                      ® CS 6                      18   A† D
-L182(s)                      CS 5                        CS 5                        19†  n/a
-L182(L)(s)                   CS 5                        CS 5                        19†  n/a
-BA-20(r)                     ® CS 3                      ® CS 3                      20†  n/a
-BA-6(r)                      ® CS 4                      ® CS 4                      21   D
-GAZ-4M-AA(r)                 CS 4                        CS 4                        22†  A†<sup>1</sup>
-T-20(r)                      CS 2†                       CS 2†                       23†  D
-RSO(g)                       cs 5                        cs 5                        24   D
-STZ-3(r)                     cs 4                        cs 4                        25   D
-Tempo G1200                  cs 2                        cs 2                        26†  n/a
-Light Truck                  cs 6                        cs 6                        27†  n/a
-Medium Truck                 cs 7                        cs 7                        27†  n/a
-Heavy Truck                  cs 7                        cs 7                        27   n/a
+Name                         Capabilities          (effective)           #    Notes             Comments
+---------------------------  --------------------  --------------------  ---  ----------------  ------------------------------------------------------------------------------------------------------------------------------
+T-37(r)                      ® CS 2                ® CS 2                1†   D M               +3 Target Size &amp; HD in Water | Russian ESB | 12: Immob, 11: Stall
+T-50(r)                      CS 4                  CS 4                  2†   D                 Russian ESB
+Vikkersi(b)                  ® CS 3                ® CS 3                3†   B†<sup>1</sup> D  BMG: Normal Range = 2 | BMG: Scrounge NA | British ESB
+T-26E(b)                     ® CS 3                ® CS 3                4    B† D              BMG: Normal Range = 2 | BMG: Scrounge NA | British ESB
+T-26A(r)                     ® CS 3                ® CS 3                5†   D M               Turret Knock-Out: Non-HE TK = Final TK | CMG: Scrounge as BMG | Russian ESB | 12: Immob, 11: Stall
+T-26B(r)                     ® CS 3                ® CS 3                6    C† D M            Russian ESB | 12: Immob, 11: Stall
+T-26C(r)                     ® CS 3                ® CS 3                7    C† D M            Russian ESB | 12: Immob, 11: Stall
+OT-133(r)                    ® CS 3                ® CS 3                8    D M               Russian ESB | 12: Immob, 11: Stall
+BT-5(r)                      ® CS 3                ® CS 3                9    D M               Russian ESB | 12: Immob, 11: Stall
+BT-7(r)                      ® CS 3                ® CS 3                9    D M               Russian ESB | 12: Immob, 11: Stall
+Postijuna(r)                 ® s8 CS 5             ® s8 CS 5             10   D F† M            Russian ESB | 12: Immob, 11: Stall
+Postijuna(L)(r)              ® s8 CS 6             ® s8 CS 6             11   D F† M            Russian ESB | 12: Immob, 11: Stall
+Sotka(r)                     A3[2+] CS 5           A3 CS 5               12†  D E M             Russian ESB | AP TK# = 13 | APCR TK# = 14 | 12: Immob, 11: Stall
+Sotka(L)(r)                  A3 CS 5               A3 CS 5               13†  D E               Russian ESB | AP TK# = 13 | APCR TK# = 14
+Pitk&#228;putkinen Sotka(r)  A3 sD6† CS 6          A3 sD6† CS 6          14†  D                 sD: single use | Russian ESB
+KV-1E(r)                     CS 6                  CS 6                  15†  D E M             Russian ESB | AP TK# = 13 | APCR TK# = 14 | 12: Immob, 11: Stall
+KV-1 M42(r)                  A3 CS 6               A3 CS 6               15†  D E M             Russian ESB | AP TK# = 13 | APCR TK# = 14 | 12: Immob, 11: Stall
+BT-42(r)                     ® H† s6 CS 3[brewup]  ® H† s6 CS 3[brewup]  16†  D M               TCA: Pays NT DRM | &#8734; HEAT | HEAT TK# = 15 | No IF | Russian ESB | 12: Immob, 11: Stall
+Sturmi(g)                    A3 H4 s8 CS 4         A3 H4 s8 CS 4         17†  D                 AAMG: VCA Only | German ESB | Black TH#
+Landsverk Anti II(s)         ® CS 6                ® CS 6                18   A† D              MA: AA ok | Swedish ESB | Black TH#
+L182(s)                      CS 5                  CS 5                  19†  n/a               CMG: AA ok (TCA only) | MA: [16] TH | Black TH#
+L182(L)(s)                   CS 5                  CS 5                  19†  n/a               CMG: AA ok (TCA only) | MA: [12] TH | Black TH#
+BA-20(r)                     ® CS 3                ® CS 3                20†  n/a
+BA-6(r)                      ® CS 4                ® CS 4                21   D                 Russian ESB
+GAZ-4M-AA(r)                 CS 4                  CS 4                  22†  A†<sup>1</sup>    4 TK DR | AAMG: Scrounge NA | MA: AA ok
+T-20(r)                      CS 2†                 CS 2†                 23†  D                 Inherent Crew if armed (with CS#) | Stun = Recall, CE &amp; Fire NA | Pas: Always CE; +1 VCA | Unpossessed SW ok | Russian ESB
+RSO(g)                       cs 5                  cs 5                  24   D                 German ESB | Black TH#
+STZ-3(r)                     cs 4                  cs 4                  25   D                 Russian ESB
+Tempo G1200                  cs 2                  cs 2                  26†  n/a               Bog assistance
+Light Truck                  cs 6                  cs 6                  27†  n/a
+Medium Truck                 cs 7                  cs 7                  27†  n/a
+Heavy Truck                  cs 7                  cs 7                  27   n/a

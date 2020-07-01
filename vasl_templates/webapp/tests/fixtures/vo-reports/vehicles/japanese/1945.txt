@@ -1,55 +1,55 @@
 === vehicles/japanese/1945 ===
 
-Name                                     Capabilities            (effective)             #    Notes                                             Comments
----------------------------------------  ----------------------  ----------------------  ---  ------------------------------------------------  -----------------------------------------------------------------------------------------------------------
-Type 92A                                 ® CS 3                  ® CS 3                  1†   A†<sup>1</sup>
-Type 92B                                 ® CS 3                  ® CS 3                  1†   A†<sup>1</sup>
-Type 94                                  ® CS 2                  ® CS 2                  2†   n/a
-Type 95 SO-KI                            ® CS 5                  ® CS 5                  3†   n/a
-Type 97A TE-KE                           ® CS 2                  ® CS 2                  4†   n/a
-Type 97B TE-KE                           ® no IF CS 2            ® no IF CS 2            4†   n/a
-Type 95 HA-GO                            ®†[2] sD5[4+]†[1] CS 3  ®†[2] sD5†[1] CS 3      5†   B†<sup>1</sup> C†<sup>2</sup>
-Type 2 KA-MI                             CS 5†                   CS 5†                   6†   n/a
-Type 2 KA-MI (without pontoons)          CS 5†                   CS 5†                   6†   n/a
-Type 89A CHI-RO                          ® CS 4                  ® CS 4                  7†   A†<sup>1</sup>
-Type 89B CHI-RO                          ® CS 4                  ® CS 4                  7†   n/a
-Type 97A CHI-HA                          ®†[2] sD5[1+]†[1] CS 4  ®†[2] sD5†[1] CS 4      8†   B†<sup>1</sup> C†<sup>2</sup>
-Type 97B CHI-HA                          sD5 CS 4                sD5 CS 4                8†   n/a
-Type 1 CHI-HE                            sD5 CS 5                sD5 CS 5                9†   n/a
-Type 91                                  CS 6                    CS 6                    10†  A†<sup>1</sup>
-Type 92                                  CS 4                    CS 4                    11†  A†<sup>1</sup>
-Type 1 HO-NI I                           WP5 CS 5                WP5 CS 5                12†  n/a
-Type 4 HO-RO                             no IF WP6 CS 5[brewup]  no IF WP6 CS 5[brewup]  13†  n/a
-Type 1 HO-KI                             cs 5                    cs 5                    14†  n/a
-Type 98 SHI-KE                           cs 5                    cs 5                    15†  n/a
-Type 92 I-KE                             cs 5                    cs 5                    16†  n/a
-Type 95                                  cs 2                    cs 2                    17†  n/a
-Type 94                                  cs 6                    cs 6                    18   n/a
-Type 97                                  cs 7                    cs 7                    18   n/a
-Vickers 8-in. Costal Defense Gun Turret                                                  19†  n/a
-FT-17M Ko(f)                             ® CS 2                  ® CS 2                  1†   A Fr C Ru M†                                      1 MP minimum road movement rate, even if CE.
-FT-17C Ko(f)                             ® CS 2                  ® CS 2                  2†   A B Fr C Ru M†                                    1 MP minimum road movement rate, even if CE.
-NC-27M Otsu(f)                           ® CS 2                  ® CS 2                  3†   A Fr C Ge H†                                      1 MP minimum road movement rate, even if CE.
-NC-27C Otsu(f)                           ® CS 2                  ® CS 2                  4†   A B Fr C Ge H†                                    1 MP minimum road movement rate, even if CE.
-Type 88 LAV(b)                           ® CS 2                  ® CS 2                  5    A AllM D Ch H†
-VCL(b)                                   ® CS 2                  ® CS 2                  6†   A C Ru M†<sup>1</sup>
-Type 98 Ke-Ni                            ® CS 3                  ® CS 3                  7†   Jp C
-Type 2 Ke-To                             ® CS 3                  ® CS 3                  8†   Jp C
-M3(a)                                    ® CS 4                  ® CS 4                  9    A B C Jp A† US B†<sup>1</sup>
-Stuart I(a)                              ® sD4 CS 4              ® sD4 CS 4              10   A B C Jp A†
-Type 97B Shi-Ki                          sD6 CS 4                sD6 CS 4                11†  n/a                                               Moved/Motion: Fire NA
-Type 3 Ka-Chi                            sD5 CS 5                sD5 CS 5                12   Jp 6†                                             Refer to Japanese Note 6 on Pontoons for amphibious data and wreck.
-Type 3 Ka-Chi (without pontoons)         sD5 CS 5                sD5 CS 5                12   Jp 6†
-Armored Eng Veh SS                       ® sD7 CS 5              ® sD7 CS 5              13†  n/a                                               Has 2 side FT with limited traverse. May remove wire as if a Dozer (B24.7).
-Type 2587(b)                             ® 2 TK DR's† CS 5       ® 2 TK DR's† CS 5       14†  Ch F†                                             REV x4
-Marmon-Herrington III(b)                 ® 2 TK DR's† CS 4       ® 2 TK DR's† CS 4       15†  C Ch F†
-Type 1 Ho-Ha                             CS 5                    CS 5                    16†  n/a                                               2MA&amp;2&amp;2
-M3A1 Scout Car(a)                        ® CS 4                  ® CS 4                  17   A C AllM 34†<sup>2</sup> Jp A†<sup>1</sup> Ch F†  Refer to Allied Minor Vehicle Note 34 [EXC: does not come with an inherent HS].
-Carrier A(b)                             ® CS 3                  ® CS 3                  18   A C Br Note 64†                                   The Inherent Crew is a 2-3-7 HS (D6.82). Refer to British Vehicle Note 64 for switching the BMG to an AAMG.
-Type 2 Ho-I                              WP5 sD5 CS 5            WP5 sD5 CS 5            19   n/a
-Type 1 Ho-Ni II                          H5 CS 5                 H5 CS 5                 20†  n/a
-M3 75 SPA(a)                             ® CS 4                  ® CS 4                  21   B C US U Ru M†
-Type 97B Chi-Ha                          H9 CS 4                 H9 CS 4                 22   n/a
-Type 3 Ho-Ni III                         WP5 CS 5                WP5 CS 5                23   n/a
-Type 97 AA Truck                         CS 7                    CS 7                    24†  n/a                                               MA: AA
-Type 98 MCT                              CS 5                    CS 5                    25   Br H Ge A†                                        Bnd FF NA VCA MA: AA (Un)load: Portee
+Name                                     Capabilities            (effective)         #    Notes                                             Comments
+---------------------------------------  ----------------------  ------------------  ---  ------------------------------------------------  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Type 92A                                 ® CS 3                  ® CS 3              1†   A†<sup>1</sup>
+Type 92B                                 ® CS 3                  ® CS 3              1†   A†<sup>1</sup>                                    MA: CMG or BMG | BMG: 12,7 | BMG: AA ok (VCA only, HD ok, no AA mode) | Recall: Both MG disabled
+Type 94                                  ® CS 2                  ® CS 2              2†   n/a
+Type 95 SO-KI                            ® CS 5                  ® CS 5              3†   n/a                                               MA: Normal Range = 8 | MA: Removal/Scrounge OK
+Type 97A TE-KE                           ® CS 2                  ® CS 2              4†   n/a
+Type 97B TE-KE                           ® CS 2                  ® CS 2              4†   n/a                                               No IF
+Type 95 HA-GO                            ®†[2] sD5[4+]†[1] CS 3  ®†[2] sD5†[1] CS 3  5†   B†<sup>1</sup> C†<sup>2</sup>                     Rear MG: 4:00 from MA
+Type 2 KA-MI                             CS 5†                   CS 5†               6†   n/a                                               Amphibious | Movement restrictions | Near misses
+Type 2 KA-MI (without pontoons)          CS 5†                   CS 5†               6†   n/a
+Type 89A CHI-RO                          ® CS 4                  ® CS 4              7†   A†<sup>1</sup>                                    AP TK# = 8
+Type 89B CHI-RO                          ® CS 4                  ® CS 4              7†   n/a                                               Rear MG: 8:00 from MA | AP TK# = 8
+Type 97A CHI-HA                          ®†[2] sD5[1+]†[1] CS 4  ®†[2] sD5†[1] CS 4  8†   B†<sup>1</sup> C†<sup>2</sup>
+Type 97B CHI-HA                          sD5 CS 4                sD5 CS 4            8†   n/a
+Type 1 CHI-HE                            sD5 CS 5                sD5 CS 5            9†   n/a
+Type 91                                  CS 6                    CS 6                10†  A†<sup>1</sup>                                    BMG: Normal Range = 8 | Reverse MP &#215;3
+Type 92                                  CS 4                    CS 4                11†  A†<sup>1</sup>                                    Reverse MP &#215;4
+Type 1 HO-NI I                           WP5 CS 5                WP5 CS 5            12†  n/a
+Type 4 HO-RO                             WP6 CS 5[brewup]        WP6 CS 5[brewup]    13†  n/a                                               No IF
+Type 1 HO-KI                             cs 5                    cs 5                14†  n/a
+Type 98 SHI-KE                           cs 5                    cs 5                15†  n/a
+Type 92 I-KE                             cs 5                    cs 5                16†  n/a                                               Ammo: 4PP
+Type 95                                  cs 2                    cs 2                17†  n/a                                               Bog assistance
+Type 94                                  cs 6                    cs 6                18   n/a
+Type 97                                  cs 7                    cs 7                18   n/a
+Vickers 8-in. Costal Defense Gun Turret                                              19†  n/a                                               Always CE (+3 DRM) | As OT Armored Cupola | CC: As Immobile OT AFV [EXC: PAATC NA] | AP TK# = 19
+FT-17M Ko(f)                             ® CS 2                  ® CS 2              1†   A Fr C Ru M†                                      Road Rate NA | French ESB | CE: +1 Rear Turret &amp; Indirect Fire | 12: Immob, 11: Stall
+FT-17C Ko(f)                             ® CS 2                  ® CS 2              2†   A B Fr C Ru M†                                    Road Rate NA | Red TH# | French ESB | CE: +1 Rear Turret &amp; Indirect Fire | 12: Immob, 11: Stall
+NC-27M Otsu(f)                           ® CS 2                  ® CS 2              3†   A Fr C Ge H†                                      Road Rate NA | French ESB | CE: +1 Rear Turret &amp; Indirect Fire | 12: Stall
+NC-27C Otsu(f)                           ® CS 2                  ® CS 2              4†   A B Fr C Ge H†                                    Road Rate NA | Red TH# | French ESB | CE: +1 Rear Turret &amp; Indirect Fire | 12: Stall
+Type 88 LAV(b)                           ® CS 2                  ® CS 2              5    A AllM D Ch H†                                    British ESB | Stun = Recall, CE &amp; Fire NA | Bog assistance
+VCL(b)                                   ® CS 2                  ® CS 2              6†   A C Ru M†<sup>1</sup>                             British ESB | 12: Immob, 11: Stall
+Type 98 Ke-Ni                            ® CS 3                  ® CS 3              7†   Jp C
+Type 2 Ke-To                             ® CS 3                  ® CS 3              8†   Jp C
+M3(a)                                    ® CS 4                  ® CS 4              9    A B C Jp A† US B†<sup>1</sup>                     BMG: +1 DRM vs Moving/Motion | Red TH# | American ESB
+Stuart I(a)                              ® sD4 CS 4              ® sD4 CS 4          10   A B C Jp A†                                       Red TH# | American ESB
+Type 97B Shi-Ki                          sD6 CS 4                sD6 CS 4            11†  n/a                                               Moved/Motion: Fire NA
+Type 3 Ka-Chi                            sD5 CS 5                sD5 CS 5            12   Jp 6†                                             Amphibious | Movement restrictions
+Type 3 Ka-Chi (without pontoons)         sD5 CS 5                sD5 CS 5            12   Jp 6†
+Armored Eng Veh SS                       ® sD7 CS 5              ® sD7 CS 5          13†  n/a                                               Wire removal
+Type 2587(b)                             ® CS 5                  ® CS 5              14†  Ch F†                                             2 TK DR (MG) | Reverse MP &#215;4 | 12: Immob
+Marmon-Herrington III(b)                 ® CS 4                  ® CS 4              15†  C Ch F†                                           2 TK DR (MG) | 12: Immob
+Type 1 Ho-Ha                             CS 5                    CS 5                16†  n/a                                               {{2|MA|2*|2*}} | Independent AAMG's | Inherent Crew &amp; Passenger | Crew: MA only
+M3A1 Scout Car(a)                        ® CS 4                  ® CS 4              17   A C AllM 34†<sup>2</sup> Jp A†<sup>1</sup> Ch F†  American ESB | MA: 12.7 | {{4|MA|2*}} | Inherent Crew | Pas: No Mounted Fire penalty | Unpossessed SW ok | Crew: .50-cal MA only | MG Removal OK (dm .50-cal HMG &amp; dm MMG) | 12: Immob
+Carrier A(b)                             ® CS 3                  ® CS 3              18   A C Br Note 64†                                   Inherent 2-3-7 Crew | Always CE | BMG: AA ok | British ESB
+Type 2 Ho-I                              WP5 sD5 CS 5            WP5 sD5 CS 5        19   n/a
+Type 1 Ho-Ni II                          H5 CS 5                 H5 CS 5             20†  n/a
+M3 75 SPA(a)                             ® CS 4                  ® CS 4              21   B C US U Ru M†                                    Red TH# | CE: +3 Front | 12: Immob, 11: Stall
+Type 97B Chi-Ha                          H9 CS 4                 H9 CS 4             22   n/a
+Type 3 Ho-Ni III                         WP5 CS 5                WP5 CS 5            23   n/a
+Type 97 AA Truck                         CS 7                    CS 7                24†  n/a                                               MA: AA
+Type 98 MCT                              CS 5                    CS 5                25   Br H Ge A†                                        Bnd FF &amp; Motion Fire NA VCA | MA: AA | (Un)load: Portee | Inherent Infantry Crew

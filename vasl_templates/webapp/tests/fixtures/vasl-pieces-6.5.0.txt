@@ -196,6 +196,7 @@ GPID       Name                          Front images                           
 1028       LVT4                          am/veh/LVT4.gif
 1030       LVT4                          am/veh/LVT42.gif
 1032       DUKW                          am/veh/DUKW.gif
+1034       DUKW MG                       am/veh/DUKW2.gif
 1036       Jeep GPA                      am/veh/JeepGPA.gif
 1039       Jeep                          am/veh/Jeep.gif
 1040       Jeep MMG                      am/veh/Jeep2.gif
@@ -396,6 +397,7 @@ GPID       Name                          Front images                           
 1545       Sherman III DD(a)             br/vehicles/sherdd.gif
 1547       Sherman III DD(a)             br/vehicles/sherdd2.gif
 1549       DUKW(a)                       br/vehicles/dukw.gif
+1551       DUKW(a) MG                    br/vehicles/dukw2.gif
 1553       Terrapin                      br/vehicles/terra.gif
 1555       2pdr Portee                   ['br/vehicles/portee.gif', 'br/vehicles/portee0.gif']
 1557       Morris C9/B                   br/vehicles/morrc9b.gif
@@ -564,6 +566,8 @@ GPID       Name                          Front images                           
 2109       Carrier C(b)                  ch/veh/chcarrc.gif
 2111       Henschel 33(g)                ch/veh/chhensch.gif
 2113       Jeep(a)                       ch/veh/chjeep.gif
+2114       Jeep(a) MMG                   ch/veh/chjeep2.gif
+2115       Jeep(a) HMG                   ch/veh/chjeep4.gif
 2116       2-1/2 ton truck(a)            ch/veh/chton212.gif
 2172       46* MTR                       al/alMTR46.gif                                                         al/alMTR46B.gif
 2173       50* MTR                       al/alMTR50.gif                                                         al/alMTR50B.gif
@@ -937,6 +941,7 @@ GPID       Name                          Front images                           
 3535       AB 41                         it/veh/ab41.gif
 3539       Autoprotetto S37              it/veh/auts37.gif
 3541       Autocannone 65/17(b)          it/veh/aut6517.gif
+3543       Autocannone 65/17(b) MG       it/veh/aut65172.gif
 3545       Autocannone 20/65(b)          it/veh/aut2065.gif
 3547       Autocanonne 75/27 CK          it/veh/aut7527.gif
 3549       Autocanonne 90/53             it/veh/aut9053.gif
@@ -952,6 +957,7 @@ GPID       Name                          Front images                           
 3567       Autocarro Pesante             it/veh/autpes.gif
 3605       50* MTR (g)                   fi/fiMTR.gif                                                           fi/fiMTRb.gif
 3608       20L ATR                       fi/fiATR.gif                                                           fi/fiATRb.gif
+3679       50 MTR(f)                     ax/axMTRf.gif                                                          ax/axMTRfb.gif
 3680       50* MTR                       ax/axMTR.gif                                                           ax/axMTRb.gif
 3681       50* MTR(r)                    ax/axMTRr.gif                                                          ax/axMTRrb.gif
 3682       60* MTR(f)                    ax/axMTR60f.gif                                                        ax/axMTR60fb.gif
@@ -1071,6 +1077,7 @@ GPID       Name                          Front images                           
 3885       LT vz 40(t)                   ax/veh/slLT40.gif
 3887       Marder III(t)H                ax/veh/slMiiiH.gif
 3889       Kfz 1(g)                      ax/veh/slKfz1.gif
+3890       Kfz 1(g) MG                   ax/veh/slKfz12.gif
 3891       SdKfz 2(g)                    ax/veh/slSdKfz2.gif
 3892       TKS                           ax/veh/crTKS.gif
 3894       TKS(L)                        ax/veh/crTKSL.gif
@@ -1078,6 +1085,7 @@ GPID       Name                          Front images                           
 3902       Semovente L40(i)              ax/veh/crSemL40.gif
 3904       Vickers 6t Mk E               ax/veh/buV6E.gif
 3906       R-35(f)                       ax/veh/buR35.gif
+3959       50 MTR(h)                     hu/huMTRh.gif                                                          hu/huMTRhb.gif
 3993       40L AT MAVAG 40 M             hu/gun/huAT40L.gif                                                     hu/gun/huAT40Lb.gif
 3999       76 ART Skoda M05/08           hu/gun/huAR76.gif                                                      hu/gun/huAR76b.gif
 4001       105 ART MAVAG M40             hu/gun/huAR1052.gif                                                    hu/gun/huAR1052b.gif
@@ -1111,6 +1119,7 @@ GPID       Name                          Front images                           
 5944       81* MTR OML 3.2"              br/guns/brMTR81.gif                                                    br/guns/brMTR76sb.gif
 6364       Stuart III(a)                 ru/veh/ruM3A1.gif
 6730       47 MTR                        fi/fi47mtr.png                                                         fi/fi47mtrB.png
+6763       ATR (b)                       fi/fibATR.png                                                          fi/fibATRB.png
 6765       81* MTR Krh/32                fi81mmMTR.png                                                          fi/gun/fi81mmMTRB.png
 6782       81* MTR Savu M42              fi81mmMTR Savu.png                                                     fi/gun/fi81mmMTR SavuB.png
 6796       7.62 AA                       fi7.62AA.png                                                           fi/gun/fi7.62AAB.png
@@ -1202,6 +1211,7 @@ GPID       Name                          Front images                           
 7128       FT-17 730(m)                  ge/veh/geFT-17 37.png
 7132       38H 735(f)                    ge/veh/ge38H 735.png
 7136       35-S 739(f)                   ge/veh/ge35S 739.png
+7150       Matilda II                    ru/veh/ruMatilda.png
 7220       T-26B (r)                     fi/veh/fiT-26b2(r).png
 7409       76 ItK/28 B(s)                fiAA76L.png                                                            fiAA76LB.png
 7418       T-28 M34(L)                   T28M34L.gif

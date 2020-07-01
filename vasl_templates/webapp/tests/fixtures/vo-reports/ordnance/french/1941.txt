@@ -1,25 +1,25 @@
 === ordnance/french/1941 ===
 
 Name                               Capabilities              (effective)               #       Notes     Comments
----------------------------------  ------------------------  ------------------------  ------  --------  ----------------------
-LG de 50 mle 37(f)                 2PP                       2PP                       1       A B C† E  crewed†
-Mortier de 60 mle 35               5PP no OBA† IR[2+]†       5PP no OBA†               2†      A B V
-Mortier de 81 mle 27/31            QSU s8                    QSU s8                    3†      A B D V
-Fusil Antichar Boys                1PP                       1PP                       4†      B
-Canon AC de 25 SA-L mle 34         QSU                       QSU                       5†      B P
-Canon AC de 47 SA mle 37 APX       QSU APCR only†[1]         QSU APCR only†[1]         6†[1]   B G† P V
-Canon de 75 AC mle 97/35           h-d HE7 LF [NT] s6        h-d HE7 LF [NT] s6        7       E         no shield
-Canon de 37 mle 16 TR              5PP (3PP dm)              5PP (3PP dm)              8†[1]   A C†      crewed†
-Canon de 65 M mle 06               QSU h-d                   QSU h-d                   9†      A P       No Gunshield.
-Canon de 75 M mle 28               QSU h-d AP5 s6            QSU h-d AP5 s6            10†     A P
-Canon de 75 mle 1897               QSU s8                    QSU s8                    11†     B P
-Canon de 105 M mle 28              h-d                       h-d                       12†     A P
+---------------------------------  ------------------------  ------------------------  ------  --------  ------------------------------------------------------------------------------------------------------------------------------------------
+LG de 50 mle 37(f)                                                                     1       A B C† E  Animal-Packed | Crewed
+Mortier de 60 mle 35               IR[2+]†                                             2†      A B V     Animal-Packed | No Captured Use penalty for Vichy French
+Mortier de 81 mle 27/31            s8                        s8                        3†      A B D V   QSU | Animal-Packed | No Captured Use penalty for Vichy French
+Fusil Antichar Boys                                                                    4†      B         No Long Range
+Canon AC de 25 SA-L mle 34                                                             5†      B P       QSU | En Portee (C-K P17, Laffly S20TL, Citro&#235;n 23) [{ *:Portee Fire OK [EXC: Bnd (F)F &amp; Motion Fire NA] *:CA restrictions }]
+Canon AC de 47 SA mle 37 APX                                                           6†[1]   B G† P V  QSU | APCR only | En Portee (Renault AGR2) [{ *:Motion Fire NA }] | MA: B# = 12 | No Captured Use penalty for Vichy French
+Canon de 75 AC mle 97/35           HE7 LF [NT] s6            HE7 LF [NT] s6            7       E         Horse-Drawn | No Gunshield
+Canon de 37 mle 16 TR                                                                  8†[1]   A C†      No Gunshield | As HMG | Animal-Packed | Crewed
+Canon de 65 M mle 06                                                                   9†      A P       QSU | No Gunshield | Horse-Drawn | En Portee (Renault AGR2) [{ *:Motion Fire NA }] | Animal-Packed
+Canon de 75 M mle 28               AP5 s6                    AP5 s6                    10†     A P       QSU | Horse-Drawn | En Portee (Renault AGR2) [{ *:Portee Fire OK [EXC: Bnd (F)F &amp; Motion Fire NA] *:CA restrictions }] | Animal-Packed
+Canon de 75 mle 1897               s8                        s8                        11†     B P       QSU | En Portee (Renault AGR2) [{ *:Portee Fire OK [EXC: Bnd (F)F &amp; Motion Fire NA] *:CA restrictions }]
+Canon de 105 M mle 28                                                                  12†     A P       Horse-Drawn | En Portee (Renault AGR2) [{ *:Motion Fire NA }] | Animal-Packed
 Canon de 105 C mle 35 B                                                                13      E F†
-Canon de 105 L mle 13 S                                                                14†     P
+Canon de 105 L mle 13 S                                                                14†     P         En Portee (Renault AGR2) [{ *:Motion Fire NA }]
 Canon de 105 L mle 36 S                                                                15      E F†
 Canon de 155 C mle 17 S            s8                        s8                        16†     n/a
-Canon de 155 GPF                   RFNM                      RFNM                      17†     n/a       No IF.
-Mitrailleuse de 13.2 CAJ mle 30    2 TK DR†[1]               2 TK DR†[1]               18†[1]  B G† V    Towing NA†<sup>1</sup>
+Canon de 155 GPF                                                                       17†     n/a       RFNM | No IF
+Mitrailleuse de 13.2 CAJ mle 30                                                        18†[1]  B G† V    Tow NA | 2 TK DR | 16 [TH] | MA: B# = 12 | No Captured Use penalty for Vichy French
 Mitrailleuse de 20 CA mle 39 O     LF [NT, 20†, 2 ROF, B11]  LF [NT, 20†, 2 ROF, B11]  19†     n/a
-Canon Automatique de 25 CA mle 38                                                      20†[1]  G†
-Canon de 75 CA mle 32              NM                        NM                        21†     n/a
+Canon Automatique de 25 CA mle 38                                                      20†[1]  G†        MA: B# = 12
+Canon de 75 CA mle 32                                                                  21†     n/a       No Move

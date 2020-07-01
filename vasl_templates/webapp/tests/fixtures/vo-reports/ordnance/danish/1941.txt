@@ -1,5 +1,5 @@
 === ordnance/danish/1941 ===
 
-Name                     Capabilities        (effective)         #    Notes              Comments
------------------------  ------------------  ------------------  ---  -----------------  ----------
-Machinecannon 20mm M-35  QSU†[1] R2 IFE=B10  QSU†[1] R2 IFE=B10  19†  De T†<sup>1</sup>
+Name                     Capabilities    (effective)    #    Notes              Comments
+-----------------------  --------------  -------------  ---  -----------------  ---------------------------------------------------
+Machinecannon 20mm M-35                                 19†  De T†<sup>1</sup>  QSU | No Gunshield | IFE: B# = 10 | R2, X6 | Tow NA

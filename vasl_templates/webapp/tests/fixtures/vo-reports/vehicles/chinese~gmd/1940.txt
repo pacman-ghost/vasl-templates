@@ -1,34 +1,34 @@
 === vehicles/chinese~gmd/1940 ===
 
 Name                           Capabilities               (effective)      #       Notes                                     Comments
------------------------------  -------------------------  ---------------  ------  ----------------------------------------  ----------
-VCL M1931(b)                   ® CS 2                     ® CS 2           1†      A <s>B</s>
-L3/35(i)                       ® CS 2†                    ® CS 2†          2†      A <s>B</s> D†<sup>1</sup>
-PzKpfw IA(g)                   ® CS 2                     ® CS 2           3†      A <s>B</s> D†<sup>1</sup>
-Vickers 6-Ton Mk E(b)          ® C5†[2] CS 3              ® C5†[2] CS 3    4†      A <s>B</s> C†<sup>2</sup> E†<sup>1</sup>
-T-26TU M33(r)                  CS 3                       CS 3             5†      A E†<sup>1</sup>
-M3A3(a)                        C9†[1] CS 4                C9†[1] CS 4      6†      A B C†<sup>1</sup> E†<sup>2</sup> G
-M4A4(a)                        WP7[J4+]† s8 CS 5[brewup]  s8 CS 5[brewup]  7†      A B E†<sup>1</sup> G
-M3A1(a)                        CS 4                       CS 4             8†      A B E†<sup>1</sup>
-Stuart Recon(a)                CS 5                       CS 5             9†      A B D†<sup>1</sup> E†<sup>2</sup>
-Type 22                        ® CS 4                     ® CS 4           10†[1]  <s>B</s> E†<sup>2</sup> F†
-PSW 221(g)                     CS 2                       CS 2             11†     A <s>B</s> F†
-PSW 222(g)                     CS 3                       CS 3             11†     A <s>B</s> E†<sup>1</sup> F†
-BA-20(r)                       ® CS 3                     ® CS 3           12      A <s>B</s> F†
-BA-6(r)                        ® CS 4                     ® CS 4           12      A <s>B</s> E†<sup>1</sup> F†
-VCL Mk VI Carrier(b)           CS 2†                      CS 2†            13†     A <s>B</s> H†<sup>1</sup>
-Carrier A(b)                   CS 3                       CS 3             14†     A
-Carrier B(b)                   CS 3                       CS 3             14†     A E†<sup>1</sup>
-Carrier C(b)                   CS 3                       CS 3             14†     A E†<sup>1</sup>
-Henschel 33(g)                 cs 7                       cs 7             15†[1]  A F†
-Jeep(a)                        cs 2†                      cs 2†            16†     A H†<sup>1</sup>
-2&#189;-Ton(a)                 cs 7                       cs 7             16†     A
-FT-17(f)                       ® CS 2                     ® CS 2           1†      A Fr C Ru M†
-Type 94 Lt Armored Vehicle(j)  ® CS 2                     ® CS 2           2       A D Ru M†
-Type 97A Te-Ke(j)              ® CS 2                     ® CS 2           3       A D
-Type 97B Te-Ke(j)              ® CS 2                     ® CS 2           4       A C D
-Type 95 Ha-Go(j)               ® CS 3                     ® CS 3           5       A B† C D Jp 5†<sup>1</sup>
-BT-5(r)                        ® CS 3                     ® CS 3           6       A B†<sup>1</sup> Ru M†
-Type 89A Chi-Ro(j)             ® CS 4                     ® CS 4           7       A B† C D
-Type 97A Chi-Ha(j)             ® CS 4                     ® CS 4           8       A B† C D
-Type 31 Armored Car            ® CS 3                     ® CS 3           9†      B†<sup>1</sup> Ch F†
+-----------------------------  -------------------------  ---------------  ------  ----------------------------------------  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+VCL M1931(b)                   ® CS 2                     ® CS 2           1†      A <s>B</s>                                +3 Target Size &amp; HD in Water | British ESB, +1 DRM
+L3/35(i)                       ® CS 2†                    ® CS 2†          2†      A <s>B</s> D†<sup>1</sup>                 Stun = Recall, CE &amp; Fire NA | Italian ESB, +1 DRM | 2 TK DR
+PzKpfw IA(g)                   ® CS 2                     ® CS 2           3†      A <s>B</s> D†<sup>1</sup>                 German ESB, +1 DRM | 2 TK DR
+Vickers 6-Ton Mk E(b)          ® C5†[2] CS 3              ® C5†[2] CS 3    4†      A <s>B</s> C†<sup>2</sup> E†<sup>1</sup>  British ESB, +1 DRM
+T-26TU M33(r)                  CS 3                       CS 3             5†      A E†<sup>1</sup>                          12: Immob, 11: Stall | MA: B# = 11 | Russian ESB, +1 DRM
+M3A3(a)                        C9†[1] CS 4                C9†[1] CS 4      6†      A B C†<sup>1</sup> E†<sup>2</sup> G       American ESB, +1 DRM
+M4A4(a)                        WP7[J4+]† s8 CS 5[brewup]  s8 CS 5[brewup]  7†      A B E†<sup>1</sup> G                      Multiple Hits | American ESB, +1 DRM
+M3A1(a)                        CS 4                       CS 4             8†      A B E†<sup>1</sup>                        MA: 12.7 | {{4|MA|2*}} | Independent AAMG's | Inherent Crew &amp; Passenger | Unpossessed SW ok | Pas: No Mounted Fire penalty | MG Removal OK | Crew: .50-cal MA only | American ESB, +1 DRM
+Stuart Recon(a)                CS 5                       CS 5             9†      A B D†<sup>1</sup> E†<sup>2</sup>         MA: VCA only | (Un)load &#215;2 | Pas: Mounted Fire | Unpossessed SW ok | MG Removal NA | As fully-tracked | American ESB, +1 DRM | 2 TK DR
+Type 22                        ® CS 4                     ® CS 4           10†[1]  <s>B</s> E†<sup>2</sup> F†                CMG: Normal Range = 8 | CMG: Removal/Scrounge OK | Reverse MP &#215;3 | 12: Immob
+PSW 221(g)                     CS 2                       CS 2             11†     A <s>B</s> F†                             CMG: BU Fire NA | MA: AA ok | Reverse MP &#215;4 | German ESB, +1 DRM | 12: Immob
+PSW 222(g)                     CS 3                       CS 3             11†     A <s>B</s> E†<sup>1</sup> F†              MA: AA ok | Reverse MP &#215;3 | German ESB, +1 DRM | 12: Immob
+BA-20(r)                       ® CS 3                     ® CS 3           12      A <s>B</s> F†                             Russian ESB, +1 DRM | 12: Immob
+BA-6(r)                        ® CS 4                     ® CS 4           12      A <s>B</s> E†<sup>1</sup> F†              MA: B# = 11 | Russian ESB, +1 DRM | 12: Immob
+VCL Mk VI Carrier(b)           CS 2†                      CS 2†            13†     A <s>B</s> H†<sup>1</sup>                 As Carrier | Always CE | Inherent Crew | Riders NA | Stun = Recall, Fire NA | Combined (un)hooking/(un)loading | British ESB, +1 DRM | Bog assistance
+Carrier A(b)                   CS 3                       CS 3             14†     A                                         Always CE | BMG: AA ok | Combined (un)hooking/(un)loading | Tow NA | British ESB, +1 DRM
+Carrier B(b)                   CS 3                       CS 3             14†     A E†<sup>1</sup>                          Always CE | ATR: [12] TH | ATR: Removal/Scrounge OK | Combined (un)hooking/(un)loading | Tow NA | British ESB, +1 DRM
+Carrier C(b)                   CS 3                       CS 3             14†     A E†<sup>1</sup>                          Always CE | MA: Removal NA, Scrounge OK (LMG) | Combined (un)hooking/(un)loading | Tow NA | British ESB, +1 DRM
+Henschel 33(g)                 cs 7                       cs 7             15†[1]  A F†                                      German ESB, +1 DRM | 12: Immob
+Jeep(a)                        cs 2†                      cs 2†            16†     A H†<sup>1</sup>                          Inherent Crew if armed (with CS#) | AAMG: Removal OK | American ESB, +1 DRM | Bog assistance
+2&#189;-Ton(a)                 cs 7                       cs 7             16†     A                                         American ESB, +1 DRM
+FT-17(f)                       ® CS 2                     ® CS 2           1†      A Fr C Ru M†                              Road Rate NA | French ESB, +1 DRM | CE: +1 Rear Turret &amp; Indirect Fire | 12: Immob, 11: Stall
+Type 94 Lt Armored Vehicle(j)  ® CS 2                     ® CS 2           2       A D Ru M†                                 Japanese ESB, +1 DRM | 12: Immob, 11: Stall
+Type 97A Te-Ke(j)              ® CS 2                     ® CS 2           3       A D                                       Japanese ESB, +1 DRM
+Type 97B Te-Ke(j)              ® CS 2                     ® CS 2           4       A C D                                     No IF | Red TH# | Japanese ESB, +1 DRM
+Type 95 Ha-Go(j)               ® CS 3                     ® CS 3           5       A B† C D Jp 5†<sup>1</sup>                Rear MG 4:00 from MA | Red TH# | Japanese ESB, +1 DRM
+BT-5(r)                        ® CS 3                     ® CS 3           6       A B†<sup>1</sup> Ru M†                    Russian ESB, +1 DRM | 12: Immob, 11: Stall
+Type 89A Chi-Ro(j)             ® CS 4                     ® CS 4           7       A B† C D                                  Red TH# | Japanese ESB, +1 DRM
+Type 97A Chi-Ha(j)             ® CS 4                     ® CS 4           8       A B† C D                                  Red TH# | Japanese ESB, +1 DRM
+Type 31 Armored Car            ® CS 3                     ® CS 3           9†      B†<sup>1</sup> Ch F†                      12: Immob

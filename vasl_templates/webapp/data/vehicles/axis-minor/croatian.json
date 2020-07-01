@@ -6,6 +6,7 @@
   "CS#": 2,
   "note_number": "24\u2020",
   "notes": [ "F" ],
+  "comments": [ "12: Immob, 11: Stall" ],
   "id": "cr/v:000",
   "gpid": 3892
 },
@@ -15,6 +16,7 @@
   "CS#": 2,
   "note_number": "24\u2020",
   "notes": [ "F" ],
+  "comments": [ "12: Immob, 11: Stall" ],
   "id": "cr/v:001",
   "gpid": 3894
 },
@@ -46,6 +48,7 @@
   "CS#": 3,
   "note_number": "27\u2020",
   "notes": [ "O\u2020<sup>1</sup>" ],
+  "comments": [ "Always CE" ],
   "id": "cr/v:005",
   "gpid": 3902
 }

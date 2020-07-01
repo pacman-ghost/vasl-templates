@@ -1,0 +1,273 @@
+{
+
+"_comment_": "This file contains comments that will be added to vehicles/ordnance based on their Multi-Applicable Notes.",
+
+"german": {
+    "vehicles": {
+        "A": "MA &amp; CMG: AA ok",
+        "D": "Ammo trailer",
+        "E": "ESB: 0 DRM",
+        "F": "12: Burn, 11: Immob, 10: Stall",
+        "G": "CE: +3 Front",
+        "H": "12: Stall",
+        "I": [ "Red TH#", "Italian ESB" ],
+        "J": "AAMG: NA VCA",
+        "K": "Morale 9",
+        "L": "Bog assistance",
+        "O": "AAMG: BU only, Rider NA, elevation restrictions",
+        "P": "AAMG: VCA only",
+        "Q": "CMG: VCA only",
+        "a": "French ESB",
+        "b": "CMG: AA ok (TCA only)",
+        "c": "CE: +1 Rear Turret &amp; Indirect Fire",
+        "d": "Immob: dr &le; 4 [EXC: mines, Direct Fire vs front/rear]"
+    },
+    "ordnance": {
+        "A": [ "Use APCR TK vs AFV", "&infin; APCR" ],
+        "O": "Animal-Packed",
+        "P": [
+            "{? 01/1941-08/1943 | En Portee (Opel truck) | En Portee NA | En Portee<sup>41-8/43</sup> ?}",
+            "{? 01/1941-08/1943 | Portee Fire OK | | Portee Fire<sup>41-8/43</sup> ?}"
+        ]
+    }
+},
+
+"russian": {
+    "vehicles": {
+        "A": "MA &amp; CMG: AA ok",
+        "B": "BMG: +1 DRM vs Moving/Motion",
+        "F": "MA: VCA &le; level NA",
+        "H": "+3 Target Size &amp; HD if in Water",
+        "J": "sD: single-use",
+        "K": "Red TH#",
+        "L": "Bog assistance",
+        "M": "12: Immob, 11: Stall",
+        "Q": "Stun = Recall, CE &amp; Fire NA",
+        "R": "Multiple Hits",
+        "T": [ "76 MA: RST", "45L SA: RST; Always BU; No IF", "TCA restrictions" ],
+        "LL": "Lend-Lease"
+    },
+    "ordnance": {
+        "A": "Animal-Packed"
+    }
+},
+
+"american": {
+    "vehicles": {
+        "B": "BMG: +1 DRM vs Moving/Motion",
+        "D": [ "(Un)load &times;2", "Pas: Mounted Fire", "Unpossessed SW ok", "MG Removal OK" ],
+        "E": "Crew: .50 cal MA only",
+        "H": "Independent AAMG's",
+        "I": [ "{{4|MA|2*}}", "AAMG: Removal OK" ],
+        "J": "MA: Rear VCA only",
+        "K": "AAMG: NA VCA",
+        "L": "Bog assistance",
+        "M": "MTR: Removal OK",
+        "Q": [ "MA: 12.7", "{{6|MA|4|4}}" ],
+        "R": "Multiple Hits",
+        "T": "Bog: 0 DRM for soft, mud, snow-covered ground",
+        "U": "CE: +3 Front",
+        "V": "MA &amp; CMG: VCA &le; level NA" ,
+        "W": "Reverse MP &times;4",
+        "X": "BMG: HD Fire OK",
+        "Z": "BAZ",
+        "AA": "MA &amp; CMG: AA ok",
+        "CC": "Inherent Crew if armed (with CS#)"
+    },
+    "ordnance": {
+        "D": "Crewed"
+    }
+},
+
+"british": {
+    "vehicles": {
+        "A": "{? 01/1944- | | Red TH# | Red TH# (pre '44) ?}",
+        "D": [ "(Un)load &times;2", "Pas: Mounted Fire", "Unpossessed SW ok", "MG Removal NA" ],
+        "E": "BMG: HD Fire OK",
+        "F": [ "MA: [16] TH", "MA: Removal/Scrounge NA" ],
+        "H": "Inherent Infantry Crew",
+        "I": "Inherent Crew if armed (with CS#)",
+        "L": "Reverse MP &times;3",
+        "M": "Stun = Recall, CE &amp; Fire NA",
+        "O": [ "BU Fire NA", "4 TK DR (MG)" ],
+        "Q": [ "ATR: [12] TH", "ATR: Removal/Scrounge OK" ],
+        "R": "Multiple Hits",
+        "T": "AAMG: Rear TCA only",
+        "U": [ "Combined (un)hooking/(un)loading", "{? 01/1944- | Towing OK | Towing NA | Towing<sup>44+</sup> ?}"  ],
+        "V": [ "As wheeled OT AFV [EXC: D6.82-.83, H1.43]", "Unpossessed SW ok" ],
+        "X": "Reverse MP &times;4",
+        "AA": "MA &amp; CMG: AA ok",
+        "BB": "Pas: 1 SMC or 1PP SW",
+        "CC": "Steep climbs"
+    },
+    "ordnance": {
+        "D": "Animal-Packed"
+    }
+},
+
+"french": {
+    "vehicles": {
+        "A": [ "CMG: AA ok (TCA only)", "CMG: Scrounge OK" ],
+        "B": [ "BMG: +1 DRM vs Moving/Motion", "BMG: Scrounge NA" ],
+        "C": "CE: +1 Rear Turret &amp; Indirect Fire",
+        "D": "Reverse MP &times;2",
+        "G": "Inherent Crew if armed (with CS#)",
+        "H": "Deployed Passengers",
+        "I": "Immob: dr &le; 4 [EXC: mines, Direct Fire vs front/rear]",
+        "J": [ "Moves as AC [EXC: Hedge NA]", "Reverse MP &times;3" ],
+        "K": "Unpossessed SW ok",
+        "L": "Ammo: 4 PP",
+        "M": "MA: No Bnd FF, Motion Fire",
+        "AA": "MA: AA ok"
+    },
+    "ordnance": {
+        "A": "Animal-Packed",
+        "C": "Crewed",
+        "G": "{? 01/1941- | MA: B# = 12 | MA: B# = (11) | MA: B# (11)<sup>40</sup> ?}",
+        "V": "No Captured Use penalty for Vichy French"
+    }
+},
+
+"italian": {
+    "vehicles": {
+        "A": "2 TK DR",
+        "C": "AAMG: VCA only",
+        "D": "MA: No Bnd (F)F, Motion Fire",
+        "E": [ "Stun = Recall, CE &amp; Fire NA", "BMG: HD Fire OK" ],
+        "G": "MA: No Bnd (F)F, Motion Fire in VCA",
+        "J": [ "MA: ATR 12 [TH]", "MA: Removal/Scrounge OK" ],
+        "K": "Inherent Crew if armed (with CS#)",
+        "L": "Moves as AC [EXC: Hedge NA]",
+        "M": "Reverse MP &times;3",
+        "AA": "MA: AA ok"
+    },
+    "ordnance": {
+        "A": "Animal-Packed",
+        "B": "Acquisition NA",
+        "C": "En Portee (Autocarro L)"
+    }
+},
+
+"finnish" :{
+    "vehicles": {
+        "A": "MA: AA ok",
+        "B": [ "BMG: Normal Range = 2", "BMG: Scrounge NA" ],
+        "E": [ "AP TK# = 13", "APCR TK# = 14" ],
+        "M": "12: Immob, 11: Stall"
+    },
+    "ordnance": {
+        "A": "Animal-Packed",
+        "C": "Tow NA",
+        "D": "En Portee (Medium Truck)",
+        "E": "AP TK# = 16",
+        "F": "Acquisition NA"
+    }
+},
+
+"japanese": {
+    "ordnance": {
+        "A": "Animal-Packed",
+        "B": "As 82mm MTR",
+        "C": "Tow NA",
+        "D": "No Move"
+    }
+},
+
+"chinese": {
+    "vehicles": {
+        "D": "2 TK DR",
+        "F": "12: Immob",
+        "H": "Bog assistance"
+    },
+    "ordnance": {
+        "A": "Animal-Packed"
+    }
+},
+
+"allied-minor": {
+    "vehicles": {
+        "D": "Stun = Recall, CE &amp; Fire NA",
+        "E": [ "CMG: AA ok (TCA only)", "CMG: Scrounge OK" ],
+        "F": "CE: +1 Rear Turret &amp; Indirect Fire",
+        "G": "Reverse MP &times;4",
+        "H": "Always CE",
+        "L": "Black TH#",
+        "Q": "MA: No Bnd (F)F, Motion Fire",
+        "AA": "MA: AA ok"
+    },
+    "ordnance": {
+        "A": "Animal-Packed",
+        "D": "Dismantle NA",
+        "T": "Tow NA"
+    }
+},
+
+"axis-minor": {
+    "vehicles": {
+        "A": "CMG: AA ok (TCA only)",
+        "D": "CE: +1 Rear Turret &amp; Indirect Fire",
+        "F": "Stun = Recall, CE &amp; Fire NA",
+        "I": "Inherent Crew if armed (with CS#)",
+        "J": "Unpossessed SW ok",
+        "K": "2 TK DR",
+        "L": "Bog Assistance",
+        "M": "Reverse MP &times;3",
+        "N": [ "ESB: +1 DRM", "Red TH#" ],
+        "P": "MA &amp; CMG: AA ok"
+    },
+    "ordnance": {
+        "A": "Animal-Packed",
+        "T": "Tow NA"
+    }
+},
+
+"landing-craft": {
+    "vehicles": {
+        "A": "Front as Open-Topped AFV",
+        "B": "Normal Range = 8",
+        "D": "No ramp, (un)load &times;2 [EXC: Pier]",
+        "E": "MA: 2&times; AA <ul> <li> IFE Normal Range = 16 <li> VCA and/or adjacent/same-hex &le; level NA </ul>",
+        "G": [ "Stun: dr &ge; 5", "Unbeaching: -1 DRM" ]
+    }
+},
+
+"kfw-un": {
+    "vehicles": {
+        "A": "&infin; A",
+        "B": "Bog Checks NA in Mud, Deep Snow, Drift, Sand, Rice Paddies",
+        "D": [ "(Un)load &times;2", "Pas: Mounted Fire", "Unpossessed SW ok", "MG Removal OK" ],
+        "E": "Crew: .50-cal MA only",
+        "F": [ "4 TK DR", "[16] TH" ],
+        "G": "MA: 12.7",
+        "H": "Independent AAMG's",
+        "L": "Bog assistance",
+        "Q": "Inherent Crew if armed (with CS#)",
+        "S": [ "Limbered: Fire NA", "Unlimbered: RFNM, always CE (0/+1 DRM)" ],
+        "T": "Bog: 0 DRM for soft, mud, snow-covered ground",
+        "U": "Combined (un)hooking/(un)loading",
+        "V": "MA &amp; CMG: Removal/Scrounge NA",
+        "W": "Reverse MP &times;4",
+        "X": "BMG: HD Fire OK",
+        "Z": "BAZ/PIAT Removal by crew/passenger only, or Scrounge.",
+        "AA": "MA &amp; CMG: AA ok",
+        "BB": "Pas: Always BU",
+        "CC": "Steep climbs",
+        "DD": "MA &amp; CMG: VCA &le; level NA",
+        "EE": [ "As fully-tracked OT AFV", "Always CE", "Unpossessed SW ok" ],
+        "MM": "Inherent dm <span style='text-decoration:overline;'>81</span>* MTR",
+        "NN": "Inherent Infantry Crew",
+        "TT": "Front-hull hit: +2 TH DRM (unless level &lt; firer)"
+    },
+    "ordnance": {
+        "A": "Animal-Packed"
+    }
+},
+
+"kfw-comm": {
+    "ordnance": {
+        "A": "Animal-Packed",
+        "R": [ "Crewed", "Red TH#" ]
+    }
+}
+
+}

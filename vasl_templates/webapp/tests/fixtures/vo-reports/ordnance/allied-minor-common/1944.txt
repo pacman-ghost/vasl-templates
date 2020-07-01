@@ -1,18 +1,18 @@
 === ordnance/allied-minor-common/1944 ===
 
 Name                             Capabilities                 (effective)                  #    Notes                    Comments
--------------------------------  ---------------------------  ---------------------------  ---  -----------------------  ----------------------
-Brandt Medium Mortar             QSU s8                       QSU s8                       23†  A B Gr N P Y
-37mm Bofors AT                   QSU                          QSU                          24†  A De P
-3.7cm PaK 35/36                  QSU                          QSU                          25†  Gr Ne Y
-Bohler M35 47mm                  QSU                          QSU                          26†  A Gr Ne Y
-65mm wz.06                       QSU h-d                      QSU h-d                      27†  A Gr P Y                 No Gunshield.
-75mm wz.97                       QSU s8                       QSU s8                       28†  A Gr N P
-Bofors M34                       QSU                          QSU                          29†  A B Gr Ne N
-75M 19S                          QSU h-d AP5 s6               QSU h-d AP5 s6               30†  A Gr P Y
+-------------------------------  ---------------------------  ---------------------------  ---  -----------------------  ---------------------------------------------------
+Brandt Medium Mortar             s8                           s8                           23†  A B Gr N P Y             QSU | Animal-Packed
+37mm Bofors AT                                                                             24†  A De P                   QSU | En Portee (P-F 621L or Ursus) | Animal-Packed
+3.7cm PaK 35/36                                                                            25†  Gr Ne Y                  QSU
+Bohler M35 47mm                                                                            26†  A Gr Ne Y                QSU | Animal-Packed
+65mm wz.06                                                                                 27†  A Gr P Y                 QSU | No Gunshield | Horse-Drawn | Animal-Packed
+75mm wz.97                       s8                           s8                           28†  A Gr N P                 QSU | Animal-Packed
+Bofors M34                                                                                 29†  A B Gr Ne N              QSU | Animal-Packed
+75M 19S                          AP5 s6                       AP5 s6                       30†  A Gr P Y                 QSU | Horse-Drawn | Animal-Packed
 C105 L 13 S                                                                                31†  B P Y
-120mm wz. 09/31                  h-d s6                       h-d s6                       32†  N P
+120mm wz. 09/31                  s6                           s6                           32†  N P                      Horse-Drawn
 155mm 17 S                       s8                           s8                           33   B Gr P Y
-Mitrailleuse de 13.2 CAJ mle 30  2 TK DR†                     2 TK DR†                     34†  T†<sup>1</sup> B Gr Y    Towing NA†<sup>1</sup>
+Mitrailleuse de 13.2 CAJ mle 30                                                            34†  T†<sup>1</sup> B Gr Y    Tow NA | 2 TK DR | 16 [TH]
 20mm Oerlikon                    LF [NT, 20†[1], 2 ROF, B11]  LF [NT, 20†[1], 2 ROF, B11]  35†  C†<sup>1</sup> Gr Ne Y
 40mm Bofors AA                   LF [40†[1], 2 ROF]           LF [40†[1], 2 ROF]           36†  C†<sup>1</sup> B N Ne P

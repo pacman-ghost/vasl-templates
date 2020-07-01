@@ -1,16 +1,15 @@
 [
 
 { "name": "a german vehicle",
-  "capabilities": [ "QSU", "IR" ],
+  "capabilities": [ "XYZ", "IR" ],
   "capabilities2": { "A": 1, "H": 2 },
-  "capabilities_other": [ "can do other stuff" ],
   "CS#": 5,
   "note_number": "1",
   "notes": [ "A", "B\u2020" ],
   "id": "ge/v:990"
 },
 { "name": "another german vehicle",
-  "capabilities": [ "QSU" ],
+  "capabilities": [ "XYZ" ],
   "cs#": "4:brewup",
   "note_number": "2",
   "notes": [ "<s>b</s>", "C" ],

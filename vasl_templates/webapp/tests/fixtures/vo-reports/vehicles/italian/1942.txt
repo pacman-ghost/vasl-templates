@@ -1,45 +1,45 @@
 === vehicles/italian/1942 ===
 
-Name               Capabilities         (effective)       #    Notes                                              Comments
------------------  -------------------  ----------------  ---  -------------------------------------------------  ----------
-L5/21              ® CS 2               ® CS 2            1†   A†<sup>1</sup>
-L5/30              ® CS 2               ® CS 2            1†   n/a
-L3/35              ® CS 2               ® CS 2            2†   A†<sup>1</sup> B†<sup>1</sup> E N R
-L3 aa              ® CS 2               ® CS 2            3†   C E†<sup>2</sup> F†<sup>1</sup> N R
-L3 cc              ® CS 2               ® CS 2            4†   E J†<sup>1</sup> N
-L3 Lf              ® CS 2               ® CS 2            5†   E†<sup>1</sup> N
-L6/40              CS 2                 CS 2              6†   N R
-M11/39             ® CS 3               ® CS 3            7†   A†<sup>1</sup> N
-M13/40             ®† CS 4              ®† CS 4           8†   B†<sup>1</sup> C†<sup>2</sup> N
-M14/41             CS 4                 CS 4              9†   B†<sup>1</sup> C†<sup>2</sup> N
-M15/42             CS 4                 CS 4              10†  B†<sup>1</sup> C†<sup>2</sup>
-MR/35(f)           CS 2                 CS 2              11†  I†<sup>1</sup>
-SMV M40 75/18      H7[S2+]†[2] s8 CS 3  s8 CS 3           12   C†<sup>1</sup> F† H†<sup>2</sup> N
-SMV M41 75/18      H7[S2+]†[2] s8 CS 3  s8 CS 3           12†  C†<sup>1</sup> H†<sup>2</sup> N
-SMV M42 75/18      H7 s8 CS 3           H7 s8 CS 3        13   C†
-SMV M42 75/32      H7 s8 CS 3           H7 s8 CS 3        13†  C†<sup>1</sup>
-SMV M43 105/25     no IF H7 s8 CS 4     no IF H7 s8 CS 4  14   C†
-SMV L40 47/32      CS 3                 CS 3              15†  N<sup>T</sup> R
-SMV M41M 90/53     HE7 CS 5             HE7 CS 5          16†  D†<sup>1</sup>
-AS 42              CS 3                 CS 3              17†  L†<sup>1</sup> M N
-AS 42 aa           CS 4                 CS 4              17†  G†<sup>1</sup> L†<sup>2</sup> M N AA†<sup>1</sup>
-AS 42 cc           CS 4                 CS 4              17†  G†<sup>1</sup> J†<sup>1</sup> L†<sup>2</sup> M N
-Lince              CS 2                 CS 2              18   E
-Lancia 1ZM         ® CS 6               ® CS 6            19†  A†<sup>2</sup> F†<sup>3</sup> M†<sup>1</sup>
-Fiat 611A          ® CS 5               ® CS 5            20†  A†<sup>2</sup> F†<sup>3</sup> M†<sup>1</sup>
-Fiat 611B          ® HE7 CS 5           ® HE7 CS 5        20†  F†<sup>2</sup> M†<sup>1</sup>
-AB 40              CS 4                 CS 4              21   A† I†<sup>1</sup> N
-AB 41              CS 4                 CS 4              21†  N R
-Autoprot S37       CS 4                 CS 4              22†  R
-Autocann 20/65(b)  CS 4                 CS 4              23†  G†<sup>1</sup> N R AA†
-Autocann 65/17(b)  H7[S2+]†[2] CS 4     CS 4              23†  G†<sup>1</sup> H†<sup>2</sup> N
-Autocann 75/27     AP7 CS 4             AP7 CS 4          24   D† N AA†<sup>1</sup>
-Autocann 90/53     CS 4                 CS 4              24   D† N AA†<sup>1</sup>
-TL 37              cs 5                 cs 5              25†  L†<sup>1</sup> M N R
-TM 40              cs 5                 cs 5              25†  L†<sup>1</sup> M N R
-TP 32              cs 5                 cs 5              25†  L†<sup>1</sup> M N R
-Autocaretta        cs 5†[1]             cs 5†[1]          26†  K†<sup>1</sup> N R
-Fiat 508 MC        cs 2†[1]             cs 2†[1]          27†  A†<sup>2</sup> K†<sup>1</sup> N R
-Autocarro L        cs 6                 cs 6              28†  N R
-Autocarro M        cs 7                 cs 7              28†  N R
-Autocarro P        cs 7                 cs 7              28†  N R
+Name               Capabilities         (effective)    #    Notes                                              Comments
+-----------------  -------------------  -------------  ---  -------------------------------------------------  ---------------------------------------------------------------------------------------------------------------------------------------------
+L5/21              ® CS 2               ® CS 2         1†   A†<sup>1</sup>                                     2 TK DR
+L5/30              ® CS 2               ® CS 2         1†   n/a
+L3/35              ® CS 2               ® CS 2         2†   A†<sup>1</sup> B†<sup>1</sup> E N R                2 TK DR | Stun = Recall, CE &amp; Fire NA | BMG: HD Fire OK
+L3 aa              ® CS 2               ® CS 2         3†   C E†<sup>2</sup> F†<sup>1</sup> N R                BMG: CE Fire NA | BMG: Removal OK (dm MMG) | AAMG: VCA only | Stun = Recall, CE &amp; Fire NA | BMG: HD Fire OK
+L3 cc              ® CS 2               ® CS 2         4†   E J†<sup>1</sup> N                                 MA: CE use NA | Stun = Recall, CE &amp; Fire NA | MA: ATR 12 [TH] | MA: Removal/Scrounge OK
+L3 Lf              ® CS 2               ® CS 2         5†   E†<sup>1</sup> N                                   Trailer (AF 0) | Stun = Recall, CE &amp; Fire NA | BMG: HD Fire OK
+L6/40              CS 2                 CS 2           6†   N R
+M11/39             ® CS 3               ® CS 3         7†   A†<sup>1</sup> N                                   B11: SA only | 2 TK DR
+M13/40             ®† CS 4              ®† CS 4        8†   B†<sup>1</sup> C†<sup>2</sup> N                    AAMG: VCA only
+M14/41             CS 4                 CS 4           9†   B†<sup>1</sup> C†<sup>2</sup> N                    AAMG: VCA only
+M15/42             CS 4                 CS 4           10†  B†<sup>1</sup> C†<sup>2</sup>                      AAMG: VCA only
+MR/35(f)           CS 2                 CS 2           11†  I†<sup>1</sup>                                     CMG: AA ok (TCA only) | CE: +1 Rear Turret &amp; Indirect Fire | French ESB+
+SMV M40 75/18      H7[S2+]†[2] s8 CS 3  s8 CS 3        12   C†<sup>1</sup> F† H†<sup>2</sup> N                 AAMG: VCA only
+SMV M41 75/18      H7[S2+]†[2] s8 CS 3  s8 CS 3        12†  C†<sup>1</sup> H†<sup>2</sup> N                    AAMG: VCA only
+SMV M42 75/18      H7 s8 CS 3           H7 s8 CS 3     13   C†                                                 AAMG: VCA only
+SMV M42 75/32      H7 s8 CS 3           H7 s8 CS 3     13†  C†<sup>1</sup>                                     AAMG: VCA only
+SMV M43 105/25     H7 s8 CS 4           H7 s8 CS 4     14   C†                                                 No IF | AAMG: VCA only
+SMV L40 47/32      CS 3                 CS 3           15†  N<sup>T</sup> R                                    Always CE
+SMV M41M 90/53     HE7 CS 5             HE7 CS 5       16†  D†<sup>1</sup>                                     Same Location fire NA | CE: 0/+1 | MA: No Bnd (F)F, Motion Fire
+AS 42              CS 3                 CS 3           17†  L†<sup>1</sup> M N                                 As Truck | Moves as AC [EXC: Hedge NA] | Reverse MP &#215;3
+AS 42 aa           CS 4                 CS 4           17†  G†<sup>1</sup> L†<sup>2</sup> M N AA†<sup>1</sup>  As Truck | MA: No Bnd (F)F, Motion Fire in VCA | Moves as AC [EXC: Hedge NA] | Reverse MP &#215;3 | MA: AA ok
+AS 42 cc           CS 4                 CS 4           17†  G†<sup>1</sup> J†<sup>1</sup> L†<sup>2</sup> M N   As Truck | MA: No Bnd (F)F, Motion Fire in VCA | MA: ATR 12 [TH] | MA: Removal/Scrounge OK | Moves as AC [EXC: Hedge NA] | Reverse MP &#215;3
+Lince              CS 2                 CS 2           18   E                                                  Stun = Recall, CE &amp; Fire NA | BMG: HD Fire OK
+Lancia 1ZM         ® CS 6               ® CS 6         19†  A†<sup>2</sup> F†<sup>3</sup> M†<sup>1</sup>       Rear MG: Removal OK (dm MMG) | Wire clearance | 2 TK DR | Reverse MP &#215;3
+Fiat 611A          ® CS 5               ® CS 5         20†  A†<sup>2</sup> F†<sup>3</sup> M†<sup>1</sup>       Rear MG: Removal OK (dm MMG) | 2 TK DR | Reverse MP &#215;3
+Fiat 611B          ® HE7 CS 5           ® HE7 CS 5     20†  F†<sup>2</sup> M†<sup>1</sup>                      Rear MG: Removal OK (dm MMG) | Reverse MP &#215;3
+AB 40              CS 4                 CS 4           21   A† I†<sup>1</sup> N                                Rear MG: AA ok (TCA only) | 2 TK DR
+AB 41              CS 4                 CS 4           21†  N R
+Autoprot S37       CS 4                 CS 4           22†  R                                                  As Armored HT | Moves as AC | Reverse MP &#215;4
+Autocann 20/65(b)  CS 4                 CS 4           23†  G†<sup>1</sup> N R AA†                             British for Hamm.Immob. &amp; Sand Bog | MA: No Bnd (F)F, Motion Fire in VCA | MA: AA ok
+Autocann 65/17(b)  H7[S2+]†[2] CS 4     CS 4           23†  G†<sup>1</sup> H†<sup>2</sup> N                    British for Hamm.Immob. &amp; Sand Bog | MA: No Bnd (F)F, Motion Fire in VCA
+Autocann 75/27     AP7 CS 4             AP7 CS 4       24   D† N AA†<sup>1</sup>                               MA: No Bnd (F)F, Motion Fire | MA: AA ok
+Autocann 90/53     CS 4                 CS 4           24   D† N AA†<sup>1</sup>                               MA: No Bnd (F)F, Motion Fire | MA: AA ok
+TL 37              cs 5                 cs 5           25†  L†<sup>1</sup> M N R                               Ammo: 4PP | Moves as AC [EXC: Hedge NA] | Reverse MP &#215;3
+TM 40              cs 5                 cs 5           25†  L†<sup>1</sup> M N R                               Ammo: 4PP | Moves as AC [EXC: Hedge NA] | Reverse MP &#215;3
+TP 32              cs 5                 cs 5           25†  L†<sup>1</sup> M N R                               Ammo: 4PP | Moves as AC [EXC: Hedge NA] | Reverse MP &#215;3
+Autocaretta        cs 5†[1]             cs 5†[1]       26†  K†<sup>1</sup> N R                                 Inherent Crew if armed (with CS#)
+Fiat 508 MC        cs 2†[1]             cs 2†[1]       27†  A†<sup>2</sup> K†<sup>1</sup> N R                  No Passengers | AAMG: VCA only | AAMG: Removal NA, Scrounge OK | Bog Assistance | 2 TK DR | Inherent Crew if armed (with CS#)
+Autocarro L        cs 6                 cs 6           28†  N R
+Autocarro M        cs 7                 cs 7           28†  N R
+Autocarro P        cs 7                 cs 7           28†  N R

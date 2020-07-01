@@ -16,6 +16,7 @@
   "capabilities2": { "C": "4\u2020", "s": "8\u2020" },
   "note_number": "49\u2020",
   "notes": [ "B\u2020<sup>1</sup>", "N", "O", "LL" ],
+  "comments": [ "37LL MA: T", "75 SA: NT (bow-mounted)", "Canister: 37LL MA only", "Smoke: 75 SA only", "AAMG: BU Fire OK (vs Aerial NA, CC ok)" ],
   "id": "ru/v:075",
   "gpid": [ 704, 7423 ],
   "_comment_": "VASL has 2 other GPID's, with different capabilities."
@@ -45,8 +46,10 @@
   "capabilities2": { "sD": 6 },
   "note_number": "51\u2020",
   "notes": [ "M\u2020<sup>1</sup>", "N", "LL" ],
+  "disabled_comments": [ "M" ],
+  "comments": [ "Immob: dr &le; 3 [EXC: mines, Direct Fire vs front/rear]", "Mech.Reliability if Deep Snow or Extreme Winter" ],
   "id": "ru/v:078",
-  "gpid": null,
+  "gpid": [ 7150 ],
   "_comment_": "VASL has a Russian variant with CS 4."
 },
 { "id": "ru/v:085",
@@ -76,6 +79,7 @@
   "capabilities2": { "D": [ [6,"J4"], [7,5], "\u2020" ], "HE": [ [7,"F3"], [8,"4+"], "\u2020" ], "sD": [ [6,"4+"] ], "sM": "8\u2020" },
   "note_number": "53\u2020",
   "notes": [ "N", "LL" ],
+  "comments": [ "Steep climbs" ],
   "id": "ru/v:081",
   "gpid": [ 732, 7115 ]
 },
@@ -85,17 +89,20 @@
   "name": "M3A1 Scout Car(a)",
   "note_number": "54",
   "extra_notes": [ "LL" ],
+  "comments": [ "Inherent Crew & HS Passenger" ],
   "gpid": [ 7426, 7428 ]
 },
 { "id": "ru/v:086",
   "copy_from": "br/v:090",
   "note_number": "55",
-  "extra_notes": [ "LL" ]
+  "extra_notes": [ "LL" ],
+  "disabled_comments": [ "?:Black TH#", "?:Red TH#" ]
 },
 { "id": "ru/v:087",
-  "copy_from": "br/v:091",
+  "copy_from": "br/v:093",
   "note_number": "55",
-  "extra_notes": [ "LL" ]
+  "extra_notes": [ "LL" ],
+  "disabled_comments": [ "?:Black TH#", "?:Red TH#" ]
 },
 { "id": "ru/v:088",
   "copy_from": "br/v:087",
@@ -105,27 +112,32 @@
 { "id": "ru/v:089",
   "copy_from": "br/v:094",
   "note_number": "57",
-  "extra_notes": [ "LL" ]
+  "extra_notes": [ "LL" ],
+  "disabled_comments": [ "Black TH#" ]
 },
 { "id": "ru/v:090",
   "copy_from": "br/v:095",
   "note_number": "57",
-  "extra_notes": [ "LL" ]
+  "extra_notes": [ "LL" ],
+  "disabled_comments": [ "Black TH#" ]
 },
 { "id": "ru/v:091",
   "copy_from": "br/v:096",
   "note_number": "57",
-  "extra_notes": [ "LL" ]
+  "extra_notes": [ "LL" ],
+  "disabled_comments": [ "Black TH#" ]
 },
 { "id": "ru/v:092",
   "copy_from": "br/v:097",
   "note_number": "57",
-  "extra_notes": [ "LL" ]
+  "extra_notes": [ "LL" ],
+  "disabled_comments": [ "Black TH#" ]
 },
 { "id": "ru/v:093",
   "copy_from": "br/v:098",
   "note_number": "57",
-  "extra_notes": [ "LL" ]
+  "extra_notes": [ "LL" ],
+  "disabled_comments": [ "Black TH#" ]
 },
 
 { "name": "Jeep(a)",
@@ -133,35 +145,40 @@
   "cs#": 2,
   "note_number": "58",
   "notes": [ "H\u2020", "L\u2020<sup>1</sup>", "LL" ],
+  "disabled_comments": [ "?:Black TH#", "?:Red TH#" ],
   "id": "ru/v:083",
   "gpid": [ 758, 759, 7119 ]
 },
 { "id": "ru/v:094",
   "copy_from": "br/v:123",
-  "note_number": null,
-  "extra_notes": [ "LL" ]
+  "note_number": "58",
+  "extra_notes": [ "LL" ],
+  "disabled_comments": [ "?:Black TH#", "?:Red TH#" ]
 },
 { "id": "ru/v:095",
   "copy_from": "br/v:124",
-  "note_number": null,
-  "extra_notes": [ "LL" ]
+  "note_number": "58",
+  "extra_notes": [ "LL" ],
+  "disabled_comments": [ "?:Black TH#", "?:Red TH#" ]
 },
 { "id": "ru/v:096",
   "copy_from": "br/v:125",
-  "note_number": null,
-  "extra_notes": [ "LL" ]
+  "note_number": "58",
+  "extra_notes": [ "LL" ],
+  "disabled_comments": [ "?:Black TH#", "?:Red TH#" ]
 },
 { "id": "ru/v:097",
   "copy_from": "br/v:126",
-  "note_number": null,
-  "extra_notes": [ "LL" ]
+  "note_number": "58",
+  "extra_notes": [ "LL" ],
+  "disabled_comments": [ "?:Black TH#", "?:Red TH#" ]
 },
 { "id": "ru/v:084",
   "copy_from": "am/v:056",
-  "note_number": null,
+  "note_number": "60",
   "extra_notes": [ "LL" ],
+  "disabled_comments": [ "Black TH#" ],
   "gpid": 7120
 }
 
 ]
-

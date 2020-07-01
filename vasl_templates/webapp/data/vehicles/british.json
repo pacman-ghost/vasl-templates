@@ -6,6 +6,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "1\u2020",
   "notes": [ "N", "P" ],
+  "comments": [ "2 TK DR (12.7 &amp; MG)" ],
   "id": "br/v:000",
   "gpid": 1208
 },
@@ -31,6 +32,7 @@
   "capabilities2": { "HE": "9\u2020<sup>1</sup>", "s": [ null, "\u2020<sup>1</sup>" ], "sD": 6 },
   "note_number": "2\u2020",
   "notes": [ "S\u2020<sup>1</sup>" ],
+  "comments": [ "{? -10/1943 | &infin; Smoke | s9, &infin; HE | &infin; Smoke [EXC: post-10/43: s9, &infin; HE] ?}" ],
   "id": "br/v:003",
   "gpid": 1214
 },
@@ -76,6 +78,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "6\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N" ],
+  "comments": [ "BMG: Scrounge NA" ],
   "id": "br/v:008",
   "gpid": [ 1224, 1226 ]
 },
@@ -85,6 +88,7 @@
   "capabilities2": { "s": [ null, "\u2020<sup>2</sup>" ], "sD": 6 },
   "note_number": "6\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N", "S\u2020<sup>2</sup>" ],
+  "comments": [ "&infin; Smoke", "BMG: Scrounge NA" ],
   "id": "br/v:009",
   "gpid": [ 1228, 1230 ]
 },
@@ -103,6 +107,7 @@
   "capabilities2": { "s": [ null, "\u2020<sup>2</sup>" ], "sD": 6 },
   "note_number": "7\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N", "S\u2020<sup>2</sup>" ],
+  "comments": [ "&infin; Smoke" ],
   "id": "br/v:011",
   "gpid": [ 1242, 1244, 1246 ]
 },
@@ -130,6 +135,7 @@
   "capabilities2": { "s": [ null, "\u2020<sup>2</sup>" ], "sD": 6 },
   "note_number": "8\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N", "S\u2020<sup>2</sup>" ],
+  "comments": [ "&infin; Smoke" ],
   "id": "br/v:014",
   "gpid": 1260
 },
@@ -139,6 +145,7 @@
   "capabilities2": { "sM": 8 },
   "note_number": "9\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N" ],
+  "comments": [ "BMG: extended port-side" ],
   "id": "br/v:015",
   "gpid": [ 1262, 1264 ]
 },
@@ -148,6 +155,7 @@
   "capabilities2": { "HE": 9, "s": [ null, "\u2020<sup>2</sup>" ], "sM": 8 },
   "note_number": "9\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N", "S\u2020<sup>2</sup>" ],
+  "comments": [ "BMG: extended port-side", "&infin; Smoke" ],
   "id": "br/v:016",
   "gpid": [ 1266, 1268 ]
 },
@@ -166,6 +174,7 @@
   "capabilities2": { "HE": 9, "s": [ null, "\u2020<sup>2</sup>" ], "sM": 8 },
   "note_number": "9\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N", "S\u2020<sup>2</sup>" ],
+  "comments": [ "&infin; Smoke" ],
   "id": "br/v:018",
   "gpid": [ 1274, 1276 ]
 },
@@ -184,6 +193,7 @@
   "capabilities2": { "HE": [ null, "4+" ], "C": [ [5,"4+"], "\u2020<sup>1</sup>" ], "s": "8\u2020", "sM": 8 },
   "note_number": "11\u2020",
   "notes": [ "A", "C\u2020<sup>1</sup>", "G", "N", "P" ],
+  "comments": [ "37LL: T", "75 SA: NT (bow-mounted)", "Smoke: 75 SA only", "HE &amp; C: 37 MA only", "BMG: +1 DRM vs Moving/Motion" ],
   "id": "br/v:020",
   "gpid": 1280
 },
@@ -193,6 +203,7 @@
   "capabilities2": { "HE": [ null, "4+" ], "C": [ [5,"4+"], "\u2020<sup>1</sup>" ], "s": "8\u2020", "sD": 6 },
   "note_number": "11\u2020",
   "notes": [ "A", "C\u2020<sup>1</sup>", "G", "N", "P" ],
+  "comments": [ "37LL: T", "75 SA: NT (bow-mounted)", "Smoke: 75 SA only", "HE &amp; C: 37 MA only", "BMG: +1 DRM vs Moving/Motion", "AAMG: BU Fire &amp; CC ok [EXC: vs Aerial NA]" ],
   "id": "br/v:021",
   "gpid": [ 1282, 1284 ]
 },
@@ -328,6 +339,7 @@
   "capabilities2": { "s": 8, "WP": 6, "sD": 6 },
   "note_number": "23\u2020",
   "notes": [ "A", "G", "K\u2020<sup>2</sup>", "P", "R\u2020<sup>1</sup>" ],
+  "comments": [ "Front-hull hit: +2 TH DRM (unless level &lt; firer)" ],
   "id": "br/v:036",
   "gpid": [ 1328, 1330 ]
 },
@@ -337,6 +349,7 @@
   "capabilities2": { "s": 8, "WP": 6, "sD": 6 },
   "note_number": "24\u2020",
   "notes": [ "A", "G", "K\u2020<sup>2</sup>", "P", "R\u2020<sup>1</sup>" ],
+  "comments": [ "Mine &amp; Wire Clearance" ],
   "id": "br/v:037",
   "gpid": [ 1332, 1334 ]
 },
@@ -347,6 +360,7 @@
   "capabilities2": { "sD": 5 },
   "note_number": "25\u2020",
   "notes": [ "B\u2020<sup>1</sup>" ],
+  "comments": [ "MA: 12.7", "Road Rate NA" ],
   "id": "br/v:038",
   "gpid": [ 1338, 1340 ]
 },
@@ -356,6 +370,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "26\u2020",
   "notes": [ "B\u2020<sup>1</sup>", "K\u2020<sup>2</sup>", "N", "P" ],
+  "comments": [ "Immob: dr &le; 3 [EXC: mines, Direct Fire vs front/rear]" ],
   "id": "br/v:039",
   "gpid": [ 1342, 1344, 1346, 1348 ]
 },
@@ -365,6 +380,7 @@
   "capabilities2": { "HE": "9\u2020<sup>2</sup>", "s": [ null, "\u2020<sup>2</sup>" ], "sD": 6 },
   "note_number": "26\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N", "P", "S\u2020<sup>2</sup>" ],
+  "comments": [ "Immob: dr &le; 3 [EXC: mines, Direct Fire vs front/rear]", "{? -10/1943 | &infin; Smoke | s9, &infin; HE | &infin; Smoke [EXC: post-10/43: s9, &infin; HE] ?}" ],
   "id": "br/v:040",
   "gpid": [ 1350, 1352 ]
 },
@@ -409,6 +425,7 @@
   "capabilities2": { "HE": "9\u2020<sup>2</sup>", "s": [ null, "\u2020<sup>2</sup>" ], "sD": [ [5,4] ], "sM": "8\u2020<sup>1</sup>" },
   "note_number": "31\u2020",
   "notes": [ "N<sup>T</sup>", "S\u2020<sup>2</sup>", "Z\u2020<sup>1</sup>", "CC" ],
+  "comments": [ "40 MA: T", "76 SA: NT (bow-mounted)", "76 SA: +1 DRM vs Moving/Motion", "Smoke &amp; HE: 76 SA only", "{? -10/1943 | 76 SA: &infin; Smoke | 76 SA: s9, &infin; HE | 76 SA: &infin; Smoke [EXC: post-10/43: s9, &infin; HE] ?}" ],
   "id": "br/v:045",
   "gpid": 1364
 },
@@ -463,6 +480,7 @@
   "capabilities2": { "sD": 7 },
   "note_number": "36\u2020",
   "notes": [ "M", "P" ],
+  "comments": [ "Inherent Crew" ],
   "id": "br/v:051",
   "gpid": 1376
 },
@@ -472,16 +490,17 @@
   "capabilities2": { "sD": 7 },
   "note_number": "36\u2020",
   "notes": [ "M", "CC" ],
+  "comments": [ "Inherent Crew", "VBM NA (with bridge)" ],
   "id": "br/v:052",
   "gpid": 1380
 },
 { "name": "Churchill AVRE",
   "type": "HTv",
   "CS#": 8,
-  "no_if": true,
   "capabilities2": { "sD": 7, "sM": "8\u2020<sup>1</sup>" },
   "note_number": "37\u2020",
   "notes": [ "Z\u2020<sup>1</sup>", "CC" ],
+  "comments": [ "Crew: Assault Engineers &amp; Sappers", "Inherent 4&times; DC (Throw NA, Fanaticism)", "MA: Area Target Type &amp; TH Case L NA", "TH# = 12 - 2 &times; range", "TCA alignment", "Mine Clearance", "Wall/Hedge Breaches", "No IF" ],
   "id": "br/v:053",
   "gpid": [ 1384, 1386 ]
 },
@@ -491,6 +510,7 @@
   "capabilities2": { "s": 8, "WP": 6, "sD": 7, "sM": "8\u2020<sup>1</sup>" },
   "note_number": "38\u2020",
   "notes": [ "Z\u2020<sup>1</sup>", "CC" ],
+  "comments": [ "Trailer (AF 6)" ],
   "id": "br/v:054",
   "gpid": 1390
 },
@@ -500,6 +520,7 @@
   "capabilities2": { "HE": [ [7,"F3+"], "\u2020<sup>2</sup>" ] },
   "note_number": "39\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "N", "Y\u2020<sup>2</sup>" ],
+  "comments": [ "Starboard VCA NA", "TCA restrictions", "Turret Rear unarmored", "CE: +3 Front/Side Turret" ],
   "id": "br/v:055",
   "gpid": 1393
 },
@@ -527,6 +548,7 @@
   "capabilities2": { "HE": 7, "D": [ [6,4], [7,5], "\u2020<sup>1</sup>" ], "sD": 7 },
   "note_number": "41\u2020",
   "notes": [ "J\u2020<sup>1</sup>" ],
+  "comments": [ "MA: Rear VCA only", "No Bnd FF, Motion Fire" ],
   "id": "br/v:058",
   "gpid": 1399
 },
@@ -554,6 +576,7 @@
   "capabilities2": { "sD": [ [4,"4+"], "\u2020" ] },
   "note_number": "43\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "M", "P", "BB\u2020<sup>2</sup>" ],
+  "comments": [ "MA: CE, Rider, vs Aerial NA" ],
   "id": "br/v:061",
   "gpid": 1405
 },
@@ -562,6 +585,8 @@
   "CS#": 5,
   "note_number": "44\u2020",
   "notes": [ "A", "D", "N<sup>T</sup>", "P" ],
+  "disabled_comments": [ "A" ],
+  "comments": [ "MA: VCA only", "2 TK DR (MG)", "As fully-tracked" ],
   "id": "br/v:062",
   "gpid": 1407
 },
@@ -571,6 +596,7 @@
   "capabilities2": { "sD": 5 },
   "note_number": "45\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "N", "P", "Q\u2020<sup>2</sup>" ],
+  "disabled_comments": [ "Q" ],
   "id": "br/v:063",
   "gpid": 1409
 },
@@ -580,6 +606,7 @@
   "capabilities2": { "sD": 5 },
   "note_number": "45\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "P", "Q\u2020<sup>2</sup>" ],
+  "disabled_comments": [ "Q" ],
   "id": "br/v:064",
   "gpid": 1411
 },
@@ -614,6 +641,7 @@
   "CS#": 4,
   "note_number": "49\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "N", "AA\u2020<sup>2</sup>" ],
+  "comments": [ "MA &amp; CMG: AA ok", "Red TH#" ],
   "id": "br/v:068",
   "gpid": 1419
 },
@@ -638,6 +666,8 @@
   "CS#": 4,
   "note_number": "49\u2020",
   "notes": [ "K\u2020<sup>2</sup>", "L\u2020<sup>1</sup>", "N", "T\u2020<sup>2</sup>" ],
+  "disabled_comments": [ "T" ],
+  "comments": [ "AAMG: Rear VCA only", "Red TH#" ],
   "id": "br/v:071",
   "gpid": [ 1425, 1427 ]
 },
@@ -719,16 +749,17 @@
   "capabilities2": { "s": 9, "sD": 6 },
   "note_number": "54\u2020",
   "notes": [ "A", "K\u2020<sup>3</sup>", "S\u2020<sup>2</sup>", "X\u2020<sup>1</sup>" ],
+  "comments": [ "&infin; Smoke" ],
   "id": "br/v:080",
   "gpid": [ 1451, 1453 ]
 },
 { "name": "Bishop",
   "type": "SPA",
   "CS#": 5,
-  "no_if": true,
   "capabilities2": { "s": 8 },
   "note_number": "55\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N", "P" ],
+  "comments": [ "+1 TH DRM vs Moving/Motion", "No IF" ],
   "id": "br/v:081",
   "gpid": [ 1457, 1459 ]
 },
@@ -756,6 +787,7 @@
   "capabilities2": { "s": 8, "WP": [ [7,"J4+"], "\u2020<sup>1</sup>" ] },
   "note_number": "58\u2020",
   "notes": [ "A", "N<sup>T</sup>", "W\u2020<sup>1</sup>" ],
+  "comments": [ "CE: +3 Front" ],
   "id": "br/v:084",
   "gpid": 1467
 },
@@ -773,6 +805,7 @@
   "capabilities2": { "sD": 7 },
   "note_number": "60\u2020",
   "notes": [ "AA\u2020<sup>1</sup>" ],
+  "comments": [ "2 TK DR", "CE Fire NA" ],
   "id": "br/v:086",
   "gpid": [ 1471, 1473 ]
 },
@@ -781,6 +814,7 @@
   "CS#": 4,
   "note_number": "61\u2020",
   "notes": [ "A", "F\u2020", "AA\u2020<sup>1</sup>" ],
+  "comments": [ "CE: +1 Side/Rear Turret", "MA: VCA &le; level NA", "4 TK DR" ],
   "id": "br/v:087",
   "gpid": 1475
 },
@@ -797,6 +831,7 @@
   "CS#": 3,
   "note_number": "62\u2020",
   "notes": [ "A", "F\u2020", "X\u2020<sup>1</sup>", "AA\u2020<sup>2</sup>" ],
+  "comments": [ "2 TK DR" ],
   "id": "br/v:089",
   "gpid": 1479
 },
@@ -805,6 +840,8 @@
   "cs#": "5\u2020<sup>1</sup>",
   "note_number": "63\u2020",
   "notes": [ "A", "I\u2020<sup>1</sup>", "N" ],
+  "disabled_comments": [ "A" ],
+  "comments": [ "American ESB+", "MA Removal OK (.30-cal MMG)" ],
   "id": "br/v:090",
   "gpid": [ 1481, 1483 ]
 },
@@ -813,6 +850,8 @@
   "cs#": "4\u2020<sup>1</sup>",
   "note_number": "63\u2020",
   "notes": [ "A", "I\u2020<sup>1</sup>", "N" ],
+  "disabled_comments": [ "A" ],
+  "comments": [ "American ESB+", "MA Removal OK (.30-cal MMG)" ],
   "id": "br/v:091",
   "gpid": [ 1489, 1491 ]
 },
@@ -821,6 +860,8 @@
   "cs#": "5\u2020",
   "note_number": "63",
   "notes": [ "A", "I\u2020" ],
+  "disabled_comments": [ "A" ],
+  "comments": [ "American ESB+", "MA Removal OK (.50-cal HMG)" ],
   "id": "br/v:092",
   "gpid": [ 1485, 1487 ]
 },
@@ -829,6 +870,8 @@
   "cs#": "4\u2020",
   "note_number": "63",
   "notes": [ "A", "I\u2020" ],
+  "disabled_comments": [ "A" ],
+  "comments": [ "American ESB+", "MA Removal OK (.50-cal HMG)" ],
   "id": "br/v:093",
   "gpid": [ 1493, 1495 ]
 },
@@ -838,6 +881,7 @@
   "capabilities2": { "sD": [ [5,"4+"], "\u2020<sup>1</sup>" ] },
   "note_number": "64\u2020",
   "notes": [ "N", "P", "U\u2020<sup>1</sup>" ],
+  "comments": [ "Always CE", "BMG: AA ok" ],
   "id": "br/v:094",
   "gpid": 1497
 },
@@ -847,6 +891,7 @@
   "capabilities2": { "sD": [ [5,"4+"], "\u2020<sup>2</sup>" ] },
   "note_number": "64\u2020",
   "notes": [ "N", "P", "Q\u2020<sup>1</sup>", "U\u2020<sup>2</sup>" ],
+  "comments": [ "Always CE" ],
   "id": "br/v:095",
   "gpid": 1499
 },
@@ -856,6 +901,7 @@
   "capabilities2": { "sD": [ [5,"4+"], "\u2020<sup>1</sup>" ] },
   "note_number": "64\u2020",
   "notes": [ "N", "P", "U\u2020<sup>1</sup>" ],
+  "comments": [ "Always CE", "MA: Removal NA", "{? 07/1943- | PIAT | | PIAT<sup>J3+</sup> ?}" ],
   "id": "br/v:096",
   "gpid": 1501
 },
@@ -865,6 +911,7 @@
   "capabilities2": { "sD": [ [5,"4+"], "\u2020<sup>2</sup>" ] },
   "note_number": "65\u2020",
   "notes": [ "N", "P", "Q\u2020<sup>1</sup>", "U\u2020<sup>2</sup>" ],
+  "comments": [ "Always CE", "BATR SA: HD VCA Fire OK" ],
   "id": "br/v:097",
   "gpid": [ 1503, 1505 ]
 },
@@ -874,6 +921,7 @@
   "capabilities2": { "sD": [ [5,"4+"], "\u2020<sup>2</sup>" ] },
   "note_number": "65\u2020",
   "notes": [ "U\u2020<sup>2</sup>", "BB\u2020<sup>1</sup>" ],
+  "comments": [ "Always CE", "Normal Range = 14" ],
   "id": "br/v:098",
   "gpid": 1507
 },
@@ -883,6 +931,7 @@
   "capabilities2": { "IR": [ [null,"2+"], "\u2020" ], "s": 7 },
   "note_number": "66\u2020",
   "notes": [ "N", "P", "U\u2020<sup>1</sup>" ],
+  "comments": [ "Always CE", "MA: Removal OK" ],
   "id": "br/v:099",
   "gpid": 1509
 },
@@ -891,6 +940,7 @@
   "CS#": "4:brewup\u2020<sup>1</sup>",
   "note_number": "67\u2020",
   "notes": [ "H\u2020<sup>1</sup>", "N", "P", "U", "BB\u2020<sup>2</sup>" ],
+  "comments": [ "Always CE", "Inherent dm <span style='text-decoration:overline;'>76</span>* MTR" ],
   "id": "br/v:100",
   "gpid": 1511
 },
@@ -899,6 +949,8 @@
   "CS#": 7,
   "note_number": "68\u2020",
   "notes": [ "A", "D" ],
+  "disabled_comments": [ "A" ],
+  "comments": [ "American ESB+", "MA: 12.7(a)" ],
   "id": "br/v:101",
   "gpid": 1513
 },
@@ -907,6 +959,8 @@
   "CS#": 7,
   "note_number": "68\u2020",
   "notes": [ "A", "D", "K\u2020<sup>1</sup>" ],
+  "disabled_comments": [ "A" ],
+  "comments": [ "American ESB+" ],
   "id": "br/v:102",
   "gpid": [ 1515, 1517 ]
 },
@@ -915,6 +969,8 @@
   "cs#": "4\u2020<sup>1</sup>",
   "note_number": "69\u2020",
   "notes": [ "A", "I\u2020<sup>1</sup>", "N" ],
+  "disabled_comments": [ "A" ],
+  "comments": [ "American ESB+", "Unpossessed SW ok", "Pas: No Mounted Fire penalty" ],
   "id": "br/v:103",
   "gpid": [ 1519, 1521 ]
 },
@@ -931,6 +987,7 @@
   "CS#": 4,
   "note_number": "70\u2020",
   "notes": [ "N", "P", "Q\u2020<sup>2</sup>", "V", "X\u2020<sup>1</sup>" ],
+  "comments": [ "BU Fire OK" ],
   "id": "br/v:105",
   "gpid": 1525
 },
@@ -939,6 +996,7 @@
   "CS#": 4,
   "note_number": "70\u2020",
   "notes": [ "P", "Q\u2020<sup>1</sup>", "V", "X\u2020" ],
+  "comments": [ "BATR SA: BU/HD Fire OK" ],
   "id": "br/v:106",
   "gpid": 1527
 },
@@ -949,6 +1007,7 @@
   "capabilities2": { "s": 8, "WP": 7 },
   "note_number": "71\u2020<sup>2</sup>",
   "notes": [ "E\u2020<sup>3</sup>", "H\u2020", "P", "V", "X\u2020<sup>1</sup>", "BB\u2020<sup>4</sup>" ],
+  "comments": [ "MA: Rear VCA only" ],
   "id": "br/v:107",
   "gpid": [ 1529, 1531 ]
 },
@@ -958,6 +1017,8 @@
   "capabilities2": { "sD": "5\u2020" },
   "note_number": "72\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "U" ],
+  "disabled_comments": [ "U" ],
+  "comments": [ "Always CE", "sD: 2 hexes" ],
   "id": "br/v:108",
   "gpid": [ 1533, 1535 ]
 },
@@ -966,6 +1027,8 @@
   "CS#": 3,
   "note_number": "72\u2020",
   "notes": [ "A", "K\u2020<sup>1</sup>", "M" ],
+  "disabled_comments": [ "A" ],
+  "comments": [ "American ESB+" ],
   "id": "br/v:109",
   "gpid": [ 1537, 1539 ]
 },
@@ -975,6 +1038,7 @@
   "capabilities2": { "sD": "5\u2020" },
   "note_number": "73\u2020",
   "notes": [ "A", "D", "AA\u2020<sup>1</sup>" ],
+  "comments": [ "sD: Water OK", "Bog: 0 DRM for soft, mud, snow-covered ground" ],
   "id": "br/v:110",
   "gpid": 1541
 },
@@ -984,6 +1048,8 @@
   "capabilities2": { "sD": "5\u2020" },
   "note_number": "73\u2020",
   "notes": [ "A", "D", "E\u2020<sup>1</sup>", "AA\u2020<sup>2</sup>" ],
+  "disabled_comments": [ "(Un)load &times;2" ],
+  "comments": [ "sD: Water OK", "Bog: 0 DRM for soft, mud, snow-covered ground" ],
   "id": "br/v:111",
   "gpid": 1543
 },
@@ -1001,14 +1067,17 @@
   "cs#": "7\u2020<sup>1</sup>",
   "note_number": "75\u2020",
   "notes": [ "A", "D", "I\u2020<sup>1</sup>", "P" ],
+  "disabled_comments": [ "A", "MG Removal NA" ],
+  "comments": [ "American ESB+" ],
   "id": "br/v:113",
-  "gpid": 1549
+  "gpid": [ 1549, 1551 ]
 },
 { "name": "Terrapin Mk I",
   "type": "atr",
   "cs#": 7,
   "note_number": "76\u2020",
   "notes": [ "D" ],
+  "disabled_comments": [ "MG Removal NA" ],
   "id": "br/v:114",
   "gpid": 1553
 },
@@ -1017,6 +1086,7 @@
   "CS#": "4\u2020<sup>1</sup>",
   "note_number": "77\u2020",
   "notes": [ "H\u2020<sup>1</sup>", "N", "P" ],
+  "comments": [ "MA: NA VCA" ],
   "id": "br/v:115",
   "gpid": 1555
 },
@@ -1025,6 +1095,7 @@
   "CS#": 4,
   "note_number": "78\u2020",
   "notes": [ "P", "AA\u2020<sup>1</sup>" ],
+  "comments": [ "No Bnd (F)F, Motion Fire" ],
   "id": "br/v:116",
   "gpid": 1557
 },
@@ -1033,14 +1104,16 @@
   "cs#": 5,
   "note_number": "79\u2020",
   "notes": [ "N", "P" ],
+  "comments": [ "Not a Carrier" ],
   "id": "br/v:117",
   "gpid": 1559
 },
 { "name": "Quad FAT",
   "type": "tr",
-  "CS#": "5:brewup\u2020",
+  "cs#": "5:brewup\u2020",
   "note_number": "80\u2020",
   "notes": [ "N", "P" ],
+  "comments": [ "Burning Wreck: -1 DRM" ],
   "id": "br/v:118",
   "gpid": 1561
 },
@@ -1073,6 +1146,8 @@
   "cs#": "2\u2020<sup>1</sup>",
   "note_number": "84\u2020",
   "notes": [ "A", "I\u2020<sup>1</sup>", "N", "P" ],
+  "disabled_comments": [ "A" ],
+  "comments": [ "American ESB+", "Bog assistance" ],
   "id": "br/v:122",
   "gpid": [ 1569, 1570 ]
 },
@@ -1081,6 +1156,8 @@
   "cs#": 4,
   "note_number": "85",
   "notes": [ "A", "N" ],
+  "disabled_comments": [ "A" ],
+  "comments": [ "American ESB+" ],
   "id": "br/v:123",
   "gpid": 1571
 },
@@ -1089,6 +1166,8 @@
   "cs#": 6,
   "note_number": "85",
   "notes": [ "A", "N" ],
+  "disabled_comments": [ "A" ],
+  "comments": [ "American ESB+" ],
   "id": "br/v:124",
   "gpid": 1573
 },
@@ -1097,6 +1176,8 @@
   "cs#": 7,
   "note_number": "85",
   "notes": [ "A", "N" ],
+  "disabled_comments": [ "A" ],
+  "comments": [ "American ESB+" ],
   "id": "br/v:125",
   "gpid": 1575
 },
@@ -1105,6 +1186,8 @@
   "cs#": 7,
   "note_number": "85\u2020",
   "notes": [ "A", "N" ],
+  "disabled_comments": [ "A" ],
+  "comments": [ "American ESB+" ],
   "id": "br/v:126",
   "gpid": 1577
 }

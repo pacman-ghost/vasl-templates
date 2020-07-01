@@ -422,6 +422,7 @@ function strReplaceAll( val, searchFor, replaceWith )
         if ( pos === -1 )
             return val ;
         val = val.substr(0,pos) + replaceWith + val.substr(pos+searchFor.length) ;
+        pos += replaceWith.length ;
     }
 }
 

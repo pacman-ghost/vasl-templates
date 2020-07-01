@@ -81,7 +81,8 @@
   "notes": [ "Fr W\u2020" ]
 },
 { "id": "ff/v:018",
-  "copy_from": "fr/v:020"
+  "copy_from": "fr/v:020",
+  "disabled_comments": [ "Fr F" ]
 },
 { "id": "ff/v:019",
   "copy_from": "am/v:041",
@@ -162,22 +163,26 @@
 { "id": "ff/v:036",
   "copy_from": "br/v:094",
   "note_number": "Fr 48\u2020<sup>1</sup>",
-  "notes": [ "Fr W\u2020" ]
+  "notes": [ "Fr W\u2020" ],
+  "comments": [ "Inherent Passenger (HS)" ]
 },
 { "id": "ff/v:037",
   "copy_from": "br/v:095",
   "note_number": "Fr 48\u2020<sup>1</sup>",
-  "notes": [ "Fr W\u2020" ]
+  "notes": [ "Fr W\u2020" ],
+  "comments": [ "Inherent Passenger (HS)" ]
 },
 { "id": "ff/v:038",
   "copy_from": "br/v:096",
   "note_number": "Fr 48\u2020<sup>1</sup>",
-  "notes": [ "Fr W\u2020" ]
+  "notes": [ "Fr W\u2020" ],
+  "comments": [ "Inherent Passenger (HS)" ]
 },
 { "id": "ff/v:039",
   "copy_from": "br/v:097",
   "note_number": "Fr 48\u2020<sup>1</sup>",
-  "notes": [ "Fr W\u2020" ]
+  "notes": [ "Fr W\u2020" ],
+  "comments": [ "Inherent Passenger (HS)" ]
 },
 { "id": "ff/v:040",
   "copy_from": "fr/v:042"

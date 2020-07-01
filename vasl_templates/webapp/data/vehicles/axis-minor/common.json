@@ -13,9 +13,9 @@
   "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 2,
-  "no_if": true,
   "note_number": "30\u2020",
   "notes": [ "C", "D", "R" ],
+  "comments": [ "Road Rate NA" ],
   "id": "axc/v:001",
   "gpid": 3789
 },
@@ -26,6 +26,7 @@
   "capabilities2": { "AP": 9 },
   "note_number": "30\u2020",
   "notes": [ "C", "D", "R" ],
+  "comments": [ "Road Rate NA", "No IF" ],
   "id": "axc/v:002",
   "gpid": 3791
 },
@@ -90,6 +91,7 @@
   "CS#": 4,
   "note_number": "36\u2020",
   "notes": [ "A\u2020<sup>1</sup>", "D", "E", "H", "S" ],
+  "comments": [ "Immob: dr &le; 4 [EXC: mines, Direct Fire vs front/rear]" ],
   "id": "axc/v:009",
   "gpid": 3797
 },
@@ -144,6 +146,7 @@
   "capabilities2": { "A": [ [3,4] ], "s": 8, "sD": 7 },
   "note_number": "40\u2020",
   "notes": [ "B", "E", "H", "Q", "R" ],
+  "comments": [ "AAMG: VCA only" ],
   "id": "axc/v:015",
   "gpid": 3845
 },
@@ -153,6 +156,7 @@
   "capabilities2": { "A": [ [3,4] ], "HE": 7 },
   "note_number": "41\u2020",
   "notes": [ "B", "E", "H" ],
+  "comments": [ "AAMG: BU only, Rider NA, elevation restrictions" ],
   "id": "axc/v:016",
   "gpid": 3803
 },
@@ -161,6 +165,7 @@
   "CS#": 4,
   "note_number": "42",
   "notes": [ "E", "R" ],
+  "disabled_comments": [ "?:Black TH#" ],
   "id": "axc/v:017",
   "gpid": 3847
 },
@@ -169,6 +174,7 @@
   "CS#": 5,
   "note_number": "42\u2020",
   "notes": [ "C", "E", "R" ],
+  "disabled_comments": [ "?:Black TH#" ],
   "id": "axc/v:018",
   "gpid": 3849
 },
@@ -178,6 +184,7 @@
   "capabilities2": { "H": 5, "s": 8 },
   "note_number": "42\u2020",
   "notes": [ "E", "R" ],
+  "comments": [ "CMG: VCA only" ],
   "id": "axc/v:019",
   "gpid": 3851
 },
@@ -187,6 +194,7 @@
   "CS#": 2,
   "note_number": "43\u2020",
   "notes": [ "E", "R", "S" ],
+  "comments": [ "LMG", "Reverse NA" ],
   "id": "axc/v:020",
   "gpid": 3805
 },
@@ -222,6 +230,8 @@
   "capabilities2": { "sD": 6 },
   "note_number": "46\u2020",
   "notes": [ "B", "E", "M\u2020<sup>1</sup>", "P\u2020<sup>2</sup>", "R" ],
+  "disabled_comments": [ "?:Black TH#" ],
+  "comments": [ "German ESB" ],
   "id": "axc/v:024",
   "gpid": 3857
 },
@@ -230,6 +240,7 @@
   "cs#": "2\u2020<sup>1</sup>",
   "note_number": "47\u2020",
   "notes": [ "B", "C", "E", "F", "H", "I\u2020<sup>1</sup>", "J", "R", "S" ],
+  "comments": [ "Pas: Always CE; +1 VCA" ],
   "id": "axc/v:025",
   "gpid": [ 3809, 3811 ]
 },

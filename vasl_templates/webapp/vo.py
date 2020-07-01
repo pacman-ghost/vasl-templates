@@ -3,12 +3,12 @@
 import os
 import json
 import copy
-import logging
 
 from flask import request, render_template, jsonify, abort
 
 from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import DATA_DIR
+from vasl_templates.webapp.vo_utils import copy_vo_entry, add_vo_comments, apply_extn_info,  make_vo_index
 
 _kfw_listings = { "vehicles": {}, "ordnance": {} }
 
@@ -33,23 +33,24 @@ def _do_get_listings( vo_type ):
         # nb: we should only get here during tests
         return _do_load_vo_listings(
             globvars.vasl_mod, vo_type,
-            request.args.get("merge_common") == "1", request.args.get("report") == "1"
+            request.args.get("merge_common") == "1", request.args.get("report") == "1",
+            None
         )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def load_vo_listings():
+def load_vo_listings( msg_store ):
     """Load and install the vehicle/ordnance listings."""
-    globvars.vo_listings = get_vo_listings( globvars.vasl_mod )
+    globvars.vo_listings = get_vo_listings( globvars.vasl_mod, msg_store )
 
-def get_vo_listings( vasl_mod ):
+def get_vo_listings( vasl_mod, msg_store ):
     """Get the vehicle/ordnance listings."""
     return {
-        "vehicles": _do_load_vo_listings( vasl_mod, "vehicles", True, False ),
-        "ordnance": _do_load_vo_listings( vasl_mod, "ordnance", True, False )
+        "vehicles": _do_load_vo_listings( vasl_mod, "vehicles", True, False, msg_store ),
+        "ordnance": _do_load_vo_listings( vasl_mod, "ordnance", True, False, msg_store )
     }
 
-def _do_load_vo_listings( vasl_mod, vo_type, merge_common, real_data_dir ): #pylint: disable=too-many-locals,too-many-branches,too-many-statements
+def _do_load_vo_listings( vasl_mod, vo_type, merge_common, real_data_dir, msg_store ): #pylint: disable=too-many-locals,too-many-branches,too-many-statements
     """Load the vehicle/ordnance listings."""
 
     # locate the data directory
@@ -86,22 +87,37 @@ def _do_load_vo_listings( vasl_mod, vo_type, merge_common, real_data_dir ): #pyl
                 with open( fname2, "r" ) as fp:
                     listings[nat].extend( json.load( fp ) )
 
-    # fixup any vehicle/ordnance references
-    vo_index = _make_vo_index( listings )
-    for nat,vo_entries in listings.items():
-        for i,vo_entry in enumerate(vo_entries):
-            vo_id = vo_entry.get( "copy_from" )
-            if vo_id:
-                vo_entries[i] = _copy_vo_entry( vo_entry, vo_index[vo_id] )
-
     # apply any changes for VASL extensions
     # NOTE: We do this here, rather than in VaslMod, because VaslMod is a wrapper around a VASL module, and so
     # only knows about GPID's and counter images, rather than Chapter H pieces and piece ID's (e.g. "ge/v:001").
     if vasl_mod:
         # process each VASL extension
-        vo_index = _make_vo_index( listings )
+        vo_index = make_vo_index( listings )
         for extn in vasl_mod.get_extns():
-            _apply_extn_info( listings, extn[0], extn[1], vo_index, vo_type )
+            apply_extn_info( listings, extn[0], extn[1], vo_index, vo_type )
+
+    # add in the common Allied/Axis Minor vehicles/ordnance
+    if merge_common:
+        for minor_type in ( "allied-minor", "axis-minor" ):
+            if minor_type+"-common" not in listings:
+                continue
+            for nat in minor_nats[minor_type]:
+                listings[nat].extend( copy.deepcopy( listings[minor_type+"-common"] ) )
+            del listings[ minor_type+"-common" ]
+
+    # add vehicle/ordnance comments (based on what notes they have)
+    add_vo_comments( listings, vo_type, msg_store )
+    add_vo_comments( _kfw_listings[vo_type], vo_type, msg_store )
+
+    # fixup any vehicle/ordnance references
+    # NOTE: We do this after adding comments to vehicles/ordnance, so that those comments
+    # are included when we copy vehicle/ordnance entries.
+    vo_index = make_vo_index( listings )
+    for nat,vo_entries in listings.items():
+        for i,vo_entry in enumerate(vo_entries):
+            vo_id = vo_entry.get( "copy_from" )
+            if vo_id:
+                vo_entries[i] = copy_vo_entry( vo_entry, vo_index[vo_id], nat, vo_type, msg_store )
 
     # update nationality variants with the listings from their base nationality
     for nat in listings:
@@ -109,6 +125,22 @@ def _do_load_vo_listings( vasl_mod, vo_type, merge_common, real_data_dir ): #pyl
             continue
         base_nat = nat.split( "~" )[0]
         listings[nat] = listings[base_nat] + listings[nat]
+
+    # add in the Landing Craft
+    if merge_common:
+        if vo_type == "vehicles":
+            for lc in listings.get( "landing-craft", [] ):
+                # FUDGE! Landing Craft get appended to the vehicles for the Japanese/American/British,
+                # so we need to tag the note numbers so that they refer to the *Landing Craft* note,
+                # not the Japanese/American/British vehicle note.
+                lc = copy.deepcopy( lc )
+                if "note_number" in lc:
+                    lc["note_number"] = "LC {}".format( lc["note_number"] )
+                if lc["name"] in ("Daihatsu","Shohatsu"):
+                    listings["japanese"].append( lc )
+                else:
+                    listings["american"].append( lc )
+                    listings["british"].append( lc )
 
     # install the K:FW entries
     # NOTE: We do this after updating the nationality variants so that e.g. the British Canadians
@@ -138,119 +170,7 @@ def _do_load_vo_listings( vasl_mod, vo_type, merge_common, real_data_dir ): #pyl
     else:
         assert False, "Unknown V/O type: {}".format( vo_type )
 
-    # add in any common vehicles/ordnance and landing craft
-    # NOTE: We do this after updating nationality variants, so that the British variants (i.e. Canada
-    # and New Zealand) don't get the landing craft.
-    if merge_common:
-        # add in any common Allied/Axis Minor vehicles/ordnance
-        for minor_type in ("allied-minor","axis-minor"):
-            if minor_type+"-common" not in listings:
-                continue
-            for nat in minor_nats[minor_type]:
-                listings[nat].extend( listings[minor_type+"-common"] )
-            del listings[ minor_type+"-common" ]
-        # add in any landing craft
-        if vo_type == "vehicles":
-            for lc in listings.get("landing-craft",[]):
-                # FUDGE! Landing Craft get appended to the vehicles for the Japanese/American/British,
-                # so we need to tag the note numbers so that they refer to the *Landing Craft* note,
-                # not the Japanese/American/British vehicle note.
-                if "note_number" in lc:
-                    lc["note_number"] = "LC {}".format( lc["note_number"] )
-                if lc["name"] in ("Daihatsu","Shohatsu"):
-                    listings["japanese"].append( lc )
-                else:
-                    listings["american"].append( lc )
-                    listings["british"].append( lc )
-
     return listings
-
-def _copy_vo_entry( placeholder_vo_entry, src_vo_entry ): #pylint: disable=too-many-branches
-    """Create a new vehicle/ordnance entry by copying an existing one."""
-    # Anjuna, India (FEB/19)
-
-    # create the new vehicle/ordnance entry
-    new_vo_entry = copy.deepcopy( src_vo_entry )
-    new_vo_entry["id"] = placeholder_vo_entry["id"]
-    if "name" in placeholder_vo_entry:
-        new_vo_entry["name"] = placeholder_vo_entry["name"]
-    if "gpid" in placeholder_vo_entry:
-        new_vo_entry["gpid"] = placeholder_vo_entry["gpid"]
-    elif "extra_gpids" in placeholder_vo_entry:
-        if not isinstance( new_vo_entry["gpid"], list ):
-            new_vo_entry["gpid"] = [ new_vo_entry["gpid"] ]
-        new_vo_entry["gpid"].extend( placeholder_vo_entry["extra_gpids"] )
-
-    # fixup any note numbers and multi-applicable notes
-    vo_id = placeholder_vo_entry[ "copy_from" ]
-    if vo_id.startswith( "br/" ):
-        prefix = "Br"
-    elif vo_id.startswith( "am/" ):
-        prefix = "US"
-    elif vo_id.startswith( "fr/" ):
-        prefix = "Fr"
-    else:
-        logging.warning( "Unexpected vehicle/ordnance reference nationality: %s", vo_id )
-        prefix = ""
-    if "note_number" in placeholder_vo_entry:
-        # replace the note# with the explicitly-defined one
-        new_vo_entry["note_number"] = placeholder_vo_entry["note_number"]
-    else:
-        # fixup the note# from the original vehicle/ordnance
-        new_vo_entry["note_number"] = "{} {}".format(  prefix, new_vo_entry["note_number"] )
-    if "notes" in placeholder_vo_entry:
-        # replace the multi-applicable notes with the explicitly-defined ones
-        new_vo_entry["notes"] = placeholder_vo_entry["notes"]
-    elif "notes" in new_vo_entry:
-        # fixup the multi-applicable notes from the original vehicle/ordnance
-        new_vo_entry["notes"] = [ "{} {}".format( prefix, n ) for n in new_vo_entry["notes"] ]
-        if "extra_notes" in placeholder_vo_entry:
-            new_vo_entry["notes"].extend( placeholder_vo_entry["extra_notes"] )
-
-    return new_vo_entry
-
-def _apply_extn_info( listings, extn_fname, extn_info, vo_index, vo_type ):
-    """Update the vehicle/ordnance listings for the specified VASL extension."""
-
-    # initialize
-    logger = logging.getLogger( "vasl_mod" )
-    logger.info( "Updating %s for VASL extension '%s': %s",
-        vo_type, extn_info["extensionId"], os.path.split(extn_fname)[1]
-    )
-
-    # process each entry
-    for nat in extn_info:
-        if not isinstance( extn_info[nat], dict ):
-            continue
-        for entry in extn_info[nat].get( vo_type, [] ):
-            vo_entry = vo_index.get( entry["id"] )
-            if vo_entry:
-                # update an existing vehicle/ordnance
-                logger.debug( "- Updating GPID's for %s: %s", entry["id"], entry["gpid"] )
-                if vo_entry["gpid"]:
-                    prev_gpids = vo_entry["gpid"]
-                    if not isinstance( vo_entry["gpid"], list ):
-                        vo_entry["gpid"] = [ vo_entry["gpid"] ]
-                    vo_entry["gpid"].extend( entry["gpid"] )
-                else:
-                    prev_gpids = "(none)"
-                    vo_entry["gpid"] = entry["gpid"]
-                # NOTE: We can't really set the extension ID here because the counter is also in the core VASL module.
-                logger.debug( "  - %s => %s", prev_gpids, vo_entry["gpid"] )
-            else:
-                # add a new vehicle/ordnance
-                if nat not in listings:
-                    listings[ nat ] = []
-                entry[ "extn_id" ] = extn_info[ "extensionId" ]
-                listings[ nat ].append( entry )
-
-def _make_vo_index( vo_entries ):
-    """Generate an index of each vehicle/ordnance entry."""
-    vo_index = {}
-    for nat in vo_entries:
-        for vo_entry in vo_entries[nat]:
-            vo_index[ vo_entry["id"] ] = vo_entry
-    return vo_index
 
 # ---------------------------------------------------------------------
 

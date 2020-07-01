@@ -1,10 +1,10 @@
 === ordnance/indonesian/1942 ===
 
-Name                               Capabilities             (effective)             #  Notes    Comments
----------------------------------  -----------------------  --------------------  ---  -------  ----------
-Type 89 Heavy Grenade Launcher     S6[5] WP5[5] 4PP         4PP                     1  n/a
-Type 97 Automatic Gun              Long Range is NA 5PP     Long Range is NA 5PP    2  Jp A
-Year-11 Flat-Trajectory INF Gun    5PP (3PP dm)             5PP (3PP dm)            3  Jp A
-Type 94 Rapid-Fire Gun             QSU h-d                  QSU h-d                 4  Jp A
-Type 1 Machine-Moved Gun           QSU                      QSU                     5  n/a
-Year-38 Type Field Gun (Improved)  WP5[5] QSU h-d AP TK#12  QSU h-d AP TK#12        6  n/a
+Name                               Capabilities    (effective)      #  Notes    Comments
+---------------------------------  --------------  -------------  ---  -------  -------------------------------------------------------------
+Type 89 Heavy Grenade Launcher     S6[5] WP5[5]                     1  n/a      HE: Range &#8804; 2, ROF 1 | Smoke: [3-10] | WP: [1-5], ROF 1
+Type 97 Automatic Gun                                               2  Jp A     No Long Range | Animal-Packed
+Year-11 Flat-Trajectory INF Gun                                     3  Jp A     Crewed | Animal-Packed
+Type 94 Rapid-Fire Gun                                              4  Jp A     QSU | Horse-Drawn | Animal-Packed
+Type 1 Machine-Moved Gun                                            5  n/a      QSU
+Year-38 Type Field Gun (Improved)  WP5[5]                           6  n/a      AP TK# = 12 | QSU | Horse-Drawn

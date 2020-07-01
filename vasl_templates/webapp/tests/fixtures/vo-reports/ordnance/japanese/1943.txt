@@ -1,35 +1,35 @@
 === ordnance/japanese/1943 ===
 
-Name                                                  Capabilities                                (effective)                                 #       Notes               Comments
-----------------------------------------------------  ------------------------------------------  ------------------------------------------  ------  ------------------  ----------------------
-Type 89 Heavy Grenade Launcher                        IR WP6† 4PP s7†                             IR WP6† 4PP s7†                             1†      n/a
-Year-11 Type Curved-Fire Infantry Gun                 QSU 5PP dm†[1] WP5                          QSU 5PP dm†[1] WP5                          2†      A B†<sup>1</sup>
-Type 97 Curved-Fire Infantry Gun                      QSU WP5                                     QSU WP5                                     3†      A
-Type 97 Light Close-Attack Gun                        QSU 5PP dm†[1] WP5                          QSU 5PP dm†[1] WP5                          4†      A B†<sup>1</sup>
-Type 97 Medium Close-Attack Gun                                                                                                               5†      A C†<sup>1</sup>    Towing NA†<sup>1</sup>
-Type 97 Automatic Gun                                 5PP                                         5PP                                         6†      A                   crew†
-Type 94 Rapid-Fire Gun                                QSU h-d                                     QSU h-d                                     7†      A
-Type 1 Machine-Moved Gun                              QSU                                         QSU                                         8†      n/a
-Year-11 Type Flat-Trajectory Infantry Gun             5PP (3PP dm)                                5PP (3PP dm)                                9†      A                   crewed†
-Type 92 Infantry Gun                                  QSU h-d AP5 H6[5] WP5                       QSU h-d AP5 WP5                             10†     A
-Year-41 Type Mountain Gun                             QSU h-d H6[4+]† WP7                         QSU h-d WP7                                 11†     A
-Year-38 Type Field Gun (Improved)                     QSU h-d WP6 "12" AP TK#†                    QSU h-d WP6 "12" AP TK#†                    12†     n/a
-Type 90 Field Gun                                     QSU WP6                                     QSU WP6                                     13†     n/a
-Type 91 10cm Field Howitzer                                                                                                                   14†     n/a
-Type 92 10cm Cannon                                   AP5 WP5                                     AP5 WP5                                     15†     n/a
-Year-38 Type 12cm Howitzer                            h-d AP5                                     h-d AP5                                     16†     n/a
-Year-3 Type 14cm Naval Seacoast Gun                   NM†                                         NM†                                         17†[1]  D† E
-Year-4 Type 15cm Howitzer                             AP5 WP5                                     AP5 WP5                                     18†     n/a                 Towing risk†
-Type 96 15cm Howitzer                                 AP5 WP5                                     AP5 WP5                                     19†     E
-Type 93 Twin-Mount High-Angle Machine Gun             2 TK DR†                                    2 TK DR†                                    20†     A C†<sup>1</sup> E  Towing NA†<sup>1</sup>
-Type 98 High-Angle Machine Cannon                     LF [NT, 20†, 2 ROF]                         LF [NT, 20†, 2 ROF]                         21†     A
-Type 96 Naval High-Angle Machine Cannon               NM†                                         NM†                                         22†[1]  D† E
-Type 96 Twin-Mount Naval High-Angle Machine Cannon    NM† 2 TK DR†[1]                             NM† 2 TK DR†[1]                             22†[1]  D† E
-Type 96 Triple-Mount Naval High-Angle Machine Cannon  NM† 3 TK DR†[1]                             NM† 3 TK DR†[1]                             22†[1]  D† E
-Type 88 7.5cm Mobile Field High-Angle Gun                                                                                                     23†     E
-Year-10 Type 12cm Naval High-Angle Gun                NM†                                         NM†                                         24†[1]  D† E
-Type 10 8cm Naval High-Angle Gun                      NM† "13" AP TK†[1]                          NM† "13" AP TK†[1]                          25†[1]  D† E
-Type 45 (1912) 24cm Howitzer                          NM No IF HE TK# 23 Tow NA                   NM No IF HE TK# 23 Tow NA                   1†      Jp D†<sup>1</sup>
-Type 91 Vickers AA Gun                                AP TK# 8 LF [40(4), 1 ROF, B10]             AP TK# 8 LF [40(4), 1 ROF, B10]             2†      n/a
-Type 91 Twin-mount Vickers AA Gun                     AP TK# 8 2 TK DR's† LF [40(8), 1 ROF, B10]  AP TK# 8 2 TK DR's† LF [40(8), 1 ROF, B10]  3†      n/a
-Type 4 75mm AA                                        AP6[44-] LF [75, 1 ROF, B11]                AP6 LF [75, 1 ROF, B11]                     4†      Ch G
+Name                                                  Capabilities                  (effective)              #       Notes               Comments
+----------------------------------------------------  ----------------------------  -----------------------  ------  ------------------  -------------------------------------------------------------------------------------------------------------------------------------------
+Type 89 Heavy Grenade Launcher                        IR s7† WP6†                   IR s7† WP6†              1†      n/a                 HE &#8804; 2 hexes: [{ *:ROF 1 *:Air Bursts NA }] | Smoke: Range 3-10 hexes | WP: Range 1-5 hexes [{ *:ROF 1 *:Dispersed *:Air Bursts NA }]
+Year-11 Type Curved-Fire Infantry Gun                 WP5                           WP5                      2†      A B†<sup>1</sup>    QSU | Animal-Packed | As 82mm MTR
+Type 97 Curved-Fire Infantry Gun                      WP5                           WP5                      3†      A                   QSU | Animal-Packed
+Type 97 Light Close-Attack Gun                        WP5                           WP5                      4†      A B†<sup>1</sup>    QSU | Animal-Packed | As 82mm MTR
+Type 97 Medium Close-Attack Gun                                                                              5†      A C†<sup>1</sup>    Tow NA | Animal-Packed
+Type 97 Automatic Gun                                                                                        6†      A                   Crewed | No Long Range | Animal-Packed
+Type 94 Rapid-Fire Gun                                                                                       7†      A                   QSU | Horse-Drawn | Animal-Packed
+Type 1 Machine-Moved Gun                                                                                     8†      n/a                 QSU
+Year-11 Type Flat-Trajectory Infantry Gun                                                                    9†      A                   Crewed | As HMG | Animal-Packed
+Type 92 Infantry Gun                                  AP5 H6[5] WP5                 AP5 WP5                  10†     A                   QSU | Horse-Drawn | Indirect Fire OK | HEAT TK# = 12 | Animal-Packed
+Year-41 Type Mountain Gun                             H6[4+]† WP7                   WP7                      11†     A                   QSU | Horse-Drawn | Animal-Packed
+Year-38 Type Field Gun (Improved)                     WP6                           WP6                      12†     n/a                 QSU | Horse-Drawn | AP TK# = 12
+Type 90 Field Gun                                     WP6                           WP6                      13†     n/a                 QSU
+Type 91 10cm Field Howitzer                                                                                  14†     n/a
+Type 92 10cm Cannon                                   AP5 WP5                       AP5 WP5                  15†     n/a
+Year-38 Type 12cm Howitzer                            AP5                           AP5                      16†     n/a                 Horse-Drawn | AP TK# = 13
+Year-3 Type 14cm Naval Seacoast Gun                                                                          17†[1]  D† E                No Move | AP TK# = 32
+Year-4 Type 15cm Howitzer                             AP5 WP5                       AP5 WP5                  18†     n/a                 AP TK# = 17 | Tow Disable: 6 MF/MP &amp; dr 6
+Type 96 15cm Howitzer                                 AP5 WP5                       AP5 WP5                  19†     E
+Type 93 Twin-Mount High-Angle Machine Gun                                                                    20†     A C†<sup>1</sup> E  Tow NA | 2 TK DR | [16] TH | Animal-Packed
+Type 98 High-Angle Machine Cannon                     LF [NT, 20†, 2 ROF]           LF [NT, 20†, 2 ROF]      21†     A                   Animal-Packed
+Type 96 Naval High-Angle Machine Cannon                                                                      22†[1]  D† E                No Move
+Type 96 Twin-Mount Naval High-Angle Machine Cannon                                                           22†[1]  D† E                No Move | Multiple Hits NA | 2 TK DR
+Type 96 Triple-Mount Naval High-Angle Machine Cannon                                                         22†[1]  D† E                No Move | Multiple Hits NA | 3 TK DR
+Type 88 7.5cm Mobile Field High-Angle Gun                                                                    23†     E
+Year-10 Type 12cm Naval High-Angle Gun                                                                       24†[1]  D† E                No Move | AP TK# = 27
+Type 10 8cm Naval High-Angle Gun                                                                             25†[1]  D† E                No Move | AP TK# = 13
+Type 45 (1912) 24cm Howitzer                                                                                 1†      Jp D†<sup>1</sup>   HE TK# = 23 | No IF | Tow NA | No Move
+Type 91 Vickers AA Gun                                LF [40(4), 1 ROF, B10]        LF [40(4), 1 ROF, B10]   2†      n/a                 AP TK# = 8
+Type 91 Twin-mount Vickers AA Gun                     LF [40(8), 1 ROF, B10]        LF [40(8), 1 ROF, B10]   3†      n/a                 2 TK DR | AP TK# = 8
+Type 4 75mm AA                                        AP6[44-] LF [75, 1 ROF, B11]  AP6 LF [75, 1 ROF, B11]  4†      Ch G

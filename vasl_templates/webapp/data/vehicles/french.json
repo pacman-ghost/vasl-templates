@@ -6,6 +6,7 @@
   "CS#": 2,
   "note_number": "1\u2020",
   "notes": [ "C" ],
+  "comments": [ "Road Rate NA" ],
   "id": "fr/v:000",
   "gpid": 1713
 },
@@ -16,6 +17,7 @@
   "capabilities2": { "AP": 9 },
   "note_number": "1\u2020",
   "notes": [ "C" ],
+  "comments": [ "Road Rate NA" ],
   "id": "fr/v:001",
   "gpid": 1715
 },
@@ -23,9 +25,9 @@
   "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": "3:brewup",
-  "no_if": true,
   "note_number": "1\u2020",
   "notes": [ "C" ],
+  "comments": [ "Road Rate NA", "No IF" ],
   "id": "fr/v:002",
   "gpid": 1717
 },
@@ -176,10 +178,10 @@
   "type": "HT",
   "no_radio": "\u00ae9\u2020<sup>1</sup>",
   "CS#": "5:brewup",
-  "no_if": "75\u2020",
   "capabilities": [ "AP9<sup>75</sup>\u2020" ],
   "note_number": "13\u2020",
   "notes": [ "A\u2020<sup>4</sup>", "B\u2020<sup>3</sup>", "C", "E", "F", "I\u2020<sup>2</sup>", "R\u2020<sup>1</sup>" ],
+  "comments": [ "47 MA: 1MT", "75* SA: NT (bow-mounted)", "75* SA: +1 TH DRM vs Moving/Motion", "75* SA: No IF", "AP: 75* SA only", "Acquisition Loss", "Port hull CH: Original 3" ],
   "id": "fr/v:018",
   "gpid": [ 1757, 1759 ]
 },
@@ -198,6 +200,7 @@
   "capabilities2": { "AP": 10 },
   "note_number": "15\u2020",
   "notes": [ "F" ],
+  "comments": [ "CMG: AA ok", "MA NA in AA mode", "Partially armored <ul> <li> +2 DRM if unarmored [EXC: CC, FT, mines, height advantage, destroyed] </ul>" ],
   "id": "fr/v:020",
   "gpid": [ 1767, 1769, 1771 ]
 },
@@ -236,6 +239,7 @@
   "CS#": 4,
   "note_number": "18\u2020",
   "notes": [ "E" ],
+  "comments": [ "AAMG: TCA only" ],
   "id": "fr/v:024",
   "gpid": [ 1779, 1781 ]
 },
@@ -244,6 +248,7 @@
   "CS#": 3,
   "note_number": "19\u2020",
   "notes": [ "E", "J\u2020<sup>1</sup>" ],
+  "comments": [ "MA: Rear CVA only", "Crew Gunshield (Direct Fire)" ],
   "id": "fr/v:025",
   "gpid": 1785
 },
@@ -253,6 +258,7 @@
   "capabilities2": { "s": 8 },
   "note_number": "20\u2020",
   "notes": [ "F", "M\u2020<sup>1</sup>" ],
+  "comments": [ "Fire NA if VCA &le; level", "AAMG: TCA only" ],
   "id": "fr/v:026",
   "gpid": 1787
 },
@@ -262,6 +268,7 @@
   "capabilities2": { "s": 8 },
   "note_number": "20\u2020",
   "notes": [ "M\u2020<sup>1</sup>" ],
+  "comments": [ "Fire NA if VCA &le; level" ],
   "id": "fr/v:027",
   "gpid": 1789
 },
@@ -269,6 +276,7 @@
   "type": "AAtr",
   "CS#": 4,
   "note_number": "21\u2020",
+  "comments": [ "MA: AA ok", "Bnd FF &amp; Motion Fire NA VCA" ],
   "id": "fr/v:028",
   "gpid": 1791
 },
@@ -277,6 +285,7 @@
   "CS#": 4,
   "note_number": "21\u2020",
   "notes": [ "AA\u2020<sup>1</sup>" ],
+  "comments": [ "Bnd FF &amp; Motion Fire NA VCA", "2 TK DR" ],
   "id": "fr/v:029",
   "gpid": 1793
 },
@@ -285,6 +294,7 @@
   "CS#": 4,
   "note_number": "21\u2020",
   "notes": [ "AA\u2020<sup>1</sup>" ],
+  "comments": [ "Bnd FF &amp; Motion Fire NA VCA" ],
   "id": "fr/v:030",
   "gpid": 1795
 },
@@ -293,6 +303,7 @@
   "CS#": 4,
   "note_number": "21\u2020",
   "notes": [ "F", "AA\u2020<sup>1</sup>" ],
+  "comments": [ "Bnd FF &amp; Motion Fire NA VCA", "{? -12/1940 | MA: B# = (11) | MA: B# = 12 | MA: B# (11)<sup>40</sup> ?}" ],
   "id": "fr/v:031",
   "gpid": 1797
 },
@@ -309,6 +320,7 @@
   "CS#": 7,
   "note_number": "23\u2020",
   "notes": [ "D\u2020<sup>1</sup>", "F", "AA\u2020<sup>2</sup>" ],
+  "comments": [ "MA: No Bnd (F)F, Motion Fire", "Rear TF NA", "Requires Ammo Vehicle/Dump" ],
   "id": "fr/v:033",
   "gpid": 1803
 },
@@ -356,6 +368,7 @@
   "cs#": "2\u2020<sup>1</sup>",
   "note_number": "28\u2020",
   "notes": [ "G\u2020<sup>1</sup>", "K" ],
+  "comments": [ "Stun = Recall, CE &amp; Fire NA", "Pas: SMC = 1PP, always CE" ],
   "id": "fr/v:039",
   "gpid": [ 1817, 1819 ]
 },
@@ -364,6 +377,7 @@
   "cs#": "3/2\u2020",
   "note_number": "29\u2020",
   "notes": [ "E", "H\u2020" ],
+  "comments": [ "Trailer (AF 0)", "Unpossessed SW ok" ],
   "id": "fr/v:040",
   "gpid": 1821
 },
@@ -372,6 +386,7 @@
   "CS#": 3,
   "note_number": "30\u2020",
   "notes": [ "E", "K" ],
+  "comments": [ "Always CE", "Captured Use (unless French Partisans or Free French)" ],
   "id": "fr/v:041",
   "gpid": 1824
 },
@@ -380,6 +395,7 @@
   "CS#": 3,
   "note_number": "31\u2020",
   "notes": [ "F", "M\u2020<sup>1</sup>" ],
+  "comments": [ "Inherent Crew (not HS)", "No Passengers", "Always CE" ],
   "id": "fr/v:042",
   "gpid": 1826
 },
@@ -404,6 +420,8 @@
   "cs#": 5,
   "note_number": "34\u2020",
   "notes": [ "E", "J\u2020<sup>1</sup>" ],
+  "disabled_comments": [ "Moves as AC [EXC: Hedge NA]" ],
+  "comments": [ "Moves as Truck" ],
   "id": "fr/v:045",
   "gpid": 1832
 },

@@ -608,6 +608,8 @@ def test_analyze_vsav( webapp, webdriver ):
 
         # analyze a basic scenario
         new_scenario()
+        set_player( 1, "german" )
+        set_player( 2, "russian" )
         _analyze_vsav( "basic.vsav",
             [ [ "ge/v:033", "ge/v:066" ], [ "ge/o:029" ] ],
             [ [ "ru/v:064" ], [ "ru/o:002", "ru/o:006" ] ],

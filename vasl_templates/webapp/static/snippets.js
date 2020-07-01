@@ -214,6 +214,9 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         snippet_save_name = params.PLAYER_2 + " ordnance" ;
     }
 
+    // adjust comments
+    adjust_vo_comments( params ) ;
+
     // set vehicle/ordnance note parameters
     function set_vo_note( vo_type ) {
         var data = $btn.parent().parent().data( "sortable2-data" ) ;
@@ -460,6 +463,57 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         snippet_id: params.SNIPPET_ID,
         save_name: snippet_save_name,
     } ;
+}
+
+function adjust_vo_comments( params )
+{
+    // NOTE: I tried replacing things like "(11)" and "(12)" here (for breakdown numbers),
+    // with Unicode 246A and 246B, but they're illegible in VASSAL :-/
+
+    // NOTE: We would like to use "(\|\d\*?)+" to match multiple values after the MA,
+    // but we can't then capture them :-/
+    var splitMGRegex = new RegExp( /\{\{(\d)\|MA(\|\d\*?)(\|\d\*?)?\}\}/ ) ;
+    function adjustSplitMG( val ) {
+        var match = val.match( splitMGRegex ) ;
+        if ( ! match )
+            return val ;
+        var buf = [ match[1], "MA" ] ;
+        for ( var j=2 ; j < match.length ; ++j ) {
+            if ( ! match[j] )
+                continue ;
+            buf.push( "&thinsp;" ) ; // nb: because CSS padding for <span>'s doesn't work in VASSAL :-/
+            if ( match[j].substring( match[j].length-1 ) === "*" )
+                buf.push( "<span class='split-mg-red'>", "&amp;", match[j].substring(1,match[j].length-1), "</span>" ) ;
+            else
+                buf.push( "&amp;", match[j].substring(1) ) ;
+        }
+        return val.substring(0,match.index) + buf.join("") + val.substring(match.index+match[0].length ) ;
+    }
+
+    // allow comment EXC's to be styled
+    var excRegex = new RegExp( /\[EXC: .*?\]/ ) ;
+    function adjustExc( val ) {
+        var match = val.match( excRegex ) ;
+        if ( match ) {
+            val = val.substring( 0, match.index ) +
+                "<span class='exc'>" + match[0] + "</span>" +
+                val.substring( match.index + match[0].length ) ;
+        }
+        return val ;
+    }
+
+    // adjust comments
+    if ( params.OB_VO ) {
+        for ( var i=0 ; i < params.OB_VO.length ; ++i ) {
+            if ( ! params.OB_VO[i].comments )
+                continue ;
+            for ( var j=0 ; j < params.OB_VO[i].comments.length ; ++j ) {
+                params.OB_VO[i].comments[j] = adjustSplitMG( adjustExc(
+                    params.OB_VO[i].comments[j]
+                ) ) ;
+            }
+        }
+    }
 }
 
 function get_vo_note_key( vo_entry )
@@ -855,12 +909,20 @@ function unload_snippet_params( unpack_scenario_date, template_id )
                 if ( elite )
                     obj.elite = true ;
             }
-            var comments = $(this).data( "sortable2-data" ).custom_comments ;
-            if ( comments ) {
-                obj.comments = comments ;
-                obj.custom_comments = comments.slice() ;
+            var custom_comments = $(this).data( "sortable2-data" ).custom_comments ;
+            if ( custom_comments ) {
+                obj.comments = custom_comments ;
+                obj.custom_comments = custom_comments.slice() ;
             } else {
-                obj.comments = vo_entry.comments ;
+                // NOTE: Loading up the vehicle/ordnance comments verbatim here might cause problems with time-based comments,
+                // since the user will see them in the UI and not know what they mean. However, the alternative is to perhaps
+                // load the appropriate comment for the current scenario date, but that means they will become different
+                // to the default set of comments, and thus treated as if the user had changed them. If the scenario date
+                // is then changed, the time-based comments won't update accordingly, which will be more confusing than
+                // the original problem we're trying to fix :-/
+                // We could work around this by checking if a saved comment is the same as the calculated time-based comment
+                // for the scenario date, but this is far, far more trouble than it's worth :-/
+                obj.comments = get_vo_comments( vo_entry, params.SCENARIO_MONTH, params.SCENARIO_YEAR ) ;
             }
             objs.push( obj ) ;
         } ) ;
@@ -875,6 +937,72 @@ function unload_snippet_params( unpack_scenario_date, template_id )
     return params ;
 }
 
+function get_vo_comments( vo_entry, month, year )
+{
+    if ( ! vo_entry.comments )
+        return vo_entry.comments ;
+
+    function parseDate( val ) {
+        if ( ! val )
+            return null ;
+        var match = val.trim().match( /^(\d\d)\/(19\d\d)$/ ) ;
+        if ( ! match )
+            return null ;
+        return [ match[1], match[2] ] ;
+    }
+
+    // generate the vehicle/ordnance's comments
+    var voComments=[], cmt, i ;
+    for ( i=0 ; i < vo_entry.comments.length ; ++i ) {
+        cmt = vo_entry.comments[i] ;
+        if ( cmt.substr(0,2) === "{?" && cmt.substr(cmt.length-2) === "?}" ) {
+            // this is a time-based comment, check the scenario date
+            var words = cmt.substring( 2, cmt.length-2 ).split( "|" ) ;
+            var dates = words[0].split( "-" ) ;
+            dates = [ parseDate(dates[0]), parseDate(dates[1]) ] ;
+            if ( words.length != 4 || dates.length != 2 || (!dates[0] && !dates[1]) ) {
+                showErrorMsg( "Invalid time-based vehicle/ordnance comment: " + cmt ) ;
+                continue ;
+            }
+            if ( !month || !year )
+                cmt = words[3] ;
+            else {
+                var rc = true ;
+                if ( dates[0] && ( year < dates[0][1] || ( year == dates[0][1] && month < dates[0][0] ) ) )
+                    rc = false ;
+                if ( dates[1] && ( year > dates[1][1] || ( year == dates[1][1] && month > dates[1][0] ) ) )
+                    rc = false ;
+                cmt = rc ? words[1] : words[2] ;
+            }
+        }
+        cmt = cmt.trim() ;
+        if ( cmt )
+            voComments.push( cmt ) ;
+    }
+
+    // remove any disabled comments
+    // NOTE: We do this in the backend, but we need to do it here as well,
+    // to remove any time-based comments.
+    if ( vo_entry.disabled_comments ) {
+        var disabled = {} ;
+        for ( i=0 ; i < vo_entry.disabled_comments.length ; ++i ) {
+            cmt = vo_entry.disabled_comments[ i ] ;
+            if ( cmt.substring( 0, 2 ) === "?:" )
+                disabled[ cmt.substring(2).trim() ] = true ;
+            else
+                disabled[ cmt ] = true ;
+        }
+        var voComments2 = [] ;
+        for ( i=0 ; i < voComments.length ; ++i ) {
+            if ( ! disabled[ voComments[i] ] )
+                voComments2.push( voComments[i] ) ;
+        }
+        voComments = voComments2 ;
+    }
+
+    return voComments ;
+}
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 function make_capabilities( raw, vo_entry, vo_type, nat, elite, scenario_theater, scenario_year, scenario_month, show_warnings )
@@ -884,19 +1012,6 @@ function make_capabilities( raw, vo_entry, vo_type, nat, elite, scenario_theater
     // check if the vehicle has no radio
     if ( vo_entry.no_radio )
         capabilities.push( vo_entry.no_radio ) ;
-
-    // check if the vehicle has no intensive fire
-    if ( vo_entry.no_if ) {
-        var no_if = "no IF" ;
-        if ( typeof(vo_entry.no_if) === "string" ) { // nb: only for the French B1-bis :-/
-            no_if = vo_entry.no_if ;
-            if ( no_if.substring(no_if.length-1) === "\u2020" )
-                no_if = "no IF<sup>" + no_if.substring(0,no_if.length-1) + "</sup>\u2020" ;
-            else
-                no_if = "no IF<sup>" + no_if + "</sup>" ;
-        }
-        capabilities.push( no_if ) ;
-    }
 
     // extract the static capabilities
     var i ;
@@ -976,12 +1091,6 @@ function make_capabilities( raw, vo_entry, vo_type, nat, elite, scenario_theater
         }
     }
 
-    // extract any other capabilities
-    if ( "capabilities_other" in vo_entry ) {
-        for ( i=0 ; i < vo_entry.capabilities_other.length ; ++i )
-            capabilities.push( vo_entry.capabilities_other[i] ) ;
-    }
-
     // include damage points (for Landing Craft)
     if ( "damage_points" in vo_entry )
         capabilities.push( "DP " + vo_entry.damage_points ) ;
@@ -1001,14 +1110,7 @@ function make_capabilities( raw, vo_entry, vo_type, nat, elite, scenario_theater
     if ( elite )
         adjust_capabilities_for_elite( capabilities, +1 ) ;
 
-    // remove uninteresting capabilities
-    var adjusted_capabilities = [] ;
-    for ( i=0 ; i < capabilities.length ; ++i ) {
-        if ( ["T","NT","ST"].indexOf( capabilities[i] ) === -1 )
-            adjusted_capabilities.push( capabilities[i] ) ;
-    }
-
-    return adjusted_capabilities ;
+    return capabilities ;
 }
 
 function make_raw_capability( name, capability )

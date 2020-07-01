@@ -1,10 +1,10 @@
 === vehicles/yugoslavian/1944 ===
 
 Name           Capabilities     (effective)      #    Notes                               Comments
--------------  ---------------  ---------------  ---  ----------------------------------  ----------
-T-32           ® CS 2           ® CS 2           19   D
-M3A1(a)        C3† CS 4         C3† CS 4         20†  A B C L
-M3A3(a)        C3† sD3 CS 4     C3† sD3 CS 4     20†  A B C L
-M3(a) PaK 40   CS 2             CS 2             21†  A H†<sup>1</sup> L
-M3(a) FlaK 38  CS 2             CS 2             22†  A H†<sup>1</sup> L AA†<sup>2</sup>
-AEC II(b)      D4 HE5 sM8 CS 4  D4 HE5 sM8 CS 4  23   A G† L
+-------------  ---------------  ---------------  ---  ----------------------------------  -----------------------------------------------------------------------------------------------
+T-32           ® CS 2           ® CS 2           19   D                                   Stun = Recall, CE &amp; Fire NA
+M3A1(a)        C3† CS 4         C3† CS 4         20†  A B C L                             American ESB+ | Black TH#
+M3A3(a)        C3† sD3 CS 4     C3† sD3 CS 4     20†  A B C L                             American ESB+ | Black TH#
+M3(a) PaK 40   CS 2             CS 2             21†  A H†<sup>1</sup> L                  Turret Hit: As unarmored | Crew Gunshield (Direct Fire) | American ESB+ | Always CE | Black TH#
+M3(a) FlaK 38  CS 2             CS 2             22†  A H†<sup>1</sup> L AA†<sup>2</sup>  Turret Hit: As unarmored | American ESB+ | Always CE | Black TH# | MA: AA ok
+AEC II(b)      D4 HE5 sM8 CS 4  D4 HE5 sM8 CS 4  23   A G† L                              British ESB+ | Reverse MP &#215;4 | Black TH#

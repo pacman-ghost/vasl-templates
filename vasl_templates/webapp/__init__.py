@@ -31,11 +31,11 @@ def _on_startup():
 
     # load the vehicle/ordnance listings
     from vasl_templates.webapp.vo import load_vo_listings #pylint: disable=cyclic-import
-    load_vo_listings()
+    from vasl_templates.webapp.main import startup_msg_store #pylint: disable=cyclic-import
+    load_vo_listings( startup_msg_store )
 
     # load the vehicle/ordnance notes
     from vasl_templates.webapp.vo_notes import load_vo_notes #pylint: disable=cyclic-import
-    from vasl_templates.webapp.main import startup_msg_store #pylint: disable=cyclic-import
     load_vo_notes( startup_msg_store )
 
 # ---------------------------------------------------------------------

@@ -15,6 +15,7 @@
   "CS#": 2,
   "note_number": "1.1\u2020",
   "notes": [ "M", "Q" ],
+  "comments": [ "Riders: 1 crew, 1 SMC only (NA if Towing)" ],
   "id": "ru/v:001",
   "gpid": 7032
 },
@@ -24,6 +25,7 @@
   "CS#": 2,
   "note_number": "2\u2020",
   "notes": [ "H\u2020" ],
+  "comments": [ "2 TK DR (12.7 &amp; MG)" ],
   "id": "ru/v:002",
   "gpid": 543
 },
@@ -87,6 +89,7 @@
   "CS#": 3,
   "note_number": "6.1\u2020",
   "notes": [ "M", "P" ],
+  "comments": [ "CMG: Scrounge OK" ],
   "id": "ru/v:009",
   "gpid": 7036
 },
@@ -96,6 +99,7 @@
   "CS#": 3,
   "note_number": "6.2\u2020",
   "notes": [ "M", "P" ],
+  "comments": [ "CMG: Scrounge OK" ],
   "id": "ru/v:010",
   "gpid": 7040
 },
@@ -113,6 +117,7 @@
   "CS#": 3,
   "note_number": "6.4\u2020",
   "notes": [ "M" ],
+  "comments": [ "VBM NA (with bridge)", "TCA restrictions", "Riders NA" ],
   "id": "ru/v:012",
   "gpid": 7048
 },
@@ -131,6 +136,7 @@
   "CS#": 3,
   "note_number": "7.1\u2020",
   "notes": [ "M" ],
+  "comments": [ "CMG: 2:00 from MA" ],
   "id": "ru/v:014",
   "gpid": 573
 },
@@ -224,10 +230,10 @@
   "type": "MTv",
   "no_radio": "\u00ae\u2020",
   "CS#": 4,
-  "no_if": true,
   "capabilities2": { "A": [ [2,2] ], "AP": 7 },
   "note_number": "15\u2020",
   "notes": [ "C\u2020", "M" ],
+  "comments": [ "No IF" ],
   "id": "ru/v:024",
   "gpid": 595
 },
@@ -264,6 +270,7 @@
   "capabilities2": { "A": [ [3,4] ], "s": 8, "sM": 8 },
   "note_number": "19\u2020",
   "notes": [ "N" ],
+  "comments": [ "Black TH#", "U.S. AP &amp; APCR TK #'s" ],
   "id": "ru/v:028",
   "gpid": 603
 },
@@ -283,6 +290,7 @@
   "capabilities2": { "s": 9 },
   "note_number": "21\u2020",
   "notes": [ "M" ],
+  "comments": [ "45L SA: Always BU; No TCA Change DRM; No IF" ],
   "id": "ru/v:030",
   "gpid": 607
 },
@@ -297,7 +305,7 @@
 { "name": "T-100",
   "type": "HT",
   "CS#": 7,
-  "note_number": "22.1",
+  "note_number": "21.2",
   "notes": [ "M", "T\u2020" ],
   "id": "ru/v:032",
   "gpid": 7060
@@ -339,10 +347,10 @@
 { "name": "KV-2",
   "type": "HT",
   "CS#": 7,
-  "no_if": true,
   "capabilities2": { "AP": 9 },
   "note_number": "24\u2020",
   "notes": [ "M" ],
+  "comments": [ "Pays NT TCA DRM", "No IF" ],
   "id": "ru/v:037",
   "gpid": 623
 },
@@ -351,7 +359,7 @@
   "CS#": 6,
   "capabilities2": { "A": [ [4,2] ], "AP": 7 },
   "note_number": "15\u2020",
-  "notes": [ "D", "M" ],
+  "notes": [ "C", "M" ],
   "id": "ru/v:038",
   "gpid": [ 625, 627 ]
 },
@@ -375,28 +383,28 @@
 { "name": "IS-2",
   "type": "HT",
   "CS#": 6,
-  "no_if": true,
   "note_number": "27",
   "notes": [ "B\u2020" ],
+  "comments": [ "No IF" ],
   "id": "ru/v:041",
   "gpid": 633
 },
 { "name": "IS-2m",
   "type": "HT",
   "CS#": 6,
-  "no_if": true,
   "note_number": "28",
   "notes": [ "B\u2020", "G\u2020" ],
+  "comments": [ "No IF" ],
   "id": "ru/v:042",
   "gpid": [ 635, 637 ]
 },
 { "name": "IS-3",
   "type": "HT",
   "CS#": 6,
-  "no_if": true,
   "capabilities2": { "sD": "6\u2020" },
   "note_number": "29",
   "notes": [ "G\u2020", "J\u2020" ],
+  "comments": [ "No IF" ],
   "id": "ru/v:043",
   "gpid": [ 639, 641 ]
 },
@@ -414,42 +422,43 @@
   "capabilities2": { "A": [ [5,3] ] },
   "note_number": "31",
   "notes": [ "K" ],
+  "comments": [ "German ESB" ],
   "id": "ru/v:045",
   "gpid": 647
 },
 { "name": "SU-122",
   "type": "AG",
   "CS#": 5,
-  "no_if": true,
   "capabilities2": { "H": 9, "s": 8 },
   "note_number": "32",
+  "comments": [ "No IF" ],
   "id": "ru/v:046",
   "gpid": 649
 },
 { "name": "SU-152",
   "type": "AG",
   "CS#": 6,
-  "no_if": true,
   "note_number": "33\u2020",
+  "comments": [ "No IF" ],
   "id": "ru/v:047",
   "gpid": 651
 },
 { "name": "ISU-122",
   "type": "AG",
   "CS#": 6,
-  "no_if": true,
   "capabilities2": { "s": 8 },
   "note_number": "34",
   "notes": [ "G\u2020" ],
+  "comments": [ "No IF" ],
   "id": "ru/v:048",
   "gpid": [ 653, 655 ]
 },
 { "name": "ISU-152",
   "type": "AG",
   "CS#": 6,
-  "no_if": true,
   "note_number": "34",
   "notes": [ "G\u2020" ],
+  "comments": [ "No IF" ],
   "id": "ru/v:049",
   "gpid": [ 657, 659 ]
 },
@@ -475,6 +484,7 @@
   "capabilities2": { "A": [ [5,3] ], "HE": 7 },
   "note_number": "37",
   "notes": [ "K" ],
+  "comments": [ "American ESB" ],
   "id": "ru/v:052",
   "gpid": 665
 },
@@ -500,6 +510,7 @@
   "CS#": 2,
   "note_number": "40\u2020",
   "notes": [ "A\u2020" ],
+  "comments": [ "BU Fire NA" ],
   "id": "ru/v:055",
   "gpid": 673
 },
@@ -508,6 +519,7 @@
   "CS#": 4,
   "note_number": "41\u2020",
   "notes": [ "A\u2020" ],
+  "comments": [ "Pays NT CA DRM" ],
   "id": "ru/v:056",
   "gpid": 677
 },
@@ -525,6 +537,7 @@
   "CS#": 4,
   "note_number": "43\u2020",
   "notes": [ "A\u2020" ],
+  "comments": [ "4 TK DR", "AAMG: Removal/Scrounge NA" ],
   "id": "ru/v:058",
   "gpid": 681
 },
@@ -551,6 +564,7 @@
   "CS#": 5,
   "note_number": "44.2\u2020",
   "notes": [ "A\u2020<sup>1</sup>" ],
+  "comments": [ "CE: +1 Front &amp; Indirect Fire", "VCA Target Facing &amp; CE DRM" ],
   "id": "ru/v:061",
   "gpid": 7068
 },
@@ -560,6 +574,7 @@
   "capabilities2": { "AP": 7 },
   "note_number": "45",
   "notes": [ "A\u2020", "F\u2020" ],
+  "comments": [ "No Bnd (F)F" ],
   "id": "ru/v:062",
   "gpid": 685
 },
@@ -575,6 +590,7 @@
   "type": "APC",
   "CS#": "2\u2020",
   "note_number": "46.1\u2020",
+  "comments": [ "Inherent Crew if armed (with CS#)", "Pas: CE; +1 VCA", "Unpossessed SW ok", "Stun = Recall, CE &amp; Fire NA" ],
   "id": "ru/v:064",
   "gpid": 687
 },
@@ -618,6 +634,7 @@
   "CS#": "2\u2020",
   "note_number": "47.1\u2020",
   "notes": [ "S\u2020<sup>1</sup>" ],
+  "comments": [ "Inherent Crew if armed (with CS#)", "Rear VCA &amp; Aerial NA" ],
   "id": "ru/v:070",
   "gpid": 7082
 },
@@ -626,6 +643,7 @@
   "cs#": 2,
   "note_number": "47.1\u2020",
   "notes": [ "S\u2020<sup>1</sup>" ],
+  "comments": [ "Rear VCA &amp; Aerial NA" ],
   "id": "ru/v:071",
   "gpid": 7084
 },
@@ -634,6 +652,7 @@
   "CS#": 2,
   "note_number": "47.2\u2020",
   "notes": [ "Q", "S\u2020<sup>1</sup>" ],
+  "comments": [ "Rear VCA &amp; Aerial NA" ],
   "id": "ru/v:072",
   "gpid": 7085
 },
@@ -642,6 +661,7 @@
   "CS#": 3,
   "note_number": "47.3\u2020",
   "notes": [ "S\u2020<sup>1</sup>" ],
+  "comments": [ "R/S VCA &amp; Aerial NA" ],
   "id": "ru/v:073",
   "gpid": 7089
 }

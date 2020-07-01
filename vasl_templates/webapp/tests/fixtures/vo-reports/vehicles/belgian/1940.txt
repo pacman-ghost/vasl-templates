@@ -1,9 +1,9 @@
 === vehicles/belgian/1940 ===
 
 Name              Capabilities     (effective)      #    Notes             Comments
-----------------  ---------------  ---------------  ---  ----------------  ----------
-VCL Mk VI/c47(b)  ® CS 2           ® CS 2           14†  A Q†<sup>1</sup>
-T-13 II(b)        ® CS 4[brewup]†  ® CS 4[brewup]†  15†  A
-T-13 III(b)       ® CS 4[brewup]   ® CS 4[brewup]   16   A
-T-15(b)           ® CS 2           ® CS 2           17   A
-ACG1(f)           ® CS 3[brewup]   ® CS 3[brewup]   18†  A
+----------------  ---------------  ---------------  ---  ----------------  ------------------------------------------------------------------------------------------------------------------------
+VCL Mk VI/c47(b)  ® CS 2           ® CS 2           14†  A Q†<sup>1</sup>  CE DRM: Direct Fire VCA only | VCA change &#8594; No Fire | British ESB+ | MA: No Bnd (F)F, Motion Fire
+T-13 II(b)        ® CS 4[brewup]†  ® CS 4[brewup]†  15†  A                 Turret: armored/unarmored | Indirect Fire: +1 CE DRM, CS# = 2 (brewup) | TCA Change &#8594; No Fire, Move | British ESB+
+T-13 III(b)       ® CS 4[brewup]   ® CS 4[brewup]   16   A                 British ESB+
+T-15(b)           ® CS 2           ® CS 2           17   A                 British ESB+
+ACG1(f)           ® CS 3[brewup]   ® CS 3[brewup]   18†  A                 CMG: 12.7; Normal Range = 16 | French ESB+

@@ -15,6 +15,7 @@
   "CS#": 2,
   "note_number": "31\u2020",
   "notes": [ "A", "D" ],
+  "comments": [ "2 TK DR", "BMG: HD Fire OK" ],
   "id": "alc/v:001",
   "gpid": [ 2233, 2331 ]
 },
@@ -40,6 +41,7 @@
   "CS#": 2,
   "note_number": "32\u2020",
   "notes": [ "A", "F" ],
+  "comments": [ "Road Rate NA" ],
   "id": "alc/v:004",
   "gpid": 2239
 },
@@ -47,10 +49,10 @@
   "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 2,
-  "no_if": true,
   "capabilities2": { "AP": 9 },
   "note_number": "32\u2020",
   "notes": [ "A", "F" ],
+  "comments": [ "Road Rate NA", "No IF" ],
   "id": "alc/v:005",
   "gpid": 2241
 },
@@ -69,6 +71,7 @@
   "CS#": 4,
   "note_number": "34\u2020",
   "notes": [ "A", "V" ],
+  "comments": [ "MA: 12.7", "{{4|MA|2*}}", "Inherent Crew &amp; Passenger", "Pas: No Mounted Fire penalty", "Unpossessed SW ok", "Crew: .50-cal MA only", "MG Removal OK" ],
   "id": "alc/v:007",
   "gpid": 2245
 },
@@ -85,6 +88,7 @@
   "cs#": 5,
   "note_number": "35\u2020",
   "notes": [ "A" ],
+  "comments": [ "Deployed Passengers" ],
   "id": "alc/v:009",
   "gpid": 2249
 },

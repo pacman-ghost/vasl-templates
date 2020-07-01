@@ -24,6 +24,7 @@ from vasl_templates.webapp import main as webapp_main
 from vasl_templates.webapp import snippets as webapp_snippets
 from vasl_templates.webapp import roar as webapp_roar
 from vasl_templates.webapp import vasl_mod as vasl_mod_module
+from vasl_templates.webapp import vo_utils as vo_utils_module
 
 _logger = logging.getLogger( "control_tests" )
 
@@ -91,8 +92,9 @@ class ControlTests:
             raise RuntimeError( "Unknown data dir type: {}".format( dtype ) )
         _logger.info( "Setting data dir: %s", dname )
         self.webapp.config[ "DATA_DIR" ] = dname
+        vo_utils_module._vo_comments = None #pylint: disable=protected-access
         from vasl_templates.webapp.vo import load_vo_listings
-        load_vo_listings()
+        load_vo_listings( None )
         return self
 
     def _set_default_scenario( self, fname=None ):
@@ -185,7 +187,7 @@ class ControlTests:
         vasl_mod_module.warnings = []
         set_vasl_mod( vmod, startup_msg_store )
         from vasl_templates.webapp.vo import load_vo_listings
-        load_vo_listings()
+        load_vo_listings( None )
 
         return self
 

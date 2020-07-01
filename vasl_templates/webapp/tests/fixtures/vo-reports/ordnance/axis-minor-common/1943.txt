@@ -1,33 +1,33 @@
 === ordnance/axis-minor-common/1943 ===
 
 Name                             Capabilities                 (effective)                  #    Notes                   Comments
--------------------------------  ---------------------------  ---------------------------  ---  ----------------------  -------------
-5cm leGrW 36                     5PP                          5PP                          44   A B C H S
-50mm RM obr. 40                  4PP                          4PP                          45   A C H R S
-8cm GrW 34                       QSU IR s7                    QSU IR s7                    46†  A B C
-Brandt M27/31                    QSU s7                       QSU s7                       47†  A H R S
-PM obr. 38                       QSU h-d s8                   QSU h-d s8                   48†  H R
-Ur wz. 35                        1PP                          1PP                          49   B C H R S
-s18-1100                         5PP                          5PP                          50   A H R
-Kanon PUV vz. 37(t)              QSU A4[1S]†                  QSU                          51†  B E H S
-Bohler M35                       QSU                          QSU                          52†  A H R S                 No Gunshield.
-5cm PaK 38(g)                    QSU A4[3]3[4]                QSU A4                       53†  B E H R S
-7.5cm PaK 97/38(g)               QSU H5[3+] s6                QSU H5 s6                    54†  B E R
-7.5cm PaK 40(g)                  QSU A4[3]3[4]                QSU A4                       55†  B E H R S
-Skoda M15                        QSU                          QSU                          56†  A B C H R S
-Canon de 75 mle 1897             QSU s7                       QSU s7                       57   B R
-Skoda M29                        AP6                          AP6                          58†  A R S
-Skoda M17                        QSU                          QSU                          59†  A C R S
+-------------------------------  ---------------------------  ---------------------------  ---  ----------------------  ----------------------------------
+5cm leGrW 36                                                                               44   A B C H S               Animal-Packed
+50mm RM obr. 40                                                                            45   A C H R S               Animal-Packed
+8cm GrW 34                       IR s7                        IR s7                        46†  A B C                   QSU | Animal-Packed
+Brandt M27/31                    s7                           s7                           47†  A H R S                 QSU | Animal-Packed
+PM obr. 38                       s8                           s8                           48†  H R                     QSU | Horse-Drawn
+Ur wz. 35                                                                                  49   B C H R S               No Long Range
+s18-1100                                                                                   50   A H R                   No Long Range | Animal-Packed
+Kanon PUV vz. 37(t)              A4[1S]†                                                   51†  B E H S                 QSU
+Bohler M35                                                                                 52†  A H R S                 QSU | No Gunshield | Animal-Packed
+5cm PaK 38(g)                    A4[3]3[4]                    A4                           53†  B E H R S               QSU
+7.5cm PaK 97/38(g)               H5[3+] s6                    H5 s6                        54†  B E R                   QSU
+7.5cm PaK 40(g)                  A4[3]3[4]                    A4                           55†  B E H R S               QSU
+Skoda M15                                                                                  56†  A B C H R S             QSU | Animal-Packed
+Canon de 75 mle 1897             s7                           s7                           57   B R                     QSU
+Skoda M29                        AP6                          AP6                          58†  A R S                   Animal-Packed
+Skoda M17                                                                                  59†  A C R S                 QSU | Animal-Packed
 Skoda M28(80)                                                                              60†  C S
-Skoda M14/19                     s8                           s8                           61†  A† C H R S
+Skoda M14/19                     s8                           s8                           61†  A† C H R S              Animal-Packed
 leFH 18(g)                       H4[3+] s5                    H4 s5                        62†  B E H S
 Skoda M35                        AP7 C7[CS]†                  AP7                          63†  C R S
-G obr. 10/30                     h-d s7                       h-d s7                       64†  B R
+G obr. 10/30                     s7                           s7                           64†  B R                     Horse-Drawn
 G obr. 38                        s5[1-2R]†                                                 65   B R
 Skoda M14                                                                                  66†  H R S
-Skoda M15/16                     s6                           s6                           67†  C S                     No IF.
+Skoda M15/16                     s6                           s6                           67†  C S                     No IF
 C mle 17 S                       s7                           s7                           68†  B R
-Mitrailleuse de 13.2 CAJ mle 30  2 TK DR†                     2 TK DR†                     69†  B R T†<sup>1</sup>
+Mitrailleuse de 13.2 CAJ mle 30                                                            69†  B R T†<sup>1</sup>      2 TK DR | [16] TH | Tow NA
 Oerlikon FF                      LF [NT, 20†, 2 ROF, B11]     LF [NT, 20†, 2 ROF, B11]     70   B C G† H R S
 2cm FlaK 30(g)                   LF [NT, 20†[1], 2 ROF, B9]   LF [NT, 20†[1], 2 ROF, B9]   71†  B E G†<sup>1</sup> R
 2cm FlaK 38(g)                   LF [NT, 20†[1], 2 ROF, B10]  LF [NT, 20†[1], 2 ROF, B10]  72†  B E G†<sup>1</sup> R

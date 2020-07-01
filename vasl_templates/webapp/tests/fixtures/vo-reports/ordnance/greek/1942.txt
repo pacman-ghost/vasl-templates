@@ -1,7 +1,7 @@
 === ordnance/greek/1942 ===
 
 Name             Capabilities    (effective)      #  Notes    Comments
----------------  --------------  -------------  ---  -------  ----------
+---------------  --------------  -------------  ---  -------  -----------
 Vari 85/24 M     s5              s5              16  Gr
-OR 105/19        h-d             h-d             17  Gr
+OR 105/19                                        17  Gr       Horse-Drawn
 3.7cm Bofors AA                                  18  Gr

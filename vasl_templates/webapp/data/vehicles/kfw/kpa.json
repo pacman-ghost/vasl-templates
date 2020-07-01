@@ -5,6 +5,7 @@
   "CS#": 6,
   "capabilities2": { "A": 6, "sD": "6\u2020" },
   "note_number": "1\u2020",
+  "comments": [ "sD: single-use" ],
   "id": "kfw-kpa/v:000",
   "gpid": "3b5:8212"
 },
@@ -21,6 +22,7 @@
   "CS#": 2,
   "note_number": "3\u2020",
   "notes": [ "B" ],
+  "comments": [ "MA: AA ok", "BU Fire NA" ],
   "id": "kfw-kpa/v:002",
   "gpid": "3b5:8216"
 },
@@ -29,6 +31,7 @@
   "cs#": 2,
   "note_number": "4\u2020",
   "notes": [ "B" ],
+  "comments": [ "Bog assistance" ],
   "id": "kfw-kpa/v:003",
   "gpid": "3b5:11102"
 },

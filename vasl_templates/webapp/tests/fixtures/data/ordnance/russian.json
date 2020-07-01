@@ -3,7 +3,6 @@
 { "name": "a russian ordnance",
   "capabilities": [ "NM" ],
   "capabilities2": { "s": 1, "sN": 2 },
-  "capabilities_other": [ "twerking" ],
   "note_number": "1",
   "notes": [ "X", "Y\u2020" ],
   "id": "ru/o:990"

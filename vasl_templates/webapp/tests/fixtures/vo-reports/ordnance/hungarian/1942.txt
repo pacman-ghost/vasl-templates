@@ -1,9 +1,9 @@
 === ordnance/hungarian/1942 ===
 
 Name                Capabilities             (effective)              #    Notes           Comments
-------------------  -----------------------  -----------------------  ---  --------------  ----------
-5cm leGrW 39(h)     5PP                      5PP                      23   A
-40mm MAVAG 40 M     QSU H7[9]†               QSU H7[9]†               24†  n/a
-Skoda M05/08                                                          25   A
-105mm MAVAG M40     h-d                      h-d                      26   n/a
-Bofors 80mm M29/38  LF [80†[1], 1 ROF, B11]  LF [80†[1], 1 ROF, B11]  27†  G†<sup>1</sup>
+------------------  -----------------------  -----------------------  ---  --------------  -------------------------------------------------------------------------------
+5cm leGrW 39(h)                                                       23   A               Animal-Packed
+40mm MAVAG 40 M     H7[9]†                   H7[9]†                   24†  n/a             QSU | H7[9]: vs vehicle or HEAT-allowed target [{ *:TH# = 11 - range *:ROF 2 }]
+Skoda M05/08                                                          25   A               Animal-Packed
+105mm MAVAG M40                                                       26   n/a             Horse-Drawn
+Bofors 80mm M29/38  LF [80†[1], 1 ROF, B11]  LF [80†[1], 1 ROF, B11]  27†  G†<sup>1</sup>  AP TK# = 17

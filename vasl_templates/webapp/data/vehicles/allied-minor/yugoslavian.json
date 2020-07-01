@@ -32,6 +32,7 @@
   "CS#": 2,
   "note_number": "21\u2020",
   "notes": [ "A", "H\u2020<sup>1</sup>", "L" ],
+  "comments": [ "Turret Hit: As unarmored", "Crew Gunshield (Direct Fire)" ],
   "id": "yu/v:003",
   "gpid": 2308
 },
@@ -40,6 +41,7 @@
   "CS#": 2,
   "note_number": "22\u2020",
   "notes": [ "A", "H\u2020<sup>1</sup>", "L", "AA\u2020<sup>2</sup>" ],
+  "comments": [ "Turret Hit: As unarmored" ],
   "id": "yu/v:004",
   "gpid": 2310
 },

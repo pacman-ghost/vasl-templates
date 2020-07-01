@@ -1,56 +1,56 @@
 === vehicles/free-french/1943 ===
 
-Name                      Capabilities                               (effective)                              #          Notes                                                                                   Comments
-------------------------  -----------------------------------------  ---------------------------------------  ---------  --------------------------------------------------------------------------------------  ----------
-H39(f)                    ® AP10 CS 2                                ® AP10 CS 2                              Fr 7†      Fr A†<sup>1</sup> Fr C Fr F
-M5A1                      C7†[2] CS 4                                C7†[2] CS 4                              Fr 37†[1]  Fr Y†
-H39(L)(f)                 ® AP10 CS 2                                ® AP10 CS 2                              Fr 8†      Fr A†<sup>1</sup> Fr C Fr E Fr F
-R35(L)(f)                 ® AP10 CS 2                                ® AP10 CS 2                              Fr 8†      Fr A†<sup>1</sup> Fr C Fr E Fr F
-Crusader II               sM8 CS 4[brewup]                           sM8 CS 4[brewup]                         Fr 38      Fr W†
-Crusader III              HE7[F3+]†[1] sD7 sM8†[2] CS 3[brewup]      sD7 sM8†[2] CS 3[brewup]                 Fr 38      Fr W†
-M4                        WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  CS 5[brewup]                             Fr 39      Fr Y†
-M4A1                      WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  CS 5[brewup]                             Fr 39†     Fr Y†
-M4A2                      WP7[J4+]†[2] s5[J4+] sM5[4+] CS 5[brewup]  CS 5[brewup]                             Fr 39†[1]  Fr Y†
-M4A3(75)W                 WP7 s5 sM8 CS 6                            WP7 s5 sM8 CS 6                          Fr 40      Fr Y†
-M4A3(76)W                 A4[A4]5[5]†[2] s5[5] sM8 CS 6              sM8 CS 6                                 Fr 40      Fr Y†
-M4A3(105)                 C7[P]†[1] H9 WP9 s7 sM8 CS 6               H9 WP9 s7 sM8 CS 6                       Fr 40      Fr Y†
-M4 Tankdozer              WP7 s5 sM6 CS 5[brewup]                    WP7 s5 sM6 CS 5[brewup]                  Fr 40      Fr Y†
-S35(f)                    ®9†[1] CS 4                                ®9†[1] CS 4                              Fr 12†     Fr A†<sup>3</sup> Fr C Fr F Fr I†<sup>2</sup> Fr R†<sup>1</sup>
-B1-bis(f)                 ®9†[1] no IF[75]† AP9[75]† CS 5[brewup]    ®9†[1] no IF[75]† AP9[75]† CS 5[brewup]  Fr 13†     Fr A†<sup>4</sup> Fr B†<sup>3</sup> Fr C Fr E Fr F Fr I†<sup>2</sup> Fr R†<sup>1</sup>
-M10 GMC                   A5[A4E]6[5E]†[1] s5[5] sP5 CS 7            sP5 CS 7                                 Fr 41      Fr Y†
-Daimler                   sD4[4+]† CS 2                              CS 2                                     Fr 42†[1]  Fr W†
-AM Dodge(a)               AP10 CS 6†                                 AP10 CS 6†                               Fr 15†     Fr F
-M3A1                      CS 4                                       CS 4                                     Fr 43†[1]  Fr Y†
-M20                       sP5 CS 4                                   sP5 CS 4                                 Fr 43†[1]  Fr Y†
-Marmon-Herrington III ME  CS 4                                       CS 4                                     Fr 44      Fr W†
-Marmon-Herrington IIIv    CS 4                                       CS 4                                     Fr 44      Fr W†
-Humber II                 sD6 CS 3                                   sD6 CS 3                                 Fr 45      Fr W†
-M8                        C7†[2] sP5 CS 4                            C7†[2] sP5 CS 4                          Fr 43      Fr Y†
-M8 HMC                    C4[4+]†[1] H9 WP9 CS 5                     H9 WP9 CS 5                              Fr 46      Fr Y†
-M7 HMC                    C7[P]†[1] H7 WP8 s7 CS 7                   H7 WP8 s7 CS 7                           Fr 46      Fr Y†
-T30 HMC                   AP7 H5 WP9 CS 4                            AP7 H5 WP9 CS 4                          Fr 47      Fr Y†
-M2                        CS 4                                       CS 4                                     Fr 47      Fr Y†
-M3                        CS 5                                       CS 5                                     Fr 47      Fr Y†
-M5                        cs 5†[1]                                   cs 5†[1]                                 Fr 47†     Fr U
-M5A1                      cs 5†                                      cs 5†                                    Fr 47†     Fr U
-M9                        cs 4†[1]                                   cs 4†[1]                                 Fr 47†     Fr U
-Carrier A                 sD5[4+]†[1] CS 3                           CS 3                                     Fr 48†[1]  Fr W†
-Carrier B                 sD5[4+]†[2] CS 3                           CS 3                                     Fr 48†[1]  Fr W†
-Carrier C                 sD5[4+]†[1] CS 3                           CS 3                                     Fr 48†[1]  Fr W†
-Carrier, MMG A            sD5[4+]†[2] CS 3                           CS 3                                     Fr 48†[1]  Fr W†
-Carrier AC(b)             CS 3                                       CS 3                                     Fr 31†     Fr F Fr M†<sup>1</sup>
-Ac de 25 CA(f)            CS 4                                       CS 4                                     Fr 21†     Fr F Fr AA†<sup>1</sup>
-Ac de 75 Conus(b)         s8 CS 5                                    s8 CS 5                                  Fr 20†     Fr F Fr M†<sup>1</sup>
-Ac de 40 CA(a)            CS 4                                       CS 4                                     Fr 22      Fr E Fr F Fr M† Fr AA†<sup>1</sup>
-Ac de 75 mle 13/34(f)     CS 7                                       CS 7                                     Fr 23†     Fr D†<sup>1</sup> Fr F Fr AA†<sup>2</sup>
-Quad FAT                  CS 5[brewup]†                              CS 5[brewup]†                            Fr 49      Fr W†
-Jeep(a)                   cs 2†[1]                                   cs 2†[1]                                 Fr 50†[1]  Fr W†
-15-cwt Truck              cs 5                                       cs 5                                     Fr 50      Fr W†
-30-cwt Lorry              cs 6                                       cs 6                                     Fr 50      Fr W†
-3-Ton Lorry               cs 7                                       cs 7                                     Fr 50      Fr W†
-Jeep                      cs 2†[1]                                   cs 2†[1]                                 Fr 51      Fr Y†
-Jeep GPA                  cs 2                                       cs 2                                     Fr 51      Fr Y†
-&#190;-Ton                cs 4                                       cs 4                                     Fr 51      Fr Y†
-1&#189;-Ton               cs 6                                       cs 6                                     Fr 51      Fr Y†
-2&#189;-Ton               cs 7                                       cs 7                                     Fr 51      Fr Y†
-7&#189;-Ton               cs 7                                       cs 7                                     Fr 51      Fr Y†
+Name                      Capabilities                               (effective)                   #          Notes                                                                                   Comments
+------------------------  -----------------------------------------  ----------------------------  ---------  --------------------------------------------------------------------------------------  --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+H39(f)                    ® AP10 CS 2                                ® AP10 CS 2                   Fr 7†      Fr A†<sup>1</sup> Fr C Fr F                                                             CMG: AA ok (TCA only) | CMG: Scrounge OK | CE: +1 Rear Turret &amp; Indirect Fire | Red TH# | French ESB+ | Captured Use (unless Free/Vichy French)
+M5A1                      C7†[2] CS 4                                C7†[2] CS 4                   Fr 37†[1]  Fr Y†
+H39(L)(f)                 ® AP10 CS 2                                ® AP10 CS 2                   Fr 8†      Fr A†<sup>1</sup> Fr C Fr E Fr F                                                        CMG: AA ok (TCA only) | CMG: Scrounge OK | CE: +1 Rear Turret &amp; Indirect Fire | Red TH# | French ESB+ | Captured Use (unless Free/Vichy French)
+R35(L)(f)                 ® AP10 CS 2                                ® AP10 CS 2                   Fr 8†      Fr A†<sup>1</sup> Fr C Fr E Fr F                                                        CMG: AA ok (TCA only) | CMG: Scrounge OK | CE: +1 Rear Turret &amp; Indirect Fire | Red TH# | French ESB+ | Captured Use (unless Free/Vichy French)
+Crusader II               sM8 CS 4[brewup]                           sM8 CS 4[brewup]              Fr 38      Fr W†
+Crusader III              HE7[F3+]†[1] sD7 sM8†[2] CS 3[brewup]      sD7 sM8†[2] CS 3[brewup]      Fr 38      Fr W†
+M4                        WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  CS 5[brewup]                  Fr 39      Fr Y†                                                                                   Multiple Hits
+M4A1                      WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  CS 5[brewup]                  Fr 39†     Fr Y†                                                                                   Multiple Hits
+M4A2                      WP7[J4+]†[2] s5[J4+] sM5[4+] CS 5[brewup]  CS 5[brewup]                  Fr 39†[1]  Fr Y†                                                                                   Multiple Hits
+M4A3(75)W                 WP7 s5 sM8 CS 6                            WP7 s5 sM8 CS 6               Fr 40      Fr Y†                                                                                   Multiple Hits
+M4A3(76)W                 A4[A4]5[5]†[2] s5[5] sM8 CS 6              sM8 CS 6                      Fr 40      Fr Y†
+M4A3(105)                 C7[P]†[1] H9 WP9 s7 sM8 CS 6               H9 WP9 s7 sM8 CS 6            Fr 40      Fr Y†
+M4 Tankdozer              WP7 s5 sM6 CS 5[brewup]                    WP7 s5 sM6 CS 5[brewup]       Fr 40      Fr Y†                                                                                   Front-hull hit: +2 TH DRM (unless level &lt; firer) | Multiple Hits
+S35(f)                    ®9†[1] CS 4                                ®9†[1] CS 4                   Fr 12†     Fr A†<sup>3</sup> Fr C Fr F Fr I†<sup>2</sup> Fr R†<sup>1</sup>                         CMG: AA ok (TCA only) | CMG: Scrounge OK | CE: +1 Rear Turret &amp; Indirect Fire | Immob: dr &#8804; 4 [EXC: mines, Direct Fire vs front/rear] | Red TH# | French ESB+ | Captured Use (unless Free/Vichy French)
+B1-bis(f)                 ®9†[1] AP9[75]† CS 5[brewup]               ®9†[1] AP9[75]† CS 5[brewup]  Fr 13†     Fr A†<sup>4</sup> Fr B†<sup>3</sup> Fr C Fr E Fr F Fr I†<sup>2</sup> Fr R†<sup>1</sup>  47 MA: 1MT | 75* SA: NT (bow-mounted) | 75* SA: +1 TH DRM vs Moving/Motion | 75* SA: No IF | AP: 75* SA only | Acquisition Loss | Port hull CH: Original 3 | CMG: AA ok (TCA only) | CMG: Scrounge OK | BMG: +1 DRM vs Moving/Motion | BMG: Scrounge NA | CE: +1 Rear Turret &amp; Indirect Fire | Immob: dr &#8804; 4 [EXC: mines, Direct Fire vs front/rear] | Red TH# | French ESB+ | Captured Use (unless Free/Vichy French)
+M10 GMC                   A5[A4E]6[5E]†[1] s5[5] sP5 CS 7            sP5 CS 7                      Fr 41      Fr Y†
+Daimler                   sD4[4+]† CS 2                              CS 2                          Fr 42†[1]  Fr W†                                                                                   Stun = Recall, CE &amp; Fire NA
+AM Dodge(a)               AP10 CS 6†                                 AP10 CS 6†                    Fr 15†     Fr F                                                                                    CMG: AA ok | MA NA in AA mode | Partially armored [{ *:+2 DRM if unarmored [EXC: CC, FT, mines, height advantage, destroyed] }] | Black TH# | American ESB+ | Captured Use (unless Vichy French)
+M3A1                      CS 4                                       CS 4                          Fr 43†[1]  Fr Y†                                                                                   Inherent Crew &amp; Passenger | MA: 12.7 | Pas: No Mounted Fire penalty | Unpossessed SW ok | Crew: .50 cal MA only | Independent AAMG's | {{4|MA|2*}} | AAMG: Removal OK
+M20                       sP5 CS 4                                   sP5 CS 4                      Fr 43†[1]  Fr Y†                                                                                   MA: 12.7 | (Un)load &#215;2 | Pas: Mounted Fire | Unpossessed SW ok | MG Removal OK | Reverse MP &#215;4 | BAZ
+Marmon-Herrington III ME  CS 4                                       CS 4                          Fr 44      Fr W†                                                                                   Reverse MP &#215;3 | ATR: [12] TH | ATR: Removal/Scrounge OK | AAMG: Rear TCA only
+Marmon-Herrington IIIv    CS 4                                       CS 4                          Fr 44      Fr W†                                                                                   AAMG: Rear VCA only | Red TH# | Reverse MP &#215;3
+Humber II                 sD6 CS 3                                   sD6 CS 3                      Fr 45      Fr W†                                                                                   Reverse MP &#215;3
+M8                        C7†[2] sP5 CS 4                            C7†[2] sP5 CS 4               Fr 43      Fr Y†                                                                                   Reverse MP &#215;4
+M8 HMC                    C4[4+]†[1] H9 WP9 CS 5                     H9 WP9 CS 5                   Fr 46      Fr Y†
+M7 HMC                    C7[P]†[1] H7 WP8 s7 CS 7                   H7 WP8 s7 CS 7                Fr 46      Fr Y†
+T30 HMC                   AP7 H5 WP9 CS 4                            AP7 H5 WP9 CS 4               Fr 47      Fr Y†                                                                                   AAMG: Removal OK (.50-cal HMG) | AAMG: NA VCA | CE: +3 Front
+M2                        CS 4                                       CS 4                          Fr 47      Fr Y†                                                                                   MA: 12.7 | Crew: .50 cal MA only | Independent AAMG's | {{4|MA|2*}} | AAMG: Removal OK
+M3                        CS 5                                       CS 5                          Fr 47      Fr Y†                                                                                   MA: As MMG for TK &amp; Removal
+M5                        cs 5†[1]                                   cs 5†[1]                      Fr 47†     Fr U                                                                                    American ESB+ | MA Removal OK (.30-cal MMG) | Inherent Crew if armed (with CS#)
+M5A1                      cs 5†                                      cs 5†                         Fr 47†     Fr U                                                                                    American ESB+ | MA Removal OK (.50-cal HMG) | Inherent Crew if armed (with CS#)
+M9                        cs 4†[1]                                   cs 4†[1]                      Fr 47†     Fr U                                                                                    American ESB+ | MA Removal OK (.30-cal MMG) | Inherent Crew if armed (with CS#)
+Carrier A                 sD5[4+]†[1] CS 3                           CS 3                          Fr 48†[1]  Fr W†                                                                                   Always CE | BMG: AA ok | Combined (un)hooking/(un)loading | Towing NA | Inherent Passenger (HS)
+Carrier B                 sD5[4+]†[2] CS 3                           CS 3                          Fr 48†[1]  Fr W†                                                                                   Always CE | ATR: [12] TH | ATR: Removal/Scrounge OK | Combined (un)hooking/(un)loading | Towing NA | Inherent Passenger (HS)
+Carrier C                 sD5[4+]†[1] CS 3                           CS 3                          Fr 48†[1]  Fr W†                                                                                   Always CE | MA: Removal NA | Combined (un)hooking/(un)loading | Towing NA | Inherent Passenger (HS)
+Carrier, MMG A            sD5[4+]†[2] CS 3                           CS 3                          Fr 48†[1]  Fr W†                                                                                   Always CE | BATR SA: HD VCA Fire OK | ATR: [12] TH | ATR: Removal/Scrounge OK | Combined (un)hooking/(un)loading | Towing NA | Inherent Passenger (HS)
+Carrier AC(b)             CS 3                                       CS 3                          Fr 31†     Fr F Fr M†<sup>1</sup>                                                                  Inherent Crew (not HS) | No Passengers | Always CE | Black TH# | British ESB+ | Captured Use (unless Vichy French or British) | MA: No Bnd FF, Motion Fire
+Ac de 25 CA(f)            CS 4                                       CS 4                          Fr 21†     Fr F Fr AA†<sup>1</sup>                                                                 Bnd FF &amp; Motion Fire NA VCA | MA: B# = 12 | MA: AA ok | Red TH# | French ESB+ | Captured Use (unless Free/Vichy French)
+Ac de 75 Conus(b)         s8 CS 5                                    s8 CS 5                       Fr 20†     Fr F Fr M†<sup>1</sup>                                                                  Fire NA if VCA &#8804; level | AAMG: TCA only | Black TH# | British ESB+ | Captured Use (unless Vichy French or British) | MA: No Bnd FF, Motion Fire
+Ac de 40 CA(a)            CS 4                                       CS 4                          Fr 22      Fr E Fr F Fr M† Fr AA†<sup>1</sup>                                                      Black TH# | American ESB+ | Captured Use (unless Free French or US) | MA: No Bnd FF, Motion Fire | MA: AA ok
+Ac de 75 mle 13/34(f)     CS 7                                       CS 7                          Fr 23†     Fr D†<sup>1</sup> Fr F Fr AA†<sup>2</sup>                                               MA: No Bnd (F)F, Motion Fire | Rear TF NA | Requires Ammo Vehicle/Dump | Reverse MP &#215;2 | MA: AA ok | Red TH# | French ESB+ | Captured Use (unless Free/Vichy French)
+Quad FAT                  cs 5[brewup]†                              cs 5[brewup]†                 Fr 49      Fr W†                                                                                   Burning Wreck: -1 DRM
+Jeep(a)                   cs 2†[1]                                   cs 2†[1]                      Fr 50†[1]  Fr W†                                                                                   American ESB+ | Bog assistance | Inherent Crew if armed (with CS#)
+15-cwt Truck              cs 5                                       cs 5                          Fr 50      Fr W†
+30-cwt Lorry              cs 6                                       cs 6                          Fr 50      Fr W†
+3-Ton Lorry               cs 7                                       cs 7                          Fr 50      Fr W†
+Jeep                      cs 2†[1]                                   cs 2†[1]                      Fr 51      Fr Y†                                                                                   AAMG Removal OK | Bog assistance | Inherent Crew if armed (with CS#)
+Jeep GPA                  cs 2                                       cs 2                          Fr 51      Fr Y†                                                                                   +3 Target Size &amp; HD in Water | Bog assistance
+&#190;-Ton                cs 4                                       cs 4                          Fr 51      Fr Y†
+1&#189;-Ton               cs 6                                       cs 6                          Fr 51      Fr Y†
+2&#189;-Ton               cs 7                                       cs 7                          Fr 51      Fr Y†
+7&#189;-Ton               cs 7                                       cs 7                          Fr 51      Fr Y†

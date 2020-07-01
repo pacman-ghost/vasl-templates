@@ -6,6 +6,7 @@
   "capabilities2": { "s": 5, "WP": 7, "sM": 8 },
   "note_number": "1\u2020",
   "notes": [ "O", "Y" ],
+  "comments": [ "Multiple Hits" ],
   "id": "kfw-uro/v:000",
   "gpid": [ 12652, "3b5:8419" ]
 },
@@ -51,6 +52,7 @@
   "capabilities2": { "C": 5, "sM": 8 },
   "note_number": "5\u2020",
   "notes": [ "C", "M" ],
+  "comments": [ "TCA restrictions", "CE: MA, SA Fire NA", "Fire MA &amp; SA NA" ],
   "id": "kfw-uro/v:005",
   "gpid": "3b5:3632"
 },
@@ -59,6 +61,7 @@
   "CS#": 6,
   "note_number": "6\u2020",
   "notes": [ "K", "M", "P" ],
+  "comments": [ "Front turret AF = 4", "(Un)load: 2 MF", "May tow vehicles", "Bog assistance" ],
   "id": "kfw-uro/v:006",
   "gpid": "3b5:3634"
 },
@@ -102,6 +105,7 @@
   "CS#": 2,
   "capabilities2": { "H": [ "\u2020" ] },
   "note_number": "11\u2020",
+  "comments": [ "MA: RCL (crew only)", "Red TH#", "No Bnd FF, Motion Fire", "Rear VCA NA", "&infin; H", "HEAT TK# = 25" ],
   "id": "kfw-uro/v:011",
   "gpid": "3b5:3642"
 },
@@ -110,6 +114,7 @@
   "CS#": 5,
   "note_number": "12\u2020",
   "notes": [ "K", "Y" ],
+  "comments": [ "MA: As MMG for TK &amp; Removal" ],
   "id": "kfw-uro/v:012",
   "gpid": [ 967, "3b5:4017" ]
 },
@@ -118,6 +123,7 @@
   "CS#": 5,
   "note_number": "13\u2020",
   "notes": [ "E\u2020", "H", "K", "Y" ],
+  "comments": [ "Inherent Crew &amp; Passenger", "MA: 12.7", "{{4|MA|4*|4*}}", "MG Removal OK (dm .50-cal HMG, dm MMG)" ],
   "id": "kfw-uro/v:013",
   "gpid": [ 971, "3b5:4021" ]
 },
@@ -126,6 +132,7 @@
   "CS#": 5,
   "note_number": "13\u2020",
   "notes": [ "E\u2020", "H", "K", "Y" ],
+  "comments": [ "Inherent Crew &amp; Passenger", "MA: 12.7", "{{4|MA|6*|6*}}", "MG Removal OK (dm .50-cal HMG, dm HMG)" ],
   "id": "kfw-uro/v:014",
   "gpid": [ 973, "3b5:4023" ]
 },
@@ -134,6 +141,7 @@
   "CS#": 4,
   "note_number": "14\u2020",
   "notes": [ "AA\u2020<sup>1</sup>" ],
+  "comments": [ "MA: VCA &lt; level NA", "Trailer (0 AF)" ],
   "id": "kfw-uro/v:015",
   "gpid": "3b5:3676"
 },
@@ -142,6 +150,7 @@
   "CS#": 4,
   "note_number": "15\u2020",
   "notes": [ "O", "V\u2020<sup>1</sup>", "Y", "AA\u2020<sup>2</sup>", "DD\u2020<sup>1</sup>" ],
+  "comments": [ "CMG: Normal Range = 16", "CMG Removal NA" ],
   "id": "kfw-uro/v:016",
   "gpid": [ 990, "3b5:8421" ]
 },
@@ -150,6 +159,7 @@
   "CS#": 4,
   "note_number": "16\u2020",
   "notes": [ "AA\u2020<sup>2</sup>", "DD\u2020<sup>1</sup>" ],
+  "comments": [ "CE: +1" ],
   "id": "kfw-uro/v:017",
   "gpid": "3b5:3686"
 },
@@ -158,6 +168,7 @@
   "CS#": 4,
   "note_number": "17\u2020",
   "notes": [ "F\u2020<sup>1</sup>", "V\u2020<sup>1</sup>", "Y", "AA\u2020<sup>2</sup>", "DD\u2020<sup>1</sup>" ],
+  "comments": [ "CE: +1 Side/Rear Turret" ],
   "id": "kfw-uro/v:018",
   "gpid": 992
 },
@@ -166,6 +177,7 @@
   "CS#": 5,
   "note_number": "18\u2020",
   "notes": [ "F\u2020<sup>1</sup>", "V\u2020<sup>1</sup>", "AA\u2020<sup>2</sup>", "DD\u2020<sup>1</sup>" ],
+  "comments": [ "CE: +3 Front Turret" ],
   "id": "kfw-uro/v:019",
   "gpid": "3b5:3688"
 },
@@ -182,6 +194,7 @@
   "CS#": "5:brewup",
   "capabilities2": { "WP": 8 },
   "note_number": "19\u2020",
+  "comments": [ "Inherent Infantry Crew", "MA Removal OK (dm M1(L) 81mm Mortar)" ],
   "id": "kfw-uro/v:021",
   "gpid": 12279
 },
@@ -205,29 +218,29 @@
 { "name": "M41 HMC",
   "type": "SPA",
   "CS#": 9,
-  "no_if": true,
   "capabilities2": { "s": 7, "WP": 8 },
   "note_number": "22\u2020",
   "notes": [ "S\u2020<sup>1</sup>" ],
+  "comments": [ "No IF" ],
   "id": "kfw-uro/v:024",
   "gpid": "3b5:10290"
 },
 { "name": "M40 GMC",
   "type": "SPA",
   "CS#": 9,
-  "no_if": true,
   "capabilities2": { "AP": 4, "s": 7, "WP": 8 },
   "note_number": "23",
   "notes": [ "S\u2020" ],
+  "comments": [ "No IF" ],
   "id": "kfw-uro/v:025",
   "gpid": "3b5:4148"
 },
 { "name": "M43 HMC",
   "type": "SPA",
   "CS#": 9,
-  "no_if": true,
   "note_number": "23",
   "notes": [ "S\u2020" ],
+  "comments": [ "No IF" ],
   "id": "kfw-uro/v:026",
   "gpid": "3b5:4154"
 },
@@ -237,6 +250,7 @@
   "capabilities2": { "H": 8, "C": 7, "WP": 8 },
   "note_number": "24\u2020",
   "notes": [ "H", "T\u2020<sup>1</sup>", "X\u2020<sup>2</sup>" ],
+  "comments": [ "AAMG: 4&amp;4; NA opposite side" ],
   "id": "kfw-uro/v:027",
   "gpid": 11344
 },
@@ -254,6 +268,8 @@
   "CS#": 7,
   "note_number": "25\u2020",
   "notes": [ "D\u2020", "H", "M", "T\u2020<sup>1</sup>", "X\u2020<sup>2</sup>" ],
+  "disabled_comments": [ "(Un)load &times;2" ],
+  "comments": [ "{{6|MA|4*}} (optional)", "MG VCA only", "MA: 12.7", "CE: +3 Front", "(Un)load: must be CE, Rear unarmored" ],
   "id": "kfw-uro/v:029",
   "gpid": [ "3b5:3704", "3b5:3706" ]
 },
@@ -262,6 +278,8 @@
   "CS#": 7,
   "note_number": "25\u2020",
   "notes": [ "D\u2020", "M", "T\u2020<sup>1</sup>", "X\u2020<sup>2</sup>", "BB\u2020" ],
+  "disabled_comments": [ "(Un)load &times;2" ],
+  "comments": [ "MA: Rear VCA &lt; level NA", "(Un)load: Rear unarmored" ],
   "id": "kfw-uro/v:030",
   "gpid": 11348
 },
@@ -286,6 +304,7 @@
   "CS#": 3,
   "note_number": "28\u2020",
   "notes": [ "B\u2020<sup>1</sup>", "M", "T\u2020<sup>1</sup>" ],
+  "comments": [ "Bog Checks NA for Marsh, Mudflat, Swamp" ],
   "id": "kfw-uro/v:033",
   "gpid": "3b5:3896"
 },
@@ -302,20 +321,22 @@
   "CS#": "7\u2020<sup>1</sup>",
   "note_number": "30\u2020",
   "notes": [ "D\u2020<sup>2</sup>", "M", "Q\u2020<sup>1</sup>", "Y" ],
+  "comments": [ "AAMG Removal OK (.50-cal HMG)" ],
   "id": "kfw-uro/v:035",
-  "gpid": 1032
+  "gpid": [ 1032, 1034 ]
 },
 { "name": "TACP Jeep",
   "type": "trv",
   "CS#": "2\u2020",
   "note_number": "31\u2020",
   "notes": [ "L\u2020<sup>1</sup>", "M" ],
+  "comments": [ "Inherent Crew", "Morale 8", "(Un)load: 1 MF", "Contact: 10", "Radio: R2, X6" ],
   "id": "kfw-uro/v:036",
   "gpid": "3b5:3643"
 },
 { "name": "7&#189;-Ton",
   "type": "tr",
-  "CS#": 7,
+  "cs#": 7,
   "note_number": "32",
   "notes": [ "Y" ],
   "id": "kfw-uro/v:037",
@@ -325,6 +346,7 @@
   "type": "trv",
   "CS#": "7\u2020",
   "note_number": "33\u2020",
+  "comments": [ "Inherent Crew", "IB VCA NA", "Reliability DR: 10", "Sighting TC" ],
   "id": "kfw-uro/v:038",
   "gpid": "3b5:10093"
 }

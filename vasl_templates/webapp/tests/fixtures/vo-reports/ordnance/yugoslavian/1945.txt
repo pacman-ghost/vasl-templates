@@ -1,7 +1,7 @@
 === ordnance/yugoslavian/1945 ===
 
 Name                Capabilities    (effective)      #  Notes    Comments
-------------------  --------------  -------------  ---  -------  ----------
-3.7cm Infantry Gun  QSU h-d         QSU h-d         20  Y
-80mm M28/M33        h-d s5          h-d s5          21  Y
+------------------  --------------  -------------  ---  -------  -----------------
+3.7cm Infantry Gun                                  20  Y        QSU | Horse-Drawn
+80mm M28/M33        s5              s5              21  Y        Horse-Drawn
 100mm M14/19                                        22  Y

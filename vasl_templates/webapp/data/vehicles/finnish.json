@@ -6,6 +6,7 @@
   "CS#": 2,
   "note_number": "1\u2020",
   "notes": [ "D", "M" ],
+  "comments": [ "+3 Target Size &amp; HD in Water" ],
   "id": "fi/v:000",
   "gpid": 6841
 },
@@ -41,6 +42,7 @@
   "CS#": 3,
   "note_number": "5\u2020",
   "notes": [ "D", "M" ],
+  "comments": [ "Turret Knock-Out: Non-HE TK = Final TK", "CMG: Scrounge as BMG" ],
   "id": "fi/v:004",
   "gpid": 6865
 },
@@ -133,6 +135,7 @@
   "capabilities2": { "A": 3, "sD": "6\u2020" },
   "note_number": "14\u2020",
   "notes": [ "D" ],
+  "comments": [ "sD: single use" ],
   "id": "fi/v:014",
   "gpid": 6911
 },
@@ -157,11 +160,11 @@
   "type": "AG",
   "no_radio": "\u00ae",
   "CS#": "3:brewup",
-  "no_if": true,
   "capabilities": [ "H\u2020" ],
   "capabilities2": { "s": 6 },
   "note_number": "16\u2020",
   "notes": [ "D", "M" ],
+  "comments": [ "TCA: Pays NT DRM", "&infin; HEAT", "HEAT TK# = 15", "No IF" ],
   "id": "fi/v:017",
   "gpid": 6925
 },
@@ -171,6 +174,7 @@
   "capabilities2": { "A": 3, "H": 4, "s": 8 },
   "note_number": "17\u2020",
   "notes": [ "D" ],
+  "comments": [ "AAMG: VCA Only" ],
   "id": "fi/v:018",
   "gpid": 6929
 },
@@ -187,6 +191,7 @@
   "type": "AC",
   "CS#": 5,
   "note_number": "19\u2020",
+  "comments": [ "CMG: AA ok (TCA only)", "MA: [16] TH", "Black TH#" ],
   "id": "fi/v:020",
   "gpid": 6937
 },
@@ -194,6 +199,7 @@
   "type": "AC",
   "CS#": 5,
   "note_number": "19\u2020",
+  "comments": [ "CMG: AA ok (TCA only)", "MA: [12] TH", "Black TH#" ],
   "id": "fi/v:021",
   "gpid": 6941
 },
@@ -219,6 +225,7 @@
   "CS#": 4,
   "note_number": "22\u2020",
   "notes": [ "A\u2020<sup>1</sup>" ],
+  "comments": [ "4 TK DR", "AAMG: Scrounge NA" ],
   "id": "fi/v:024",
   "gpid": 6955
 },
@@ -227,6 +234,7 @@
   "CS#": "2\u2020",
   "note_number": "23\u2020",
   "notes": [ "D" ],
+  "comments": [ "Inherent Crew if armed (with CS#)", "Stun = Recall, CE &amp; Fire NA", "Pas: Always CE; +1 VCA", "Unpossessed SW ok" ],
   "id": "fi/v:025",
   "gpid": 6959
 },
@@ -250,6 +258,7 @@
   "type": "tr",
   "cs#": 2,
   "note_number": "26\u2020",
+  "comments": [ "Bog assistance" ],
   "id": "fi/v:028",
   "gpid": 6979
 },

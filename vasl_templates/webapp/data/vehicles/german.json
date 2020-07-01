@@ -6,6 +6,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "1\u2020",
   "notes": [ "N<sup>F</sup>" ],
+  "comments": [ "2 TK DR" ],
   "id": "ge/v:000",
   "gpid": 2524
 },
@@ -31,6 +32,7 @@
   "CS#": "2:brewup",
   "capabilities2": { "sD": "7\u2020" },
   "note_number": "4\u2020",
+  "comments": [ "sD: 3 hex range" ],
   "id": "ge/v:003",
   "gpid": 2530
 },
@@ -81,6 +83,7 @@
   "CS#": 2,
   "note_number": "9.1\u2020",
   "notes": [ "a", "c", "f" ],
+  "comments": [ "Road Rate NA" ],
   "id": "ge/v:009",
   "gpid": [ 2542, 7124 ]
 },
@@ -90,6 +93,7 @@
   "capabilities2": { "AP": 9 },
   "note_number": "9.1\u2020",
   "notes": [ "a", "c", "f" ],
+  "comments": [ "Road Rate NA" ],
   "id": "ge/v:010",
   "gpid": [ 2544, 7128 ]
 },
@@ -287,9 +291,10 @@
 { "name": "PzKpfw VIE",
   "type": "HT",
   "CS#": 6,
-  "capabilities2": { "A": [ [6,2] ], "sD": 7, "M": "7\u2020" },
+  "capabilities2": { "A": [ [6,2] ], "sD": 7 },
   "note_number": "30\u2020",
   "notes": [ "K", "N<sup>FT</sup>" ],
+  "comments": [ "SA: Mines (CC: 12 FP)" ],
   "id": "ge/v:033",
   "gpid": 2598
 },
@@ -358,20 +363,20 @@
 { "name": "StuPz IV",
   "type": "AG",
   "CS#": 6,
-  "no_if": true,
   "capabilities2": { "H": 7, "s": 9 },
   "note_number": "37\u2020",
   "notes": [ "S" ],
+  "comments": [ "BMG: HD Fire OK", "No IF" ],
   "id": "ge/v:041",
   "gpid": [ 2618, 2620 ]
 },
 { "name": "Sturmtiger",
   "type": "AG",
   "CS#": 5,
-  "no_if": true,
   "capabilities2": { "sN": 9 },
   "note_number": "37.1\u2020",
   "notes": [ "K" ],
+  "comments": [ "MA: No Bnd (F)F, Motion Fire, Acq, CE", "No Area Target Type, same Location, consecutive Fire", "+1 TH DRM vs Moving/Motion/Dash", "Riders Bail Out when MA fires", "IFT: 36+ FP with -3 DRM", "HE TK#: <ul> <li> Direct Hit (dr 1-2): 28 (armored), 22 (unarmored); <br> Specific Collateral Attack = full FP <li> Near Miss: 10 (armored), 16 (unarmored); <br> Specific Collateral Attack = 20 FP </ul>", "No IF" ],
   "id": "ge/v:042",
   "gpid": 2670
 },
@@ -403,10 +408,10 @@
 { "name": "StuG 105/25(i)",
   "type": "AG",
   "CS#": 3,
-  "no_if": true,
   "capabilities2": { "H": 7, "s": 9 },
   "note_number": "41",
   "notes": [ "I", "P\u2020" ],
+  "comments": [ "No IF" ],
   "id": "ge/v:046",
   "gpid": 2630
 },
@@ -445,7 +450,7 @@
   "id": "ge/v:050",
   "gpid": 2550
 },
-{ "name": "Marder I",
+{ "name": "Marder I(f)",
   "type": "TD",
   "CS#": "4:brewup",
   "capabilities2": { "A": [ [6,2] ], "HE": 7, "s": 7 },
@@ -478,6 +483,8 @@
   "capabilities2": { "A": [ [6,2] ], "HE": 7, "s": 7, "sD": 6 },
   "note_number": "47",
   "notes": [ "E", "G", "N<sup>F</sup>" ],
+  "disabled_comments": [ "G" ],
+  "comments": [ "{? 01/1943- | CE +3 F | | CE +3 F<sup>43+</sup> ?}" ],
   "id": "ge/v:054",
   "gpid": 2646
 },
@@ -537,9 +544,9 @@
 { "name": "StuIG 33B",
   "type": "AG",
   "CS#": 5,
-  "no_if": true,
   "capabilities2": { "H": 7, "s": 9 },
   "note_number": "53\u2020",
+  "comments": [ "BMG: HD Fire OK", "No IF" ],
   "id": "ge/v:061",
   "gpid": 2668
 },
@@ -582,6 +589,7 @@
   "CS#": "4\u2020",
   "note_number": "58\u2020",
   "notes": [ "J\u2020", "N" ],
+  "comments": [ "Inherent Crew &amp; Passenger", "CMG: Normal Range = 16, VCA only", "CMG: Removal/Scrounge OK (LMG)", "AAMG: Removal OK (dm HMG); Scrounge OK (LMG)" ],
   "id": "ge/v:066",
   "gpid": 2676
 },
@@ -592,6 +600,7 @@
   "capabilities2": { "s": 8 },
   "note_number": "59",
   "notes": [ "J\u2020", "N" ],
+  "comments": [ "Inherent Infantry Crew" ],
   "id": "ge/v:067",
   "gpid": 2678
 },
@@ -634,6 +643,7 @@
   "CS#": "5\u2020",
   "note_number": "58\u2020",
   "notes": [ "C\u2020", "J\u2020", "N" ],
+  "comments": [ "Inherent Crew &amp; Passenger", "CMG: Normal Range = 16, VCA only", "CMG: Removal/Scrounge OK (LMG)", "AAMG: Removal OK (dm HMG); Scrounge OK (LMG)" ],
   "id": "ge/v:072",
   "gpid": 2690
 },
@@ -644,6 +654,7 @@
   "capabilities2": { "s": 8 },
   "note_number": "59",
   "notes": [ "C\u2020", "J\u2020", "N" ],
+  "comments": [ "Inherent Infantry Crew" ],
   "id": "ge/v:073",
   "gpid": 2692
 },
@@ -662,6 +673,7 @@
   "capabilities2": { "A": [ [4,1] ] },
   "note_number": "65",
   "notes": [ "C\u2020", "J\u2020", "N" ],
+  "comments": [ "{? 09/1943- | PSK | ATR | 9/43+: PSK, else ATR ?}" ],
   "id": "ge/v:075",
   "gpid": 2698
 },
@@ -669,6 +681,7 @@
   "type": "ht",
   "CS#": "4:brewup",
   "note_number": "66\u2020",
+  "comments": [ "Port/starboard FT's" ],
   "id": "ge/v:076",
   "gpid": 2700
 },
@@ -676,6 +689,7 @@
   "type": "ht",
   "CS#": 4,
   "note_number": "66.1\u2020",
+  "comments": [ "3 TK DR", "MA: AA ok" ],
   "id": "ge/v:077",
   "gpid": 2702
 },
@@ -700,11 +714,11 @@
 { "name": "mSPW S307(f)",
   "type": "SPA",
   "CS#": 4,
-  "no_if": true,
   "capabilities": [ "IR" ],
   "capabilities2": { "s": 5 },
   "note_number": "67.2",
   "notes": [ "a", "e" ],
+  "comments": [ "CE: +1 Rear &amp; Indirect Fire", "VCA Facing", "Extra Smoke", "No IF" ],
   "id": "ge/v:080",
   "gpid": 2708
 },
@@ -712,6 +726,7 @@
   "type": "SC",
   "CS#": 2,
   "note_number": "68\u2020",
+  "comments": [ "Always CE" ],
   "id": "ge/v:081",
   "gpid": 2717
 },
@@ -721,6 +736,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "69\u2020",
   "notes": [ "A\u2020", "N" ],
+  "comments": [ "BU Fire NA", "Reverse MP &times;4" ],
   "id": "ge/v:082",
   "gpid": 2719
 },
@@ -730,6 +746,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "70\u2020",
   "notes": [ "A\u2020", "N" ],
+  "comments": [ "Reverse MP &times;3" ],
   "id": "ge/v:083",
   "gpid": 2721
 },
@@ -739,6 +756,7 @@
   "capabilities2": { "sD": 6 },
   "note_number": "70\u2020",
   "notes": [ "A\u2020", "N<sup>F</sup>" ],
+  "comments": [ "Reverse MP &times;3" ],
   "id": "ge/v:084",
   "gpid": 2723
 },
@@ -746,6 +764,7 @@
   "type": "AC",
   "CS#": 4,
   "note_number": "71\u2020",
+  "comments": [ "Reverse MP &times;2" ],
   "id": "ge/v:085",
   "gpid": [ 2725, 2727 ]
 },
@@ -806,36 +825,37 @@
   "CS#": "5:brewup",
   "capabilities2": { "HE": 7, "s": 7 },
   "note_number": "77\u2020",
+  "comments": [ "Reverse MP &times;4" ],
   "id": "ge/v:092",
   "gpid": 2743
 },
 { "name": "sIG IB",
   "type": "SPA",
   "CS#": "4:brewup",
-  "no_if": true,
   "capabilities2": { "H": 6, "s": 9 },
   "note_number": "78",
   "notes": [ "G" ],
+  "comments": [ "No IF" ],
   "id": "ge/v:093",
   "gpid": 2747
 },
 { "name": "sIG II",
   "type": "SPA",
   "CS#": "4:brewup",
-  "no_if": true,
   "capabilities2": { "H": 6, "s": 9 },
   "note_number": "79",
   "notes": [ "N" ],
+  "comments": [ "No IF" ],
   "id": "ge/v:094",
   "gpid": 2749
 },
 { "name": "sIG 38(t)M",
   "type": "SPA",
   "CS#": "4:brewup",
-  "no_if": true,
   "capabilities2": { "H": 6, "s": 9 },
   "note_number": "80",
   "notes": [ "E", "N<sup>FT</sup>" ],
+  "comments": [ "No IF" ],
   "id": "ge/v:095",
   "gpid": 2751
 },
@@ -851,10 +871,10 @@
 { "name": "PzA LrS(f)",
   "type": "SPA",
   "CS#": 4,
-  "no_if": true,
   "capabilities2": { "H": 4, "s": 8 },
   "note_number": "82",
   "notes": [ "a", "N" ],
+  "comments": [ "No IF" ],
   "id": "ge/v:097",
   "gpid": 2757
 },
@@ -870,9 +890,9 @@
 { "name": "PzA III/IV",
   "type": "SPA",
   "CS#": 6,
-  "no_if": true,
   "capabilities2": { "H": 5, "s": 8 },
   "note_number": "83",
+  "comments": [ "No IF" ],
   "id": "ge/v:099",
   "gpid": 2761
 },
@@ -881,6 +901,7 @@
   "CS#": 4,
   "note_number": "84",
   "notes": [ "A\u2020", "E" ],
+  "comments": [ "CE: +1" ],
   "id": "ge/v:100",
   "gpid": 2763
 },
@@ -897,6 +918,7 @@
   "CS#": 6,
   "note_number": "86",
   "notes": [ "A\u2020" ],
+  "comments": [ "4 TK DR" ],
   "id": "ge/v:103",
   "gpid": [ 2768, 2817 ]
 },
@@ -937,6 +959,7 @@
   "CS#": 4,
   "note_number": "90",
   "notes": [ "A\u2020", "D\u2020", "N" ],
+  "comments": [ "4 TK DR" ],
   "id": "ge/v:108",
   "gpid": 2781
 },
@@ -945,6 +968,7 @@
   "CS#": 3,
   "note_number": "91\u2020",
   "notes": [ "N" ],
+  "comments": [ "2 TK DR (MG)" ],
   "id": "ge/v:109",
   "gpid": 2784
 },
@@ -976,6 +1000,7 @@
   "cs#": "2\u2020",
   "note_number": "94\u2020",
   "notes": [ "L\u2020", "N" ],
+  "comments": [ "Inherent Crew if armed (with CS#)" ],
   "id": "ge/v:113",
   "gpid": 2791
 },
@@ -984,6 +1009,7 @@
   "cs#": 2,
   "note_number": "95\u2020",
   "notes": [ "L\u2020" ],
+  "comments": [ "+3 Target Size &amp; HD in Water" ],
   "id": "ge/v:114",
   "gpid": 2793
 },
@@ -1008,6 +1034,7 @@
   "cs#": 2,
   "note_number": "97\u2020",
   "notes": [ "L\u2020", "N" ],
+  "comments": [ "As vehicle (not motorcycle)", "Crew/HS Riders OK", "Hidden AT Mine attacks NA", "AP Mine attacks: Area Fire" ],
   "id": "ge/v:117",
   "gpid": [ 2710, 2798 ]
 },

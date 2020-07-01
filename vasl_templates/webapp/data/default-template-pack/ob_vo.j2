@@ -6,7 +6,9 @@
 {{CSS:common}}
 .note { font-size: 90% ; font-style: italic ; color: #808080 ; }
 .capability {}
-.comment { font-size: 90% ; font-style: italic ; color: #404040 ; }
+.comment { font-size: 96% ; font-style: italic ; color: #404040 ; white-space: nowrap ; }
+.comment .split-mg-red { color: #a04010 ; }
+.comment .exc { color: #606060 ; }
 </style>
 </head>
 
@@ -64,7 +66,7 @@
 
         <td valign="top" style="padding:5px 5px 2px 5px;">
             {%for cap in vo.capabilities%} <div class="capability"> {{cap|nobr}} </div> {%endfor%}
-            {%for cmnt in vo.comments%} <div class="comment"> {{cmnt}} </div> {%endfor%}
+            {%for cmnt in vo.comments%} <div class="comment"> {{cmnt|nobr}} </div> {%endfor%}
 
 {% if vo.capabilities_len <= MAX_CAPABILITIES and vo.image %}
 {# NOTE: If there are only a few capabilities, let the note number & notes spread full-width. #}

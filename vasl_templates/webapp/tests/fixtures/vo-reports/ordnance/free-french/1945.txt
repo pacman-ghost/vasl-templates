@@ -1,26 +1,26 @@
 === ordnance/free-french/1945 ===
 
-Name                         Capabilities                    (effective)         #          Notes                 Comments
----------------------------  ------------------------------  ------------------  ---------  --------------------  ----------------------
-LG de 50 mle 37(f)           2PP                             2PP                 Fr 1       Fr A Fr B Fr C† Fr E  crewed†
-OML 2-in. Mortar             4PP IR[2+]† s7                  4PP IR† s7          Fr 22†[1]  Fr W†
-Mortier de 60 mle 35(f)      5PP no OBA† IR[2+]†             5PP no OBA† IR†     Fr 2†      Fr A Fr B Fr V
-M2 60mm Mortar               IR WP7[5] 5PP OBA†              IR WP7 5PP OBA†     Fr 22      Fr W†
-OML 3-in. Mortar             QSU IR[2+]†[1] WP7 s8[1+]†      QSU IR†[1] WP7 s8†  Fr 22†[1]  Fr W†
-Mortier de 81 mle 27/31(f)   QSU s8                          QSU s8              Fr 3†      Fr A Fr B Fr D Fr V
-M1 81mm Mortar               QSU WP8                         QSU WP8             Fr 22      Fr D Fr Y†
-Boys ATR                     1PP                             1PP                 Fr 4†      Fr B
-OQF 25mm Hotchkiss           QSU                             QSU                 Fr 23†[1]  Fr V Fr W†
-Canon AC de 47 SA 37 APX(f)  QSU APCR only†[1]               QSU APCR only†[1]   Fr 6†[1]   Fr B Fr G† Fr P Fr V
-OQF 6-Pounder 7-cwt          QSU D6[J4E]7[5]† HE7[F3]8[4+]†  QSU D7† HE8†        Fr 24      Fr W†
-M1 57mm AT Gun               QSU D4[J4+E]† HE7[J4E]7[5]†     QSU D4† HE7†        Fr 24      Fr Y†
-Canon de 75 mle 1897         QSU s8                          QSU s8              Fr 25†[1]  Fr V Fr W†
-OQF 25-Pounder Gun-Howitzer  LF [NT, 0 ROF] s8               LF [NT, 0 ROF] s8   Fr 26†[1]  Fr W†
-M2A1 105mm Howitzer          C7[4+P]†[1] H6 WP8 s7           H6 WP8 s7           Fr 27      Fr Y†
-M3 105mm Howitzer            C7[P]†[1] H7 WP8 s7             H7 WP8 s7           Fr 27      Fr Y†
-OBL 5.5-in. Gun-Howitzer                                                         Fr 28†[1]  Fr W†
-M1 155mm Howitzer            WP8 s7                          WP8 s7              Fr 29      Fr Y†
-M1918M1 155mm Gun            RFNM AP4†[1] WP8                RFNM AP4†[1] WP8    Fr 29      Fr Y†                 No IF.
-Mitrailleuse de 13.2 CAJ     2 TK DR†[1]                     2 TK DR†[1]         Fr 18†[1]  Fr B Fr G† Fr V       Towing NA†<sup>1</sup>
-OQF 40mm AA                  LF [40†[1], 2 ROF]              LF [40†[1], 2 ROF]  Fr 30      Fr W†
-M1 40mm AA Gun               LF [40†[1], 2 ROF]              LF [40†[1], 2 ROF]  Fr 30      Fr Y†
+Name                         Capabilities                (effective)         #          Notes                 Comments
+---------------------------  --------------------------  ------------------  ---------  --------------------  --------------------------------------------------------------------------------------------------------------------------
+LG de 50 mle 37(f)                                                           Fr 1       Fr A Fr B Fr C† Fr E  Animal-Packed | Crewed
+OML 2-in. Mortar             IR[2+]† s7                  IR† s7              Fr 22†[1]  Fr W†
+Mortier de 60 mle 35(f)      IR[2+]†                     IR†                 Fr 2†      Fr A Fr B Fr V        Animal-Packed | No Captured Use penalty for Vichy French
+M2 60mm Mortar               IR WP7[5]                   IR WP7              Fr 22      Fr W†
+OML 3-in. Mortar             IR[2+]†[1] WP7 s8[1+]†      IR†[1] WP7 s8†      Fr 22†[1]  Fr W†                 QSU | Animal-Packed
+Mortier de 81 mle 27/31(f)   s8                          s8                  Fr 3†      Fr A Fr B Fr D Fr V   QSU | Animal-Packed | No Captured Use penalty for Vichy French
+M1 81mm Mortar               WP8                         WP8                 Fr 22      Fr D Fr Y†            QSU
+Boys ATR                                                                     Fr 4†      Fr B                  No Long Range
+OQF 25mm Hotchkiss                                                           Fr 23†[1]  Fr V Fr W†            QSU | En Portee NA | No Captured Use penalty for Vichy French
+Canon AC de 47 SA 37 APX(f)                                                  Fr 6†[1]   Fr B Fr G† Fr P Fr V  QSU | APCR only | En Portee (Renault AGR2) [{ *:Motion Fire NA }] | MA: B# = 12 | No Captured Use penalty for Vichy French
+OQF 6-Pounder 7-cwt          D6[J4E]7[5]† HE7[F3]8[4+]†  D7† HE8†            Fr 24      Fr W†                 QSU | CA restrictions | En Portee NA
+M1 57mm AT Gun               D4[J4+E]† HE7[J4E]7[5]†     D4† HE7†            Fr 24      Fr Y†                 QSU
+Canon de 75 mle 1897         s8                          s8                  Fr 25†[1]  Fr V Fr W†            QSU | En Portee NA | No Captured Use penalty for Vichy French
+OQF 25-Pounder Gun-Howitzer  LF [NT, 0 ROF] s8           LF [NT, 0 ROF] s8   Fr 26†[1]  Fr W†
+M2A1 105mm Howitzer          C7[4+P]†[1] H6 WP8 s7       H6 WP8 s7           Fr 27      Fr Y†
+M3 105mm Howitzer            C7[P]†[1] H7 WP8 s7         H7 WP8 s7           Fr 27      Fr Y†
+OBL 5.5-in. Gun-Howitzer                                                     Fr 28†[1]  Fr W†
+M1 155mm Howitzer            WP8 s7                      WP8 s7              Fr 29      Fr Y†
+M1918M1 155mm Gun            AP4†[1] WP8                 AP4†[1] WP8         Fr 29      Fr Y†                 RFNM | No IF
+Mitrailleuse de 13.2 CAJ                                                     Fr 18†[1]  Fr B Fr G† Fr V       Tow NA | 2 TK DR | 16 [TH] | MA: B# = 12 | No Captured Use penalty for Vichy French
+OQF 40mm AA                  LF [40†[1], 2 ROF]          LF [40†[1], 2 ROF]  Fr 30      Fr W†
+M1 40mm AA Gun               LF [40†[1], 2 ROF]          LF [40†[1], 2 ROF]  Fr 30      Fr Y†

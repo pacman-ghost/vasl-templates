@@ -6,6 +6,8 @@
   "CS#": 2,
   "note_number": "1\u2020",
   "notes": [ "E" ],
+  "disabled_comments": [ "Black TH#" ],
+  "comments": [ "BMG: Starboard VCA only" ],
   "id": "ro/v:000",
   "gpid": 3861
 },
@@ -23,6 +25,7 @@
   "CS#": 3,
   "note_number": "3\u2020",
   "notes": [ "E" ],
+  "comments": [ "AP TK# = 16" ],
   "id": "ro/v:002",
   "gpid": 3865
 },
@@ -31,6 +34,7 @@
   "CS#": 3,
   "note_number": "3\u2020",
   "notes": [ "E" ],
+  "comments": [ "AP TK# = 16" ],
   "id": "ro/v:003",
   "gpid": 3867
 },
@@ -40,6 +44,7 @@
   "capabilities2": { "AP": 5 },
   "note_number": "4\u2020",
   "notes": [ "E", "N" ],
+  "comments": [ "AP TK# = 13" ],
   "id": "ro/v:004",
   "gpid": 3869
 },
@@ -66,6 +71,7 @@
   "cs#": "2\u2020<sup>1</sup>",
   "note_number": "6\u2020",
   "notes": [ "F", "I\u2020<sup>1</sup>", "J" ],
+  "comments": [ "Pas: 1 PP, always CE" ],
   "id": "ro/v:007",
   "gpid": [ 3875, 3877 ]
 }

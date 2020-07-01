@@ -1,6 +1,6 @@
 === ordnance/croatian/1943 ===
 
 Name              Capabilities    (effective)      #  Notes    Comments
-----------------  --------------  -------------  ---  -------  -------------
-Cannone da 65/17                                  35  A        No Gunshield.
-Skoda M28(FE)                                     36  A
+----------------  --------------  -------------  ---  -------  ----------------------------
+Cannone da 65/17                                  35  A        No Gunshield | Animal-Packed
+Skoda M28(FE)                                     36  A        Animal-Packed

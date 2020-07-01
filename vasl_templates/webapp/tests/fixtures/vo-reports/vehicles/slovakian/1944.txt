@@ -1,11 +1,11 @@
 === vehicles/slovakian/1944 ===
 
 Name            Capabilities                       (effective)                 #    Notes                              Comments
---------------  ---------------------------------  --------------------------  ---  ---------------------------------  ----------
-T vz 33(t)      ® CS 2                             ® CS 2                      17†  E F G†<sup>2</sup> K†<sup>1</sup>
+--------------  ---------------------------------  --------------------------  ---  ---------------------------------  -------------------------------------------------------------------------------------------------------
+T vz 33(t)      ® CS 2                             ® CS 2                      17†  E F G†<sup>2</sup> K†<sup>1</sup>  Czech ESB | Stun = Recall, CE &amp; Fire NA | 2 TK DR
 LT vz 34        ® CS 2                             ® CS 2                      18   n/a
-PzKpfw IIA(g)   sD6 CS 3                           sD6 CS 3                    19   E
-LT vz 40(t)     sD6 CS 4                           sD6 CS 4                    20†  E K†<sup>1</sup>
-Marder III(t)H  A4[3]3[4] HE7 s7 sD6 CS 4[brewup]  A3 HE7 s7 sD6 CS 4[brewup]  21†  E
-Kfz 1(g)        cs 2†[1]                           cs 2†[1]                    22†  E I†<sup>1</sup> L†<sup>2</sup>
-SdKfz 2(g)      cs 2                               cs 2                        23†  E L†<sup>1</sup>
+PzKpfw IIA(g)   sD6 CS 3                           sD6 CS 3                    19   E                                  German ESB | Black TH#
+LT vz 40(t)     sD6 CS 4                           sD6 CS 4                    20†  E K†<sup>1</sup>                   Czech ESB | 2 TK DR
+Marder III(t)H  A4[3]3[4] HE7 s7 sD6 CS 4[brewup]  A3 HE7 s7 sD6 CS 4[brewup]  21†  E                                  CE: +3 Front | Czech ESB | Black TH#
+Kfz 1(g)        cs 2†[1]                           cs 2†[1]                    22†  E I†<sup>1</sup> L†<sup>2</sup>    Inherent Crew if armed (with CS#) | Bog Assistance
+SdKfz 2(g)      cs 2                               cs 2                        23†  E L†<sup>1</sup>                   German ESB | Crew/HS Rider OK | Hidden AT Mine attacks NA | AP Mine attacks: Area Fire | Bog Assistance

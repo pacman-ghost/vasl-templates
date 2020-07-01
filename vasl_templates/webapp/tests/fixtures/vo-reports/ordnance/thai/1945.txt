@@ -1,8 +1,8 @@
 === ordnance/thai/1945 ===
 
 Name                       Capabilities             (effective)                #  Notes    Comments
--------------------------  -----------------------  -----------------------  ---  -------  -------------
-50mm Krupp M1906           QSU h-d                  QSU h-d                    4  n/a      No Gunshield.
-75mm Krupp M1908           QSU h-d AP8 WP5          QSU h-d AP8 WP5            5  n/a
-Vickers 12.7mm AA Class D  QSU                      QSU                        8  n/a
+-------------------------  -----------------------  -----------------------  ---  -------  --------------------------------
+50mm Krupp M1906                                                               4  n/a      No Gunshield | QSU | Horse-Drawn
+75mm Krupp M1908           AP8 WP5                  AP8 WP5                    5  n/a      QSU | Horse-Drawn
+Vickers 12.7mm AA Class D                                                      8  n/a      QSU
 Bofors M30 75mm AA         AP6 LF [75, 1 ROF, B11]  AP6 LF [75, 1 ROF, B11]    9  Ch G†

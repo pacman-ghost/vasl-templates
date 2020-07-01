@@ -5,6 +5,7 @@
   "CS#": 5,
   "note_number": "54\u2020",
   "notes": [ "E\u2020", "H", "K", "Y", "Z\u2020<sup>1</sup>", "UU" ],
+  "comments": [ "MA: 12.7", "{{4|MA|2*}}", "AAMG Removal OK (dm .50-cal HMG, dm MMG)", "BAZ" ],
   "id": "kfw-un-common/v:000",
   "gpid": [ 969, "3b5:7703", "3b5:4019" ]
 },
@@ -14,6 +15,7 @@
   "capabilities2": { "sP": 5 },
   "note_number": "55\u2020",
   "notes": [ "D\u2020<sup>4</sup>", "K", "Q\u2020<sup>2</sup>", "W\u2020<sup>1</sup>", "Y", "Z\u2020<sup>3</sup>", "UU" ],
+  "comments": [ "MA: 12.7", "BAZ", "AAMG Removal OK (.50-cal HMG)" ],
   "id": "kfw-un-common/v:001",
   "gpid": [ 998, "3b5:7697", "3b5:4036" ]
 },

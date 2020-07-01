@@ -1,38 +1,38 @@
 === ordnance/german/1943 ===
 
 Name                      Capabilities                         (effective)                          #    Notes             Comments
-------------------------  -----------------------------------  -----------------------------------  ---  ----------------  -------------------
-5cm leGrW                 5PP                                  5PP                                  1    N
-8cm GrW 34                QSU IR s8                            QSU IR s8                            2†   N
-10cm NbW 35               QSU s10                              QSU s10                              3    O
-12cm GrW 42               QSU s8                               QSU s8                               4†   n/a
-2.8cm sPzB 41             QSU                                  QSU                                  5†   A† N P            uses APCR TK Table†
-3.7cm PaK 35/36           QSU A4[1]5[2]4[3]3[4] H6[9]†         QSU A4 H6[9]†                        6    B† N P
-4.2cm lePaK 41            QSU                                  QSU                                  7    A† N<sup>T</sup>  uses APCR TK Table†
-5cm PaK 38                QSU A5[1]6[2]5[3]4[4]                QSU A5                               8†   N
-7.5cm PaK 97/38           QSU H6 s7                            QSU H6 s7                            9    N<sup>T</sup>
-7.5cm PaK 40              QSU A5[2]4[3]3[4] s7                 QSU A4 s7                            10†  N<sup>T</sup>
-7.62cm PaK 36r            QSU A5[2]4[3]3[4] s6                 QSU A4 s6                            11†  N
+------------------------  -----------------------------------  -----------------------------------  ---  ----------------  ---------------------------------------------------------------------------------
+5cm leGrW                                                                                           1    N
+8cm GrW 34                IR s8                                IR s8                                2†   N                 QSU
+10cm NbW 35               s10                                  s10                                  3    O                 QSU | Animal-Packed
+12cm GrW 42               s8                                   s8                                   4†   n/a               QSU
+2.8cm sPzB 41                                                                                       5†   A† N P            QSU | Use APCR TK vs AFV | &#8734; APCR | En Portee (Opel truck) | Portee Fire OK
+3.7cm PaK 35/36           A4[1]5[2]4[3]3[4] H6[9]†             A4 H6[9]†                            6    B† N P            QSU | En Portee (Opel truck) | Portee Fire OK
+4.2cm lePaK 41                                                                                      7    A† N<sup>T</sup>  QSU | Use APCR TK vs AFV | &#8734; APCR
+5cm PaK 38                A5[1]6[2]5[3]4[4]                    A5                                   8†   N                 QSU
+7.5cm PaK 97/38           H6 s7                                H6 s7                                9    N<sup>T</sup>     QSU
+7.5cm PaK 40              A5[2]4[3]3[4] s7                     A4 s7                                10†  N<sup>T</sup>     QSU
+7.62cm PaK 36r            A5[2]4[3]3[4] s6                     A4 s6                                11†  N                 QSU
 8.8cm PaK 43              LF [88†, 1 ROF, B11, <b>M4</b>, -1]  LF [88†, 1 ROF, B11, <b>M4</b>, -1]  12   C†
 8.8cm PaK 43/41                                                                                     13   n/a
-12.8cm K 81/1             NM                                   NM                                   14   n/a
-7.5cm leIG 18             QSU H7                               QSU H7                               15   N O
+12.8cm K 81/1                                                                                       14   n/a               No Move
+7.5cm leIG 18             H7                                   H7                                   15   N O               QSU | Animal-Packed
 15cm sIG 33               H7 s8                                H7 s8                                16   N
-7.5cm LG 40               QSU H6                               QSU H6                               17   N<sup>T</sup>
-10.5cm LG 42              QSU H6 s6                            QSU H6 s6                            18†  N<sup>T</sup>
-7.5cm leFK 16nA           QSU h-d H5 s8                        QSU h-d H5 s8                        19   n/a
+7.5cm LG 40               H6                                   H6                                   17   N<sup>T</sup>     QSU
+10.5cm LG 42              H6 s6                                H6 s6                                18†  N<sup>T</sup>     QSU
+7.5cm leFK 16nA           H5 s8                                H5 s8                                19   n/a               QSU | Horse-Drawn
 10.5cm leFH 18            H6 s8                                H6 s8                                20   N
-s 10cm K 18               NM H6 s8                             NM H6 s8                             21   N
-15cm sFH 18               NM H6 s8                             NM H6 s8                             22   N
-15cm K 18                 RFNM AP6                             RFNM AP6                             23   N<sup>T</sup>
-17cm K 18                 RFNM AP6                             RFNM AP6                             24   N                 No IF.
+s 10cm K 18               H6 s8                                H6 s8                                21   N                 No Move
+15cm sFH 18               H6 s8                                H6 s8                                22   N                 No Move
+15cm K 18                 AP6                                  AP6                                  23   N<sup>T</sup>     RFNM
+17cm K 18                 AP6                                  AP6                                  24   N                 RFNM | No IF
 2cm FlaK 30               LF [20†, 2 ROF, B10, NT]             LF [20†, 2 ROF, B10, NT]             25   C† N
 2cm FlaK 38               LF [20†, 2 ROF, B11, NT]             LF [20†, 2 ROF, B11, NT]             26   C† N
-2cm FlaKvierling 38       4TK DR†                              4TK DR†                              27†  N
+2cm FlaKvierling 38                                                                                 27†  N                 4 TK DR
 3.7cm FlaK 36 o. 37       H5[9]†                               H5[9]†                               28   B† N
 3.7cm FlaK 43                                                                                       29   n/a
 8.8cm FlaK 18 o. 36       A5[2]4[3]3[4] LF [88L†, 1 ROF, B11]  A4 LF [88L†, 1 ROF, B11]             30   C† N
-2cm Tankb&#252;sche S-18  5PP                                  5PP                                  1†   AxM A             No Long Range
-4.7 cm PaK 36(t)          QSU A5[1]4[2]                        QSU A4                               2†   n/a
-7.5 cm Geb G36            QSU H7†                              QSU H7†                              3†   Ge O
-10.5 cm Geb H40           QSU H8                               QSU H8                               4†   Ge O
+2cm Tankb&#252;sche S-18                                                                            1†   AxM A             No Long Range | Animal-Packed
+4.7 cm PaK 36(t)          A5[1]4[2]                            A4                                   2†   n/a               QSU
+7.5 cm Geb G36            H7†                                  H7†                                  3†   Ge O              HEAT &#8805; 26 hexes: As * Gun | QSU | Animal-Packed
+10.5 cm Geb H40           H8                                   H8                                   4†   Ge O              QSU | Animal-Packed

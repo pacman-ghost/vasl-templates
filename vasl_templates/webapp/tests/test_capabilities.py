@@ -41,20 +41,20 @@ def test_month_capabilities( webapp, webdriver ):
     _check_capabilities( webdriver, webapp, *vehicle, "ETO", "06/1944", "D6[!] HE8[!] sD6 sM8[!] CS 7" )
     _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1945", "D7[!] HE8[!] sD6 sM8[!] CS 7" )
 
-    # M3A1 37mm AT Gun: NT, QSU, C7(A2+)†1
+    # M3A1 37mm AT Gun: NT, C7(A2+)†1
     ordnance = [ "american", "ordnance", "M3A1 37mm AT Gun" ]
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1941", "NT QSU", (1,2) )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "07/1942", "NT QSU", (1,2) )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "08/1942", "NT QSU C7[!1]", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1941", "NT", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "07/1942", "NT", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "08/1942", "NT C7[!1]", (1,2) )
 
-    # M1 57mm AT Gun: NT, QSU, HE7(J4E)/7(5)†, D4(J4+E)†
+    # M1 57mm AT Gun: NT, HE7(J4E)/7(5)†, D4(J4+E)†
     ordnance = [ "american", "ordnance", "M1 57mm AT Gun" ]
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1943", "NT QSU", (1,2) )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "05/1944", "NT QSU", (1,2) )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "06/1944", "NT QSU D4[!] HE7[!]", (1,2) )
-    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "06/1944", "NT QSU", (1,2) )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1945", "NT QSU D4[!] HE7[!]", (1,2) )
-    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "01/1945", "NT QSU HE7[!]", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1943", "NT", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "05/1944", "NT", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "06/1944", "NT D4[!] HE7[!]", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "06/1944", "NT", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1945", "NT D4[!] HE7[!]", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "01/1945", "NT HE7[!]", (1,2) )
 
     # M3: C7(A2+)†2
     vehicle = [ "american", "vehicles", "M3" ]
@@ -109,26 +109,26 @@ def test_month_capabilities( webapp, webdriver ):
 
     # OML 2-in. Mortar: IR(2)+†
     ordnance = [ "british", "ordnance", "OML 2-in. Mortar" ]
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1941", "4PP s7", (1,2) )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1942", "4PP IR[!] s7", (1,2) )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1943", "4PP IR[!] s7", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1941", "s7", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1942", "IR[!] s7", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1943", "IR[!] s7", (1,2) )
 
     # OML 3-in. Mortar: IR(2)+†1
     ordnance = [ "british", "ordnance", "OML 3-in. Mortar" ]
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1941", "NT QSU WP7 s8[!]", (1,2) )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1942", "NT QSU IR[!1] WP7 s8[!]", (1,2) )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1943", "NT QSU IR[!1] WP7 s8[!]", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1941", "NT WP7 s8[!]", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1942", "NT IR[!1] WP7 s8[!]", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1943", "NT IR[!1] WP7 s8[!]", (1,2) )
 
     # OQF 6-Pounder 7-cwt: D6(J4E)7(5)† HE7(F3)8(4+)†
     ordnance = [ "british", "ordnance", "OQF 6-Pounder 7-cwt" ]
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1942", "NT QSU" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1943", "NT QSU" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "02/1943", "NT QSU HE7[!]" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "05/1944", "NT QSU HE8[!]" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "06/1944", "NT QSU D6[!] HE8[!]" )
-    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "06/1944", "NT QSU HE8[!]" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1945", "NT QSU D7[!] HE8[!]" )
-    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "01/1945", "NT QSU D7[!] HE8[!]" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1942", "NT" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1943", "NT" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "02/1943", "NT HE7[!]" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "05/1944", "NT HE8[!]" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "06/1944", "NT D6[!] HE8[!]" )
+    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "06/1944", "NT HE8[!]" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1945", "NT D7[!] HE8[!]" )
+    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "01/1945", "NT D7[!] HE8[!]" )
 
     # OQF 17-Pounder: D5(S4)6(5)† HE8(J4+)†
     ordnance = [ "british", "ordnance", "OQF 17-Pounder" ]
@@ -252,13 +252,6 @@ def test_month_capabilities( webapp, webdriver ):
     _check_capabilities( webdriver, webapp, *vehicle, "ETO", "06/1944", "WP7[!1] s8 CS 4" )
     _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1945", "WP7[!1] s8 CS 4" )
 
-    # Cannone da 47/32: Towed(A1+)†
-    ordnance = [ "italian", "ordnance", "Cannone da 47/32" ]
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1940", "NT QSU" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "07/1941", "NT QSU" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "08/1941", "NT QSU Towed[!]" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1942", "NT QSU Towed[!]" )
-
     # Cannone da 65/17, 75/27, 75/32 + Obice da 75/18: H6(S2+)†1
     for vo_name in ("Cannone da 65/17", "Cannone da 75/27","Cannone da 75/32","Obice da 75/18"):
         ordnance = [ "italian", "ordnance", vo_name ]
@@ -288,17 +281,17 @@ def test_month_capabilities( webapp, webdriver ):
 
     # 81 Krh/32: s8(N1)†
     ordnance = [ "finnish", "ordnance", "81 Krh/32" ]
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1940", "NT QSU 5PP dm" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "10/1941", "NT QSU 5PP dm" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "11/1941", "NT QSU s8[!] 5PP dm" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1942", "NT QSU s8[!] 5PP dm" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1940", "NT" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "10/1941", "NT" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "11/1941", "NT s8[!]" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1942", "NT s8[!]" )
 
     # 76 RK/27(r): H6J4+†
     ordnance = [ "finnish", "ordnance", "76 RK/27(r)" ]
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1943", "NT QSU s6" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "05/1944", "NT QSU s6" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "06/1944", "NT QSU H6[!] s6" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1945", "NT QSU H6[!] s6" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1943", "NT s6" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "05/1944", "NT s6" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "06/1944", "NT H6[!] s6" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1945", "NT H6[!] s6" )
 
     # 105 H/33(g) ; 105 H/41(t): H6A4+†
     for vo_name in ("105 H/33(g)","105 H/41(t)"):
@@ -402,15 +395,15 @@ def test_theater_capabilities( webapp, webdriver ):
 
     # OQF 3.7-in. Howitzer: H6(3+P)†
     ordnance = [ "british", "ordnance", "OQF 3.7-in. Howitzer" ]
-    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "12/1942", "NT QSU WP7 s8" )
-    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "01/1943", "NT QSU H6[!] WP7 s8" )
-    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "01/1944", "NT QSU H6[!] WP7 s8" )
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1944", "NT QSU WP7 s8" )
+    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "12/1942", "NT WP7 s8" )
+    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "01/1943", "NT H6[!] WP7 s8" )
+    _check_capabilities( webdriver, webapp, *ordnance, "PTO", "01/1944", "NT H6[!] WP7 s8" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1944", "NT WP7 s8" )
 
     # Obice da 149/13: WP6(B)
     ordnance = [ "chinese", "ordnance", "Obice da 149/13" ]
-    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1940", "NT h-d<sup>C</sup>[!] s5" )
-    _check_capabilities( webdriver, webapp, *ordnance, "Burma", "01/1940", "NT h-d<sup>C</sup>[!] WP6[!] s5" )
+    _check_capabilities( webdriver, webapp, *ordnance, "ETO", "01/1940", "NT s5" )
+    _check_capabilities( webdriver, webapp, *ordnance, "Burma", "01/1940", "NT WP6[!] s5" )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -460,12 +453,12 @@ def test_theater_capabilities_bfp( webapp, webdriver ):
 def test_american_ordnance_note_c( webapp, webdriver ):
     """Test handling of American Ordnance Note C."""
 
-    # M3A1 37mm AT Gun: QSU C7[A2+]†[1]
+    # M3A1 37mm AT Gun: C7[A2+]†[1]
     ordnance = [ "american", "ordnance", "M3A1 37mm AT Gun" ]
-    _check_capabilities( webdriver, webapp, *ordnance , "ETO", "07/1942", "QSU", (1,2) )
-    _check_capabilities( webdriver, webapp, *ordnance , "PTO", "07/1942", "QSU", (1,2) )
-    _check_capabilities( webdriver, webapp, *ordnance , "ETO", "08/1942", "QSU C7[!1]", (1,2) )
-    _check_capabilities( webdriver, webapp, *ordnance , "PTO", "08/1942", "QSU C10[!1]", (1,2) ) # nb: C# += 3
+    _check_capabilities( webdriver, webapp, *ordnance , "ETO", "07/1942", "", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance , "PTO", "07/1942", "", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance , "ETO", "08/1942", "C7[!1]", (1,2) )
+    _check_capabilities( webdriver, webapp, *ordnance , "PTO", "08/1942", "C10[!1]", (1,2) ) # nb: C# += 3
 
     # M2A1 105mm Howitzer: C7[4+P]†[1] H6 WP8 s7
     ordnance = [ "american", "ordnance", "M2A1 105mm Howitzer" ]
@@ -547,19 +540,19 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
         return elems
 
     # check the vehicle's snippet
-    check_snippet( '"QSU" "cs 4 <small><i>(brew up)</i></small>"' )
+    check_snippet( '"XYZ" "cs 4 <small><i>(brew up)</i></small>"' )
 
     # edit the vehicle's capabilities
     vehicles_sortable = find_child( "#ob_vehicles-sortable_1" )
     elems = find_children( "li", vehicles_sortable )
     assert len(elems) == 1
     ActionChains( webdriver ).double_click( elems[0] ).perform()
-    elems = check_capabilities_in_dialog( [ "QSU", "cs 4 <small><i>(brew up)</i></small>" ] )
+    elems = check_capabilities_in_dialog( [ "XYZ", "cs 4 <small><i>(brew up)</i></small>" ] )
 
     # edit one of the capabilities
     elem = find_child( "input[type='text']", elems[0] )
     elem.clear()
-    elem.send_keys( "QSU (modified)" )
+    elem.send_keys( "XYZ (modified)" )
 
     # delete a capability
     ActionChains( webdriver ).key_down( Keys.CONTROL ).click( elems[1] ).perform()
@@ -574,24 +567,24 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
 
     # save the changes and check the vehicle's snippet
     click_dialog_button( "OK" )
-    check_snippet( '"QSU (modified)" "a <i>new</i> capability"' )
+    check_snippet( '"XYZ (modified)" "a <i>new</i> capability"' )
 
     # save the scenario
     saved_scenario = save_scenario()
     assert len(saved_scenario["OB_VEHICLES_1"]) == 1
-    assert saved_scenario["OB_VEHICLES_1"][0]["custom_capabilities"] == [ "QSU (modified)", "a <i>new</i> capability" ]
+    assert saved_scenario["OB_VEHICLES_1"][0]["custom_capabilities"] == [ "XYZ (modified)", "a <i>new</i> capability" ]
 
     # reload the scenario, and check the vehicle's snippet
     select_menu_option( "new_scenario" )
     load_scenario( saved_scenario )
     select_tab( "ob1" )
-    check_snippet( '"QSU (modified)" "a <i>new</i> capability"' )
+    check_snippet( '"XYZ (modified)" "a <i>new</i> capability"' )
 
     # make sure the capabilities are loaded correcly when editing the vehicle
     elems = find_children( "li", vehicles_sortable )
     assert len(elems) == 1
     ActionChains( webdriver ).double_click( elems[0] ).perform()
-    elems = check_capabilities_in_dialog( [ "QSU (modified)", "a <i>new</i> capability" ] )
+    elems = check_capabilities_in_dialog( [ "XYZ (modified)", "a <i>new</i> capability" ] )
 
     # delete all capabilities
     for elem in elems:
@@ -614,7 +607,7 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     btn = find_child( "#vo_capabilities-reset" )
     btn.click()
     click_dialog_button( "OK" )
-    check_snippet( '"QSU" "cs 4 <small><i>(brew up)</i></small>"' )
+    check_snippet( '"XYZ" "cs 4 <small><i>(brew up)</i></small>"' )
 
     # make sure the custom capabilities are no longer saved in the scenario
     saved_scenario2 = save_scenario()
@@ -630,7 +623,7 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     elems = find_children( "#vo_capabilities-sortable input[type='text']" )
     assert len(elems) == 2
     elems[0].clear()
-    elems[0].send_keys( "QSU" )
+    elems[0].send_keys( "XYZ" )
     elems[1].clear()
     elems[1].send_keys( "cs 4 <small><i>(brew up)</i></small>" )
     click_dialog_button( "OK" )
@@ -784,10 +777,10 @@ def test_capability_updates_in_ui( webapp, webdriver ):
     scenario_data = {
         "PLAYER_1": "german",
         "OB_VEHICLES_1": [ { "name": "PzKpfw 38(t)A" } ], # A4[1]/5[2] ; sD6 ; CS 4
-        "OB_ORDNANCE_1": [ { "name": "3.7cm PaK 35/36" } ], # NT ; QSU ; A4[1]/5[2]/4[3]/3[4] ; H6[9]†
+        "OB_ORDNANCE_1": [ { "name": "3.7cm PaK 35/36" } ], # NT ; A4[1]/5[2]/4[3]/3[4] ; H6[9]†
         "PLAYER_2": "russian",
         "OB_VEHICLES_2": [ { "name": "Churchill III(b)" } ], # D6[J4]/7[5]† ; HE7[F3]/8[4+]† ; sD6[4+] ; sM8† ; CS 7
-        "OB_ORDNANCE_2": [ { "name": "45mm PTP obr. 32" } ], # NT ; QSU ; A4[2]/5[3]/6[4]/7[5]
+        "OB_ORDNANCE_2": [ { "name": "45mm PTP obr. 32" } ], # NT ; A4[2]/5[3]/6[4]/7[5]
     }
     scenario_data["OB_VEHICLES_1"].append( { "name": "PzJg I" } ) # A5[1]; HE7 ; CS 3
     load_scenario( scenario_data )
@@ -821,9 +814,9 @@ def test_capability_updates_in_ui( webapp, webdriver ):
             [ "A4<sup>1</sup>5<sup>2</sup>", "sD6", "CS 4" ],
             [ "A5<sup>1</sup>", "HE7", "CS 3" ]
         ],
-        [ [ "NT", "QSU", "A4<sup>1</sup>5<sup>2</sup>4<sup>3</sup>3<sup>4</sup>", "H6[9]\u2020" ] ],
+        [ [ "NT", "A4<sup>1</sup>5<sup>2</sup>4<sup>3</sup>3<sup>4</sup>", "H6[9]\u2020" ] ],
         [ [ "D6<sup>J4</sup>7<sup>5</sup>†", "HE7<sup>F3</sup>8<sup>4+</sup>\u2020", "sD6<sup>4+</sup>", "sM8\u2020", "CS 7" ] ], #pylint: disable=line-too-long
-        [ [ "NT", "QSU", "A4<sup>2</sup>5<sup>3</sup>6<sup>4</sup>7<sup>5</sup>" ] ]
+        [ [ "NT", "A4<sup>2</sup>5<sup>3</sup>6<sup>4</sup>7<sup>5</sup>" ] ]
     ] )
 
     # edit the PzJg I's capabilities (nb: this locks them in, and they should not change
@@ -847,54 +840,54 @@ def test_capability_updates_in_ui( webapp, webdriver ):
             [ "sD6", "CS 4" ],
             [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
         ],
-        [ [ "NT", "QSU", "H6[9]\u2020" ] ],
+        [ [ "NT", "H6[9]\u2020" ] ],
         [ [ "sM8\u2020", "CS 7" ] ],
-        [ [ "NT", "QSU" ] ]
+        [ [ "NT" ] ]
     ] )
     check_capabilities( "01/01/1941", [
         [
             [ "A4", "sD6", "CS 4" ] ,
             [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
         ],
-        [ [ "NT", "QSU", "A4", "H6[9]\u2020" ] ],
+        [ [ "NT", "A4", "H6[9]\u2020" ] ],
         [ [ "sM8\u2020", "CS 7" ] ],
-        [ [ "NT", "QSU" ] ]
+        [ [ "NT" ] ]
     ] )
     check_capabilities( "01/01/1942", [
         [
             [ "A5", "sD6", "CS 4" ],
             [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
         ],
-        [ [ "NT", "QSU", "A5", "H6[9]\u2020" ] ],
+        [ [ "NT", "A5", "H6[9]\u2020" ] ],
         [ [ "sM8\u2020", "CS 7" ] ],
-        [ [ "NT", "QSU", "A4" ] ]
+        [ [ "NT", "A4" ] ]
     ] )
     check_capabilities( "01/01/1943", [
         [
             [ "A5", "sD6", "CS 4" ],
             [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
         ],
-        [ [ "NT", "QSU", "A4", "H6[9]\u2020" ] ],
+        [ [ "NT", "A4", "H6[9]\u2020" ] ],
         [ [ "sM8\u2020", "CS 7" ] ],
-        [ [ "NT", "QSU", "A5" ] ]
+        [ [ "NT", "A5" ] ]
     ] )
     check_capabilities( "01/01/1944", [
         [
             [ "A5", "sD6", "CS 4" ],
             [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
         ],
-        [ [ "NT", "QSU", "A3", "H6[9]\u2020" ] ],
+        [ [ "NT", "A3", "H6[9]\u2020" ] ],
         [ [ "HE8\u2020", "sD6", "sM8\u2020", "CS 7" ] ],
-        [ [ "NT", "QSU", "A6" ] ]
+        [ [ "NT", "A6" ] ]
     ] )
     check_capabilities( "01/01/1945", [
         [
             [ "A5", "sD6", "CS 4" ],
             [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
         ],
-        [ [ "NT", "QSU", "A3", "H6[9]\u2020" ] ],
+        [ [ "NT", "A3", "H6[9]\u2020" ] ],
         [ [ "D7\u2020", "HE8\u2020", "sD6", "sM8\u2020", "CS 7" ] ],
-        [ [ "NT", "QSU", "A7" ] ]
+        [ [ "NT", "A7" ] ]
     ] )
 
 # ---------------------------------------------------------------------
@@ -920,13 +913,13 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
         caps = [ c.text for c in find_children(".vo-capability",get_sortable_elem()) ]
         if expected:
             assert vo_name.endswith( "\u24ba" )
-            expected = [ "A62", "M8\u2020", "sD8", "CS 6" ]
+            expected = [ "A62", "sD8", "CS 6" ]
             if custom:
                 expected.append( "HE11" )
             assert caps == expected
         else:
             assert "\u24ba" not in vo_name
-            expected = [ "A62", "M7\u2020", "sD7", "CS 6" ]
+            expected = [ "A62", "sD7", "CS 6" ]
             if custom:
                 expected.append( "HE10" )
             assert caps == expected
@@ -936,13 +929,13 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
         caps = [ c.get_attribute("value") for c in find_children("#vo_capabilities-sortable input[type='text']") ]
         if expected:
             assert vo_name.endswith( "\u24ba" )
-            expected = [ "A6<sup>2</sup>", "M8\u2020", "sD8", "CS 6" ]
+            expected = [ "A6<sup>2</sup>", "sD8", "CS 6" ]
             if custom:
                 expected.append( "HE11" )
             assert caps == expected
         else:
             assert "\u24ba" not in vo_name
-            expected = [ "A6<sup>2</sup>", "M7\u2020", "sD7", "CS 6" ]
+            expected = [ "A6<sup>2</sup>", "sD7", "CS 6" ]
             if custom:
                 expected.append( "HE10" )
             assert caps == expected
@@ -950,7 +943,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     # load the scenario
     scenario_data = {
         "PLAYER_1": "german",
-        "OB_VEHICLES_1": [ { "name": "PzKpfw VIE" } ], # A6[2] M7 sD7
+        "OB_VEHICLES_1": [ { "name": "PzKpfw VIE" } ], # A6[2] sD7
     }
     load_scenario( scenario_data )
     select_tab( "ob1" )
@@ -963,8 +956,8 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     elem = find_child( "#vo_capabilities-add" )
     elem.click()
     elems = find_children( "#vo_capabilities-sortable input[type='text']" )
-    assert len(elems) == 5
-    elems[4].send_keys( "HE10" )
+    assert len(elems) == 4
+    elems[3].send_keys( "HE10" )
     click_dialog_button( "OK" )
 
     # make the vehicle elite
@@ -981,7 +974,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     assert len(saved_scenario["OB_VEHICLES_1"]) == 1
     assert saved_scenario["OB_VEHICLES_1"][0]["elite"]
     assert saved_scenario["OB_VEHICLES_1"][0]["custom_capabilities"] == \
-        [ "A6<sup>2</sup>", "M8\u2020", "sD8", "CS 6", "HE11" ]
+        [ "A6<sup>2</sup>", "sD8", "CS 6", "HE11" ]
     select_menu_option( "new_scenario" )
     load_scenario( saved_scenario )
     select_tab( "ob1" )
@@ -1001,7 +994,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     assert len(saved_scenario["OB_VEHICLES_1"]) == 1
     assert "elite" not in saved_scenario["OB_VEHICLES_1"][0]
     assert saved_scenario["OB_VEHICLES_1"][0]["custom_capabilities"] == \
-        [ "A6<sup>2</sup>", "M7\u2020", "sD7", "CS 6", "HE10" ]
+        [ "A6<sup>2</sup>", "sD7", "CS 6", "HE10" ]
 
     # make the vehicle elite, remove the custom capability
     ActionChains( webdriver ).double_click( get_sortable_elem() ).perform()
@@ -1010,8 +1003,8 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     elem.click()
     check_elite2( True, True )
     elems = find_children( "#vo_capabilities-sortable li" )
-    webdriver.execute_script( "arguments[0].scrollIntoView(true);", elems[4] )
-    ActionChains( webdriver ).key_down( Keys.CONTROL ).click( elems[4] ).perform()
+    webdriver.execute_script( "arguments[0].scrollIntoView(true);", elems[3] )
+    ActionChains( webdriver ).key_down( Keys.CONTROL ).click( elems[3] ).perform()
     ActionChains( webdriver ).key_up( Keys.CONTROL ).perform()
     click_dialog_button( "OK" )
     check_elite( True, False )
@@ -1020,7 +1013,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     saved_scenario = save_scenario()
     assert len(saved_scenario["OB_VEHICLES_1"]) == 1
     assert saved_scenario["OB_VEHICLES_1"][0]["elite"]
-    assert saved_scenario["OB_VEHICLES_1"][0]["custom_capabilities"] == [ "A6<sup>2</sup>", "M8\u2020", "sD8", "CS 6" ]
+    assert saved_scenario["OB_VEHICLES_1"][0]["custom_capabilities"] == [ "A6<sup>2</sup>", "sD8", "CS 6" ]
     select_menu_option( "new_scenario" )
     load_scenario( saved_scenario )
     select_tab( "ob1" )

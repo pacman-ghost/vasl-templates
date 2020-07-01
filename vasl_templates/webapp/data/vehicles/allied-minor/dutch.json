@@ -6,6 +6,7 @@
   "CS#": 2,
   "note_number": "25\u2020",
   "notes": [ "A", "V" ],
+  "comments": [ "+3 Target Size &amp; HD in Water" ],
   "id": "du/v:000",
   "gpid": 2315
 },
@@ -15,6 +16,7 @@
   "CS#": 2,
   "note_number": "26\u2020",
   "notes": [ "A", "V" ],
+  "comments": [ "CMG: Port VCA NA", "TCA restrictions" ],
   "id": "du/v:001",
   "gpid": 2317
 },
@@ -54,6 +56,7 @@
   "CS#": 4,
   "note_number": "29\u2020",
   "notes": [ "A", "V" ],
+  "comments": [ "2 TK DR", "Reverse MP &times;3" ],
   "id": "du/v:005",
   "gpid": 2325
 },
@@ -62,6 +65,7 @@
   "cs#": "2\u2020",
   "note_number": "30\u2020",
   "notes": [ "A", "V" ],
+  "comments": [ "Inherent Crew if armed (with CS#)", "AAMG Removal OK (MMG)", "Bog assistance" ],
   "id": "du/v:006",
   "gpid": [ 2327, 2328 ]
 }

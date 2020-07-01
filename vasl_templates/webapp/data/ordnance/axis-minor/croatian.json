@@ -2,8 +2,7 @@
 
 { "name": "Cannone da 65/17",
   "type": "INF",
-  "capabilities": [ "NT" ],
-  "comments": [ "No Gunshield." ],
+  "comments": [ "No Gunshield" ],
   "note_number": "35",
   "notes": [ "A" ],
   "id": "cr/o:000",
@@ -11,7 +10,6 @@
 },
 { "name": "Skoda M28(FE)",
   "type": "ART",
-  "capabilities": [ "NT" ],
   "note_number": "36",
   "notes": [ "A" ],
   "id": "cr/o:001",

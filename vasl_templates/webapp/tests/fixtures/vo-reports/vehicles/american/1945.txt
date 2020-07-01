@@ -1,86 +1,86 @@
 === vehicles/american/1945 ===
 
-Name                 Capabilities                               (effective)                  #       Notes                                                                      Comments
--------------------  -----------------------------------------  ---------------------------  ------  -------------------------------------------------------------------------  -------------------------------------------------------
-M2A4                 C10[P]†[1] CS 4                            CS 4                         1       B† C†<sup>1</sup> P
-M3                   C7[A2+]†[2] CS 4                           C7†[2] CS 4                  2†      B†<sup>1</sup> C†<sup>2</sup> N
+Name                 Capabilities                               (effective)                  #       Notes                                                                         Comments
+-------------------  -----------------------------------------  ---------------------------  ------  ----------------------------------------------------------------------------  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+M2A4                 C10[P]†[1] CS 4                            CS 4                         1       B† C†<sup>1</sup> P                                                           BMG: +1 DRM vs Moving/Motion
+M3                   C7[A2+]†[2] CS 4                           C7†[2] CS 4                  2†      B†<sup>1</sup> C†<sup>2</sup> N                                               BMG: +1 DRM vs Moving/Motion
 M3A1                 C7†[2] CS 4                                C7†[2] CS 4                  3†      C†<sup>2</sup> F†<sup>1</sup> G N
 M3A1 Satan           CS 4                                       CS 4                         4       P
 M5A1                 C7†[2] CS 4                                C7†[2] CS 4                  5†      C†<sup>2</sup> F†<sup>1</sup> G N Y
-M24                  WP7 s5 sM8 CS 5                            WP7 s5 sM8 CS 5              6†      G <s>P</s> R†<sup>1</sup>
-M3                   C5†[2] CS 7                                C5†[2] CS 7                  7†      B†<sup>1</sup> C†<sup>2</sup> G N
-M4                   WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  WP7†[3] s5 sM5 CS 5[brewup]  8†      F†<sup>2</sup> G R†<sup>1</sup> Y BB†<sup>3</sup>
-M4A1                 WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  WP7†[3] s5 sM5 CS 5[brewup]  9†      F†<sup>2</sup> G N R†<sup>1</sup> Y BB†<sup>3</sup>
-M4A2                 WP7[J4+]†[2] s5[J4+] sM5[4+] CS 5[brewup]  WP7†[2] s5 sM5 CS 5[brewup]  10      F†<sup>1</sup> G P R† BB†<sup>2</sup>
-M4A2 (L)             WP7 s5 sM8 CS 6[brewup]                    WP7 s5 sM8 CS 6[brewup]      11      F†<sup>1</sup> G P R†
-M4A3                 WP7[J4+]†[3] s5[J4+] sM4[4+] CS 5[brewup]  WP7†[3] s5 sM4 CS 5[brewup]  12†     F†<sup>2</sup> G R†<sup>1</sup> Y BB†<sup>3</sup>
-M4A3(75)W            WP7 s5 sM8 CS 6                            WP7 s5 sM8 CS 6              13†     F†<sup>2</sup> G R†<sup>1</sup> Y
-M4A3E2               WP7 s5 sM8 CS 6                            WP7 s5 sM8 CS 6              14      F†<sup>1</sup> G <s>P</s> R†
+M24                  WP7 s5 sM8 CS 5                            WP7 s5 sM8 CS 5              6†      G <s>P</s> R†<sup>1</sup>                                                     Multiple Hits
+M3                   C5†[2] CS 7                                C5†[2] CS 7                  7†      B†<sup>1</sup> C†<sup>2</sup> G N                                             37LL MA: T | 75 SA: NT | AAMG: BU Fire &amp; CC ok [EXC: vs Aerial NA] | BMG: +1 DRM vs Moving/Motion
+M4                   WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  WP7†[3] s5 sM5 CS 5[brewup]  8†      F†<sup>2</sup> G R†<sup>1</sup> Y BB†<sup>3</sup>                             Multiple Hits
+M4A1                 WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  WP7†[3] s5 sM5 CS 5[brewup]  9†      F†<sup>2</sup> G N R†<sup>1</sup> Y BB†<sup>3</sup>                           Multiple Hits
+M4A2                 WP7[J4+]†[2] s5[J4+] sM5[4+] CS 5[brewup]  WP7†[2] s5 sM5 CS 5[brewup]  10      F†<sup>1</sup> G P R† BB†<sup>2</sup>                                         Multiple Hits
+M4A2 (L)             WP7 s5 sM8 CS 6[brewup]                    WP7 s5 sM8 CS 6[brewup]      11      F†<sup>1</sup> G P R†                                                         Multiple Hits
+M4A3                 WP7[J4+]†[3] s5[J4+] sM4[4+] CS 5[brewup]  WP7†[3] s5 sM4 CS 5[brewup]  12†     F†<sup>2</sup> G R†<sup>1</sup> Y BB†<sup>3</sup>                             Multiple Hits
+M4A3(75)W            WP7 s5 sM8 CS 6                            WP7 s5 sM8 CS 6              13†     F†<sup>2</sup> G R†<sup>1</sup> Y                                             Multiple Hits
+M4A3E2               WP7 s5 sM8 CS 6                            WP7 s5 sM8 CS 6              14      F†<sup>1</sup> G <s>P</s> R†                                                  Multiple Hits
 M4A3E2 (L)           A4[4]5[5] s5[5] sM8 CS 6                   A5 s5 sM8 CS 6               14†     F†<sup>1</sup> G <s>P</s>
 M4A1(76)W            A4[A4]5[5]†[2] s5[5] sM8 CS 6              A5†[2] s5 sM8 CS 6           15†     A†<sup>2</sup> F†<sup>1</sup> G <s>P</s> Y
 M4A3(76)W            A4[A4]5[5]†[2] s5[5] sM8 CS 6              A5†[2] s5 sM8 CS 6           16†     A†<sup>2</sup> F†<sup>1</sup> G <s>P</s> Y
 M4(105)              C7[P]†[1] H9 WP9 s7 sM8 CS 6               H9 WP9 s7 sM8 CS 6           17†     C†<sup>1</sup> Y
 M4A3(105)            C7[P]†[1] H9 WP9 s7 sM8 CS 6               H9 WP9 s7 sM8 CS 6           17†     C†<sup>1</sup> Y
-M4 Tankdozer         WP7 s5 sM6 CS 5[brewup]                    WP7 s5 sM6 CS 5[brewup]      18†     G R†<sup>1</sup>
-T1E3                 WP7 s5 sM6 CS 5[brewup]                    WP7 s5 sM6 CS 5[brewup]      19†     G <s>P</s> R†<sup>1</sup>
-Sherman Crab         WP7[J4+]†[2] s5[J4+] sM4 CS 5[brewup]      WP7†[2] s5 sM4 CS 5[brewup]  20†     G R†<sup>1</sup> BB†<sup>2</sup>
-POA-CWS-H1           sM8 CS 6                                   sM8 CS 6                     21†     P
+M4 Tankdozer         WP7 s5 sM6 CS 5[brewup]                    WP7 s5 sM6 CS 5[brewup]      18†     G R†<sup>1</sup>                                                              Front-hull hit: +2 TH DRM (unless level &lt; firer) | Multiple Hits
+T1E3                 WP7 s5 sM6 CS 5[brewup]                    WP7 s5 sM6 CS 5[brewup]      19†     G <s>P</s> R†<sup>1</sup>                                                     VCA: +4 DRM [EXC: mines, CC, Indirect Fire, from above or head-on] | Movement restrictions | Mine clearance | Multiple Hits
+Sherman Crab         WP7[J4+]†[2] s5[J4+] sM4 CS 5[brewup]      WP7†[2] s5 sM4 CS 5[brewup]  20†     G R†<sup>1</sup> BB†<sup>2</sup>                                              Mine &amp; Wire Clearance | +1 DRM if PTO or pre-7/44 in Italy | Multiple Hits
+POA-CWS-H1           sM8 CS 6                                   sM8 CS 6                     21†     P                                                                             TCA restrictions
 M26                  A7 CS 6                                    A7 CS 6                      22†     <s>P</s>
 M10 GMC              A5[A4E]6[5E]†[1] s5[5] sP5 CS 7            A6†[1] s5 sP5 CS 7           23†     A†<sup>1</sup> N Y
 M18 GMC              A5[4E]6[5E]†[1] s5[5] sP5 CS 6             A6†[1] s5 sP5 CS 6           24†     A†<sup>1</sup>
 M36 GMC              A5[5] sP5 CS 7                             A5 sP5 CS 7                  25†     <s>P</s>
 M36B1 GMC            A5 sP5 CS 7                                A5 sP5 CS 7                  26      <s>P</s>
-M2                   CS 4                                       CS 4                         27†[1]  E† H I† N
-M3                   CS 5                                       CS 5                         28†     N
-M3A1                 CS 5                                       CS 5                         29†[1]  E† H I† Z
-M3(MMG)              CS 5                                       CS 5                         30†     E† H N <s>P</s>
-M3(HMG)              CS 5                                       CS 5                         30†     E† H N <s>P</s>
-M4 MC                WP8 CS 4[brewup]                           WP8 CS 4[brewup]             31†     J† M†<sup>1</sup> N O†<sup>2</sup> <s>P</s>
-M4A1 MC              WP8 CS 4[brewup]                           WP8 CS 4[brewup]             32†     J†<sup>1</sup> M†<sup>2</sup> O†<sup>3</sup>
-M21 MC               WP8 CS 4[brewup]                           WP8 CS 4[brewup]             33      M O† <s>P</s>
-M3 GMC               CS 4                                       CS 4                         34†     N U
-T30 HMC              AP7 H5 WP9 CS 4                            AP7 H5 WP9 CS 4              35†[1]  K† N O† <s>P</s> U
-T19 HMC              H5 WP8 s7 CS 4                             H5 WP8 s7 CS 4               36†     K†<sup>1</sup> N O†<sup>1</sup> <s>P</s>
-M15A1 MGMC           CS 4                                       CS 4                         37†     N V† AA†<sup>1</sup>
-M16 MGMC             CS 4                                       CS 4                         38†     V† AA†<sup>1</sup>
-M3A1                 CS 4                                       CS 4                         39†[1]  E† H I† N
-M20                  sP5 CS 4                                   sP5 CS 4                     40†     D†<sup>3</sup> O†<sup>2</sup> W†<sup>1</sup> Z
-T8                   CS 5                                       CS 5                         41†     O†<sup>1</sup> <s>P</s>
-M8                   C7†[2] sP5 CS 4                            C7†[2] sP5 CS 4              42†     C†<sup>2</sup> G W†<sup>1</sup>
+M2                   CS 4                                       CS 4                         27†[1]  E† H I† N                                                                     MA: 12.7 | Crew: .50 cal MA only | Independent AAMG's | {{4|MA|2*}} | AAMG: Removal OK
+M3                   CS 5                                       CS 5                         28†     N                                                                             MA: As MMG for TK &amp; Removal
+M3A1                 CS 5                                       CS 5                         29†[1]  E† H I† Z                                                                     MA: 12.7 | Crew: .50 cal MA only | Independent AAMG's | {{4|MA|2*}} | AAMG: Removal OK | BAZ
+M3(MMG)              CS 5                                       CS 5                         30†     E† H N <s>P</s>                                                               {{4|MA|4*|4*}} | MA: 12.7 | Inherent Crew &amp; Passenger | Crew: .50 cal MA only | Independent AAMG's
+M3(HMG)              CS 5                                       CS 5                         30†     E† H N <s>P</s>                                                               {{4|MA|6*|6*}} | MA: 12.7 | Inherent Crew &amp; Passenger | Crew: .50 cal MA only | Independent AAMG's
+M4 MC                WP8 CS 4[brewup]                           WP8 CS 4[brewup]             31†     J† M†<sup>1</sup> N O†<sup>2</sup> <s>P</s>                                   +1 TH DRM vs Moving/Motion | Inherent Infantry Crew | AAMG: Removal OK (MMG) | MA: Rear VCA only | MTR: Removal OK
+M4A1 MC              WP8 CS 4[brewup]                           WP8 CS 4[brewup]             32†     J†<sup>1</sup> M†<sup>2</sup> O†<sup>3</sup>                                  Inherent Infantry Crew | AAMG: Removal OK (MMG) | MA: Rear VCA only | MTR: Removal OK
+M21 MC               WP8 CS 4[brewup]                           WP8 CS 4[brewup]             33      M O† <s>P</s>                                                                 Inherent Infantry Crew | AAMG: Removal OK (HMG) | MTR: Removal OK
+M3 GMC               CS 4                                       CS 4                         34†     N U                                                                           CE: +3 Front
+T30 HMC              AP7 H5 WP9 CS 4                            AP7 H5 WP9 CS 4              35†[1]  K† N O† <s>P</s> U                                                            AAMG: Removal OK (.50-cal HMG) | AAMG: NA VCA | CE: +3 Front
+T19 HMC              H5 WP8 s7 CS 4                             H5 WP8 s7 CS 4               36†     K†<sup>1</sup> N O†<sup>1</sup> <s>P</s>                                      AAMG: Removal OK (.50-cal HMG) | Ammo trailer (0 AF) | AAMG: NA VCA
+M15A1 MGMC           CS 4                                       CS 4                         37†     N V† AA†<sup>1</sup>                                                          CMG Removal/Scrounge NA | CMG: Normal Range = 16 | Turret Rear unarmored [EXC: N.Africa] | MA &amp; CMG: VCA &#8804; level NA | MA &amp; CMG: AA ok
+M16 MGMC             CS 4                                       CS 4                         38†     V† AA†<sup>1</sup>                                                            MA Removal/Scrounge NA | MA: [16] TH | 4 TK DR | CE: +1 Side/Rear Turret | MA &amp; CMG: VCA &#8804; level NA | MA &amp; CMG: AA ok
+M3A1                 CS 4                                       CS 4                         39†[1]  E† H I† N                                                                     Inherent Crew &amp; Passenger | MA: 12.7 | Pas: No Mounted Fire penalty | Unpossessed SW ok | Crew: .50 cal MA only | Independent AAMG's | {{4|MA|2*}} | AAMG: Removal OK
+M20                  sP5 CS 4                                   sP5 CS 4                     40†     D†<sup>3</sup> O†<sup>2</sup> W†<sup>1</sup> Z                                MA: 12.7 | (Un)load &#215;2 | Pas: Mounted Fire | Unpossessed SW ok | MG Removal OK | Reverse MP &#215;4 | BAZ
+T8                   CS 5                                       CS 5                         41†     O†<sup>1</sup> <s>P</s>                                                       MA: 12.7 | As fully-tracked | AAMG: Removal OK (.50-cal HMG)
+M8                   C7†[2] sP5 CS 4                            C7†[2] sP5 CS 4              42†     C†<sup>2</sup> G W†<sup>1</sup>                                               Reverse MP &#215;4
 M8 HMC               C4[4+]†[1] H9 WP9 CS 5                     C4†[1] H9 WP9 CS 5           43†     C†<sup>1</sup> Y
 M7 HMC               C7[P]†[1] H7 WP8 s7 CS 7                   H7 WP8 s7 CS 7               44†     C†<sup>1</sup> N
-M12 GMC              no IF AP6 WP8 CS 9                         no IF AP6 WP8 CS 9           45†     <s>P</s>
-LVT(A)1              C10[P]†[2] CS 6                            CS 6                         46†[1]  C†<sup>2</sup> G H P T†
-LVT(A)4              C7[P]†[3] H8 WP9 CS 6                      H8 WP9 CS 6                  47†     C†<sup>3</sup> P T†<sup>1</sup> X†<sup>2</sup>
-M4 DD                WP7 s5 sM5 CS 6[brewup]                    WP7 s5 sM5 CS 6[brewup]      48      G <s>P</s> R†
-LVT2                 CS 6                                       CS 6                         49†     D†<sup>3</sup> H Q†<sup>2</sup> T†<sup>1</sup>
-LVT2(m)              CS 7                                       CS 7                         49.1†   D†<sup>3</sup> H P Q†<sup>2</sup> T†<sup>1</sup>
-LVT(A)2              CS 7                                       CS 7                         50†     D†<sup>3</sup> H Q†<sup>2</sup> T†<sup>1</sup>
-LVT4                 CS 7                                       CS 7                         51†     D H T†<sup>1</sup> X†<sup>2</sup>
-M4 hst               CS 6                                       CS 6                         51.1†   n/a
-DUKW                 cs 7†[1]                                   cs 7†[1]                     52†     D†<sup>3</sup> O†<sup>2</sup> CC†<sup>1</sup>
-&#188;-Ton Jeep GPA  cs 2                                       cs 2                         53†     L†<sup>1</sup>
-&#188;-Ton Jeep      cs 2†[1]                                   cs 2†[1]                     54†     L†<sup>2</sup> N O†<sup>3</sup> CC†<sup>1</sup>
+M12 GMC              AP6 WP8 CS 9                               AP6 WP8 CS 9                 45†     <s>P</s>                                                                      Limbered: Fire NA | Unlimbered: RFNM, always CE (0/+1 DRM) | No IF
+LVT(A)1              C10[P]†[2] CS 6                            CS 6                         46†[1]  C†<sup>2</sup> G H P T†                                                       AAMG: 4&amp;4; NA VCA | Independent AAMG's | Bog: 0 DRM for soft, mud, snow-covered ground
+LVT(A)4              C7[P]†[3] H8 WP9 CS 6                      H8 WP9 CS 6                  47†     C†<sup>3</sup> P T†<sup>1</sup> X†<sup>2</sup>                                Bog: 0 DRM for soft, mud, snow-covered ground | BMG: HD Fire OK
+M4 DD                WP7 s5 sM5 CS 6[brewup]                    WP7 s5 sM5 CS 6[brewup]      48      G <s>P</s> R†                                                                 Multiple Hits
+LVT2                 CS 6                                       CS 6                         49†     D†<sup>3</sup> H Q†<sup>2</sup> T†<sup>1</sup>                                (Un)load &#215;2 | Pas: Mounted Fire | Unpossessed SW ok | MG Removal OK | Independent AAMG's | MA: 12.7 | {{6|MA|4|4}} | Bog: 0 DRM for soft, mud, snow-covered ground
+LVT2(m)              CS 7                                       CS 7                         49.1†   D†<sup>3</sup> H P Q†<sup>2</sup> T†<sup>1</sup>                              (Un)load &#215;2 | Pas: Mounted Fire | Unpossessed SW ok | MG Removal OK | Independent AAMG's | MA: 12.7 | {{6|MA|4|4}} | Bog: 0 DRM for soft, mud, snow-covered ground
+LVT(A)2              CS 7                                       CS 7                         50†     D†<sup>3</sup> H Q†<sup>2</sup> T†<sup>1</sup>                                (Un)load &#215;2 | Pas: Mounted Fire | Unpossessed SW ok | MG Removal OK | Independent AAMG's | MA: 12.7 | {{6|MA|4|4}} | Bog: 0 DRM for soft, mud, snow-covered ground
+LVT4                 CS 7                                       CS 7                         51†     D H T†<sup>1</sup> X†<sup>2</sup>                                             MA:12.7 | {{6|MA|4|4}} | MA: VCA only | SA: VCA NA | (Un)load &#215;2 | Pas: Mounted Fire | Unpossessed SW ok | MG Removal OK | Independent AAMG's | Bog: 0 DRM for soft, mud, snow-covered ground | BMG: HD Fire OK
+M4 hst               CS 6                                       CS 6                         51.1†   n/a                                                                           MA: 12.7
+DUKW                 cs 7†[1]                                   cs 7†[1]                     52†     D†<sup>3</sup> O†<sup>2</sup> CC†<sup>1</sup>                                 (Un)load &#215;2 | Pas: Mounted Fire | Unpossessed SW ok | MG Removal OK | Inherent Crew if armed (with CS#)
+&#188;-Ton Jeep GPA  cs 2                                       cs 2                         53†     L†<sup>1</sup>                                                                +3 Target Size &amp; HD in Water | Bog assistance
+&#188;-Ton Jeep      cs 2†[1]                                   cs 2†[1]                     54†     L†<sup>2</sup> N O†<sup>3</sup> CC†<sup>1</sup>                               AAMG Removal OK | Bog assistance | Inherent Crew if armed (with CS#)
 &#190;-Ton           cs 4                                       cs 4                         55†     N
 1&#189;-Ton          cs 6                                       cs 6                         56†     N
 2&#189;-Ton          cs 7                                       cs 7                         57†     N
 7&#189;-Ton          cs 7                                       cs 7                         58†     N
-LVT(A)1(L)           C10[P]†[2] CS 6                            CS 6                         1       C†<sup>2</sup> G H P T† X                                                  Refer to U.S. Vehicle Note 46 and diagram for the AAMG.
-LVT(A)2F             CS 7                                       CS 7                         2       US H P Q†<sup>1</sup> T†<sup>1</sup>
-LVT4F                cs 7                                       cs 7                         3†[2]   D†<sup>3</sup> H P T†<sup>1</sup>
-LVT(A)2FS            CS 7                                       CS 7                         4†[1]   US D†<sup>2</sup> H P T†
-LVT4(L)              CS 7                                       CS 7                         5       D†<sup>4</sup> H Q†<sup>3</sup> T†<sup>1</sup> X†<sup>2</sup>
-LVT(A)4(L)           C7[P]†[3] H8 WP9 CS 6                      H8 WP9 CS 6                  6       C†<sup>3</sup> G H P T† X†<sup>1</sup>
-M3A1F                C7[P]† CS 4                                CS 4                         7       US C† G P
+LVT(A)1(L)           C10[P]†[2] CS 6                            CS 6                         1       US C†<sup>2</sup> US G US H US P US T† US X                                   AAMG: 4&amp;4; NA VCA | Independent AAMG's | Bog: 0 DRM for soft, mud, snow-covered ground | BMG: HD Fire OK
+LVT(A)2F             CS 7                                       CS 7                         2       US H US P US Q†<sup>1</sup> US T†<sup>1</sup>                                 Independent AAMG's | MA: 12.7 | {{6|MA|4|4}} | Bog: 0 DRM for soft, mud, snow-covered ground
+LVT4F                CS 7[brewup]                               CS 7[brewup]                 3†[2]   US D†<sup>3</sup> US H US P US T†<sup>1</sup>                                 MA: VCA NA | AAMG: 4&amp;4 | No Recall after unload | (Un)load &#215;2 | Pas: Mounted Fire | Unpossessed SW ok | MG Removal OK | Independent AAMG's | Bog: 0 DRM for soft, mud, snow-covered ground
+LVT(A)2FS            CS 7                                       CS 7                         4†[1]   US D†<sup>2</sup> US H US P US T†                                             MA: VCA NA | SA: VCA only | AAMG: Side only | AAMG: 6&amp;4 | No Recall after unload | (Un)load &#215;2 | Pas: Mounted Fire | Unpossessed SW ok | MG Removal OK | Independent AAMG's | Bog: 0 DRM for soft, mud, snow-covered ground
+LVT4(L)              CS 7                                       CS 7                         5       US D†<sup>4</sup> US H US Q†<sup>3</sup> US T†<sup>1</sup> US X†<sup>2</sup>  (Un)load &#215;2 | Pas: Mounted Fire | Unpossessed SW ok | MG Removal OK | Independent AAMG's | MA: 12.7 | {{6|MA|4|4}} | Bog: 0 DRM for soft, mud, snow-covered ground | BMG: HD Fire OK
+LVT(A)4(L)           C7[P]†[3] H8 WP9 CS 6                      H8 WP9 CS 6                  6       US C†<sup>3</sup> US G US H US P US T† US X†<sup>1</sup>                      AAMG: 4&amp;4; NA VCA | Independent AAMG's | Bog: 0 DRM for soft, mud, snow-covered ground | BMG: HD Fire OK
+M3A1F                C7[P]† CS 4                                CS 4                         7       US C† US G US P
 M5A1 Satan           CS 4                                       CS 4                         8†      US P
-M4A2F                WP7 s5 sM5 cs 5                            WP7 s5 sM5 cs 5              9       US G P R
-M4A2(L)F             WP7 s5 sM8 cs 6                            WP7 s5 sM8 cs 6              10      US G P R
-Carrier .50cal(b)    CS 3                                       CS 3                         11†     n/a
+M4A2F                WP7 s5 sM5 CS 5[brewup]                    WP7 s5 sM5 CS 5[brewup]      9       US G US P US R                                                                Multiple Hits
+M4A2(L)F             WP7 s5 sM8 CS 6[brewup]                    WP7 s5 sM8 CS 6[brewup]      10      US G US P US R                                                                Multiple Hits
+Carrier .50cal(b)    CS 3                                       CS 3                         11†     n/a                                                                           Inherent 1-2-6 crew | Always CE | MA: 12.7
 M5A1C                C7†[2] CS 4                                C7†[2] CS 4                  5†      US C†<sup>2</sup> US F†<sup>1</sup> US G US N US Y A B
-M4C                  WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  WP7†[3] s5 sM5 CS 5[brewup]  8†      US F†<sup>2</sup> US G US R†<sup>1</sup> US Y US BB†<sup>3</sup> A B
-M4A1C                WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  WP7†[3] s5 sM5 CS 5[brewup]  9†      US F†<sup>2</sup> US G US N US R†<sup>1</sup> US Y US BB†<sup>3</sup> A B
-M4A3C                WP7[J4+]†[3] s5[J4+] sM4[4+] CS 5[brewup]  WP7†[3] s5 sM4 CS 5[brewup]  12†     US F†<sup>2</sup> US G US R†<sup>1</sup> US Y US BB†<sup>3</sup> A B
-M4A3C(75)W           WP7 s5 sM8 CS 6                            WP7 s5 sM8 CS 6              13†     US F†<sup>2</sup> US G US R†<sup>1</sup> US Y A B
+M4C                  WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  WP7†[3] s5 sM5 CS 5[brewup]  8†      US F†<sup>2</sup> US G US R†<sup>1</sup> US Y US BB†<sup>3</sup> A B          Multiple Hits
+M4A1C                WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  WP7†[3] s5 sM5 CS 5[brewup]  9†      US F†<sup>2</sup> US G US N US R†<sup>1</sup> US Y US BB†<sup>3</sup> A B     Multiple Hits
+M4A3C                WP7[J4+]†[3] s5[J4+] sM4[4+] CS 5[brewup]  WP7†[3] s5 sM4 CS 5[brewup]  12†     US F†<sup>2</sup> US G US R†<sup>1</sup> US Y US BB†<sup>3</sup> A B          Multiple Hits
+M4A3C(75)W           WP7 s5 sM8 CS 6                            WP7 s5 sM8 CS 6              13†     US F†<sup>2</sup> US G US R†<sup>1</sup> US Y A B                             Multiple Hits
 M4A1C(76)W           A4[A4]5[5]†[2] s5[5] sM8 CS 6              A5†[2] s5 sM8 CS 6           15†     US A†<sup>2</sup> US F†<sup>1</sup> US G US <s>P</s> US Y A B
 M4A3C(76)W           A4[A4]5[5]†[2] s5[5] sM8 CS 6              A5†[2] s5 sM8 CS 6           16†     US A†<sup>2</sup> US F†<sup>1</sup> US G US <s>P</s> US Y A B
 M4C(105)             C7[P]†[1] H9 WP9 s7 sM8 CS 6               H9 WP9 s7 sM8 CS 6           17†     US C†<sup>1</sup> US Y A B
@@ -88,54 +88,54 @@ M4A3C(105)           C7[P]†[1] H9 WP9 s7 sM8 CS 6               H9 WP9 s7 sM8 
 M10C GMC             A5[A4E]6[5E]†[1] s5[5] sP5 CS 7            A6†[1] s5 sP5 CS 7           23†     US A†<sup>1</sup> US N US Y A B
 M8C HMC              C4[4+]†[1] H9 WP9 CS 5                     C4†[1] H9 WP9 CS 5           43†     US C†<sup>1</sup> US Y A B
 M5A1F                C7†[2] CS 4                                C7†[2] CS 4                  5†      US C†<sup>2</sup> US F†<sup>1</sup> US G US N US Y C
-M4F                  WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  WP7†[3] s5 sM5 CS 5[brewup]  8†      US F†<sup>2</sup> US G US R†<sup>1</sup> US Y US BB†<sup>3</sup> C
-M4A1F                WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  WP7†[3] s5 sM5 CS 5[brewup]  9†      US F†<sup>2</sup> US G US N US R†<sup>1</sup> US Y US BB†<sup>3</sup> C
-M4A3F                WP7[J4+]†[3] s5[J4+] sM4[4+] CS 5[brewup]  WP7†[3] s5 sM4 CS 5[brewup]  12†     US F†<sup>2</sup> US G US R†<sup>1</sup> US Y US BB†<sup>3</sup> C
-M4A3F(75)W           WP7 s5 sM8 CS 6                            WP7 s5 sM8 CS 6              13†     US F†<sup>2</sup> US G US R†<sup>1</sup> US Y C
+M4F                  WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  WP7†[3] s5 sM5 CS 5[brewup]  8†      US F†<sup>2</sup> US G US R†<sup>1</sup> US Y US BB†<sup>3</sup> C            Multiple Hits
+M4A1F                WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  WP7†[3] s5 sM5 CS 5[brewup]  9†      US F†<sup>2</sup> US G US N US R†<sup>1</sup> US Y US BB†<sup>3</sup> C       Multiple Hits
+M4A3F                WP7[J4+]†[3] s5[J4+] sM4[4+] CS 5[brewup]  WP7†[3] s5 sM4 CS 5[brewup]  12†     US F†<sup>2</sup> US G US R†<sup>1</sup> US Y US BB†<sup>3</sup> C            Multiple Hits
+M4A3F(75)W           WP7 s5 sM8 CS 6                            WP7 s5 sM8 CS 6              13†     US F†<sup>2</sup> US G US R†<sup>1</sup> US Y C                               Multiple Hits
 M4A1F(76)W           A4[A4]5[5]†[2] s5[5] sM8 CS 6              A5†[2] s5 sM8 CS 6           15†     US A†<sup>2</sup> US F†<sup>1</sup> US G US <s>P</s> US Y C
 M4A3F(76)W           A4[A4]5[5]†[2] s5[5] sM8 CS 6              A5†[2] s5 sM8 CS 6           16†     US A†<sup>2</sup> US F†<sup>1</sup> US G US <s>P</s> US Y C
-M24                  WP7 s5 sM8 CS 5                            WP7 s5 sM8 CS 5              1†      O Y
-M4A3E8               A†[1] s5 sM8 CS 6                          A†[1] s5 sM8 CS 6            2†      A†<sup>1</sup> P
+M24                  WP7 s5 sM8 CS 5                            WP7 s5 sM8 CS 5              1†      O Y                                                                           Multiple Hits
+M4A3E8               A†[1] s5 sM8 CS 6                          A†[1] s5 sM8 CS 6            2†      A†<sup>1</sup> P                                                              &#8734; A
 M4A3E8(105)          C7 H9 WP9 s7 sM8 CS 6                      C7 H9 WP9 s7 sM8 CS 6        3†      C M
-M4A3E8 Dozer         A†[1] s5 sM8 CS 6                          A†[1] s5 sM8 CS 6            4       A†<sup>1</sup> TT†
-M4A3E8(105) Dozer    C7 H9 WP9 s7 sM8 CS 6                      C7 H9 WP9 s7 sM8 CS 6        4†      C M TT†<sup>1</sup>
-POA-CWS-H5           C5 sM8 CS 6                                C5 sM8 CS 6                  5†      C M
-M32A1B3 TRV          CS 6                                       CS 6                         6†      K M P
-M26A1                A†[1] WP6[M51+]†[2] CS 6                   A†[1] CS 6                   7†      A†<sup>1</sup> J†<sup>2</sup> M
+M4A3E8 Dozer         A†[1] s5 sM8 CS 6                          A†[1] s5 sM8 CS 6            4       A†<sup>1</sup> TT†                                                            &#8734; A | Front-hull hit: +2 TH DRM (unless level &lt; firer)
+M4A3E8(105) Dozer    C7 H9 WP9 s7 sM8 CS 6                      C7 H9 WP9 s7 sM8 CS 6        4†      C M TT†<sup>1</sup>                                                           Front-hull hit: +2 TH DRM (unless level &lt; firer)
+POA-CWS-H5           C5 sM8 CS 6                                C5 sM8 CS 6                  5†      C M                                                                           TCA restrictions | CE: MA, SA Fire NA | Fire MA &amp; SA NA
+M32A1B3 TRV          CS 6                                       CS 6                         6†      K M P                                                                         Front turret AF = 4 | (Un)load: 2 MF | May tow vehicles | Bog assistance
+M26A1                A†[1] WP6[M51+]†[2] CS 6                   A†[1] CS 6                   7†      A†<sup>1</sup> J†<sup>2</sup> M                                               &#8734; A
 M45                  H7 WP9 s7 CS 6                             H7 WP9 s7 CS 6               8       n/a
-M46                  A†[2] WP6[M51+]†[3] CS 6                   A†[2] CS 6                   9†      A†<sup>2</sup> J†<sup>3</sup> M FF†<sup>1</sup>
-M36B2 GMC(a)         A† sP5 CS 7                                A† sP5 CS 7                  10      A† K UU
-M38A1C Jeep          H† CS 2                                    H† CS 2                      11†     n/a
-M3                   CS 5                                       CS 5                         12†     K Y
-M3(MMG)              CS 5                                       CS 5                         13†     E† H K Y
-M3(HMG)              CS 5                                       CS 5                         13†     E† H K Y
-M19A1 MGMC           CS 4                                       CS 4                         14†     AA†<sup>1</sup>
-M15A1 MGMC           CS 4                                       CS 4                         15†     O V†<sup>1</sup> Y AA†<sup>2</sup> DD†<sup>1</sup>
-M15 Special          CS 4                                       CS 4                         16†     AA†<sup>2</sup> DD†<sup>1</sup>
-M16 MGMC             CS 4                                       CS 4                         17†     F†<sup>1</sup> V†<sup>1</sup> Y AA†<sup>2</sup> DD†<sup>1</sup>
-M16A1 MGMC           CS 5                                       CS 5                         18†     F†<sup>1</sup> V†<sup>1</sup> AA†<sup>2</sup> DD†<sup>1</sup>
-M39 AUV              CS 6                                       CS 6                         19†     G†<sup>1</sup> M
-M39 MC               WP8 CS 5[brewup]                           WP8 CS 5[brewup]             19†     n/a
+M46                  A†[2] WP6[M51+]†[3] CS 6                   A†[2] CS 6                   9†      A†<sup>2</sup> J†<sup>3</sup> M FF†<sup>1</sup>                               &#8734; A
+M36B2 GMC(a)         A† sP5 CS 7                                A† sP5 CS 7                  10      A† K UU                                                                       &#8734; A | American ESB+
+M38A1C Jeep          H† CS 2                                    H† CS 2                      11†     n/a                                                                           MA: RCL (crew only) | Red TH# | No Bnd FF, Motion Fire | Rear VCA NA | &#8734; H | HEAT TK# = 25
+M3                   CS 5                                       CS 5                         12†     K Y                                                                           MA: As MMG for TK &amp; Removal
+M3(MMG)              CS 5                                       CS 5                         13†     E† H K Y                                                                      Inherent Crew &amp; Passenger | MA: 12.7 | {{4|MA|4*|4*}} | MG Removal OK (dm .50-cal HMG, dm MMG) | Crew: .50-cal MA only | Independent AAMG's
+M3(HMG)              CS 5                                       CS 5                         13†     E† H K Y                                                                      Inherent Crew &amp; Passenger | MA: 12.7 | {{4|MA|6*|6*}} | MG Removal OK (dm .50-cal HMG, dm HMG) | Crew: .50-cal MA only | Independent AAMG's
+M19A1 MGMC           CS 4                                       CS 4                         14†     AA†<sup>1</sup>                                                               MA: VCA &lt; level NA | Trailer (0 AF) | MA &amp; CMG: AA ok
+M15A1 MGMC           CS 4                                       CS 4                         15†     O V†<sup>1</sup> Y AA†<sup>2</sup> DD†<sup>1</sup>                            CMG: Normal Range = 16 | CMG Removal NA | MA &amp; CMG: Removal/Scrounge NA | MA &amp; CMG: AA ok | MA &amp; CMG: VCA &#8804; level NA
+M15 Special          CS 4                                       CS 4                         16†     AA†<sup>2</sup> DD†<sup>1</sup>                                               CE: +1 | MA &amp; CMG: AA ok | MA &amp; CMG: VCA &#8804; level NA
+M16 MGMC             CS 4                                       CS 4                         17†     F†<sup>1</sup> V†<sup>1</sup> Y AA†<sup>2</sup> DD†<sup>1</sup>               CE: +1 Side/Rear Turret | 4 TK DR | [16] TH | MA &amp; CMG: Removal/Scrounge NA | MA &amp; CMG: AA ok | MA &amp; CMG: VCA &#8804; level NA
+M16A1 MGMC           CS 5                                       CS 5                         18†     F†<sup>1</sup> V†<sup>1</sup> AA†<sup>2</sup> DD†<sup>1</sup>                 CE: +3 Front Turret | 4 TK DR | [16] TH | MA &amp; CMG: Removal/Scrounge NA | MA &amp; CMG: AA ok | MA &amp; CMG: VCA &#8804; level NA
+M39 AUV              CS 6                                       CS 6                         19†     G†<sup>1</sup> M                                                              MA: 12.7
+M39 MC               WP8 CS 5[brewup]                           WP8 CS 5[brewup]             19†     n/a                                                                           Inherent Infantry Crew | MA Removal OK (dm M1(L) 81mm Mortar)
 M7 HMC               C7 H7 WP8 s7 CS 7                          C7 H7 WP8 s7 CS 7            20†     C Y
 M37 HMC              H9 WP9 s7 CS 7                             H9 WP9 s7 CS 7               21      n/a
-M41 HMC              no IF WP8 s7 CS 9                          no IF WP8 s7 CS 9            22†     S†<sup>1</sup>
-M40 GMC              no IF AP4 WP8 s7 CS 9                      no IF AP4 WP8 s7 CS 9        23      S†
-M43 HMC              no IF CS 9                                 no IF CS 9                   23      S†
-LVT(A)5              C7 H8 WP8 CS 6                             C7 H8 WP8 CS 6               24†     H T†<sup>1</sup> X†<sup>2</sup>
-LVT(A)5m             C7 H8 WP8 CS 6                             C7 H8 WP8 CS 6               24      M T†
-LVT3                 CS 7                                       CS 7                         25†     D† H M T†<sup>1</sup> X†<sup>2</sup>
-LVT3C                CS 7                                       CS 7                         25†     D† M T†<sup>1</sup> X†<sup>2</sup> BB†
-M75                  CS 6                                       CS 6                         26      G† BB†<sup>1</sup>
-M29 Weasel           CS 3                                       CS 3                         27†     B†<sup>1</sup> M T†<sup>1</sup>
-M29C Weasel          CS 3                                       CS 3                         28†     B†<sup>1</sup> M T†<sup>1</sup>
-M4 hst               CS 6                                       CS 6                         29      G† Y
-DUKW                 CS 7†[1]                                   CS 7†[1]                     30†     D†<sup>2</sup> M Q†<sup>1</sup> Y
-TACP Jeep            CS 2†                                      CS 2†                        31†     L†<sup>1</sup> M
-7&#189;-Ton          CS 7                                       CS 7                         32      Y
-Searchlight Truck    CS 7†                                      CS 7†                        33†     n/a
-M3A1                 CS 5                                       CS 5                         54†     E† H K Y Z†<sup>1</sup> UU
-M20                  sP5 CS 4                                   sP5 CS 4                     55†     D†<sup>4</sup> K Q†<sup>2</sup> W†<sup>1</sup> Y Z†<sup>3</sup> UU
-M8                   C7 sP5 CS 4                                C7 sP5 CS 4                  56†     C K W†<sup>1</sup> Y UU
-&#188;-Ton Jeep      cs 2†[1]                                   cs 2†[1]                     57†     K L†<sup>2</sup> M N O P Q†<sup>1</sup> Y UU
+M41 HMC              WP8 s7 CS 9                                WP8 s7 CS 9                  22†     S†<sup>1</sup>                                                                No IF | Limbered: Fire NA | Unlimbered: RFNM, always CE (0/+1 DRM)
+M40 GMC              AP4 WP8 s7 CS 9                            AP4 WP8 s7 CS 9              23      S†                                                                            No IF | Limbered: Fire NA | Unlimbered: RFNM, always CE (0/+1 DRM)
+M43 HMC              CS 9                                       CS 9                         23      S†                                                                            No IF | Limbered: Fire NA | Unlimbered: RFNM, always CE (0/+1 DRM)
+LVT(A)5              C7 H8 WP8 CS 6                             C7 H8 WP8 CS 6               24†     H T†<sup>1</sup> X†<sup>2</sup>                                               AAMG: 4&amp;4; NA opposite side | Independent AAMG's | Bog: 0 DRM for soft, mud, snow-covered ground | BMG: HD Fire OK
+LVT(A)5m             C7 H8 WP8 CS 6                             C7 H8 WP8 CS 6               24      M T†                                                                          Bog: 0 DRM for soft, mud, snow-covered ground
+LVT3                 CS 7                                       CS 7                         25†     D† H M T†<sup>1</sup> X†<sup>2</sup>                                          {{6|MA|4*}} (optional) | MG VCA only | MA: 12.7 | CE: +3 Front | (Un)load: must be CE, Rear unarmored | Pas: Mounted Fire | Unpossessed SW ok | MG Removal OK | Independent AAMG's | Bog: 0 DRM for soft, mud, snow-covered ground | BMG: HD Fire OK
+LVT3C                CS 7                                       CS 7                         25†     D† M T†<sup>1</sup> X†<sup>2</sup> BB†                                        MA: Rear VCA &lt; level NA | (Un)load: Rear unarmored | Pas: Mounted Fire | Unpossessed SW ok | MG Removal OK | Bog: 0 DRM for soft, mud, snow-covered ground | BMG: HD Fire OK | Pas: Always BU
+M75                  CS 6                                       CS 6                         26      G† BB†<sup>1</sup>                                                            MA: 12.7 | Pas: Always BU
+M29 Weasel           CS 3                                       CS 3                         27†     B†<sup>1</sup> M T†<sup>1</sup>                                               Bog Checks NA in Mud, Deep Snow, Drift, Sand, Rice Paddies | Bog: 0 DRM for soft, mud, snow-covered ground
+M29C Weasel          CS 3                                       CS 3                         28†     B†<sup>1</sup> M T†<sup>1</sup>                                               Bog Checks NA for Marsh, Mudflat, Swamp | Bog Checks NA in Mud, Deep Snow, Drift, Sand, Rice Paddies | Bog: 0 DRM for soft, mud, snow-covered ground
+M4 hst               CS 6                                       CS 6                         29      G† Y                                                                          MA: 12.7
+DUKW                 CS 7†[1]                                   CS 7†[1]                     30†     D†<sup>2</sup> M Q†<sup>1</sup> Y                                             AAMG Removal OK (.50-cal HMG) | (Un)load &#215;2 | Pas: Mounted Fire | Unpossessed SW ok | MG Removal OK | Inherent Crew if armed (with CS#)
+TACP Jeep            CS 2†                                      CS 2†                        31†     L†<sup>1</sup> M                                                              Inherent Crew | Morale 8 | (Un)load: 1 MF | Contact: 10 | Radio: R2, X6 | Bog assistance
+7&#189;-Ton          cs 7                                       cs 7                         32      Y
+Searchlight Truck    CS 7†                                      CS 7†                        33†     n/a                                                                           Inherent Crew | IB VCA NA | Reliability DR: 10 | Sighting TC
+M3A1                 CS 5                                       CS 5                         54†     E† H K Y Z†<sup>1</sup> UU                                                    MA: 12.7 | {{4|MA|2*}} | AAMG Removal OK (dm .50-cal HMG, dm MMG) | BAZ | Crew: .50-cal MA only | Independent AAMG's | BAZ/PIAT Removal by crew/passenger only, or Scrounge.
+M20                  sP5 CS 4                                   sP5 CS 4                     55†     D†<sup>4</sup> K Q†<sup>2</sup> W†<sup>1</sup> Y Z†<sup>3</sup> UU            MA: 12.7 | BAZ | AAMG Removal OK (.50-cal HMG) | (Un)load &#215;2 | Pas: Mounted Fire | Unpossessed SW ok | MG Removal OK | Inherent Crew if armed (with CS#) | Reverse MP &#215;4 | BAZ/PIAT Removal by crew/passenger only, or Scrounge.
+M8                   C7 sP5 CS 4                                C7 sP5 CS 4                  56†     C K W†<sup>1</sup> Y UU                                                       Reverse MP &#215;4
+&#188;-Ton Jeep      cs 2†[1]                                   cs 2†[1]                     57†     K L†<sup>2</sup> M N O P Q†<sup>1</sup> Y UU                                  Bog assistance | Inherent Crew if armed (with CS#)
 &#190;-Ton           cs 4                                       cs 4                         57†     K N O Y UU
 2&#189;-Ton          cs 7                                       cs 7                         57†     K M N O P Y UU

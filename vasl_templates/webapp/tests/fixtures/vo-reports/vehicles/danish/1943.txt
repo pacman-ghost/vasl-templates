@@ -1,5 +1,5 @@
 === vehicles/danish/1943 ===
 
 Name    Capabilities    (effective)    #    Notes    Comments
-------  --------------  -------------  ---  -------  ----------
-Nimbus  M8† †           M8† †          24†  n/a
+------  --------------  -------------  ---  -------  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Nimbus                                 24†  n/a      As motorcycle (2&#215; 2-2-8 Crew Riders) | MA: [{ *:Fire by dismounted Infantry only *:Unhook OK *:R2, X6 }] | IFE: B# = 10 | Case C: +2 TH DRM | AAMG: [{ *:No Mounted Fire penalty *:Dismounted Infantry OK *:No Unqualified Use penalty *:Removal OK (dm MMG) }] | KIA: eliminated | K/#: replace with HS motorcycle | Wreck Check dr 6: MA &amp; AAMG malf | 0 PP

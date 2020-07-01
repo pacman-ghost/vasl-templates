@@ -422,7 +422,7 @@ def get_vo_gpids( vasl_mod ):
     """Get the GPID's for the vehicles/ordnance."""
 
     # initialize
-    listings = get_vo_listings( vasl_mod )
+    listings = get_vo_listings( vasl_mod, None )
 
     # figure out which GPID's we know about
     gpids = set()

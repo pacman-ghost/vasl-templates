@@ -234,7 +234,7 @@ def test_kgs_extensions( webapp, webdriver ):
 
         # check the Matilda II(b)
         check_counter_images( "Matilda II(b) (HT)",
-           ["f97:178","f97:184"] if enable_extns else None
+           ["7150","f97:178","f97:184"] if enable_extns else ["7150"]
         )
 
         # check the T60-M40

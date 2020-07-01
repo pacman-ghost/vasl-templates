@@ -1,19 +1,19 @@
 === ordnance/kfw-cpva/1952 ===
 
-Name                                       Capabilities          (effective)           #       Notes    Comments
------------------------------------------  --------------------  --------------------  ------  -------  ----------
-50mm Type 89 Heavy Grenade Launcher        4PP                   4PP                   18†     A
-60mm Type 31 Mortar                        5PP                   5PP                   19      A
-82mm Type 20 Mortar                        QSU                   QSU                   20†     A
-82mm Type 53 Mortar                        QSU s6                QSU s6                21†     A
-120mm PM obr. 38                           QSU s6                QSU s6                22†     n/a
-45mm PTP obr. 42                           QSU A7                QSU A7                23†     n/a
-47mm Type 1 Machine-Moved Gun              QSU                   QSU                   24†     n/a
-57mm PTP obr. 43                           QSU A6                QSU A6                25†     n/a
-57mm Type 36 Recoilless Rifle              H6 WP5 3PP            H6 WP5 3PP            26†[1]  R†       crewed†
-75mm Type 52 Recoilless Rifle              H6 WP5 5PP            H6 WP5 5PP            27      R†       crewed†
-70mm Type 92 Infantry Gun                  QSU h-d AP3 H3        QSU h-d AP3 H3        28†     A
-76.2mm PP obr. 27                          QSU H6 s6             QSU H6 s6             29†     A
-Year-38 Type Field Gun (Improved)          QSU h-d "12" AP TK#†  QSU h-d "12" AP TK#†  30†     n/a
-76.2mm obr. 42                             QSU A7 s6             QSU A7 s6             31†     n/a
-Type 93 Twin-Mount High-Angle Machine Gun  2 TK DR†              2 TK DR†              32†     A        Towing NA†
+Name                                       Capabilities    (effective)    #       Notes    Comments
+-----------------------------------------  --------------  -------------  ------  -------  --------------------------------------------------------
+50mm Type 89 Heavy Grenade Launcher                                       18†     A        Range &#8804; 2: ROF 1, Air Bursts NA | Animal-Packed
+60mm Type 31 Mortar                                                       19      A        Animal-Packed
+82mm Type 20 Mortar                                                       20†     A        QSU | Animal-Packed
+82mm Type 53 Mortar                        s6              s6             21†     A        QSU | Animal-Packed
+120mm PM obr. 38                           s6              s6             22†     n/a      QSU
+45mm PTP obr. 42                           A7              A7             23†     n/a      QSU
+47mm Type 1 Machine-Moved Gun                                             24†     n/a      QSU
+57mm PTP obr. 43                           A6              A6             25†     n/a      QSU
+57mm Type 36 Recoilless Rifle              H6 WP5          H6 WP5         26†[1]  R†       HEAT TK# = 9 | Crewed | Red TH#
+75mm Type 52 Recoilless Rifle              H6 WP5          H6 WP5         27      R†       HEAT TK# = 11 | Crewed | Red TH#
+70mm Type 92 Infantry Gun                  AP3 H3          AP3 H3         28†     A        QSU | Horse-Drawn | Indirect Fire [3-70] | Animal-Packed
+76.2mm PP obr. 27                          H6 s6           H6 s6          29†     A        QSU | Animal-Packed
+Year-38 Type Field Gun (Improved)                                         30†     n/a      QSU | Horse-Drawn | AP TK# = 12
+76.2mm obr. 42                             A7 s6           A7 s6          31†     n/a      QSU
+Type 93 Twin-Mount High-Angle Machine Gun                                 32†     A        Tow NA | 2 TK DR | Animal-Packed

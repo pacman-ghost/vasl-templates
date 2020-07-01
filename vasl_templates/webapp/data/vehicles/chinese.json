@@ -6,6 +6,7 @@
   "CS#": 2,
   "note_number": "1\u2020",
   "notes": [ "A", "<s>B</s>" ],
+  "comments": [ "+3 Target Size &amp; HD in Water" ],
   "id": "ch/v:000",
   "gpid": 2063
 },
@@ -15,6 +16,7 @@
   "CS#": "2\u2020",
   "note_number": "2\u2020",
   "notes": [ "A", "<s>B</s>", "D\u2020<sup>1</sup>" ],
+  "comments": [ "Stun = Recall, CE &amp; Fire NA" ],
   "id": "ch/v:001",
   "gpid": 2065
 },
@@ -42,6 +44,7 @@
   "CS#": 3,
   "note_number": "5\u2020",
   "notes": [ "A", "E\u2020<sup>1</sup>" ],
+  "comments": [ "12: Immob, 11: Stall", "{? 01/1941- | MA: B# = (11) | MA: B# = 11 | MA: B# (11)<sup>1+</sup> ?}" ],
   "id": "ch/v:004",
   "gpid": [ 2071, 2073 ]
 },
@@ -60,6 +63,7 @@
   "capabilities2": { "s": 8, "WP": [ [7,"J4+"], "\u2020" ] },
   "note_number": "7\u2020",
   "notes": [ "A", "B", "E\u2020<sup>1</sup>", "G" ],
+  "comments": [ "Multiple Hits" ],
   "id": "ch/v:006",
   "gpid": [ 2079, 2081 ]
 },
@@ -68,6 +72,7 @@
   "CS#": 4,
   "note_number": "8\u2020",
   "notes": [ "A", "B", "E\u2020<sup>1</sup>" ],
+  "comments": [ "MA: 12.7", "{{4|MA|2*}}", "Independent AAMG's", "Inherent Crew & Passenger", "Unpossessed SW ok", "Pas: No Mounted Fire penalty", "MG Removal OK", "Crew: .50-cal MA only" ],
   "id": "ch/v:007",
   "gpid": 2085
 },
@@ -76,6 +81,7 @@
   "CS#": 5,
   "note_number": "9\u2020",
   "notes": [ "A", "B", "D\u2020<sup>1</sup>", "E\u2020<sup>2</sup>" ],
+  "comments": [ "MA: VCA only", "(Un)load &times;2", "Pas: Mounted Fire", "Unpossessed SW ok", "MG Removal NA", "As fully-tracked" ],
   "id": "ch/v:008",
   "gpid": 2087
 },
@@ -85,6 +91,7 @@
   "CS#": 4,
   "note_number": "10\u2020<sup>1</sup>",
   "notes": [ "<s>B</s>", "E\u2020<sup>2</sup>", "F\u2020" ],
+  "comments": [ "CMG: Normal Range = 8", "CMG: Removal/Scrounge OK", "Reverse MP &times;3" ],
   "id": "ch/v:009",
   "gpid": 2089
 },
@@ -93,6 +100,7 @@
   "CS#": 2,
   "note_number": "11\u2020",
   "notes": [ "A", "<s>B</s>", "F\u2020" ],
+  "comments": [ "CMG: BU Fire NA", "MA: AA ok", "Reverse MP &times;4" ],
   "id": "ch/v:010",
   "gpid": 2091
 },
@@ -101,6 +109,7 @@
   "CS#": 3,
   "note_number": "11\u2020",
   "notes": [ "A", "<s>B</s>", "E\u2020<sup>1</sup>", "F\u2020" ],
+  "comments": [ "MA: AA ok", "Reverse MP &times;3" ],
   "id": "ch/v:011",
   "gpid": 2093
 },
@@ -119,6 +128,7 @@
   "CS#": 4,
   "note_number": "12",
   "notes": [ "A", "<s>B</s>", "E\u2020<sup>1</sup>", "F\u2020" ],
+  "comments": [ "{? 01/1941- | MA: B# = (11) | MA: B# = 11 | B# (11)<sup>1+</sup> ?}" ],
   "id": "ch/v:013",
   "gpid": 2097
 },
@@ -127,6 +137,7 @@
   "CS#": "2\u2020",
   "note_number": "13\u2020",
   "notes": [ "A", "<s>B</s>", "H\u2020<sup>1</sup>" ],
+  "comments": [ "As Carrier", "Always CE", "Inherent Crew", "Riders NA", "Stun = Recall, Fire NA", "Combined (un)hooking/(un)loading" ],
   "id": "ch/v:014",
   "gpid": [ 2101, 2103 ]
 },
@@ -135,6 +146,7 @@
   "CS#": 3,
   "note_number": "14\u2020",
   "notes": [ "A" ],
+  "comments": [ "Always CE", "BMG: AA ok", "Combined (un)hooking/(un)loading", "{? 01/1945- | Tow OK | Tow NA | Tow<sup>45</sup> ?}" ],
   "id": "ch/v:015",
   "gpid": 2105
 },
@@ -143,6 +155,7 @@
   "CS#": 3,
   "note_number": "14\u2020",
   "notes": [ "A", "E\u2020<sup>1</sup>" ],
+  "comments": [ "Always CE", "ATR: [12] TH", "ATR: Removal/Scrounge OK", "Combined (un)hooking/(un)loading", "{? 01/1945- | Tow OK | Tow NA | Tow<sup>45</sup> ?}" ],
   "id": "ch/v:016",
   "gpid": 2107
 },
@@ -151,6 +164,7 @@
   "CS#": 3,
   "note_number": "14\u2020",
   "notes": [ "A", "E\u2020<sup>1</sup>" ],
+  "comments": [ "Always CE", "MA: Removal NA, Scrounge OK (LMG)", "Combined (un)hooking/(un)loading", "{? 01/1945- | Tow OK | Tow NA | Tow<sup>45</sup> ?}" ],
   "id": "ch/v:017",
   "gpid": 2109
 },
@@ -167,8 +181,9 @@
   "cs#": "2\u2020",
   "note_number": "16\u2020",
   "notes": [ "A", "H\u2020<sup>1</sup>" ],
+  "comments": [ "Inherent Crew if armed (with CS#)", "AAMG: Removal OK" ],
   "id": "ch/v:019",
-  "gpid": 2113
+  "gpid": [ 2113, 2114, 2115 ]
 },
 { "name": "2&#189;-Ton(a)",
   "type": "tr",

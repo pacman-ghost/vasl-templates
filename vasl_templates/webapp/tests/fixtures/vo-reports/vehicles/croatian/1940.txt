@@ -1,10 +1,10 @@
 === vehicles/croatian/1940 ===
 
 Name              Capabilities    (effective)    #    Notes           Comments
-----------------  --------------  -------------  ---  --------------  ----------
-TKS               ® CS 2          ® CS 2         24†  F
-TKS(L)            ® CS 2          ® CS 2         24†  F
+----------------  --------------  -------------  ---  --------------  ------------------------------------------------------
+TKS               ® CS 2          ® CS 2         24†  F               12: Immob, 11: Stall | Stun = Recall, CE &amp; Fire NA
+TKS(L)            ® CS 2          ® CS 2         24†  F               12: Immob, 11: Stall | Stun = Recall, CE &amp; Fire NA
 L6/40(i)          CS 2            CS 2           25   n/a
 wz 34-I           ® CS 2          ® CS 2         26   n/a
 wz 34-II          ® CS 2          ® CS 2         26   n/a
-SMV L40 da 47/32  CS 3            CS 3           27†  O†<sup>1</sup>
+SMV L40 da 47/32  CS 3            CS 3           27†  O†<sup>1</sup>  Always CE

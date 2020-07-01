@@ -2,9 +2,8 @@
 
 { "name": "Nimbus",
   "type": "TDmc",
-  "CS#": [ null, "\u2020" ],
-  "capabilities": [ "M8\u2020" ],
   "note_number": "24\u2020",
+  "comments": [ "As motorcycle (2&times; 2-2-8 Crew Riders)", "MA: <ul> <li> Fire by dismounted Infantry only <li> Unhook OK <li> R2, X6 </ul>", "IFE: B# = 10", "Case C: +2 TH DRM", "AAMG: <ul> <li> No Mounted Fire penalty <li> Dismounted Infantry OK <li> No Unqualified Use penalty <li> Removal OK (dm MMG) </ul>", "KIA: eliminated", "K/#: replace with HS motorcycle", "Wreck Check dr 6: MA &amp; AAMG malf", "0 PP" ],
   "id": "da/v:000",
   "gpid": 2314
 }

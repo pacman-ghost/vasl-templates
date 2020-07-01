@@ -1,17 +1,17 @@
 === vehicles/dutch/1944 ===
 
 Name                         Capabilities    (effective)    #       Notes                                     Comments
----------------------------  --------------  -------------  ------  ----------------------------------------  ---------------------------------------------------------------------------------------------------
-VCL M1936(b)                 ® CS 2          ® CS 2         25†     A V
-CTLS-4(a)                    ® CS 2          ® CS 2         26†     A V
+---------------------------  --------------  -------------  ------  ----------------------------------------  ------------------------------------------------------------------------------------------
+VCL M1936(b)                 ® CS 2          ® CS 2         25†     A V                                       +3 Target Size &amp; HD in Water | British ESB+
+CTLS-4(a)                    ® CS 2          ® CS 2         26†     A V                                       CMG: Port VCA NA | TCA restrictions | American ESB+
 M36                          ® HE10 CS 5     ® HE10 CS 5    27      <s>V</s>
 M38                          ® HE10 CS 5     ® HE10 CS 5    27      <s>V</s>
 M39                          ® HE10 CS 6     ® HE10 CS 6    28      <s>V</s>
-Marmon-Herrington III(b)     ® CS 4          ® CS 4         29†     A V
-Jeep(a)                      cs 2†           cs 2†          30†     A V
-Alvis-Straussler AC3D        ® CS 4          ® CS 4         1†[2]   AllM V† Ch F†<sup>1</sup>                 CMG uses AP TK 12.7 column.
-Braat Overvalwagen APC       ® CS 5          ® CS 5         2†[2]   A†<sup>1</sup> Ch F†                      CMG: VCA only Mounted Fire: Full FP
-Braat Overvalwagen AA        ® CS 4          ® CS 4         3†[1]   AllM AA†<sup>2</sup> Ch F†                AAMG uses AP TK 12.7 column.
-Kanonwagen Armored Car       ® CS 4          ® CS 4         4††[1]  A†<sup>2</sup> AllM V† Ch F†<sup>1</sup>  VCA MA: VCA &#8804; level NA CMG may only fire within VCA. Rear turret is unarmored when TCA = VCA.
-Stadswacht Overvalwagen APC  CS 6            CS 6           5†[1]   Ch F†                                     Mounted Fire: Full FP Passengers may fire 2 LMG's without losing inherent FP.
-PLA Wagen                    CS 5            CS 5           6†      AllM AA†<sup>1</sup>                      AP TK: use 12.7 column.
+Marmon-Herrington III(b)     ® CS 4          ® CS 4         29†     A V                                       2 TK DR | Reverse MP &#215;3 | British ESB+
+Jeep(a)                      cs 2†           cs 2†          30†     A V                                       Inherent Crew if armed (with CS#) | AAMG Removal OK (MMG) | Bog assistance | American ESB+
+Alvis-Straussler AC3D        ® CS 4          ® CS 4         1†[2]   AllM V† Ch F†<sup>1</sup>                 MA: 12.7 | 12: Immob
+Braat Overvalwagen APC       ® CS 5          ® CS 5         2†[2]   A†<sup>1</sup> Ch F†                      CMG: VCA only | Mounted Fire: Full FP | 12: Immob
+Braat Overvalwagen AA        ® CS 4          ® CS 4         3†[1]   AllM AA†<sup>2</sup> Ch F†                MA: 12.7 | MA: AA ok | 12: Immob
+Kanonwagen Armored Car       ® CS 4          ® CS 4         4††[1]  A†<sup>2</sup> AllM V† Ch F†<sup>1</sup>  MA: VCA &#8804;level NA | CMG: VCA only | Rear turret unarmored when TCA=VCA | 12: Immob
+Stadswacht Overvalwagen APC  CS 6            CS 6           5†[1]   Ch F†                                     Mounted Fire: Full FP | Pas: 2 LMG's | 12: Immob
+PLA Wagen                    CS 5            CS 5           6†      AllM AA†<sup>1</sup>                      MA: 12.7 | MA: AA ok

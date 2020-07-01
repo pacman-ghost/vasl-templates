@@ -15,6 +15,7 @@
   "CS#": 3,
   "note_number": "1\u2020",
   "notes": [ "A\u2020<sup>1</sup>" ],
+  "comments": [ "MA: CMG or BMG", "BMG: 12,7", "BMG: AA ok (VCA only, HD ok, no AA mode)", "Recall: Both MG disabled" ],
   "id": "ja/v:001",
   "gpid": 3312
 },
@@ -31,6 +32,7 @@
   "no_radio": "\u00ae",
   "CS#": 5,
   "note_number": "3\u2020",
+  "comments": [ "MA: Normal Range = 8", "MA: Removal/Scrounge OK" ],
   "id": "ja/v:003",
   "gpid": 3316
 },
@@ -46,8 +48,8 @@
   "type": "Tt",
   "no_radio": "\u00ae",
   "CS#": 2,
-  "no_if": true,
   "note_number": "4\u2020",
+  "comments": [ "No IF" ],
   "id": "ja/v:005",
   "gpid": 3320
 },
@@ -58,6 +60,7 @@
   "capabilities2": { "sD": [ [5,"4+"], "\u2020<sup>1</sup>" ] },
   "note_number": "5\u2020",
   "notes": [ "B\u2020<sup>1</sup>", "C\u2020<sup>2</sup>" ],
+  "comments": [ "Rear MG: 4:00 from MA" ],
   "id": "ja/v:006",
   "gpid": 3322
 },
@@ -65,6 +68,7 @@
   "type": "aLT",
   "CS#": "5\u2020",
   "note_number": "6\u2020",
+  "comments": [ "Amphibious", "Movement restrictions", "Near misses" ],
   "id": "ja/v:007",
   "gpid": 3326
 },
@@ -81,6 +85,7 @@
   "CS#": 4,
   "note_number": "7\u2020",
   "notes": [ "A\u2020<sup>1</sup>" ],
+  "comments": [ "AP TK# = 8" ],
   "id": "ja/v:009",
   "gpid": 3329
 },
@@ -89,6 +94,7 @@
   "no_radio": "\u00ae",
   "CS#": 4,
   "note_number": "7\u2020",
+  "comments": [ "Rear MG: 8:00 from MA", "AP TK# = 8" ],
   "id": "ja/v:010",
   "gpid": 3331
 },
@@ -123,6 +129,7 @@
   "CS#": 6,
   "note_number": "10\u2020",
   "notes": [ "A\u2020<sup>1</sup>" ],
+  "comments": [ "BMG: Normal Range = 8", "Reverse MP &times;3" ],
   "id": "ja/v:014",
   "gpid": [ 3341, 3343, 3345 ]
 },
@@ -131,6 +138,7 @@
   "CS#": 4,
   "note_number": "11\u2020",
   "notes": [ "A\u2020<sup>1</sup>" ],
+  "comments": [ "Reverse MP &times;4" ],
   "id": "ja/v:015",
   "gpid": [ 3347, 3349 ]
 },
@@ -145,9 +153,9 @@
 { "name": "Type 4 HO-RO",
   "type": "SPA",
   "CS#": "5:brewup",
-  "no_if": true,
   "capabilities2": { "WP": 6 },
   "note_number": "13\u2020",
+  "comments": [ "No IF" ],
   "id": "ja/v:017",
   "gpid": 3355
 },
@@ -169,6 +177,7 @@
   "type": "PC",
   "cs#": 5,
   "note_number": "16\u2020",
+  "comments": [ "Ammo: 4PP" ],
   "id": "ja/v:020",
   "gpid": 3361
 },
@@ -176,6 +185,7 @@
   "type": "tr",
   "cs#": 2,
   "note_number": "17\u2020",
+  "comments": [ "Bog assistance" ],
   "id": "ja/v:021",
   "gpid": 3363
 },
@@ -195,6 +205,7 @@
 },
 { "name": "Vickers 8-in. Costal Defense Gun Turret",
   "note_number": "19\u2020",
+  "comments": [ "Always CE (+3 DRM)", "As OT Armored Cupola", "CC: As Immobile OT AFV [EXC: PAATC NA]", "AP TK# = 19" ],
   "id": "ja/v:024",
   "gpid": 3299
 }

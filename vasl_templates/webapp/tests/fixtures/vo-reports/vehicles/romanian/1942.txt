@@ -1,12 +1,12 @@
 === vehicles/romanian/1942 ===
 
 Name            Capabilities    (effective)    #    Notes               Comments
---------------  --------------  -------------  ---  ------------------  ----------
-R-1(t)          ® CS 2          ® CS 2         1†   E
-R-35/45(f)      ® CS 2          ® CS 2         2    D
-TACAM T-60(r)   CS 3            CS 3           3†   E
-TACAM T-60A(r)  CS 3            CS 3           3†   E
-TACAM R-2(r)    AP5 CS 3        AP5 CS 3       4†   E N
-BA-6(r)         ® CS 4          ® CS 4         5†   E
-BA-20(r)        ® CS 3          ® CS 3         5†   E
-Malaxa UE2      cs 2†[1]        cs 2†[1]       6†   F I†<sup>1</sup> J
+--------------  --------------  -------------  ---  ------------------  --------------------------------------------------------------------------------------------------------------
+R-1(t)          ® CS 2          ® CS 2         1†   E                   BMG: Starboard VCA only | Czech ESB
+R-35/45(f)      ® CS 2          ® CS 2         2    D                   CE: +1 Rear Turret &amp; Indirect Fire
+TACAM T-60(r)   CS 3            CS 3           3†   E                   AP TK# = 16 | Russian ESB
+TACAM T-60A(r)  CS 3            CS 3           3†   E                   AP TK# = 16 | Russian ESB
+TACAM R-2(r)    AP5 CS 3        AP5 CS 3       4†   E N                 AP TK# = 13 | Russian ESB | ESB: +1 DRM | Red TH#
+BA-6(r)         ® CS 4          ® CS 4         5†   E                   Russian ESB
+BA-20(r)        ® CS 3          ® CS 3         5†   E                   Russian ESB
+Malaxa UE2      cs 2†[1]        cs 2†[1]       6†   F I†<sup>1</sup> J  Pas: 1 PP, always CE | Stun = Recall, CE &amp; Fire NA | Inherent Crew if armed (with CS#) | Unpossessed SW ok

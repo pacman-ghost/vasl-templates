@@ -1,43 +1,43 @@
 === ordnance/finnish/1944 ===
 
-Name                 Capabilities                                                 (effective)                                                  #    Notes               Comments
--------------------  -----------------------------------------------------------  -----------------------------------------------------------  ---  ------------------  ---------------------------
-47 Krh/41            2PP                                                          2PP                                                          1    A
-50 Krh/39(r)         4PP B12[3+]†                                                 4PP B12†                                                     2†   A B
-81 Krh/32            QSU IR[3+]† s8[N1]† 5PP dm                                   QSU IR† s8† 5PP dm                                           3†   A
-81 Savunheitin M/42  QSU s† 4PP dm                                                QSU s† 4PP dm                                                4†   A
-120 Krh/40           QSU                                                          QSU                                                          5†   n/a
-Boys ATR(b)          1PP                                                          1PP                                                          6†   n/a                 "British"†
-Lahti ATR            4PP B30.35†                                                  4PP B30.35†                                                  7†   A                   Light AA fire in 44+†
-20 PstK/40           QSU R2 IFE=B10                                               QSU R2 IFE=B10                                               8†   C†<sup>1</sup>      Towing NA†<sup>1</sup>
-25 PstK/37(f)        QSU                                                          QSU                                                          9†   B D
-37 PstK/36(s)        QSU HE[1+]†                                                  QSU HE†                                                      10†  A B
-37 PstK/37(g)        QSU H6[9][3+]†                                               QSU H6[9]†                                                   11†  B D
-45 PstK/32(r)        QSU                                                          QSU                                                          12†  B
-50 PstK/38(g)        QSU A4                                                       QSU A4                                                       13   B
-75 PstK/97-38(g)     QSU H8 H=B12                                                 QSU H8 H=B12                                                 14†  B
-75 PstK/40(g)        QSU A3 H4 s7                                                 QSU A3 H4 s7                                                 15   B
-76 RK/27(r)          QSU H6[J4+]† s6                                              QSU s6                                                       16†  A B
-75 K/02              QSU s6                                                       QSU s6                                                       17†  n/a
-76 LK/13             QSU s6                                                       QSU s6                                                       18   n/a
-76 K/02(r)           QSU h-d s6                                                   QSU h-d s6                                                   19†  B
-76 K/36(r)           QSU s6                                                       QSU s6                                                       20†  B E†<sup>1</sup>
-87 K/95              QSU h-d                                                      QSU h-d                                                      21   F†                  No IF. Acq. NA†
-90 K/77              QSU h-d                                                      QSU h-d                                                      22†  F†<sup>1</sup>      No IF. Acq. NA†<sup>1</sup>
-105 H/33(g)          h-d H6[A4+]† s8                                              h-d s8                                                       23†  B
-105 H/37             s6                                                           s6                                                           24†  n/a
-105 H/41(t)          H6[A4+]† s8                                                  s8                                                           25†  B
-107 K 10/13          s5                                                           s5                                                           26†  n/a
-107 K/77(r)          h-d                                                          h-d                                                          27†  B F†<sup>1</sup>    No IF. Acq. NA†<sup>1</sup>
-114 H/18(b)          H4[4+] WP6[4+] s8                                            H4 WP6 s8                                                    28†  n/a
-122 H/10(r)          h-d WP6[4+] s6                                               h-d WP6 s6                                                   29†  B
-150 H/40(g)          NM H6 s8                                                     NM H6 s8                                                     30   B
-155 H/17(f)          s6                                                           s6                                                           31   B
-7.62 ItKK/31-40      QSU 2 TK DR†                                                 QSU 2 TK DR†                                                 32†  C†<sup>1</sup>      Towing NA†<sup>1</sup>
-20 ItK/30 BSW(g)     LF [NT, 20†, 2 ROF, B10]                                     LF [NT, 20†, 2 ROF, B10]                                     33   B G†
-20 ItK/38 BSW(g)     LF [NT, 20†[1], 2 ROF, B11]                                  LF [NT, 20†[1], 2 ROF, B11]                                  34†  B G†<sup>1</sup>
-20 ItK/35 Br         LF [NT, 20†[1], 2 ROF]                                       LF [NT, 20†[1], 2 ROF]                                       35†  A D G†<sup>1</sup>  Road MP = 1†
-20 ItK/40 VKT        LF [NT, 20†[1], 2 ROF, 8 IFE, B11] 2 TK DR† Unhooking risk†  LF [NT, 20†[1], 2 ROF, 8 IFE, B11] 2 TK DR† Unhooking risk†  36†  D G†<sup>1</sup>
-40 ItK/35-39 B(s)    LF [40†[1], 2 ROF]                                           LF [40†[1], 2 ROF]                                           37†  B G†<sup>1</sup>
-76 ItK/28 B(s)       LF [NT, 76†, 1 ROF]                                          LF [NT, 76†, 1 ROF]                                          38   B G†
-76 ItK/31(r)                                                                                                                                   39   B E†
+Name                 Capabilities                        (effective)                         #    Notes               Comments
+-------------------  ----------------------------------  ----------------------------------  ---  ------------------  --------------------------------------------------------------------------------------------------------------------------------------------------------
+47 Krh/41                                                                                    1    A                   Animal-Packed
+50 Krh/39(r)                                                                                 2†   A B                 B# = 12 | Animal-Packed | No Captured Use penalty for Russians
+81 Krh/32            IR[3+]† s8[N1]†                     IR† s8†                             3†   A                   QSU | Animal-Packed
+81 Savunheitin M/42  s†                                  s†                                  4†   A                   QSU | Smoke only | &#8734; Smoke | Range: 2-25 | Animal-Packed
+120 Krh/40                                                                                   5†   n/a                 QSU
+Boys ATR(b)                                                                                  6†   n/a                 AP TK# = 5 | No Long Range
+Lahti ATR                                                                                    7†   A                   No Long Range | As ordnance vs brown pillboxes | Light AA fire as MG | Animal-Packed
+20 PstK/40                                                                                   8†   C†<sup>1</sup>      QSU | Tow NA | IFE: B# = 10 | No Gunshield | R2, X6
+25 PstK/37(f)                                                                                9†   B D                 QSU | Black TH# | En Portee (Medium Truck)
+37 PstK/36(s)        HE[1+]†                             HE†                                 10†  A B                 QSU | Animal-Packed | Black TH#
+37 PstK/37(g)        H6[9][3+]†                          H6[9]†                              11†  B D                 QSU | H6[9]: vs AFV or HEAT-allowed target [{ *:TH# = 11 - range *:ROF 2 }] | Black TH# | No Captured Use penalty for Germans | En Portee (Medium Truck)
+45 PstK/32(r)                                                                                12†  B                   QSU | No Captured Use penalty for Russians
+50 PstK/38(g)        A4                                  A4                                  13   B                   QSU | Black TH# | No Captured Use penalty for Germans
+75 PstK/97-38(g)     H8                                  H8                                  14†  B                   QSU | HEAT: B# = 12 | Black TH# | No Captured Use penalty for Germans
+75 PstK/40(g)        A3 H4 s7                            A3 H4 s7                            15   B                   QSU | Black TH# | No Captured Use penalty for Germans
+76 RK/27(r)          H6[J4+]† s6                         s6                                  16†  A B                 QSU | Animal-Packed | No Captured Use penalty for Russians
+75 K/02              s6                                  s6                                  17†  n/a                 QSU
+76 LK/13             s6                                  s6                                  18   n/a                 QSU
+76 K/02(r)           s6                                  s6                                  19†  B                   QSU | Horse-Drawn | No Captured Use penalty for Russians
+76 K/36(r)           s6                                  s6                                  20†  B E†<sup>1</sup>    QSU | No Captured Use penalty for Russians | AP TK# = 16
+87 K/95                                                                                      21   F†                  QSU | No IF | Horse-Drawn | Acquisition NA
+90 K/77                                                                                      22†  F†<sup>1</sup>      QSU | No IF | Acquisition NA | Horse-Drawn
+105 H/33(g)          H6[A4+]† s8                         s8                                  23†  B                   Horse-Drawn | Black TH# | No Captured Use penalty for Germans
+105 H/37             s6                                  s6                                  24†  n/a
+105 H/41(t)          H6[A4+]† s8                         s8                                  25†  B                   Black TH#
+107 K 10/13          s5                                  s5                                  26†  n/a
+107 K/77(r)                                                                                  27†  B F†<sup>1</sup>    No IF | Acquisition NA | Horse-Drawn | No Captured Use penalty for Russians
+114 H/18(b)          H4[4+] WP6[4+] s8                   H4 WP6 s8                           28†  B                   HEAT TK# = 15 | Black TH#
+122 H/10(r)          WP6[4+] s6                          WP6 s6                              29†  B                   Horse-Drawn | No Captured Use penalty for Russians
+150 H/40(g)          H6 s8                               H6 s8                               30   B                   No Move | Black TH# | No Captured Use penalty for Germans
+155 H/17(f)          s6                                  s6                                  31   B                   Black TH#
+7.62 ItKK/31-40                                                                              32†  C†<sup>1</sup>      QSU | Tow NA | 2 TK DR | [16] TH
+20 ItK/30 BSW(g)     LF [NT, 20†, 2 ROF, B10]            LF [NT, 20†, 2 ROF, B10]            33   B G†                Black TH# | No Captured Use penalty for Germans
+20 ItK/38 BSW(g)     LF [NT, 20†[1], 2 ROF, B11]         LF [NT, 20†[1], 2 ROF, B11]         34†  B G†<sup>1</sup>    Black TH# | No Captured Use penalty for Germans
+20 ItK/35 Br         LF [NT, 20†[1], 2 ROF]              LF [NT, 20†[1], 2 ROF]              35†  A D G†<sup>1</sup>  Road MP = 1 | Animal-Packed | En Portee (Medium Truck)
+20 ItK/40 VKT        LF [NT, 20†[1], 2 ROF, 8 IFE, B11]  LF [NT, 20†[1], 2 ROF, 8 IFE, B11]  36†  D G†<sup>1</sup>    2 TK DR | Unhook Disable: dr 6 | En Portee (Medium Truck)
+40 ItK/35-39 B(s)    LF [40†[1], 2 ROF]                  LF [40†[1], 2 ROF]                  37†  B G†<sup>1</sup>    Black TH#
+76 ItK/28 B(s)       LF [NT, 76†, 1 ROF]                 LF [NT, 76†, 1 ROF]                 38   B G†                Black TH#
+76 ItK/31(r)                                                                                 39   B E†                No Captured Use penalty for Russians | AP TK# = 16

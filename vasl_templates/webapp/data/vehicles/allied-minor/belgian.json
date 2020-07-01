@@ -6,6 +6,7 @@
   "CS#": 2,
   "note_number": "14\u2020",
   "notes": [ "A", "Q\u2020<sup>1</sup>" ],
+  "comments": [ "CE DRM: Direct Fire VCA only", "VCA change &rarr; No Fire" ],
   "id": "be/v:000",
   "gpid": 2292
 },
@@ -15,6 +16,7 @@
   "CS#": "4:brewup\u2020",
   "note_number": "15\u2020",
   "notes": [ "A" ],
+  "comments": [ "Turret: armored/unarmored", "Indirect Fire: +1 CE DRM, CS# = 2 (brewup)", "TCA Change &rarr; No Fire, Move" ],
   "id": "be/v:001",
   "gpid": 2294
 },
@@ -42,6 +44,7 @@
   "CS#": "3:brewup",
   "note_number": "18\u2020",
   "notes": [ "A" ],
+  "comments": [ "CMG: 12.7; Normal Range = 16" ],
   "id": "be/v:004",
   "gpid": 2300
 }

@@ -142,7 +142,7 @@ def test_snippets( webapp, webdriver ):
         add_vo( webdriver, vo_type, 1, "a german {}".format(vo_type) )
         btn = find_child( "button[data-id='ob_{}_1']".format( vo_type ) )
         btn.click()
-        caps = '"QSU" "IR" "A1" "H2" "can do other stuff"'
+        caps = '"XYZ" "IR" "A1" "H2"'
         if vo_type == "vehicles":
             caps += ' "CS 5"'
         expected = [
@@ -159,7 +159,7 @@ def test_snippets( webapp, webdriver ):
         add_vo( webdriver, vo_type, 1, "another german {}".format(vo_type) )
         btn = find_child( "button[data-id='ob_{}_1']".format( vo_type ) )
         btn.click()
-        caps = '"QSU"'
+        caps = '"XYZ"'
         if vo_type == "vehicles":
             caps += ' "cs 4 <small><i>(brew up)</i></small>"'
         expected = [

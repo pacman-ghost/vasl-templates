@@ -59,6 +59,7 @@
   "capabilities": [ "C5\u2020<sup>2</sup>" ],
   "note_number": "7\u2020",
   "notes": [ "B\u2020<sup>1</sup>", "C\u2020<sup>2</sup>", "G", "N" ],
+  "comments": [ "37LL MA: T", "75 SA: NT", "AAMG: BU Fire &amp; CC ok [EXC: vs Aerial NA]" ],
   "id": "am/v:006",
   "gpid": 919
 },
@@ -176,6 +177,7 @@
   "capabilities2": { "s": 5, "WP": 7, "sM": 6 },
   "note_number": "18\u2020",
   "notes": [ "G", "R\u2020<sup>1</sup>" ],
+  "comments": [ "Front-hull hit: +2 TH DRM (unless level &lt; firer)" ],
   "id": "am/v:019",
   "gpid": 945
 },
@@ -185,6 +187,7 @@
   "capabilities2": { "s": 5, "WP": 7, "sM": 6 },
   "note_number": "19\u2020",
   "notes": [ "G", "<s>P</s>", "R\u2020<sup>1</sup>" ],
+  "comments": [ "VCA: +4 DRM [EXC: mines, CC, Indirect Fire, from above or head-on]", "Movement restrictions", "Mine clearance" ],
   "id": "am/v:020",
   "gpid": 947
 },
@@ -194,6 +197,7 @@
   "capabilities2": { "s": [ [5,"J4+"] ], "WP": [ [7,"J4+"], "\u2020<sup>2</sup>" ], "sM": 4 },
   "note_number": "20\u2020",
   "notes": [ "G", "R\u2020<sup>1</sup>", "BB\u2020<sup>2</sup>" ],
+  "comments": [ "Mine & Wire Clearance", "+1 DRM if PTO or pre-7/44 in Italy" ],
   "id": "am/v:021",
   "gpid": 949
 },
@@ -203,6 +207,7 @@
   "capabilities2": { "sM": 8 },
   "note_number": "21\u2020",
   "notes": [ "P" ],
+  "comments": [ "TCA restrictions" ],
   "id": "am/v:022",
   "gpid": 951
 },
@@ -256,6 +261,7 @@
   "CS#": 4,
   "note_number": "27\u2020<sup>1</sup>",
   "notes": [ "E\u2020", "H", "I\u2020", "N" ],
+  "comments": [ "MA: 12.7" ],
   "id": "am/v:028",
   "gpid": 965
 },
@@ -264,6 +270,7 @@
   "CS#": 5,
   "note_number": "28\u2020",
   "notes": [ "N" ],
+  "comments": [ "MA: As MMG for TK &amp; Removal" ],
   "id": "am/v:029",
   "gpid": 967
 },
@@ -272,6 +279,7 @@
   "CS#": 5,
   "note_number": "29\u2020<sup>1</sup>",
   "notes": [ "E\u2020", "H", "I\u2020", "Z" ],
+  "comments": [ "MA: 12.7" ],
   "id": "am/v:030",
   "gpid": 969
 },
@@ -280,6 +288,7 @@
   "CS#": 5,
   "note_number": "30\u2020",
   "notes": [ "E\u2020", "H", "N", "<s>P</s>" ],
+  "comments": [ "{{4|MA|4*|4*}}", "MA: 12.7", "Inherent Crew &amp; Passenger" ],
   "id": "am/v:031",
   "gpid": 971
 },
@@ -288,6 +297,7 @@
   "CS#": 5,
   "note_number": "30\u2020",
   "notes": [ "E\u2020", "H", "N", "<s>P</s>" ],
+  "comments": [ "{{4|MA|6*|6*}}", "MA: 12.7", "Inherent Crew &amp; Passenger" ],
   "id": "am/v:032",
   "gpid": 973
 },
@@ -297,6 +307,7 @@
   "capabilities2": { "WP": 8 },
   "note_number": "31\u2020",
   "notes": [ "J\u2020", "M\u2020<sup>1</sup>", "N", "O\u2020<sup>2</sup>", "<s>P</s>" ],
+  "comments": [ "+1 TH DRM vs Moving/Motion", "Inherent Infantry Crew", "AAMG: Removal OK (MMG)" ],
   "id": "am/v:033",
   "gpid": 975
 },
@@ -306,6 +317,7 @@
   "capabilities2": { "WP": 8 },
   "note_number": "32\u2020",
   "notes": [ "J\u2020<sup>1</sup>", "M\u2020<sup>2</sup>", "O\u2020<sup>3</sup>" ],
+  "comments": [ "Inherent Infantry Crew", "AAMG: Removal OK (MMG)" ],
   "id": "am/v:034",
   "gpid": 977
 },
@@ -315,6 +327,7 @@
   "capabilities2": { "WP": 8 },
   "note_number": "33",
   "notes": [ "M", "O\u2020", "<s>P</s>" ],
+  "comments": [ "Inherent Infantry Crew", "AAMG: Removal OK (HMG)" ],
   "id": "am/v:035",
   "gpid": 979
 },
@@ -332,6 +345,7 @@
   "capabilities2": { "H": 5, "AP": 7, "WP": 9 },
   "note_number": "35\u2020<sup>1</sup>",
   "notes": [ "K\u2020", "N", "O\u2020", "<s>P</s>", "U" ],
+  "comments": [ "AAMG: Removal OK (.50-cal HMG)" ],
   "id": "am/v:037",
   "gpid": 985
 },
@@ -341,6 +355,7 @@
   "capabilities2": { "H": 5, "s": 7, "WP": 8 },
   "note_number": "36\u2020",
   "notes": [ "K\u2020<sup>1</sup>", "N", "O\u2020<sup>1</sup>", "<s>P</s>" ],
+  "comments": [ "AAMG: Removal OK (.50-cal HMG)", "Ammo trailer (0 AF)" ],
   "id": "am/v:038",
   "gpid": 987
 },
@@ -349,6 +364,7 @@
   "CS#": 4,
   "note_number": "37\u2020",
   "notes": [ "N", "V\u2020", "AA\u2020<sup>1</sup>" ],
+  "comments": [ "CMG Removal/Scrounge NA", "CMG: Normal Range = 16", "Turret Rear unarmored [EXC: N.Africa]" ],
   "id": "am/v:039",
   "gpid": 990
 },
@@ -357,6 +373,7 @@
   "CS#": 4,
   "note_number": "38\u2020",
   "notes": [ "V\u2020", "AA\u2020<sup>1</sup>" ],
+  "comments": [ "MA Removal/Scrounge NA", "MA: [16] TH", "4 TK DR", "CE: +1 Side/Rear Turret" ],
   "id": "am/v:040",
   "gpid": 992
 },
@@ -365,6 +382,7 @@
   "CS#": 4,
   "note_number": "39\u2020<sup>1</sup>",
   "notes": [ "E\u2020", "H", "I\u2020", "N" ],
+  "comments": [ "Inherent Crew &amp; Passenger", "MA: 12.7", "Pas: No Mounted Fire penalty", "Unpossessed SW ok" ],
   "id": "am/v:041",
   "gpid": 996
 },
@@ -374,6 +392,7 @@
   "capabilities2": { "sP": 5 },
   "note_number": "40\u2020",
   "notes": [ "D\u2020<sup>3</sup>", "O\u2020<sup>2</sup>", "W\u2020<sup>1</sup>", "Z" ],
+  "comments": [ "MA: 12.7" ],
   "id": "am/v:042",
   "gpid": 998
 },
@@ -382,6 +401,7 @@
   "CS#": 5,
   "note_number": "41\u2020",
   "notes": [ "O\u2020<sup>1</sup>", "<s>P</s>" ],
+  "comments": [ "MA: 12.7", "As fully-tracked", "AAMG: Removal OK (.50-cal HMG)" ],
   "id": "am/v:043",
   "gpid": 1000
 },
@@ -416,10 +436,10 @@
 { "name": "M12 GMC",
   "type": "SPA",
   "CS#": 9,
-  "no_if": true,
   "capabilities2": { "AP": 6, "WP": 8 },
   "note_number": "45\u2020",
   "notes": [ "<s>P</s>" ],
+  "comments": [ "Limbered: Fire NA", "Unlimbered: RFNM, always CE (0/+1 DRM)", "No IF" ],
   "id": "am/v:047",
   "gpid": 1011
 },
@@ -429,6 +449,7 @@
   "capabilities2": { "C": [ [10,"P"], "\u2020<sup>2</sup>" ] },
   "note_number": "46\u2020<sup>1</sup>",
   "notes": [ "C\u2020<sup>2</sup>", "G", "H", "P", "T\u2020" ],
+  "comments": [ "AAMG: 4&amp;4; NA VCA" ],
   "id": "am/v:048",
   "gpid": 1014
 },
@@ -479,6 +500,7 @@
   "CS#": 7,
   "note_number": "51\u2020",
   "notes": [ "D", "H", "T\u2020<sup>1</sup>", "X\u2020<sup>2</sup>" ],
+  "comments": [ "MA:12.7", "{{6|MA|4|4}}", "MA: VCA only", "SA: VCA NA" ],
   "id": "am/v:054",
   "gpid": [ 1028, 1030 ]
 },
@@ -486,6 +508,7 @@
   "type": "PC",
   "CS#": 6,
   "note_number": "51.1\u2020",
+  "comments": [ "MA: 12.7" ],
   "id": "am/v:055",
   "gpid": 1050
 },
@@ -495,13 +518,14 @@
   "note_number": "52\u2020",
   "notes": [ "D\u2020<sup>3</sup>", "O\u2020<sup>2</sup>", "CC\u2020<sup>1</sup>" ],
   "id": "am/v:056",
-  "gpid": 1032
+  "gpid": [ 1032, 1034 ]
 },
 { "name": "&#188;-Ton Jeep GPA",
   "type": "atr",
   "cs#": 2,
   "note_number": "53\u2020",
   "notes": [ "L\u2020<sup>1</sup>" ],
+  "comments": [ "+3 Target Size &amp; HD in Water" ],
   "id": "am/v:057",
   "gpid": 1036
 },
@@ -510,6 +534,7 @@
   "cs#": "2\u2020<sup>1</sup>",
   "note_number": "54\u2020",
   "notes": [ "L\u2020<sup>2</sup>", "N", "O\u2020<sup>3</sup>", "CC\u2020<sup>1</sup>" ],
+  "comments": [ "AAMG Removal OK" ],
   "id": "am/v:058",
   "gpid": [ 1039, 1040, 1041 ]
 },

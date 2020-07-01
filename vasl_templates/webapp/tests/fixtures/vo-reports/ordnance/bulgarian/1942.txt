@@ -1,12 +1,11 @@
 === ordnance/bulgarian/1942 ===
 
 Name                Capabilities      (effective)       #    Notes           Comments
-------------------  ----------------  ----------------  ---  --------------  -------------
-LG de 50 mle 37     2PP               2PP               37   A
-Madsen M-35         QSU R2 IFE=B10†   QSU R2 IFE=B10†   38†  T†<sup>1</sup>  No Gunshield.
-Skoda Infantry Gun  QSU h-d           QSU h-d           39†  n/a
-Skoda Infantry Gun  QSU h-d           QSU h-d           39†  n/a
-Bofors 75mm M36     QSU h-d           QSU h-d           40†  A
-75mm K-S            QSU h-d s5        QSU h-d s5        41†  n/a
+------------------  ----------------  ----------------  ---  --------------  ---------------------------------------------------
+LG de 50 mle 37                                         37   A               Animal-Packed
+Madsen M-35                                             38†  T†<sup>1</sup>  QSU | No Gunshield | IFE: B# = 10 | R2, X6 | Tow NA
+Skoda Infantry Gun                                      39†  n/a             QSU | Horse-Drawn | Changeable barrel
+Bofors 75mm M36                                         40†  A               QSU | Horse-Drawn | Animal-Packed
+75mm K-S            s5                s5                41†  n/a             QSU | Horse-Drawn
 Ob 105mm GP         LF [105*†[1]] s5  LF [105*†[1]] s5  42†  G†<sup>1</sup>
-D/30 Krupp          RFNM              RFNM              43   n/a             No IF.
+D/30 Krupp                                              43   n/a             RFNM | No IF

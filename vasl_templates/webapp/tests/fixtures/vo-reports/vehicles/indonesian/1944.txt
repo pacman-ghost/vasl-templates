@@ -1,17 +1,17 @@
 === vehicles/indonesian/1944 ===
 
-Name                                      Capabilities     (effective)      #       Notes                                Comments
-----------------------------------------  ---------------  ---------------  ------  -----------------------------------  -------------------------------------------------------------------------------------------------------
-Type 94 Light Armoured Vehicle (j)        CS 2             CS 2             1       C Ru M†
-Type 97A Te-Ke Light Armored Vehicle (j)  CS 2             CS 2             2       C
-Type 97B Te-Ke Light Armored Vehicle (j)  CS 2             CS 2             3       C
-Universal Carrier (b)                     CS 3             CS 3             4       C
-Type 95 Ha-Go(j)                          CS 3             CS 3             5       B C D† E†<sup>1</sup>                Refer to Japanese Vehicle Note 5 for Rear MG CA restrictions.
-VCL M1936 (b)                             CS 2             CS 2             6       C
-CTLS-4 (a)                                CS 2             CS 2             7       C Ru M† AllM 26†<sup>1</sup>         Port VCA NA (see Allied Minor Vehicle Note 26).
-Marmon-Herrington III Armored Car (b)     2 TK DR's† CS 4  2 TK DR's† CS 4  8       Ch F†
-M3A1 Scout Car (a)                        9PP CS 4         9PP CS 4         9†      D†<sup>1</sup> AllM 34†<sup>2</sup>  AP TK: use 12.7 column. Refer to Allied Minor Vehicle Note 34 [EXC: does not come with an inherent HS].
-Braat Overvalwagen AA                     CS 4             CS 4             10†[1]  Ch F† AllM AA†<sup>1</sup>           AP TK: use 12.7 column.
-Braat Overvalwagen APC                    12PP CS 5        12PP CS 5        11†[2]  D†<sup>1</sup> Ch F†                 CMG: VCA only Mounted Fire: Full FP
-Alvis-Straussler AC3D                     CS 4             CS 4             12†[1]  D†<sup>2</sup> Ru M†                 AP TK: use 12.7 column.
-PLA Wagen                                 CS 5             CS 5             13†[1]  AllM AA†<sup>1</sup> Ch F†           AP TK: use 12.7 column.
+Name                                      Capabilities    (effective)    #       Notes                                Comments
+----------------------------------------  --------------  -------------  ------  -----------------------------------  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Type 94 Light Armoured Vehicle (j)        CS 2            CS 2           1       C Ru M†                              ESB: +4 DRM | 12: Immob, 11: Stall
+Type 97A Te-Ke Light Armored Vehicle (j)  CS 2            CS 2           2       C                                    ESB: +4 DRM
+Type 97B Te-Ke Light Armored Vehicle (j)  CS 2            CS 2           3       C                                    No IF | ESB: +4 DRM
+Universal Carrier (b)                     CS 3            CS 3           4       C                                    ESB: +4 DRM
+Type 95 Ha-Go(j)                          CS 3            CS 3           5       B C D† E†<sup>1</sup>                Rear MG 4:00 from MA | ESB: +4 DRM
+VCL M1936 (b)                             CS 2            CS 2           6       C                                    ESB: +4 DRM
+CTLS-4 (a)                                CS 2            CS 2           7       C Ru M† AllM 26†<sup>1</sup>         CMG: Port VCA NA | ESB: +4 DRM | 12: Immob, 11: Stall
+Marmon-Herrington III Armored Car (b)     CS 4            CS 4           8       Ch F†                                2 TK DR (MG) | ESB: +4 DRM | 12: Immob
+M3A1 Scout Car (a)                        CS 4            CS 4           9†      D†<sup>1</sup> AllM 34†<sup>2</sup>  MA: 12.7 | {{4|MA|2*}} | Inherent Crew | Pas: No Mounted Fire penalty | Unpossessed SW ok | Crew: .50-cal MA only | MG Removal OK (dm .50-cal HMG &amp; dm MMG) | ESB: +4 DRM
+Braat Overvalwagen AA                     CS 4            CS 4           10†[1]  Ch F† AllM AA†<sup>1</sup>           MA: 12.7 | ESB: +4 DRM | 12: Immob | MA: AA ok
+Braat Overvalwagen APC                    CS 5            CS 5           11†[2]  D†<sup>1</sup> Ch F†                 CMG: VCA only | Mounted Fire: Full FP | ESB: +4 DRM | 12: Immob
+Alvis-Straussler AC3D                     CS 4            CS 4           12†[1]  D†<sup>2</sup> Ru M†                 MA: 12.7 | ESB: +4 DRM | 12: Immob, 11: Stall
+PLA Wagen                                 CS 5            CS 5           13†[1]  AllM AA†<sup>1</sup> Ch F†           MA: 12.7 | ESB: +4 DRM | MA: AA ok | 12: Immob

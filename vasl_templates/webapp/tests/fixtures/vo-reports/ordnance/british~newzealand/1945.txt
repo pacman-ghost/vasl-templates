@@ -1,29 +1,29 @@
 === ordnance/british~newzealand/1945 ===
 
-Name                         Capabilities                    (effective)                  #    Notes                 Comments
----------------------------  ------------------------------  ---------------------------  ---  --------------------  ---------------
-OML 2-in. Mortar             4PP IR[2+]† s7                  4PP IR† s7                   1    A† N P
-OML 2-in. Airborne Mortar    IR s7 3PP                       IR s7 3PP                    1    n/a
-OML 3-in. Mortar             QSU IR[2+]†[1] WP7 s8[1+]†      QSU IR†[1] WP7 s8†           2†   A†<sup>1</sup> D N P
-OSB 4.2-in. Mortar           WP7 s8                          WP7 s8                       3†   N P                   Towed†
-OQF 25mm Hotchkiss           QSU                             QSU                          4†   B N
-OQF 2-Pounder                LF [NT, 40†[1], 2 ROF, B11]     LF [NT, 40†[1], 2 ROF, B11]  5†   B C†<sup>1</sup> N P
-OQF 6-Pounder 7-cwt          QSU D6[J4E]7[5]† HE7[F3]8[4+]†  QSU D7† HE8†                 6†   B N P
-OQF 17/25-Pounder                                                                         7    N
-OQF 17-Pounder               D5[S4]6[5]† HE8[J4+]†           D6† HE8†                     8†   n/a
-OQF M1A1 75mm Pack Howitzer  QSU H6 WP7                      QSU H6 WP7                   9†   D P
-Canon de 75 mle 1897         QSU s8                          QSU s8                       10†  B N
-OQF 18-Pounder               QSU WP7 s8                      QSU WP7 s8                   11†  N P
-OQF 25-Pounder Short         QSU s8                          QSU s8                       12   D P
-OQF 25-Pounder Gun-Howitzer  LF [NT, 0 ROF] s8               LF [NT, 0 ROF] s8            13†  N P
-OQF 3.7-in. Howitzer         QSU H6[3+P]† WP7 s8             QSU WP7 s8                   14†  D N P
-OQF 4.5-in. Howitzer         WP7 s8                          WP7 s8                       15†  N P
-OBL 4.5-in. Gun                                                                           16†  N
-OBL 5.5-in. Gun-Howitzer                                                                  16†  N P
-OBL 6-in. Howitzer                                                                        17†  N P
-OBL 7.2-in. Howitzer Mk I                                                                 18†  N P                   No IF. Acq. NA†
-OBL 7.2-in. Howitzer Mk VI   RFNM                            RFNM                         19†  P                     No IF.
-OQF 20mm AA                                                                               20   n/a
-OQF 40mm AA                  LF [40†[1], 2 ROF]              LF [40†[1], 2 ROF]           21†  C†<sup>1</sup> N P
-OQF 3-in. 20-cwt AA                                                                       22†  E P
-OQF 3.7-in. AA                                                                            23†  E N P
+Name                         Capabilities                 (effective)                  #    Notes                 Comments
+---------------------------  ---------------------------  ---------------------------  ---  --------------------  ------------------------------------
+OML 2-in. Mortar             IR[2+]† s7                   IR† s7                       1    A† N P
+OML 2-in. Airborne Mortar    IR s7                        IR s7                        1    n/a
+OML 3-in. Mortar             IR[2+]†[1] WP7 s8[1+]†       IR†[1] WP7 s8†               2†   A†<sup>1</sup> D N P  QSU | Animal-Packed
+OSB 4.2-in. Mortar           WP7 s8                       WP7 s8                       3†   N P                   Towed
+OQF 25mm Hotchkiss                                                                     4†   B N                   QSU | En Portee NA
+OQF 2-Pounder                LF [NT, 40†[1], 2 ROF, B11]  LF [NT, 40†[1], 2 ROF, B11]  5†   B C†<sup>1</sup> N P  En Portee NA
+OQF 6-Pounder 7-cwt          D6[J4E]7[5]† HE7[F3]8[4+]†   D7† HE8†                     6†   B N P                 QSU | CA restrictions | En Portee NA
+OQF 17/25-Pounder                                                                      7    N
+OQF 17-Pounder               D5[S4]6[5]† HE8[J4+]†        D6† HE8†                     8†   n/a
+OQF M1A1 75mm Pack Howitzer  H6 WP7                       H6 WP7                       9†   D P                   QSU | Animal-Packed
+Canon de 75 mle 1897         s8                           s8                           10†  B N                   QSU | En Portee NA
+OQF 18-Pounder               WP7 s8                       WP7 s8                       11†  N P                   QSU
+OQF 25-Pounder Short         s8                           s8                           12   D P                   QSU | Animal-Packed
+OQF 25-Pounder Gun-Howitzer  LF [NT, 0 ROF] s8            LF [NT, 0 ROF] s8            13†  N P
+OQF 3.7-in. Howitzer         H6[3+P]† WP7 s8              WP7 s8                       14†  D N P                 QSU | Animal-Packed
+OQF 4.5-in. Howitzer         WP7 s8                       WP7 s8                       15†  N P
+OBL 4.5-in. Gun                                                                        16†  N
+OBL 5.5-in. Gun-Howitzer                                                               16†  N P
+OBL 6-in. Howitzer                                                                     17†  N P
+OBL 7.2-in. Howitzer Mk I                                                              18†  N P                   No IF | Acquisition NA
+OBL 7.2-in. Howitzer Mk VI                                                             19†  P                     RFNM | No IF
+OQF 20mm AA                                                                            20   n/a
+OQF 40mm AA                  LF [40†[1], 2 ROF]           LF [40†[1], 2 ROF]           21†  C†<sup>1</sup> N P
+OQF 3-in. 20-cwt AA                                                                    22†  E P
+OQF 3.7-in. AA                                                                         23†  E N P

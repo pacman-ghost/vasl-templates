@@ -7,7 +7,8 @@
 <style>
 table { border-collapse: collapse ; }
 th { text-align: left ; padding: 0.2em 0.5em ; background: #eee ; border: 1px solid #ccc ; }
-td { padding: 0.2em 0.5em ; }
+tr { border-bottom: 1px dotted #ccc ; }
+td { padding: 0.2em 0.5em ; vertical-align: top ; }
 .val { padding: 0.1em 0.25em ; background: #eee ; }
 </style>
 </head>
@@ -74,7 +75,16 @@ function load_vo_listings( objs )
         var note_number = obj.note_number ? "<span class='val'>" + fmtval(obj.note_number) + "</span>" : fmtval("") ;
         buf.push( "<td>", note_number ) ;
         buf.push( "<td>", listval(obj.notes) ) ;
-        buf.push( "<td>", obj.comments ? listval(obj.comments) : "" ) ;
+        if ( ! obj.comments )
+            buf.push( "<td>" ) ;
+        else {
+            var comments = get_vo_comments( obj, month, year ) ;
+            for ( var j=0 ; j < comments.length ; ++j ) {
+                var val = strReplaceAll( strReplaceAll( comments[j], "<ul>", "[{" ), "</ul>", "}]" ) ;
+                comments[j] = val.replace( /\<li\>\s*/g, "*:" ) ;
+            }
+            buf.push( "<td>", listval(comments," | ") ) ;
+        }
     }
     buf.push( "</table>" ) ;
     $results.html( buf.join("") ).show() ;
@@ -88,7 +98,7 @@ function fmtval( val )
     return val ;
 }
 
-function listval( vals )
+function listval( vals, sep )
 {
     // return the formatted list of values
     if ( ! vals )
@@ -96,7 +106,7 @@ function listval( vals )
     var buf = [] ;
     for ( var i=0 ; i < vals.length ; ++i )
         buf.push( "<span class='val'>" + vals[i] + "</span>" ) ;
-    return buf.join( " " ) ;
+    return buf.join( sep ? sep : " " ) ;
 }
 
 </script>

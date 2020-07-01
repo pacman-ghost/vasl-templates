@@ -1,24 +1,24 @@
 === ordnance/italian/1941 ===
 
 Name                          Capabilities         (effective)          #    Notes                      Comments
-----------------------------  -------------------  -------------------  ---  -------------------------  ----------------------------------
-Mortaio da 45 "Brixia"        4PP                  4PP                  1    N
-Mortaio da 81/14              QSU IR s8            QSU IR s8            2†   N
-Fucile-cc S                   5PP                  5PP                  3    N
-Cannone-cc da 37/45           QSU                  QSU                  4†   C N <s>R</s>
-Cannone da 47/32              QSU Towed[A1+]†      QSU                  5†   A C N                      No Gunshield.
-Cannone da 65/17              H6[S2+]†[1]                               6†   A C H†<sup>1</sup> N       No Gunshield.
-Cannone da 70/15              QSU h-d              QSU h-d              7†   A B†<sup>1</sup> <s>R</s>  Acq. NA†<sup>1</sup> No Gunshield.
-Obice da 75/13                QSU                  QSU                  8†   A
-Cannone da 75/27              QSU H6[S2+]†[1]      QSU                  9†   A C H†<sup>1</sup> N
-Obice da 75/18                QSU H6[S2+]†[1] s8   QSU s8               10†  A H†<sup>1</sup> N
-Cannone da 75/32              QSU H6[S2+]†[1] s8   QSU s8               11†  H†<sup>1</sup>
-Obice da 100/17               H6[S2+]†[1]                               12†  A H†<sup>1</sup> N
+----------------------------  -------------------  -------------------  ---  -------------------------  ---------------------------------------------------------------------------------
+Mortaio da 45 "Brixia"                                                  1    N
+Mortaio da 81/14              IR s8                IR s8                2†   N                          QSU
+Fucile-cc S                                                             3    N                          No Long Range | AP TK# = 6
+Cannone-cc da 37/45                                                     4†   C N <s>R</s>               QSU | Portee Fire OK (Rear VCA only) [EXC: No Bnd (F)F] | En Portee (Autocarro L)
+Cannone da 47/32                                                        5†   A C N                      QSU | No Gunshield | Tow NA | Animal-Packed | En Portee (Autocarro L)
+Cannone da 65/17              H6[S2+]†[1]                               6†   A C H†<sup>1</sup> N       No Gunshield | HEAT: TK# = 11 | En Portee (Autocarro M) | Animal-Packed
+Cannone da 70/15                                                        7†   A B†<sup>1</sup> <s>R</s>  QSU | Acquisition NA | No Gunshield | Horse-Drawn | Animal-Packed
+Obice da 75/13                                                          8†   A                          QSU | Animal-Packed
+Cannone da 75/27              H6[S2+]†[1]                               9†   A C H†<sup>1</sup> N       QSU | En Portee (Autocarro P) | Animal-Packed
+Obice da 75/18                H6[S2+]†[1] s8       s8                   10†  A H†<sup>1</sup> N         QSU | Animal-Packed
+Cannone da 75/32              H6[S2+]†[1] s8       s8                   11†  H†<sup>1</sup>             QSU
+Obice da 100/17               H6[S2+]†[1]                               12†  A H†<sup>1</sup> N         HEAT: TK# = 14 | Animal-Packed
 Cannone da 105/28             s8                   s8                   13†  N
 Obice 149/13                                                            14†  N
-Cannone da 149/35             RFNM s8              RFNM s8              15†  B†<sup>1</sup> N <s>R</s>  No IF. Acq. NA†<sup>1</sup>
-Cannone da 149/40             RFNM                 RFNM                 16†  N
-Cannone-mitragliera da 20/65  LF [NT, 20†, 2 ROF]  LF [NT, 20†, 2 ROF]  17†  A C N
-Cannone-aa da 75/39           "16" AP TK#†         "16" AP TK#†         18†  n/a
+Cannone da 149/35             s8                   s8                   15†  B†<sup>1</sup> N <s>R</s>  RFNM | No IF | Acquisition NA
+Cannone da 149/40                                                       16†  N                          RFNM
+Cannone-mitragliera da 20/65  LF [NT, 20†, 2 ROF]  LF [NT, 20†, 2 ROF]  17†  A C N                      Animal-Packed | En Portee (Autocarro L)
+Cannone-aa da 75/39                                                     18†  n/a                        AP TK# = 16
 Cannone-aa da 75/46                                                     19†  N
 Cannone-aa da 90/53                                                     20†  N <s>R</s>

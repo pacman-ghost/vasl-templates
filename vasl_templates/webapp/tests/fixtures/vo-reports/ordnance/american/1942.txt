@@ -1,48 +1,48 @@
 === ordnance/american/1942 ===
 
-Name                              Capabilities                      (effective)                       #       Notes                            Comments
---------------------------------  --------------------------------  --------------------------------  ------  -------------------------------  ----------------------------
-M2 60mm Mortar                    IR WP7[5] 5PP OBA†                IR 5PP OBA†                       1†      F N
-M19 60mm Mortar                   IR WP6[5] 4PP                     IR 4PP                            2       F
-M1 81mm Mortar                    QSU WP8                           QSU WP8                           3       F N
-M2 4.2-in. Mortar                 QSU WP10                          QSU WP10                          4†      n/a
-T25 155mm Mortar                  WP8                               WP8                               5†      P
-M3A1 37mm AT Gun                  QSU C7[A2+]†[1]                   QSU                               6†      C†<sup>1</sup> N
-M1 57mm AT Gun                    QSU D4[J4+E]† HE7[J4E]7[5]†       QSU                               7†      n/a
-M5 3-in. AT Gun                   QSU A4[4]5[5]† s6[5]              QSU                               8†      <s>P</s>
-T32 37mm Manpack Gun              5PP (3PP dm)† C5†[1] crewed†[2]   5PP (3PP dm)† C5†[1] crewed†[2]   9†      C†<sup>1</sup> D†<sup>2</sup> F
-M18 57mm Recoilless Rifle         3PP crewed†[1] H7 WP6             3PP crewed†[1] H7 WP6             10      D†<sup>1</sup> E†
-M20 75mm Recoilless Rifle         5PP crewed†[1] H7 WP7             5PP crewed†[1] H7 WP7             11      D†<sup>1</sup> E†
-M1A1 75mm Pack Howitzer           QSU C4[4+]†[1] H7 WP8             QSU H7 WP8                        12†     C†<sup>1</sup> F
-M1897A2 75mm Gun                  QSU WP8                           QSU WP8                           13      P
-M2A1 105mm Howitzer               C7[4+P]†[1] H6 WP8 s7             H6 WP8 s7                         14†     C†<sup>1</sup> N
-M3 105mm Howitzer                 C7[P]†[1] H7 WP8 s7               H7 WP8 s7                         15†     C†<sup>1</sup>
-M1 4.5-in. Gun                                                                                        16†     <s>P</s>
-M1918 155mm Howitzer              WP8 s7[3+]                        WP8                               17†     N
-M1 155mm Howitzer                 WP8 s7                            WP8 s7                            18†     N
-M1918M1 155mm Gun                 RFNM AP4†[1] WP8                  RFNM AP4†[1] WP8                  19†     A†<sup>1</sup> N                 No IF.
-M1A1 155mm Gun                    RFNM AP4†[1] WP8 s7[5]            RFNM AP4†[1] WP8                  20†     A†<sup>1</sup>                   No IF.
-M1 8-in. Howitzer                 RFNM                              RFNM                              21†     n/a                              No IF.
-M51 Multiple .50-cal MG Carriage  LF [2 ROF, 20 IFE, B11] 4 TK DR†  LF [2 ROF, 20 IFE, B11] 4 TK DR†  22†     n/a
-M1A2 37mm AA Gun                                                                                      23†     N
-M1 40mm AA Gun                    LF [40†[1], 2 ROF]                LF [40†[1], 2 ROF]                24†     B†<sup>1</sup>
-M3 3-in. AA Gun                   NM                                NM                                25      P
-M1A1 90mm AA Gun                  NM                                NM                                26†     N
-M2 90mm AA Gun                    LF [90†, 1 ROF, B11]              LF [90†, 1 ROF, B11]              27†[1]  B†
-20mm Oerlikon Mk4                 2 TK DR's†                        2 TK DR's†                        1†      US P                             Multiple Hits (C3.8) are NA.
-Type 89 Heavy Grenade Launcher    4PP                               4PP                               1†      A P
-M2 4.2-in. Mortar                 QSU WP10                          QSU WP10                          2†      K M O P Y
-M3A1 37mm AT Gun                  QSU C7                            QSU C7                            3†      C K P
-M1 57mm AT Gun                    QSU D4 HE7                        QSU D4 HE7                        4†      K
-M18(L) 57mm Recoilless Rifle      C7 H7 WP6 3PP                     C7 H7 WP6 3PP                     5†      C K O                            non-crewed†
-M2A1 105mm Howitzer               C7 H6 WP8 s7                      C7 H6 WP8 s7                      6†      C K M O P Y
-M3 105mm Howitzer                 C7 H7 WP8 s7                      C7 H7 WP8 s7                      7†      C K
-M1 155mm Howitzer                 WP8 s7                            WP8 s7                            8†      K M P Y
-M1A1 155mm Gun                    RFNM AP4 WP8 s7                   RFNM AP4 WP8 s7                   9       Y                                No IF.
-M1 8-in. Howitzer                 RFNM                              RFNM                              10†     Y                                No IF.
-M51 Multiple .50-cal MG Carriage  LF [2 ROF, 20 IFE, B11] 4 TK DR†  LF [2 ROF, 20 IFE, B11] 4 TK DR†  11†     M Y
-M1 40mm AA Gun                    LF [40†, 2 ROF]                   LF [40†, 2 ROF]                   12      B† Y
-M2 90mm AA Gun                    LF [90†[1], 1 ROF, B11]           LF [90†[1], 1 ROF, B11]           13†     B†<sup>1</sup> M Y
-M2 60mm Mortar                    IR WP7 5PP OBA†                   IR WP7 5PP OBA†                   23†     A K M O P Y
-M1(L) 81mm Mortar                 QSU IR WP8                        QSU IR WP8                        24†     A K M O P R
-M20(L) 75mm Recoilless Rifle      WP7 5PP H†                        WP7 5PP H†                        25†     K M O P R                        crewed†
+Name                              Capabilities             (effective)              #       Notes                            Comments
+--------------------------------  -----------------------  -----------------------  ------  -------------------------------  --------------------------------------------------------------
+M2 60mm Mortar                    IR WP7[5]                IR                       1†      F N
+M19 60mm Mortar                   IR WP6[5]                IR                       2       F
+M1 81mm Mortar                    WP8                      WP8                      3       F N                              QSU
+M2 4.2-in. Mortar                 WP10                     WP10                     4†      n/a                              QSU | Area FP = 12
+T25 155mm Mortar                  WP8                      WP8                      5†      P                                Tow NA
+M3A1 37mm AT Gun                  C7[A2+]†[1]                                       6†      C†<sup>1</sup> N                 QSU
+M1 57mm AT Gun                    D4[J4+E]† HE7[J4E]7[5]†                           7†      n/a                              QSU
+M5 3-in. AT Gun                   A4[4]5[5]† s6[5]                                  8†      <s>P</s>                         QSU
+T32 37mm Manpack Gun              C5†[1]                   C5†[1]                   9†      C†<sup>1</sup> D†<sup>2</sup> F  As HMG | Crewed
+M18 57mm Recoilless Rifle         H7 WP6                   H7 WP6                   10      D†<sup>1</sup> E†                HEAT TK# = 11 | Crewed
+M20 75mm Recoilless Rifle         H7 WP7                   H7 WP7                   11      D†<sup>1</sup> E†                Crewed
+M1A1 75mm Pack Howitzer           C4[4+]†[1] H7 WP8        H7 WP8                   12†     C†<sup>1</sup> F                 QSU
+M1897A2 75mm Gun                  WP8                      WP8                      13      P                                QSU
+M2A1 105mm Howitzer               C7[4+P]†[1] H6 WP8 s7    H6 WP8 s7                14†     C†<sup>1</sup> N
+M3 105mm Howitzer                 C7[P]†[1] H7 WP8 s7      H7 WP8 s7                15†     C†<sup>1</sup>
+M1 4.5-in. Gun                                                                      16†     <s>P</s>
+M1918 155mm Howitzer              WP8 s7[3+]               WP8                      17†     N
+M1 155mm Howitzer                 WP8 s7                   WP8 s7                   18†     N
+M1918M1 155mm Gun                 AP4†[1] WP8              AP4†[1] WP8              19†     A†<sup>1</sup> N                 RFNM | No IF
+M1A1 155mm Gun                    AP4†[1] WP8 s7[5]        AP4†[1] WP8              20†     A†<sup>1</sup>                   RFNM | No IF
+M1 8-in. Howitzer                                                                   21†     n/a                              RFNM | No IF
+M51 Multiple .50-cal MG Carriage  LF [2 ROF, 20 IFE, B11]  LF [2 ROF, 20 IFE, B11]  22†     n/a                              4 TK DR | [16] TH
+M1A2 37mm AA Gun                                                                    23†     N
+M1 40mm AA Gun                    LF [40†[1], 2 ROF]       LF [40†[1], 2 ROF]       24†     B†<sup>1</sup>
+M3 3-in. AA Gun                                                                     25      P                                No Move
+M1A1 90mm AA Gun                                                                    26†     N                                No Move
+M2 90mm AA Gun                    LF [90†, 1 ROF, B11]     LF [90†, 1 ROF, B11]     27†[1]  B†
+20mm Oerlikon Mk4                                                                   1†      US P                             2 TK DR
+Type 89 Heavy Grenade Launcher                                                      1†      A P                              Range &#8804; 2: [{ *:Air Bursts NA *:ROF 1 }] | Animal-Packed
+M2 4.2-in. Mortar                 WP10                     WP10                     2†      K M O P Y                        QSU | Area FP = 12
+M3A1 37mm AT Gun                  C7                       C7                       3†      C K P                            QSU
+M1 57mm AT Gun                    D4 HE7                   D4 HE7                   4†      K                                QSU
+M18(L) 57mm Recoilless Rifle      C7 H7 WP6                C7 H7 WP6                5†      C K O                            Not Crewed | Canister: 16 FP
+M2A1 105mm Howitzer               C7 H6 WP8 s7             C7 H6 WP8 s7             6†      C K M O P Y
+M3 105mm Howitzer                 C7 H7 WP8 s7             C7 H7 WP8 s7             7†      C K
+M1 155mm Howitzer                 WP8 s7                   WP8 s7                   8†      K M P Y
+M1A1 155mm Gun                    AP4 WP8 s7               AP4 WP8 s7               9       Y                                RFNM | No IF
+M1 8-in. Howitzer                                                                   10†     Y                                RFNM | No IF
+M51 Multiple .50-cal MG Carriage  LF [2 ROF, 20 IFE, B11]  LF [2 ROF, 20 IFE, B11]  11†     M Y                              4 TK DR | [16] TH
+M1 40mm AA Gun                    LF [40†, 2 ROF]          LF [40†, 2 ROF]          12      B† Y
+M2 90mm AA Gun                    LF [90†[1], 1 ROF, B11]  LF [90†[1], 1 ROF, B11]  13†     B†<sup>1</sup> M Y
+M2 60mm Mortar                    IR WP7                   IR WP7                   23†     A K M O P Y                      Animal-Packed
+M1(L) 81mm Mortar                 IR WP8                   IR WP8                   24†     A K M O P R                      QSU | Animal-Packed
+M20(L) 75mm Recoilless Rifle      H† WP7                   H† WP7                   25†     K M O P R                        &#8734; H | Crewed

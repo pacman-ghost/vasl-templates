@@ -1,33 +1,33 @@
 === vehicles/axis-minor-common/1944 ===
 
 Name            Capabilities            (effective)         #    Notes                                    Comments
---------------  ----------------------  ------------------  ---  ---------------------------------------  ----------
-L3/35(i)        ® CS 2                  ® CS 2              29†  B C E F G†<sup>2</sup> H K†<sup>1</sup>
-FT-17M(f)       ® no IF CS 2            ® no IF CS 2        30†  C D R
-FT-17C(f)       ® AP9 CS 2              ® AP9 CS 2          30†  C D R
-PzKpfw IB(g)    sD6 CS 2                sD6 CS 2            31†  C E H K†<sup>1</sup>
-R-35(f)         ® AP10 CS 2             ® AP10 CS 2         32†  A†<sup>1</sup> B D E H R
-H39(f)          ® AP10 CS 2             ® AP10 CS 2         33†  A†<sup>1</sup> B C D E H
-LT vz 35(g)     sD5 CS 4                sD5 CS 4            34†  B E R S
-LT vz 38(t)A    A3[1]4[2]3[3] sD6 CS 4  A3 sD6 CS 4         35†  E H R S
-LT vz 38(t)E    A4[2]3[3] sD7 CS 4      A3 sD7 CS 4         35†  B E H S
-S35(f)          CS 4                    CS 4                36†  A†<sup>1</sup> D E H S
-PzKpfw IIIL(g)  A5[2]4[3]3[4] sD5 CS 5  A3 sD5 CS 5         37†  C E H O†<sup>1</sup> Q R
-PzKpfw IIIN(g)  H8[3+] s8 sD7 CS 5      H8 s8 sD7 CS 5      38†  E O†<sup>1</sup> Q R S
-PzKpfw IVD(g)   AP7 H5[3+] s8 sD7 CS 5  AP7 H5 s8 sD7 CS 5  39†  E Q R
-PzKpfw IVF1(g)  AP7 H5[3+] s8 sD7 CS 6  AP7 H5 s8 sD7 CS 6  39†  B E H Q R
-PzKpfw IVH(g)   A4[2]3[3] s7 sD5 CS 6   A3 s7 sD5 CS 6      39†  B E H O†<sup>1</sup> Q R
-StuG IIIG(g)    A3[4] s8 sD7 CS 4       A3 s8 sD7 CS 4      40†  B E H Q R
-JgdPz 38(t)     A3[4] HE7 CS 4          A3 HE7 CS 4         41†  B E H
-SPW 250/1(g)    CS 4                    CS 4                42   E R
-SPW 251/1(g)    CS 5                    CS 5                42†  C E R
-SPW 251/9(g)    H5 s8 CS 4[brewup]      H5 s8 CS 4[brewup]  42†  E R
-OA vz 30(t)     ® CS 2                  ® CS 2              43†  E R S
-AB 41(i)        CS 4                    CS 4                44†  C E R
-PSW 222(g)      sD6 CS 3                sD6 CS 3            45†  B E M†<sup>2</sup> P†<sup>1</sup> R
-PSW 222(L)(g)   sD6 CS 3                sD6 CS 3            45†  B E M†<sup>2</sup> P†<sup>1</sup> R
-PSW 223(g)      sD6 CS 3                sD6 CS 3            46†  B E M†<sup>1</sup> P†<sup>2</sup> R
-Komsomolet(r)   cs 2†[1]                cs 2†[1]            47†  B C E F H I†<sup>1</sup> J R S
+--------------  ----------------------  ------------------  ---  ---------------------------------------  -----------------------------------------------------------------------------------------------------------------------------------------
+L3/35(i)        ® CS 2                  ® CS 2              29†  B C E F G†<sup>2</sup> H K†<sup>1</sup>  Italian ESB | Stun = Recall, CE &amp; Fire NA | 2 TK DR
+FT-17M(f)       ® CS 2                  ® CS 2              30†  C D R                                    Road Rate NA | CE: +1 Rear Turret &amp; Indirect Fire
+FT-17C(f)       ® AP9 CS 2              ® AP9 CS 2          30†  C D R                                    Road Rate NA | No IF | CE: +1 Rear Turret &amp; Indirect Fire
+PzKpfw IB(g)    sD6 CS 2                sD6 CS 2            31†  C E H K†<sup>1</sup>                     German ESB | 2 TK DR
+R-35(f)         ® AP10 CS 2             ® AP10 CS 2         32†  A†<sup>1</sup> B D E H R                 CMG: AA ok (TCA only) | CE: +1 Rear Turret &amp; Indirect Fire | French ESB
+H39(f)          ® AP10 CS 2             ® AP10 CS 2         33†  A†<sup>1</sup> B C D E H                 CMG: AA ok (TCA only) | CE: +1 Rear Turret &amp; Indirect Fire | French ESB
+LT vz 35(g)     sD5 CS 4                sD5 CS 4            34†  B E R S                                  German ESB
+LT vz 38(t)A    A3[1]4[2]3[3] sD6 CS 4  A3 sD6 CS 4         35†  E H R S                                  Czech ESB
+LT vz 38(t)E    A4[2]3[3] sD7 CS 4      A3 sD7 CS 4         35†  B E H S                                  Czech ESB
+S35(f)          CS 4                    CS 4                36†  A†<sup>1</sup> D E H S                   Immob: dr &#8804; 4 [EXC: mines, Direct Fire vs front/rear] | CMG: AA ok (TCA only) | CE: +1 Rear Turret &amp; Indirect Fire | French ESB
+PzKpfw IIIL(g)  A5[2]4[3]3[4] sD5 CS 5  A3 sD5 CS 5         37†  C E H O†<sup>1</sup> Q R                 German ESB
+PzKpfw IIIN(g)  H8[3+] s8 sD7 CS 5      H8 s8 sD7 CS 5      38†  E O†<sup>1</sup> Q R S                   German ESB
+PzKpfw IVD(g)   AP7 H5[3+] s8 sD7 CS 5  AP7 H5 s8 sD7 CS 5  39†  E Q R                                    German ESB
+PzKpfw IVF1(g)  AP7 H5[3+] s8 sD7 CS 6  AP7 H5 s8 sD7 CS 6  39†  B E H Q R                                German ESB
+PzKpfw IVH(g)   A4[2]3[3] s7 sD5 CS 6   A3 s7 sD5 CS 6      39†  B E H O†<sup>1</sup> Q R                 German ESB
+StuG IIIG(g)    A3[4] s8 sD7 CS 4       A3 s8 sD7 CS 4      40†  B E H Q R                                AAMG: VCA only | German ESB
+JgdPz 38(t)     A3[4] HE7 CS 4          A3 HE7 CS 4         41†  B E H                                    AAMG: BU only, Rider NA, elevation restrictions | Czech ESB
+SPW 250/1(g)    CS 4                    CS 4                42   E R                                      German ESB
+SPW 251/1(g)    CS 5                    CS 5                42†  C E R                                    German ESB
+SPW 251/9(g)    H5 s8 CS 4[brewup]      H5 s8 CS 4[brewup]  42†  E R                                      CMG: VCA only | German ESB
+OA vz 30(t)     ® CS 2                  ® CS 2              43†  E R S                                    LMG | Reverse NA | Czech ESB
+AB 41(i)        CS 4                    CS 4                44†  C E R                                    Italian ESB
+PSW 222(g)      sD6 CS 3                sD6 CS 3            45†  B E M†<sup>2</sup> P†<sup>1</sup> R      German ESB | Reverse MP &#215;3 | MA &amp; CMG: AA ok
+PSW 222(L)(g)   sD6 CS 3                sD6 CS 3            45†  B E M†<sup>2</sup> P†<sup>1</sup> R      German ESB | Reverse MP &#215;3 | MA &amp; CMG: AA ok
+PSW 223(g)      sD6 CS 3                sD6 CS 3            46†  B E M†<sup>1</sup> P†<sup>2</sup> R      German ESB | Reverse MP &#215;3 | MA &amp; CMG: AA ok
+Komsomolet(r)   cs 2†[1]                cs 2†[1]            47†  B C E F H I†<sup>1</sup> J R S           Pas: Always CE; +1 VCA | Russian ESB | Stun = Recall, CE &amp; Fire NA | Inherent Crew if armed (with CS#) | Unpossessed SW ok
 RSO(g)          cs 5                    cs 5                48   B S
 Light Tractor   cs 4                    cs 4                49   B C H R S
 Medium Tractor  cs 5                    cs 5                49   B C H R S

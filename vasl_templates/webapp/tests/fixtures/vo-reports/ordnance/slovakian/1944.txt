@@ -1,11 +1,11 @@
 === ordnance/slovakian/1944 ===
 
 Name                 Capabilities    (effective)    #    Notes    Comments
--------------------  --------------  -------------  ---  -------  --------------
-Minomet vz. 36       QSU             QSU            28   A
-Kanon PUV vz. 36(t)  QSU A5[1]4[2]   QSU A4         29   E
-leIG 18(g)           QSU H7[3+]      QSU H7         30   A E
+-------------------  --------------  -------------  ---  -------  --------------------------------------
+Minomet vz. 36                                      28   A        QSU | Animal-Packed
+Kanon PUV vz. 36(t)  A5[1]4[2]       A4             29   E        QSU | Black TH#
+leIG 18(g)           H7[3+]          H7             30   A E      QSU | Animal-Packed | Black TH#
 Skoda M37(K4)        s6              s6             31   n/a
-Skoda 47L40(t)       QSU             QSU            32†  E        AA Fire ROF 2†
-Skoda PL vz. 37(t)                                  33   E
-Kanon PL vz. 22/24                                  34†  n/a
+Skoda 47L40(t)                                      32†  E        QSU | vs Aircraft: ROF = 2 | Black TH#
+Skoda PL vz. 37(t)                                  33   E        Black TH#
+Kanon PL vz. 22/24                                  34†  n/a      AP TK# = 17
