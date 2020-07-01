@@ -1279,8 +1279,11 @@ function make_crew_survival( vo_entry )
 
     // check if the vehicle is subject to brew up
     var pos = crew_survival.indexOf( ":brewup" ) ;
-    if ( pos !== -1 )
-        crew_survival = crew_survival.substring(0,pos) + " <small><i>(brew up)</i></small>" + crew_survival.substring(pos+7) ;
+    if ( pos !== -1 ) {
+        crew_survival = "<span class='brewup'>" +
+            crew_survival.substring(0,pos) + crew_survival.substring(pos+7) +
+            "</span>" ;
+    }
 
     return crew_survival ;
 }

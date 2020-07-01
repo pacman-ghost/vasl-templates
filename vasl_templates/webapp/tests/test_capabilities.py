@@ -540,14 +540,14 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
         return elems
 
     # check the vehicle's snippet
-    check_snippet( '"XYZ" "cs 4 <small><i>(brew up)</i></small>"' )
+    check_snippet( '"XYZ" "<span class=\'brewup\'>cs 4</span>"' )
 
     # edit the vehicle's capabilities
     vehicles_sortable = find_child( "#ob_vehicles-sortable_1" )
     elems = find_children( "li", vehicles_sortable )
     assert len(elems) == 1
     ActionChains( webdriver ).double_click( elems[0] ).perform()
-    elems = check_capabilities_in_dialog( [ "XYZ", "cs 4 <small><i>(brew up)</i></small>" ] )
+    elems = check_capabilities_in_dialog( [ "XYZ", "<span class='brewup'>cs 4</span>" ] )
 
     # edit one of the capabilities
     elem = find_child( "input[type='text']", elems[0] )
@@ -607,7 +607,7 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     btn = find_child( "#vo_capabilities-reset" )
     btn.click()
     click_dialog_button( "OK" )
-    check_snippet( '"XYZ" "cs 4 <small><i>(brew up)</i></small>"' )
+    check_snippet( '"XYZ" "<span class=\'brewup\'>cs 4</span>"' )
 
     # make sure the custom capabilities are no longer saved in the scenario
     saved_scenario2 = save_scenario()
@@ -625,7 +625,7 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     elems[0].clear()
     elems[0].send_keys( "XYZ" )
     elems[1].clear()
-    elems[1].send_keys( "cs 4 <small><i>(brew up)</i></small>" )
+    elems[1].send_keys( "<span class='brewup'>cs 4</span>" )
     click_dialog_button( "OK" )
 
     # make sure the custom capabilities are no longer saved in the scenario
@@ -1078,7 +1078,7 @@ def _get_capabilities( webdriver, webapp,
     # check the capabilities
     assert "Capabilities" in results[0][1]
     capabilities = results[row_no][2]
-    capabilities = capabilities.replace( "<small><i>(brew up)</i></small>", "[brewup]" )
+    capabilities = re.sub( '<span class="brewup">(.*?)</span>', r'\1 [brewup]', capabilities )
     capabilities = re.sub( "\u2020<sup>(\\d)</sup>", lambda mo: "[!{}]".format(mo.group(1)), capabilities )
     capabilities = capabilities.replace( "\u2020", "[!]" )
     return capabilities

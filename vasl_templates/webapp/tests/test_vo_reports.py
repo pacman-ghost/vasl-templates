@@ -50,7 +50,11 @@ def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
                 lambda mo: "[{}]".format( mo.group(1) ),
                 results[i][col]
             )
-            results[i][col] = results[i][col].replace( " <small><i>(brew up)</i></small>", "[brewup]" )
+            results[i][col] = re.sub(
+                r'<span class="brewup">(.*?)(\u2020.*)?</span>',
+                r"\1[brewup]\2",
+                results[i][col]
+            )
 
     # check each vehicle/ordnance report
     nationalities = list( get_nationalities( webapp ).keys() )
@@ -187,7 +191,7 @@ def _parse_report( buf ):
         val = mo.group(2)
         if val == "<small><em>n/a</em></small>":
             return "n/a"
-        val = val.replace( '<span class="val">', "" ).replace( "</span>", "" )
+        val = re.sub( '<span class="val">(.*?)</span>', r"\1", val )
         val = val.replace( "&#8224;", "\u2020" ).replace( "&#174;", "\u00ae" )
         val = val.replace( "&#10003;", "yes" )
         return val
