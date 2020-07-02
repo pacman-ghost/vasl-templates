@@ -324,7 +324,8 @@ public class VassalShim
                     if ( pos >= 0 ) {
                         // yup - the nationality must be one of the 2 passed in to us
                         String nat = snippetId.substring( 0, pos ) ;
-                        hasPlayerOwnedLabels.setVal( true ) ;
+                        if ( ! nat.equals( "extras" ) )
+                            hasPlayerOwnedLabels.setVal( true ) ;
                         if ( ! nat.equals( players[0] ) && ! nat.equals( players[1] ) ) {
                             addSnippet = false ;
                             logger.debug( "- Skipping label: {} (owner={})", snippetId, nat ) ;
