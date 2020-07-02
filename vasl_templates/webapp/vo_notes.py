@@ -148,7 +148,7 @@ def load_vo_notes( msg_store ): #pylint: disable=too-many-statements,too-many-lo
                     # FUDGE! The HTML version of the Chapter H content contain a lot of notes
                     # that start with "<p> &dagger;". We detect these and add a CSS class.
                     # Larger blocks of content need to be wrapped in a <div>.
-                    html_content = re.sub( r"^<(p|div)> &dagger;", r"<\1 class='dagger-note'> &dagger;",
+                    html_content = re.sub( r"^<(p|div)>\s*&dagger;", r"<\1 class='dagger-note'> &dagger;",
                         html_content,
                         flags=re.MULTILINE
                     )
