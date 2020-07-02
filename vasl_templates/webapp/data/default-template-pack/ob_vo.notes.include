@@ -1,6 +1,6 @@
 {%if vo.extn_id%} &#x2756; {%endif%}
 {%if vo.notes%}
-    {{vo.note_number}}, {{vo.notes | join(", ",true)}}
+    {{vo.note_number}}, {{vo.notes | join(", ")}}
 {%else%}
     {{vo.note_number}}
  {%endif%}

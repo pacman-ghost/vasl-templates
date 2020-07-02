@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <style>
 {{CSS:common}}
-.note { font-size: 90% ; font-style: italic ; color: #808080 ; }
-.capability {}
+.note { font-size: 90% ; font-style: italic ; color: #808080 ; white-space: nowrap ; }
+.capability { white-space: nowrap ; }
 .capability .brewup { color: #a04010 ; }
 .comment { font-size: 96% ; font-style: italic ; color: #404040 ; white-space: nowrap ; }
 .comment .split-mg-red { color: #a04010 ; }
@@ -24,7 +24,9 @@
       border-bottom: 1px solid {{OB_COLOR_2}} ;
       padding: 2px 5px ;
       font-size: 105% ; font-weight: bold ;
+      white-space: nowrap ;
     ">
+        {# CSS "white-space:nowrap" doesn't always work in VASSAL, we need to use <nobr> and &nbsp; here :-/ #}
         <nobr>{{INCLUDE:player_flag}}{{PLAYER_NAME|nbsp}}&nbsp;{{VO_TYPES}}</nobr>
 
 {%for vo in OB_VO%}
@@ -66,8 +68,8 @@
 {%endif%}
 
         <td valign="top" style="padding:5px 5px 2px 5px;">
-            {%for cap in vo.capabilities%} <div class="capability"> {{cap|nobr}} </div> {%endfor%}
-            {%for cmnt in vo.comments%} <div class="comment"> {{cmnt|nobr}} </div> {%endfor%}
+            {%for cap in vo.capabilities%} <div class="capability"> {{cap}} </div> {%endfor%}
+            {%for cmnt in vo.comments%} <div class="comment"> {{cmnt}} </div> {%endfor%}
 
 {% if vo.capabilities_len <= MAX_CAPABILITIES and vo.image %}
 {# NOTE: If there are only a few capabilities, let the note number & notes spread full-width. #}

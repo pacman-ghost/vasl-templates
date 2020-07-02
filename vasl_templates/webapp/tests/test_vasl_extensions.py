@@ -291,7 +291,7 @@ def test_bfp_extensions( webapp, webdriver ):
         r'.+M3A1 Scout Car\(a\)'
         '.+<div class="note"'
         '.+&#x2756;'
-        '.+17, A, C, AllM&nbsp;34\u2020<sup>2</sup>, Jp&nbsp;A\u2020<sup>1</sup>, Ch&nbsp;F\u2020',
+        '.+17, A, C, AllM 34\u2020<sup>2</sup>, Jp A\u2020<sup>1</sup>, Ch F\u2020',
         re.DOTALL
     ) )
 
@@ -362,11 +362,11 @@ def test_bfp_extensions2( webapp, webdriver ):
         r'.+\bM5A1F\b'
         '.+<div class="note"'
         '.+&#x2756;'
-        '.+5\u2020, US&nbsp;C\u2020<sup>2</sup>, US&nbsp;F\u2020<sup>1</sup>, US&nbsp;G, US&nbsp;N, US&nbsp;Y, C'
+        '.+5\u2020, US C\u2020<sup>2</sup>, US F\u2020<sup>1</sup>, US G, US N, US Y, C'
         r'.+\bM5A1C\b'
         '.+<div class="note"'
         '.+&#x2756;'
-        '.+5\u2020, US&nbsp;C\u2020<sup>2</sup>, US&nbsp;F\u2020<sup>1</sup>, US&nbsp;G, US&nbsp;N, US&nbsp;Y, A, B',
+        '.+5\u2020, US C\u2020<sup>2</sup>, US F\u2020<sup>1</sup>, US G, US N, US Y, A, B',
         re.DOTALL
     ) )
 

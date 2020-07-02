@@ -432,15 +432,8 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         snippet = func( params, {
             autoEscape: false,
             filters: {
-                join: function( snippet, sep, nbsp ) {
-                    // nb: we get better results using &nbsp; than <nobr> :shrug:
-                    var vals = [] ;
-                    for ( var i=0 ; i < snippet.length ; ++i )
-                        vals.push( nbsp ? strReplaceAll( snippet[i], " ", "&nbsp;" ) : snippet[i] ) ;
-                    return vals.join( sep ) ;
-                },
-                nobr: function( snippet ) { return "<nobr>" + snippet + "</nobr>" ; },
-                nbsp: function( snippet ) { return strReplaceAll( snippet, " ", "&nbsp;" ) ; },
+                join: function( vals, sep ) { return vals.join( sep ) ; },
+                nbsp: function( val ) { return strReplaceAll( val, " ", "&nbsp;" ) ; },
             } ,
         } ) ;
         snippet = snippet.trim() ;

@@ -178,7 +178,7 @@ def _extract_comments( snippet ):
     """Extract comments from a snippet."""
     vals = [
         mo.group( 1 ).strip()
-        for mo in re.finditer( r'<div class="comment">\s*?<nobr>\s*?(.*?)</nobr>\s*</div>', snippet )
+        for mo in re.finditer( r'<div class="comment">(.*?)</div>', snippet )
     ]
     if not vals:
         return vals
