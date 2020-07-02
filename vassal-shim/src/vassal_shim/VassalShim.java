@@ -306,9 +306,9 @@ public class VassalShim
         //   http://www.gamesquad.com/forums/index.php?threads/new-program-to-help-set-up-vasl-scenarios.148281/post-1983751
         if ( cmd instanceof AddPiece ) {
             AddPiece addPieceCmd = (AddPiece) cmd ;
-            if ( addPieceCmd.getTarget() instanceof DynamicProperty ) {
-                GamePiece target = addPieceCmd.getTarget() ;
-                // NOTE: We can't check for target.getName() == "User-Labeled", it seems to get changed to the first label :shrug:
+            GamePiece target = addPieceCmd.getTarget() ;
+            GamePiece gamePiece = Decorator.getInnermost( target ) ;
+            if ( gamePiece.getName().equals( "User-Labeled" ) ) {
 
                 // yup - parse the label content
                 ArrayList<String> separators = new ArrayList<String>() ;
