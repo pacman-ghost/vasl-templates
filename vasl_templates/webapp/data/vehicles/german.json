@@ -910,6 +910,7 @@
   "CS#": 5,
   "note_number": "85\u2020",
   "notes": [ "A\u2020" ],
+  "comments": [ "Moving: <ul> <li> Fire &le; level NA </ul>", "Firing: <ul> <li> No CE DRM <li> Random SW Destruction for MA </ul>" ],
   "id": "ge/v:101",
   "gpid": 2765
 },

@@ -103,7 +103,7 @@ PzA LrS(f)              H4 s8 CS 4                     H4 s8 CS 4               
 GSW 39H(f)              H4 s7 CS 4                     H4 s7 CS 4               82.1    a e                                French ESB
 PzA III/IV              H5 s8 CS 6                     H5 s8 CS 6               83      n/a                                No IF
 FlaKPz 38(t)            CS 4                           CS 4                     84      A† E                               CE: +1 | MA &amp; CMG: AA ok | ESB: 0 DRM
-37 FlaK/Pz IV           CS 5                           CS 5                     85†     A†                                 MA &amp; CMG: AA ok
+37 FlaK/Pz IV           CS 5                           CS 5                     85†     A†                                 Moving: [{ *:Fire &#8804; level NA }] | Firing: [{ *:No CE DRM *:Random SW Destruction for MA }] | MA &amp; CMG: AA ok
 FlaKPz IV/20            CS 6                           CS 6                     86      A†                                 4 TK DR | MA &amp; CMG: AA ok
 FlaKPz IV/37            CS 6                           CS 6                     87      A†                                 MA &amp; CMG: AA ok
 SdKfz 10/4              CS 5                           CS 5                     88      A† D† N                            MA &amp; CMG: AA ok | Ammo trailer
