@@ -72,8 +72,10 @@ function _show_label_report_msg( report )
     buf.push( "</ul>" ) ;
     var msg = buf.join( "" ) ;
 
-    // show the message
-    if ( report.labels_deleted > 0 )
+    // show the summary and any error messages
+    for ( i=0 ; i < report.errors.length ; ++i )
+        showErrorMsg( report.errors[i] ) ;
+    if ( report.labels_deleted > 0 || report.errors.length > 0 )
         showWarningMsg( msg ) ;
     else
         showInfoMsg( msg ) ;

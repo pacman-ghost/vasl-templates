@@ -377,7 +377,7 @@ public class VassalShim
     {
         // initialize
         Map< String, ArrayList<ReportNode> > labelReport = new HashMap<String,ArrayList<ReportNode>>() ;
-        for ( String key: new String[]{"created","updated","deleted","unchanged"} )
+        for ( String key: new String[]{"created","updated","deleted","unchanged","failed"} )
             labelReport.put( key, new ArrayList<ReportNode>() ) ;
 
         // process each snippet
@@ -419,8 +419,16 @@ public class VassalShim
                 logger.info( "- Updating label: {}", snippetId ) ;
                 logger.debug( "  - curr state: " + Utils.printableString(currState) ) ;
                 logger.debug( "  - new state:  " + Utils.printableString(newState) ) ;
-                labelFields.gamePiece().setState( newState ) ;
-                labelReport.get( "updated" ).add( new ReportNode( snippetId, null ) ) ;
+                try {
+                    labelFields.gamePiece().setState( newState ) ;
+                    labelReport.get( "updated" ).add( new ReportNode( snippetId, null ) ) ;
+                } catch( Exception ex ) {
+                    String msg = "ERROR: Couldn't update label '" + snippetId + "'" ;
+                    logger.warn( msg, ex ) ;
+                    labelReport.get( "failed" ).add(
+                        new ReportNode( snippetId, null, msg, ex.getMessage() )
+                    ) ;
+                }
             }
             iter.remove() ;
         }
@@ -433,8 +441,16 @@ public class VassalShim
             logger.info( "- Deleting label: {}", snippetId ) ;
             GamePieceLabelFields labelFields = ourLabels.get( snippetId ) ;
             RemovePiece cmd = new RemovePiece( labelFields.gamePiece() ) ;
-            cmd.execute() ;
-            labelReport.get( "deleted" ).add( new ReportNode( snippetId, null ) ) ;
+            try {
+                cmd.execute() ;
+                labelReport.get( "deleted" ).add( new ReportNode( snippetId, null ) ) ;
+            } catch( Exception ex ) {
+                String msg = "ERROR: Couldn't delete label '" + snippetId + "'" ;
+                logger.warn( msg, ex ) ;
+                labelReport.get( "failed" ).add(
+                    new ReportNode( snippetId, null, msg, ex.getMessage() )
+                ) ;
+            }
         }
 
         // We now want to create new labels for any snippets left that haven't already been processed.
@@ -630,14 +646,22 @@ public class VassalShim
             String defaultLabelText1 = config.getProperty( "DEFAULT_LABEL_TEXT1", "Label" ) ;
             String defaultLabelText2 = config.getProperty( "DEFAULT_LABEL_TEXT2", "no background" ) ;
             String snippetContent = snippet.content.replace( "\n", " " ) ;
-            gamePiece.setState(
-                gamePiece.getState().replace( "\t"+defaultUserName+"\\", "\tvasl-templates\\" )
-                                    .replace( "\t"+defaultLabelText1+"\\", "\t" + snippetContent + "\\" )
-                                    .replace( "\t"+defaultLabelText2+"\\", "\t\\" )
-                                    .replace( "\tnull;0;0", "\tMap0;" + makeVassalCoordString(pos,snippet) )
-            ) ;
-            GameModule.getGameModule().getGameState().addPiece( gamePiece ) ;
-            labelReport.get( "created" ).add( new ReportNode( snippetId, pos ) ) ;
+            try {
+                gamePiece.setState(
+                    gamePiece.getState().replace( "\t"+defaultUserName+"\\", "\tvasl-templates\\" )
+                                        .replace( "\t"+defaultLabelText1+"\\", "\t" + snippetContent + "\\" )
+                                        .replace( "\t"+defaultLabelText2+"\\", "\t\\" )
+                                        .replace( "\tnull;0;0", "\tMap0;" + makeVassalCoordString(pos,snippet) )
+                ) ;
+                GameModule.getGameModule().getGameState().addPiece( gamePiece ) ;
+                labelReport.get( "created" ).add( new ReportNode( snippetId, pos ) ) ;
+            } catch( Exception ex ) {
+                String msg = "ERROR: Couldn't create label '" + snippetId + "'" ;
+                logger.warn( msg, ex ) ;
+                labelReport.get( "failed" ).add(
+                    new ReportNode( snippetId, null, msg, ex.getMessage() )
+                ) ;
+            }
         }
 
         return labelReport ;
@@ -715,6 +739,11 @@ public class VassalShim
                 if ( reportNode.labelPos != null ) {
                     reportNodeElem.setAttribute( "x", Integer.toString( reportNode.labelPos.x ) ) ;
                     reportNodeElem.setAttribute( "y", Integer.toString( reportNode.labelPos.y ) ) ;
+                }
+                if ( reportNode.caption != null ) {
+                    reportNodeElem.setAttribute( "caption", reportNode.caption ) ;
+                    if ( reportNode.msg != null )
+                        reportNodeElem.setTextContent( reportNode.msg ) ;
                 }
                 elem.appendChild( reportNodeElem ) ;
                 if ( ! key.equals( "unchanged" ) )

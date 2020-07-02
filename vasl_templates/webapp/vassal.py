@@ -95,6 +95,12 @@ def update_vsav(): #pylint: disable=too-many-statements,too-many-locals
     logger.info( "Updated the VSAV file OK: elapsed=%.3fs", time.time()-start_time )
     # NOTE: We adjust the recommended save filename to encourage users to not overwrite the original file :-/
     vsav_filename = os.path.split( vsav_filename )[1]
+    errors = []
+    for fail in report["failed"]:
+        if fail.get("message"):
+            errors.append( "{} <div class='pre'> {} </div>".format( fail["caption"], fail["message"] ) )
+        else:
+            errors.append( fail["caption"] )
     return jsonify( {
         "vsav_data": base64.b64encode(vsav_data).decode( "utf-8" ),
         "filename": vsav_filename,
@@ -104,6 +110,7 @@ def update_vsav(): #pylint: disable=too-many-statements,too-many-locals
             "labels_updated": len(report["updated"]),
             "labels_deleted": len(report["deleted"]),
             "labels_unchanged": len(report["unchanged"]),
+            "errors": errors,
         },
     } )
 
@@ -182,6 +189,10 @@ def _parse_label_report( fname ):
             nodes.append( { "id": node.attrib["id"] } )
             if "x" in node.attrib and "y" in node.attrib:
                 nodes[-1]["pos"] = ( node.attrib["x"], node.attrib["y"] )
+            if "caption" in node.attrib:
+                nodes[-1]["caption"] = node.attrib["caption"]
+            if node.text:
+                nodes[-1]["message"] = node.text
         report[ action.tag ] = nodes
     return report
 

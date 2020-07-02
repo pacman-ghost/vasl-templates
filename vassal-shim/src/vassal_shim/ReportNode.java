@@ -10,6 +10,17 @@ public class ReportNode
 
     String snippetId ;
     Point labelPos ;
+    String caption ;
+    String msg ;
+
+    public ReportNode( String snippetId, Point labelPos, String caption, String msg )
+    {
+        // initialize the ReportNode
+        this.snippetId = snippetId ;
+        this.labelPos = labelPos ;
+        this.caption = caption ;
+        this.msg = msg ;
+    }
 
     public ReportNode( String snippetId, Point labelPos )
     {
