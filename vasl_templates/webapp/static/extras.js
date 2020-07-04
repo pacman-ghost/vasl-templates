@@ -63,6 +63,14 @@ function _show_extra_template( template_id )
     // parse the template (nb: we do this every time since the user may have changed it in the UI)
     var template_info = _parse_extra_template( template_id, gTemplatePack.templates[template_id] ) ;
 
+    function add_player_nats( buf ) {
+        var nats = get_sorted_nats() ;
+        for ( var i=0 ; i < nats.length ; ++i ) {
+            var nat_info = gTemplatePack.nationalities[ nats[i] ] ;
+            buf.push( "<option value='", nats[i], "'>", nat_info.display_name, "</option>" ) ;
+        }
+    }
+
     // generate the form for entering the template parameters
     var buf = [ "<div>" ] ;
     buf.push( "<div class='name'>", template_info.name, "</div>" ) ;
@@ -77,7 +85,6 @@ function _show_extra_template( template_id )
             var display_name = template_info.params[i].caption || template_info.params[i].name ;
             buf.push( "<td class='caption'>", escapeHTML(display_name)+":" ) ;
             buf.push( "<td class='value'>" ) ;
-            var j ;
             if ( template_info.params[i].type === "input" ) {
                 buf.push( "<input class='param' name='" + escapeHTML(template_info.params[i].name) + "' type='text'" ) ;
                 if ( template_info.params[i].width )
@@ -92,16 +99,20 @@ function _show_extra_template( template_id )
                 for ( j=0 ; j < template_info.params[i].options.length ; ++j )
                     buf.push( "<option>", template_info.params[i].options[j], "</option>" ) ;
                 buf.push( "</select>" ) ;
-            } else if ( template_info.params[i].type.substr(0,22) === "player-color2-droplist" ) {
-                buf.push( "<select class='param' name='PLAYER_COLOR2_DROPLIST' style='width:11.5em;'>" ) ;
-                if ( template_info.params[i].type === "player-color2-droplist-ex" )
-                    buf.push( "<option value='black'>black</option>", "<option value='#c0c0c0'>gray</option>" ) ;
-                var nats = get_sorted_nats() ;
-                for ( j=0 ; j < nats.length ; ++j ) {
-                    var nat_info = gTemplatePack.nationalities[ nats[j] ] ;
-                    buf.push( "<option value='", nat_info.ob_colors[2], "'>", nat_info.display_name, "</option>" ) ;
-                }
+            } else if ( template_info.params[i].type === "player-droplist" ) {
+                buf.push( "<select name='_PLAYER_DROPLIST_' style='width:11.5em;'>" ) ;
+                add_player_nats( buf ) ;
                 buf.push( "</select>" ) ;
+            } else if ( template_info.params[i].type === "player-color-droplist" ) {
+                buf.push( "<select name='_PLAYER_DROPLIST_' style='width:11.5em;'>" ) ;
+                buf.push( "<option value=':black:'>black</option>" ) ;
+                buf.push( "<option value=':gray:'>gray</option>" ) ;
+                add_player_nats( buf ) ;
+                buf.push( "</select>" ) ;
+                // FUDGE! We create some hidden textboxes that contain the actual player colors (these will be updated
+                // as the user changes the selected player).
+                for ( var j=0 ; j <= 2 ; ++j )
+                    buf.push( "<input type='text' class='param' name='PLAYER_COLOR" + j + "' size='8' hidden></input>" ) ;
             }
         }
         buf.push( "</table>" ) ;
@@ -131,6 +142,20 @@ function _show_extra_template( template_id )
         return ;
     }
 
+    function on_player_droplist_change( $sel ) {
+        // update the hidden player colors
+        var nat = $sel.val() ;
+        var colors ;
+        if ( nat === ":black:" )
+            colors = [ "#f0f0f0", "black", "black" ] ;
+        else if ( nat === ":gray:" )
+            colors = [ "#f0f0f0", "#c0c0c0", "#c0c0c0" ] ;
+        else
+            colors = gTemplatePack.nationalities[ nat ].ob_colors ;
+        for ( var i=0 ; i <= 2 ; ++i )
+            $form.find( "input[name='PLAYER_COLOR" + i + "']" ).val( colors[i] ) ;
+    }
+
     // generate the form
     var $form = $( buf ) ;
     $form.find( "select" ).select2( {
@@ -139,6 +164,11 @@ function _show_extra_template( template_id )
         restrict_droplist_height( $(this) ) ;
     } ) ;
     fixup_external_links( $form ) ;
+    var $sel = $form.find( "select[name='_PLAYER_DROPLIST_']" ) ;
+    if ( $sel.length > 0 ) {
+        $sel.on( "change", function() { on_player_droplist_change( $(this) ) ; } ) ;
+        on_player_droplist_change( $sel ) ;
+    }
 
     // initialize the "generate" button
     init_snippet_button( $form.find( "button.generate" ) ) ;
@@ -183,10 +213,10 @@ function _parse_extra_template( template_id, template )
             // we have a <select>
             param.type = "select" ;
             param.options = val.split( "::" ) ;
-        } else if ( param.name === "PLAYER_COLOR2_DROPLIST" )
-            param.type = "player-color2-droplist" ;
-        else if ( param.name === "PLAYER_COLOR2_DROPLIST_EX" )
-            param.type = "player-color2-droplist-ex" ;
+        } else if ( param.name === "PLAYER_DROPLIST" )
+            param.type = "player-droplist" ;
+        else if ( param.name === "PLAYER_COLOR_DROPLIST" )
+            param.type = "player-color-droplist" ;
         else {
             // we have an <input>
             param.type = "input" ;
