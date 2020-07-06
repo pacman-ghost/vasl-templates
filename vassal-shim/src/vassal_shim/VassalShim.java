@@ -317,12 +317,34 @@ public class VassalShim
 
                 // check if the label is one of ours
                 String snippetId = isVaslTemplatesLabel( fields, GamePieceLabelFields.FIELD_INDEX_LABEL1 ) ;
+                int labelNo=1, fieldIndex=GamePieceLabelFields.FIELD_INDEX_LABEL1 ;
+                if ( snippetId == null ) {
+                    snippetId = isVaslTemplatesLabel( fields, GamePieceLabelFields.FIELD_INDEX_LABEL2 ) ;
+                    labelNo = 2 ;
+                    fieldIndex = GamePieceLabelFields.FIELD_INDEX_LABEL2 ;
+                }
                 if ( snippetId != null ) {
                     boolean addSnippet = true ;
                     // check if the label is associated with a player nationality
                     int pos = snippetId.indexOf( '/' ) ;
                     if ( pos >= 0 ) {
                         // yup - the nationality must be one of the 2 passed in to us
+                        // FUDGE! We identify player-owned labels because they have an ID of the form "nationality/snippet-id".
+                        // We originally used to just check for the presence of a "/", but this would get tripped up by snippets
+                        // generated from an "extras" template, since the snippet ID is the relative path, so something like
+                        // "extras/blank-space" would fool us into thinking that the scenario contained player-owned labels.
+                        // Adding a simple check for "extras" is not quite right, since template packs allow their template files
+                        // to be organized into arbitrary sub-directories, and so their snippets will also be incorrectly identified
+                        // as a player-owned label, but it's not really a problem because the reason we're checking is to figure out
+                        // if the scenario was generated using an old version of vasl-templates that didn't have player-owned labels.
+                        // The only time this check will go wrong is if:
+                        //   - this scenario was created using an old version of vasl-templates that doesn't support player-owned labels
+                        //   - the user had used their own template pack that had a sub-directory called something other than "extras".
+                        // IOW, not something we really need to worry about. The webapp server could pass in a list of known nationalities,
+                        // but that'd be more trouble that it's worth, since this is only an issue for legacy save files.
+                        // NOTE: If we've got a scenario that was created using a later version of vasl-templates, and it contains a snippet
+                        // generated from a template file in a sub-directory, then yes, that snippet might cause us to "incorrectly" decide
+                        // that the scenario contains player-owned labels, but it doesn't matter, because it's still the correct answer :-)
                         String nat = snippetId.substring( 0, pos ) ;
                         if ( ! nat.equals( "extras" ) )
                             hasPlayerOwnedLabels.setVal( true ) ;
@@ -332,24 +354,16 @@ public class VassalShim
                         }
                     }
                     if ( addSnippet ) {
-                        logger.debug( "- Found label (1): {}", snippetId ) ;
+                        logger.debug( "- Found label (" + labelNo + "): {}", snippetId ) ;
                         ourLabels.put( snippetId,
-                            new GamePieceLabelFields( target, separators, fields, GamePieceLabelFields.FIELD_INDEX_LABEL1 )
+                            new GamePieceLabelFields( target, separators, fields, fieldIndex )
                         ) ;
                     }
                 }
                 else {
-                    snippetId = isVaslTemplatesLabel( fields, GamePieceLabelFields.FIELD_INDEX_LABEL2 ) ;
-                    if ( snippetId != null ) {
-                        logger.debug( "- Found label (2): {}", snippetId ) ;
-                        ourLabels.put( snippetId,
-                            new GamePieceLabelFields( target, separators, fields, GamePieceLabelFields.FIELD_INDEX_LABEL2 )
-                        ) ;
-                    } else {
-                        otherLabels.add(
-                            new GamePieceLabelFields( target, separators, fields, -1 )
-                        ) ;
-                    }
+                    otherLabels.add(
+                        new GamePieceLabelFields( target, separators, fields, -1 )
+                    ) ;
                 }
             }
         }
