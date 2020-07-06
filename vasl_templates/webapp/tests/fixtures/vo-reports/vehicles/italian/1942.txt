@@ -10,7 +10,7 @@ L3 cc              ® CS 2               ® CS 2         4†   E J†<sup>1</su
 L3 Lf              ® CS 2               ® CS 2         5†   E†<sup>1</sup> N                                   Trailer (AF 0) | Stun = Recall, CE &amp; Fire NA | BMG: HD Fire OK
 L6/40              CS 2                 CS 2           6†   N R
 M11/39             ® CS 3               ® CS 3         7†   A†<sup>1</sup> N                                   B11: SA only | 2 TK DR
-M13/40             ®† CS 4              ®† CS 4        8†   B†<sup>1</sup> C†<sup>2</sup> N                    AAMG: VCA only
+M13/40             ®† CS 4              ®† CS 4        8†   B†<sup>1</sup> C†<sup>2</sup> N                    Radio | AAMG: VCA only
 M14/41             CS 4                 CS 4           9†   B†<sup>1</sup> C†<sup>2</sup> N                    AAMG: VCA only
 M15/42             CS 4                 CS 4           10†  B†<sup>1</sup> C†<sup>2</sup>                      AAMG: VCA only
 MR/35(f)           CS 2                 CS 2           11†  I†<sup>1</sup>                                     CMG: AA ok (TCA only) | CE: +1 Rear Turret &amp; Indirect Fire | French ESB+

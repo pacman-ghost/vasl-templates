@@ -8,12 +8,12 @@ Type 94                                  ® CS 2                  ® CS 2       
 Type 95 SO-KI                            ® CS 5                  ® CS 5              3†   n/a                                               MA: Normal Range = 8 | MA: Removal/Scrounge OK
 Type 97A TE-KE                           ® CS 2                  ® CS 2              4†   n/a
 Type 97B TE-KE                           ® CS 2                  ® CS 2              4†   n/a                                               No IF
-Type 95 HA-GO                            ®†[2] sD5[4+]†[1] CS 3  ®†[2] sD5†[1] CS 3  5†   B†<sup>1</sup> C†<sup>2</sup>                     Rear MG: 4:00 from MA
+Type 95 HA-GO                            ®†[2] sD5[4+]†[1] CS 3  ®†[2] sD5†[1] CS 3  5†   B†<sup>1</sup> C†<sup>2</sup>                     Rear MG: 4:00 from MA | No radio
 Type 2 KA-MI                             CS 5†                   CS 5†               6†   n/a                                               Amphibious | Movement restrictions | Near misses
 Type 2 KA-MI (without pontoons)          CS 5†                   CS 5†               6†   n/a
 Type 89A CHI-RO                          ® CS 4                  ® CS 4              7†   A†<sup>1</sup>                                    AP TK# = 8
 Type 89B CHI-RO                          ® CS 4                  ® CS 4              7†   n/a                                               Rear MG: 8:00 from MA | AP TK# = 8
-Type 97A CHI-HA                          ®†[2] sD5[1+]†[1] CS 4  ®†[2] sD5†[1] CS 4  8†   B†<sup>1</sup> C†<sup>2</sup>
+Type 97A CHI-HA                          ®†[2] sD5[1+]†[1] CS 4  ®†[2] sD5†[1] CS 4  8†   B†<sup>1</sup> C†<sup>2</sup>                     No radio
 Type 97B CHI-HA                          sD5 CS 4                sD5 CS 4            8†   n/a
 Type 1 CHI-HE                            sD5 CS 5                sD5 CS 5            9†   n/a
 Type 91                                  CS 6                    CS 6                10†  A†<sup>1</sup>                                    BMG: Normal Range = 8 | Reverse MP &#215;3

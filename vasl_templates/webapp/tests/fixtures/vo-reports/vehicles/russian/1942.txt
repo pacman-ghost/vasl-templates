@@ -7,8 +7,8 @@ T-27                  ® CS 2                                       ® CS 2     
 T-40                  ® CS 2                                       ® CS 2                   2†      H†                                                         2 TK DR (12.7 &amp; MG) | +3 Target Size &amp; HD if in Water
 T-50                  ® A4[2] CS 4                                 ® A4 CS 4                3       n/a
 T-60 M40              ® CS 2                                       ® CS 2                   4       n/a
-T-60 M42              ®† CS 2                                      ®† CS 2                  4       C†
-T-70                  ®† A4[2] CS 2                                ®† A4 CS 2               5       C†
+T-60 M42              ®† CS 2                                      ®† CS 2                  4       C†                                                         No Radio
+T-70                  ®† A4[2] CS 2                                ®† A4 CS 2               5       C†                                                         No Radio
 T-26 M33              ® CS 3                                       ® CS 3                   6       D I† M P                                                   12: Immob, 11: Stall
 T-26 M37/39           ® CS 3                                       ® CS 3                   6       D M P                                                      12: Immob, 11: Stall
 T-26 M31              ® CS 3                                       ® CS 3                   6.1†    M P                                                        CMG: Scrounge OK | 12: Immob, 11: Stall
@@ -25,10 +25,10 @@ T-28 M34(L)           ® s8 CS 5                                    ® s8 CS 5  
 T-28E M40             ® s8 CS 6                                    ® s8 CS 6                12†     M                                                          12: Immob, 11: Stall
 T-28E M40(L)          ® s8 CS 6                                    ® s8 CS 6                12.1†   M                                                          12: Immob, 11: Stall
 T-34 M40              ® CS 5                                       ® CS 5                   13      M                                                          12: Immob, 11: Stall
-T-34 M41              ®† A4[2] CS 5                                ®† A4 CS 5               14†     C† M                                                       12: Immob, 11: Stall
-OT-34                 ®† A2[2] AP7 CS 4                            ®† A2 AP7 CS 4           15†     C† M                                                       No IF | 12: Immob, 11: Stall
+T-34 M41              ®† A4[2] CS 5                                ®† A4 CS 5               14†     C† M                                                       No Radio | 12: Immob, 11: Stall
+OT-34                 ®† A2[2] AP7 CS 4                            ®† A2 AP7 CS 4           15†     C† M                                                       No IF | No Radio | 12: Immob, 11: Stall
 T-34 M43              A4[2] CS 5                                   A4 CS 5                  16†     n/a
-T-43                  ®† A4[2] CS 5                                ®† A4 CS 5               17      C† M                                                       12: Immob, 11: Stall
+T-43                  ®† A4[2] CS 5                                ®† A4 CS 5               17      C† M                                                       No Radio | 12: Immob, 11: Stall
 T-34/85               A5[4] sD6† CS 6                              sD6† CS 6                18†     J†                                                         sD: single-use
 M4/76(a)              A3[4] s8 sM8 CS 6                            s8 sM8 CS 6              19†     N                                                          Black TH# | U.S. AP &amp; APCR TK #'s | American ESB
 T-44                  A6[5] CS 5                                   CS 5                     20      B† M                                                       BMG: +1 DRM vs Moving/Motion | 12: Immob, 11: Stall
@@ -40,7 +40,7 @@ KV-1E                 CS 6                                         CS 6         
 KV-1 M41              A4[2] CS 6                                   A4 CS 6                  23      D M                                                        12: Immob, 11: Stall
 KV-1 M42              A4[2] CS 6                                   A4 CS 6                  23      D M                                                        12: Immob, 11: Stall
 KV-2                  AP9 CS 7                                     AP9 CS 7                 24†     M                                                          Pays NT TCA DRM | No IF | 12: Immob, 11: Stall
-KV-8                  A4[2] AP7 CS 6                               A4 AP7 CS 6              15†     C M                                                        12: Immob, 11: Stall
+KV-8                  A4[2] AP7 CS 6                               A4 AP7 CS 6              15†     C M                                                        No Radio | 12: Immob, 11: Stall
 KV-1S                 A4[2] CS 6                                   A4 CS 6                  25†     n/a
 KV-85                 A4[3]5[4] CS 5                               CS 5                     26      B†                                                         BMG: +1 DRM vs Moving/Motion
 IS-2                  CS 6                                         CS 6                     27      B†                                                         No IF | BMG: +1 DRM vs Moving/Motion

@@ -33,6 +33,7 @@
     "vehicles": {
         "A": "MA &amp; CMG: AA ok",
         "B": "BMG: +1 DRM vs Moving/Motion",
+        "C": "{? 01/1943- | Radio | No Radio | Radio<sup>43+</sup> ?}",
         "F": "MA: VCA &le; level NA",
         "H": "+3 Target Size &amp; HD if in Water",
         "J": "sD: single-use",
@@ -162,6 +163,9 @@
 },
 
 "japanese": {
+    "vehicles": {
+        "C": "{? 01/1945- | Radio | No radio | Radio<sup>45+</sup> ?}"
+    },
     "ordnance": {
         "A": "Animal-Packed",
         "B": "As 82mm MTR",
