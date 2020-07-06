@@ -12,7 +12,7 @@ M1 81mm Mortar               WP8                         WP8                 Fr 
 Boys ATR                                                                     Fr 4†      Fr B                  No Long Range
 OQF 25mm Hotchkiss                                                           Fr 23†[1]  Fr V Fr W†            QSU | En Portee (15-cwt truck) | No Captured Use penalty for Vichy French
 Canon AC de 47 SA 37 APX(f)                                                  Fr 6†[1]   Fr B Fr G† Fr P Fr V  QSU | APCR only | En Portee (Renault AGR2) [{ *:Motion Fire NA }] | MA: B# = 12 | No Captured Use penalty for Vichy French
-OQF 6-Pounder 7-cwt          D6[J4E]7[5]† HE7[F3]8[4+]†                      Fr 24      Fr W†                 QSU | CA restrictions | En Portee (3-ton lorry) | Portee Fire OK [EXC: Bnd (F)F NA]
+OQF 6-Pounder 7-cwt          D6[J4E]7[5]† HE7[F3]8[4+]†                      Fr 24      Fr W†                 QSU | CA restrictions | En Portee (3-ton lorry) [{ *:Portee Fire OK [EXC: Bnd (F)F NA] }]
 M1 57mm AT Gun               D4[J4+E]† HE7[J4E]7[5]†                         Fr 24      Fr Y†                 QSU
 Canon de 75 mle 1897         s8                          s8                  Fr 25†[1]  Fr V Fr W†            QSU | En Portee (3-ton lorry) | No Captured Use penalty for Vichy French
 OQF 25-Pounder Gun-Howitzer  LF [NT, 0 ROF] s8           LF [NT, 0 ROF] s8   Fr 26†[1]  Fr W†

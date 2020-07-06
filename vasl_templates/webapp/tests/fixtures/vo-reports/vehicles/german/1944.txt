@@ -56,7 +56,7 @@ Pz 35R 731(f)           CS 2                           CS 2                     
 Marder I(f)             A6[2] HE7 s7 CS 4[brewup]      A6 HE7 s7 CS 4[brewup]      45†     a                                  French ESB
 GSW 39H(f) Pak          A4[4] HE9 CS 3                 A4 HE9 CS 3                 45.1    a e                                French ESB
 Marder II               A6[2] HE7 s7 CS 4[brewup]      A6 HE7 s7 CS 4[brewup]      46      M† N<sup>FT</sup>
-Marder III(t)H          A6[2] HE7 s7 sD6 CS 4[brewup]  A6 HE7 s7 sD6 CS 4[brewup]  47      E G N<sup>F</sup>                  CE +3 F | ESB: 0 DRM
+Marder III(t)H          A6[2] HE7 s7 sD6 CS 4[brewup]  A6 HE7 s7 sD6 CS 4[brewup]  47      E G N<sup>F</sup>                  CE: +3 Front | ESB: 0 DRM
 Marder III(t)M          A5[3] HE7 s7 sD5 CS 4[brewup]  A5 HE7 s7 sD5 CS 4[brewup]  48      E                                  ESB: 0 DRM
 PzJg III/IV             HE7 CS 5                       HE7 CS 5                    49      M†
 JgdPz 38(t)             A4[4] HE7 CS 4                 A4 HE7 CS 4                 50      E O†                               ESB: 0 DRM | AAMG: BU only, Rider NA, elevation restrictions

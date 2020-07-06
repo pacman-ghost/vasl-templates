@@ -1,14 +1,14 @@
 === ordnance/british~newzealand/1942 ===
 
 Name                         Capabilities                 (effective)                  #    Notes                 Comments
----------------------------  ---------------------------  ---------------------------  ---  --------------------  -----------------------------------------------------------------------------------
+---------------------------  ---------------------------  ---------------------------  ---  --------------------  -----------------------------------------------------------------------------------------
 OML 2-in. Mortar             IR[2+]† s7                   IR† s7                       1    A† N P
 OML 2-in. Airborne Mortar    IR s7                        IR s7                        1    n/a
 OML 3-in. Mortar             IR[2+]†[1] WP7 s8[1+]†       IR†[1] WP7 s8†               2†   A†<sup>1</sup> D N P  QSU | Animal-Packed
 OSB 4.2-in. Mortar           WP7 s8                       WP7 s8                       3†   N P                   Towed
 OQF 25mm Hotchkiss                                                                     4†   B N                   QSU | En Portee (15-cwt truck)
 OQF 2-Pounder                LF [NT, 40†[1], 2 ROF, B11]  LF [NT, 40†[1], 2 ROF, B11]  5†   B C†<sup>1</sup> N P  En Portee (30-cwt lorry)
-OQF 6-Pounder 7-cwt          D6[J4E]7[5]† HE7[F3]8[4+]†                                6†   B N P                 QSU | CA restrictions | En Portee (3-ton lorry) | Portee Fire OK [EXC: Bnd (F)F NA]
+OQF 6-Pounder 7-cwt          D6[J4E]7[5]† HE7[F3]8[4+]†                                6†   B N P                 QSU | CA restrictions | En Portee (3-ton lorry) [{ *:Portee Fire OK [EXC: Bnd (F)F NA] }]
 OQF 17/25-Pounder                                                                      7    N
 OQF 17-Pounder               D5[S4]6[5]† HE8[J4+]†                                     8†   n/a
 OQF M1A1 75mm Pack Howitzer  H6 WP7                       H6 WP7                       9†   D P                   QSU | Animal-Packed

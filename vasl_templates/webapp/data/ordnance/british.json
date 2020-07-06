@@ -54,7 +54,7 @@
 { "name": "OQF 6-Pounder 7-cwt",
   "type": "AT",
   "capabilities2": { "HE": [ [7,"F3"], [8,"4+"], "\u2020" ], "D": [ [6,"J4E"], [7,5], "\u2020" ] },
-  "comments": [ "QSU", "CA restrictions", "{? 01/1941-08/1943 | En Portee (3-ton lorry) | En Portee NA | En Portee<sup>41-8/43</sup> ?}", "{? 01/1941-08/1943 | Portee Fire OK [EXC: Bnd (F)F NA] | | Portee Fire<sup>41-8/43</sup> ?}" ],
+  "comments": [ "QSU", "CA restrictions", "{? 01/1941-08/1943 | En Portee (3-ton lorry) <ul> <li> Portee Fire OK [EXC: Bnd (F)F NA] </ul> | En Portee NA | En Portee<sup>41-8/43</sup> ?}" ],
   "note_number": "6\u2020",
   "notes": [ "B", "N", "P" ],
   "id": "br/o:006",

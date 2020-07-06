@@ -25,10 +25,7 @@
     "ordnance": {
         "A": [ "Use APCR TK vs AFV", "&infin; APCR" ],
         "O": "Animal-Packed",
-        "P": [
-            "{? 01/1941-08/1943 | En Portee (Opel truck) | En Portee NA | En Portee<sup>41-8/43</sup> ?}",
-            "{? 01/1941-08/1943 | Portee Fire OK | | Portee Fire<sup>41-8/43</sup> ?}"
-        ]
+        "P": "{? 01/1941-08/1943 | En Portee (Opel truck) <ul> <li> Portee Fire OK </ul> | En Portee NA | En Portee<sup>41-8/43</sup> ?}"
     }
 },
 
@@ -56,7 +53,7 @@
     "vehicles": {
         "B": "BMG: +1 DRM vs Moving/Motion",
         "D": [ "(Un)load &times;2", "Pas: Mounted Fire", "Unpossessed SW ok", "MG Removal OK" ],
-        "E": "Crew: .50 cal MA only",
+        "E": "Crew: .50-cal MA only",
         "H": "Independent AAMG's",
         "I": [ "{{4|MA|2*}}", "AAMG: Removal OK" ],
         "J": "MA: Rear VCA only",
