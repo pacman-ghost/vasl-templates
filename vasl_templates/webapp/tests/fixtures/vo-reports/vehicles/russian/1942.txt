@@ -44,14 +44,14 @@ KV-8                  A4[2] AP7 CS 6                               A4 AP7 CS 6  
 KV-1S                 A4[2] CS 6                                   A4 CS 6                  25†     n/a
 KV-85                 A4[3]5[4] CS 5                               CS 5                     26      B†                                                         BMG: +1 DRM vs Moving/Motion
 IS-2                  CS 6                                         CS 6                     27      B†                                                         No IF | BMG: +1 DRM vs Moving/Motion
-IS-2m                 CS 6                                         CS 6                     28      B† G†                                                      No IF | BMG: +1 DRM vs Moving/Motion
-IS-3                  sD6† CS 6                                    sD6† CS 6                29      G† J†                                                      No IF | sD: single-use
+IS-2m                 CS 6                                         CS 6                     28      B† G†                                                      No IF | BMG: +1 DRM vs Moving/Motion | AAMG: 12.7
+IS-3                  sD6† CS 6                                    sD6† CS 6                29      G† J†                                                      No IF | AAMG: 12.7 | sD: single-use
 SU-76M                A5[3] CS 4[brewup]                           CS 4[brewup]             30†     n/a
 SU-76i(g)             A5[3] CS 5                                   CS 5                     31      K                                                          German ESB | Red TH#
 SU-122                H9 s8 CS 5                                   H9 s8 CS 5               32      n/a                                                        No IF
 SU-152                CS 6                                         CS 6                     33†     n/a                                                        No IF
-ISU-122               s8 CS 6                                      s8 CS 6                  34      G†                                                         No IF
-ISU-152               CS 6                                         CS 6                     34      G†                                                         No IF
+ISU-122               s8 CS 6                                      s8 CS 6                  34      G†                                                         No IF | AAMG: 12.7
+ISU-152               CS 6                                         CS 6                     34      G†                                                         No IF | AAMG: 12.7
 SU-85                 A5[3] HE7 s7 CS 5                            HE7 s7 CS 5              35      n/a
 SU-100                HE7 CS 5                                     HE7 CS 5                 36      n/a
 SU-57(a)              A5[3] HE7 CS 4                               HE7 CS 4                 37      K                                                          American ESB | Red TH#
