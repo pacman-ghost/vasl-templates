@@ -471,7 +471,7 @@ def test_vo_notes_reports( webapp, webdriver ):
 
     # initialize
     check_dir = os.path.join( vo_notes_dir, "tests/" )
-    save_dir = None # nb: define this to save the generated reports (compare against ~/projects/chapter-h-data/tests/)
+    save_dir = os.environ.get( "VO_NOTES_SAVEDIR" ) # nb: define this to save the generated reports
 
     # initialize
     if save_dir and os.path.isdir(save_dir):

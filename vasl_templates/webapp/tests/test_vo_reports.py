@@ -37,7 +37,7 @@ def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
 
     # initialize
     check_dir = os.path.join( os.path.split(__file__)[0], "fixtures/vo-reports/" )
-    save_dir = None # nb: define this to save the generated reports
+    save_dir = os.environ.get( "VO_REPORTS_SAVEDIR" ) # nb: define this to save the generated reports
     if save_dir and os.path.isdir(save_dir):
         shutil.rmtree( save_dir )
 
