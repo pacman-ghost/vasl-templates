@@ -14,6 +14,7 @@
     color: #404040 ;
 }
 .header { background: #fff200 ; padding: 2px 5px ; }
+.header .name { font-size: 105% ; font-weight: bold ; }
 .hexes { font-size: 90% ; font-style: italic ; color: #606060 ; }
 </style>
 </head>
@@ -21,28 +22,28 @@
 <div class="box">
 <div class="header">
 {% if CAVE_COMPLEX == "Kakazu West" %}
-    {{CAVE_COMPLEX}} (15)
+    <span class="name"> {{CAVE_COMPLEX}} </span> (15)
     <div class="hexes"> E10, F10-12, G10-14, H10-14, I11-12 <div>
 {% elif CAVE_COMPLEX == "Kakazu Saddle" %}
-    {{CAVE_COMPLEX}} (12)
+    <span class="name"> {{CAVE_COMPLEX}} </span> (12)
     <div class="hexes"> J11-12, K11-14, L10-14, M9-13, N8-12 </div>
 {% elif CAVE_COMPLEX == "Kakazu Center" %}
-    {{CAVE_COMPLEX}} (20)
+    <span class="name"> {{CAVE_COMPLEX}} </span> (20)
     <div class="hexes"> N13, O9-13, P8-12, Q8-13, R7-9 </div>
 {% elif CAVE_COMPLEX == "Kakazu Front" %}
-    {{CAVE_COMPLEX}} (20)
+    <span class="name"> {{CAVE_COMPLEX}} </span> (20)
     <div class="hexes"> R10-11, S8-12, T8-12, U9-12, V8-12, W9-12, X9-11 </div>
 {% elif CAVE_COMPLEX == "Kakazu Reverse" %}
-    {{CAVE_COMPLEX}} (15)
+    <span class="name"> {{CAVE_COMPLEX}} </span> (15)
     <div class="hexes"> R12-13, S13-15, T13-15, U13-15, V13 </div>
 {% elif CAVE_COMPLEX == "Kakazu East" %}
-    {{CAVE_COMPLEX}} (15)
+    <span class="name"> {{CAVE_COMPLEX}} </span> (15)
     <div class="hexes"> W13, X12-13, Y11-14, Z11-14, AA11-14, BB13 </div>
 {% elif CAVE_COMPLEX == "Kakazu Village" %}
-    {{CAVE_COMPLEX}} (12)
+    <span class="name"> {{CAVE_COMPLEX}} </span> (12)
     <div class="hexes"> L15-17, M14-18, N14-18, O15-19, P15-19, Q16-20, R16-19, S17-19 </div>
 {% else %}
-    Cave Complex
+    <span class="name"> Cave Complex </span>
 {%endif%}
 </div>
 </div>
