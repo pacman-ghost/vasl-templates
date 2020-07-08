@@ -58,7 +58,7 @@ def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
 
     # check each vehicle/ordnance report
     nationalities = list( get_nationalities( webapp ).keys() )
-    nationalities.extend( [ "allied-minor-common", "axis-minor-common" ] )
+    nationalities.extend( [ "allied-minor-common", "axis-minor-common", "landing-craft" ] )
     failed = False
     for nat in nationalities:
 
@@ -73,6 +73,8 @@ def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
             for year in range(years[0],years[1]+1):
 
                 # get the next report
+                if nat == "landing-craft" and vo_type == "ordnance":
+                    continue
                 results = get_vo_report( webapp, webdriver, vo_type, nat, "ETO", year, 1 )
                 if nat in ("burmese","filipino") or (nat,vo_type) in [("anzac","ordnance"),("kfw-cpva","vehicles")]:
                     assert not results
@@ -118,35 +120,6 @@ def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
                         assert False, "Report mismatch: {}".format( fname )
 
     assert not failed
-
-    # get the landing craft report
-    url = webapp.url_for( "get_lc_report" )
-    webdriver.get( url )
-    wait_for( 2, lambda: find_child("#results").is_displayed() )
-    results = _parse_report( webdriver.page_source )
-
-    # convert the report to plain-text
-    assert results[0][-2] == "Notes"
-    results[0].insert( len(results[0])-2, "#" )
-    assert results[0][-4] == "Capabilities"
-    results[0].insert( len(results[0])-3, "(effective)" )
-    buf = io.StringIO()
-    print( "=== landing craft ===", file=buf )
-    print( "", file=buf )
-    print(
-        tabulate.tabulate( results, headers="firstrow" ),
-        file = buf
-    )
-    report = buf.getvalue()
-
-    # check if we should save the report
-    if save_dir:
-        with open( os.path.join(save_dir,"landing-craft.txt"), "w" ) as fp:
-            fp.write( report )
-
-    # check the report
-    fname = os.path.join( check_dir, "landing-craft.txt" )
-    assert open(fname,"r",encoding="utf-8").read() == report
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

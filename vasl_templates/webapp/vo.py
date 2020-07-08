@@ -174,7 +174,7 @@ def _do_load_vo_listings( vasl_mod, vo_type, merge_common, real_data_dir, msg_st
 
 # ---------------------------------------------------------------------
 
-@app.route( "/<vo_type>/<nat>/<theater>/<int:year>", defaults={"month":1}  )
+@app.route( "/<vo_type>/<nat>/<theater>/<int:year>", defaults={"month":1} )
 @app.route( "/<vo_type>/<nat>/<theater>/<int:year>/<int:month>" )
 def get_vo_report( vo_type, nat, theater, year, month ):
     """Get a vehicle/ordnance report."""
@@ -189,13 +189,4 @@ def get_vo_report( vo_type, nat, theater, year, month ):
         VO_TYPE0 = vo_type[:-1] if vo_type.endswith("s") else vo_type,
         YEAR = year,
         MONTH = month,
-    )
-
-@app.route( "/landing_craft" )
-def get_lc_report():
-    """Get a landing craft ordnance report."""
-    return render_template( "vo-report.html",
-        VO_TYPE = "landing-craft",
-        YEAR = "null",
-        MONTH = "null",
     )

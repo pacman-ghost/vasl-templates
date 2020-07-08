@@ -1,0 +1,12 @@
+=== vehicles/landing-craft/1945 ===
+
+Name      Capabilities    (effective)    #    Notes                                             Comments
+--------  --------------  -------------  ---  ------------------------------------------------  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+LCP(L)    DP 2 CS 4       DP 2 CS 4      1†   A†<sup>1</sup> B†<sup>3</sup> C†<sup>2</sup> D    British: Unarmored &amp; unarmed; Inherent Crew | MA: 4&amp;4 | Front as Open-Topped AFV | Normal Range = 8 | No ramp, (un)load &#215;2 [EXC: Pier]
+LCA       DP 3 CS 6       DP 3 CS 6      2†   n/a                                               Personnel/SW only | Collateral Attacks: &#189; FP
+LCVP      DP 3 CS 5       DP 3 CS 5      3†   B†<sup>2</sup> C†<sup>1</sup>                     Inherent Crew | MA: 4&amp;4 | Normal Range = 8
+LCM(3)    DP 5 CS 6       DP 5 CS 6      4†   B†<sup>2</sup> C†<sup>1</sup>                     MA: 2&amp;2 or 6&amp;6 | Normal Range = 8
+LCI(S)    DP 14 CS 10     DP 14 CS 10    5†   C†<sup>3</sup> D E†<sup>2</sup> F†<sup>1</sup> G  AAMG: 2&amp;2 | -3 Target Size [{ *:One-level LOS obstacle across Side *:Units may not move through Location }] | Cloaked Passengers | No ramp, (un)load &#215;2 [EXC: Pier] | MA: 2&#215; AA [{ *:IFE Normal Range = 16 *:VCA and/or adjacent/same-hex &#8804; level NA }] | Stun: dr &#8805; 5 | Unbeaching: -1 DRM
+LCT(4)    DP 10 CS 9      DP 10 CS 9     6†   C†<sup>3</sup> E†<sup>2</sup> F†<sup>1</sup> G    -4 Target Size [{ *:One-level LOS obstacle across Side *:Units may not move through Location }] | Infantry Stack unload | MA: 2&#215; AA [{ *:IFE Normal Range = 16 *:VCA and/or adjacent/same-hex &#8804; level NA }] | Stun: dr &#8805; 5 | Unbeaching: -1 DRM
+Daihatsu  DP 3 CS 4       DP 3 CS 4      7†   A†<sup>1</sup>                                    AAMG: Rear/port-side only | Front as Open-Topped AFV
+Shohatsu  DP 2 CS 3       DP 2 CS 3      8†   A† D                                              Passengers: BU NA | Front as Open-Topped AFV | No ramp, (un)load &#215;2 [EXC: Pier]
