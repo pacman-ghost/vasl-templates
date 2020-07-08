@@ -130,12 +130,13 @@ class WebDriver:
             screenshot_tempfile.close()
             self.driver.set_window_size( window_size[0], window_size[1] )
             img = do_get_screenshot( screenshot_tempfile.name )
-            if img.width > window_size[0]*9/10 or img.height > window_size[1]*9/10:
-                # the image may have been cropped - try again with a larger window size
+            retry_ratio = float( app.config.get( "WEBDRIVER_SCREENSHOT_RETRY_RATIO", 0.8 ) )
+            if img.width > window_size[0]*retry_ratio or img.height > window_size[1]*retry_ratio:
+                # FUDGE! The webdriver sometimes has trouble when the image is close to the edge of the canvas
+                # (it gets cropped), so we retry even if we appear to be completely within the canvas.
                 if large_window_size:
                     self.driver.set_window_size( large_window_size[0], large_window_size[1] )
                     img = do_get_screenshot( screenshot_tempfile.name )
-
             return img
 
     def get_snippet_screenshot( self, snippet_id, snippet ):
