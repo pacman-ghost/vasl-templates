@@ -476,8 +476,8 @@ public class VassalShim
         //   |            |                |            |
         //   |  PLAYER 1  |    board(s)    |  PLAYER 2  |
         //   |            |                |            |
-        //   |            |----------------|            +
-        //   |            |    OVERFLOW    |            |
+        //   |------------+----------------+------------+
+        //   |                 OVERFLOW                 |
         //   +------------------------------------------+
         // Non-player specific labels (e.g. SCENARIO and SSR) go into GENERAL, player-specific labels
         // go into their respective areas, and everything else left over that didn't fit into their
@@ -535,21 +535,21 @@ public class VassalShim
             labelAreas.put( "player1",
                 new LabelArea( "player1",
                     new Point( xMargin, borderHeight ),
-                    borderWidth-2*xMargin, mapHeight-borderHeight,
+                    borderWidth-2*xMargin, mapHeight-2*borderHeight,
                     xMargin, yMargin
                 )
             ) ;
             labelAreas.put( "player2",
                 new LabelArea( "player2",
                     new Point( mapWidth-borderWidth+xMargin, borderHeight ),
-                    borderWidth-2*xMargin, mapHeight-borderHeight,
+                    borderWidth-2*xMargin, mapHeight-2*borderHeight,
                     xMargin, yMargin
                 )
             ) ;
             labelAreas.put( "overflow",
                 new LabelArea( "overflow",
-                    new Point( borderWidth, mapHeight-borderHeight+yMargin ),
-                    mapWidth-2*borderWidth, 99999, // nb: unlimited height
+                    new Point( xMargin, mapHeight-borderHeight+yMargin ),
+                    mapWidth-2*xMargin, 99999, // nb: unlimited height
                     xMargin, yMargin
                 )
             ) ;
