@@ -186,6 +186,7 @@ def get_tab_for_elem( elem ):
 
 def select_menu_option( menu_id, webdriver=None ):
     """Select a menu option."""
+
     if not webdriver:
         webdriver = _webdriver
     elem = find_child( "#menu", webdriver )
@@ -193,18 +194,26 @@ def select_menu_option( menu_id, webdriver=None ):
     elem = wait_for_elem( 2, "a.PopMenu-Link[data-name='{}']".format( menu_id ), webdriver )
     elem.click()
     wait_for( 2, lambda: find_child("#menu .PopMenu-Container",webdriver) is None ) # nb: wait for the menu to go away
+
     # FUDGE! The delay above is not enough, I suspect because Selenium is deciding that the PopMenu container
     # is hidden if it has a very low opacity, but it's still blocking any clicks we want to do after we return.
     # We work around this by trying to click on a dummy button, until it works :-/
-    btn = find_child( "button#popmenu-hack" )
-    for i in range(0,10): #pylint: disable=unused-variable
-        try:
-            btn.click()
-            return
-        except WebDriverException:
-            time.sleep( 0.25 )
-            if find_child( "#ask" ):
+    class PopMenuHack:
+        """Enable/disable the button we use to detect if PopMenu is still on-screen."""
+        def __enter__( self ):
+            webdriver.execute_script( "document.getElementById('popmenu-hack').style.display = 'block'" )
+        def __exit__( self, *args ):
+            webdriver.execute_script( "document.getElementById('popmenu-hack').style.display = 'none'" )
+    btn = find_child( "button#popmenu-hack", webdriver )
+    with PopMenuHack():
+        for i in range(0,10): #pylint: disable=unused-variable
+            try:
+                btn.click()
                 return
+            except WebDriverException:
+                time.sleep( 0.25 )
+                if find_child( ".ui-dialog", webdriver ):
+                    return
     assert False
 
 def new_scenario():
