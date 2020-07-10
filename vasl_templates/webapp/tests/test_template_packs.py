@@ -269,11 +269,10 @@ def _generate_snippet( webdriver, template_id, orig_template_id ):
         # create a vehicle/ordnance and generate a snippet for its note
         mo = re.search( r"^ob_([a-z]+)_note_(\d)$", orig_template_id )
         vo_type, player_no = mo.group(1), int(mo.group(2))
-        if vo_type == "vehicle":
-            vo_type = "vehicles"
+        vo_type0 = "vehicles" if vo_type == "vehicle" else vo_type
         player_nat = "german" if player_no == 1 else "russian"
-        sortable = find_child( "#ob_{}-sortable_{}".format( vo_type, player_no ) )
-        add_vo( webdriver, vo_type, player_no, "a {} {}".format(player_nat,vo_type) )
+        sortable = find_child( "#ob_{}-sortable_{}".format( vo_type0, player_no ) )
+        add_vo( webdriver, vo_type0, player_no, "a {} {}".format(player_nat,vo_type) )
         elems = find_children( "li img.snippet", sortable )
         elem = elems[0]
     else:

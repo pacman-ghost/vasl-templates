@@ -7,7 +7,6 @@ import json
 import pytest
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import WebDriverException
 
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, save_scenario
 from vasl_templates.webapp.tests.utils import \
@@ -139,7 +138,7 @@ def test_snippets( webapp, webdriver ):
         """Run the test."""
         vo_type0 = vo_type[:-1] if vo_type.endswith("s") else vo_type
         # test a full example
-        add_vo( webdriver, vo_type, 1, "a german {}".format(vo_type) )
+        add_vo( webdriver, vo_type, 1, "a german {}".format(vo_type0) )
         btn = find_child( "button[data-id='ob_{}_1']".format( vo_type ) )
         btn.click()
         caps = '"XYZ" "IR" "A1" "H2"'
@@ -156,7 +155,7 @@ def test_snippets( webapp, webdriver ):
         delete_vo( vo_type, 1, "a german {}".format(vo_type0), webdriver )
 
         # test a partial example
-        add_vo( webdriver, vo_type, 1, "another german {}".format(vo_type) )
+        add_vo( webdriver, vo_type, 1, "another german {}".format(vo_type0) )
         btn = find_child( "button[data-id='ob_{}_1']".format( vo_type ) )
         btn.click()
         caps = '"XYZ"'
@@ -672,7 +671,7 @@ def test_change_vo_image( webapp, webdriver ):
 
     # add an ISU-152
     set_player( 2, "russian" )
-    add_vo( webdriver, "vehicles", 2, "ISU-152 (AG)" )
+    add_vo( webdriver, "vehicles", 2, "ISU-152" )
 
     # save the scenario
     saved_scenario = save_scenario()
@@ -751,7 +750,7 @@ def test_change_vo_image2( webapp, webdriver ):
 
     # add an 107mm GVPM
     set_player( 2, "russian" )
-    add_vo( webdriver, "ordnance", 2, "107mm GVPM obr. 38 (MTR)" )
+    add_vo( webdriver, "ordnance", 2, "107mm GVPM obr. 38" )
 
     # make sure the "change image" button is not present
     ordnance_sortable = find_child( "#ob_ordnance-sortable_2" )
@@ -786,31 +785,23 @@ def test_invalid_vo_image_ids( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-def add_vo( webdriver, vo_type, player_no, name ):
+def add_vo( webdriver, vo_type, player_no, name ): #pylint: disable=unused-argument
     """Add a vehicle/ordnance."""
 
     # add the vehicle/ordnance
     select_tab( "ob{}".format( player_no ) )
     elem = find_child( "#ob_{}-add_{}".format( vo_type, player_no ) )
     elem.click()
-    entries = find_children( "#select-vo .select2-results li" )
-    if name.endswith( "s" ):
-        name = name[:-1]
-    matches = [ e
-        for e in entries
-        if re.sub( r" \[.+\]$", "", e.text ) == name # nb: remove extension ID's
-    ]
-    assert len(matches) == 1
-    elem = matches[0]
-    webdriver.execute_script( "arguments[0].scrollIntoView()", elem )
-    # FUDGE! Selecting the required entry is flaky, and we sometimes need to do it twice (Firefox :-/).
-    ActionChains( webdriver ).click( elem ).perform()
-    try:
-        ActionChains( webdriver ).click( elem ).perform()
-    except WebDriverException as ex:
-        assert "TypeError: rect is undefined" in str(ex)
-    if find_child( "#select-vo" ).is_displayed():
-        click_dialog_button( "OK" )
+    # FUDGE! Locating the vehicle/ordnance by name and selecting it is finicky, I suspect
+    # because select2 is sensitive about where the mouse is, and we sometimes end up
+    # selecting the wrong item :-/ Selecting by name won't work if there are multiple items
+    # that start with the same thing, but that shouldn't be a problem.
+    dlg = find_child( "#select-vo" )
+    elem = find_child( "input", dlg )
+    elem.send_keys( name )
+    entries = find_children( ".select2-results li", dlg )
+    assert len(entries) == 1
+    click_dialog_button( "OK" )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

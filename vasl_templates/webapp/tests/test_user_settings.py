@@ -31,7 +31,7 @@ def test_include_vasl_images_in_snippets( webapp, webdriver ):
 
     # add a vehicle
     set_player( 1, "german" )
-    add_vo( webdriver, "vehicles", 1, "PzKpfw IB (Tt)" )
+    add_vo( webdriver, "vehicles", 1, "PzKpfw IB" )
 
     # enable "show VASL images in snippets"
     select_menu_option( "user_settings" )

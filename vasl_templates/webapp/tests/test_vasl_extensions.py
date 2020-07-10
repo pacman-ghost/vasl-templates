@@ -136,7 +136,7 @@ def test_dedupe_ma_notes( webapp, webdriver ):
     # - Type 98 MCT:    adf-bj:Br H ; adf-bj:Ge A
 
     # do the tests
-    do_test( [ "Type 92A (Tt)", "M3(a) (LT)" ], [
+    do_test( [ "Type 92A", "M3(a)" ], [
         ( False, "A", "The MA and <i>all MG" ),
         ( True, "A", "The (a) indicates U." ),
         ( True, "B", "This vehicle uses Re" ),
@@ -144,12 +144,12 @@ def test_dedupe_ma_notes( webapp, webdriver ):
         # nb: "Jp A" should be deleted as a dupe of A
         ( True, "US B", "Due to two of the MG" ),
     ] )
-    do_test( [ "Type 92A (Tt)", "Type 98 MCT (AAtr)" ], [
+    do_test( [ "Type 92A", "Type 98 MCT" ], [
         ( False, "A", "The MA and <i>all MG" ),
         ( True, "Br H", 'As signified by "Inf' ),
         ( True, "Ge A", "MA and CMG (if so eq" ), # nb: this is "Ge A", which is different to the Japanese "A"
     ] )
-    do_test( [ "M3(a) (LT)", "Type 98 MCT (AAtr)" ], [
+    do_test( [ "M3(a)", "Type 98 MCT" ], [
         ( True, "A", "The (a) indicates U." ),
         ( True, "B", "This vehicle uses Re" ),
         ( True, "C", "Although a captured " ),
@@ -158,7 +158,7 @@ def test_dedupe_ma_notes( webapp, webdriver ):
         ( True, "Jp A", "The MA and <i>all MG" ),
         ( True, "US B", "Due to two of the MG" ),
     ] )
-    do_test( [ "Type 92A (Tt)", "M3(a) (LT)", "Type 98 MCT (AAtr)" ], [
+    do_test( [ "Type 92A", "M3(a)", "Type 98 MCT" ], [
         ( False, "A", "The MA and <i>all MG" ),
         ( True, "A", "The (a) indicates U." ),
         ( True, "B", "This vehicle uses Re" ),
@@ -233,12 +233,12 @@ def test_kgs_extensions( webapp, webdriver ):
         set_player( 2, "russian" )
 
         # check the Matilda II(b)
-        check_counter_images( "Matilda II(b) (HT)",
+        check_counter_images( "Matilda II(b)",
            ["7150","f97:178","f97:184"] if enable_extns else ["7150"]
         )
 
         # check the T60-M40
-        check_counter_images( "T-60 M40 (Tt)",
+        check_counter_images( "T-60 M40",
             ["547","f97:186"] if enable_extns else ["547"]
         )
 

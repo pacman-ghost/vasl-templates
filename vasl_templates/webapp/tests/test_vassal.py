@@ -79,9 +79,9 @@ def test_full_update( webapp, webdriver ):
                 "OB_NOTES_1": [
                     { "caption": "Modified American note #1", "width": "10em" },
                 ],
-                "OB_VEHICLES_1": [ "M2A4 (LT)" ],
+                "OB_VEHICLES_1": [ "M2A4" ],
                 "OB_VEHICLES_WIDTH_1": "202",
-                "OB_ORDNANCE_1": [ "M19 60mm Mortar (MTR)" ],
+                "OB_ORDNANCE_1": [ "M19 60mm Mortar" ],
                 "OB_ORDNANCE_WIDTH_1": "204",
             },
             "ob2": {
@@ -93,9 +93,9 @@ def test_full_update( webapp, webdriver ):
                     { "caption": "Modified Belgian note #4", "width": "" },
                     { "caption": "Modified Belgian note #5", "width": "" },
                 ],
-                "OB_VEHICLES_2": [ "T-15(b) (LT)" ],
+                "OB_VEHICLES_2": [ "T-15(b)" ],
                 "OB_VEHICLES_WIDTH_2": "302",
-                "OB_ORDNANCE_2": [ "DBT (MTR)" ],
+                "OB_ORDNANCE_2": [ "DBT" ],
                 "OB_ORDNANCE_WIDTH_2": "304",
             },
         }
