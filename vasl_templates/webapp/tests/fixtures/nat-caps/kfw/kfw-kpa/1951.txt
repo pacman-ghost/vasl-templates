@@ -1,0 +1,21 @@
+=== kfw-kpa (Korea 1951) ===
+
+No grenades
+HoB: +2 DRM
+Red TH#
+OBA: 5B 2R (access: ≤ 1)
+
+* As Russian
+  * Elite Personnel always Stealthy
+  * Elite Squads may Deploy
+  * Commissars
+  * Massacre OK
+  * Human Wave by SSR only
+* Suicide Heroes
+* Starshell restrictions
+* Assault Engineers: WP grenades
+* Communist Partisans:
+  * Neither Elite nor Conscript/Green
+  * Always Stealthy
+  * Massacre OK
+  * Disrupt & RtPh Surrender NA

@@ -1,0 +1,14 @@
+=== slovakian (ETO 1945) ===
+
+Smoke grenades
+HoB: +3 DRM
+Red TH#
+OBA: 6B 3R (access: ≤ 1)
+
+* Escape NA
+* 1st Line & Conscript:
+  * 1 PAATC
+  * Surrender on HoB Final DR ≥ 10
+* Inherent PF in non-Crew MMC (Romanian 3/44+; Hungarian 6/44+):
+  * Range = 2
+* Inherent ATMM in Romanian non-Crew Elite & 1st Line MMC (-2 CC DRM)

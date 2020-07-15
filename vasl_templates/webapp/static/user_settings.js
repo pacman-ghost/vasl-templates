@@ -9,6 +9,7 @@ USER_SETTINGS = {
     "date-format": "droplist",
     "scenario-images-source": "droplist",
     "hide-unavailable-ma-notes": "checkbox",
+    "auto-create-national-capabilities-labels": "checkbox",
     "include-vasl-images-in-snippets": "checkbox",
     "include-flags-in-snippets": "checkbox",
     "custom-list-bullets": "checkbox",
@@ -76,7 +77,7 @@ function user_settings()
         dialogClass: "user-settings",
         modal: true,
         width: 460,
-        height: 320,
+        height: 340,
         resizable: false,
         create: function() {
             init_dialog( $(this), "OK", true ) ;

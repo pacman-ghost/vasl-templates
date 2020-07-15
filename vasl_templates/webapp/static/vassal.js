@@ -100,6 +100,10 @@ function _generate_snippets()
         }
         no_autocreate[template_id] = true ;
     }
+    if ( ! gUserSettings["auto-create-national-capabilities-labels"] ) {
+        no_autocreate.nat_caps_1 = true ;
+        no_autocreate.nat_caps_2 = true ;
+    }
 
     function on_snippet_button( $btn, inactive ) {
         var template_id = $btn.attr( "data-id" ) ;
@@ -114,7 +118,11 @@ function _generate_snippets()
         var params = unload_snippet_params( true, template_id ) ;
         var snippet_id = template_id ;
         var extra_params = {} ;
-        var player_no = get_player_no_for_element( $btn ) ;
+        var player_no ;
+        if ( snippet_id.substring( 0, 9 ) === "nat_caps_" )
+            player_no = snippet_id.substring( 9 ) ;
+        else
+            player_no = get_player_no_for_element( $btn ) ;
         var data ;
         if ( ["scenario_note","ob_setup","ob_note"].indexOf( template_id ) !== -1 ) {
             data = $btn.parent().parent().data( "sortable2-data" ) ;
@@ -225,6 +233,8 @@ function _get_raw_content( snippet_id, $btn, params )
         return [ "Bazooka", "Range", "TH#" ] ;
     if ( snippet_id === "thh" )
         return [ "Tank-Hunter Heroes", "Banzai Charge" ] ;
+    if ( snippet_id.substring( 0, 9 ) === "nat_caps_" )
+        return [ "Capabilities" ] ;
 
     // handle vehicle/ordnance notes
     // NOTE: These were implemented after we added snippet ID's, so there's no need to support legacy labels.

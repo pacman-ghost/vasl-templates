@@ -1,0 +1,17 @@
+=== kfw-rok (Korea 1951) ===
+
+SMOKE grenades
+HoB: +3/+4 DRM
+Red TH# (ROK) ; Black (KMC)
+OBA: 10B 3R (access: ≤ 1 (ROK) ; 2 (KMC))
+- Plentiful Ammo included
+
+* Republic of Korea (ROK):
+  * Early KW ROK rules
+  * 1st Line MMC Battle-Harden to Fanatic
+  * 2nd Line & Conscript MMC:
+    * Always Lax
+    * Deploy NA
+* Korean Marine Corps (KMC):
+  * U.S.-Armed KMC
+  * SW B#/X#/ROF penalty

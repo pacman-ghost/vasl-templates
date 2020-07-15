@@ -1,0 +1,11 @@
+=== burmese (ETO 1941) ===
+
+No grenades
+HoB: +2 DRM
+Red TH#
+OBA: - - -
+
+* Dare-Death Squads (as if Chinese)
+* Elite and 1st Line MMC: Always Stealthy
+* Deploy NA [EXC: A20.5 & A21.22]; Recombine OK
+* Leaders: Morale/Berserk/Rally as Commissar

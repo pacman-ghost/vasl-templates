@@ -20,7 +20,10 @@ from vasl_templates.webapp.tests.remote import ControlTests
 
 # standard templates
 _STD_TEMPLATES = {
-    "scenario": [ "scenario", "players", "victory_conditions", "scenario_notes", "ssr" ],
+    "scenario": [
+        "scenario", "players", "victory_conditions", "scenario_notes", "ssr",
+        "nat_caps_1", # nb: "nat_caps_2" is functionally the same as this
+    ],
     "ob1": [ "ob_setup_1", "ob_note_1",
         "ob_vehicles_1", "ob_vehicle_note_1", "ob_vehicles_ma_notes_1",
         "ob_ordnance_1", "ob_ordnance_note_1", "ob_ordnance_ma_notes_1"
@@ -145,7 +148,10 @@ def for_each_template( func ): #pylint: disable=too-many-branches
             click_dialog_button( "OK" ) # nb: if the front-end is asking to confirm the player nationality change
         select_tab( "ob1" )
         for template_id in template_ids:
-            func( template_id, template_id )
+            orig_template_id = template_id
+            if template_id.endswith( ("_1","_2") ):
+                template_id = template_id[:-2]
+            func( template_id, orig_template_id )
             templates_to_test.remove( template_id )
 
     # test the American BAZ 45 and BAZ 50

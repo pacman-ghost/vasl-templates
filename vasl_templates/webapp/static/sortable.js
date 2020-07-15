@@ -77,7 +77,7 @@ $.fn.sortable2 = function( action, args )
         $sortable2.data( "no_confirm_delete", args.no_confirm_delete ) ;
         $sortable2.data( "on_edit", args.edit ) ;
         var $add_btn = find_helper( $sortable2, "add" ) ;
-        $add_btn.prepend( $( "<div><img src='" + gImagesBaseUrl + "/sortable-add.png' class='sortable-add'> Add</div>" ) )
+        $add_btn.prepend( $( "<div style='white-space:nowrap;'><img src='" + gImagesBaseUrl + "/sortable-add.png' class='sortable-add'> Add</div>" ) )
             .button( {} ) ;
         var $add = find_helper( $sortable2, "add" ) ;
         $add.prop( "title", "Add a new " + display_name[0] )
@@ -85,7 +85,7 @@ $.fn.sortable2 = function( action, args )
         if ( args.reset ) {
             $sortable2.data( "on_reset", args.reset ) ;
             var $reset_btn = find_helper( $sortable2, "reset" ) ;
-            $reset_btn.prepend( $( "<div><img src='" + gImagesBaseUrl + "/sortable-reset.png' class='sortable-reset'> Reset</div>" ) )
+            $reset_btn.prepend( $( "<div style='white-space:nowrap;'><img src='" + gImagesBaseUrl + "/sortable-reset.png' class='sortable-reset'> Reset</div>" ) )
                 .button( {} ) ;
             var $reset = find_helper( $sortable2, "reset" ) ;
             $reset.prop( "title", "Reset the " + display_name[1] )

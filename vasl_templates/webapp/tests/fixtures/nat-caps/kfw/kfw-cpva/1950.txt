@@ -1,0 +1,25 @@
+=== kfw-cpva (Korea 1950) ===
+
+No grenades
+HoB: +1 DRM
+Red TH#
+OBA: - - -
+
+* Always Stealthy
+* Starshell restrictions
+* Armored Assault NA
+* Riders NA
+* Assault Engineers: WP grenades
+* Leaders & Political Officers increase Morale as if Commissar
+* SW B#/X#/ROF penalty
+* Restricted Fire
+* Infantry Platoon Movement
+* Hand-to-Hand CC (-1 DRM)
+* HS Infantry Overrun
+* Bugles
+* Entrench -1 DRM
+* PAATC NTC NA
+* Infantry Overrun NTC NA
+* Conceal if +2 Hindrance
+* Concealment -1 drm
+* Civilian Interrogation is always in effect

@@ -1,0 +1,6 @@
+=== french (ETO 1940) ===
+
+Smoke grenades
+HoB: +1 DRM
+Black TH# (AFV use Red TH#)
+OBA: 6B 2R (access: ≤ 1)

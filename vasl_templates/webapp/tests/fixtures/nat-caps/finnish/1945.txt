@@ -1,0 +1,21 @@
+=== finnish (ETO 1945) ===
+
+No grenades
+HoB: -1 DRM
+Red TH#
+OBA: 7B 3R (access: ≤ 1)
+- Plentiful Ammo included
+
+* Deploy (1TC) & Recombine without Leader
+* Self-Rally OK [EXC: Conscript]
+* Cowering NA [EXC: Conscript]
+* Elite & 1st Line:
+  * Always Stealthy
+  * Use FT/DC as Elite
+  * Inherent PF:
+    * Range = 1
+    * PF Check ≤ 2
+    * Max. shots = 1½ × # Elite/1st Line squad-equivalents (FRD)
+* Ski-trained (don Skis = one MF)
+* Leader Creation NA
+* Captured Use penalties NA for Russian MG [EXC: LMG in 1939; .50-cal]

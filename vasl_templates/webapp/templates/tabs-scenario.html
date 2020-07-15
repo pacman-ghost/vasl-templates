@@ -41,16 +41,19 @@
                 <select name="PLAYER_1" class="param"></select>
                 <select name="PLAYER_1_ELR" class="param"></select>
                 <select name="PLAYER_1_SAN" class="param"></select>
+                <button class="generate" data-id="nat_caps_1" style="margin-left:8px;"></button>
             </div>
             <div class="row">
                 <label for="PLAYER_2">Player 2:</label>
                 <select name="PLAYER_2" class="param"></select>
                 <select name="PLAYER_2_ELR" class="param"></select>
                 <select name="PLAYER_2_SAN" class="param"></select>
+                <button class="generate" data-id="nat_caps_2" style="margin-left:8px;"></button>
                 &nbsp;
-                <span class="small">
-                    <button class="generate" data-id="players">Snippet</button>
-                </span>
+            </div>
+            <div class="row">
+                <img id="oba-info" src="{{url_for('static',filename='images/oba-info.png')}}" title="">
+                <button class="generate" data-id="players">Snippet</button>
             </div>
             <div id="roar-info" class="row" style="display:none;">
                 <button id="go-to-roar">ROAR</button>

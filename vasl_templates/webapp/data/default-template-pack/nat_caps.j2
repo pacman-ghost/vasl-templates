@@ -1,0 +1,55 @@
+<html> <!-- vasl-templates:id {{SNIPPET_ID}} -->
+
+<head>
+<meta charset="utf-8">
+<style>
+{{CSS:common}}
+td { padding: 2px 5px ; }
+li.comment { font-size: 96% ; font-style: italic ; color: #404040 ; }
+span.comment { font-size: 85% ; font-style: italic ; color: #404040 ; }
+.exc { color: #404040 ; }
+</style>
+</head>
+
+<table>
+
+<tr> <td style="
+  background: {{OB_COLOR}} ;
+  border-bottom: 1px solid {{OB_COLOR_2}} ;
+  font-size: 105% ; font-weight: bold ;
+">
+    <nobr>{{INCLUDE:player_flag}}{{PLAYER_NAME|nbsp}}&nbsp;Capabilities</nobr>
+
+<tr> <td>
+
+{%if NAT_CAPS%}
+
+<ul>
+{%if NAT_CAPS.GRENADES%} <li class="grenades"> {{NAT_CAPS.GRENADES}} {%endif%}
+{%if NAT_CAPS.HOB_DRM%} <li class="hob-drm"> Heat of Battle: {{NAT_CAPS.HOB_DRM}} {%endif%}
+{%if NAT_CAPS.TH_COLOR%} <li class="th-color"> {{NAT_CAPS.TH_COLOR}} {%endif%}
+{%if NAT_CAPS.OBA_BLACK%}
+    <li> OBA: <span class="oba-black">{{NAT_CAPS.OBA_BLACK}}</span> <span class="oba-red">{{NAT_CAPS.OBA_RED}}</span>
+        {%if NAT_CAPS.OBA_ACCESS%} <span class="oba-access">(access: {{NAT_CAPS.OBA_ACCESS}})</span> {%endif%}
+    </span>
+    {%if NAT_CAPS.OBA_COMMENTS%}
+        <ul class="oba-comments"> {%for cmt in NAT_CAPS.OBA_COMMENTS%} <li class="comment"> {{cmt}} {%endfor%} </ul>
+    {%endif%}
+{%endif%}
+</ul>
+
+{%if NAT_CAPS.NOTES%}
+<ul class="notes" style="margin-top:5px;"> {%for note in NAT_CAPS.NOTES%}
+    <li> {{note}}
+{%endfor%} </ul>
+{%endif%}
+
+{%else%}
+
+Not available.
+
+{%endif%}
+
+</table>
+
+</html>

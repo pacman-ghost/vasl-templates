@@ -1,0 +1,30 @@
+=== japanese (ETO 1940) ===
+
+SMOKE grenades
+HoB: +4 DRM
+Black TH#
+OBA: 5B 2R (access: ≤ 1)
+
+* SMC PTC/Pin/Break NA
+* Leaders:
+  * Replacement NA
+  * Casualty MC → elimination
+  * Morale/Rally/Berserk as Commissar
+* Tank-Hunter Heroes & ATMM
+* Banzai Charge (always Lax)
+* Elite & 1st Line: Always Stealthy
+* Conscript: Always Lax
+* ATR/MMG/HMG Breakdown penalty
+* Always NA:
+  * PAATC
+  * Escape
+  * RtPh Surrender
+  * Disruption
+  * Encircled lower Morale
+  * Leader Creation
+* LLMC → LLTC if unbroken
+* Massacre OK
+* -1 Interrogation DRM
+* -2 Concealment drm
+* Enemy +2 search drm
+* Hand-to-Hand CC & Hara-Kiri

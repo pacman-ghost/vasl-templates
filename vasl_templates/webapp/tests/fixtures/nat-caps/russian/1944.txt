@@ -1,0 +1,13 @@
+=== russian (ETO 1944) ===
+
+No grenades
+HoB: +2 DRM
+Red TH#
+OBA: 5B 2R (access: ≤ 1)
+
+* Massacre OK
+* Deploy NA
+* Entrench -1 DRM
+* Commissars NA
+* Human Wave
+* Riders OK

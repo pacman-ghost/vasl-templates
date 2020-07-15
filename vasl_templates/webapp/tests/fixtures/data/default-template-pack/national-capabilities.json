@@ -1,0 +1,31 @@
+{
+
+"german": {
+    "grenades": "Frag",
+    "hob_drm": "+123",
+    "oba": [ "1B", "2R", "a comment", "another comment" ],
+    "oba_access": "automatic",
+    "notes": [ "{? 10/1943- | Inherent PF | No Inherent PF | Inherent PF (10/43+) ?}" ]
+},
+
+"russian": {
+    "oba": [ "3B", "4R" ]
+},
+
+"american": {
+    "oba": [ "5B", "6R" ]
+},
+
+"finnish": {
+    "oba": [
+        "{! 01/1939-12/1940 = 6B | 01/1941-12/1942 = 7B | 01/1943-09/1944 = 8B | 10/1944- = 7B | ??? !}",
+        "3R",
+        "Plentiful Ammo included"
+    ]
+},
+
+"allied-minor": {
+    "oba": [ "1B", "1R" ]
+}
+
+}

@@ -1,0 +1,70 @@
+<!doctype html> <!-- NOTE: For testing porpoises only! -->
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<title> National Capabilities: {{NATIONALITY}} </title>
+</head>
+
+<body>
+
+<iframe id="results" style="display:none;position:absolute;width:95%;height:95%;border:none;"> </iframe>
+
+<!--FUDGE! We need these to set up parts of the real web page (because snippet generation reads them) -->
+<select name="PLAYER_1" style="display:none;">
+    <option value="{{NATIONALITY}}"> {{NATIONALITY}} </option>
+</select>
+<button data-id="nat_caps_1" style="display:none;"></button>
+
+</body>
+
+<script src="{{url_for('static',filename='jquery/jquery-3.3.1.min.js')}}"></script>
+<script src="{{url_for('static',filename='jinja/jinja.js')}}"></script>
+<script src="{{url_for('static',filename='js-cookie/js.cookie.js')}}"></script>
+<script src="{{url_for('static',filename='nat_caps.js')}}"></script>
+<script src="{{url_for('static',filename='snippets.js')}}"></script>
+<script src="{{url_for('static',filename='user_settings.js')}}"></script>
+<script src="{{url_for('static',filename='utils.js')}}"></script>
+
+<script>
+
+APP_URL_BASE = window.location.origin ;
+gAppConfig = {} ;
+gUserSettings = {} ;
+gTemplatePack = null ;
+gGetTemplatePackUrl = "{{url_for('get_template_pack')}}" ;
+gImagesBaseUrl = "{{url_for('static',filename='images')}}" ;
+
+$(document).ready( function () {
+    // initialize
+    $.getJSON( gGetTemplatePackUrl, function(data) {
+        if ( "error" in data ) {
+            alert( "Template pack error:\n\n" + escapeHTML(data.error) ) ;
+            return ;
+        }
+        gTemplatePack = data ;
+        // generate the national capabilities snippet
+        $("button").on( "click", function( evt ) {
+            show_national_capabilities( $(this) );
+        } ).trigger( "click" ) ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        alert( "Can't get the template pack:\n\n" + escapeHTML(data.error) ) ;
+    } ) ;
+} ) ;
+
+function show_national_capabilities( $btn ) {
+    // generate the national capabilities snippet
+    var params = {
+        SCENARIO_YEAR: {{YEAR}}, SCENARIO_MONTH: {{MONTH}},
+        SCENARIO_THEATER: "{{THEATER}}",
+        PLAYER_1: "{{NATIONALITY}}",
+    } ;
+    var snippet = make_snippet( $btn, params, {}, false ) ;
+    var $iframe = $("#results") ;
+    $iframe.contents().find( "body" ).html( snippet.content ) ;
+    $iframe.show() ;
+}
+
+</script>
+
+</html>

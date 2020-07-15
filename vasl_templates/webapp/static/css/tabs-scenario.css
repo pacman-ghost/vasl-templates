@@ -16,6 +16,9 @@
 #panel-scenario label.header { font-weight: bold ; width: 3em ; text-align: center ; }
 #panel-scenario input { margin-bottom: 0.25em ; }
 
+#panel-scenario #oba-info { height: 1em ; }
+.oba-info-tooltip { max-width: 500px ; }
+
 #panel-scenario .select2-container { margin: 2px ; }
 #panel-scenario .select2-selection__rendered { height: 23px ; line-height: 23px ; }
 #panel-scenario .select2-selection__arrow { margin-top: -2px ; }

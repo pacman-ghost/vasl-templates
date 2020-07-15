@@ -1,0 +1,14 @@
+=== italian (ETO 1940) ===
+
+Smoke grenades
+HoB: +3 DRM
+Red TH#
+OBA: 7B 3R (access: ≤ 1)
+
+* Escape NA
+* 1st Line & Conscript:
+  * Surrender on HoB Final DR ≥ 10
+  * Deploy NA
+  * +1 CC Capture DRM NA
+  * Always Lax
+  * 1 PAATC

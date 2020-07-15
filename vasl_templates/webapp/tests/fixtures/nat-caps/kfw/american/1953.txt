@@ -1,0 +1,27 @@
+=== american (Korea 1953) ===
+
+SMOKE grenades
+HoB: 0 DRM (+3 for Katusa; NA for TACP)
+Black TH#
+OBA: 10B 3R (access: ≤ 2)
+- Plentiful Ammo included
+
+* Rangers: 6-6-8
+  * Self-Rally OK
+  * Self-Deploy (1TC) & Self-Recombine OK
+  * Cowering NA
+  * Commandos
+  * No Non-Qualified Use penalty for RCL
+  * No Captured Use penalty for Communist SW
+* Airborne: 6-6-7
+* Katusa: As U.S. Army MMC
+  * HoB +3 DRM
+  * Leader Creation +1 drm
+* Disruption NA
+* 7-6-8 can Self-Deploy
+* Use 5-5-8 when:
+  * U.S.M.C. ELR Replacement is in effect
+  * U.S.M.C. MMC re-arms
+* Tactical Air Control Party:
+  * Inherent Radio (Contact = 9)
+  * May set up HIP

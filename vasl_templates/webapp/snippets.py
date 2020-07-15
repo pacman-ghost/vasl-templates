@@ -44,9 +44,10 @@ def load_default_template_pack(): #pylint: disable=too-many-locals
         "default-template-pack/"
     )
     data = { "templates": {} }
-    fname = os.path.join( base_dir, "nationalities.json" )
-    with open(fname,"r") as fp:
+    with open( os.path.join( base_dir, "nationalities.json" ), "r") as fp:
         data["nationalities"] = json.load( fp )
+    with open( os.path.join( base_dir, "national-capabilities.json" ), "r" ) as fp:
+        data["national-capabilities"] = json.load( fp )
 
     # NOTE: Similarly, we always load the default extras templates, and user-defined template packs
     # can add to them, or modify existing ones, but not remove them.

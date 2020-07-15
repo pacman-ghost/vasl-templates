@@ -1,0 +1,12 @@
+=== indonesian (ETO 1940) ===
+
+Smoke grenades
+HoB: +3 DRM
+Red TH#
+OBA: 5B 3R -
+
+* Tank-Hunter/DC Heroes (as if 1945 Japanese)
+* Hand-to-Hand Combat
+* Massacre OK
+* HoB DR ≥ 12 → Berserk
+* Deploy NA [EXC: A20.5 & A21.22]; Recombine OK

@@ -1,0 +1,14 @@
+=== british (ETO 1944) ===
+
+SMOKE grenades
+HoB: -1 DRM
+Black TH#
+OBA: 8B 2R (access: ≤ 2)
+
+* Elite & 1st Line: Cowering NA
+* ANZAC: Stealthy (unless Green)
+* Gurkha:
+  * -1 CC DRM
+  * Disrupt & RtPh Surrender NA
+  * Commando (unless Green)
+  * Stealthy

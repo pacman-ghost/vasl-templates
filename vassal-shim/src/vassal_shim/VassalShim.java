@@ -558,8 +558,8 @@ public class VassalShim
         // figure out what order to create the labels
         String snippetOrder = config.getProperty( "AUTOCREATE_LABEL_ORDER",
             "scenario players scenario_note* victory_conditions ssr"
-            + " ob_setup_1* ob_note_1* ob_vehicles_1 ob_vehicles_ma_notes_1 ob_vehicle_note_1* ob_ordnance_1 ob_ordnance_ma_notes_1 ob_ordnance_note_1*"
-            + " ob_setup_2* ob_note_2* ob_vehicles_2 ob_vehicles_ma_notes_2 ob_vehicle_note_2* ob_ordnance_2 ob_ordnance_ma_notes_2 ob_ordnance_note_2*"
+            + " ob_setup_1* ob_note_1* nat_caps_1 ob_vehicles_1 ob_vehicles_ma_notes_1 ob_vehicle_note_1* ob_ordnance_1 ob_ordnance_ma_notes_1 ob_ordnance_note_1*"
+            + " ob_setup_2* ob_note_2* nat_caps_2 ob_vehicles_2 ob_vehicles_ma_notes_2 ob_vehicle_note_2* ob_ordnance_2 ob_ordnance_ma_notes_2 ob_ordnance_note_2*"
         ) ;
         logger.debug( "Snippet order: {}", snippetOrder ) ;
         Set<String> snippetsKeySet = new HashSet<String>( snippets.keySet() ) ;

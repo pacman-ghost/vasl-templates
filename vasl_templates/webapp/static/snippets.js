@@ -151,7 +151,11 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     params.PLAYER_FLAG_SIZE = "width='11' height='11'" ;
 
     // set player-specific parameters
-    var player_no = get_player_no_for_element( $btn ) ;
+    var player_no ;
+    if ( template_id.substring( 0, 9 ) === "nat_caps_" )
+        player_no = template_id.substring( 9 ) ;
+    else
+        player_no = get_player_no_for_element( $btn ) ;
     var player_nat = get_player_nat( player_no ) ;
     if ( player_no ) {
         params.PLAYER_NAME = get_nationality_display_name( params["PLAYER_"+player_no] ) ;
@@ -213,6 +217,8 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         params.OB_VO_WIDTH = params.OB_ORDNANCE_WIDTH_2 ;
         snippet_save_name = params.PLAYER_2 + " ordnance" ;
     }
+    if ( template_id === "nat_caps_1" || template_id === "nat_caps_2" )
+        template_id = "nat_caps" ;
 
     // adjust comments
     adjust_vo_comments( params ) ;
@@ -242,12 +248,12 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         set_vo_note( "ordnance" ) ;
 
     // generate snippets for multi-applicable vehicle/ordnance notes
-    var pos ;
+    var pos, i ;
     function add_ma_notes( ma_notes, keys, param_name, nat, vo_type ) {
         if ( ! keys )
             return ;
         params[ param_name ] = [] ;
-        for ( var i=0 ; i < keys.length ; ++i ) {
+        for ( i=0 ; i < keys.length ; ++i ) {
             var ma_note = get_ma_note( nat, vo_type, keys[i] ) ;
             var key = keys[i] ;
             var extn_marker = "" ;
@@ -301,7 +307,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         template_id = "ob_" + vo_type + "_ma_notes" ;
         var vo_type_uc = vo_type.toUpperCase() ;
         var postfixes = [ "MA_NOTES", "MA_NOTES_WIDTH", "EXTRA_MA_NOTES", "EXTRA_MA_NOTES_CAPTION" ] ;
-        for ( var i=0 ; i < postfixes.length ; ++i ) {
+        for ( i=0 ; i < postfixes.length ; ++i ) {
             params[ "OB_" + postfixes[i] ] = params[ "OB_" + vo_type_uc + "_" + postfixes[i] + "_" + player_no ] ;
         }
         snippet_save_name = params["PLAYER_"+player_no] + (vo_type === "vehicles" ? " vehicle notes" : " ordnance notes") ;
@@ -371,6 +377,9 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         params.BAZ_RANGE = 4 ;
     }
 
+    // set the national capabilities parameters
+    set_nat_caps_params( player_nat, params ) ;
+
     // check for mandatory parameters
     if ( template_id in _MANDATORY_PARAMS ) {
         var missing_params = [] ;
@@ -432,7 +441,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         snippet = func( params, {
             autoEscape: false,
             filters: {
-                join: function( vals, sep ) { return vals.join( sep ) ; },
+                join: function( vals, sep ) { return vals ? vals.join(sep) : "" ; },
                 nbsp: function( val ) { return strReplaceAll( val, " ", "&nbsp;" ) ; },
             } ,
         } ) ;
@@ -484,20 +493,14 @@ function adjust_vo_comments( params )
     }
 
     // allow comment EXC's to be styled
-    var excRegex = new RegExp( /\[EXC: .*?\]/ ) ;
+    var excRegex = new RegExp( /\[EXC: .*?\]/g ) ;
     function adjustExc( val ) {
-        var match = val.match( excRegex ) ;
-        if ( match ) {
-            val = val.substring( 0, match.index ) +
-                "<span class='exc'>" + match[0] + "</span>" +
-                val.substring( match.index + match[0].length ) ;
-        }
-        return val ;
+        return wrapSubstrings( val, excRegex, "<span class='exc'>", "</span>" ) ;
     }
 
     // adjust comments
     if ( params.OB_VO ) {
-        for ( var i=0 ; i < params.OB_VO.length ; ++i ) {
+        for ( i=0 ; i < params.OB_VO.length ; ++i ) {
             if ( ! params.OB_VO[i].comments )
                 continue ;
             for ( var j=0 ; j < params.OB_VO[i].comments.length ; ++j ) {
@@ -935,40 +938,10 @@ function get_vo_comments( vo_entry, month, year )
     if ( ! vo_entry.comments )
         return vo_entry.comments ;
 
-    function parseDate( val ) {
-        if ( ! val )
-            return null ;
-        var match = val.trim().match( /^(\d\d)\/(19\d\d)$/ ) ;
-        if ( ! match )
-            return null ;
-        return [ match[1], match[2] ] ;
-    }
-
     // generate the vehicle/ordnance's comments
     var voComments=[], cmt, i ;
     for ( i=0 ; i < vo_entry.comments.length ; ++i ) {
-        cmt = vo_entry.comments[i] ;
-        if ( cmt.substr(0,2) === "{?" && cmt.substr(cmt.length-2) === "?}" ) {
-            // this is a time-based comment, check the scenario date
-            var words = cmt.substring( 2, cmt.length-2 ).split( "|" ) ;
-            var dates = words[0].split( "-" ) ;
-            dates = [ parseDate(dates[0]), parseDate(dates[1]) ] ;
-            if ( words.length != 4 || dates.length != 2 || (!dates[0] && !dates[1]) ) {
-                showErrorMsg( "Invalid time-based vehicle/ordnance comment: " + cmt ) ;
-                continue ;
-            }
-            if ( !month || !year )
-                cmt = words[3] ;
-            else {
-                var rc = true ;
-                if ( dates[0] && ( year < dates[0][1] || ( year == dates[0][1] && month < dates[0][0] ) ) )
-                    rc = false ;
-                if ( dates[1] && ( year > dates[1][1] || ( year == dates[1][1] && month > dates[1][0] ) ) )
-                    rc = false ;
-                cmt = rc ? words[1] : words[2] ;
-            }
-        }
-        cmt = cmt.trim() ;
+        cmt = make_time_based_comment( vo_entry.comments[i], month, year ) ;
         if ( cmt )
             voComments.push( cmt ) ;
     }
@@ -994,6 +967,108 @@ function get_vo_comments( vo_entry, month, year )
     }
 
     return voComments ;
+}
+
+function make_time_based_comment( val, month, year )
+{
+    function parseDateControl( val ) {
+        // parse a date control string
+        var dates = val.split( "-" ) ;
+        if ( dates.length != 2 )
+            return null ;
+        for ( var i=0 ; i < 2 ; ++i ) {
+            var date = dates[i].trim() ;
+            if ( date !== "" ) {
+                var match = date.match( /^(\d\d)\/(19\d\d)$/ ) ;
+                if ( ! match )
+                    return null ;
+                dates[i] = [ match[1], match[2] ] ;
+            } else {
+                dates[i] = null ;
+            }
+        }
+        return dates ;
+    }
+    function checkDateControl( dateControl ) {
+        // check if the date passed in falls within the date control
+        if ( dateControl[0] && ( year < dateControl[0][1] || ( year == dateControl[0][1] && month < dateControl[0][0] ) ) )
+            return false ;
+        if ( dateControl[1] && ( year > dateControl[1][1] || ( year == dateControl[1][1] && month > dateControl[1][0] ) ) )
+            return false ;
+        return true ;
+    }
+
+    // process any time-based values
+    var words, dateControl ;
+    for ( ; ; ) {
+
+        // check for a time-based substitution
+        var parts = findDelimitedSubstring( val, "{?", "?}" ) ;
+        if ( $.isArray( parts ) ) {
+            // found one - this form has the following syntax:
+            //   {? DATE CONTROL | within the date control | outside the date control | fallback text ?}
+            // parse the date control
+            words = parts[1].split( "|" ) ;
+            dateControl = parseDateControl( words[0] ) ;
+            if ( words.length != 4 || dateControl === null ) {
+                showErrorMsg( "Invalid time-based comment: " + val ) ;
+                return null ;
+            }
+            // figure out which value to use
+            if ( month && year )
+                val = parts[0] + words[ checkDateControl(dateControl) ? 1 : 2 ].trim() + parts[2] ;
+            else
+                val = parts[0] + words[3].trim() + parts[2] ;
+            continue ;
+        }
+
+        // check for a time-based substitution
+        parts = findDelimitedSubstring( val, "{!", "!}" ) ;
+        if ( $.isArray( parts ) ) {
+            // found one - this form has the following syntax:
+            //   {! DATE CONTROL = text | DATE CONTROL = text | etc... | fallback text !}
+            var fallbackText = "" ;
+            choices = parts[1].split( "|" ) ;
+            for ( var i=0 ; i < choices.length ; ++i ) {
+                // parse the next choice
+                var pos = choices[i].indexOf( "=" ) ;
+                if ( pos !== -1 ) {
+                    dateControl = parseDateControl( choices[i].substring( 0, pos ) ) ;
+                    if ( dateControl !== null ) {
+                        // the choice is valid - save it, and its substitution text
+                        choices[i] = [ dateControl, choices[i].substring(pos+1).trim() ] ;
+                        continue ;
+                    }
+                }
+                // the choice is invalid
+                if ( i === choices.length-1 ) {
+                    // this is the last choice - use it as the fallback text
+                    fallbackText = choices.pop().trim() ;
+                    break ;
+                } else {
+                    showErrorMsg( "Invalid time-based comment: " + choices[i] ) ;
+                    return null ;
+                }
+            }
+            // check each choice to try find a match
+            var replaceText = fallbackText ;
+            if ( month && year ) {
+                for ( i=0 ; i < choices.length ; ++i ) {
+                    if ( checkDateControl( choices[i][0] ) ) {
+                        // found a match - replace the content with the substitution text
+                        replaceText = choices[i][1] ;
+                        break ;
+                    }
+                }
+            }
+            val = parts[0] + replaceText + parts[2] ;
+        }
+
+        // NOTE: If we get here, there are no more time-based substitutions to be made.
+        break ;
+    }
+
+    return val ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1937,6 +2012,7 @@ function do_load_template_pack( fname, data )
     var unknown_template_ids = [] ;
     var template_pack = {
         nationalities: $.extend( true, {}, gDefaultTemplatePack.nationalities ),
+        "national-capabilities": $.extend( true, {}, gDefaultTemplatePack["national-capabilities"] ),
         templates: {},
         css: {},
         includes: {},
@@ -1961,6 +2037,17 @@ function do_load_template_pack( fname, data )
                 return ;
             }
             $.extend( true, template_pack.nationalities, nationalities ) ;
+            return ;
+        }
+        if ( fname.toLowerCase() === "national-capabilities.json" ) {
+            var nat_caps = null ;
+            try {
+                nat_caps = JSON.parse( data ) ;
+            } catch( ex ) {
+                showWarningMsg( "Can't parse the nationalities JSON data:<div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
+                return ;
+            }
+            $.extend( true, template_pack["national-capabilities"], nat_caps ) ;
             return ;
         }
         var extn = getFilenameExtn( fname ) ;

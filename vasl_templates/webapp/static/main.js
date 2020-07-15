@@ -137,6 +137,12 @@ $(document).ready( function () {
         onClose: on_scenario_date_change,
     } ) ;
 
+    // initialize the OBA INFO tooltip
+    $( "#oba-info" ).tooltip( {
+        tooltipClass: "oba-info-tooltip",
+        content: make_oba_info_tooltip,
+    } ) ;
+
     // initialize the SSR's
     $("#ssr-sortable").sortable2( "init", {
         add: add_ssr, edit: edit_ssr
@@ -394,6 +400,8 @@ $(document).ready( function () {
                 template_id = "ob_vehicles" ;
             else if ( template_id.substring(0,12) === "ob_ordnance_" )
                 template_id = "ob_ordnance" ;
+            else if ( template_id.substring(0,9) === "nat_caps_" )
+                template_id = "nat_caps" ;
             $( "<a href='#' class='_edit-template-link_' data-id='" + template_id + "'" +
                " onclick='edit_template(\"" + template_id + "\")'" +
                "></a>"
@@ -415,14 +423,16 @@ function init_snippet_button( $btn )
     var template_id2 ;
     if ( template_id.substring(0,9) === "ob_setup_" )
         template_id2 = "ob_setup" ;
-    else if ( template_id.substring(0,21) == "ob_vehicles_ma_notes_" )
+    else if ( template_id.substring(0,21) === "ob_vehicles_ma_notes_" )
         template_id2 = "ob_vehicles_ma_notes" ;
-    else if ( template_id.substring(0,21) == "ob_ordnance_ma_notes_" )
+    else if ( template_id.substring(0,21) === "ob_ordnance_ma_notes_" )
         template_id2 = "ob_ordnance_ma_notes" ;
-    else if ( template_id.substring(0,12) == "ob_vehicles_" )
+    else if ( template_id.substring(0,12) === "ob_vehicles_" )
         template_id2 = "ob_vehicles" ;
-    else if ( template_id.substring(0,12) == "ob_ordnance_" )
+    else if ( template_id.substring(0,12) === "ob_ordnance_" )
         template_id2 = "ob_ordnance" ;
+    else if ( template_id.substring(0,9) === "nat_caps_" )
+        template_id2 = "nat_caps" ;
     else
         template_id2 = template_id ;
 
@@ -435,12 +445,18 @@ function init_snippet_button( $btn )
         "</div>"
     ] ;
     var $newBtn = $( buf.join("") ) ;
-    $newBtn.find( "button" ).prepend(
-        $( "<img src='" + gImagesBaseUrl + "/snippet.png'>" )
-    ).click( function( evt ) {
-        generate_snippet( $(this), evt, null ) ;
-        return false ;
-    } ).attr( "title", GENERATE_SNIPPET_HINT ) ;
+    var fname="snippet.png", style="" ;
+    if ( template_id.substring( 0, 9 ) === "nat_caps_" ) {
+        fname = "nat-caps.png" ;
+        style = "height:15px;margin-right:0;" ;
+    }
+    $newBtn.find( "button" )
+        .prepend( $( "<img src='" + gImagesBaseUrl + "/" + fname + "' style='" + style + "'>" ) )
+        .click( function( evt ) {
+            generate_snippet( $(this), evt, null ) ;
+            return false ;
+        } )
+        .attr( "title", GENERATE_SNIPPET_HINT ) ;
 
     // add in the droplist
     $newBtn.controlgroup() ;
@@ -514,6 +530,10 @@ function update_page_load_status( id )
         $("#tabs").tabs({ disabled: [] }) ;
         $("#loader").fadeOut( 500 ) ;
         adjust_footer_vspacers() ;
+        // position the PLAYERS snippet button
+        var $btn = $( ".snippet-control[data-id='players']" ) ;
+        var $sel = $( ".select2[name='PLAYER_2_SAN']" ) ;
+        $btn.offset( { left: $sel.offset().left + $sel.outerWidth() - $btn.outerWidth() } ) ;
         // NOTE: The watermark image appears briefly in IE when reloading the page, but not even
         // creating the watermark dynamically and removing it when the page unloads fixes it :-(
         $("#watermark").fadeIn( 5*1000 ) ;
@@ -717,6 +737,49 @@ function on_player_change( player_no )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+function make_oba_info_tooltip()
+{
+    // initialize
+    var buf = [ "<table>" ] ;
+    buf.push( "<tr>", "<th colspan='2' style='font-size:105%;text-align:center;padding:5px;background:#e0e0e0;'> Off-Board Artillery" ) ;
+
+    // initialize
+    var params = {
+        SCENARIO_THEATER: $( "select.param[name='SCENARIO_THEATER']" ).val()
+    } ;
+    var scenario_date = get_scenario_date() ;
+    if ( scenario_date ) {
+        params.SCENARIO_MONTH = 1 + scenario_date.getMonth() ;
+        params.SCENARIO_YEAR = scenario_date.getFullYear() ;
+    }
+
+    // add the OBA info for each player
+    for ( var player_no=1 ; player_no <= 2 ; ++player_no ) {
+        buf.push( "<tr>" ) ;
+        var player_nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
+        var display_name = get_nationality_display_name( player_nat ) ;
+        buf.push( "<td style='font-weight:bold;padding-right:0.5em;white-space:nowrap;'>", display_name+":" ) ;
+        set_nat_caps_params( player_nat, params ) ;
+        if ( ! params.NAT_CAPS )
+            params.NAT_CAPS = { OBA_BLACK: "-", OBA_RED: "-" } ;
+        buf.push( "<td>" ) ;
+        var colors = [ "BLACK", "RED" ] ;
+        for ( var i=0 ; i < colors.length ; ++i ) {
+            var val = params.NAT_CAPS[ "OBA_"+colors[i] ] || "-" ;
+            buf.push( "<span style='display:inline-block;width:2em;'>", val, "</span>" ) ;
+        }
+        if ( params.NAT_CAPS.OBA_COMMENTS ) {
+            for ( i=0 ; i < params.NAT_CAPS.OBA_COMMENTS.length ; ++i )
+                buf.push( "<tr>", "<td>", "<td style='font-size:90%;font-style:italic;color:#404040;'>", params.NAT_CAPS.OBA_COMMENTS[i] ) ;
+        }
+    }
+
+    buf.push( "</table>" ) ;
+    return buf.join( "" ) ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 function update_ob_tab_header( player_no )
 {
     // update the OB tab header for the specified player
@@ -741,6 +804,7 @@ function update_nationality_specific_buttons( player_no )
     var theater = $( "select.param[name='SCENARIO_THEATER']" ).val().toLowerCase() ;
 
     // hide/show each nationality-specific button
+    var $elem ;
     for ( var button_id in NATIONALITY_SPECIFIC_BUTTONS ) {
         var show = false ;
         for ( var i=0 ; i < NATIONALITY_SPECIFIC_BUTTONS[button_id].length ; ++i ) {
@@ -755,9 +819,16 @@ function update_nationality_specific_buttons( player_no )
                     show = nat.substr(0,pos) == player_nat && nat.substr(pos+1) !== theater ;
             }
         }
-        var $elem = $( "#panel-ob_notes_" + player_no + " div.snippet-control[data-id='" + button_id + "']" ) ;
+        $elem = $( "#panel-ob_notes_" + player_no + " div.snippet-control[data-id='" + button_id + "']" ) ;
         $elem.css( "display", show ? "inline-block" : "none" ) ;
     }
+
+    // update the CAPABILITIES button
+    var $btn = $( "button.generate[data-id='nat_caps_" + player_no + "']" ) ;
+    if ( get_national_capabilities( player_nat ) )
+        $btn.removeClass( "inactive" ) ;
+    else
+        $btn.addClass( "inactive" ) ;
 }
 
 // --------------------------------------------------------------------

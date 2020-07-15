@@ -1,0 +1,12 @@
+=== american (ETO 1941) ===
+
+SMOKE grenades
+HoB: 0 DRM
+Red TH#
+OBA: 10B 3R (access: ≤ 2)
+- Plentiful Ammo included
+
+* U.S.M.C.:
+  * Disruption NA
+  * 7-6-8 can Self-Deploy
+  * Vehicle [EXC: LC] Crew: Army 1-2-6

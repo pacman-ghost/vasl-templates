@@ -1,0 +1,15 @@
+{% if NAT_CAPS %}
+
+Grenades: {{NAT_CAPS.GRENADES}}
+HoB DRM: {{NAT_CAPS.HOB_DRM}}
+OBA: {{NAT_CAPS.OBA_BLACK}} {{NAT_CAPS.OBA_RED}} (access = {{NAT_CAPS.OBA_ACCESS}})
+- Comments: {{NAT_CAPS.OBA_COMMENTS | join(" | ")}}
+{%for note in NAT_CAPS.NOTES%}
+(*) {{note}}
+{%endfor%}
+
+{%else%}
+
+Not available.
+
+{%endif%}

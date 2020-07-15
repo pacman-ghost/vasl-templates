@@ -4,6 +4,8 @@
 function get_nationality_display_name( nat_id )
 {
     // get the nationality's display name
+    if ( ! gTemplatePack.nationalities[ nat_id ] )
+        return null ;
     return gTemplatePack.nationalities[ nat_id ].display_name ;
 }
 
@@ -85,6 +87,8 @@ function is_template_available( template_id )
     // check if the specified template is available
     if ( template_id.match( /^ob_(vehicles|ordnance).*_[12]$/ ) )
         template_id = template_id.substring( 0, template_id.length-2 ) ;
+    else if ( template_id === "nat_caps_1" || template_id === "nat_caps_2" )
+        template_id = "nat_caps" ;
     return gTemplatePack.templates[ template_id ] !== undefined ;
 }
 
@@ -424,6 +428,42 @@ function strReplaceAll( val, searchFor, replaceWith )
         val = val.substr(0,pos) + replaceWith + val.substr(pos+searchFor.length) ;
         pos += replaceWith.length ;
     }
+}
+
+function findDelimitedSubstring( val, delim1, delim2 )
+{
+    // search for a substring delimited by the 2 specified markers
+    if ( val === null || val === undefined )
+        return null ;
+    var pos = val.indexOf( delim1 ) ;
+    if ( pos === -1 )
+        return val ;
+    var pos2 = val.indexOf( delim2, pos ) ;
+    if ( pos2 === -1 )
+        return val ;
+    // found it - return the prefix/middle/postfix parts
+    return [
+        val.substring( 0, pos ),
+        val.substring( pos+delim1.length, pos2 ),
+        val.substring( pos2+delim2.length )
+    ] ;
+}
+
+function wrapSubstrings( val, searchFor, delim1, delim2 )
+{
+    // search for a substring and wrap it with the specified delimeters
+    if ( val === null || val === undefined )
+        return null ;
+    // FUDGE! matchAll() isn't available in the PyQt embedded browser :-/
+    var matches = [] ;
+    while ( ( match = searchFor.exec( val ) ) !== null )
+        matches.push( match ) ;
+    for ( var i=matches.length-1 ; i >= 0 ; --i ) {
+        val = val.substring( 0, matches[i].index ) +
+              delim1 + matches[i][0] + delim2 +
+              val.substring( matches[i].index + matches[i][0].length ) ;
+    }
+    return val ;
 }
 
 function getFilenameExtn( fname )

@@ -1,0 +1,13 @@
+=== british (Korea 1951) ===
+
+SMOKE grenades
+HoB: -1 DRM
+Black TH#
+OBA: 8B 2R (access: ≤ 2)
+
+* 2nd Line MMC: ELR Replacement → Disrupt
+* Royal Marines:
+  * Commandos
+  * No Non-Qualified Use penalty for RCL
+  * No Captured Use penalty for Communist SW
+  * Self-Deploy (1TC) & Self-Recombine OK

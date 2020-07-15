@@ -188,7 +188,12 @@ def test_missing_templates( webapp, webdriver ):
             for btn in find_children( sel ):
                 # check the UI state of the next button
                 template_id = adjust_template_id( btn.get_attribute( "data-id" ) )
-                expected = os.path.splitext( fname )[0] == template_id
+                if fname == "national-capabilities.json":
+                    expected = False # nb: this is the JSON file, not the template file, and so doesn't effect buttons
+                elif fname == "nat_caps.j2":
+                    expected = template_id.startswith( "nat_caps_" )
+                else:
+                    expected = os.path.splitext( fname )[0] == template_id
                 disabled = webdriver.execute_script( "return $(arguments[0]).button('option','disabled')", btn )
                 assert expected == disabled
                 # check that snippet control groups have been enabled/disabled correctly

@@ -1,0 +1,15 @@
+=== chinese~gmd (ETO 1944) ===
+
+SMOKE grenades
+HoB: 0 DRM
+Red TH#
+OBA: 5B 2R (access: ≤ 1)
+- 6B/2R if Majority Squad Type is 5-3-7
+- 5B/3R if Majority Squad Type is 3-3-7 or 3-3-6
+
+* Deploy NA
+* Lax at Night
+* +1 Leader Creation drm
+* 1st Line & Conscript: 1 PAATC
+* Human Wave
+* Dare-Death Squads [EXC: 5-3-7]

@@ -1,0 +1,311 @@
+{
+
+"german": {
+    "th_color": "Black",
+    "oba": [ "8B", "3R" ], "oba_access": "&le; 2",
+    "hob_drm": "0 DRM",
+    "grenades": "Smoke",
+    "notes": [
+        "{? 10/1943- | Inherent PF | No Inherent PF | Inherent PF (10/43+) ?}",
+        "{? 01/1944- | Inherent ATMM | No Inherent ATMM | Inherent ATMM (44+) ?}",
+        "SS: Disrupt &amp; RtPh Surrender NA vs Russians",
+        "Massacre OK",
+        "{? 01/1944- | Squad Assault Fire | No Squad Assault Fire | Squad Assault Fire (44+) ?}"
+    ]
+},
+
+"russian": {
+    "th_color": "Red",
+    "oba": [ "5B", "2R" ], "oba_access": "&le; 1",
+    "hob_drm": "+2 DRM",
+    "grenades": null,
+    "notes": [
+        "Massacre OK",
+        "Deploy NA",
+        "Entrench -1 DRM",
+        "{? 11/1942- | Commissars NA | Commissars | Commissars (pre-11/42) ?}",
+        "Human Wave",
+        "{? 01/1942- | Riders OK | Riders NA | Riders (42+) ?}"
+    ]
+},
+
+"american": {
+    "th_color": "{? 01/1944- | Black | Red | Black (44+) ?}",
+    "oba": [ "10B", "3R", "Plentiful Ammo included" ],
+    "oba_access": "&le; 2",
+    "hob_drm": "0 DRM",
+    "grenades": "SMOKE",
+    "notes": [
+        "U.S.M.C.: <ul> <li> Disruption NA <li> 7-6-8 can Self-Deploy <li> Vehicle [EXC: LC] Crew: Army 1-2-6 </ul>"
+    ]
+},
+"kfw-american": {
+    "th_color": "{! 06/1950-08/1950 = Red | 09/1950- = Black | ??? !}",
+    "oba": [ "{! 06/1950-08/1950 = 9B | 09/1950- = 10B | ??? !}",  "3R",
+        "{! 09/1950- = Plentiful Ammo included !}"
+    ],
+    "oba_access": "&le; 2",
+    "hob_drm": [ "0 DRM", "+3 for Katusa; NA for TACP" ],
+    "grenades": "SMOKE",
+    "notes": [
+        "Rangers: 6-6-8 <ul> <li> Self-Rally OK <li> Self-Deploy (1TC) &amp; Self-Recombine OK <li> Cowering NA <li> Commandos <li> No Non-Qualified Use penalty for RCL <li> No Captured Use penalty for Communist SW </ul>",
+        "Airborne: 6-6-7",
+        "{! 06/1950-08/1950 = Early KW U.S. Army rules: <ul> <li> Always Lax <li> Ammo Shortage <li> SW repair only on \"1\" <li> Radio/Phone Contact reduced by 1 <li> AFV Inherent Crews have Morale 7 <li> All motorized vehicles have Red MP </ul> !}",
+        "Katusa: As U.S. Army MMC <ul> <li> HoB +3 DRM <li> Leader Creation +1 drm {! 09/1950-10/1951 = <li> ELR 2 <li> Allied Troop penalties with U.S. leaders !} </ul>",
+        "Disruption NA",
+        "7-6-8 can Self-Deploy",
+        "Use 5-5-8 when: <ul> <li> U.S.M.C. ELR Replacement is in effect <li> U.S.M.C. MMC re-arms </ul>",
+        "Tactical Air Control Party: <ul> <li> Inherent Radio (Contact = 9) <li> May set up HIP </ul>"
+    ]
+},
+
+"british": {
+    "th_color": "Black",
+    "oba": [ "8B", "2R" ], "oba_access": "&le; 2",
+    "hob_drm": "-1 DRM",
+    "grenades": "{? 01/1944- | SMOKE | Smoke | SMOKE (44+) ?}",
+    "notes": [
+        "Elite &amp; 1st Line: Cowering NA",
+        "ANZAC: Stealthy (unless Green)",
+        "Gurkha: <ul> <li> -1 CC DRM <li> Disrupt &amp; RtPh Surrender NA <li> Commando (unless Green) <li> Stealthy </ul>"
+    ]
+},
+
+"french": {
+    "th_color": [ "Black", "AFV use Red TH#" ],
+    "oba": [ "6B", "2R" ], "oba_access": "&le; 1",
+    "hob_drm": "+1 DRM",
+    "grenades": "Smoke",
+    "notes": []
+},
+
+"italian": {
+    "th_color": "Red",
+    "oba": [ "7B", "3R" ], "oba_access": "&le; 1",
+    "hob_drm": "+3 DRM",
+    "grenades": "Smoke",
+    "notes": [
+        "Escape NA",
+        "1st Line &amp; Conscript: <ul> <li> Surrender on HoB Final DR &ge; 10 <li> Deploy NA <li> +1 CC Capture DRM NA <li> Always Lax <li> 1 PAATC </ul>"
+    ]
+},
+
+"finnish": {
+    "th_color": "Red",
+    "oba": [
+        "{! 01/1939-12/1940 = 6B | 01/1941-12/1942 = 7B | 01/1943-09/1944 = 8B | 10/1944- = 7B | ??? !}",
+        "3R",
+        "Plentiful Ammo included"
+    ],
+    "oba_access": "&le; 1",
+    "hob_drm": "-1 DRM",
+    "grenades": null,
+    "notes": [
+        "Deploy (1TC) &amp; Recombine without Leader",
+        "Self-Rally OK [EXC: Conscript]",
+        "Cowering NA [EXC: Conscript]",
+        "Elite &amp; 1st Line: <ul> <li> Always Stealthy <li> Use FT/DC as Elite {? 07/1944- | <li> Inherent PF: <ul> <li> Range = 1 <li> PF Check &le; 2 <li> Max. shots = 1&frac12; &times; # Elite/1st Line squad-equivalents (FRD) </ul> | | <li> Inherent PF (7/44+) ?} </ul>",
+        "Ski-trained (don Skis = one MF)",
+        "Leader Creation NA",
+        "Captured Use penalties NA for Russian MG [EXC: LMG in 1939; .50-cal]"
+    ]
+},
+
+"axis-minor": {
+    "th_color": "Red",
+    "oba": [ "6B", "3R" ], "oba_access": "&le; 1",
+    "hob_drm": "+3 DRM",
+    "grenades": "Smoke",
+    "notes": [
+        "Escape NA",
+        "1st Line &amp; Conscript: <ul> <li> 1 PAATC <li> Surrender on HoB Final DR &ge; 10 </ul>",
+        "Inherent PF in non-Crew MMC (Romanian 3/44+; Hungarian 6/44+): <ul> <li> Range = {? 06/1944- | 2 | 1 | 1 (pre-6/44), 2 thereafter ?} </ul>",
+        "{? 07/1943- | Inherent ATMM in Romanian non-Crew Elite &amp; 1st Line MMC (-2 CC DRM) | No Inherent ATMM | Inherent ATMM (7/43+) ?}"
+    ]
+},
+
+"allied-minor": {
+    "th_color": "Red",
+    "oba": [ "6B", "3R" ], "oba_access": "&le; 1",
+    "hob_drm": "+2 DRM",
+    "grenades": "Smoke",
+    "notes": [
+        "+1 Broken Morale vs Italians",
+        "1st Line &amp; Green: 1 PAATC"
+    ]
+},
+
+"japanese": {
+    "th_color": "Black",
+    "oba": [ "5B", "2R" ], "oba_access": "&le; 1",
+    "hob_drm": "+4 DRM",
+    "grenades": "SMOKE",
+    "notes": [
+        "SMC PTC/Pin/Break NA",
+        "Leaders: <ul> <li> Replacement NA <li> Casualty MC &rarr; elimination <li> Morale/Rally/Berserk as Commissar </ul>",
+        "Tank-Hunter Heroes &amp; ATMM",
+        "Banzai Charge (always Lax)",
+        "Elite &amp; 1st Line: Always Stealthy",
+        "Conscript: Always Lax",
+        "ATR/MMG/HMG Breakdown penalty",
+        "Always NA: <ul> <li> PAATC <li> Escape <li> RtPh Surrender <li> Disruption <li> Encircled lower Morale <li> Leader Creation </ul>",
+        "LLMC &rarr; LLTC if unbroken",
+        "Massacre OK",
+        "-1 Interrogation DRM",
+        "-2 Concealment drm",
+        "Enemy +2 search drm",
+        "Hand-to-Hand CC &amp; Hara-Kiri"
+    ]
+},
+
+"chinese~gmd": {
+    "th_color": "Red",
+    "oba": [ "5B", "2R",
+        "6B/2R if Majority Squad Type is 5-3-7",
+        "5B/3R if Majority Squad Type is 3-3-7 or 3-3-6"
+    ],
+    "oba_access": "&le; 1",
+    "hob_drm": "0 DRM",
+    "grenades": "SMOKE",
+    "notes": [
+        "Deploy NA",
+        "Lax at Night",
+        "+1 Leader Creation drm",
+        "1st Line &amp; Conscript: 1 PAATC",
+        "Human Wave",
+        "Dare-Death Squads [EXC: 5-3-7]"
+    ]
+},
+
+"chinese": {
+    "th_color": "Red",
+    "oba": null,
+    "hob_drm": "+1 DRM",
+    "grenades": null,
+    "notes": [
+        "Cowering NA",
+        "Commissars",
+        "Human Wave",
+        "Dare-Death Squads"
+    ]
+},
+
+"kfw-rok": {
+    "th_color": "{! -08/1950 = Red | 09/1950-04/1951 = Red (ROK) ; Black (KMC) | 05/1951- = Black | ??? !}",
+    "oba": [ "{! 06/1950- = 10B | ??? !}", "3R",
+        "{! 09/1950- = Plentiful Ammo included !}",
+        "{! 06/1950-08/1950 = ROK: 6B/3R !}"
+    ],
+    "oba_access": "&le; 1 (ROK) ; 2 (KMC)",
+    "hob_drm": "+3/+4 DRM",
+    "grenades": "SMOKE",
+    "notes": [
+        "Republic of Korea (ROK): <ul> {! 06/1946-04/1951 = <li> Early KW ROK rules !} <li> 1st Line MMC Battle-Harden to Fanatic <li> 2nd Line &amp; Conscript MMC: <ul> <li> Always Lax <li> Deploy NA </ul> {? -10/1950 | <li> Human Bullets | | <li> Human Bullets (pre-11/50) ?} </ul>",
+        "Korean Marine Corps (KMC): <ul> {! 04/1949-07/1950 = <li> Japanese-Armed KMC | 08/1950- = <li> U.S.-Armed KMC !} {? -01/1951 | <li> SW B#/X#/ROF penalty | | <li> SW B#/X#/ROF penalty (pre-2/51) ?} </ul>"
+    ]
+},
+
+"kfw-bcfk": {
+    "th_color": "Black",
+    "oba": [ "8B", "2R" ], "oba_access": "&le; 2",
+    "hob_drm": "-1 DRM",
+    "grenades": "SMOKE",
+    "notes": [
+        "2nd Line MMC: ELR Replacement &rarr; Disrupt",
+        "{? 01/1952- | Canadian squads have Assault Fire | | Canadian squads have Assault Fire (1/52+) ?}",
+        "Royal Marines: <ul> <li> Commandos <li> No Non-Qualified Use penalty for RCL <li> No Captured Use penalty for Communist SW <li> Self-Deploy (1TC) &amp; Self-Recombine OK </ul>"
+    ]
+},
+
+"kfw-ounc": {
+    "th_color": "Black",
+    "oba": [ "9B", "3R" ], "oba_access": "&le; 1",
+    "hob_drm": [ "0 DRM", "+3 for Turkish" ],
+    "grenades": "SMOKE",
+    "notes": [
+        "2nd Line MMC: ELR Replacement &rarr; Disrupt [EXC: Turkish]",
+        "Bayonet Charge NTC NA for Ethiopian, French, Turkish leaders"
+    ]
+},
+
+"kfw-kpa": {
+    "th_color": "Red",
+    "oba": [ "5B", "2R" ], "oba_access": "&le; 1",
+    "hob_drm": "+2 DRM",
+    "grenades": null,
+    "notes": [
+        "As Russian <ul> <li> Elite Personnel always Stealthy <li> Elite Squads may Deploy <li> Commissars <li> Massacre OK <li> Human Wave by SSR only </ul>",
+        "Suicide Heroes",
+        "Starshell restrictions",
+        "Assault Engineers: WP grenades",
+        "Communist Partisans: <ul> <li> Neither Elite nor Conscript/Green <li> Always Stealthy <li> Massacre OK <li> Disrupt &amp; RtPh Surrender NA </ul>"
+    ]
+},
+
+"kfw-cpva": {
+    "th_color": "Red",
+    "oba": [
+        "{? 04/1951- | 7B | | 7B (4/51+) ?}",
+        "{! 04/1951-09/1952 = 3R | 10/1952- = 2R | ??? !}"
+    ],
+    "oba_access": "&le; 1",
+    "hob_drm": "+1 DRM",
+    "grenades": null,
+    "notes": [
+        "Always Stealthy",
+        "Starshell restrictions",
+        "Armored Assault NA",
+        "Riders NA",
+        "Assault Engineers: WP grenades",
+        "{! 10/1950-03/1951 = Early KW CPVA rules !}",
+        "Leaders &amp; Political Officers increase Morale as if Commissar",
+        "SW B#/X#/ROF penalty",
+        "Restricted Fire",
+        "Infantry Platoon Movement",
+        "Hand-to-Hand CC (-1 DRM)",
+        "HS Infantry Overrun",
+        "Bugles",
+        "Entrench -1 DRM",
+        "PAATC NTC NA",
+        "Infantry Overrun NTC NA",
+        "Conceal if +2 Hindrance",
+        "Concealment -1 drm",
+        "Civilian Interrogation is always in effect"
+    ]
+},
+
+"burmese": {
+    "th_color": "Red",
+    "oba": null,
+    "hob_drm": "+2 DRM",
+    "grenades": null,
+    "notes": [
+        "Dare-Death Squads (as if Chinese)",
+        "Elite and 1st Line MMC: Always Stealthy",
+        "Deploy NA [EXC: A20.5 &amp; A21.22]; Recombine OK",
+        "Leaders: Morale/Berserk/Rally as Commissar"
+    ]
+},
+
+"indonesian": {
+    "th_color": "Red",
+    "oba": [ "5B", "3R" ],
+    "hob_drm": "+3 DRM",
+    "grenades": "Smoke",
+    "notes": [
+        "Tank-Hunter/DC Heroes (as if 1945 Japanese)",
+        "Hand-to-Hand Combat",
+        "Massacre OK",
+        "HoB DR &ge; 12 &rarr; Berserk",
+        "Deploy NA [EXC: A20.5 &amp; A21.22]; Recombine OK"
+    ]
+},
+
+"thai": {
+    "th_color": "Black",
+    "oba": [ "7B", "3R" ],
+    "hob_drm": "0 DRM",
+    "grenades": "Smoke"
+}
+
+}
