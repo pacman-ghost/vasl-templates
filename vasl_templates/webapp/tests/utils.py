@@ -37,6 +37,9 @@ _STD_TEMPLATES = {
 # nationality-specific templates
 _NAT_TEMPLATES = {
     "german": [ "pf", "psk", "atmm" ],
+    "finnish": [ "pf-finnish" ],
+    "hungarian": [ "pf-hungarian" ],
+    "romanian": [ "pf-romanian" ],
     "russian": [ "mol", "mol-p" ],
     "american": [ "baz" ],
     "british": [ "piat" ],

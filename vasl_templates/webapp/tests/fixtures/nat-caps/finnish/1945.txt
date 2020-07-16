@@ -12,10 +12,7 @@ OBA: 7B 3R (access: ≤ 1)
 * Elite & 1st Line:
   * Always Stealthy
   * Use FT/DC as Elite
-  * Inherent PF:
-    * Range = 1
-    * PF Check ≤ 2
-    * Max. shots = 1½ × # Elite/1st Line squad-equivalents (FRD)
+  * Inherent PF
 * Ski-trained (don Skis = one MF)
 * Leader Creation NA
 * Captured Use penalties NA for Russian MG [EXC: LMG in 1939; .50-cal]

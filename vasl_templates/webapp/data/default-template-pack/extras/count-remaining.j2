@@ -8,12 +8,20 @@
     <td>
     <h3>Panzerfaust</h3>
     <table class="pf">
-    <tr> <td class="key"> before '44
-        <td class="val" {%if SCENARIO_YEAR and SCENARIO_YEAR < 1944%} {{HILITE_STYLE}} {%endif%} > #squads
-    <tr> <td class="key"> '44
-        <td class="val" {%if SCENARIO_YEAR and SCENARIO_YEAR == 1944%} {{HILITE_STYLE}} {%endif%}> #squads &times 1&half; (FRD)
-    <tr> <td class="key"> '45
-        <td class="val" {%if SCENARIO_YEAR and SCENARIO_YEAR == 1945%} {{HILITE_STYLE}} {%endif%}> #squads &times 2
+    <tr> <td class="key"> German (-'44)
+        <td class="val" {%if (PLAYER_1 == "german" or PLAYER_2 == "german") and SCENARIO_YEAR and SCENARIO_YEAR < 1944%} {{HILITE_STYLE}} {%endif%} > #squads
+    <tr> <td class="key"> German ('44)
+        <td class="val" {%if (PLAYER_1 == "german" or PLAYER_2 == "german") and SCENARIO_YEAR == 1944%} {{HILITE_STYLE}} {%endif%}> 1&half; &times; #squads (FRD)
+    <tr> <td class="key"> German ('45)
+        <td class="val" {%if (PLAYER_1 == "german" or PLAYER_2 == "german") and SCENARIO_YEAR == 1945%} {{HILITE_STYLE}} {%endif%}> 2 &times; #squads
+    <tr> <td class="key"> Finnish (7/44+)
+        <td class="val" {%if (PLAYER_1 == "finnish" or PLAYER_2 == "finnish") and (SCENARIO_YEAR >= 1945 or (SCENARIO_YEAR == 1944 and SCENARIO_MONTH >= 7))%} {{HILITE_STYLE}} {%endif%}> 1&half; &times; # Elite/1<sup>st</sup> Line MMC squads (FRD)
+    <tr> <td class="key"> Hungarian (6/44+)
+        <td class="val" {%if (PLAYER_1 == "hungarian" or PLAYER_2 == "hungarian") and (SCENARIO_YEAR >= 1945 or (SCENARIO_YEAR == 1944 and SCENARIO_MONTH >= 6))%} {{HILITE_STYLE}} {%endif%}> #squads
+    <tr> <td class="key"> Romanian (3-12/44)
+        <td class="val" {%if (PLAYER_1 == "romanian" or PLAYER_2 == "romanian") and SCENARIO_YEAR == 1944 and SCENARIO_MONTH >= 3%} {{HILITE_STYLE}} {%endif%}> 1&half; &times; #squads
+    <tr> <td class="key"> Romanian ('45)
+        <td class="val" {%if (PLAYER_1 == "romanian" or PLAYER_2 == "romanian") and SCENARIO_YEAR == 1945%} {{HILITE_STYLE}} {%endif%}> #squads
     </table>
     <em> Squads or squad-equivalents. </em>
 
@@ -21,13 +29,13 @@
     <h3>Tank-Hunter Heroes</h3>
     <table class="thh">
     <tr> <td class="key"> before '43
-        <td class="val" {%if SCENARIO_YEAR and SCENARIO_YEAR < 1943%} {{HILITE_STYLE}} {%endif%}> 10% of #squads (FRU) <br> <small><em>(20% vs. Russians)</em></small>
+        <td class="val" {%if (PLAYER_1 == "japanese" or PLAYER_2 == "japanese") and SCENARIO_YEAR and SCENARIO_YEAR < 1943%} {{HILITE_STYLE}} {%endif%}> 10% of #squads (FRU) <br> <small><em>(20% vs. Russians)</em></small>
     <tr> <td class="key"> '43
-        <td class="val" {%if SCENARIO_YEAR and SCENARIO_YEAR == 1943%} {{HILITE_STYLE}} {%endif%}> 20% of #squads (FRU)
+        <td class="val" {%if (PLAYER_1 == "japanese" or PLAYER_2 == "japanese") and SCENARIO_YEAR == 1943%} {{HILITE_STYLE}} {%endif%}> 20% of #squads (FRU)
     <tr> <td class="key"> '44
-        <td class="val" {%if SCENARIO_YEAR and SCENARIO_YEAR == 1944%} {{HILITE_STYLE}} {%endif%}> 33% of #squads (FRU)
+        <td class="val" {%if (PLAYER_1 == "japanese" or PLAYER_2 == "japanese") and SCENARIO_YEAR == 1944%} {{HILITE_STYLE}} {%endif%}> 33% of #squads (FRU)
     <tr> <td class="key"> '45
-        <td class="val" {%if SCENARIO_YEAR and SCENARIO_YEAR == 1945%} {{HILITE_STYLE}} {%endif%}> 50% of #squads (FRU)
+        <td class="val" {%if (PLAYER_1 == "japanese" or PLAYER_2 == "japanese") and SCENARIO_YEAR == 1945%} {{HILITE_STYLE}} {%endif%}> 50% of #squads (FRU)
     </table>
     <em> Squads only, not squad-equivalents. </em>
 </table> -->

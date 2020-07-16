@@ -3,7 +3,7 @@
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 
-from vasl_templates.webapp.tests.utils import init_webapp, select_tab, \
+from vasl_templates.webapp.tests.utils import init_webapp, select_tab, set_player, \
     set_template_params, get_droplist_vals, select_droplist_val, \
     find_child, find_children, wait_for, wait_for_clipboard
 from vasl_templates.webapp.tests.test_template_packs import make_zip_from_files, upload_template_pack_zip
@@ -183,11 +183,11 @@ def test_count_remaining_hilites( webapp, webdriver ):
         reset = lambda ct: ct.set_data_dir( dtype="real" )
     )
 
-    def do_test( year, expected ): #pylint: disable=missing-docstring
+    def do_test( month, year, expected ): #pylint: disable=missing-docstring
 
         # set the specified year
         set_template_params( {
-            "SCENARIO_DATE": "01/01/{}".format( year ) if year else ""
+            "SCENARIO_DATE": "{}/01/{}".format( month, year ) if year else ""
         } )
 
         # select the "count remaining" template and check what's been highlighted
@@ -205,36 +205,80 @@ def test_count_remaining_hilites( webapp, webdriver ):
             assert cells == expected[count_type]
 
     # do the tests
-    do_test( None, {
-        "pf": [ False, False, False ],
+    set_player( 1, "german" )
+    set_player( 2, "japanese" )
+    do_test( None, None, {
+        "pf": [ False, False, False, False, False, False, False ],
         "thh": [ False, False, False, False ]
     } )
-    do_test( 1940, {
-        "pf": [ True, False, False ],
+    do_test( 1, 1940, {
+        "pf": [ True, False, False, False, False, False, False ],
         "thh": [ True, False, False, False ]
     } )
-    do_test( 1941, {
-        "pf": [ True, False, False ],
+    do_test( 1, 1941, {
+        "pf": [ True, False, False, False, False, False, False ],
         "thh": [ True, False, False, False ]
     } )
-    do_test( 1942, {
-        "pf": [ True, False, False ],
+    do_test( 1, 1942, {
+        "pf": [ True, False, False, False, False, False, False ],
         "thh": [ True, False, False, False ]
     } )
-    do_test( 1943, {
-        "pf": [ True, False, False ],
+    do_test( 1, 1943, {
+        "pf": [ True, False, False, False, False, False, False ],
         "thh": [ False, True, False, False ]
     } )
-    do_test( 1944, {
-        "pf": [ False, True, False ],
+    do_test( 1, 1944, {
+        "pf": [ False, True, False, False, False, False, False ],
         "thh": [ False, False, True, False ]
     } )
-    do_test( 1945, {
-        "pf": [ False, False, True ],
+    do_test( 1, 1945, {
+        "pf": [ False, False, True, False, False, False, False ],
         "thh": [ False, False, False, True ]
     } )
-    do_test( 1946, {
-        "pf": [ False, False, False ],
+    do_test( 1, 1946, {
+        "pf": [ False, False, False, False, False, False, False ],
+        "thh": [ False, False, False, False ]
+    } )
+
+    # do the tests
+    set_player( 1, "finnish" )
+    set_player( 2, "russian" )
+    do_test( 6, 1944, {
+        "pf": [ False, False, False, False, False, False, False ],
+        "thh": [ False, False, False, False ]
+    } )
+    do_test( 7, 1944, {
+        "pf": [ False, False, False, True, False, False, False ],
+        "thh": [ False, False, False, False ]
+    } )
+
+    # do the tests
+    set_player( 1, "hungarian" )
+    do_test( 5, 1944, {
+        "pf": [ False, False, False, False, False, False, False ],
+        "thh": [ False, False, False, False ]
+    } )
+    do_test( 6, 1944, {
+        "pf": [ False, False, False, False, True, False, False ],
+        "thh": [ False, False, False, False ]
+    } )
+    do_test( 1, 1945, {
+        "pf": [ False, False, False, False, True, False, False ],
+        "thh": [ False, False, False, False ]
+    } )
+
+    # do the tests
+    set_player( 1, "romanian" )
+    do_test( 2, 1944, {
+        "pf": [ False, False, False, False, False, False, False ],
+        "thh": [ False, False, False, False ]
+    } )
+    do_test( 3, 1944, {
+        "pf": [ False, False, False, False, False, True, False ],
+        "thh": [ False, False, False, False ]
+    } )
+    do_test( 1, 1945, {
+        "pf": [ False, False, False, False, False, False, True ],
         "thh": [ False, False, False, False ]
     } )
 

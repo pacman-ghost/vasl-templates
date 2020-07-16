@@ -395,6 +395,12 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     if ( show_date_warnings ) {
         if ( template_id === "pf" && ! is_pf_available() )
             showWarningMsg( "PF are only available after September 1943." ) ;
+        if ( template_id === "pf-finnish" && ! is_pf_finnish_available() )
+            showWarningMsg( "PF are only available from July 1944." ) ;
+        if ( template_id === "pf-hungarian" && ! is_pf_hungarian_available() )
+            showWarningMsg( "PF are only available from June 1944." ) ;
+        if ( template_id === "pf-romanian" && ! is_pf_romanian_available() )
+            showWarningMsg( "PF are only available from March 1944." ) ;
         if ( template_id === "psk" && ! is_psk_available() )
             showWarningMsg( "PSK are only available after September 1943." ) ;
         if ( template_id === "baz" && ! is_baz_available() )
@@ -2159,7 +2165,7 @@ function do_load_template_pack( fname, data )
 
 // --------------------------------------------------------------------
 
-function _is_scenario_after( month, year ) {
+function _is_scenario_in_or_after( month, year ) {
     // check if the scenario is after the specified month/year
     var scenario_date = get_scenario_date() ;
     if ( ! scenario_date )
@@ -2168,13 +2174,16 @@ function _is_scenario_after( month, year ) {
         return true ;
     if ( scenario_date.getFullYear() < year )
         return false ;
-    return (scenario_date.getMonth() >= month) ;
+    return scenario_date.getMonth() >= month-1  ;
 }
 
-function is_pf_available() { return _is_scenario_after( 9, 1943 ) ; }
-function is_psk_available() { return _is_scenario_after( 9, 1943 ) ; }
-function is_baz_available() { return _is_scenario_after( 10, 1942 ) ; }
-function is_atmm_available() { return _is_scenario_after( 0, 1944 ) ; }
+function is_pf_available() { return _is_scenario_in_or_after( 10, 1943 ) ; }
+function is_pf_finnish_available() { return _is_scenario_in_or_after( 7, 1944 ) ; }
+function is_pf_hungarian_available() { return _is_scenario_in_or_after( 6, 1944 ) ; }
+function is_pf_romanian_available() { return _is_scenario_in_or_after( 3, 1944 ) ; }
+function is_psk_available() { return _is_scenario_in_or_after( 9, 1943 ) ; }
+function is_baz_available() { return _is_scenario_in_or_after( 11, 1942 ) ; }
+function is_atmm_available() { return _is_scenario_in_or_after( 1, 1944 ) ; }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -2195,6 +2204,9 @@ function on_scenario_date_change()
         } ) ;
     }
     update_ui( "pf", is_pf_available() ) ;
+    update_ui( "pf-finnish", is_pf_finnish_available() ) ;
+    update_ui( "pf-hungarian", is_pf_hungarian_available() ) ;
+    update_ui( "pf-romanian", is_pf_romanian_available() ) ;
     update_ui( "psk", is_psk_available() ) ;
     update_ui( "baz", is_baz_available() ) ;
     update_ui( "atmm", is_atmm_available() ) ;

@@ -57,6 +57,12 @@
   "type": "axis-minor"
 },
 
+"hungarian": {
+  "display_name": "Hungarian",
+  "ob_colors": [ "OBCOL:hungarian","OBCOL2:hungarian", "OBCOL-BORDER:hungarian" ],
+  "type": "axis-minor"
+},
+
 "kfw-cpva": {
   "display_name": "Communist Chinese",
   "ob_colors": [ "OBCOL:kfw-cpva","OBCOL2:kfw-cpva", "OBCOL-BORDER:kfw-cpva" ]

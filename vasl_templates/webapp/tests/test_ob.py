@@ -143,8 +143,8 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
         btn = find_child( "button[data-id='psk']" )
         expected = "====> whoosh! ; col=[OBCOL:german]/[OBCOL-BORDER:german]"
         do_check_snippets( btn, (1942,1), expected, True )
-        do_check_snippets( btn, (1943,9), expected, True )
-        do_check_snippets( btn, (1943,10), expected, False )
+        do_check_snippets( btn, (1943,8), expected, True )
+        do_check_snippets( btn, (1943,9), expected, False )
         do_check_snippets( btn, (1944,1), expected, False )
 
     # initialize

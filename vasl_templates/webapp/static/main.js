@@ -13,6 +13,9 @@ gEmSize = null ;
 
 var NATIONALITY_SPECIFIC_BUTTONS = {
     "pf": [ "german" ],
+    "pf-finnish": [ "finnish" ],
+    "pf-hungarian": [ "hungarian" ],
+    "pf-romanian": [ "romanian" ],
     "atmm": [ "german" ],
     "psk": [ "german" ],
     "mol": [ "russian" ],

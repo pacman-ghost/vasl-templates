@@ -92,7 +92,7 @@ function _generate_snippets()
     // figure out which templates we don't want to auto-create labels for
     var no_autocreate = {} ;
     for ( var template_id in NATIONALITY_SPECIFIC_BUTTONS ) {
-        if ( ["pf","atmm","thh"].indexOf( template_id ) !== -1 ) {
+        if ( ["pf","atmm","thh"].indexOf( template_id ) !== -1 || template_id.substring(0,3) === "pf-" ) {
             // NOTE: PF, ATMM, THH are always available as an inherent part of a squad's capabilities
             // (subject to date restrictions), so we always auto-create these labels, unlike, say MOL or BAZ,
             // which are only present by SSR or OB counter).
@@ -221,7 +221,7 @@ function _get_raw_content( snippet_id, $btn, params )
         return [ "Molotov Cocktail", "MOL check:", "IFT DR original colored dr:" ] ;
     if ( snippet_id === "mol-p" )
         return [ "MOL Projector", "TH#", "X#", "B#" ] ;
-    if ( snippet_id === "pf" )
+    if ( snippet_id === "pf" || snippet_id.substring(0,3) === "pf-" )
         return [ "Panzerfaust", "PF check:", "non-AFV target", "TH#" ] ;
     if ( snippet_id === "psk" )
         return [ "Panzerschrek", "Range", "TH#", "X#", "TK#" ] ;
