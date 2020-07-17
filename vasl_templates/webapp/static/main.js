@@ -534,9 +534,15 @@ function update_page_load_status( id )
         $("#loader").fadeOut( 500 ) ;
         adjust_footer_vspacers() ;
         // position the PLAYERS snippet button
+        // FUDGE! Just setting the button's "left" attribute works, except in the Windows desktop app :-/
+        // I think there's a weird timing error wrt wrapping it as a snippet button, but positioning it
+        // via CSS seems to work everywhere :-/
         var $btn = $( ".snippet-control[data-id='players']" ) ;
         var $sel = $( ".select2[name='PLAYER_2_SAN']" ) ;
-        $btn.offset( { left: $sel.offset().left + $sel.outerWidth() - $btn.outerWidth() } ) ;
+        var newLeft = $sel.offset().left + $sel.outerWidth() - $btn.outerWidth() ;
+        newLeft -= 5 ; // nb: for the page margin
+        $btn.parent().height( $btn.parent().height() ) ; // nb: this forces a redraw
+        $btn.css( { position: "absolute", left: newLeft, top: $btn.position().top+2 } ) ;
         // NOTE: The watermark image appears briefly in IE when reloading the page, but not even
         // creating the watermark dynamically and removing it when the page unloads fixes it :-(
         $("#watermark").fadeIn( 5*1000 ) ;
