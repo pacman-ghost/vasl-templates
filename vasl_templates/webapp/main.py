@@ -2,6 +2,7 @@
 
 import os
 import json
+import uuid
 import logging
 
 from flask import request, render_template, jsonify, send_file, redirect, url_for, abort
@@ -11,6 +12,9 @@ from vasl_templates.webapp.utils import MsgStore
 import vasl_templates.webapp.config.constants
 from vasl_templates.webapp.config.constants import BASE_DIR, DATA_DIR
 from vasl_templates.webapp import globvars
+
+# NOTE: This is used to stop multiple instances of the program from running (see main.py in the desktop app).
+INSTANCE_ID = uuid.uuid4().hex
 
 startup_msg_store = MsgStore() # store messages generated during startup
 _check_versions = True
@@ -159,7 +163,7 @@ def get_default_scenario():
 @app.route( "/ping" )
 def ping():
     """Let the caller know we're alive."""
-    return "pong"
+    return "pong: {}".format( INSTANCE_ID )
 
 # ---------------------------------------------------------------------
 

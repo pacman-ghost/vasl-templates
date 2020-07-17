@@ -132,7 +132,7 @@ def webapp():
             """Try to connect to the webapp server."""
             try:
                 resp = urllib.request.urlopen( app.url_for("ping") ).read()
-                assert resp == b"pong"
+                assert resp.startswith( b"pong: " )
                 return True
             except URLError:
                 return False

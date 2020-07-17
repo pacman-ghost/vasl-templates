@@ -5,9 +5,11 @@ import sys
 import os
 import os.path
 import threading
+import time
 import traceback
 import logging
 import urllib.request
+from urllib.error import URLError
 
 import PyQt5.QtWebEngineWidgets
 from PyQt5.QtWidgets import QApplication, QMessageBox
@@ -21,6 +23,8 @@ from vasl_templates.webapp.utils import SimpleError
 qt_app = QApplication( sys.argv )
 
 app_settings = None
+
+_webapp_error = None # nb: this needs to be global :shrug:
 
 # ---------------------------------------------------------------------
 
@@ -127,27 +131,56 @@ def _do_main( template_pack, default_scenario, remote_debugging, debug ): #pylin
     import flask.cli
     flask.cli.show_server_banner = lambda *args: None
 
-    # see if we can connect to the webapp server
-    port = webapp.config["FLASK_PORT_NO"]
-    url = "http://localhost:{}/ping".format( port )
-    try:
-        resp = urllib.request.urlopen( url ).read()
-    except: #pylint: disable=bare-except
-        resp = None
-    if resp:
-        raise SimpleError( "The application is already running." )
-
     # start the webapp server
+    port = webapp.config[ "FLASK_PORT_NO" ]
     def webapp_thread():
         """Run the webapp server."""
         try:
             webapp.run( host="localhost", port=port, use_reloader=False )
-        except Exception as ex:
+        except Exception as ex: #pylint: disable=broad-except
             logging.critical( "WEBAPP SERVER EXCEPTION: %s", ex )
             logging.critical( traceback.format_exc() )
-            raise
+            # NOTE: We pass the exception to the GUI thread, where it can be shown to the user.
+            global _webapp_error
+            _webapp_error = ex
     thread = threading.Thread( target=webapp_thread )
+    # FUDGE! If we detect another instance, we hang on Windows after reporting the error. Running the webapp
+    # in a daemon thread makes the problem go away - you would think the thread would terminate, since it wouldn't
+    # be able to listen on the same server port - but I guess not :-/
+    thread.daemon = True
     thread.start()
+
+    # NOTE: We want to detect if another instance of the program is already running, but we can't simply
+    # try to connect to the webapp, since we can't tell the difference between connecting to the webapp
+    # we just started above, and an already-running instance. We handle this by assigning each instance
+    # a unique ID, which lets us figure out if we've connected to ourself, or another instance.
+    from vasl_templates.webapp.main import INSTANCE_ID
+
+    # wait for the webapp server to start
+    while True:
+        if _webapp_error:
+            break
+        try:
+            url = "http://localhost:{}/ping".format( port )
+            resp = urllib.request.urlopen( url ).read().decode( "utf-8" )
+            # we got a response - figure out if we connected to ourself or another instance
+            if resp[:6] != "pong: ":
+                raise SimpleError( "Unexpected server check response: {}".format( resp ) )
+            if resp[6:] == INSTANCE_ID:
+                break
+            else:
+                from vasl_templates.webapp.config.constants import APP_NAME
+                QMessageBox.warning( None, APP_NAME, "The program is already running." )
+                return -1
+        except URLError:
+            # no response - the webapp server is probably still starting up
+            time.sleep( 0.25 )
+            continue
+        except Exception as ex: #pylint: disable=broad-except
+            raise ex
+    if _webapp_error:
+        # the webapp server didn't start up - re-raise the error in this thread
+        raise _webapp_error #pylint: disable=raising-bad-type
 
     # check if we should disable OpenGL
     # Using the QWebEngineView crashes on Windows 7 in a VM. It uses OpenGL, which is
