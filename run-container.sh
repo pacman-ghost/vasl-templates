@@ -11,6 +11,7 @@ function print_help {
     echo "    -v  --vasl-vmod        Path to the VASL .vmod file."
     echo "    -e  --vasl-extensions  Path to the VASL extensions directory."
     echo "    -h  --chapter-h        Path to the Chapter H notes directory."
+    echo "    -u  --user-files       Path to the user files directory."
     echo
     echo "    -t  --tag              Docker tag."
     echo "    -d  --detach           Detach from the container and let it run in the background."
@@ -30,6 +31,8 @@ VASL_EXTNS_LOCAL=
 VASL_EXTNS=
 CHAPTER_H_NOTES_LOCAL=
 CHAPTER_H_NOTES=
+USER_FILES_LOCAL=
+USER_FILES=
 TAG=latest
 DETACH=
 NO_BUILD=
@@ -41,7 +44,7 @@ if [ $# -eq 0 ]; then
     print_help
     exit 0
 fi
-params="$(getopt -o p:v:e:h:t:d -l port:,vasl-vmod:,vasl-extensions:,chapter-h:,tag:,detach,no-build,build-network:,run-network:,help --name "$0" -- "$@")"
+params="$(getopt -o p:v:e:h:u:t:d -l port:,vasl-vmod:,vasl-extensions:,chapter-h:,user-files:,tag:,detach,no-build,build-network:,run-network:,help --name "$0" -- "$@")"
 if [ $? -ne 0 ]; then exit 1; fi
 eval set -- "$params"
 while true; do
@@ -57,6 +60,9 @@ while true; do
             shift 2 ;;
         -h | --chapter-h)
             CHAPTER_H_NOTES_LOCAL=$2
+            shift 2 ;;
+        -u | --user-files)
+            USER_FILES_LOCAL=$2
             shift 2 ;;
         -t | --tag)
             TAG=$2
@@ -118,6 +124,17 @@ if [ -n "$CHAPTER_H_NOTES_LOCAL" ]; then
     CHAPTER_H_NOTES_ENV="--env CHAPTER_H_NOTES_DIR=$CHAPTER_H_NOTES"
 fi
 
+# check if a user files directory has been specified
+if [ -n "$USER_FILES_LOCAL" ]; then
+    if [ ! -d "$USER_FILES_LOCAL" ]; then
+        echo "Can't find the user files directory: $USER_FILES_LOCAL"
+        exit 1
+    fi
+    USER_FILES=/data/user-files/
+    USER_FILES_VOLUME="--volume `readlink -f "$USER_FILES_LOCAL"`:$USER_FILES"
+    USER_FILES_ENV="--env USER_FILES_DIR=$USER_FILES"
+fi
+
 # build the container
 if [ -z "$NO_BUILD" ]; then
     echo Building the \"$TAG\" container...
@@ -132,8 +149,8 @@ echo Launching the \"$TAG\" container...
 docker run \
     --publish $PORT:5010 \
     --name vasl-templates \
-    $VASL_MOD_VOLUME $VASL_EXTNS_VOLUME $CHAPTER_H_NOTES_VOLUME \
-    $VASL_MOD_ENV $VASL_EXTNS_ENV $CHAPTER_H_NOTES_ENV \
+    $VASL_MOD_VOLUME $VASL_EXTNS_VOLUME $CHAPTER_H_NOTES_VOLUME $USER_FILES_VOLUME \
+    $VASL_MOD_ENV $VASL_EXTNS_ENV $CHAPTER_H_NOTES_ENV $USER_FILES_ENV \
     $RUN_NETWORK $DETACH \
     -it --rm \
     vasl-templates:$TAG \

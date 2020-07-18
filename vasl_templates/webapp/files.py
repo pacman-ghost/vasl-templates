@@ -60,7 +60,8 @@ class FileServer:
 @app.route( "/user/<path:path>" )
 def get_user_file( path ):
     """Get a static file."""
-    dname = app.config.get( "USER_FILES_DIR" )
+    # NOTE: The Docker container configures this setting via an environment variable.
+    dname = app.config.get( "USER_FILES_DIR", os.environ.get("USER_FILES_DIR") )
     if not dname:
         abort( 404 )
     if not os.path.isdir( dname ):
