@@ -82,6 +82,14 @@ class ControlTests:
             if isinstance( v, (str,int,bool,list,dict) )
         }
 
+    def _set_app_config( self, key=None, val=None ):
+        """Set the webapp config."""
+        if val is None:
+            del app.config[ key ]
+        else:
+            app.config[ key ] = val
+        return self
+
     def _set_data_dir( self, dtype=None ):
         """Set the webapp's data directory."""
         if dtype == "real":

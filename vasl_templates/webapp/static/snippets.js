@@ -136,7 +136,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     params.TIMESTAMP = (new Date()).toISOString() ;
     params.IMAGES_BASE_URL = gUserSettings["scenario-images-source"] == SCENARIO_IMAGES_SOURCE_INTERNET ?
         gAppConfig.ONLINE_IMAGES_URL_BASE :
-        APP_URL_BASE + gImagesBaseUrl ;
+        make_app_url(  gImagesBaseUrl, true ) ;
     if ( gUserSettings["snippet-font-family"] ) {
         // NOTE: Layout of snippets ends up being slightly different on Windows and Linux, presumably because
         // VASSAL is using different fonts. Unfortunately, explicitly specifying which font to use doesn't
@@ -459,8 +459,12 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     }
 
     // fixup any user file URL's
-    snippet = strReplaceAll( snippet, "{{USER_FILES}}", APP_URL_BASE+"/user" ) ;
-    snippet = strReplaceAll( snippet, "{{CHAPTER_H}}", APP_URL_BASE+"/chapter-h" ) ;
+    snippet = strReplaceAll( snippet, "{{USER_FILES}}",
+        make_app_url( "/user", true )
+    ) ;
+    snippet = strReplaceAll( snippet, "{{CHAPTER_H}}",
+        make_app_url( "/chapter-h", true )
+    ) ;
 
     // tidy up the final snippet
     snippet = snippet.replace( /[^\S\r\n]+$/gm, "" ) ; // nb: trim trailing whitespace
@@ -562,7 +566,7 @@ function get_vo_note( vo_type, nat, key )
     // FUDGE! We need to detect between a full HTML note and an image-based one.
     // This is not great, but it'll do... :-/
     if ( vo_note.substr( 0, nat.length+1 ) === nat+"/" )
-        return APP_URL_BASE + "/" + vo_type + "/" + nat + "/note/" + key ;
+        return make_app_url( "/" + vo_type + "/" + nat + "/note/" + key, true ) ;
     else
         return vo_note ;
 }

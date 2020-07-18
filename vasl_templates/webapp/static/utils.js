@@ -1,6 +1,15 @@
 
 // --------------------------------------------------------------------
 
+function make_app_url( url, for_snippet )
+{
+    // generate a URL that accesses this webapp
+    var base_url = window.location.origin ;
+    if ( for_snippet && gAppConfig.ALTERNATE_WEBAPP_BASE_URL )
+        base_url = gAppConfig.ALTERNATE_WEBAPP_BASE_URL ;
+    return base_url + url ;
+}
+
 function get_nationality_display_name( nat_id )
 {
     // get the nationality's display name
@@ -59,7 +68,7 @@ function make_player_flag_url( nat, for_snippet ) {
     if ( for_snippet && gUserSettings["scenario-images-source"] == SCENARIO_IMAGES_SOURCE_INTERNET )
         return gAppConfig.ONLINE_IMAGES_URL_BASE + "/flags/" + nat + ".png" ;
     else
-        return APP_URL_BASE + "/flags/" + nat ;
+        return make_app_url( "/flags/" + nat, for_snippet ) ;
 }
 
 function get_player_no_for_element( $elem )

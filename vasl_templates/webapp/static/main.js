@@ -1,5 +1,3 @@
-APP_URL_BASE = window.location.origin ;
-
 gAppConfig = {} ;
 gDefaultTemplatePack = null ;
 gTemplatePack = {} ;
@@ -258,6 +256,11 @@ $(document).ready( function () {
     $.getJSON( gAppConfigUrl, function(data) {
         gAppConfig = data ;
         update_page_load_status( "app-config" ) ;
+        var alt_base_url = gAppConfig.ALTERNATE_WEBAPP_BASE_URL ;
+        if ( alt_base_url ) {
+            var $elem = $( "#alt-webapp-base-url" ) ;
+            $elem.text( $elem.text() + " " + alt_base_url ).show() ;
+        }
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the application config:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
     } ) ;

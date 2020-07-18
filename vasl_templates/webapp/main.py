@@ -80,6 +80,14 @@ def get_app_config():
     for key in ["APP_NAME","APP_VERSION","APP_DESCRIPTION","APP_HOME_URL"]:
         vals[ key ] = getattr( vasl_templates.webapp.config.constants, key )
 
+    # NOTE: We allow the front-end to generate snippets that point to an alternative webapp server (so that
+    # VASSAL can get images, etc. from a Docker container rather than the desktop app). However, since it's
+    # unlikely anyone else will want this option, we implement it as a debug setting, rather than exposing it
+    # as an option in the UI.
+    alt_webapp_base_url = app.config.get( "ALTERNATE_WEBAPP_BASE_URL" )
+    if alt_webapp_base_url:
+        vals[ "ALTERNATE_WEBAPP_BASE_URL" ] = alt_webapp_base_url
+
     # include information about VASSAL and VASL
     from vasl_templates.webapp.vassal import VassalShim
     try:

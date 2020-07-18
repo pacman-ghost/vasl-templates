@@ -18,6 +18,10 @@ label { height: 1.25em ; margin-top: -3px ; }
 .PopMenu-Item a { padding: 5px 10px 5px 10px ; }
 .PopMenu-Icon { display: none ; }
 
+#alt-webapp-base-url { position: absolute ; top: 30px ; right: 110px ;
+    font-size: 80% ; font-style: italic ; color: #cc0000 ;
+}
+
 #watermark { position: absolute ; left: 8px ; right: 8px ; bottom: 6px ; height: 30% ; }
 #watermark { background: url("../images/watermark2.png") left bottom repeat-x ; background-size: auto 100% ; z-index: -999 ; }
 #watermark img { height: 100% ; }

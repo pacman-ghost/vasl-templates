@@ -90,6 +90,7 @@ def webapp():
 
     # initialize
     server_url = pytest.config.option.server_url #pylint: disable=no-member
+    app.base_url = server_url if server_url else "http://localhost:{}".format(FLASK_WEBAPP_PORT)
     logging.disable( logging.CRITICAL )
 
     # initialize
@@ -113,10 +114,7 @@ def webapp():
                 # to avoid problems if something else uses the clipboard while the tests are running.
                 kwargs["store_clipboard"] = 1
             url = url_for( endpoint, _external=True, **kwargs )
-            if server_url:
-                url = url.replace( "http://localhost", server_url )
-            else:
-                url = url.replace( "localhost/", "localhost:{}/".format(FLASK_WEBAPP_PORT) )
+            url = url.replace( "http://localhost", app.base_url )
             return url
     app.url_for = make_webapp_url
 

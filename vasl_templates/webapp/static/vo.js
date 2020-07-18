@@ -197,7 +197,7 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
     var vo_note = get_vo_note( vo_type, nat, vo_note_key ) ;
     var vo_note_image_url = null ;
     if ( vo_note )
-        vo_note_image_url = APP_URL_BASE + "/" + vo_type + "/" + nat + "/note/" + vo_note_key ;
+        vo_note_image_url = make_app_url( "/" + vo_type + "/" + nat + "/note/" + vo_note_key, true ) ;
     else {
         // NOTE: Note numbers seem to be distinct across all Allied Minor or all Axis Minor vehicles/ordnance,
         // so if we don't find a note in a given nationality's normal vehicles/ordnance, we can get away with
@@ -206,7 +206,7 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
         if ( ["allied-minor","axis-minor"].indexOf( nat_type ) !== -1 ) {
             vo_note = get_vo_note( vo_type, nat_type, vo_note_key ) ;
             if ( vo_note )
-                vo_note_image_url = APP_URL_BASE + "/" + vo_type + "/" + nat_type + "/note/" + vo_note_key ;
+                vo_note_image_url = make_app_url( "/" + vo_type + "/" + nat_type + "/note/" + vo_note_key, true ) ;
         }
     }
     if ( vo_note ) {
@@ -426,7 +426,7 @@ function get_vo_image_url( vo_entry, vo_image_id, allow_missing_image, for_snipp
         if ( for_snippet && gUserSettings["scenario-images-source"] == SCENARIO_IMAGES_SOURCE_INTERNET )
             return make_online_counter_image_url( gpid, index ) ;
         else
-            return make_local_counter_image_url( gpid, index ) ;
+            return make_local_counter_image_url( gpid, index, for_snippet ) ;
     }
 
     // couldn't find an image
@@ -439,9 +439,12 @@ function get_vo_image_url( vo_entry, vo_image_id, allow_missing_image, for_snipp
     return null ;
 }
 
-function make_local_counter_image_url( gpid, index )
+function make_local_counter_image_url( gpid, index, for_snippet )
 {
-    url = APP_URL_BASE + "/counter/" + gpid + "/front" ;
+    // generate the image URL for the specified vehicle/ordnance
+    // NOTE: This originally generated a URL that pointed back to the local webapp server,
+    // but this could possibly be changed to another webapp server (hence we need for_snippet).
+    url = make_app_url( "/counter/" + gpid + "/front", for_snippet ) ;
     if ( index !== null )
         url += "/" + index ;
     return url ;

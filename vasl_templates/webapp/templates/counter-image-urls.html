@@ -20,7 +20,6 @@ td { border-bottom: 1px solid #eee ; font-size: 90% ; }
 <script src="{{url_for('static',filename='utils.js')}}"></script>
 
 <script>
-APP_URL_BASE = window.location.origin ;
 gAppConfig = null ;
 gVaslPieceInfo = null ;
 
@@ -99,7 +98,7 @@ function show_counter_image_urls( counters )
             var index = 0 ;
 
             // generate the counter image URL's
-            var url = make_local_counter_image_url( gpids[j], index ) ;
+            var url = make_local_counter_image_url( gpids[j], index, false ) ;
             local_urls.push( "<a href='" + url + "' target='_blank'>" + url + "</a>" ) ;
             url = make_online_counter_image_url( gpids[j], index ) ;
             online_urls.push( "<a href='" + url + "' target='_blank'>" + url + "</a>" ) ;

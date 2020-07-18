@@ -3,11 +3,12 @@
 import json
 import re
 
+import pytest
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, find_child, find_children, wait_for_clipboard, \
+    init_webapp, find_child, find_children, find_snippet_buttons, wait_for_clipboard, \
     select_tab, select_menu_option, select_droplist_val, set_player, click_dialog_button, add_simple_note
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
@@ -281,6 +282,76 @@ def test_vo_notes_as_images( webapp, webdriver ):
 
     # generate the vehicle snippet (should get the raw HTML)
     check_snippet( "This is an HTML vehicle note (202)." )
+
+# ---------------------------------------------------------------------
+
+@pytest.mark.skipif( not pytest.config.option.vasl_mods, #pylint: disable=no-member
+    reason="--vasl-mods not specified"
+)
+def test_alternate_webapp_base_url( webapp, webdriver ):
+    """Test changing the webapp base URL."""
+
+    # initialize
+    def _init_webapp(): #pylint: disable=missing-docstring
+        return init_webapp( webapp, webdriver, scenario_persistence=1,
+            reset = lambda ct:
+              ct.set_data_dir( dtype="real" ) \
+                .set_vasl_mod( vmod="random", extns_dtype="test" )
+        )
+    control_tests = _init_webapp()
+
+    # enable images
+    set_user_settings( {
+        "scenario-images-source": SCENARIO_IMAGES_SOURCE_THIS_PROGRAM,
+        "include-vasl-images-in-snippets": True,
+        "include-flags-in-snippets": True,
+        "custom-list-bullets": True,
+        "vo-notes-as-images": True,
+    } )
+
+    # load the scenario
+    load_scenario( {
+        "SCENARIO_NAME": "test scenario",
+        "SCENARIO_DATE": "01/01/1940",
+        "VICTORY_CONDITIONS": "Just do it!",
+        "SCENARIO_NOTES": [ { "caption": "Scenario note #1" } ],
+        "SSR": [ "SSR #1", "SSR #2", "SSR #3" ],
+        "PLAYER_1": "german",
+        "OB_SETUPS_1": [ { "caption": "OB setup note 1" } ],
+        "OB_NOTES_1": [ { "caption": "OB note 1" } ],
+        "OB_VEHICLES_1": [ { "name": "PzKpfw VG" } ],
+        "OB_ORDNANCE_1": [ { "name": "8.8cm PaK 43" } ],
+        "PLAYER_2": "russian",
+        "OB_SETUPS_2": [ { "caption": "OB setup note 2" } ],
+        "OB_NOTES_2": [ { "caption": "OB note 2" } ],
+        "OB_VEHICLES_2": [ { "name": "T-34/85" } ],
+        "OB_ORDNANCE_2": [ { "name": "82mm BM obr. 37" } ],
+    } )
+
+    def do_test( expected ): #pylint: disable=missing-docstring
+        # generate each snippet
+        snippet_btns = find_snippet_buttons()
+        for tab_id,btns in snippet_btns.items():
+            select_tab( tab_id )
+            for btn in btns:
+                snippet_id = btn.get_attribute( "data-id" )
+                btn.click()
+                buf = wait_for_clipboard( 2, re.compile( "<!-- vasl-templates:id (german/|russian/)?"+snippet_id ) )
+                # check each URL
+                for mo in re.finditer( r"<img .*?src=[\"'](.*?)[\"']", buf ):
+                    url = mo.group(1)
+                    assert url.startswith( expected )
+
+    # test with the default base URL
+    do_test( webapp.base_url + "/" )
+
+    # test with a custom base URL
+    try:
+        control_tests.set_app_config( key="ALTERNATE_WEBAPP_BASE_URL", val="http://ALT-BASE-URL" )
+        _init_webapp()
+        do_test( "http://ALT-BASE-URL/" )
+    finally:
+        control_tests.set_app_config( key="ALTERNATE_WEBAPP_BASE_URL", val=None )
 
 # ---------------------------------------------------------------------
 

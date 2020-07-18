@@ -29,7 +29,7 @@ def control_tests( action ):
     sig = inspect.signature( func )
     kwargs = {}
     for param in sig.parameters.values():
-        if param.name in ("vengine","vmod","gpids","dtype","fname","dname","extns_dtype","bin_data"):
+        if param.name in ("vengine","vmod","gpids","key","val","dtype","fname","dname","extns_dtype","bin_data"):
             kwargs[ param.name ] = request.args.get( param.name, param.default )
             if param.name == "bin_data":
                 kwargs["bin_data"] = base64.b64decode( kwargs["bin_data"] )
