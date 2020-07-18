@@ -459,12 +459,12 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     }
 
     // fixup any user file URL's
-    snippet = strReplaceAll( snippet, "{{USER_FILES}}",
-        make_app_url( "/user", true )
-    ) ;
-    snippet = strReplaceAll( snippet, "{{CHAPTER_H}}",
-        make_app_url( "/chapter-h", true )
-    ) ;
+    var url = make_app_url( "/user", true ) ;
+    snippet = strReplaceAll( snippet, "{{USER_FILES}}", url ) ;
+    snippet = strReplaceAll( snippet, "{{USER-FILES}}", url ) ;
+    url = make_app_url( "/chapter-h", true ) ;
+    snippet = strReplaceAll( snippet, "{{CHAPTER_H}}", url ) ;
+    snippet = strReplaceAll( snippet, "{{CHAPTER-H}}", url ) ;
 
     // tidy up the final snippet
     snippet = snippet.replace( /[^\S\r\n]+$/gm, "" ) ; // nb: trim trailing whitespace
