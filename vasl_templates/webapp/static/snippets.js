@@ -1944,7 +1944,7 @@ function reset_scenario()
     var player_no ;
     for ( player_no=1 ; player_no <= 2 ; ++player_no ) {
         on_player_change( player_no ) ;
-        $("select[name='PLAYER_" + player_no + "_ELR']").val( 0 ).trigger( "change" ) ;
+        $("select[name='PLAYER_" + player_no + "_ELR']").val( "" ).trigger( "change" ) ;
         $("select[name='PLAYER_" + player_no + "_SAN']").val( "" ).trigger( "change" ) ;
     }
 

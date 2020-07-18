@@ -231,15 +231,16 @@ $(document).ready( function () {
     } ) ;
 
     // load the ELR's and SAN's
-    var buf = [] ;
+    buf = [ "<option value=''>-</option>" ] ; // nb: to help the user to remember to set this
     for ( var i=0 ; i <= 5 ; ++i ) // nb: A19.1: ELR is 0-5
         buf.push( "<option value='" + i + "'>" + i + "</option>" ) ;
     buf = buf.join( "" ) ;
     var player_no, $sel ;
     for ( player_no=1 ; player_no <= 2 ; ++player_no ) {
-        init_select2( $( "select[name='PLAYER_" + player_no + "_ELR']" ),
+        $sel = init_select2( $( "select[name='PLAYER_" + player_no + "_ELR']" ),
             "3em", false, null
         ).html( buf ) ;
+        $sel.data( "select2" ).$results.css( "max-height", "15em" ) ;
     }
     buf = [ "<option value=''>-</option>" ] ; // nb: allow scenarios that have no SAN
     for ( i=2 ; i <= 7 ; ++i ) // nb: A14.1: SAN is 2-7

@@ -163,9 +163,9 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     data2 = { k: v for k,v in data.items() if not k.startswith("_") and v }
     assert data2 == {
         "SCENARIO_THEATER": "ETO",
-        "PLAYER_1": "german", "PLAYER_1_ELR": "5", "PLAYER_1_SAN": "2",
+        "PLAYER_1": "german",
         "OB_VEHICLES_MA_NOTES_WIDTH_1": "300px", "OB_ORDNANCE_MA_NOTES_WIDTH_1": "300px",
-        "PLAYER_2": "russian", "PLAYER_2_ELR": "5", "PLAYER_2_SAN": "2",
+        "PLAYER_2": "russian",
         "OB_VEHICLES_MA_NOTES_WIDTH_2": "300px", "OB_ORDNANCE_MA_NOTES_WIDTH_2": "300px",
     }
 

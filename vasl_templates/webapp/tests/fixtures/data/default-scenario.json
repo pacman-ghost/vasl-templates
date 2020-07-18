@@ -3,11 +3,6 @@
 "SCENARIO_THEATER": "ETO",
 
 "PLAYER_1": "german",
-"PLAYER_1_ELR": "5",
-"PLAYER_1_SAN": "2",
-
-"PLAYER_2": "russian",
-"PLAYER_2_ELR": "5",
-"PLAYER_2_SAN": "2"
+"PLAYER_2": "russian"
 
 }
