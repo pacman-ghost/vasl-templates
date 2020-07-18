@@ -1,15 +1,22 @@
 <div id="user-settings" style="display:none;">
 
-    <div style="display:flex;align-items:center;margin-bottom:0.25em;">
+    <div class="row" style="display:flex;align-items:center;margin-bottom:0.25em;">
         HTML snippet font:&nbsp;
         <input type="text" name="snippet-font-family" title='CSS font family (e.g. "Verdana" or "sans-serif")' style="flex-grow:1;">&nbsp;
         <input type="text" name="snippet-font-size" size="3" title='CSS font size (e.g. "12px")'>
     </div>
-    <input type="checkbox" name="auto-create-national-capabilities-labels"> Auto-create <em>National Capabilities</em> labels <br>
-    <div style="margin-top:0.25em;">
-        <input type="checkbox" name="hide-unavailable-ma-notes"> Hide unavailable multi-applicable notes <br>
+
+    <div class="row">
+        <input type="checkbox" name="auto-create-national-capabilities-labels">
+        Auto-create <em>National Capabilities</em> labels
     </div>
-    <div style="margin-top:0.5em;">
+
+    <div class="row">
+        <input type="checkbox" name="hide-unavailable-ma-notes">
+        Hide unavailable multi-applicable notes
+    </div>
+
+    <div class="row" style="margin-top:0.25em;">
         <label for="">Date format:</label>
         <select name="date-format" style="width:9em;">
             <option value="mm/dd/yy">MM/DD/YYYY</option>
