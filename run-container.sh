@@ -18,6 +18,17 @@ function print_help {
     echo "        --no-build         Launch the container as-is (i.e. without rebuilding it first)."
     echo "        --build-network    Docker network to use when building the container."
     echo "        --run-network      Docker network to use when running the container."
+    echo
+    cat <<EOM
+  NOTE: If the port the webapp server is listening on *inside* the container is different
+  to the port exposed *outside* the container, webdriver image generation (e.g. Shift-Click
+  on a snippet button, or Chapter H content as images) may not work properly. This is because
+  a web browser is launched internally with snippet HTML and a screenshot taken of it, but
+  the HTML will contain links to the webapp server that work from outside the container,
+  but if those links don't resolve from inside the container, you will get broken images.
+  In this case, you will need to make such links resolve from inside the container e.g. by
+  port-forwarding, or via DNS.
+EOM
 }
 
 # ---------------------------------------------------------------------

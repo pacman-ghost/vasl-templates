@@ -33,6 +33,16 @@ FROM base
 COPY --from=build /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
+# install Firefox
+RUN dnf install -y wget bzip2 xorg-x11-server-Xvfb gtk3 dbus-glib
+RUN wget -qO- "https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US" | tar -C /usr/local/ -jx && \
+    ln -s /usr/local/firefox/firefox /usr/bin/firefox && \
+    echo "exclude=firefox" >> /etc/dnf/dnf.conf
+
+# install geckodriver
+RUN url=$( curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | grep -Eoh 'https.*linux64\.tar\.gz' ) && \
+    curl -sL "$url" | tar -C /usr/bin/ -xz
+
 # install the application
 WORKDIR /app
 COPY vasl_templates vasl_templates
