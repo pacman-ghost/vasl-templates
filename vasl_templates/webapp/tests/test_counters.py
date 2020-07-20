@@ -4,6 +4,7 @@ import os
 import io
 import json
 import re
+import shutil
 import urllib.request
 
 import pytest
@@ -12,6 +13,7 @@ import tabulate
 from vasl_templates.webapp.vasl_mod import VaslMod, get_vo_gpids, compare_vasl_versions, SUPPORTED_VASL_MOD_VERSIONS
 from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp.vo import _kfw_listings #pylint: disable=protected-access
+from vasl_templates.webapp.utils import change_extn
 from vasl_templates.webapp.tests.utils import init_webapp, select_tab, find_child, find_children
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
 from vasl_templates.webapp.tests.remote import ControlTests
@@ -103,7 +105,15 @@ def test_counter_images( webapp ):
             return code == 404 and not data
         return (code == 200 and data) or (code == 404 and not data)
 
+    # initialize
+    check_dir = os.path.join( os.path.split(__file__)[0], "fixtures" )
+    save_dir = os.environ.get( "COUNTERS_SAVEDIR" ) # nb: define this to save the generated reports
+    if save_dir and os.path.isdir(save_dir):
+        shutil.rmtree( save_dir )
+    os.makedirs( save_dir )
+
     # test each VASL module file in the specified directory
+    failed = False
     vmod_fnames = control_tests.get_vasl_mods()
     for vmod_fname in vmod_fnames:
 
@@ -120,20 +130,33 @@ def test_counter_images( webapp ):
         # NOTE: The results were the same across 6.4.0-6.4.4, but 6.5.0 introduced some changes.
         vasl_mod = VaslMod( fname, DATA_DIR, None )
         vasl_version = vasl_mod.vasl_version
-        dname = os.path.join( os.path.split(__file__)[0], "fixtures" )
-        fname = os.path.join( dname, "vasl-pieces-{}.txt".format( vasl_version ) )
+        fname = os.path.join( check_dir, "vasl-pieces-{}.txt".format( vasl_version ) )
         if not os.path.isfile( fname ):
-            fname = os.path.join( dname, "vasl-pieces-legacy.txt" )
+            fname = os.path.join( check_dir, "vasl-pieces-legacy.txt" )
         expected_vasl_pieces = open( fname, "r" ).read()
 
-        # check the pieces loaded
+        # generate a report for the pieces loaded
         buf = io.StringIO()
         _dump_pieces( vasl_mod, buf )
-        assert buf.getvalue() == expected_vasl_pieces
+        report = buf.getvalue()
+        if save_dir:
+            fname2 = change_extn( os.path.split(vmod_fname)[1], ".txt" )
+            with open( os.path.join(save_dir,fname2), "w" ) as fp:
+                fp.write( report )
+
+        # check the report
+        if report != expected_vasl_pieces:
+            if save_dir:
+                print( "FAILED:", vasl_version )
+                failed = True
+            else:
+                assert False, "Report mismatch: {}".format( vasl_version )
 
         # check each counter
         gpids = get_vo_gpids( vasl_mod )
         check_images( gpids, check_front=_do_check_front, check_back=_do_check_back )
+
+    assert not failed
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
