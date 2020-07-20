@@ -14,8 +14,8 @@ from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp.vo import get_vo_listings
 
-SUPPORTED_VASL_MOD_VERSIONS = [ "6.4.0", "6.4.1", "6.4.2", "6.4.3", "6.4.4", "6.5.0" ]
-SUPPORTED_VASL_MOD_VERSIONS_DISPLAY = "6.4.0-6.5.0"
+SUPPORTED_VASL_MOD_VERSIONS = [ "6.4.0", "6.4.1", "6.4.2", "6.4.3", "6.4.4", "6.5.0", "6.5.1" ]
+SUPPORTED_VASL_MOD_VERSIONS_DISPLAY = "6.4.0-6.5.1"
 
 warnings = [] # nb: for the test suite
 
@@ -484,6 +484,9 @@ GPID_REMAPPINGS = [
         # He also suggests that 7124 and 7128 are incorrectly-added duplicates, and the correct ones
         # are 2542 and 2544.
         "7124": "11479", # FT-17 730m(f) (German)
+    } ],
+    [ "6.5.1", {
+        "1527": "12730" # IP Carrier AOV (British)
     } ]
 ]
 

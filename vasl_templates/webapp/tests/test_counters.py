@@ -91,17 +91,18 @@ def test_counter_images( webapp ):
                 gpids.add( mo.group() )
         return gpids
     legacy_gpids = get_gpids( "vasl-pieces-legacy.txt" )
-    latest_gpids = get_gpids( "vasl-pieces-6.5.0.txt" )
+    latest_gpids = get_gpids( "vasl-pieces-6.5.1.txt" )
     common_gpids = legacy_gpids.intersection( latest_gpids )
     expected_missing_gpids = expected_missing_gpids.difference( common_gpids )
     expected_missing_gpids.remove( "1002" ) # FUDGE! this is a remapped GPID (11340)
+    expected_missing_gpids.remove( "1527" ) # FUDGE! this is a remapped GPID (12730)
 
     def _do_check_front( gpid, code, data ):
-        if vasl_version != SUPPORTED_VASL_MOD_VERSIONS[-1] and gpid in expected_missing_gpids:
+        if vasl_version not in ("6.5.0","6.5.1") and gpid in expected_missing_gpids:
             return code == 404 and not data
         return code == 200 and data
     def _do_check_back( gpid, code, data ):
-        if vasl_version != SUPPORTED_VASL_MOD_VERSIONS[-1] and gpid in expected_missing_gpids:
+        if vasl_version not in ("6.5.0","6.5.1") and gpid in expected_missing_gpids:
             return code == 404 and not data
         return (code == 200 and data) or (code == 404 and not data)
 
@@ -253,12 +254,14 @@ def test_gpid_remapping( webapp, webdriver ):
     # run the tests using VASL 6.4.4 and 6.5.0
     do_test( find_vasl_mod("6.4.4"), True )
     do_test( find_vasl_mod("6.5.0"), True )
+    do_test( find_vasl_mod("6.5.1"), True )
 
     # disable GPID remapping and try again
     prev_gpid_mappings = control_tests.set_gpid_remappings( gpids=[] )
     try:
         do_test( find_vasl_mod("6.4.4"), True )
         do_test( find_vasl_mod("6.5.0"), False )
+        do_test( find_vasl_mod("6.5.1"), False )
     finally:
         # NOTE: This won't get done if Python exits unexpectedly in the try block,
         # which will leave the server in the wrong state if it's remote.
