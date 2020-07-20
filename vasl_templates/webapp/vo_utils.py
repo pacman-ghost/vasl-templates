@@ -306,8 +306,10 @@ def _make_comments( vo_entry, nat, vo_type, disabled_note_ids ): #pylint: disabl
         orig_note_id = note_id
         force_auto_comment = False
         nat2 = nat
-        nat_type = globvars.template_pack[ "nationalities" ].get( nat, {} ).get( "type" ) \
-            if globvars.template_pack else None
+        if globvars.template_pack:
+            nat_type = globvars.template_pack[ "nationalities" ].get( nat, {} ).get( "type" )
+        else:
+            nat_type = None
         if nat in ( "kfw-uro", "kfw-bcfk", "kfw-un-common" ):
             nat2 = "kfw-un"
         elif nat in ( "kfw-kpa", "kfw-cpva" ):
