@@ -44,7 +44,7 @@
 
 <h2> Installing on Windows </h2>
 
-<p> If you're using Windows, you should get the pre-built version from <a href="https://github.com/pacman-ghost/vasl-templates/releases">Github</a>, unpack it somewhere, then run <tt>vasl-templates.exe</tt>
+<p> If you're using Windows, you should get the pre-built version from <a href="https://github.com/pacman-ghost/vasl-templates/releases">Github</a>, unpack it somewhere, then run <tt>vasl-templates.exe</tt>. Note that it can be a bit slow to start, so please give it a few seconds.
 <p> If the program won't start because a DLL is missing from your computer, install the <a href="https://www.microsoft.com/en-in/download/details.aspx?id=48145">VC2015 runtime</a> (get the 32-bit version, <tt>vc_redist.x86.exe</tt>, even if you are running 64-bit Windows).
 <p> If you don't see anything in the main window, check the notes below about configuring OpenGL.
 
@@ -79,9 +79,10 @@ and then connect to it in a browser at <tt>http://localhost:5010</tt>.
 <p> If you have Docker installed, the webapp can be run in a container e.g.
 <div class="code">
 ./run-container.sh --port 5010 \
-    --vasl-vmod ~/vasl/vasl-6.5.0.vmod \
+    --vasl-vmod ~/vasl/vasl-6.5.1.vmod \
     --vasl-extensions ~/vasl/extensions/ \
-    --chapter-h ~/vasl/chapter-h/
+    --chapter-h ~/vasl/chapter-h/ \
+    --user-files ~/vasl/user-files/
 </div>
 <p> Then open a browser and connect to the webapp at <tt>http://localhost:5010</tt>.
 <p> Note that some features (e.g. updating and analyzing VASL scenario files) may not be available.
@@ -124,19 +125,21 @@ The program will then not attempt to create the embedded browser, and will just 
 
 <div id="helptabs-quickstart">
 
-<h2 style="margin-top:0;"> Configuring the program </h2>
+<h2 style="margin-top:0;">
+<img src="images/quick-start/settings.png" class="preview" style="float:right;width:400px;">
+Configuring the program
+</h2>
 
-<p> <img src="images/quick-start/settings.png" class="preview" style="float:right;">
-The first thing we want to do is configure the program.
+<p> The first thing we want to do is configure the program.
 
 <p> Choose <em>Settings</em> from the <em>File</em> menu and configure the highlighted settings. As a guide, here are some example settings:
 <table class="settings">
-    <tr> <td class="key"> VASSAL installation: </td> <td class="val"> C:/bin/vassal-3.2.17/
-    <tr> <td class="key"> VASL module: </td> <td class="val"> C:/bin/vasl/vasl-6.5.0.vmod
-    <tr> <td class="key"> VASL extensions: </td> <td class="val"> C:/bin/vasl/extensions/
-    <tr> <td class="key"> VASL boards: </td> <td class="val"> C:/bin/vasl/boards/
-    <tr> <td class="key"> Java: </td> <td class="val"> C:/bin/jPortable-8u201-x64/bin/java.exe
-    <tr> <td class="key"> Web driver: </td> <td class="val"> C:/bin/geckodriver.exe
+    <tr> <td class="key"> VASSAL installation: </td> <td class="val"> <nobr>C:\Program Files\VASSAL-3.2.17\</nobr>
+    <tr> <td class="key"> VASL module: </td> <td class="val"> <nobr>C:\bin\vasl\vasl-6.5.1.vmod</nobr>
+    <tr> <td class="key"> VASL extensions: </td> <td class="val"> <nobr>C:\bin\vasl\extensions\</nobr>
+    <tr> <td class="key"> VASL boards: </td> <td class="val"> <nobr>C:\bin\vasl\boards\</nobr>
+    <tr> <td class="key"> Java: </td> <td class="val"> <nobr>C:\Program Files\Java\jre1.8.0_191\bin\java.exe</nobr>
+    <tr> <td class="key"> Web driver: </td> <td class="val"> <nobr>C:\bin\geckodriver.exe</nobr>
 </table>
 For the webdriver, download and unpack one of the following:
 <ul>
@@ -167,7 +170,7 @@ In particular, note the data tables for the vehicles, which contain useful infor
 We can pretty-up the labels by including pictures in them. Open the <em>User Settings</em> dialog and turn on <em>Images in scenarios</em>.
 <p> Update the VASL scenario again (as above), open it again in VASSAL, and you will see that the labels now include nationality flags, and the vehicle data tables show the counter images: <br>
 <img src="images/quick-start/images-in-labels.png" class="preview" style="margin:0.5em 0 0 2em;">
-<div class="warning"> If you turn this option on, you must choose where VASSAL will get the images from:
+<div class="warning"> Because images can't be stored inside a VASL scenario file, if you turn this option on, you must choose where VASSAL will get the images from:
     <ul>
         <li> <span style="border-bottom:1px solid #ccc;">From this program</span>: the <em>vasl-templates</em> program must be running before you open the scenario in VASSAL. If you are playing with someone online, they must have the program running as well.
             <li> <span style="border-bottom:1px solid #ccc;">From the internet</span>: you must have a working internet connection when you open the scenario in VASSAL. There will be a short delay when opening the scenario, as VASSAL downloads the images.
