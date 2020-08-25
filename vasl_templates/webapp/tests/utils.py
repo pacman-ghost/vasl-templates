@@ -9,6 +9,7 @@ import typing
 import uuid
 from collections import defaultdict
 
+import lxml.html
 import pytest
 from PyQt5.QtWidgets import QApplication
 from selenium.webdriver.support.ui import Select
@@ -480,22 +481,25 @@ def find_snippet_buttons( webdriver=None ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def select_droplist_val( sel, val ):
+def select_droplist_val( sel, val, isSelectMenu=False ):
     """Select a droplist option by value."""
-    _do_select_droplist( sel, val )
+    _do_select_droplist( sel, val, isSelectMenu )
 
-def select_droplist_index( sel, index ):
+def select_droplist_index( sel, index, isSelectMenu=False ):
     """Select a droplist option by index."""
     options = get_droplist_vals( sel )
-    _do_select_droplist( sel, options[index][0] )
+    _do_select_droplist( sel, options[index][0], isSelectMenu )
 
-def _do_select_droplist( sel, val ):
+def _do_select_droplist( sel, val, isSelectMenu ):
     """Select a droplist option."""
     sel_name = sel._el.get_attribute( "name" ) #pylint: disable=protected-access
-    _webdriver.execute_script(
-        "$(arguments[0]).val( '{}' ).trigger( 'change' )".format( val ),
-        find_child( "select[name='{}']".format( sel_name ) )
-    )
+    elem = find_child( "select[name='{}']".format( sel_name ) )
+    _webdriver.execute_script( "$(arguments[0]).val( '{}' )".format( val ), elem )
+    if isSelectMenu:
+        # NOTE: jQuery's selectmenu component requires a slightly different trigger
+        _webdriver.execute_script( "$(arguments[0]).trigger( 'selectmenuchange' ).selectmenu( 'refresh' )", elem )
+    else:
+        _webdriver.execute_script( "$(arguments[0]).val( '{}' ).trigger( 'change' )".format( val ), elem )
 
 def get_droplist_vals_index( sel ):
     """Get the value/text for each option in a droplist."""
@@ -603,6 +607,33 @@ def wait_for_clipboard( timeout, expected, contains=None, transform=None ):
         print( "- Expecting:", expected )
         print( "- Got:", args["last-clipboard"] )
         raise
+
+# ---------------------------------------------------------------------
+
+def unload_table( xpath ):
+    """Unload data from an HTML table."""
+
+    # NOTE: Extracting table data using Selenium is extremely slow, we use lxml for the win!
+
+    def unload_cells( cells ):
+        """Unload cell data from a table row."""
+        return [ "" if c.text is None else c.text.strip() for c in cells ]
+
+    # unload the table data
+    results = []
+    doc = lxml.html.fromstring( _webdriver.page_source )
+    for row in doc.xpath( xpath ):
+        if not results:
+            # we check for <th> in the first row only
+            cells = list( row.xpath( ".//th" ) )
+            if cells:
+                results.append( unload_cells( cells ) )
+                continue
+        # extract the next row
+        cells = row.xpath( ".//td" )
+        results.append( unload_cells( cells ) )
+
+    return results
 
 # ---------------------------------------------------------------------
 

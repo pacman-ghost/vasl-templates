@@ -51,7 +51,7 @@ def update_vsav(): #pylint: disable=too-many-statements,too-many-locals
 
             # save the VSAV data in a temp file
             input_file.write( vsav_data )
-            input_file.close()
+            input_file.close( delete=False )
             fname = app.config.get( "UPDATE_VSAV_INPUT" ) # nb: for diagnosing problems
             if fname:
                 logger.debug( "Saving a copy of the VSAV data: %s", fname )
@@ -61,7 +61,7 @@ def update_vsav(): #pylint: disable=too-many-statements,too-many-locals
             with TempFile() as snippets_file:
                 # save the snippets in a temp file
                 xml = _save_snippets( snippets, players, snippets_file, logger )
-                snippets_file.close()
+                snippets_file.close( delete=False )
                 fname = app.config.get( "UPDATE_VSAV_SNIPPETS" ) # nb: for diagnosing problems
                 if fname:
                     logger.debug( "Saving a copy of the snippets: %s", fname )
@@ -70,8 +70,8 @@ def update_vsav(): #pylint: disable=too-many-statements,too-many-locals
 
                 # run the VASSAL shim to update the VSAV file
                 with TempFile() as output_file, TempFile() as report_file:
-                    output_file.close()
-                    report_file.close()
+                    output_file.close( delete=False )
+                    report_file.close( delete=False )
                     vassal_shim = VassalShim()
                     vassal_shim.update_scenario(
                         input_file.name, snippets_file.name, output_file.name, report_file.name
@@ -82,7 +82,7 @@ def update_vsav(): #pylint: disable=too-many-statements,too-many-locals
                     fname = app.config.get( "UPDATE_VSAV_RESULT" ) # nb: for diagnosing problems
                     if fname:
                         logger.debug( "Saving a copy of the updated VSAV: %s", fname )
-                        with open( app.config.get("UPDATE_VSAV_RESULT"), "wb" ) as fp:
+                        with open( fname, "wb" ) as fp:
                             fp.write( vsav_data )
                     # read the report
                     report = _parse_label_report( report_file.name )
@@ -221,7 +221,7 @@ def analyze_vsav():
 
             # save the VSAV data in a temp file
             input_file.write( vsav_data )
-            input_file.close()
+            input_file.close( delete=False )
             fname = app.config.get( "ANALYZE_VSAV_INPUT" ) # nb: for diagnosing problems
             if fname:
                 logger.debug( "Saving a copy of the VSAV data: %s", fname )
@@ -230,7 +230,7 @@ def analyze_vsav():
 
             # run the VASSAL shim to analyze the VSAV file
             with TempFile() as report_file:
-                report_file.close()
+                report_file.close( delete=False )
                 vassal_shim = VassalShim()
                 vassal_shim.analyze_scenario( input_file.name, report_file.name )
                 report = _parse_analyze_report( report_file.name )
@@ -307,7 +307,7 @@ class VassalShim:
             return None
         # FUDGE! We can't capture the output on Windows, get the result in a temp file instead :-/
         with TempFile() as temp_file:
-            temp_file.close()
+            temp_file.close( delete=False )
             VassalShim()._run_vassal_shim( "version", temp_file.name ) #pylint: disable=protected-access
             with open( temp_file.name, "r" ) as fp:
                 return fp.read()
@@ -319,7 +319,7 @@ class VassalShim:
     def analyze_scenario( self, vsav_fname, report_fname ):
         """Analyze a scenario file."""
         return self._run_vassal_shim(
-            "analyze", VassalShim.get_boards_dir(), vsav_fname, report_fname
+            "analyze", vsav_fname, report_fname
         )
 
     def update_scenario( self, vsav_fname, snippets_fname, output_fname, report_fname ):
@@ -328,6 +328,12 @@ class VassalShim:
         # locate the boards
         return self._run_vassal_shim(
             "update", VassalShim.get_boards_dir(), vsav_fname, snippets_fname, output_fname, report_fname
+        )
+
+    def analyze_logfiles( self, *fnames ):
+        """Analyze a log file."""
+        return self._run_vassal_shim(
+            "analyzeLogs", *fnames
         )
 
     def _run_vassal_shim( self, *args ): #pylint: disable=too-many-locals
@@ -352,7 +358,7 @@ class VassalShim:
             java_path, "-classpath", class_path, "vassal_shim.Main",
             args[0]
         ]
-        if args[0] in ("dump","analyze","update"):
+        if args[0] in ("dump","analyze","analyzeLogs","update"):
             if not globvars.vasl_mod:
                 raise SimpleError( "The VASL module has not been configured." )
             args2.append( globvars.vasl_mod.filename )
@@ -394,9 +400,9 @@ class VassalShim:
             except subprocess.TimeoutExpired:
                 proc.kill()
                 raise
-            buf1.close()
+            buf1.close( delete=False )
             stdout = open( buf1.name, "r", encoding="utf-8" ).read()
-            buf2.close()
+            buf2.close( delete=False )
             stderr = open( buf2.name, "r", encoding="utf-8" ).read()
         elapsed_time = time.time() - start_time
         logger.info( "- Completed OK: %.3fs", elapsed_time )

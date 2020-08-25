@@ -1,0 +1,37 @@
+.ui-dialog.lfa-upload .ui-dialog-titlebar { background: #e0c090 ; }
+.ui-dialog.lfa-upload .ui-dialog-buttonpane { border: none ; margin-top: 0 !important ; padding-top: 0 !important ; }
+.ui-dialog.lfa-upload .ui-dialog-buttonpane button.add { display: inline-flex ; align-items: center ; margin-left: 0 !important ; height: 25px ; padding: 2px 8px 2px 6px ; }
+.ui-dialog.lfa-upload .ui-dialog-buttonpane button.add img { height: 15px ; margin-right: 0.5em ; }
+
+#lfa-upload {
+    overflow-x: hidden ; overflow-y: hidden ;
+}
+
+#lfa-upload .files {
+    width: 100% ; height: 99% ;
+    margin: 0 ;
+    border: 1px solid #ccc ; border-radius: 2px ;
+    overflow-x: hidden ;
+}
+#lfa-upload .files li {
+    display: flex ;
+    margin: 2px ;
+    border: 1px solid #ccc ; border-radius: 2px ;
+    background: #f0e0c0 ;
+    padding: 8px 5px 2px 8px ;
+    list-style-type: none ;
+    cursor: pointer ;
+}
+#lfa-upload .files li img.file { height: 1.5em ; margin-right: 0.5em ; }
+#lfa-upload .files li .filename { flex: 1 ; height: 1.5em ; padding: 4px 3px ; }
+#lfa-upload .files li.dragOutside { background: #f0d0d0 ; text-decoration: line-through ; }
+#lfa-upload .files li .delete { float: right ; height: 10px ; margin: -2px ; }
+
+#lfa-upload .hint {
+    position: absolute ; top: 20px ; left: 20px ; bottom: 20px ; right: 20px ;
+    display: flex ; flex-direction: column ; justify-content: center ;
+    font-style: italic ; color: #666 ;
+    z-index: 1 ;
+}
+#lfa-upload .hint .content { display: flex ; justify-content: center ; }
+#lfa-upload .hint .content img { float: left ; margin-right: 0.75em ; opacity: 0.6 }

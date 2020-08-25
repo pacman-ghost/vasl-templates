@@ -146,7 +146,7 @@ def test_full_update( webapp, webdriver ):
         with TempFile() as temp_file:
             # check the results
             temp_file.write( updated_vsav_data )
-            temp_file.close()
+            temp_file.close( delete=False )
             updated_vsav_dump = _dump_vsav( temp_file.name )
             expected = {
                 "scenario":  "Modified scenario name (<>{}\"'\\)",
@@ -862,7 +862,7 @@ def _update_vsav_and_dump( fname, expected ):
     # dump the updated VSAV
     with TempFile() as temp_file:
         temp_file.write( updated_vsav_data )
-        temp_file.close()
+        temp_file.close( delete=False )
         return _dump_vsav( temp_file.name )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

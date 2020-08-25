@@ -221,7 +221,7 @@ def test_missing_templates( webapp, webdriver ):
 def _make_zip( files ):
     """Generate a ZIP file."""
     with TempFile() as temp_file:
-        temp_file.close()
+        temp_file.close( delete=False )
         with zipfile.ZipFile( temp_file.name, "w" ) as zip_file:
             for fname,fdata in files.items():
                 zip_file.writestr( fname, fdata )

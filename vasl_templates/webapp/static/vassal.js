@@ -22,9 +22,9 @@ function _do_update_vsav( vsav_data, fname )
         type: "POST",
         data: JSON.stringify( data ),
         contentType: "application/json",
-    } ).done( function( data ) {
+    } ).done( function( resp ) {
         $dlg.dialog( "close" ) ;
-        data = _check_vassal_shim_response( data, "Can't update the VASL scenario." ) ;
+        data = _check_vassal_shim_response( resp, "Can't update the VASL scenario." ) ;
         if ( ! data )
             return ;
         // check if anything was changed
@@ -322,9 +322,9 @@ function _do_analyze_vsav( vsav_data, fname )
         type: "POST",
         data: JSON.stringify( data ),
         contentType: "application/json",
-    } ).done( function( data ) {
+    } ).done( function( resp ) {
         $dlg.dialog( "close" ) ;
-        data = _check_vassal_shim_response( data, "Can't analyze the VASL scenario." ) ;
+        data = _check_vassal_shim_response( resp, "Can't analyze the VASL scenario." ) ;
         if ( ! data )
             return ;
         _create_vo_entries_from_analysis( data ) ;
@@ -479,33 +479,43 @@ function on_load_vsav_file_selected()
 
 // --------------------------------------------------------------------
 
-function _check_vassal_shim_response( data, caption )
+function _check_vassal_shim_response( resp, caption )
 {
     // check if there was an error
-    if ( ! data.error )
-        return data ;
+    if ( ! resp.error )
+        return resp ;
 
     // yup - report the error
     if ( getUrlParam( "vsav_persistence" ) ) {
         $( "#_vsav-persistence_" ).val(
-            "ERROR: " + data.error + "\n\n=== STDOUT ===\n" + data.stdout + "\n=== STDERR ===\n" + data.stderr
+            "ERROR: " + resp.error + "\n\n=== STDOUT ===\n" + resp.stdout + "\n=== STDERR ===\n" + resp.stderr
         ) ;
         return null ;
     }
+    show_vassal_shim_error_dlg( resp, caption ) ;
+
+    return null ;
+}
+
+function show_vassal_shim_error_dlg( resp, caption )
+{
+    // show the VASSAL shim error dialog
+    if ( caption[ caption.length-1 ] == "." )
+        caption = caption.substring( 0, caption.length-1 ) ;
     $( "#vassal-shim-error" ).dialog( {
         dialogClass: "vassal-shim-error",
         title: caption,
         modal: true,
         width: 600, height: "auto",
         open: function() {
-            $( "#vassal-shim-error .message" ).html( data.error ) ;
+            $( "#vassal-shim-error .message" ).html( resp.error ) ;
             var log = "" ;
-            if ( data.stdout && data.stderr )
-                log = "=== STDOUT ===\n" + data.stdout + "\n=== STDERR ===\n" + data.stderr ;
-            else if ( data.stdout )
-                log = data.stdout ;
-            else if ( data.stderr )
-                log = data.stderr ;
+            if ( resp.stdout && resp.stderr )
+                log = "=== STDOUT ===\n" + resp.stdout + "\n=== STDERR ===\n" + resp.stderr ;
+            else if ( resp.stdout )
+                log = resp.stdout ;
+            else if ( resp.stderr )
+                log = resp.stderr ;
             if ( log )
                 $( "#vassal-shim-error .log" ).val( log ).show() ;
             else
@@ -515,8 +525,6 @@ function _check_vassal_shim_response( data, caption )
             Close: function() { $(this).dialog( "close" ) ; },
         },
     } ) ;
-
-    return null ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

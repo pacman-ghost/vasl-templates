@@ -4,7 +4,6 @@ import sys
 import os
 import re
 import json
-import io
 import base64
 import logging
 
@@ -87,7 +86,7 @@ class MainWindow( QWidget ):
                 self.restoreGeometry( val )
             else :
                 self.resize( 1050, 650 )
-            self.setMinimumSize( 1000, 595 )
+            self.setMinimumSize( 1050, 620 )
 
         # initialize the layout
         layout = QVBoxLayout( self )
@@ -215,27 +214,29 @@ class MainWindow( QWidget ):
 
         NOTE: This handler might be called multiple times.
         """
+        def decode_val( val ):
+            """Decode a settings value."""
+            # NOTE: Comma-separated values are deserialized as lists automatically.
+            if val == "true":
+                return True
+            if val == "false":
+                return False
+            if str(val).isdigit():
+                return int(val)
+            return val
         # load and install the user settings
-        buf = io.StringIO()
-        buf.write( "{" )
+        user_settings = {}
         for key in app_settings.allKeys():
             if key.startswith( "UserSettings/" ):
-                val = app_settings.value(key)
-                if val in ("true","false") or val.isdigit():
-                    buf.write( '"{}": {},'.format( key[13:], val ) )
-                else:
-                    buf.write( '"{}": "{}",'.format( key[13:], val ) )
-        buf.write( '"_dummy_": null }' )
-        buf = buf.getvalue()
-        user_settings = {}
-        try:
-            user_settings = json.loads( buf )
-        except Exception as ex: #pylint: disable=broad-except
-            MainWindow.showErrorMsg( "Couldn't load the user settings:\n\n{}".format( ex ) )
-            logging.error( "Couldn't load the user settings: %s", ex )
-            logging.error( buf )
-            return
-        del user_settings["_dummy_"]
+                val = app_settings.value( key )
+                key = key[13:] # remove the leading "UserSettings/"
+                sections = key.split( "." )
+                target = user_settings
+                while len(sections) > 1:
+                    if sections[0] not in target:
+                        target[ sections[0] ] = {}
+                    target = target[ sections.pop(0) ]
+                target[ sections[0] ] = decode_val( val )
         self._view.page().runJavaScript(
             "install_user_settings('{}')".format( json.dumps( user_settings ) )
         )
@@ -285,6 +286,12 @@ class MainWindow( QWidget ):
         return self._web_channel_handler.save_updated_vsav( fname, data )
 
     @pyqtSlot( str )
+    @catch_exceptions( caption="SLOT EXCEPTION", retval=False )
+    def save_log_file_analysis( self, data ):
+        """Called when the user wants to save a log file analysis."""
+        self._web_channel_handler.save_log_file_analysis( data )
+
+    @pyqtSlot( str )
     @catch_exceptions( caption="SLOT EXCEPTION" )
     def on_user_settings_change( self, user_settings ): #pylint: disable=no-self-use
         """Called when the user changes the user settings."""
@@ -293,9 +300,22 @@ class MainWindow( QWidget ):
             if key.startswith( "UserSettings/" ):
                 app_settings.remove( key )
         # save the new user settings
-        user_settings = json.loads( user_settings )
-        for key,val in user_settings.items():
-            app_settings.setValue( "UserSettings/{}".format(key), val )
+        def save_section( vals, key_prefix ):
+            """Save a section of the User Settings."""
+            for key,val in vals.items():
+                if isinstance( val, dict ):
+                    # FUDGE! The PyQt doco claims that it supports nested sections, but key names that have
+                    # a slash in them get saved as a top-level key, with the slash converted to a back-slash,
+                    # even on Linux :-/ We use dotted key names to represent nested levels.
+                    save_section( val, key_prefix+key+"." )
+                    continue
+                # NOTE: PyQt handles lists automatically, converting them to a comma-separated list,
+                # and de-serializing them as lists (string values with a comma in them get quoted).
+                app_settings.setValue(
+                    "UserSettings/{}".format( key_prefix + key ),
+                    val
+                )
+        save_section( json.loads( user_settings ), "" )
 
     @pyqtSlot( str, bool )
     @catch_exceptions( caption="SLOT EXCEPTION" )

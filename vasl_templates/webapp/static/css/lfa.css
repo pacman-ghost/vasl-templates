@@ -1,0 +1,113 @@
+/* jQuery dialog */
+.ui-dialog.lfa {
+    width: calc(100% - 10px) !important ;
+    height: calc(100% - 10px) !important ;
+    left: 5px ;
+    top: 5px ;
+    border-radius: 5px ;
+}
+.ui-dialog.lfa .ui-dialog-titlebar { display: none ; }
+
+#lfa {
+    height: 100% !important ;
+    display: flex ; flex-direction: column ;
+    overflow-y: auto ;
+    /* style the HTML elements to match the charts */
+    font-size: 80% ; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif ; color: #333 ;
+}
+#lfa ::selection {}
+#lfa ::-moz-selection {}
+#lfa { user-select: none ; }
+
+/* splitter */
+#lfa .split.top-pane { display: flex ; min-height: 350px ; }
+#lfa .split.top-pane .right { position: relative ; }
+#lfa .split.bottom-pane { min-height: 200px ; position: relative ; }
+#lfa .gutter { position: relative ; min-height: 3px ; background-color: #f0f0f0 ; cursor: row-resize ; z-index: 49 ; }
+#lfa .gutter img { position: absolute ; left: 40% ; top: -2px ; }
+
+/* top pane: dr/DR distribution & pie charts */
+#lfa .distrib { position: relative ; }
+#lfa .pie { display: inline-block ; width: 200px ; height: 90px ; }
+#lfa .pie canvas { margin: -20px 0 0 -40px ; }
+#lfa .hotness { position: absolute ; bottom: 20px ; right: 5px ; }
+#lfa .banner { position: relative ; display: inline-block ; }
+#lfa .options { position: absolute ; top: 0 ; right: 25px ; }
+
+/* bottom pane: time-plot chart */
+#lfa .time-plot-options {
+    display: inline-block ; position: absolute ; top: -14px ; right: 0 ;
+    z-index: 50 ;
+    padding-left: 0.5em ;
+    background: white ;
+}
+#lfa .time-plot { overflow-x: auto ; }
+
+/* banner */
+#lfa .banner {
+    min-width: 20em ;
+    margin: 0 1em 0.5em 0 ;
+    border: 1px solid #aaa ; border-radius: 5px ;
+    padding: 0.5em 1em ;
+    background: #ffffe0 ; color: #444 ;
+}
+#lfa .banner .title { font-size: 150% ; }
+#lfa .banner .title2 { font-style: italic ; }
+#lfa .banner .roll-type { font-size: 110% ; font-style: italic ; color: #666 ; }
+#lfa .banner .select-file { position: absolute ; bottom: 2px ; right: 2px ; font-style: italic ; color: #444 ; cursor: pointer ; }
+#lfa .banner .select-file .caption { line-height: 18px ; vertical-align: middle ; margin-right: 0.15em ; }
+
+/* dice hotness */
+#lfa .hotness {
+    width: 300px ;
+    border: 1px solid #ffc030 ; border-radius: 5px ; background: #fffcfc ;
+    padding: 2px 5px ;
+}
+#lfa .hotness img.dice { position: absolute ; left: -10px ; top : -25px ; height: 50px ; }
+
+/* options panel */
+#lfa .options {
+    border: 1px solid #ccc ; border-radius: 5px ; padding: 0.5em ;
+    background: #fffff8 ;
+}
+#lfa .options input[type=checkbox] { vertical-align: middle ; }
+#lfa .options button.download { position: absolute ; right: 5px ; bottom: 5px ; padding: 3px !important ; }
+#lfa .options button.player-colors { padding: 3px 6px 2px 5px !important ; }
+
+/* time-plot options */
+#lfa .time-plot-options button.zoom-in, #lfa .time-plot-options button.zoom-out { padding: 4px 6px 2px 6px !important ; }
+
+/* player colors popup */
+#lfa .player-colors-popup, #lfa .select-file-popup {
+    border: 1px solid #aaa ; border-radius: 5px ;
+    background: #f8f8f8 ;
+    z-index: 100 ;
+}
+#lfa .player-colors-popup .row { margin: 0.5em ; padding-top: 3px ; }
+#lfa .player-colors-popup .sp-replacer { width: 40px ; height: 17px ; margin: -3px 0.5em 0 0 ; }
+#lfa .player-colors-popup .sp-preview { width: 20px ; height: 15px ; }
+
+/* file selection popup */
+#lfa .select-file-popup .row { margin: 6px 8px ; }
+#lfa .select-file-popup input[type="radio"] { margin: -2px 0.5em 0 0 ; vertical-align: middle ; }
+
+/* "no data" marker */
+#lfa .no-data {
+    width: 5em ;
+    border: 1px dotted #aaa ; border-radius: 5px ;
+    padding: 0.15em 0.25em 0.1em 0.25em ;
+    background: rgba(128,128,128,0.1) ;
+    color: #888 ; font-size: 150% ; text-align: center ;
+}
+
+/* tabular chart data (for testing porpoises) */
+#lfa table.chart-data { border: 1px solid #888 ; font-size: 80% ; }
+#lfa table.chart-data th { padding: 2px 5px ; border-bottom: 1px dotted #888 ; }
+#lfa table.chart-data td { padding: 2px 5px ; text-align: center ; }
+#lfa table.chart-data td.label { border-right: 1px dotted #888 ; min-width: 1em ; }
+
+/* miscellaneous */
+#lfa button.ui-dialog-titlebar-close { position: fixed ; top: 15px ; right: 5px ; }
+#lfa .ui-selectmenu-button { padding: 2px 5px ; }
+#lfa input[type="checkbox"] { margin-bottom: 0.2em ; }
+#lfa label[disabled] { color: #aaa ; }

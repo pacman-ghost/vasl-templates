@@ -2,6 +2,7 @@ package vassal_shim ;
 
 import java.io.BufferedWriter ;
 import java.io.FileWriter ;
+import java.util.ArrayList ;
 
 import VASSAL.Info ;
 
@@ -23,25 +24,34 @@ public class Main
         try {
             String cmd = args[0].toLowerCase() ;
             if ( cmd.equals( "dump" ) ) {
-                checkArgs( args, 3, "the VASL .vmod file and scenario file" ) ;
+                checkArgs( args, 3, false, "the VASL .vmod file and scenario file" ) ;
                 VassalShim shim = new VassalShim( args[1], null ) ;
                 shim.dumpScenario( args[2] ) ;
                 System.exit( 0 ) ;
             }
             else if ( cmd.equals( "analyze" ) ) {
-                checkArgs( args, 5, "the VASL .vmod file, boards directory, scenario file and output file" ) ;
-                VassalShim shim = new VassalShim( args[1], args[2] ) ;
-                shim.analyzeScenario( args[3], args[4] ) ;
+                checkArgs( args, 4, false, "the VASL .vmod file, scenario file and output file" ) ;
+                VassalShim shim = new VassalShim( args[1], null ) ;
+                shim.analyzeScenario( args[2], args[3] ) ;
+                System.exit( 0 ) ;
+            }
+            else if ( cmd.equals( "analyzelogs" ) ) {
+                checkArgs( args, 4, true, "the VASL .vmod file, log file(s) and output file" ) ;
+                ArrayList<String> logFilenames = new ArrayList<String>() ;
+                for ( int i=2 ; i < args.length-1 ; ++i )
+                    logFilenames.add( args[i] ) ;
+                VassalShim shim = new VassalShim( args[1], null ) ;
+                shim.analyzeLogs( logFilenames, args[args.length-1] ) ;
                 System.exit( 0 ) ;
             }
             else if ( cmd.equals( "update" ) ) {
-                checkArgs( args, 7, "the VASL .vmod file, boards directory, scenario file, snippets file and output/report files" ) ;
+                checkArgs( args, 7, false, "the VASL .vmod file, boards directory, scenario file, snippets file and output/report files" ) ;
                 VassalShim shim = new VassalShim( args[1], args[2] ) ;
                 shim.updateScenario( args[3], args[4], args[5], args[6] ) ;
                 System.exit( 0 ) ;
             }
             else if ( cmd.equals( "version" ) ) {
-                checkArgs( args, 2, "the output file" ) ;
+                checkArgs( args, 2, false, "the output file" ) ;
                 System.out.println( Info.getVersion() ) ;
                 // FUDGE! The Python web server can't capture output on Windows - save the result to a file as well :-/
                 BufferedWriter writer = new BufferedWriter( new FileWriter( args[1] ) ) ;
@@ -60,10 +70,15 @@ public class Main
         }
     }
 
-    private static void checkArgs( String[]args, int expected, String hint )
+    private static void checkArgs( String[] args, int expected, boolean orMore, String hint )
     {
         // check the number of arguments
-        if ( args.length != expected ) {
+        boolean ok ;
+        if ( orMore )
+            ok = args.length >= expected ;
+        else
+            ok = args.length == expected ;
+        if ( ! ok ) {
             System.out.println( "Incorrect number of arguments, please specify " + hint + "." ) ;
             System.exit( 2 ) ;
         }

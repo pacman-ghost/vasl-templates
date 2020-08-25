@@ -44,9 +44,11 @@ import VASSAL.build.GameModule ;
 import VASSAL.build.GpIdChecker ;
 import VASSAL.build.module.GameState ;
 import VASSAL.build.module.GameComponent ;
+import VASSAL.build.module.BasicLogger.LogCommand ;
 import VASSAL.build.module.ModuleExtension ;
 import VASSAL.build.module.ObscurableOptions ;
 import VASSAL.build.module.metadata.SaveMetaData ;
+import VASSAL.build.module.Chatter.DisplayText ;
 import VASSAL.build.widget.PieceSlot ;
 import VASSAL.launch.BasicModule ;
 import VASSAL.command.Command ;
@@ -70,14 +72,7 @@ import VASSAL.tools.io.ObfuscatingOutputStream ;
 import VASSAL.tools.io.ZipArchive ;
 import VASSAL.i18n.Resources ;
 
-import vassal_shim.Snippet ;
-import vassal_shim.GamePieceLabelFields ;
-import vassal_shim.LabelArea ;
-import vassal_shim.ReportNode ;
-import vassal_shim.AnalyzeNode ;
-import vassal_shim.ModuleManagerMenuManager ;
-import vassal_shim.AppBoolean ;
-import vassal_shim.Utils ;
+import vassal_shim.lfa.* ;
 
 // --------------------------------------------------------------------
 
@@ -144,11 +139,144 @@ public class VassalShim
         dumpCommand( cmd, "" ) ;
     }
 
+    public void analyzeLogs( ArrayList<String> logFilenames, String reportFilename )
+        throws IOException, TransformerException, TransformerConfigurationException, ParserConfigurationException
+    {
+        // analyze each log file
+        ArrayList<LogFileAnalysis> results = new ArrayList<LogFileAnalysis>() ;
+        for ( String fname: logFilenames )
+            results.add( this._doAnalyzeLogs( fname ) ) ;
+
+        // generate the report
+        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument() ;
+        Element rootElem = doc.createElement( "logFileAnalysis" ) ;
+        doc.appendChild( rootElem ) ;
+        for ( LogFileAnalysis logFileAnalysis: results ) {
+            // add a node for the next log file
+            Element logFileElem = doc.createElement( "logFile" ) ;
+            logFileElem.setAttribute( "filename", logFileAnalysis.logFilename ) ;
+            // check if we found a scenario name
+            if ( logFileAnalysis.scenarioName.length() > 0 ) {
+                Element scenarioElem = doc.createElement( "scenario" ) ;
+                if ( logFileAnalysis.scenarioId.length() > 0 )
+                    scenarioElem.setAttribute( "id", logFileAnalysis.scenarioId ) ;
+                scenarioElem.setTextContent( logFileAnalysis.scenarioName ) ;
+                logFileElem.appendChild( scenarioElem ) ;
+            }
+            // add the extracted events
+            Element eventsElems = doc.createElement( "events" ) ;
+            logFileElem.appendChild( eventsElems ) ;
+            for ( Event evt: logFileAnalysis.events )
+                eventsElems.appendChild( evt.makeXmlElement( doc ) ) ;
+            rootElem.appendChild( logFileElem ) ;
+        }
+        Utils.saveXml( doc, reportFilename ) ;
+    }
+
+    public LogFileAnalysis _doAnalyzeLogs( String logFilename )
+        throws IOException, TransformerException, TransformerConfigurationException, ParserConfigurationException
+    {
+        // load the log file
+        Command cmd = loadScenario( logFilename ) ;
+
+        // extract events
+        ArrayList<Event> events = new ArrayList<Event>() ;
+        findLogFileEvents( cmd, events ) ;
+
+        // extract the scenario details
+        String scenarioName="", scenarioId="" ;
+        String[] players = new String[2] ;
+        Map<String,GamePieceLabelFields> ourLabels = new HashMap<String,GamePieceLabelFields>() ;
+        ArrayList<GamePieceLabelFields> otherLabels = new ArrayList<GamePieceLabelFields>() ;
+        AppBoolean hasPlayerOwnedLabels = new AppBoolean( false ) ;
+        extractLabels( cmd, players, hasPlayerOwnedLabels, ourLabels, otherLabels, false ) ;
+        GamePieceLabelFields labelFields = ourLabels.get( "scenario" ) ;
+        if ( labelFields != null ) {
+            Matcher matcher = Pattern.compile( "<span class=\"scenario-name\">(.*?)</span>" ).matcher(
+                labelFields.getLabelContent()
+            ) ;
+            if ( matcher.find() )
+                scenarioName = matcher.group( 1 ).trim() ;
+            matcher = Pattern.compile( "<span class=\"scenario-id\">(.*?)</span>" ).matcher(
+                labelFields.getLabelContent()
+            ) ;
+            if ( matcher.find() ) {
+                scenarioId = matcher.group( 1 ).trim() ;
+                if ( scenarioId.length() > 0 && scenarioId.charAt(0) == '(' && scenarioId.charAt(scenarioId.length()-1) == ')' )
+                    scenarioId = scenarioId.substring( 1, scenarioId.length()-1 ) ;
+            }
+        }
+
+        return new LogFileAnalysis( logFilename, scenarioName, scenarioId, events ) ;
+    }
+
+    private void findLogFileEvents( Command cmd, ArrayList<Event> events )
+    {
+        // NOTE: VASSAL doesn't store die/dice rolls and Turn Track rotations as specific events in the log file,
+        // but as plain-text messages in the chat window (which sorta makes sense, since VASSAL won't really understand
+        // these things, since they are specific to the game module).
+
+        // initialize
+        Pattern diceRollEventPattern = Pattern.compile(
+            config.getProperty( "LFA_PATTERN_DICE_ROLL", "^\\*\\*\\* \\((?<rollType>.+?) (?<drType>DR|dr)\\) (?<values>.+?) \\*\\*\\*\\s+\\<(?<player>.+?)\\>" )
+        ) ;
+        Pattern diceRoll3EventPattern = Pattern.compile(
+            config.getProperty( "LFA_PATTERN_DICE3_ROLL", "^\\*\\*\\* 3d6 = (?<d1>\\d),(?<d2>\\d),(?<d3>\\d) \\*\\*\\*\\s+\\<(?<player>.+?)\\>" )
+        ) ;
+        Pattern turnTrackEventPatter = Pattern.compile(
+            config.getProperty( "LFA_PATTERN_TURN_TRACK", "^\\* New: (?<side>.+?) Turn (?<turn>\\d+) - (?<phase>.+?) \\*" )
+        ) ;
+
+        // check if we've found an event we're interested in
+        if ( cmd instanceof LogCommand ) {
+            LogCommand logCmd = (LogCommand) cmd ;
+            if ( logCmd.getLoggedCommand() instanceof DisplayText ) {
+                String msg = ((DisplayText)logCmd.getLoggedCommand()).getMessage() ;
+                logger.debug( "Found display text: " + msg ) ;
+                Event event = null ;
+                // check if we've found a DR/dr roll
+                Matcher matcher = diceRollEventPattern.matcher( msg ) ;
+                if ( matcher.find() ) {
+                    // yup - add it to the list
+                    String rollType = Utils.getCapturedGroup( matcher, "rollType", "Other" ) ;
+                    event = new DiceEvent( matcher.group("player"), rollType, matcher.group("values") ) ;
+                    logger.debug( "- Matched DiceEvent: " + event ) ;
+                }
+                // check if we've found a 3d6 roll
+                if ( event == null ) {
+                    matcher = diceRoll3EventPattern.matcher( msg ) ;
+                    if ( matcher.find() ) {
+                        // yup - add it to the list as two separate events (DR and dr)
+                        Event event0 = new DiceEvent( matcher.group("player"), "3d6 (DR)", matcher.group("d1")+","+matcher.group("d2") ) ;
+                        events.add( event0 ) ;
+                        event = new DiceEvent( matcher.group("player"), "3d6 (dr)", matcher.group("d3") ) ;
+                        logger.debug( "- Matched 3d6 DiceEvent's: " + event0 + " ; " + event ) ;
+                    }
+                }
+                // check if we've found a Turn Track change
+                if ( event == null ) {
+                    matcher = turnTrackEventPatter.matcher( msg ) ;
+                    if ( matcher.find() ) {
+                        // yup - add it to the list
+                        event = new TurnTrackEvent( matcher.group("side"), matcher.group("turn"), matcher.group("phase") ) ;
+                        logger.debug( "- Matched TurnTrackEvent: " + event ) ;
+                    }
+                }
+                // add the event to the list
+                if ( event != null )
+                    events.add( event ) ;
+            }
+        }
+
+        // check any child commands
+        for ( Command c: cmd.getSubCommands() )
+            findLogFileEvents( c, events ) ;
+    }
+
     public void analyzeScenario( String scenarioFilename, String reportFilename )
         throws IOException, ParserConfigurationException, TransformerConfigurationException, TransformerException
     {
         // load the scenario
-        configureBoards() ;
         Command cmd = loadScenario( scenarioFilename ) ;
         cmd.execute() ;
 
@@ -219,7 +347,7 @@ public class VassalShim
         ArrayList<GamePieceLabelFields> otherLabels = new ArrayList<GamePieceLabelFields>() ;
         logger.info( "Searching the VASL scenario for labels (players={};{})...", players[0], players[1] ) ;
         AppBoolean hasPlayerOwnedLabels = new AppBoolean( false ) ;
-        extractLabels( cmd, players, hasPlayerOwnedLabels, ourLabels, otherLabels ) ;
+        extractLabels( cmd, players, hasPlayerOwnedLabels, ourLabels, otherLabels, true ) ;
 
         // NOTE: vasl-templates v1.2 started tagging labels with their owning player e.g. "germans/ob_setup_1.1".
         // This is so that we can ignore labels owned by nationalities not directly involved in the scenario.
@@ -299,7 +427,7 @@ public class VassalShim
         }
     }
 
-    private void extractLabels( Command cmd, String[] players, AppBoolean hasPlayerOwnedLabels, Map<String,GamePieceLabelFields> ourLabels, ArrayList<GamePieceLabelFields> otherLabels )
+    private void extractLabels( Command cmd, String[] players, AppBoolean hasPlayerOwnedLabels, Map<String,GamePieceLabelFields> ourLabels, ArrayList<GamePieceLabelFields> otherLabels, boolean legacyMode )
     {
         // check if this command is a label we're interested in
         // NOTE: We shouldn't really be looking at the object type, see analyzeScenario().
@@ -311,9 +439,17 @@ public class VassalShim
             if ( gamePiece.getName().equals( "User-Labeled" ) ) {
 
                 // yup - parse the label content
+                // FUDGE! This method gets called as part of log file analysis, but it wasn't finding the scenario label,
+                // because we were calling getState() on the target GamePiece instead of its parent AddPiece (as
+                // the "dump" command does). Simply changing this behavior caused some tests to fail, so since updating
+                // scenarios is a critical (and potentially dangerous) operation, we maintain the old and proven code, and
+                // switch to the new code only when requested.
                 ArrayList<String> separators = new ArrayList<String>() ;
                 ArrayList<String> fields = new ArrayList<String>() ;
-                parseGamePieceState( target.getState(), separators, fields ) ;
+                if ( legacyMode )
+                    parseGamePieceState( target.getState(), separators, fields ) ;
+                else
+                    parseGamePieceState( addPieceCmd.getState(), separators, fields ) ;
 
                 // check if the label is one of ours
                 String snippetId = isVaslTemplatesLabel( fields, GamePieceLabelFields.FIELD_INDEX_LABEL1 ) ;
@@ -370,7 +506,7 @@ public class VassalShim
 
         // extract labels in sub-commands
         for ( Command c: cmd.getSubCommands() )
-            extractLabels( c, players, hasPlayerOwnedLabels, ourLabels, otherLabels ) ;
+            extractLabels( c, players, hasPlayerOwnedLabels, ourLabels, otherLabels, legacyMode ) ;
     }
 
     private String isVaslTemplatesLabel( ArrayList<String> fields, int fieldIndex )
@@ -894,6 +1030,8 @@ public class VassalShim
             dumpCommandExtras( (GameState.SetupCommand)cmd, buf, prefix ) ;
         else if ( cmd instanceof ModuleExtension.RegCmd )
             dumpCommandExtras( (ModuleExtension.RegCmd)cmd, buf, prefix ) ;
+        else if ( cmd instanceof LogCommand )
+            dumpCommandExtras( (LogCommand)cmd, buf, prefix ) ;
         else if ( cmd instanceof ObscurableOptions.SetAllowed )
             dumpCommandExtras( (ObscurableOptions.SetAllowed)cmd, buf, prefix ) ;
         System.out.println( buf.toString() ) ;
@@ -943,6 +1081,12 @@ public class VassalShim
     {
         // dump extra command info
         buf.append( ": " + cmd.getName() + " (" + cmd.getVersion() + ")" ) ;
+    }
+
+    private static void dumpCommandExtras( LogCommand cmd, StringBuilder buf, String prefix )
+    {
+        // dump extra command info
+        buf.append( ": " + cmd.getLoggedCommand() ) ;
     }
 
     private static void dumpCommandExtras( ObscurableOptions.SetAllowed cmd, StringBuilder buf, String prefix )

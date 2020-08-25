@@ -1,6 +1,7 @@
 """ Miscellaneous utilities. """
 
 import os
+import shutil
 import io
 import tempfile
 import pathlib
@@ -62,12 +63,13 @@ class TempFile:
         self.temp_file = None
         self.name = None
 
-    def __enter__( self ):
+    def open( self ):
         """Allocate a temp file."""
         if self.encoding:
             encoding = self.encoding
         else:
             encoding = "utf-8" if "b" not in self.mode else None
+        assert self.temp_file is None
         self.temp_file = tempfile.NamedTemporaryFile(
             mode = self.mode,
             encoding = encoding,
@@ -75,20 +77,32 @@ class TempFile:
             delete = False
         )
         self.name = self.temp_file.name
-        return self
 
-    def __exit__( self, exc_type, exc_val, exc_tb ):
-        """Clean up the temp file."""
-        self.close()
-        os.unlink( self.temp_file.name )
+    def close( self, delete ):
+        """Close the temp file."""
+        self.temp_file.close()
+        if delete:
+            os.unlink( self.temp_file.name )
 
     def write( self, data ):
         """Write data to the temp file."""
         self.temp_file.write( data )
 
-    def close( self ):
-        """Close the temp file."""
-        self.temp_file.close()
+    def save_copy( self, fname, logger, caption ):
+        """Make a copy of the temp file (for debugging porpoises)."""
+        if not fname:
+            return
+        logger.debug( "Saving a copy of the %s: %s", caption, fname )
+        shutil.copyfile( self.temp_file.name, fname )
+
+    def __enter__( self ):
+        """Enter the context manager."""
+        self.open()
+        return self
+
+    def __exit__( self, exc_type, exc_val, exc_tb ):
+        """Exit the context manager."""
+        self.close( delete=True )
 
 # ---------------------------------------------------------------------
 

@@ -28,6 +28,12 @@ class WebChannelHandler:
             "VASL scenario files (*.vsav);;All files (*)",
             "scenario.vsav"
         )
+        self.log_file_analysis_dialog = FileDialog(
+            self.parent,
+            "log file analysis", ".csv",
+            "Analysis files (*.csv);;All files (*)",
+            None
+        )
 
     def on_new_scenario( self ):
         """Called when the scenario is reset."""
@@ -82,3 +88,12 @@ class WebChannelHandler:
         dname = os.path.split( self.updated_vsav_file_dialog.curr_fname )[0]
         self.updated_vsav_file_dialog.curr_fname = os.path.join( dname, fname )
         return self.updated_vsav_file_dialog.save_file( data )
+
+    def save_log_file_analysis( self, data ):
+        """Called when the user wants to save a log file analysis."""
+        prev_curr_fname = self.log_file_analysis_dialog.curr_fname
+        if not self.log_file_analysis_dialog.curr_fname:
+            self.log_file_analysis_dialog.curr_fname = "analysis.csv"
+        rc = self.log_file_analysis_dialog.save_file( data )
+        if not rc:
+            self.log_file_analysis_dialog.curr_fname = prev_curr_fname

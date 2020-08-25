@@ -2,6 +2,7 @@
 .ui-dialog.user-settings .ui-dialog-buttonpane { border: none ; margin-top: 0 !important ; padding-top: 0 !important ; }
 
 .ui-dialog.user-settings .row { height: 1.5em ; }
+.ui-dialog.user-settings .row label { height: 20px ; margin-top: 2px ; }
 .ui-dialog.user-settings fieldset { margin: 0.5em 0 0 0 ; padding-top: 0.5em ; border-radius: 0 ; }
 .ui-dialog.user-settings .select2 { margin-top: -4px ; }
 

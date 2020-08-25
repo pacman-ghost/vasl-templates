@@ -9,6 +9,7 @@ import javax.xml.transform.TransformerException ;
 import javax.xml.transform.TransformerConfigurationException ;
 import javax.xml.transform.dom.DOMSource ;
 import javax.xml.transform.stream.StreamResult ;
+import java.util.regex.Matcher ;
 
 import org.w3c.dom.Document ;
 import org.w3c.dom.NodeList ;
@@ -42,6 +43,16 @@ public class Utils
                 buf.append( childNode.getTextContent() ) ;
         }
         return buf.toString() ;
+    }
+
+    public static String getCapturedGroup( Matcher matcher, String groupName, String defaultVal )
+    {
+        // get the captured group
+        try {
+            return matcher.group( groupName ) ;
+        } catch( IllegalArgumentException exc ) {
+            return defaultVal ;
+        }
     }
 
     public static boolean startsWith( String val, String target )

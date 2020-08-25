@@ -12,6 +12,7 @@ from vasl_templates.webapp.utils import MsgStore
 import vasl_templates.webapp.config.constants
 from vasl_templates.webapp.config.constants import BASE_DIR, DATA_DIR
 from vasl_templates.webapp import globvars
+from vasl_templates.webapp.lfa import DEFAULT_LFA_DICE_HOTNESS_WEIGHTS, DEFAULT_LFA_DICE_HOTNESS_THRESHOLDS
 
 # NOTE: This is used to stop multiple instances of the program from running (see main.py in the desktop app).
 INSTANCE_ID = uuid.uuid4().hex
@@ -72,6 +73,17 @@ _APP_CONFIG_DEFAULTS = { # Bodhgaya, India (APR/19)
 def get_app_config():
     """Get the application config."""
 
+    def get_json_val( key, default ):
+        """Get a JSON value from the app config."""
+        try:
+            val = app.config.get( key, default )
+            return val if isinstance(val,dict) else json.loads(val)
+        except json.decoder.JSONDecodeError:
+            msg = "Couldn't parse app config setting: {}".format( key )
+            logging.error( "%s", msg )
+            startup_msg_store.error( msg )
+            return default
+
     # include the basic app config
     vals = {
         key: app.config.get( key, default )
@@ -79,6 +91,15 @@ def get_app_config():
     }
     for key in ["APP_NAME","APP_VERSION","APP_DESCRIPTION","APP_HOME_URL"]:
         vals[ key ] = getattr( vasl_templates.webapp.config.constants, key )
+
+    # include the dice hotness config
+    vals[ "LFA_DICE_HOTNESS_WEIGHTS" ] = get_json_val(
+        "LFA_DICE_HOTNESS_WEIGHTS", DEFAULT_LFA_DICE_HOTNESS_WEIGHTS
+    )
+    vals[ "LFA_DICE_HOTNESS_THRESHOLDS" ] = get_json_val(
+        "LFA_DICE_HOTNESS_THRESHOLDS", DEFAULT_LFA_DICE_HOTNESS_THRESHOLDS
+    )
+    vals[ "DISABLE_LFA_HOTNESS_FADEIN" ] = app.config.get( "DISABLE_LFA_HOTNESS_FADEIN" )
 
     # NOTE: We allow the front-end to generate snippets that point to an alternative webapp server (so that
     # VASSAL can get images, etc. from a Docker container rather than the desktop app). However, since it's

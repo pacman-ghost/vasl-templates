@@ -1,0 +1,76 @@
+<div id="lfa" style="display:none;">
+
+<div class="split top-pane"> <!-- top pane -->
+
+<div class="left"> <!-- left column -->
+
+    <div class="banner">
+        <div> <span class="title"></span> <span class="title2"></span> </div>
+        <div class="roll-type"> </div>
+        <div class="select-file"></div>
+    </div>
+
+    <div class="distrib d6x1"> <canvas></canvas> </div>
+
+    <div class="pie d6x1"> <canvas></canvas> </div>
+
+</div> <!-- end left column -->
+
+<div class="right"> <!-- right column -->
+
+    <div class="distrib d6x2"> <canvas></canvas> </div>
+
+    <div class="pie d6x2"> <canvas></canvas> </div>
+
+    <div class="hotness" title="How hot were the dice...?" style="display:none;">
+        <img src="{{url_for('static',filename='images/lfa/hotness.png')}}" class="dice">
+        <canvas></canvas>
+    </div>
+
+</div> <!-- end right column -->
+
+</div> <!-- end top pane -->
+
+<div class="split bottom-pane"> <!-- bottom pane -->
+
+<div class="time-plot-options" style="display:none;text-align:right;">
+    <label for="moving-average"> Moving avera<u>g</u>e:</label> <select name="moving-average"></select>
+    &nbsp;
+    <button class="zoom-in"> <img src="{{url_for('static',filename='images/lfa/plus.png')}}" style="height:1em;" title="Zoom in"> </button>
+    <button class="zoom-out"> <img src="{{url_for('static',filename='images/lfa/minus.png')}}" style="height:1em;" title="Zoom out"> </button>
+</div>
+
+<div class="time-plot">
+    <div class="wrapper"> <canvas></canvas> </div>
+</div>
+
+</div> <!-- end bottom pane -->
+
+<div class="options">
+    <div>
+        <label name="roll-type"> <u>R</u>oll type: </label>
+        <select name="roll-type"> </select>
+    </div>
+    <input type="checkbox" name="stack-bar-graphs"> Stack bar graphs <br>
+    <input type="checkbox" name="disable-animations"> No animations <br>
+    <button class="player-colors" style="display:flex;">
+        <img src="{{url_for('static',filename='images/lfa/player-colors.png')}}" style="height:1em;"> <span style="display:inline-block;margin-left:0.25em;">Colors</span>
+    </button>
+    <button class="download" style="display:flex;" title="Download the data">
+        <img src="{{url_for('static',filename='images/lfa/download.png')}}" style="height:1.5em;">
+    </button>
+</div>
+
+<div class="player-colors-popup" style="display:none;"> </div>
+
+<div class="select-file-popup" style="display:none;"> </div>
+
+<div class="timePlot-tooltip" style="border-radius:5px;z-index:99;">
+    <table style="font-size:100%;"> </table>
+</div>
+
+<button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close" style="z-index:99;">
+<span class="ui-button-icon ui-icon ui-icon-closethick"></span>
+</button>
+
+</div>

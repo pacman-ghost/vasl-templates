@@ -123,11 +123,11 @@ class WebDriver:
             # NOTE: We could do some funky Javascript stuff to load the browser directly from the string,
             # but using a temp file is straight-forward and pretty much guaranteed to work :-/
             html_tempfile.write( html )
-            html_tempfile.close()
+            html_tempfile.close( delete=False )
             self.driver.get( "file://{}".format( html_tempfile.name ) )
 
             # take a screenshot of the HTML
-            screenshot_tempfile.close()
+            screenshot_tempfile.close( delete=False )
             self.driver.set_window_size( window_size[0], window_size[1] )
             img = do_get_screenshot( screenshot_tempfile.name )
             retry_ratio = float( app.config.get( "WEBDRIVER_SCREENSHOT_RETRY_RATIO", 0.8 ) )

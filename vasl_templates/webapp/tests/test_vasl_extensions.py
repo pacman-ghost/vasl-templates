@@ -391,7 +391,7 @@ def _set_test_vasl_extn( control_tests, build_info, build_info_fname="buildFile"
     with TempFile() as temp_file:
         with zipfile.ZipFile( temp_file.name, "w" ) as zip_file:
             zip_file.writestr( build_info_fname, build_info )
-        temp_file.close()
+        temp_file.close( delete=False )
         with open( temp_file.name, "rb" ) as fp:
             zip_data = fp.read()
     control_tests.set_test_vasl_extn( fname="test.zip", bin_data=zip_data )

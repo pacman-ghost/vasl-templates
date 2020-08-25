@@ -378,6 +378,15 @@ function add_flag_to_dialog_titlebar( $dlg, player_no )
 
 // --------------------------------------------------------------------
 
+function getElemSizeAndPosition( $elem )
+{
+    // return the element's size and position
+    return {
+        width: $elem.width(), height: $elem.height(),
+        left: $elem.offset().left, top: $elem.offset().top,
+    } ;
+}
+
 function fixup_external_links( $root )
 {
     // NOTE: We want to open externals links in a new browser window, but simply adding target="_blank"
@@ -483,6 +492,13 @@ function getFilenameExtn( fname )
         return fname.substr( pos ) ;
     else
         return null ;
+}
+
+function stopEvent( evt )
+{
+    // stop further processing for the event
+    evt.preventDefault() ;
+    evt.stopPropagation() ;
 }
 
 function isIE()

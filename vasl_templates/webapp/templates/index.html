@@ -10,7 +10,9 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='jquery-ui/jquery-ui.min.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='growl/jquery.growl.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='popmenu/jquery.popmenu.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='spectrum/spectrum.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='select2/select2.min.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='chartjs/Chart.min.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/main.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/tabs.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/tabs-scenario.css')}}" />
@@ -24,6 +26,8 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/edit-vo-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/select-roar-scenario-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/vassal-shim.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/lfa.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/lfa-upload.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/snippets.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/user-settings-dialog.css')}}" />
 
@@ -43,12 +47,14 @@
 
 <div id="menu" style="display:none;">
     <input type="image" src="{{url_for('static',filename='images/menu.png')}}" value="actions">
-    <input id="load-scenario" type="file" accept=".json" style="display:none;">
-    <input id="load-template-pack" type="file" accept=".zip,.j2" style="display:none;">
-    <input id="load-vsav" type="file" accept=".vsav" style="display:none;">
 </div>
 
 {%include "tabs.html"%}
+
+<input id="load-scenario" type="file" accept=".json" style="display:none;">
+<input id="load-template-pack" type="file" accept=".zip,.j2" style="display:none;">
+<input id="load-vsav" type="file" accept=".vsav" style="display:none;">
+<input id="load-vlog" type="file" multiple accept=".vlog" style="display:none;">
 
 <div id="alt-webapp-base-url" style="display:none;"> Webapp base URL: </div>
 
@@ -69,6 +75,8 @@
 {%include "select-roar-scenario-dialog.html"%}
 
 {%include "vassal.html"%}
+{%include "lfa.html"%}
+{%include "lfa-upload.html"%}
 {%include "snippets.html"%}
 
 {%include "user-settings-dialog.html"%}
@@ -85,10 +93,14 @@
 <script src="{{url_for('static',filename='growl/jquery.growl.js')}}"></script>
 <script src="{{url_for('static',filename='popmenu/jquery.popmenu-1.0.0.min.js')}}"></script>
 <script src="{{url_for('static',filename='hotkey/jquery.hotkey.js')}}"></script>
+<script src="{{url_for('static',filename='spectrum/spectrum.js')}}"></script>
 <script src="{{url_for('static',filename='download/download.min.js')}}"></script>
 <script src="{{url_for('static',filename='jszip/jszip.min.js')}}"></script>
 <script src="{{url_for('static',filename='select2/select2.min.js')}}"></script>
+<script src="{{url_for('static',filename='split/split.min.js')}}"></script>
 <script src="{{url_for('static',filename='js-cookie/js.cookie.js')}}"></script>
+<script src="{{url_for('static',filename='chartjs/Chart.min.js')}}"></script>
+<script src="{{url_for('static',filename='chartjs/chartjs-plugin-labels.min.js')}}"></script>
 
 <script>
 gAppName = "{{APP_NAME}}" ;
@@ -105,6 +117,7 @@ gOrdnanceNotesUrl = "{{url_for('get_ordnance_notes')}}" ;
 gGetVaslPieceInfoUrl = "{{url_for('get_vasl_piece_info')}}" ;
 gGetRoarScenarioIndexUrl = "{{url_for('get_roar_scenario_index')}}" ;
 gAnalyzeVsavUrl = "{{url_for('analyze_vsav')}}" ;
+gAnalyzeVlogsUrl = "{{url_for('analyze_vlogs')}}" ;
 gUpdateVsavUrl = "{{url_for('update_vsav')}}" ;
 gMakeSnippetImageUrl = "{{url_for('make_snippet_image')}}" ;
 gHelpUrl = "{{url_for('show_help')}}" ;
@@ -118,9 +131,13 @@ gHelpUrl = "{{url_for('show_help')}}" ;
 <script src="{{url_for('static',filename='vo.js')}}"></script>
 <script src="{{url_for('static',filename='vo2.js')}}"></script>
 <script src="{{url_for('static',filename='vassal.js')}}"></script>
+<script src="{{url_for('static',filename='lfa.js')}}"></script>
+<script src="{{url_for('static',filename='lfa-upload.js')}}"></script>
+<script src="{{url_for('static',filename='LogFileAnalysis.js')}}"></script>
 <script src="{{url_for('static',filename='roar.js')}}"></script>
 <script src="{{url_for('static',filename='sortable.js')}}"></script>
 <script src="{{url_for('static',filename='user_settings.js')}}"></script>
+<script src="{{url_for('static',filename='jQueryHandlers.js')}}"></script>
 <script src="{{url_for('static',filename='utils.js')}}"></script>
 
 {%include "testing.html"%}

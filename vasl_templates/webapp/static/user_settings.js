@@ -4,6 +4,7 @@ SCENARIO_IMAGES_SOURCE_INTERNET = 2 ;
 gUserSettings = Cookies.getJSON( "user-settings" ) || { "scenario-images-source": SCENARIO_IMAGES_SOURCE_INTERNET } ;
 
 USER_SETTINGS = {
+    "vasl-username": "text",
     "snippet-font-family": "text",
     "snippet-font-size": "text",
     "date-format": "droplist",
@@ -77,7 +78,7 @@ function user_settings()
         dialogClass: "user-settings",
         modal: true,
         width: 460,
-        height: 350,
+        height: 375,
         resizable: false,
         create: function() {
             init_dialog( $(this), "OK", true ) ;
@@ -114,17 +115,24 @@ function user_settings()
         buttons: {
             OK: function() {
                 // unload and install the new user settings
-                var settings = unload_settings() ;
-                gUserSettings = settings ;
-                Cookies.set( "user-settings", settings, { expires: 999 } ) ;
+                gUserSettings = unload_settings() ;
+                save_user_settings() ;
                 apply_user_settings() ;
-                if ( gWebChannelHandler )
-                    gWebChannelHandler.on_user_settings_change( JSON.stringify( settings ) ) ;
                 $(this).dialog( "close" ) ;
             },
             Cancel: function() { $(this).dialog( "close" ) ; },
         },
     } ) ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function save_user_settings()
+{
+    // save the user settings
+    Cookies.set( "user-settings", gUserSettings, { expires: 999 } ) ;
+    if ( gWebChannelHandler )
+        gWebChannelHandler.on_user_settings_change( JSON.stringify( gUserSettings ) ) ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -36,6 +36,9 @@ loggers:
     analyze_vsav:
         level: "WARNING"
         handlers: [ "file" ]
+    analyze_vlog:
+        level: "WARNING"
+        handlers: [ "file" ]
     webdriver:
         level: "WARNING"
         handlers: [ "file" ]

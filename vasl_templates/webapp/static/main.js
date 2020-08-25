@@ -56,6 +56,7 @@ $(document).ready( function () {
         separator: { type: "separator" },
         analyze_vsav: { label: "Analyze VASL scenario", action: on_analyze_vsav },
         update_vsav: { label: "Update VASL scenario", action: on_update_vsav },
+        analyze_vlog: { label: "Analyze log files", action: on_analyze_vlog },
         separator2: { type: "separator" },
         template_pack: { label: "Load template pack", action: on_template_pack },
         user_settings: { label: "Settings", action: user_settings },
@@ -84,6 +85,7 @@ $(document).ready( function () {
     $("#load-scenario").change( on_load_scenario_file_selected ) ;
     $("#load-template-pack").change( on_template_pack_file_selected ) ;
     $("#load-vsav").change( on_load_vsav_file_selected ) ;
+    $("#load-vlog").change( on_load_vlog_file_selected ) ;
     // all done - we can show the menu now
     $("#menu").show() ;
 
@@ -386,6 +388,11 @@ $(document).ready( function () {
             }
         } ) ;
     }
+
+    // prevent files from being dragged in
+    // NOTE: It would be nice to stop the cursor from changing, but there doesn't seem to be any way of doing that :-/
+    // In particualar, the dragstart events doesn't fire if something is being dragged into the browser from outside.
+    $(document).on( { dragenter: stopEvent, dragleave: stopEvent, dragover: stopEvent, drop: stopEvent } ) ;
 
     // figure out how many pixels an em is
     var $em = $( "<span>M</span>" ) ;
