@@ -3,6 +3,7 @@
 
 import sys
 import os
+import shutil
 import subprocess
 import traceback
 import re
@@ -298,6 +299,14 @@ class VassalShim:
                 self.shim_jar = os.path.join( os.path.split(__file__)[0], "../../vassal-shim/release/vassal-shim.jar" )
         if not os.path.isfile( self.shim_jar ):
             raise SimpleError( "Can't find the VASSAL shim JAR." )
+
+        # FUDGE! The VASSAL shim looks for a config file in the same directory as itself, but if we are frozen,
+        # the user runs the executable that unpacks everything to a temp directory and runs from there, and so
+        # they can't set up the config file. Instead, we allow them to place it in the config/ directory and
+        # copy it over over to the temp directory, where the VASSAL shim JAR will find it when it runs.
+        fname = os.path.join( os.path.join(BASE_DIR,"config"), "vassal-shim.properties" )
+        if os.path.isfile( fname ):
+            shutil.copy( fname, os.path.split(self.shim_jar)[0] )
 
     @staticmethod
     def get_version():
