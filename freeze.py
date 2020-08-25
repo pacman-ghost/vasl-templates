@@ -47,6 +47,8 @@ def get_git_info():
     if len(lines) != 1:
         raise RuntimeError( "Can't parse git branch status." )
     branch_name = lines[0][2:]
+    if branch_name.startswith( "(HEAD detached at" ) and branch_name.endswith( ")" ):
+        branch_name = branch_name[18:-1]
 
     return { "last_commit_id": last_commit_id, "branch_name": branch_name }
 
