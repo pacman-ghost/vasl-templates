@@ -131,6 +131,12 @@ def parse_analysis_report( fname, logger=None ):
                     "turnNo": elem.attrib[ "turnNo" ],
                     "phase": elem.attrib[ "phase" ]
                 } )
+            elif elem.tag == "customLabelEvent":
+                # found a CUSTOM label
+                events.append( {
+                    "eventType": "customLabel",
+                    "caption": elem.text
+                } )
             else:
                 if logger:
                     logger.warn( "Found an unknown analysis event: %s", elem.tag )

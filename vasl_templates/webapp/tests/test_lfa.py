@@ -509,6 +509,45 @@ def test_download_data( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
+def test_custom_labels( webapp, webdriver ):
+    """Test custom labels in the log file."""
+
+    # initialize
+    control_tests = init_webapp( webapp, webdriver, vlog_persistence=1, lfa_persistence=1 )
+
+    def do_test(): #pylint: disable=missing-docstring
+
+        # analyze the log file
+        _analyze_vlogs( "custom-labels.vlog" )
+
+        # download the data
+        marker = set_stored_msg_marker( "_lfa-download_" )
+        find_child( "#lfa button.download" ).click()
+        wait_for( 2, lambda: get_stored_msg("_lfa-download_") != marker )
+        data = get_stored_msg( "_lfa-download_" )
+
+        # check the results
+        data = data.split( "\n" )
+        rows = list( csv.reader( data, quoting=csv.QUOTE_NONNUMERIC ) )
+        assert rows == [
+            [ "Log file", "Phase", "Player", "Type", "Die 1", "Die 2" ],
+            [ "custom-labels.vlog", "", "test", "Other", 5, 3 ],
+            [ "", "", "test", "Other", 3, "" ],
+            [ "", "Custom Label 1", "test", "Other", 6, 6 ],
+            [ "", "", "test", "RS", 6, "" ],
+            [ "", "Axis 1 PFPh", "test", "Other", 4, 4 ],
+            [ "", "", "test", "RS", 6, "" ],
+            [ "", "Custom label 2", "test", "Other", 2, 1 ],
+            [ "", "", "test", "RS", 1, "" ]
+        ]
+
+    # run the test
+    _run_tests( control_tests, do_test, False )
+
+# ---------------------------------------------------------------------
+
 def _analyze_vlogs( fnames ):
     """Analyze log file(s)."""
 

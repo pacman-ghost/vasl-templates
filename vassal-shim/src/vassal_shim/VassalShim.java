@@ -223,8 +223,11 @@ public class VassalShim
         Pattern diceRoll3EventPattern = Pattern.compile(
             config.getProperty( "LFA_PATTERN_DICE3_ROLL", "^\\*\\*\\* 3d6 = (?<d1>\\d),(?<d2>\\d),(?<d3>\\d) \\*\\*\\*\\s+\\<(?<player>.+?)\\>" )
         ) ;
-        Pattern turnTrackEventPatter = Pattern.compile(
+        Pattern turnTrackEventPattern = Pattern.compile(
             config.getProperty( "LFA_PATTERN_TURN_TRACK", "^\\* New: (?<side>.+?) Turn (?<turn>\\d+) - (?<phase>.+?) \\*" )
+        ) ;
+        Pattern customLabelEventPattern = Pattern.compile(
+            config.getProperty( "LFA_PATTERN_CUSTOM_LABEL", "!!vt-label (?<label>.+)$" )
         ) ;
 
         // check if we've found an event we're interested in
@@ -255,11 +258,20 @@ public class VassalShim
                 }
                 // check if we've found a Turn Track change
                 if ( event == null ) {
-                    matcher = turnTrackEventPatter.matcher( msg ) ;
+                    matcher = turnTrackEventPattern.matcher( msg ) ;
                     if ( matcher.find() ) {
                         // yup - add it to the list
                         event = new TurnTrackEvent( matcher.group("side"), matcher.group("turn"), matcher.group("phase") ) ;
                         logger.debug( "- Matched TurnTrackEvent: " + event ) ;
+                    }
+                }
+                // check if we've found a custom label
+                if ( event == null ) {
+                    matcher = customLabelEventPattern.matcher( msg ) ;
+                    if ( matcher.find() ) {
+                        // yup - add it to the list
+                        event = new CustomLabelEvent( matcher.group("label") ) ;
+                        logger.debug( "- Matched CustomLabelEvent: " + event ) ;
                     }
                 }
                 // add the event to the list

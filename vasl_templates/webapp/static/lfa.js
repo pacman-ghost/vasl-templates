@@ -684,6 +684,10 @@ function updateTimePlotChart( currWindowSize )
                 // we have a Turn Track event - use the phase description as the next label
                 nextLabel = evt.side + " " + evt.turnNo + " " + evt.phase ;
             },
+            onCustomLabelEvent: function( evt ) {
+                // we have a custom label event - use the caption as the next label
+                nextLabel = evt.caption ;
+            },
             onRollEvent: function( evt ) {
                 // we have a DR/dr roll - check if we want to include it
                 if ( rollType === "" ) {
@@ -1671,6 +1675,10 @@ function onDownloadData()
         onTurnTrackEvent: function( evt ) {
             // save the phase (it will be included in the next row of data)
             nextLabel = evt.side + " " + evt.turnNo + " " + evt.phase ;
+        },
+        onCustomLabelEvent: function( evt ) {
+            // save the custom label (it will be included in the next row of data)
+            nextLabel = evt.caption ;
         },
         onRollEvent: function( evt ) {
             // generate the next row of data
