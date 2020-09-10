@@ -102,7 +102,10 @@ if os.path.isfile( _fname ) :
 _fname = os.path.join( config_dir, "logging.yaml" )
 if os.path.isfile( _fname ):
     with open( _fname, "r" ) as fp:
-        logging.config.dictConfig( yaml.safe_load( fp ) )
+        try:
+            logging.config.dictConfig( yaml.safe_load( fp ) )
+        except Exception as ex: #pylint: disable=broad-except
+            logging.error( "Can't load the logging config: %s", ex )
 else:
     # stop Flask from logging every request :-/
     logging.getLogger( "werkzeug" ).setLevel( logging.WARNING )
