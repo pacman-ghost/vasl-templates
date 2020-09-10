@@ -1756,7 +1756,7 @@ function on_save_scenario()
 {
     // unload the template parameters
     var params = unload_params_for_save( true ) ;
-    var data = JSON.stringify( params ) ;
+    var data = JSON.stringify( params, null, 4 ) ;
 
     // FOR TESTING PORPOISES! We can't control a file download from Selenium (since
     // the browser will use native controls), so we store the result in a <textarea>
