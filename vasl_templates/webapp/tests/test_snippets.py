@@ -202,11 +202,14 @@ def test_players_snippets( webapp, webdriver ):
         "PLAYER_1": "french",
         "PLAYER_1_ELR": "1",
         "PLAYER_1_SAN": "2",
+        "PLAYER_1_DESCRIPTION": "Froggy Army",
         "PLAYER_2": "british",
         "PLAYER_2_ELR": "3",
         "PLAYER_2_SAN": "4",
+        "PLAYER_2_DESCRIPTION": "Barmy Army",
     },
-        "player1=[french:French] ; ELR=[1] ; SAN=[2] | player2=[british:British] ; ELR=[3] ; SAN=[4]",
+        "player1=[french:French] ; ELR=[1] ; SAN=[2] ; description=[Froggy Army]" \
+            " | player2=[british:British] ; ELR=[3] ; SAN=[4] ; description=[Barmy Army]",
         None
     )
 
@@ -214,7 +217,8 @@ def test_players_snippets( webapp, webdriver ):
     _test_snippet( btn, {
         "PLAYER_1": "british",
         },
-        "player1=[british:British] ; ELR=[1] ; SAN=[2] | player2=[british:British] ; ELR=[3] ; SAN=[4]",
+        "player1=[british:British] ; ELR=[1] ; SAN=[2] ; description=[Froggy Army]" \
+            " | player2=[british:British] ; ELR=[3] ; SAN=[4] ; description=[Barmy Army]",
         [ "Both players have the same nationality!" ],
     )
 

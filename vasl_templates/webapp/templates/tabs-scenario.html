@@ -8,18 +8,12 @@
                 <label for="SCENARIO_NAME">Name:</label>
                 <input name="SCENARIO_NAME" type="text" class="param">
                 <input name="SCENARIO_ID" type="text" class="param" title="Scenario ID">
-                <button id="search-roar" title="Search ROAR"></button>
+                <button class="scenario-search" title="Search for scenarios"></button>
             </div>
             <div class="row">
                 <label for="SCENARIO_LOCATION">Location:</label>
                 <input name="SCENARIO_LOCATION" type="text" class="param">
-                <select name="SCENARIO_THEATER" class="param" title="Scenario theater">
-                    <option value="ETO">ETO</option>
-                    <option value="PTO">PTO</option>
-                    <option value="Korea">Korea</option>
-                    <option value="Burma">Burma</option>
-                    <option value="other">other</option>
-                </select>
+                <select name="SCENARIO_THEATER" class="param" title="Scenario theater"> </select>
             </div>
             <div class="row">
                 <label for="SCENARIO_DATE">Date:</label>
@@ -32,8 +26,9 @@
             </div>
             <div class="row" style="margin-top:0.5em;">
                 <label></label>
-                <span style='width:13em'></span>
+                <span style='width:12.9em'></span>
                 <label class="header" for="ELR">ELR</label>
+                <span style='width:0.2em'></span>
                 <label class="header" for="SAN">SAN</label>
             </div>
             <div class="row">
@@ -44,27 +39,27 @@
                 <button class="generate" data-id="nat_caps_1" style="margin-left:8px;"></button>
             </div>
             <div class="row">
+                <input name="PLAYER_1_DESCRIPTION" type="text" class="param" title="Description of the player's OB.">
+            </div>
+            <div class="row">
                 <label for="PLAYER_2">Player 2:</label>
                 <select name="PLAYER_2" class="param"></select>
                 <select name="PLAYER_2_ELR" class="param"></select>
                 <select name="PLAYER_2_SAN" class="param"></select>
                 <button class="generate" data-id="nat_caps_2" style="margin-left:8px;"></button>
-                &nbsp;
             </div>
             <div class="row">
-                <img id="oba-info" src="{{url_for('static',filename='images/oba-info.png')}}" title="">
-                <button class="generate" data-id="players">Snippet</button>
+                <input name="PLAYER_2_DESCRIPTION" type="text" class="param" title="Description of the player's OB.">
             </div>
-            <div id="roar-info" class="row" style="display:none;">
-                <button id="go-to-roar">ROAR</button>
-                <input name="ROAR_ID" type="text" size="2" class="param" style="display:none;"> &nbsp;
-                <span class="name player1"></span>&nbsp;<span class="count player1"></span>
-                    &nbsp;
-                    <div class="progressbar player1"><div class="label"></div></div>
-                <div class="progressbar player2"><div class="label"></div></div>
-                    &nbsp;
-                    <span class="name player2"></span>&nbsp;<span class="count player2"></span>
-                <button id="disconnect-roar" title="Unlink from this ROAR scenario."></button>
+            <div class="row">
+                <input name="ASA_ID" type="text" size="1" class="param" style="display:none;">
+                <input name="ROAR_ID" type="text" size="1" class="param" style="display:none;">
+                <span class="spacer"></span>
+                <span class="small">
+                    Width:
+                    <input type="text" class="param" name="PLAYERS_WIDTH" size="5">
+                    <button class="generate" data-id="players">Snippet</button>
+                </span>
             </div>
         </div>
     </fieldset>

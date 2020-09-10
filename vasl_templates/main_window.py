@@ -13,7 +13,7 @@ from PyQt5.QtWebChannel import QWebChannel
 from PyQt5.QtGui import QDesktopServices, QIcon
 from PyQt5.QtCore import Qt, QUrl, QMargins, pyqtSlot, QVariant
 
-from vasl_templates.webapp.config.constants import APP_NAME, IS_FROZEN
+from vasl_templates.webapp.config.constants import APP_NAME, APP_VERSION, IS_FROZEN
 from vasl_templates.main import app_settings
 from vasl_templates.web_channel import WebChannelHandler
 from vasl_templates.utils import catch_exceptions
@@ -29,6 +29,8 @@ class AppWebPage( QWebEnginePage ):
         """Called when a link is clicked."""
         if url.host() in ("localhost","127.0.0.1"):
             return True
+        if not is_mainframe:
+            return True # nb: we get here if we're in a child frame (e.g. Google Maps)
         QDesktopServices.openUrl( url )
         return False
 
@@ -85,8 +87,8 @@ class MainWindow( QWidget ):
             if val :
                 self.restoreGeometry( val )
             else :
-                self.resize( 1050, 650 )
-            self.setMinimumSize( 1050, 620 )
+                self.resize( 1000, 650 )
+            self.setMinimumSize( 1000, 620 )
 
         # initialize the layout
         layout = QVBoxLayout( self )
@@ -105,6 +107,10 @@ class MainWindow( QWidget ):
             # initialize the web page
             # nb: we create an off-the-record profile to stop the view from using cached JS files :-/
             profile = QWebEngineProfile( None, self._view )
+            version = APP_NAME.lower().replace( " ", "-" ) + "/" + APP_VERSION[1:]
+            profile.setHttpUserAgent(
+                re.sub( r"QtWebEngine/\S+", version, profile.httpUserAgent() )
+            )
             page = AppWebPage( profile, self._view )
             self._view.setPage( page )
 

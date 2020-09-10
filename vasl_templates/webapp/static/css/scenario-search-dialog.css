@@ -1,0 +1,71 @@
+/* jQuery dialog */
+.ui-dialog.scenario-search .ui-dialog-titlebar { background: #e0e0a0 ; }
+#scenario-search { display: flex ; }
+#scenario-search .left { min-width: 300px ; display: flex ; flex-direction: column ; }
+#scenario-search .left .scenarios { flex: 1 ; }
+#scenario-search .right { min-width: 400px ; flex: 1 ; display: flex ; flex-direction: column ; }
+#scenario-search .scenario-card { flex: 1 ; overflow-y: hidden ; }
+
+/* splitter */
+#scenario-search .gutter { position: relative ; margin: 0 0.5em ; background-color: #ccc ; cursor: col-resize ; }
+#scenario-search .gutter img { position: absolute ; top: 45% ; left: -2px ; }
+
+/* search control */
+#scenario-search .select2-container { top: 10px !important ; }
+#scenario-search .select2-selection { display: none ; }
+#scenario-search .select2-dropdown { border: none ; }
+#scenario-search .select2-search--dropdown { padding: 0 0 0.5em 0 ; }
+
+#scenario-search .select2-results__option { padding-left: 4px ; }
+#scenario-search .select2-results__option--highlighted[aria-selected] { margin: 2px 2px -4px 0 ; padding-top:4px ; color: #f0f0f0 ; }
+#scenario-search .select2-results__option--highlighted[aria-selected] .scenario-date { color: #f0f0f0 ; }
+#scenario-search .select2-results__option--highlighted[aria-selected] .publication-name { color: #f0f0f0 ; }
+#scenario-search .select2-results__option--highlighted[aria-selected] .publisher-name { color: #f0f0f0 ; }
+#scenario-search .select2-results__option--highlighted[aria-selected] .publication-date { color: #f0f0f0 ; }
+#scenario-search .select2-results__option[aria-selected] { background: #fff ; }
+#scenario-search .select2-results__option--highlighted[aria-selected] { background: #5897fb ; }
+
+#scenario-search .select2-results__option { padding-bottom: 0 ; }
+#scenario-search .select2-results__option--highlighted { background: #5897fb ; margin-bottom: -4px ; }
+#scenario-search .select2-results__option--highlighted .search-result { border: none ; background: transparent ; }
+#scenario-search .search-result { border: 1px dotted #888 ; padding: 0 0.5em 0.25em 0.5em ; background: #f0f0f0 ; font-size: 95% ; }
+#scenario-search .search-result .scenario-name { font-weight: bold ; }
+#scenario-search .search-result .scenario-id { font-size: 80% ; font-style: italic ; }
+#scenario-search .search-result .scenario-location { font-size: 90% ; }
+#scenario-search .search-result .scenario-date { font-size: 80% ; font-style: italic ; color: #444 ; }
+#scenario-search .search-result .publication-name { font-size: 80% ; font-style: italic ; color: #666 ; }
+#scenario-search .search-result .publisher-name { font-size: 80% ; font-style: italic ; color: #666 ; }
+#scenario-search .search-result .publication-date { font-size: 80% ; font-style: italic ; color: #666 ; }
+
+/* footer */
+#scenario-search .footer {
+    margin-bottom: -0.5em ;
+    padding-top: 0.5em ;
+    font-size: 70% ; font-style: italic ;
+    opacity: 0.8 ;
+}
+#scenario-search .footer img.logo { height: 1.5em ; }
+#scenario-search .footer .caption { display: inline-block ; line-height: 1em ; }
+#scenario-search .footer a { color: #666 ; }
+#scenario-search .footer a:link { text-decoration: none ; }
+#scenario-search .footer a:focus { outline: 0 ; }
+
+/* import control */
+#scenario-search .import-control { margin-top: 0.5em ; padding-top: 0.25em ; border-top: 1px dotted #666 ; }
+#scenario-search .import-control .buttons button { float: right ; margin-left: 0.5em ; padding: 0.1em 0.5em ; }
+#scenario-search .import-control .buttons button.import { height: 2em ; display: flex ; align-items: center ; }
+#scenario-search .import-control .buttons button.import img { height: 1em ; margin-right: 0.5em ; }
+#scenario-search .import-control .buttons button.ok { background: #ddd ; }
+#scenario-search .import-control .buttons button.ok:hover { background: #ccc ; }
+#scenario-search .import-control .warnings { margin-bottom: 0.5em ; padding: 0.25em 0 0 10px ; font-size: 90% ; }
+#scenario-search .import-control .warnings .header { display: flex ; align-items: center ; height: 1.5em ; margin-left: -5px ; font-size: 120% ; }
+#scenario-search .import-control .warnings .header img { height: 1.5em ; margin: 0 0.5em 0.5em 0 ; }
+#scenario-search .import-control .warnings .header .caption { margin-top: -5px ; }
+#scenario-search .import-control .warnings input[type="checkbox"] { margin-right: 0.25em ; }
+#scenario-search .import-control .warnings .hint {
+    font-size: 90% ; font-style: italic ; color: #444 ;
+    white-space: nowrap ; overflow: hidden ; text-overflow: ellipsis ;
+}
+#scenario-search .import-control .warnings div.hint { margin-left: 20px ; }
+#scenario-search .import-control .warnings div.hint img { height: 1em ; margin: 0 0.25em -2px 0 ; }
+#scenario-search .import-control .warnings .warning2 img { height: 1.25em ; margin: 0 0.25em -2px -2px ; }

@@ -74,7 +74,9 @@ def init_webapp( webapp, webdriver, **options ):
         .set_vassal_engine( vengine=None ) \
         .set_vo_notes_dir( dtype=None ) \
         .set_user_files_dir( dtype=None ) \
-        .set_roar_scenario_index( fname="roar-scenario-index.json" )
+        .set_roar_scenario_index( fname="roar-scenario-index.json" ) \
+        .set_scenario_index( fname="asl-scenario-archive.json" ) \
+        .set_app_config( key="MAP_URL", val="MAP:[{LAT},{LONG}]" )
     if "reset" in options:
         options.pop( "reset" )( control_tests )
 
@@ -328,6 +330,21 @@ def set_player( player_no, nat ):
     select_droplist_val( sel, nat )
     return sel
 
+def get_player_nat( player_no ):
+    """Get a player's nationality."""
+    sel = Select( find_child( "select[name='PLAYER_{}']".format( player_no ) ) )
+    return sel.first_selected_option.get_attribute( "value" )
+
+def set_theater( theater ):
+    """Set the scenario theater."""
+    sel = Select( find_child( "select[name='SCENARIO_THEATER']" ) )
+    select_droplist_val( sel, theater )
+
+def get_theater():
+    """Get the scenario theater."""
+    sel = Select( find_child( "select[name='SCENARIO_THEATER']" ) )
+    return sel.first_selected_option.get_attribute( "value" )
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 _nationalities = None
@@ -566,8 +583,9 @@ def wait_for( timeout, func ):
         timeout *= 2
     start_time = time.time()
     while True:
-        if func():
-            break
+        rc = func()
+        if rc:
+            return rc
         assert time.time() - start_time < timeout
         time.sleep( 0.1 )
 

@@ -1,0 +1,46 @@
+{
+
+"_comment_": "This section maps theaters from those at the ASL Scenario Archive to ours.",
+"theater-mappings": {
+    "MTO": "ETO",
+    "Normandy": "ETO",
+    "KW": "Korea"
+},
+
+"_comment_": "This section maps player nationalities from those at the ASL Scenario Archive (must be lower-case) to our nationality ID's.",
+"nat-mappings": {
+    "australian": "anzac",
+    "belgians": "belgian",
+    "canada": "british~canadian",
+    "canadian": "british~canadian",
+    "china cmd": "chinese~gmd",
+    "commonwealth": "anzac",
+    "filipinos": "filipino",
+    "finland": "finnish",
+    "free french": "free-french",
+    "germany": "german",
+    "gurkha": "british",
+    "gurkhas": "british",
+    "ina": "indonesian",
+    "japan": "japanese",
+    "kpa": "kfw-kpa",
+    "nkpa": "kfw-kpa",
+    "north korea": "kfw-kpa",
+    "philippine": "filipino",
+    "poland": "polish",
+    "republic of korea": "kfw-rok",
+    "rok": "kfw-rok",
+    "rumanian": "romanian",
+    "russia": "russian",
+    "russians": "russian",
+    "slovak": "slovakian",
+    "siamese": "thai",
+    "soviet": "russian",
+    "ss": "german",
+    "u.s.": "american",
+    "usmc": "american",
+    "yugoslav": "yugoslavian",
+    "vichy": "french"
+}
+
+}

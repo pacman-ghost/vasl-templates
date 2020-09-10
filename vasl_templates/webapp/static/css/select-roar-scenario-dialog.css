@@ -1,9 +1,8 @@
-#select-roar-scenario { overflow: hidden ; }
-
-.ui-dialog.select-roar-scenario .ui-dialog-titlebar { background: #ffffcc ; border: 1px solid #e0e0cc ; }
+.ui-dialog.select-roar-scenario .ui-dialog-titlebar { background: #f0f0c0 ; border: 1px solid #c0c0a0 ; }
 .ui-dialog.select-roar-scenario .ui-dialog-content { padding-top: 0 !important ; }
 .ui-dialog.select-roar-scenario .ui-dialog-buttonpane { border: none ; margin-top: 0 !important ; padding-top: 0 !important ; }
 
+#select-roar-scenario { overflow: hidden ; }
 #select-roar-scenario .header { height: 1.75em ; margin-top: 0.25em ; font-size: 80% ; }
 
 #select-roar-scenario .select2-selection { display: none ; }

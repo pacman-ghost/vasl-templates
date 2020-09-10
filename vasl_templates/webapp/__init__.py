@@ -3,6 +3,7 @@
 import sys
 import os
 import signal
+import threading
 import configparser
 import logging
 import logging.config
@@ -16,6 +17,16 @@ from vasl_templates.webapp.config.constants import BASE_DIR
 
 def _on_startup():
     """Do startup initialization."""
+
+    # start downloading files
+    # NOTE: We used to do this in the mainline code of __init__, so that we didn't have to wait
+    # for the first request before starting the download (useful if we are running as a standalone server).
+    # However, this means that the downloads start whenever we import this module e.g. for a stand-alone
+    # command-line tool :-/
+    from vasl_templates.webapp.downloads import DownloadedFile
+    threading.Thread( daemon=True,
+        target = DownloadedFile.download_files
+    ).start()
 
     # load the default template_pack
     from vasl_templates.webapp.snippets import load_default_template_pack
@@ -67,6 +78,12 @@ def _on_sigint( signum, stack ): #pylint: disable=unused-argument
 # initialize Flask
 app = Flask( __name__ )
 
+# set config defaults
+# NOTE: These are defined here since they are used by both the back- and front-ends.
+app.config[ "ASA_SCENARIO_URL" ] = "https://aslscenarioarchive.com/scenario.php?id={ID}"
+app.config[ "ASA_PUBLICATION_URL" ] = "https://aslscenarioarchive.com/viewPub.php?id={ID}"
+app.config[ "ASA_PUBLISHER_URL" ] = "https://aslscenarioarchive.com/viewPublisher.php?id={ID}"
+
 # load the application configuration
 config_dir = os.path.join( BASE_DIR, "config" )
 _fname = os.path.join( config_dir, "app.cfg" )
@@ -98,7 +115,8 @@ import vasl_templates.webapp.files #pylint: disable=cyclic-import
 import vasl_templates.webapp.vassal #pylint: disable=cyclic-import
 import vasl_templates.webapp.vo_notes #pylint: disable=cyclic-import
 import vasl_templates.webapp.nat_caps #pylint: disable=cyclic-import
-import vasl_templates.webapp.roar #pylint: disable=cyclic-import
+import vasl_templates.webapp.scenarios #pylint: disable=cyclic-import
+import vasl_templates.webapp.downloads #pylint: disable=cyclic-import
 import vasl_templates.webapp.lfa #pylint: disable=cyclic-import
 if app.config.get( "ENABLE_REMOTE_TEST_CONTROL" ):
     print( "*** WARNING: Remote test control enabled! ***" )
@@ -106,12 +124,6 @@ if app.config.get( "ENABLE_REMOTE_TEST_CONTROL" ):
 
 # install our signal handler (must be done in the main thread)
 signal.signal( signal.SIGINT, _on_sigint )
-
-# initialize ROAR integration
-# NOTE:  We do this here, rather in _on_startup(), so that we can start downloading the latest scenario index file
-# without having to wait for the first request (e.g. if we are running as a standalone server, not the desktop app).
-from vasl_templates.webapp.roar import init_roar
-init_roar()
 
 # register startup initialization
 app.before_first_request( _on_startup )

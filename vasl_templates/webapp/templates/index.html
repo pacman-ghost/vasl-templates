@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='jquery-ui/jquery-ui.min.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='growl/jquery.growl.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='popmenu/jquery.popmenu.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='imageZoom/jquery.imageZoom.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='spectrum/spectrum.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='select2/select2.min.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='chartjs/Chart.min.css')}}" />
@@ -29,6 +30,8 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/lfa.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/lfa-upload.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/snippets.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/scenario-search-dialog.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/scenario-card.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/user-settings-dialog.css')}}" />
 
 </head>
@@ -72,6 +75,8 @@
 {%include "select-vo-dialog.html"%}
 {%include "select-vo-image-dialog.html"%}
 {%include "edit-vo-dialog.html"%}
+{%include "scenario-info-dialog.html"%}
+{%include "scenario-search-dialog.html"%}
 {%include "select-roar-scenario-dialog.html"%}
 
 {%include "vassal.html"%}
@@ -92,6 +97,7 @@
 <script src="{{url_for('static',filename='jinja/jinja.js')}}"></script>
 <script src="{{url_for('static',filename='growl/jquery.growl.js')}}"></script>
 <script src="{{url_for('static',filename='popmenu/jquery.popmenu-1.0.0.min.js')}}"></script>
+<script src="{{url_for('static',filename='imageZoom/jquery.imageZoom.min.js')}}"></script>
 <script src="{{url_for('static',filename='hotkey/jquery.hotkey.js')}}"></script>
 <script src="{{url_for('static',filename='spectrum/spectrum.js')}}"></script>
 <script src="{{url_for('static',filename='download/download.min.js')}}"></script>
@@ -115,6 +121,9 @@ gOrdnanceListingsUrl = "{{url_for('get_ordnance_listings',merge_common=1)}}" ;
 gVehicleNotesUrl = "{{url_for('get_vehicle_notes')}}" ;
 gOrdnanceNotesUrl = "{{url_for('get_ordnance_notes')}}" ;
 gGetVaslPieceInfoUrl = "{{url_for('get_vasl_piece_info')}}" ;
+gGetScenarioIndexUrl = "{{url_for('get_scenario_index')}}" ;
+gGetScenarioUrl = "{{url_for('get_scenario',scenario_id='ID')}}" ;
+gGetScenarioCardUrl = "{{url_for('get_scenario_card',scenario_id='ID')}}" ;
 gGetRoarScenarioIndexUrl = "{{url_for('get_roar_scenario_index')}}" ;
 gAnalyzeVsavUrl = "{{url_for('analyze_vsav')}}" ;
 gAnalyzeVlogsUrl = "{{url_for('analyze_vlogs')}}" ;
@@ -125,6 +134,7 @@ gHelpUrl = "{{url_for('show_help')}}" ;
 
 <script src="{{url_for('static',filename='main.js')}}"></script>
 <script src="{{url_for('static',filename='snippets.js')}}"></script>
+<script src="{{url_for('static',filename='scenarios.js')}}"></script>
 <script src="{{url_for('static',filename='nat_caps.js')}}"></script>
 <script src="{{url_for('static',filename='extras.js')}}"></script>
 <script src="{{url_for('static',filename='simple_notes.js')}}"></script>
@@ -139,6 +149,7 @@ gHelpUrl = "{{url_for('show_help')}}" ;
 <script src="{{url_for('static',filename='user_settings.js')}}"></script>
 <script src="{{url_for('static',filename='jQueryHandlers.js')}}"></script>
 <script src="{{url_for('static',filename='utils.js')}}"></script>
+<script src="{{url_for('static',filename='timer.js')}}"></script>
 
 {%include "testing.html"%}
 

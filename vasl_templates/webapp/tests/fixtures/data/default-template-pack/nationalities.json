@@ -19,6 +19,10 @@
   "display_name": "British",
   "ob_colors": [ "OBCOL:british","OBCOL2:british", "OBCOL-BORDER:british" ]
 },
+"british~canadian": {
+  "display_name": "Canadian",
+  "ob_colors": [ "OBCOL:british~canadian","OBCOL2:british~canadian", "OBCOL-BORDER:british~canadian" ]
+},
 
 "french": {
   "display_name": "French",
@@ -33,6 +37,11 @@
 "finnish": {
   "display_name": "Finnish",
   "ob_colors": [ "OBCOL:finnish","OBCOL2:finnish", "OBCOL-BORDER:finnish" ]
+},
+
+"burmese": {
+  "display_name": "Burmese",
+  "ob_colors": [ "OBCOL:burmese","OBCOL2:burmese", "OBCOL-BORDER:burmese" ]
 },
 
 "japanese": {

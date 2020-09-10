@@ -48,6 +48,7 @@ def test_default_scenario( webapp, webdriver ):
     check_droplist( "PLAYER_2", "japanese" )
     check_droplist( "PLAYER_2_ELR", "3" )
     check_droplist( "PLAYER_2_SAN", "4" )
+    check_textbox( "PLAYERS_WIDTH", "" )
 
     # check the victory conditions
     check_textarea( "VICTORY_CONDITIONS", "default victory conditions" )

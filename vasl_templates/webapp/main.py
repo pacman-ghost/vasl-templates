@@ -60,6 +60,7 @@ def get_startup_msgs():
 # ---------------------------------------------------------------------
 
 _APP_CONFIG_DEFAULTS = { # Bodhgaya, India (APR/19)
+    "THEATERS": [ "ETO", "DTO", "PTO", "Korea", "Burma", "other" ],
     # NOTE: We use HTTP for static images, since VASSAL is already insanely slow loading images (done in serial?),
     # so I don't even want to think about what it might be doing during a TLS handshake... :-/
     "ONLINE_IMAGES_URL_BASE": "http://vasl-templates.org/services/static-images",
@@ -89,6 +90,8 @@ def get_app_config():
         key: app.config.get( key, default )
         for key,default in _APP_CONFIG_DEFAULTS.items()
     }
+    if isinstance( vals["THEATERS"], str ):
+        vals["THEATERS"] = vals["THEATERS"].split()
     for key in ["APP_NAME","APP_VERSION","APP_DESCRIPTION","APP_HOME_URL"]:
         vals[ key ] = getattr( vasl_templates.webapp.config.constants, key )
 
@@ -127,6 +130,21 @@ def get_app_config():
                 if key in extn[1]:
                     extn_info[ key ] = extn[1][ key ]
                 vals["VASL_EXTENSIONS"][ extn[1]["extensionId"] ] = extn_info
+
+    # include the ASL Scenario Archive config data
+    for key in ["ASA_SCENARIO_URL","ASA_PUBLICATION_URL","ASA_PUBLISHER_URL"]:
+        vals[ key ] = app.config[ key ]
+    for key in ["BALANCE_GRAPH_THRESHOLD"]:
+        vals[ key ] = app.config.get( key )
+    fname = os.path.join( DATA_DIR, "asl-scenario-archive.json" )
+    if os.path.isfile( fname ):
+        with open( fname, "r" ) as fp:
+            try:
+                vals[ "SCENARIOS_CONFIG" ] = json.load( fp )
+            except json.decoder.JSONDecodeError as ex:
+                msg = "Couldn't load the ASL Scenario Archive config."
+                logging.error( "%s", msg )
+                startup_msg_store.error( msg )
 
     return jsonify( vals )
 

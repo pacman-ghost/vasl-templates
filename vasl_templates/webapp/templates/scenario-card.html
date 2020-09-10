@@ -1,0 +1,153 @@
+<div class="header"> <!-- begin header -->
+
+<div>
+    <span class="scenario-name"> {%if SCENARIO_NAME%}
+        {%if SCENARIO_URL%}<a href="{{SCENARIO_URL}}">{%endif%}{{SCENARIO_NAME}}{%if SCENARIO_URL%}</a>{%endif%}
+    {%else%}
+        Untitled scenario
+    {%endif%} </span>
+    {%if SCENARIO_DISPLAY_ID%} <span class="scenario-id"> ({{SCENARIO_DISPLAY_ID}}) </span> {%endif%}
+</div>
+{%if SCENARIO_LOCATION%} <div>
+    <span class="scenario-location"> {{SCENARIO_LOCATION}} </span>
+    {%if SCENARIO_DATE%} <span class="scenario-date"> ({{SCENARIO_DATE}}) </span> {%endif%}
+</div> {%endif%}
+
+<!-- info box -->
+{%if THEATER or TURN_COUNT or PLAYING_TIME or ICONS is defined%} <div class="info" style="display:none;">
+    {%if THEATER%} <div class="theater"> {{THEATER}} </div> {%endif%}
+    {%if TURN_COUNT%}<div class="turn-count"> {{TURN_COUNT|safe}} </div> {%endif%}
+    {%if PLAYING_TIME%} <div class="playing-time"> {{PLAYING_TIME|safe}} </div> {%endif%}
+    {%if ICONS is defined%} <div class="icons">
+        {%if ICONS.IS_DELUXE%} <img src="{{url_for('static',filename='images/icons/deluxe.png')}}" title="Deluxe ASL"> {%endif%}
+        {%if ICONS.IS_ASLSK%} <img src="{{url_for('static',filename='images/icons/aslsk.png')}}" title="Starter Kit"> {%endif%}
+        {%if ICONS.IS_NIGHT%} <img src="{{url_for('static',filename='images/icons/night.png')}}" title="Night scenario"> {%endif%}
+        {%if ICONS.DEFENDER_OBA or ICONS.ATTACKER_OBA%} <img src="{{url_for('static',filename='images/icons/oba.png')}}" class="oba" title="Has OBA"> {%endif%}
+    </div> {%endif%}
+</div> {%endif%}
+
+</div> <!-- end header -->
+
+<div class="header2"> <!-- begin header2 -->
+
+{%if DESIGNER%}
+<div class="designer"> Designer: {{DESIGNER}} </div>
+{%endif%}
+
+{%if PUBLICATION%} <div>
+    <span class="publication">
+        {%if PUBLICATION_URL%}<a href="{{PUBLICATION_URL}}">{%endif%}{{PUBLICATION}}{%if PUBLICATION_URL%}</a>{%endif%}
+    </span>
+    {%if PUBLISHER%} <span class="publisher">
+        ({%if PUBLISHER_URL%}<a href="{{PUBLISHER_URL}}">{%endif%}{{PUBLISHER}}{%if PUBLISHER_URL%}</a>{%endif%})
+    </span> {%endif%}
+    {%if PUBLICATION_DATE%} <span class="publication-date"> ({{PUBLICATION_DATE}}) </span> {%endif%}
+</div> {%endif%}
+
+{%if PREV_PUBLICATION%}
+<div class="prev-publication"> Previously: {{PREV_PUBLICATION}} </div>
+{%endif%}
+
+{%if REVISED_PUBLICATION%}
+<div class="revised-publication"> Revised: {{REVISED_PUBLICATION}} </div>
+{%endif%}
+
+</div> <!-- end header2 -->
+
+<div class="content"> <!-- begin content -->
+
+{%if MAP_URL%} <div class="map">
+    {%if MAP_URL.startswith("http") %}
+        <iframe class="map" src="{{MAP_URL}}"></iframe>
+    {%else%}
+        <div style="border:1px dotted #888;padding:0.5em;text-justify:none;"> {{MAP_URL}} </div>
+    {%endif%}
+</div> {%endif%}
+
+{%if OVERVIEW%} <div class="overview">
+    {%if OVERVIEW_BRIEF%}
+        <div class="full" style="display:none;"> {{OVERVIEW|safe}} </div>
+        <div class="brief"> {{OVERVIEW_BRIEF|safe}} </div>
+        <div class="more"> more... </div>
+    {%else%}
+        {{OVERVIEW|safe}}
+    {%endif%}
+</div> {%endif%}
+
+<div class="player-info"> <!-- begin player-info -->
+
+{%if ICONS is defined and (ICONS.DEFENDER_OBA or ICONS.ATTACKER_OBA)%}
+<table class="oba" style="display:none;">
+    <tr> <td class="oba-header" colspan="4"> Off-board Artillery
+    {%if ICONS.DEFENDER_OBA%}
+        <tr class="defender"> <td class="name"> {{DEFENDER_NAME or "Defender"}} <td class="count black"> ? <td class="count red"> ? <td class="spacer">
+        <tr class="defender"> <td class="comments" colspan="4">
+    {%endif%}
+    {%if ICONS.ATTACKER_OBA%}
+        <tr class="attacker"> <td class="name"> {{ATTACKER_NAME or "Attacker"}} <td class="count black"> ? <td class="count red"> ? <td class="spacer">
+        <tr class="attacker"> <td class="comments" colspan="4">
+    {%endif%}
+    <tr> <td colspan="4" class="date-warning" style="display:none;">
+        <img src="{{url_for('static',filename='images/warning.gif')}}">
+        Based on a scenario date of <span class="val"></span>.
+</table>
+{%endif%}
+
+<table class="players">
+{%if DEFENDER_NAME%}
+<tr class="defender">
+    <td class="label"> Defender: <td class="flag"> <td class="name"> {{DEFENDER_NAME}}
+{%if DEFENDER_DESC%}
+<tr class="defender">
+    <td> <td class="desc" colspan="2"> {{DEFENDER_DESC}}
+{%endif%}
+{%endif%}
+{%if ATTACKER_NAME%}
+<tr class="attacker">
+    <td class="label"> Attacker: <td class="flag"> <td class="name"> {{ATTACKER_NAME}}
+{%if ATTACKER_DESC%}
+<tr class="attacker">
+    <td> <td class="desc" colspan="2"> {{ATTACKER_DESC}}
+{%endif%}
+{%endif%}
+</table>
+
+<div class="balance-graphs">
+    <div class='balance-graph roar'> </div>
+    <div class='balance-graph asa'> </div>
+    <div class="connect-roar" style="display:none;">
+        <img src="{{url_for('static',filename='images/connect-roar.png')}}">
+        Connect to ROAR
+    </div>
+</div>
+
+</div> <!-- end player-info -->
+
+{%if BOARDS%} <div class="boards">
+    <b>Boards:</b> {{BOARDS}}
+    {%if MAP_IMAGES%} {%for map in MAP_IMAGES%}
+        <a href="{{map}}" class="map-preview"><img src="{{url_for('static',filename='images/map-preview.png')}}" title="Board preview"></a>
+    {%endfor%} {%endif%}
+</div> {%endif%}
+
+{%if OVERLAYS%} <div class="overlays"> <b>Overlays:</b> {{OVERLAYS}} </div> {%endif%}
+
+{%if EXTRA_RULES%} <div class="extra-rules"> <b>Rules:</b> {{EXTRA_RULES}} </div> {%endif%}
+
+{%if ERRATA%} <div class="errata">
+{%if ERRATA|length == 1%}
+    <b>Errata:</b>
+    <span class="text">{{ERRATA[0].text}}</span>
+    {%if ERRATA[0].source%} <span class="source">[{{ERRATA[0].source}}]</span> {%endif%}
+{%elif ERRATA|length >= 2%}
+    <b>Errata:</b> <ul>
+    {%for errata in ERRATA%} <li>
+        <span class="text">{{errata.text}}</span>
+        {%if errata.source%}<span class="source">[{{errata.source}}]</span> {%endif%}
+    {%endfor%}
+    </ul>
+{%endif%}
+
+</div> {%endif%}
+
+</div> <!-- end content -->

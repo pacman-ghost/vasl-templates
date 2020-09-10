@@ -14,7 +14,7 @@ from vasl_templates.webapp.tests.utils import \
     select_tab, select_menu_option, set_player, \
     wait_for_clipboard, get_stored_msg, set_stored_msg, set_stored_msg_marker,\
     add_simple_note, for_each_template, find_child, find_children, wait_for, \
-    get_droplist_vals_index, init_webapp, get_css_classes
+    get_player_nat, get_droplist_vals_index, init_webapp, get_css_classes
 
 # ---------------------------------------------------------------------
 
@@ -112,7 +112,7 @@ def test_nationality_data( webapp, webdriver ):
     assert tab_ob1.text.strip() == "British OB"
     # FUDGE!  player1_sel.first_selected_option.text doesn't contain the right value
     # if we're using jQuery selectmenu's :-/
-    assert player1_sel.first_selected_option.get_attribute( "value" ) == "british"
+    assert get_player_nat( 1 ) == "british"
     droplist_vals = get_droplist_vals_index( player1_sel )
     assert droplist_vals["british"] == "British"
 
@@ -123,7 +123,7 @@ def test_nationality_data( webapp, webdriver ):
 
     # check that the UI was updated correctly
     assert tab_ob1.text.strip() == "Poms! OB"
-    assert player1_sel.first_selected_option.get_attribute( "value" ) == "british"
+    assert get_player_nat( 1 ) == "british"
     droplist_vals2 = get_droplist_vals_index( player1_sel )
     assert droplist_vals2["british"] == "Poms!"
 

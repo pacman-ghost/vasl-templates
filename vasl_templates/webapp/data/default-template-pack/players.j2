@@ -2,26 +2,51 @@
 
 <head>
 <meta charset="utf-8">
-<style> {{CSS:common}} </style>
+<style>
+{{CSS:common}}
+table {
+    border: 1px solid #c0c0c0 ; background: #f0f0f0 ;
+{%if PLAYER_1_DESCRIPTION or PLAYER_2_DESCRIPTION%}
+{# NOTE: We had to do some heavy-duty hacking to get the layout to work in VASSAL :-/ The idea is that there is a padding column on the far right of the table that expands to fill up the available width, thus pushing the data columns (flags, player, ELR/SAN) to the left. We can then have a cell that spans all these columns for the player descriptions. All this is only necessary when there are player descriptions, which is why the PLAYER_WIDTH variable is only used if there are player descriptions. #}
+    width: {{PLAYERS_WIDTH or "200px"}} ;
+{%endif%}
+}
+td.player { width: 1px ; white-space: nowrap ; font-weight: bold ; }
+td.val { width: 1px ; white-space: nowrap ; }
+td.description { font-size: 90% ; font-style: italic ; color: #808080 ; }
+{%if PLAYER_1_DESCRIPTION or PLAYER_2_DESCRIPTION%}
+    td.padding { width: {{PLAYERS_WIDTH or "200px"}} ; }
+{%endif%}
+</style>
 </head>
 
-<table style="
-  border: 1px solid #c0c0c0 ;
-  background: #f0f0f0 ;
-">
+<table>
 
-<td style="font-weight:bold;">
+<tr>
     {# Some versions of Java require <img> tags to have the width and height specified!?! #}
-    {%if PLAYER_FLAG_1%}<img src="{{PLAYER_FLAG_1}}" {{PLAYER_FLAG_SIZE}}>&nbsp;{%endif%}{{PLAYER_1_NAME}}: <br>
-    {%if PLAYER_FLAG_2%}<img src="{{PLAYER_FLAG_2}}" {{PLAYER_FLAG_SIZE}}>&nbsp;{%endif%}{{PLAYER_2_NAME}}:
+    <td class="flag"> {%if PLAYER_FLAG_1%} <img src="{{PLAYER_FLAG_1}}" {{PLAYER_FLAG_SIZE}}> {%endif%}
+    <td class="player"> {{PLAYER_1_NAME}}:
+    <td class="val"> &nbsp; ELR: {{PLAYER_1_ELR}}
+    <td class="val"> &nbsp; SAN: {{PLAYER_1_SAN}}
+    {%if PLAYER_1_DESCRIPTION%} <td class="padding"> {%endif%}
+{%if PLAYER_1_DESCRIPTION%}
+<tr>
+    <td></td>
+    <td class="description" colspan=4 valign=top> {{PLAYER_1_DESCRIPTION}}
+{%endif%}
 
-<td style="padding-left:2px;">
-    ELR: {{PLAYER_1_ELR}} <br>
-    ELR: {{PLAYER_2_ELR}}
-
-<td style="padding-left:5px;">
-    SAN: {{PLAYER_1_SAN}} <br>
-    SAN: {{PLAYER_2_SAN}}
+<tr>
+    {# Some versions of Java require <img> tags to have the width and height specified!?! #}
+    <td class="flag"> {%if PLAYER_FLAG_2%} <img src="{{PLAYER_FLAG_2}}" {{PLAYER_FLAG_SIZE}}> {%endif%}
+    <td class="player"> {{PLAYER_2_NAME}}:
+    <td class="val"> &nbsp; ELR: {{PLAYER_2_ELR}}
+    <td class="val"> &nbsp; SAN: {{PLAYER_2_SAN}}
+    {%if PLAYER_2_DESCRIPTION%} <td class="padding"> {%endif%}
+{%if PLAYER_2_DESCRIPTION%}
+<tr>
+    <td></td>
+    <td class="description" colspan=4 valign=top> {{PLAYER_2_DESCRIPTION}}
+{%endif%}
 
 </table>
 

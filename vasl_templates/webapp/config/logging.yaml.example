@@ -42,6 +42,6 @@ loggers:
     webdriver:
         level: "WARNING"
         handlers: [ "file" ]
-    roar:
+    downloads:
         level: "WARNING"
         handlers: [ "file" ]

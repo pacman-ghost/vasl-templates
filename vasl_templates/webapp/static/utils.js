@@ -238,6 +238,20 @@ function click_dialog_button( $dlg, btn_text )
     $( $dlg2.find( ".ui-dialog-buttonpane button:contains('" + btn_text + "')" ) ).click() ;
 }
 
+function close_dialog_if_no_others( $dlg )
+{
+    // NOTE: Escape doesn't always close a dialog, so we do it ourself, but we have to handle the case
+    // where more than one dialog is on-screen, and only close if there isn't another dialog on top of us.
+    if ( $(".ui.dialog").length >= 2 )
+        return ;
+    // NOTE: We also want to stop Escape from closing a dialog if an image preview is being shown.
+    if ( $( ".jquery-image-zoom" ).length > 0 )
+        return ;
+
+    // close the dialog
+    $dlg.dialog( "close" ) ;
+}
+
 // --------------------------------------------------------------------
 
 function ask( title, msg, args )
@@ -378,6 +392,33 @@ function add_flag_to_dialog_titlebar( $dlg, player_no )
 
 // --------------------------------------------------------------------
 
+var _MONTH_NAMES = [ // nb: we assume English :-/
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+] ;
+var _DAY_OF_MONTH_POSTFIXES = { // nb: we assume English :-/
+    0: "th",
+    1: "st", 2: "nd", 3: "rd", 4: "th", 5: "th", 6: "th", 7: "th", 8: "th", 9: "th", 10: "th",
+    11: "th", 12: "th", 13: "th"
+} ;
+
+function make_formatted_day_of_month( dom )
+{
+    // generate the formatted day of month
+    if ( dom in _DAY_OF_MONTH_POSTFIXES )
+        return dom + _DAY_OF_MONTH_POSTFIXES[ dom ] ;
+    else
+        return dom + _DAY_OF_MONTH_POSTFIXES[ dom % 10 ] ;
+}
+
+function get_month_name( month )
+{
+    // get the name of the month
+    return _MONTH_NAMES[ month ] ;
+}
+
+// --------------------------------------------------------------------
+
 function getElemSizeAndPosition( $elem )
 {
     // return the element's size and position
@@ -412,16 +453,17 @@ function getUrlParam( param )
     }
 }
 
-function escapeHTML( val )
+function addUrlParam( url, param, val )
 {
-    // escape HTML
-    return new Option(val).innerHTML ;
+    // add a parameter to a URL
+    var sep =  url.indexOf( "?" ) === -1 ? "?" : "&" ;
+    return url + "?" + param + "=" + encodeURIComponent(val) ;
 }
 
-function pluralString( n, str1, str2 )
-{
-    return (n == 1) ? str1 : str2 ;
-}
+function escapeHTML( val ) { return new Option(val).innerHTML ; }
+function pluralString( n, str1, str2 ) { return (n == 1) ? str1 : str2 ; }
+function trimString( val ) { return val ? val.trim() : val ; }
+function fpFmt( val, nDigits ) { return val.toFixed( nDigits ) ; }
 
 function percentString( val )
 {

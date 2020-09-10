@@ -5,6 +5,7 @@ import shutil
 import io
 import tempfile
 import pathlib
+import math
 from collections import defaultdict
 
 from flask import request, Response, send_file
@@ -175,6 +176,64 @@ def is_image_file( fname ):
 def is_empty_file( fname ):
     """Check if a file is empty."""
     return os.stat( fname ).st_size == 0
+
+def parse_int( val, default=None ):
+    """Parse an integer."""
+    try:
+        return int( val )
+    except (ValueError, TypeError):
+        return default
+
+# ---------------------------------------------------------------------
+
+def friendly_fractions( val, postfix=None, postfix2=None ):
+    """Convert decimal values to more friendly fractions."""
+    if val is None:
+        return None
+    frac, val = math.modf( float( val ) )
+    if frac >= 0.875:
+        val = str( int(val) + 1 )
+    else:
+        val = str( int( val ) )
+        if frac >= 0.625:
+            val = val + "&frac34;"
+        elif frac >= 0.375:
+            val = val + "&frac12;"
+        elif frac >= 0.125:
+            val = val + "&frac14;"
+    if postfix:
+        if val == "0":
+            return "0 " + postfix2
+        elif val.startswith( "0&" ):
+            return val[1:] + " " + postfix
+        elif val == "1":
+            return "1 " + postfix
+        val = "{} {}".format( val, postfix2 )
+    return val[1:] if val.startswith( "0&" ) else val
+
+# ---------------------------------------------------------------------
+
+_MONTH_NAMES = [ # nb: we assume English :-/
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+]
+
+_DAY_OF_MONTH_POSTFIXES = { # nb: we assume English :-/
+    0: "th",
+    1: "st", 2: "nd", 3: "rd", 4: "th", 5: "th", 6: "th", 7: "th", 8: "th", 9: "th", 10: "th",
+    11: "th", 12: "th", 13: "th"
+}
+
+def get_month_name( month ):
+    """Return a month name."""
+    return _MONTH_NAMES[ month-1 ]
+
+def make_formatted_day_of_month( dom ):
+    """Generate a formatted day of the month."""
+    if dom in _DAY_OF_MONTH_POSTFIXES:
+        return str(dom) + _DAY_OF_MONTH_POSTFIXES[ dom ]
+    else:
+        return str(dom) + _DAY_OF_MONTH_POSTFIXES[ dom % 10 ]
 
 # ---------------------------------------------------------------------
 

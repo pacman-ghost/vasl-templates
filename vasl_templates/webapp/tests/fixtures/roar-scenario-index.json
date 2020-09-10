@@ -1,29 +1,44 @@
 {
 
-"1": { "scenario_id": "TEST 1", "name": "Fighting Withdrawal",
-  "publication": "Beyond Valor",
-  "results": [ [ "Finnish", 200 ], [ "Russian", 300 ] ],
-  "url": "http://test.com/1"
+"_lastUpdated_": "some time ago",
+"_nPlayings_": 123,
+"_generatedBy_": "(test data)",
+"_generatedAt_": "(just now)",
+
+"100": {
+    "scenario_id": "FW", "name": "Fighting Withdrawal",
+    "publication": "Beyond Valor",
+    "results": [ [ "Finnish", 279 ], [ "Russian", 325 ] ],
+    "url": "http://asl-roar.com/100"
 },
 
-"2": { "scenario_id": "TEST 2", "name": "Whitewash 1",
-  "results": [ [ "American", 10 ], [ "Japanese", 0 ] ],
-  "url": "http://test.com/2"
+"101": {
+    "scenario_id": "ANOTHER", "name": "Another ROAR scenario",
+    "results": [ [ "British", 2 ], [ "French", 1 ] ],
+    "url": "http://asl-roar.com/101"
 },
 
-"3": { "scenario_id": "TEST 3", "name": "Whitewash 2",
-  "results": [ [ "American", 0 ], [ "Japanese", 10 ] ],
-  "url": "http://test.com/3"
+"200": {
+    "name": "!! ROAR exact-match !!"
 },
-
-"4": { "scenario_id": "TEST 4", "name": "No playings",
-  "results": [ [ "British", 0 ], [ "French", 0 ] ],
-  "url": "http://test.com/4"
+"210": {
+    "name": "ROAR Exact Match 2",
+    "scenario_id": "foo"
 },
-
-"5": { "scenario_id": "TEST 5", "name": "Unknown nationality",
-  "results": [ [ "American", 1 ], [ "Martian", 1 ] ],
-  "url": "http://test.com/5"
+"211": {
+    "name": "ROAR Exact Match 2",
+    "scenario_id": "EXACT-MATCH-2"
+},
+"220": {
+    "name": "ROAR Multiple Matches",
+    "results": [ [ "British", 5 ], [ "French", 2 ] ]
+},
+"221": {
+    "name": "ROAR Multiple Matches"
+},
+"222": {
+    "name": "ROAR Multiple Matches",
+    "results": [ [ "German", 10 ], [ "Russian", 5 ] ]
 }
 
 }

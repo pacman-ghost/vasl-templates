@@ -1,0 +1,132 @@
+<!doctype html> <!-- NOTE: For testing porpoises only! -->
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<title> Scenario nationalities</title>
+<style>
+table { margin: 0 0 0 2em ; }
+th { padding: 2px 5px ; text-align: left ; background: #eee ; }
+td { padding: 2px 5px 2px 1em ; text-align: right ; }
+</style>
+</head>
+
+<body>
+
+<div id="results"></div>
+
+</body>
+
+<script src="{{url_for('static',filename='jquery/jquery-3.3.1.min.js')}}"></script>
+<script src="{{url_for('static',filename='scenarios.js')}}"></script>
+
+<script>
+var gAppConfig, gTemplatePack, gScenarioIndex ;
+$(document).ready( function () {
+    // get the information we need
+    var nResponsesPending = 3 ;
+    function onResponse() {
+        if ( -- nResponsesPending == 0 )
+            generateReport() ;
+    }
+    $.getJSON( "{{url_for('get_app_config')}}", function( resp ) {
+        gAppConfig = resp ;
+        onResponse() ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        alert( "Can't get the app config:\n\n" + errorMsg ) ;
+    } ) ;
+    $.getJSON( "{{url_for('get_template_pack')}}", function( resp ) {
+        gTemplatePack = resp ;
+        onResponse() ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        alert( "Can't get the template pack:\n\n" + errorMsg ) ;
+    } ) ;
+    $.getJSON( "{{url_for('get_scenario_index')}}", function( resp ) {
+        gScenarioIndex = resp ;
+        onResponse() ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        alert( "Can't get the scenario index:\n\n" + errorMsg ) ;
+    } ) ;
+} ) ;
+</script>
+
+<script>
+
+function generateReport() {
+
+    // initialize
+    var exactMatches={}, mappedMatches={}, unknownNats={} ;
+
+    function updateCount( counts, key ) {
+        if ( counts[key] === undefined )
+            counts[ key ] = 1 ;
+        else
+            ++ counts[ key ] ;
+    }
+    function checkPlayerNat( playerName ) {
+        if ( ! playerName )
+            return ;
+        var effectiveNat = getEffectivePlayerNat( playerName ) ;
+        if ( ! effectiveNat ) {
+            // record an unknown player nationality
+            updateCount( unknownNats, playerName ) ;
+        }
+        else if ( effectiveNat[1] == "exactMatch"  || effectiveNat[1] == "partialMatch" ) {
+            // record an exact match
+            updateCount( exactMatches, effectiveNat[0] ) ;
+        } else if ( effectiveNat[1] == "exactMapping" || effectiveNat[1] == "partialMapping" ) {
+            // record a mapping
+            updateCount( mappedMatches, effectiveNat[2] ) ;
+        } else {
+            alert( "Unknown effective nat type: " + effectiveNat[1] ) ;
+        }
+    }
+
+    // process each scenario
+    var $results = $( "#results" ) ;
+    var maxScenarios = gScenarioIndex.length ;
+    function processScenario( scenarioNo ) {
+        if ( scenarioNo >= maxScenarios ) {
+            // we've processed all the scenarios - output the results
+            outputResults() ;
+            return ;
+        }
+        // get the next scenario
+        $results.text( "Generating the report: " + (1+scenarioNo) + "/" + gScenarioIndex.length ) ;
+        var url = "{{url_for('get_scenario',scenario_id='ID')}}".replace( "ID", gScenarioIndex[scenarioNo].scenario_id ) ;
+        $.getJSON( url, function( resp ) {
+            // check the 2 players
+            checkPlayerNat( resp.defender_name ) ;
+            checkPlayerNat( resp.attacker_name ) ;
+            // process the next scenario
+            processScenario( scenarioNo + 1 ) ;
+        } ).fail( function( xhr, status, errorMsg ) {
+            alert( "Can't get the scenario:\n\n" + errorMsg ) ;
+        } ) ;
+    }
+    processScenario( 0 ) ;
+
+    function outputResults() {
+        // output the results
+        $results.text( "Processed " + gScenarioIndex.length + " scenarios." ) ;
+        makeTable( "Exact/partial matches", exactMatches ) ;
+        makeTable( "Mapped matches", mappedMatches ) ;
+        makeTable( "Unknown", unknownNats ) ;
+    }
+    function makeTable( caption, vals, cmp ) {
+        var rows = [] ;
+        for ( key in vals )
+            rows.push( [ key, vals[key] ] ) ;
+        rows.sort( function( lhs, rhs ) { return lhs[1] < rhs[1] ; } ) ;
+        var buf = [ "<h2>", caption, "</h2>", "<table>" ] ;
+        rows.forEach( function( row ) {
+            buf.push( "<tr>", "<th>", row[0], "<td>", row[1] ) ;
+        } ) ;
+        buf.push( "</table>" ) ;
+        $results.append( $( buf.join("") ) ) ;
+    }
+
+}
+</script>
+
+</html>

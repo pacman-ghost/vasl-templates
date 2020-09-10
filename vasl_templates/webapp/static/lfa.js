@@ -146,7 +146,7 @@ window.show_lfa_dialog = function( resp )
                 gutterSize: 3,
                 onDrag: updateLayout,
             } ) ;
-            var $gripper = $( "<img src='" + gImagesBaseUrl + "/gripper.png'>" ) ;
+            var $gripper = $( "<img src='" + gImagesBaseUrl + "/gripper-horz.png'>" ) ;
             $( "#lfa .gutter.gutter-vertical" ).append( $gripper ) ;
             // initialize other controls
             $(this).find( "select[name='roll-type']" ).selectmenu( {
@@ -1836,8 +1836,6 @@ function makeArray( val, count ) {
 
 function checkRollType( evt, rollType ) { return evt.rollType === rollType ; }
 function makeDieImageUrl( dieVal, color ) { return gImagesBaseUrl + "/lfa/die/" + color + "/" + dieVal + ".png" ; }
-function fpFmt( val, nDigits ) { return val.toFixed( nDigits ) ; }
-function pluralString( n, val1, val2 ) { return n == 1 ? val1 : val2 ; }
 
 // --------------------------------------------------------------------
 

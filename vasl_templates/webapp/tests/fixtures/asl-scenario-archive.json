@@ -1,0 +1,137 @@
+{
+
+"_generatedBy_": "(test data)",
+"_generatedAt_": "(just now)",
+
+"scenarios": [
+
+{ "scenario_id": "1",
+    "title": "Full content scenario",
+    "sc_id": "FCS-1",
+    "scen_location": "Some place",
+    "scen_date": "1945-12-31 00:00:00",
+    "theatre": "PTO",
+    "time_to_play": 1.25,
+    "min_turns": "6", "max_turns": "6",
+    "oba": "B", "night": "1", "deluxe": "1", "aslsk": "1",
+    "author": "Joe Author",
+    "pub_name": "ASL Journal",
+    "pub_id": "PUB-1",
+    "publisher_name": "Avalon Hill",
+    "publisher_id": "42",
+    "published_date": "2001-02-03",
+    "prior_publication": "Prior version",
+    "revision": "Revised version",
+    "gps_lat": "1.23", "gps_long": "4.56",
+    "overview": "This is a really good scenario.",
+    "defender": "Dutch",
+    "def_desc": "1st Dutch Army",
+    "attacker": "Romanian",
+    "att_desc": "1st Romanian Army",
+    "maps": [ 1, "2", "RB" ],
+    "mapImages": [
+        "http://localhost:5010/static/images/asl-scenario-archive.png"
+    ],
+    "overlays": [ 1, "2", "OG1" ],
+    "misc": "Some extra rules",
+    "errata": [
+        { "text": "Errata #1", "source": "over there" },
+        { "text": "Errata #2", "source": "right here" }
+    ],
+    "playings": [ {
+        "totalGames": "10",
+        "defender_wins": "3",
+        "attacker_wins": "7"
+    } ]
+},
+
+{ "scenario_id": "2",
+    "title": "Fighting Withdrawal",
+    "sc_id": "FW",
+    "scen_location": "Sestroretsk Road, Terijoki, Finland",
+    "pub_name": "Beyond Valor",
+    "overview": "The Finns, seeking restitution for the Winter War of 1939, had erupted across the borders and breached the Soviet Karelian front even as the crisis to the south of Leningrad came.",
+    "attacker": "Finnish",
+    "defender": "Russians",
+    "playings": [ {
+        "totalGames": "134",
+        "defender_wins": "78",
+        "attacker_wins": "56"
+    } ]
+},
+
+{ "scenario_id": "3a",
+    "title": "MTO Scenario",
+    "theatre": "MTO"
+},
+{ "scenario_id": "3b",
+    "title": "African Scenario",
+    "theatre": "Africa"
+},
+
+{ "scenario_id": "4a",
+    "title": "Unknown players",
+    "attacker": "Oceania",
+    "defender": "Eastasia",
+    "playings": [ {
+        "totalGames": "3",
+        "defender_wins": "2",
+        "attacker_wins": "1"
+    } ]
+},
+{ "scenario_id": "4b",
+    "title": "Test partial nationality matches",
+    "defender": "Massed Russian Hordes",
+    "attacker": "The Japanese"
+},
+{ "scenario_id": "4c",
+    "title": "Test nationality mapping",
+    "defender": "Gurkha",
+    "attacker": "Oh, Canada!"
+},
+
+{ "scenario_id": "5a",
+    "title": "OBA test",
+    "theatre": "ETO",
+    "scen_location": "Some place",
+    "scen_date": "1940-02-01 00:00:00",
+    "defender": "Finnish",
+    "attacker": "German",
+    "oba": "B"
+},
+{ "scenario_id": "5b",
+    "title": "Defender OBA only",
+    "theatre": "ETO",
+    "scen_location": "Some place",
+    "scen_date": "1940-01-01 00:00:00",
+    "defender": "Burmese",
+    "oba": "D"
+},
+{ "scenario_id": "5c",
+    "title": "Attacker OBA only",
+    "theatre": "ETO",
+    "scen_location": "Some place",
+    "scen_date": "1940-01-01 00:00:00",
+    "attacker": "Russian",
+    "defender": "The Other Guy",
+    "oba": "B"
+},
+
+{ "scenario_id": "6a",
+    "title": "ROAR Exact Match",
+    "sc_id": "EXACT-MATCH"
+},
+{ "scenario_id": "6b",
+    "title": "ROAR Exact Match 2",
+    "sc_id": "EXACT-MATCH-2"
+},
+{ "scenario_id": "6c",
+    "title": "ROAR Multiple Matches"
+},
+
+{ "scenario_id": "no-content"
+}
+
+]
+
+}

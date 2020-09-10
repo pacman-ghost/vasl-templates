@@ -1,9 +1,7 @@
 """ Test how players are handled. """
 
-from selenium.webdriver.support.ui import Select
-
 from vasl_templates.webapp.tests.utils import get_nationality_display_name, select_tab, find_child, \
-    init_webapp, load_scenario_params, set_player, \
+    init_webapp, load_scenario_params, set_player, get_player_nat, \
     wait_for, get_sortable_entry_count, click_dialog_button
 
 # ---------------------------------------------------------------------
@@ -21,10 +19,9 @@ def test_player_change( webapp, webdriver ):
 
     # make sure that the UI was updated correctly for the initial players
     for player_no in [1,2]:
-        sel = Select( find_child( "select[name='PLAYER_{}']".format( player_no ) ) )
-        player_id = sel.first_selected_option.get_attribute( "value" )
-        expected = "{} OB".format( get_nationality_display_name(player_id) )
-        assert ob_tabs[player_no].text.strip() == expected
+        player_nat = get_player_nat( player_no )
+        expected = "{} OB".format( get_nationality_display_name( player_nat ) )
+        assert ob_tabs[ player_no ].text.strip() == expected
 
     # check that we can change the player nationalities without being asked to confirm
     # nb: the frontend ignores the vehicle/ordnance snippet widths when deciding if to ask for confirmation

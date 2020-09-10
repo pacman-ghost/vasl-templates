@@ -117,14 +117,16 @@ $(document).ready( function () {
     var navHeight = $("#tabs .ui-tabs-nav").height() ;
     $("#tabs .ui-tabs-nav a").click( function() { $(this).blur() ; } ) ;
 
-    // initialize ROAR integration
-    $("#search-roar").button( {} )
+    // initialize scenario search
+    function scenarioSearchOrInfo( evt ) {
+        if ( ! $( "input[name='ASA_ID']" ).val() || evt.shiftKey )
+            searchForScenario() ;
+        else
+            showScenarioInfo() ;
+    }
+    $(".scenario-search").button( {} )
         .html( "<img src='" + gImagesBaseUrl + "/search.png'>" )
-        .click( search_roar ) ;
-    $("#go-to-roar").button( {} ).click( go_to_roar_scenario ) ;
-    $("#disconnect-roar").button( {} )
-        .html( "<img src='" + gImagesBaseUrl + "/cross.png'>" )
-        .click( disconnect_roar ) ;
+        .click( scenarioSearchOrInfo ) ;
 
     // initialize the scenario theater
     init_select2(
@@ -138,12 +140,6 @@ $(document).ready( function () {
         showAnim: "slideDown",
         changeMonth: true, changeYear: true,
         onClose: on_scenario_date_change,
-    } ) ;
-
-    // initialize the OBA INFO tooltip
-    $( "#oba-info" ).tooltip( {
-        tooltipClass: "oba-info-tooltip",
-        content: make_oba_info_tooltip,
     } ) ;
 
     // initialize the SSR's
@@ -218,14 +214,14 @@ $(document).ready( function () {
         "</div>" ) ;
     }
     init_select2( $( "select[name='PLAYER_1']" ),
-        "12.5em", false, format_player_droplist_item
+        "auto", false, format_player_droplist_item
     ).on( "select2:open", function() {
         on_player_droplist_open( $(this) ) ;
     } ).on( "change", function() {
         on_player_change_with_confirm( 1 ) ;
     } ) ;
     init_select2( $( "select[name='PLAYER_2']" ),
-        "12.5em", false, format_player_droplist_item
+        "auto", false, format_player_droplist_item
     ).on( "select2:open", function() {
         on_player_droplist_open( $(this) ) ;
     } ).on( "change", function() {
@@ -259,6 +255,12 @@ $(document).ready( function () {
     $.getJSON( gAppConfigUrl, function(data) {
         gAppConfig = data ;
         update_page_load_status( "app-config" ) ;
+        // load the available theaters
+        var $sel = $( "select[name='SCENARIO_THEATER']" ) ;
+        gAppConfig.THEATERS.forEach( function( theater ) {
+            $sel.append( $( "<option value='" + theater + "'>" + theater + "</option>" ) ) ;
+        } ) ;
+        // set the alternate webapp base URL
         var alt_base_url = gAppConfig.ALTERNATE_WEBAPP_BASE_URL ;
         if ( alt_base_url ) {
             var $elem = $( "#alt-webapp-base-url" ) ;
@@ -544,16 +546,6 @@ function update_page_load_status( id )
         $("#tabs").tabs({ disabled: [] }) ;
         $("#loader").fadeOut( 500 ) ;
         adjust_footer_vspacers() ;
-        // position the PLAYERS snippet button
-        // FUDGE! Just setting the button's "left" attribute works, except in the Windows desktop app :-/
-        // I think there's a weird timing error wrt wrapping it as a snippet button, but positioning it
-        // via CSS seems to work everywhere :-/
-        var $btn = $( ".snippet-control[data-id='players']" ) ;
-        var $sel = $( ".select2[name='PLAYER_2_SAN']" ) ;
-        var newLeft = $sel.offset().left + $sel.outerWidth() - $btn.outerWidth() ;
-        newLeft -= 5 ; // nb: for the page margin
-        $btn.parent().height( $btn.parent().height() ) ; // nb: this forces a redraw
-        $btn.css( { position: "absolute", left: newLeft, top: $btn.position().top+2 } ) ;
         // NOTE: The watermark image appears briefly in IE when reloading the page, but not even
         // creating the watermark dynamically and removing it when the page unloads fixes it :-(
         $("#watermark").fadeIn( 5*1000 ) ;
@@ -750,52 +742,6 @@ function on_player_change( player_no )
     }
     update_add_vo_button( "vehicles" ) ;
     update_add_vo_button( "ordnance" ) ;
-
-    // update the ROAR info panel
-    set_roar_scenario( $("input[name='ROAR_ID']").val() ) ;
-}
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-function make_oba_info_tooltip()
-{
-    // initialize
-    var buf = [ "<table>" ] ;
-    buf.push( "<tr>", "<th colspan='2' style='font-size:105%;text-align:center;padding:5px;background:#e0e0e0;'> Off-Board Artillery" ) ;
-
-    // initialize
-    var params = {
-        SCENARIO_THEATER: $( "select.param[name='SCENARIO_THEATER']" ).val()
-    } ;
-    var scenario_date = get_scenario_date() ;
-    if ( scenario_date ) {
-        params.SCENARIO_MONTH = 1 + scenario_date.getMonth() ;
-        params.SCENARIO_YEAR = scenario_date.getFullYear() ;
-    }
-
-    // add the OBA info for each player
-    for ( var player_no=1 ; player_no <= 2 ; ++player_no ) {
-        buf.push( "<tr>" ) ;
-        var player_nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
-        var display_name = get_nationality_display_name( player_nat ) ;
-        buf.push( "<td style='font-weight:bold;padding-right:0.5em;white-space:nowrap;'>", display_name+":" ) ;
-        set_nat_caps_params( player_nat, params ) ;
-        if ( ! params.NAT_CAPS )
-            params.NAT_CAPS = { OBA_BLACK: "-", OBA_RED: "-" } ;
-        buf.push( "<td>" ) ;
-        var colors = [ "BLACK", "RED" ] ;
-        for ( var i=0 ; i < colors.length ; ++i ) {
-            var val = params.NAT_CAPS[ "OBA_"+colors[i] ] || "-" ;
-            buf.push( "<span style='display:inline-block;width:2em;'>", val, "</span>" ) ;
-        }
-        if ( params.NAT_CAPS.OBA_COMMENTS ) {
-            for ( i=0 ; i < params.NAT_CAPS.OBA_COMMENTS.length ; ++i )
-                buf.push( "<tr>", "<td>", "<td style='font-size:90%;font-style:italic;color:#404040;'>", params.NAT_CAPS.OBA_COMMENTS[i] ) ;
-        }
-    }
-
-    buf.push( "</table>" ) ;
-    return buf.join( "" ) ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -821,7 +767,9 @@ function update_nationality_specific_buttons( player_no )
 {
     // initialize
     var player_nat = $( "select[name='PLAYER_" + player_no + "']" ).val() ;
-    var theater = $( "select.param[name='SCENARIO_THEATER']" ).val().toLowerCase() ;
+    var theater = $( "select.param[name='SCENARIO_THEATER']" ).val() ;
+    if ( theater )
+        theater = theater.toLowerCase() ;
 
     // hide/show each nationality-specific button
     var $elem ;

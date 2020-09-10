@@ -4,51 +4,34 @@
 
 #panel-scenario .row { display: flex ; align-items: center ; }
 #panel-scenario input { flex-grow: 1 ; }
-#panel-scenario input[name='SCENARIO_ID'] { margin-left: 0.25em ; width: 80px ; flex-grow: 0 ; }
-#panel-scenario #search-roar { width: 25px ; height: 22px ; margin: 0 0 0 0.25em ; padding: 0 ; margin-top:-4px; }
-#panel-scenario #search-roar img { margin-top: 2px ; width: 16px ; }
+#panel-scenario input[name='SCENARIO_ID'] { margin-left: 0.25em ; width: 80px ; flex-grow: 0 ; text-align: right ; }
+#panel-scenario .scenario-search { width: 25px ; height: 22px ; margin: 0 0 0 0.25em ; padding: 0 ; margin-top:-4px; }
+#panel-scenario .scenario-search img { margin-top: 2px ; width: 16px ; }
 #panel-scenario input[name='SCENARIO_DATE'] { width: 6em ; flex-grow: 0 ; }
 
 #panel-scenario label[for='PLAYER_1'] { margin-top: 2px ; }
+#panel-scenario .select2[name="PLAYER_1"] { flex: 1 ; }
 #panel-scenario label[for='PLAYER_2'] { margin-top: 2px ; }
+#panel-scenario .select2[name="PLAYER_2"] { flex: 1 ; }
 
-#panel-scenario label { font-weight: bold ; width: 5em ; }
+#panel-scenario input[name="PLAYER_1_DESCRIPTION"],
+#panel-scenario input[name="PLAYER_2_DESCRIPTION"] {
+    margin-left: calc(6.35em + 2px) ; margin-top: 1px ; font-size: 75% ;
+}
+
+#panel-scenario label { font-weight: bold ; width: 4.75em ; }
 #panel-scenario label.header { font-weight: bold ; width: 3em ; text-align: center ; }
 #panel-scenario input { margin-bottom: 0.25em ; }
-
-#panel-scenario #oba-info { height: 1em ; }
-.oba-info-tooltip { max-width: 500px ; }
 
 #panel-scenario .select2-container { margin: 2px ; }
 #panel-scenario .select2-selection__rendered { height: 23px ; line-height: 23px ; }
 #panel-scenario .select2-selection__arrow { margin-top: -2px ; }
 #panel-scenario .select2-selection { height: 24px !important ; border-radius: 0 !important ; }
 
+#panel-scenario .select2[name="SCENARIO_THEATER"] { margin-left: 0.25em ; margin-right: 0 ; }
 #panel-scenario .select2-container[name="SCENARIO_THEATER"] .select2-selection { height: 22px !important ; margin-top: -4px ; }
 #panel-scenario .select2-container[name="SCENARIO_THEATER"] .select2-selection__rendered { height: 20px ; line-height: 20px ; }
 #panel-scenario .select2-container[name="SCENARIO_THEATER"] .select2-selection__arrow { margin-top: -6px ; }
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
-#roar-info { position: relative ; margin-top: 0.75em ; border: 1px dotted #ccc ; border-radius: 3px ; padding: 0.5em ; background: #fcfcfc ; }
-#roar-info .name { font-size: 90% ; }
-#roar-info .count { font-size: 70% ; font-style: italic ; color: #666 ; }
-#roar-info .progressbar { width: 4em ; height: 1em ; }
-#roar-info .progressbar.player1 { background: #ffffcc ; border-top-right-radius: 0 ; border-bottom-right-radius: 0 ; border-right: 0 !important ; }
-#roar-info .progressbar.player1 .ui-progressbar-value { background: #fff ; border-right: 1px solid #eee ; }
-#roar-info .progressbar.player2 { background: #fff ; border-top-left-radius: 0 ; border-bottom-left-radius: 0 ; }
-#roar-info .progressbar.player2 .ui-progressbar-value { background: #ffffcc ; border-right: 1px solid #eee ; }
-
-#roar-info .progressbar { position: relative ; }
-#roar-info .progressbar .label { position: absolute ; font-size: 80% ; font-style: italic ; color: #666 ; left: 35% ; }
-
-input[name='ROAR_ID'] { flex-grow: 0 !important ; width: 3em ; }
-
-button#go-to-roar { height: 2em ; width: 4em ; margin-right: 0.5em ; padding: 2px 5px ; background: #ffffcc ; font-weight: bold ; }
-button#disconnect-roar { background: #fcfcfc ; width: 20px ; height: 19px ; padding: 0 ; border: none ;
-    position: absolute ; right: -2px ; top: 0 ;
-}
-button#disconnect-roar img { width: 12px ; }
 
 /* -------------------------------------------------------------------- */
 

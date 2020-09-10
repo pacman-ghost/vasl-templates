@@ -54,12 +54,15 @@ def test_full_update( webapp, webdriver ):
                 "SCENARIO_THEATER": "PTO",
                 "SCENARIO_DATE": "12/31/1945",
                 "SCENARIO_WIDTH": "101",
-                "ROAR_ID": "",
+                "ASA_ID": "", "ROAR_ID": "",
                 # NOTE: We used to change both nationalities here, but since we started tagging labels
                 # with their owning player, the old labels would be left in-place, so we have to test
                 # using the same nationalities.
                 "PLAYER_1": "american", "PLAYER_1_ELR": "5", "PLAYER_1_SAN": "4",
+                "PLAYER_1_DESCRIPTION": "The Americans",
                 "PLAYER_2": "belgian", "PLAYER_2_ELR": "3", "PLAYER_2_SAN": "2",
+                "PLAYER_2_DESCRIPTION": "The Belgians",
+                "PLAYERS_WIDTH": "42",
                 "VICTORY_CONDITIONS": "Just do it!", "VICTORY_CONDITIONS_WIDTH": "102",
                 "SCENARIO_NOTES": [
                     { "caption": "Modified scenario note #1", "width": "" },

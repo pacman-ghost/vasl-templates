@@ -4,16 +4,6 @@ var _MANDATORY_PARAMS = {
     scenario: { "SCENARIO_NAME": "scenario name", "SCENARIO_DATE": "scenario date" },
 } ;
 
-var _MONTH_NAMES = [ // nb: we assume English :-/
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-] ;
-var _DAY_OF_MONTH_POSTFIXES = { // nb: we assume English :-/
-    0: "th",
-    1: "st", 2: "nd", 3: "rd", 4: "th", 5: "th", 6: "th", 7: "th", 8: "th", 9: "th", 10: "th",
-    11: "th", 12: "th", 13: "th"
-} ;
-
 // NOTE: Blood & Jungle has a lot of multi-applicable notes that simply refer to other
 // multi-applicable notes e.g. "Fr C" = "French Multi-Applicable Note C".
 // NOTE: These are also used for Lend-Lease vehicles.
@@ -818,14 +808,9 @@ function unload_snippet_params( unpack_scenario_date, template_id )
         var scenario_date = get_scenario_date() ;
         if ( scenario_date ) {
             params.SCENARIO_DAY_OF_MONTH = scenario_date.getDate() ;
-            var postfix ;
-            if ( params.SCENARIO_DAY_OF_MONTH in _DAY_OF_MONTH_POSTFIXES )
-                postfix = _DAY_OF_MONTH_POSTFIXES[ params.SCENARIO_DAY_OF_MONTH ] ;
-            else
-                postfix = _DAY_OF_MONTH_POSTFIXES[ params.SCENARIO_DAY_OF_MONTH % 10 ] ;
-            params.SCENARIO_DAY_OF_MONTH_POSTFIX = params.SCENARIO_DAY_OF_MONTH + postfix ;
+            params.SCENARIO_DAY_OF_MONTH_POSTFIX = make_formatted_day_of_month( params.SCENARIO_DAY_OF_MONTH ) ;
             params.SCENARIO_MONTH = 1 + scenario_date.getMonth() ;
-            params.SCENARIO_MONTH_NAME = _MONTH_NAMES[scenario_date.getMonth()] ;
+            params.SCENARIO_MONTH_NAME = get_month_name( scenario_date.getMonth() ) ;
             params.SCENARIO_YEAR = scenario_date.getFullYear() ;
         }
     }
@@ -1586,8 +1571,8 @@ function do_load_scenario_data( params )
         }
         else {
             $elem.val( params[key] ) ;
-            if ( key === "ROAR_ID" )
-                set_roar_scenario( params[key] ) ;
+            if ( key === "ASA_ID" )
+                updateForConnectedScenario( params[key], params.ROAR_ID ) ;
         }
         if ( $elem[0].nodeName.toLowerCase() === "select" )
             $elem.trigger( "change" ) ;
@@ -1680,8 +1665,8 @@ function do_load_scenario_data( params )
                 set_param( $(this), key ).trigger( "change" ) ;
         } ) ;
     }
-    if ( ! params.ROAR_ID )
-        set_roar_scenario( null ) ;
+    if ( ! params.ASA_ID )
+        updateForConnectedScenario( null, null ) ;
 
     // look for unrecognized keys
     var buf = [] ;

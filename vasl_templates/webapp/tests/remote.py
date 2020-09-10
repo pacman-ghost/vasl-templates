@@ -22,7 +22,7 @@ from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp.vasl_mod import set_vasl_mod
 from vasl_templates.webapp import main as webapp_main
 from vasl_templates.webapp import snippets as webapp_snippets
-from vasl_templates.webapp import roar as webapp_roar
+from vasl_templates.webapp import scenarios as webapp_scenarios
 from vasl_templates.webapp import vasl_mod as vasl_mod_module
 from vasl_templates.webapp import vo_utils as vo_utils_module
 
@@ -314,9 +314,18 @@ class ControlTests:
             dname = os.path.join( os.path.split(__file__)[0], "fixtures" )
             fname = os.path.join( dname, fname )
             _logger.info( "Setting the ROAR scenario index file: %s", fname )
-            with open( fname, "r" ) as fp:
-                with webapp_roar._roar_scenario_index_lock: #pylint: disable=protected-access
-                    webapp_roar._roar_scenario_index = json.load( fp ) #pylint: disable=protected-access
+            webapp_scenarios._roar_scenarios._set_data( fname ) #pylint: disable=protected-access
+        else:
+            assert False
+        return self
+
+    def _set_scenario_index( self, fname=None ):
+        """Set the scenario index file."""
+        if fname:
+            dname = os.path.join( os.path.split(__file__)[0], "fixtures" )
+            fname = os.path.join( dname, fname )
+            _logger.info( "Setting the scenario index file: %s", fname )
+            webapp_scenarios._asa_scenarios._set_data( fname ) #pylint: disable=protected-access
         else:
             assert False
         return self
