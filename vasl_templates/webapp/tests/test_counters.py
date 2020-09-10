@@ -111,7 +111,7 @@ def test_counter_images( webapp ):
     save_dir = os.environ.get( "COUNTERS_SAVEDIR" ) # nb: define this to save the generated reports
     if save_dir and os.path.isdir(save_dir):
         shutil.rmtree( save_dir )
-    os.makedirs( save_dir )
+        os.makedirs( save_dir )
 
     # test each VASL module file in the specified directory
     failed = False
