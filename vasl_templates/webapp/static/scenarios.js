@@ -395,6 +395,13 @@ function loadScenarioCard( $target, scenarioId, briefMode, scenarioDateOverride,
     }
     gActiveScenaridCardRequest = scenarioId ;
 
+    // initialize
+    // NOTE: We tag the scenario card with a seq# for the benefit of the test suite, so that it can tell
+    // when a scenario card has finished loading, and it's safe to read values out of the UI.
+    // It won't work under load, but we only need it for the simple case of a single request coming in,
+    // and waiting for it to load completely.
+    var seqNo = $target.attr( "data-seqNo" ) || 1 ;
+
     // load the specified scenario
     var url = gGetScenarioCardUrl.replace( "ID", scenarioId ) ;
     if ( briefMode )
@@ -431,6 +438,7 @@ function loadScenarioCard( $target, scenarioId, briefMode, scenarioDateOverride,
             $target.html( $card ).fadeIn( 100 ) ;
             $target.attr( "data-id", scenarioId ) ;
             onDone( scenario ) ;
+            $target.attr( "data-seqNo", parseInt(seqNo)+1 ) ;
         } ) ;
 
     } ).fail( onError ) ;

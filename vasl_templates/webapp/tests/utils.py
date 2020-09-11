@@ -589,11 +589,11 @@ def wait_for( timeout, func ):
         assert time.time() - start_time < timeout
         time.sleep( 0.1 )
 
-def wait_for_elem( timeout, elem_id, parent=None ):
+def wait_for_elem( timeout, sel, parent=None ):
     """Wait for an element to appear ."""
     args = { "elem": None }
     def check_elem(): #pylint: disable=missing-docstring
-        args["elem"] = find_child( elem_id, parent )
+        args["elem"] = find_child( sel, parent )
         return args["elem"] is not None and args["elem"].is_displayed()
     wait_for( timeout, check_elem )
     return args["elem"]

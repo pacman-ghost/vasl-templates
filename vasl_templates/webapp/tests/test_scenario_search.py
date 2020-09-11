@@ -1,12 +1,11 @@
 """" Test scenario search. """
 
 import os
-import time
 
 import pytest
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import ElementClickInterceptedException, ElementNotInteractableException
+from selenium.common.exceptions import StaleElementReferenceException
 
 from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
 from vasl_templates.webapp.tests.utils import init_webapp, select_tab, new_scenario, \
@@ -76,37 +75,38 @@ def test_import_scenario( webapp, webdriver ):
     # import the "full" scenario
     dlg = _do_scenario_search( "full", [1], webdriver )
     find_child( "button.import", dlg ).click()
-    _check_scenario(
+    wait_for( 2, lambda: _check_scenario(
         SCENARIO_NAME="Full content scenario", SCENARIO_ID="FCS-1",
         SCENARIO_LOCATION="Some place",
         PLAYER_1="dutch", PLAYER_1_DESCRIPTION="1st Dutch Army",
         PLAYER_2="romanian", PLAYER_2_DESCRIPTION="1st Romanian Army",
         THEATER="PTO"
-    )
+    ) )
 
     # import the "empty" scenario
     _unlink_scenario()
     dlg = _do_scenario_search( "Untitled", ["no-content"], webdriver )
-    find_child( "button.import", dlg ).click()
-    find_child( "button.confirm-import", dlg ).click()
+    _import_scenario_and_confirm( dlg )
     # NOTE: Since there are no players defined in the scenario, what's on-screen will be left unchanged.
-    _check_scenario(
+    wait_for( 2, lambda: _check_scenario(
         SCENARIO_NAME="Untitled scenario (#no-content)", SCENARIO_ID="",
         SCENARIO_LOCATION="",
         PLAYER_1="dutch", PLAYER_1_DESCRIPTION="",
         PLAYER_2="romanian", PLAYER_2_DESCRIPTION="",
         THEATER="ETO"
-    )
+    ) )
 
 def _check_scenario( **kwargs ):
     """Check the scenario import."""
-    keys = [ "SCENARIO_NAME", "SCENARIO_ID", "SCENARIO_LOCATION", "PLAYER_1_DESCRIPTION", "PLAYER_2_DESCRIPTION" ]
-    for key in keys:
+    for key in ["SCENARIO_NAME","SCENARIO_ID","SCENARIO_LOCATION","PLAYER_1_DESCRIPTION","PLAYER_2_DESCRIPTION"]:
         elem = find_child( "input[name='{}']".format( key ) )
-        assert elem.get_attribute( "value" ) == kwargs[ key ]
-    assert get_player_nat( 1 ) == kwargs[ "PLAYER_1" ]
-    assert get_player_nat( 2 ) == kwargs[ "PLAYER_2" ]
-    assert get_theater() == kwargs[ "THEATER" ]
+        if elem.get_attribute( "value" ) != kwargs[ key ]:
+            return False
+    if get_player_nat( 1 ) != kwargs["PLAYER_1"] or get_player_nat( 2 ) != kwargs["PLAYER_2"]:
+        return False
+    if get_theater() != kwargs[ "THEATER" ]:
+        return False
+    return True
 
 # ---------------------------------------------------------------------
 
@@ -120,6 +120,10 @@ def test_import_warnings( webapp, webdriver ): #pylint: disable=too-many-stateme
     dlg = _do_scenario_search( "full", [1], webdriver )
     find_child( "button.import", dlg ).click()
     wait_for( 2, lambda: not dlg.is_displayed() )
+
+    def check_warnings( expected ): #pylint: disable=missing-docstring
+        warnings = find_children( ".warnings input[type='checkbox']", dlg )
+        return [ w.get_attribute( "name" ) for w in warnings ] == expected
 
     def do_test( param_name, expected_warning, expected_val, curr_val="CURR-VAL" ): #pylint: disable=missing-docstring
 
@@ -137,22 +141,17 @@ def test_import_warnings( webapp, webdriver ): #pylint: disable=too-many-stateme
         elem = find_child( "[name='{}']".format( param_name ) )
         if expected_warning:
             # yup - make sure they are being shown
-            warnings = find_children( ".warnings input[type='checkbox']", dlg )
-            if expected_warning:
-                assert [ w.get_attribute( "name" ) for w in warnings ] == [ expected_warning ]
-            else:
-                assert not warnings
+            wait_for( 2, lambda: check_warnings( [expected_warning] ) )
             # cancel the import
             find_child( "button.cancel-import", dlg ).click()
             wait_for( 2, lambda: not find_child( ".warnings", dlg ).is_displayed() )
             # do the import again, and accept it
-            find_child( "#scenario-search button.import" ).click()
-            find_child( "button.confirm-import", dlg ).click()
-            assert not dlg.is_displayed()
+            _import_scenario_and_confirm( dlg )
             assert elem.get_attribute( "value" ) == expected_val
         else:
             # nope - check that the import was done
-            assert not dlg.is_displayed()
+            wait_for( 2, lambda: not dlg.is_displayed() )
+            # assert not dlg.is_displayed()
             assert elem.get_attribute( "value" ) == expected_val
 
     # do the tests
@@ -171,10 +170,10 @@ def test_import_warnings( webapp, webdriver ): #pylint: disable=too-many-stateme
     load_scenario( {
         "PLAYER_1": "dutch",
     } )
-    _do_scenario_search( "full", [1], webdriver )
-    find_child( "#scenario-search button.import" ).click()
-    warnings = find_children( ".warnings input[type='checkbox']", dlg )
-    assert [ w.get_attribute( "name" ) for w in warnings ] == []
+    dlg = _do_scenario_search( "full", [1], webdriver )
+    find_child( "button.import", dlg ).click()
+    check_warnings( [] )
+    wait_for( 2, lambda: not dlg.is_displayed() )
 
     # test importing a scenario on top of existing OB owned by the same nationality
     new_scenario()
@@ -182,8 +181,8 @@ def test_import_warnings( webapp, webdriver ): #pylint: disable=too-many-stateme
         "PLAYER_1": "dutch",
         "OB_SETUPS_1": [ { "caption": "Dutch setup note" } ]
     } )
-    _do_scenario_search( "full", [1], webdriver )
-    find_child( "#scenario-search button.import" ).click()
+    dlg = _do_scenario_search( "full", [1], webdriver )
+    find_child( "button.import", dlg ).click()
     wait_for( 2, lambda: not dlg.is_displayed() )
 
     # test importing a scenario on top of existing OB owned by the different nationality
@@ -192,18 +191,13 @@ def test_import_warnings( webapp, webdriver ): #pylint: disable=too-many-stateme
         "PLAYER_1": "german",
         "OB_SETUPS_1": [ { "caption": "German setup note" } ]
     } )
-    _do_scenario_search( "full", [1], webdriver )
-    find_child( "#scenario-search button.import", dlg ).click()
+    dlg = _do_scenario_search( "full", [1], webdriver )
+    find_child( "button.import", dlg ).click()
     warnings = wait_for( 2, lambda: find_children( ".warnings input[type='checkbox']", dlg ) )
     assert [ w.get_attribute( "name" ) for w in warnings ] == [ "defender_name" ]
     assert not warnings[0].is_selected()
-    try:
-        warnings[0].click()
-    except (ElementClickInterceptedException, ElementNotInteractableException):
-        # FUDGE! We sometimes get a "Other element would receive the click" (div.warning) error,
-        # I suspect because the warnings panel is still sliding up.
-        time.sleep( 0.5 )
-        warnings[0].click()
+    wait_for( 2, lambda: warnings[0].is_displayed() )
+    warnings[0].click()
     find_child( "button.confirm-import", dlg ).click()
     assert not dlg.is_displayed()
     assert get_player_nat( 1 ) == "dutch"
@@ -230,7 +224,7 @@ def test_oba_info( webapp, webdriver ):
     check_oba_info( _unload_scenario_card(), expected )
 
     # import the scenario and check the OBA info
-    find_child( "button.import" ).click()
+    find_child( "button.import", dlg ).click()
     wait_for( 2, lambda: not dlg.is_displayed() )
     check_oba_info( _get_scenario_info(), expected )
 
@@ -247,14 +241,14 @@ def test_oba_info( webapp, webdriver ):
     check_oba_info( _get_scenario_info(), expected )
 
     # check a scenario where only the defender has OBA
-    dlg = _do_scenario_search( "Defender OBA", ["5b"], webdriver )
+    _do_scenario_search( "Defender OBA", ["5b"], webdriver )
     check_oba_info( _unload_scenario_card(), [
         [ "Burmese", "-", "-" ],
         None
     ] )
 
     # check a scenario where the attacker has OBA, the defender is an unknwon nationality
-    dlg = _do_scenario_search( "Attacker OBA", ["5c"], webdriver )
+    _do_scenario_search( "Attacker OBA", ["5c"], webdriver )
     check_oba_info( _unload_scenario_card(), [
         [ "The Other Guy", "?", "?" ],
         [ "Russian", "3B", "4R" ]
@@ -410,70 +404,81 @@ def test_roar_linking( webapp, webdriver ):
     def check( bgraph, connect, disconnect ):
         """Check the scenario card."""
 
-        # unload the scenario card
-        if find_child( "#scenario-search" ).is_displayed():
-            parent = find_child( "#scenario-search .scenario-card" )
-        elif find_child( "#scenario-info-dialog" ).is_displayed():
-            parent = find_child( "#scenario-info-dialog .scenario-card" )
-        else:
-            assert False
-        card = _unload_scenario_card()
-
         # check if the balance graph is shown
+        try:
+            card = _unload_scenario_card()
+        except StaleElementReferenceException:
+            # NOTE: We can get here if the scenario card is reloaded while we're reading it.
+            return False
         if bgraph:
-            balance = card["balances"]["roar"]
-            assert balance[0]["name"] == bgraph[0]
-            assert balance[1]["name"] == bgraph[1]
+            balance = card["balances"].get( "roar" )
+            if not balance:
+                return False
+            if balance[0]["name"] != bgraph[0] or balance[1]["name"] != bgraph[1]:
+                return False
         else:
-            assert "roar" not in card["balances"]
+            if "roar" in card["balances"]:
+                return False
 
         # check if the "connect to ROAR" button is shown
-        elem = find_child( ".connect-roar", parent )
+        elem = find_child( "#scenario-info-dialog .connect-roar" )
         if connect:
-            assert elem.is_displayed()
+            if not elem.is_displayed():
+                return False
         else:
-            assert not elem.is_displayed()
+            if elem and elem.is_displayed():
+                return False
 
         # check if the "disconnect from ROAR" is shown
-        elem = find_child( ".disconnect-roar", parent )
+        elem = find_child( "#scenario-info-dialog .disconnect-roar" )
         if disconnect:
-            assert elem.is_displayed()
+            if not elem.is_displayed():
+                return False
         else:
-            assert not elem or not elem.is_displayed()
+            if elem and elem.is_displayed():
+                return False
+
+        return True
+
+    def disconnect_roar():
+        """Disconnect the scenario from ROAR."""
+        btn = find_child( "#scenario-info-dialog .disconnect-roar" )
+        btn.click()
+        wait_for( 2, lambda: not btn.is_displayed() )
+        wait_for( 2, lambda: check( None, True, False ) )
 
     # import the "Fighting Withdrawal" scenario
-    _do_scenario_search( "withdrawal", [2], webdriver )
-    check( ["Russian","Finnish"], False, False )
+    dlg = _do_scenario_search( "withdrawal", [2], webdriver )
+    wait_for( 2, lambda: check( ["Russian","Finnish"], False, False ) )
     find_child( "#scenario-search button.import" ).click()
+    wait_for( 2, lambda: not dlg.is_displayed() )
 
     # connect to another ROAR scenario
     find_child( "button.scenario-search" ).click()
-    check( ["Russian","Finnish"], False, True )
-    find_child( "#scenario-info-dialog .disconnect-roar" ).click()
-    check( None, True, False )
+    wait_for( 2, lambda: check( ["Russian","Finnish"], False, True ) )
+    disconnect_roar()
     find_child( "#scenario-info-dialog .connect-roar" ).click()
     dlg = wait_for_elem( 2, ".ui-dialog.select-roar-scenario" )
     find_child( ".select2-search__field", dlg ).send_keys( "another" )
     find_child( ".select2-search__field", dlg ).send_keys( Keys.RETURN )
-    check( ["British","French"], False, True )
+    wait_for( 2, lambda: check( ["British","French"], False, True ) )
     find_child( ".ui-dialog.scenario-info button.ok" ).click()
 
     # disconnect from the ROAR scenario
     find_child( "button.scenario-search" ).click()
-    check( ["British","French"], False, True )
-    find_child( "#scenario-info-dialog .disconnect-roar" ).click()
-    check( None, True, False )
+    wait_for( 2, lambda: check( ["British","French"], False, True ) )
+    disconnect_roar()
     find_child( ".ui-dialog.scenario-info button.ok" ).click()
 
     # connect to a ROAR scenario
     find_child( "button.scenario-search" ).click()
-    check( None, True, False )
+    wait_for( 2, lambda: check( None, True, False ) )
     find_child( "#scenario-info-dialog .connect-roar" ).click()
     dlg = wait_for_elem( 2, ".ui-dialog.select-roar-scenario" )
     elem = find_child( ".select2-search__field", dlg )
     elem.send_keys( "withdrawal" )
     elem.send_keys( Keys.RETURN )
-    check( ["Russian","Finnish"], False, True )
+    wait_for( 2, lambda: check( ["Russian","Finnish"], False, True ) )
     find_child( ".ui-dialog.scenario-info button.ok" ).click()
 
 # ---------------------------------------------------------------------
@@ -512,15 +517,13 @@ def test_scenario_linking( webapp, webdriver ):
     check( "1" )
 
     # import the "empty" scenario (on top of the current scenario)
-    _do_scenario_search( "Untitled", ["no-content"], webdriver )
-    find_child( "#scenario-search button.import" ).click()
-    find_child( "#scenario-search button.confirm-import" ).click()
+    dlg = _do_scenario_search( "Untitled", ["no-content"], webdriver )
+    _import_scenario_and_confirm( dlg )
     check( "no-content" )
 
     # import the "Fighting Withdrawal" scenario (on top of the current scenario)
-    _do_scenario_search( "Fighting Withdrawal", [2], webdriver )
-    find_child( "#scenario-search button.import" ).click()
-    find_child( "#scenario-search button.confirm-import" ).click()
+    dlg = _do_scenario_search( "Fighting Withdrawal", [2], webdriver )
+    _import_scenario_and_confirm( dlg )
     check( "2" )
 
     # unlink the scenario
@@ -541,12 +544,29 @@ def _do_scenario_search( query, expected, webdriver ):
         dlg = wait_for_elem( 2, "#scenario-search" )
         ActionChains( webdriver ).key_up( Keys.SHIFT ).perform()
 
+    # initialize
+    card = find_child( ".scenario-card", dlg )
+    seq_no = card.get_attribute( "data-seqNo" )
+
     # do the search and check the results
     elem = find_child( "input.select2-search__field", dlg )
     elem.clear()
-    elem.send_keys( query )
-    results = _unload_search_results()
-    assert [ r[0] for r in results ] == [ str(e) for e in expected ]
+    # IMPORTANT: We can't use send_keys() here because it simulates a key-press for each character in the query,
+    # and the incremental search feature means that we will constantly be loading scenario cards as the results
+    # change, which makes it difficult for us to be able to tell when everything's stopped and it's safe to unload
+    # the scenario card. Instead, we manually load the text box and trigger an event to update the UI.
+    webdriver.execute_script(
+        "arguments[0].value = arguments[1] ; $(arguments[0]).trigger('input')",
+        elem, query
+    )
+    def check_search_results(): #pylint: disable=missing-docstring
+        results = _unload_search_results()
+        return [ r[0] for r in results ] == [ str(e) for e in expected ]
+    wait_for( 2, check_search_results )
+
+    # wait for the scenario card to finish loading
+    # NOTE: We do this here since the typical use case is to search for something, then check what was found.
+    wait_for( 2, lambda: card.get_attribute( "data-seqNo" ) != seq_no )
 
     return dlg
 
@@ -560,12 +580,8 @@ def _unload_search_results():
 def _unload_scenario_card(): #pylint: disable=too-many-branches,too-many-locals
     """Unload the scenario card."""
 
-    if find_child( "#scenario-search" ).is_displayed():
-        card = find_child( "#scenario-search .scenario-card" )
-    elif find_child( "#scenario-info-dialog" ).is_displayed():
-        card = find_child( "#scenario-info-dialog .scenario-card" )
-    else:
-        assert False
+    # initialize
+    card = wait_for( 2, _find_scenario_card )
     results = {}
 
     # unload the basic text content
@@ -653,7 +669,7 @@ def _unload_scenario_card(): #pylint: disable=too-many-branches,too-many-locals
             comments = find_child( ".{} .comments".format(player), oba ).text
             if comments:
                 oba_info[-1].extend( comments.split( "\n" ) )
-        elem =  find_child( ".date-warning", oba )
+        elem = find_child( ".date-warning", oba )
         if elem.is_displayed():
             oba_info.append( elem.text )
         results[ "oba" ] = oba_info
@@ -754,3 +770,18 @@ def _unlink_scenario():
     btn = find_children( ".ui-dialog .ui-dialog-buttonpane button" )[1]
     assert btn.text == "Unlink"
     btn.click()
+
+def _import_scenario_and_confirm( dlg ):
+    """Import a scenario, confirming any warnings."""
+    find_child( "button.import", dlg ).click()
+    btn = wait_for_elem( 2, "button.confirm-import", dlg )
+    btn.click()
+    wait_for( 2, lambda: not dlg.is_displayed() )
+
+def _find_scenario_card():
+    """Find the currently-displayed scenario card."""
+    if find_child( "#scenario-search" ).is_displayed():
+        return find_child( "#scenario-search .scenario-card" )
+    if find_child( "#scenario-info-dialog" ).is_displayed():
+        return find_child( "#scenario-info-dialog .scenario-card" )
+    return None
