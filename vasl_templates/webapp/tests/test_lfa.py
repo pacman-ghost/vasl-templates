@@ -75,7 +75,7 @@ def test_full( webapp, webdriver ):
         ] )
 
         # check the results
-        assert lfa["hotness"] == [ ["Alice","1.367"], ["Bob","-0.927"] ]
+        assert lfa["hotness"] == [ ["Alice","1.277"], ["Bob","-1.853"] ]
 
         # switch to showing the Morale Check DR's and check the results
         _select_roll_type( "MC" )
@@ -94,7 +94,7 @@ def test_full( webapp, webdriver ):
             ["","","7"],
             [ "Axis 1 DFPh", "3", "" ],
         ] )
-        assert lfa["hotness"] == [ ["Alice","287.445"], ["Bob","0.000"] ]
+        assert lfa["hotness"] == [ ["Alice","255.506"], ["Bob","0.000"] ]
 
         # switch to showing the Sniper Activation DR's and check the results
         _select_roll_type( "SA" )
@@ -273,7 +273,7 @@ def test_multiple_files( webapp, webdriver ):
             [ "Allied 1 MPh", "7", "" ],
             ["","","10"],
         ]
-        assert lfa["hotness"] == [ ["Alice","7.673"], ["Bob","-5.484"] ]
+        assert lfa["hotness"] == [ ["Alice","6.821"], ["Bob","-8.984"] ]
         _select_roll_type( "RS" )
         lfa = _get_chart_data( 1 )
         assert lfa["timePlot"] == [
@@ -305,7 +305,7 @@ def test_multiple_files( webapp, webdriver ):
                 [ "UN 1 PFPh", "", "4", "" ],
                 ["","","","9"],
             ]
-            assert lfa["hotness"] == [ ["Alice","28.512"], ["Bob","-3.336"], ["Chuck","-71.744"] ]
+            assert lfa["hotness"] == [ ["Alice","27.322"], ["Bob","-6.672"], ["Chuck","-69.015"] ]
             _select_roll_type( "RS" )
             lfa = _get_chart_data( 1 )
             assert lfa["timePlot"] == [
@@ -334,7 +334,7 @@ def test_multiple_files( webapp, webdriver ):
             [ "Allied 1 PFPh", "3", "" ],
             ["","","8"],
         ]
-        assert lfa["hotness"] == [ ["Alice","28.512"], ["Bob","-10.944"] ]
+        assert lfa["hotness"] == [ ["Alice","27.322"], ["Bob","-21.889"] ]
         _select_roll_type( "RS" )
         lfa = _get_chart_data( 1 )
         assert lfa["timePlot"] == [
@@ -360,7 +360,7 @@ def test_multiple_files( webapp, webdriver ):
             [ "UN 1 PFPh", "4", "" ],
             ["","","9"],
         ]
-        assert lfa["hotness"] == [ ["Bob","0.000"], ["Chuck","-71.744"] ]
+        assert lfa["hotness"] == [ ["Bob","0.000"], ["Chuck","-69.015"] ]
         _select_roll_type( "RS" )
         lfa = _get_chart_data( 1 )
         assert lfa["timePlot"] == [

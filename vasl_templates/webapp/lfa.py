@@ -14,8 +14,8 @@ from vasl_templates.webapp.utils import SimpleError, TempFile
 
 # weights for each possible roll value
 DEFAULT_LFA_DICE_HOTNESS_WEIGHTS = {
-    "DR": { 2: 30, 3: 18, 4: 10, 5: 5, 6: 2, 7: 0, 8: -2, 9: -5, 10: -10, 11: -18, 12: -30 },
-    "dr": { 1: 5, 2: 2.5, 3: 1, 4: -1, 5: -2.5, 6: -5 }
+    "DR": { 2: 20, 3: 16, 4: 12, 5: 8, 6: 4, 7: 0, 8: -4, 9: -8, 10: -12, 11: -16, 12: -20 },
+    "dr": { 1: 3, 2: 2, 3: 1, 4: -1, 5: -2, 6: -3 }
 }
 
 # minimum number of rolls for dice hotness to be considered reasonable
