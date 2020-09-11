@@ -411,11 +411,9 @@ function initSelectFilePopup()
     gEventHandlers.addHandler( $gBanner.find( ".select-file" ), "click", function( evt ) {
         // show the popup
         closeAllPopupsAndDropLists() ;
-        var pos = $(this).offset() ;
-        $gSelectFilePopup.css( { position: "absolute",
-            top: pos.top + $(this).height(),
-            left: pos.left + $(this).outerWidth() - $gSelectFilePopup.outerWidth() - 2,
-        } ).show() ;
+        $gSelectFilePopup.show().position( {
+            my: "right top", at: "right+3 bottom+5", of: $(this), collision: "fit"
+        } ) ;
         $currSel.prop( "checked", true ).focus() ;
         stopEvent( evt ) ;
     } ) ;
