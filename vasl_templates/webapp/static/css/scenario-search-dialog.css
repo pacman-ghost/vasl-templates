@@ -16,8 +16,8 @@
 #scenario-search .select2-dropdown { border: none ; }
 #scenario-search .select2-search--dropdown { padding: 0 0 0.5em 0 ; }
 
-#scenario-search .select2-results__option { padding-left: 4px ; }
-#scenario-search .select2-results__option--highlighted[aria-selected] { margin: 2px 2px -4px 0 ; padding-top:4px ; color: #f0f0f0 ; }
+#scenario-search .select2-results__options { padding: 0 0.25em ; }
+#scenario-search .select2-results__option--highlighted[aria-selected] { color: #f0f0f0 ; }
 #scenario-search .select2-results__option--highlighted[aria-selected] .scenario-date { color: #f0f0f0 ; }
 #scenario-search .select2-results__option--highlighted[aria-selected] .publication-name { color: #f0f0f0 ; }
 #scenario-search .select2-results__option--highlighted[aria-selected] .publisher-name { color: #f0f0f0 ; }
@@ -25,10 +25,10 @@
 #scenario-search .select2-results__option[aria-selected] { background: #fff ; }
 #scenario-search .select2-results__option--highlighted[aria-selected] { background: #5897fb ; }
 
-#scenario-search .select2-results__option { padding-bottom: 0 ; }
-#scenario-search .select2-results__option--highlighted { background: #5897fb ; margin-bottom: -4px ; }
+#scenario-search .select2-results__option { margin-bottom: 0.25em ; padding: 0 ; }
+#scenario-search .select2-results__option--highlighted { background: #5897fb ; }
 #scenario-search .select2-results__option--highlighted .search-result { border: none ; background: transparent ; }
-#scenario-search .search-result { border: 1px dotted #888 ; padding: 0 0.5em 0.25em 0.5em ; background: #f0f0f0 ; font-size: 95% ; }
+#scenario-search .search-result { border: 1px dotted #888 ; padding: 0.25em 0.5em ; background: #f0f0f0 ; font-size: 95% ; }
 #scenario-search .search-result .scenario-name { font-weight: bold ; }
 #scenario-search .search-result .scenario-id { font-size: 80% ; font-style: italic ; }
 #scenario-search .search-result .scenario-location { font-size: 90% ; }
