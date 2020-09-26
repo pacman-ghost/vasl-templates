@@ -55,6 +55,8 @@
 #scenario-search .import-control .buttons button { float: right ; margin-left: 0.5em ; padding: 0.1em 0.5em ; }
 #scenario-search .import-control .buttons button.import { height: 2em ; display: flex ; align-items: center ; }
 #scenario-search .import-control .buttons button.import img { height: 1em ; margin-right: 0.5em ; }
+#scenario-search .import-control .buttons button.downloads { height: 2em ; display: flex ; align-items: center ; }
+#scenario-search .import-control .buttons button.downloads img { height: 1em ; margin-right: 0.5em ; }
 #scenario-search .import-control .buttons button.ok { background: #ddd ; }
 #scenario-search .import-control .buttons button.ok:hover { background: #ccc ; }
 #scenario-search .import-control .warnings { margin-bottom: 0.5em ; padding: 0.25em 0 0 10px ; font-size: 90% ; }

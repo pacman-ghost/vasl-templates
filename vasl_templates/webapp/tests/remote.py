@@ -329,3 +329,28 @@ class ControlTests:
         else:
             assert False
         return self
+
+    def _reset_last_asa_upload( self ):
+        """Reset the saved last upload to the ASL Scenario Archive."""
+        _logger.info( "Reseting the last ASA upload." )
+        webapp_scenarios._last_asa_upload = None #pylint: disable=protected-access
+        return self
+
+    def _get_last_asa_upload( self ): #pylint: disable=no-self-use
+        """Get the last set of files uploaded to the ASL Scenario Archive."""
+        last_asa_upload = webapp_scenarios._last_asa_upload #pylint: disable=protected-access
+        if not last_asa_upload:
+            return {} # FUDGE! This is for the remote testing framework :-/
+        last_asa_upload = last_asa_upload.copy()
+        # FUDGE! We can't send binary data over the remote testing interface, but since the tests just check
+        # for the presence of a VASL save file and screenshot, we just send an indicator of that, and not
+        # the data itself. This will be reworked when we switch to using gRPC.
+        if "vasl_setup" in last_asa_upload:
+            assert last_asa_upload["vasl_setup"][:2] == b"PK"
+            last_asa_upload[ "vasl_setup" ] = "PK:{}".format( len(last_asa_upload["vasl_setup"]) )
+        if "screenshot" in last_asa_upload:
+            assert last_asa_upload["screenshot"][:2] == b"\xff\xd8" \
+                    and last_asa_upload["screenshot"][-2:] == b"\xff\xd9" # nb: these are the magic numbers for JPEG's
+            last_asa_upload[ "screenshot" ] = "JPEG:{}".format( len(last_asa_upload["screenshot"]) )
+        _logger.debug( "Returning the last ASA upload: %s", last_asa_upload )
+        return last_asa_upload

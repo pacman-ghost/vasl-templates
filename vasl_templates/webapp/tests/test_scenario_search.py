@@ -1,6 +1,9 @@
 """" Test scenario search. """
 
 import os
+import re
+import base64
+import time
 
 import pytest
 from selenium.webdriver.common.action_chains import ActionChains
@@ -10,7 +13,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
 from vasl_templates.webapp.tests.utils import init_webapp, select_tab, new_scenario, \
     set_player, set_template_params, set_scenario_date, get_player_nat, get_theater, set_theater, \
-    wait_for, wait_for_elem, find_child, find_children, get_css_classes
+    wait_for, wait_for_elem, find_child, find_children, get_css_classes, set_stored_msg
 
 # ---------------------------------------------------------------------
 
@@ -46,8 +49,13 @@ def test_scenario_cards( webapp, webdriver ):
         "oba": [
             [ "Dutch", "1B", "1R" ], [ "Romanian", "-", "-" ]
         ],
-        "boards": "1, 2, RB",
-        "map_previews": [ "asl-scenario-archive.png" ],
+        "boards": "1, 2, RB (4)", # n: the (4) is the number of map previews
+        "map_previews": [
+            "chuck:1600000000|screenshot3.png",
+            "bob:1500000000|screenshot2.png",
+            "alice:1400000000|screenshot1.png",
+            "asl-scenario-archive.png"
+        ],
         "overlays": "1, 2, OG1",
         "extra_rules": "Some extra rules",
         "errata": [
@@ -196,7 +204,8 @@ def test_import_warnings( webapp, webdriver ): #pylint: disable=too-many-stateme
     warnings = wait_for( 2, lambda: find_children( ".warnings input[type='checkbox']", dlg ) )
     assert [ w.get_attribute( "name" ) for w in warnings ] == [ "defender_name" ]
     assert not warnings[0].is_selected()
-    wait_for( 2, lambda: warnings[0].is_displayed() )
+    wait_for( 2, lambda: warnings[0].is_displayed )
+    time.sleep( 0.1 ) # nb: wait for the slide to finish :-/
     warnings[0].click()
     find_child( "button.confirm-import", dlg ).click()
     assert not dlg.is_displayed()
@@ -532,6 +541,162 @@ def test_scenario_linking( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
+def test_scenario_upload( webapp, webdriver ):
+    """Test uploading scenarios to the ASL Scenario Archive."""
+
+    # initialize
+    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
+
+    def do_upload( prep_upload, expect_ask ):
+        """Upload the scenario to our test endpoint."""
+
+        # show the scenario card
+        find_child( "button.scenario-search" ).click()
+        wait_for( 2, _find_scenario_card )
+
+        # open the upload dialog
+        find_child( ".ui-dialog.scenario-info button.upload" ).click()
+        dlg = wait_for_elem( 2, ".ui-dialog.scenario-upload" )
+        if prep_upload:
+            prep_upload( dlg )
+
+        # start the upload
+        control_tests.reset_last_asa_upload()
+        find_child( "button.upload", dlg ).click()
+        if expect_ask:
+            dlg = wait_for_elem( 2, ".ui-dialog.ask" )
+            find_child( "button.ok", dlg ).click()
+
+        # wait for the upload to be processed
+        asa_upload = wait_for( 5, control_tests.get_last_asa_upload )
+        assert asa_upload["user"] == user_name
+        assert asa_upload["token"] == api_token
+        return asa_upload
+
+    user_name, api_token = "joe", "xyz123"
+    def prep_upload( dlg ):
+        """Prepare the upload."""
+        assert find_child( ".scenario-name", dlg ).text == "Full content scenario"
+        assert find_child( ".scenario-id", dlg ).text == "(FCS-1)"
+        assert find_child( ".asa-id", dlg ).text == "(#1)"
+        # NOTE: We only set the auth details once, then they should be remembered.
+        find_child( "input.user", dlg ).send_keys( user_name )
+        find_child( "input.token", dlg ).send_keys( api_token )
+
+    # test uploading just a vasl-templates setup
+    dlg = _do_scenario_search( "full", [1], webdriver )
+    find_child( "button.import", dlg ).click()
+    asa_upload = do_upload( prep_upload, True )
+    assert asa_upload["user"] == user_name
+    assert asa_upload["token"] == api_token
+    assert "vasl_setup" not in asa_upload
+    assert "screenshot" not in asa_upload
+
+    # compare the vasl-templates setup
+    saved_scenario = save_scenario()
+    keys = [ k for k in saved_scenario if k.startswith("_") ]
+    for key in keys:
+        del saved_scenario[ key ]
+        del asa_upload["vt_setup"][ key ]
+    del saved_scenario[ "VICTORY_CONDITIONS" ]
+    del saved_scenario[ "SSR" ]
+    assert asa_upload["vt_setup"] == saved_scenario
+
+    def prep_upload2( dlg ):
+        """Prepare the upload."""
+        assert asa_upload["user"] == user_name
+        assert asa_upload["token"] == api_token
+        # send the VSAV data to the front-end
+        fname = os.path.join( os.path.dirname(__file__), "fixtures/update-vsav/full.vsav" )
+        vsav_data = open( fname, "rb" ).read()
+        set_stored_msg( "_vsav-persistence_", base64.b64encode( vsav_data ).decode( "utf-8" ) )
+        find_child( ".vsav-container", dlg ).click()
+        # wait for the files to be prepared
+        wait_for( 30,
+            lambda: "loader.gif" not in find_child( ".screenshot-container .preview img" ).get_attribute( "src" )
+        )
+
+    # test uploading a VASL save file
+    def do_test(): #pylint: disable=missing-docstring
+        dlg = _do_scenario_search( "full", [1], webdriver )
+        find_child( "button.import", dlg ).click()
+        asa_upload = do_upload( prep_upload2, False )
+        assert isinstance( asa_upload["vt_setup"], dict )
+        assert asa_upload["vasl_setup"][:3] == "PK:"
+        assert asa_upload["screenshot"][:5] == "JPEG:"
+    from vasl_templates.webapp.tests.test_vassal import _run_tests
+    _run_tests( control_tests, do_test, True )
+
+# ---------------------------------------------------------------------
+
+def test_scenario_downloads( webapp, webdriver ):
+    """Test downloading files from the ASL Scenario Archive."""
+
+    # initialize
+    init_webapp( webapp, webdriver )
+
+    def unload_downloads():
+        """Unload the available downloads."""
+        btn = find_child( ".ui-dialog.scenario-search .import-control button.downloads" )
+        if not btn.is_enabled():
+            return None
+        btn.click()
+        dlg = wait_for_elem( 2, "#scenario-downloads-dialog" )
+        # unload the file groups
+        fgroups = []
+        for elem in find_children( ".fgroup", dlg ):
+            fgroup = {
+                "screenshot": fixup( find_child( ".screenshot img", elem ).get_attribute( "src" ) ),
+                "user": fixup( find_child( ".user", elem ).text ),
+                "timestamp": fixup( find_child( ".timestamp", elem ).text ),
+            }
+            add_download_url( fgroup, "vt_setup", elem )
+            add_download_url( fgroup, "vasl_setup", elem )
+            fgroups.append( fgroup )
+        return fgroups
+    def add_download_url( fgroup, key, parent ): #pylint: disable=missing-docstring
+        btn = find_child( "."+key, parent )
+        if btn:
+            fgroup[ key ] = fixup( btn.get_attribute( "data-url" ) )
+    def fixup( val ): #pylint: disable=missing-docstring
+        val = re.sub( r"(localhost|127.0.0.1):\d+", "{LOCALHOST}", val )
+        val = val.replace( "%7C", "|" )
+        return val
+
+    # check the downloads for a scenario that doesn't have any
+    _do_scenario_search( "fighting", [2], webdriver )
+    assert unload_downloads() is None
+
+    # check the downloads for a scenario that has some
+    _do_scenario_search( "full", [1], webdriver )
+    assert unload_downloads() == [ {
+        "screenshot": "http://{LOCALHOST}/static/images/missing-image.png",
+        "timestamp": "November 14, 2023",
+        "user": "dave",
+        "vasl_setup": "http://test.com/dave:1700000000|vt_setup4.vsav",
+        "vt_setup": "http://test.com/dave:1700000000|vt_setup4.json"
+    }, {
+        "screenshot": "http://test.com/chuck:1600000000|screenshot3.png",
+        "timestamp": "September 13, 2020",
+        "user": "chuck",
+        "vasl_setup": "http://test.com/chuck:1600000000|vt_setup3.vsav"
+    }, {
+        "screenshot": "http://test.com/bob:1500000000|screenshot2.png",
+        "timestamp": "July 14, 2017",
+        "user": "bob",
+        "vt_setup": "http://test.com/bob:1500000000|vt_setup2.json"
+    }, {
+        "screenshot": "http://test.com/alice:1400000000|screenshot1.png",
+        "timestamp": "May 13, 2014",
+        "user": "alice",
+        "vasl_setup": "http://test.com/alice:1400000000|vt_setup1.vsav",
+        "vt_setup": "http://test.com/alice:1400000000|vt_setup1.json"
+    } ]
+
+# ---------------------------------------------------------------------
+
 def _do_scenario_search( query, expected, webdriver ):
     """Do a scenario search."""
 
@@ -601,7 +766,9 @@ def _unload_scenario_card(): #pylint: disable=too-many-branches,too-many-locals
             if trim_postfix:
                 assert val.endswith( trim_postfix )
                 val = val[ : -len(trim_postfix) ]
-            results[ key ] = val.strip()
+            val = val.strip()
+            if val:
+                results[ key ] = val
     def unload_attr( key, sel, attr ):
         """Unload a element's attribute from the scenario card."""
         elem = find_child( sel, card )
@@ -675,10 +842,19 @@ def _unload_scenario_card(): #pylint: disable=too-many-branches,too-many-locals
         results[ "oba" ] = oba_info
 
     # unload any map preview images
-    elems = find_children( ".map-preview", card )
-    if elems:
-        urls = [ e.get_attribute("href") for e in elems ]
-        results[ "map_previews" ] = [ os.path.basename(u) for u in urls ]
+    btn = find_child( ".map-previews", card )
+    if btn and btn.is_displayed():
+        btn.click()
+        imgs = find_children( ".lg .lg-thumb-item img" )
+        if not imgs:
+            # NOTE: If there is only one image, no thumbnails are shown - just use the main image
+            imgs = [ find_child( ".lg .lg-image" ) ]
+        urls = [ e.get_attribute( "src" ) for e in imgs ]
+        results[ "map_previews" ] = [
+            os.path.basename( u ).replace( "%7C", "|" )
+            for u in urls
+        ]
+        find_child( ".lg .lg-close" ).click()
 
     # unload any errata
     def get_source( val ): #pylint: disable=missing-docstring

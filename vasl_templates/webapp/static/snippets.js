@@ -1469,6 +1469,7 @@ function on_load_scenario()
     else {
         // yup - confirm the operation
         ask( "Load scenario", "<p>This scenario has been changed.<p>Do you want load another scenario, and lose your changes?", {
+            width: 470,
             ok: do_on_load_scenario,
             cancel: function() {},
         } ) ;
@@ -1521,11 +1522,13 @@ function do_load_scenario( data, fname )
         data = JSON.parse( data ) ;
     } catch( ex ) {
         showErrorMsg( "Can't load the scenario file:<div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
-        return ;
+        return false ;
     }
     do_load_scenario_data( data ) ;
     gLastSavedScenarioFilename = fname ;
     showInfoMsg( "The scenario was loaded." ) ;
+
+    return true ;
 }
 
 function do_load_scenario_data( params )
@@ -1807,7 +1810,7 @@ function on_save_scenario()
     // if the user loads a scenario from a file that is named using a non-standard convention.
 }
 
-function unload_params_for_save( user_requested )
+function unload_params_for_save( includeMetadata )
 {
     function extract_vo_entries( key ) {
         if ( !( key in params ) )
@@ -1857,7 +1860,7 @@ function unload_params_for_save( user_requested )
         params.SCENARIO_DATE = scenario_date.toISOString().substring( 0, 10 ) ;
 
     // save some admin metadata
-    if ( user_requested ) {
+    if ( includeMetadata ) {
         params._app_version = gAppVersion ;
         var now = (new Date()).toISOString() ;
         params._last_update_time = now ;

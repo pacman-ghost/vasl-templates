@@ -50,6 +50,18 @@ public class Main
                 shim.updateScenario( args[3], args[4], args[5], args[6] ) ;
                 System.exit( 0 ) ;
             }
+            else if ( cmd.equals( "screenshot" ) ) {
+                checkArgs( args, 4, false, "the VASL .vmod file, scenario file and output file" ) ;
+                VassalShim shim = new VassalShim( args[1], null ) ;
+                shim.takeScreenshot( args[2], args[3] ) ;
+                System.exit( 0 ) ;
+            }
+            else if ( cmd.equals( "prepareupload" ) ) {
+                checkArgs( args, 5, false, "the VASL .vmod file, scenario file and 2 output files" ) ;
+                VassalShim shim = new VassalShim( args[1], null ) ;
+                shim.prepareUpload( args[2], args[3], args[4] ) ;
+                System.exit( 0 ) ;
+            }
             else if ( cmd.equals( "version" ) ) {
                 checkArgs( args, 2, false, "the output file" ) ;
                 System.out.println( Info.getVersion() ) ;

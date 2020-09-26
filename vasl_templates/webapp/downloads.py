@@ -46,14 +46,14 @@ class DownloadedFile:
         _registry.add( self )
 
         # check if we have a cached copy of the file
-        self._cache_fname = os.path.join( tempfile.gettempdir(), "vasl-templates."+fname )
-        if os.path.isfile( self._cache_fname ):
+        self.cache_fname = os.path.join( tempfile.gettempdir(), "vasl-templates."+fname )
+        if os.path.isfile( self.cache_fname ):
             # yup - load it
-            _logger.info( "Using cached %s file: %s", key, self._cache_fname )
-            self._set_data( self._cache_fname )
+            _logger.info( "Using cached %s file: %s", key, self.cache_fname )
+            self._set_data( self.cache_fname )
         else:
             # nope - start with an empty data set
-            _logger.debug( "No cached %s file: %s", key, self._cache_fname )
+            _logger.debug( "No cached %s file: %s", key, self.cache_fname )
 
     def _set_data( self, data ):
         """Install a new data set."""
@@ -114,9 +114,9 @@ class DownloadedFile:
                 _logger.info( "Download of the %s file has been disabled.", df.key )
                 continue
             ttl *= 60*60
-            if os.path.isfile( df._cache_fname ):
+            if os.path.isfile( df.cache_fname ):
                 # yup - check how long ago it was downloaded
-                mtime = os.path.getmtime( df._cache_fname )
+                mtime = os.path.getmtime( df.cache_fname )
                 age = int( time.time() - mtime )
                 _logger.debug( "Checking the cached %s file: age=%s, ttl=%s (mtime=%s)",
                     df.key,
@@ -130,7 +130,10 @@ class DownloadedFile:
             # download the file
             _logger.info( "Downloading the %s file: %s", df.key, url )
             try:
-                fp = urllib.request.urlopen( url )
+                req = urllib.request.Request( url,
+                    headers = { "Accept-Encoding": "gzip, deflate" }
+                )
+                fp = urllib.request.urlopen( req )
                 data = fp.read().decode( "utf-8" )
             except Exception as ex: #pylint: disable=broad-except
                 msg = str( getattr(ex,"reason",None) or ex )
@@ -150,6 +153,6 @@ class DownloadedFile:
             # is performance-critical and we can probably live it.
 
             # save a cached copy of the data
-            _logger.debug( "Saving a cached copy of the %s file: %s", df.key, df._cache_fname )
-            with open( df._cache_fname, "w", encoding="utf-8" ) as fp:
+            _logger.debug( "Saving a cached copy of the %s file: %s", df.key, df.cache_fname )
+            with open( df.cache_fname, "w", encoding="utf-8" ) as fp:
                 fp.write( data )

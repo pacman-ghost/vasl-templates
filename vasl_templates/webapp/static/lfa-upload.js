@@ -160,9 +160,7 @@ function addFilesToUploadList( files )
         var currFile = files[ currFileNo ] ;
         fileReader.onload = function() {
             // get the file data
-            vlog_data = fileReader.result ;
-            if ( vlog_data.substring(0,5) === "data:" )
-                vlog_data = vlog_data.split( "," )[1] ;
+            vlog_data = removeBase64Prefix( fileReader.result ) ;
             // add the file to the list
             addFileToUploadList( currFile.name, vlog_data ) ;
             // read the next file

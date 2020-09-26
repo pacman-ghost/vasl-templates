@@ -345,6 +345,12 @@ class VassalShim:
             "analyzeLogs", *fnames
         )
 
+    def prepare_asa_upload( self, vsave_fname, stripped_vsav_fname, screenshot_fname ):
+        """Prepare files for upload to the ASL Scenario Archive."""
+        return self._run_vassal_shim(
+            "prepareUpload", vsave_fname, stripped_vsav_fname, screenshot_fname
+        )
+
     def _run_vassal_shim( self, *args ): #pylint: disable=too-many-locals
         """Run the VASSAL shim."""
 
@@ -367,7 +373,7 @@ class VassalShim:
             java_path, "-classpath", class_path, "vassal_shim.Main",
             args[0]
         ]
-        if args[0] in ("dump","analyze","analyzeLogs","update"):
+        if args[0] in ("dump","analyze","analyzeLogs","update","prepareUpload"):
             if not globvars.vasl_mod:
                 raise SimpleError( "The VASL module has not been configured." )
             args2.append( globvars.vasl_mod.filename )
@@ -465,10 +471,10 @@ class VassalShim:
                          "<p>If this problem persists, try configuring a longer timeout."
             } )
         if isinstance( ex, SimpleError ):
-            logger.error( "VSAV update error: %s", ex )
+            logger.error( "VASSAL shim error: %s", ex )
             return jsonify( { "error": str(ex) } )
 
-        logger.error( "Unexpected VSAV update error: %s", ex )
+        logger.error( "Unexpected VASSAL shim error: %s", ex )
         return jsonify( {
             "error": str(ex),
             "stdout": traceback.format_exc(),

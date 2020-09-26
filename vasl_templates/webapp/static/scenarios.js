@@ -4,7 +4,7 @@
 
 var gIsFirstSearch ;
 var $gDialog, $gScenariosSelect, $gSearchQueryInputBox, $gScenarioCard, $gFooter ;
-var $gImportControl, $gImportScenarioButton, $gConfirmImportButton, $gCancelImportButton, $gImportWarnings ;
+var $gImportControl, $gDownloadsButton, $gImportScenarioButton, $gConfirmImportButton, $gCancelImportButton, $gImportWarnings ;
 
 // At time of writing, there are ~8600 scenarios, and loading them all into a select2 makes it a bit sluggish.
 // The problem is when the user types the first 1 or 2 characters of the search query, which can result in
@@ -64,6 +64,7 @@ window.searchForScenario = function()
                 $gScenarioCard.empty() ;
                 $gFooter.hide() ;
                 $gImportWarnings.empty().hide() ;
+                $gDownloadsButton.button( "disable" ) ;
                 $gImportScenarioButton.show() ;
                 $gConfirmImportButton.hide() ;
                 $gCancelImportButton.hide() ;
@@ -90,6 +91,8 @@ function initDialog( $dlg, scenarios )
     fixup_external_links( $dlg ) ;
     $gScenarioCard = $dlg.find( ".scenario-card" ) ;
     $gImportControl = $dlg.find( ".import-control" ) ;
+    $gDownloadsButton = $dlg.find( "button.downloads" ).button()
+        .on( "click", onDownloads ) ;
     $gImportScenarioButton = $dlg.find( "button.import" ).button()
         .on( "click", onImportScenario ) ;
     $gConfirmImportButton = $dlg.find( "button.confirm-import" ).button()
@@ -157,8 +160,8 @@ function initDialog( $dlg, scenarios )
             // elements in the scenario card fade in/out). We seem to get this event *after* the selection
             // has already changed in the search result, so we compare the currently-selected item
             // with what's currently showing in the scenario card to decide if anything's changed.
+            var currId = $dlg.find( ".scenario-card" ).data( "scenario" ).scenario_id ;
             var $elem = $( ".select2-results__option--highlighted .search-result" ) ;
-            var currId = $dlg.find( ".scenario-card" ).attr( "data-id" ) ;
             if ( $elem.attr( "data-id" ) != currId )
                 onItemSelected( $elem.attr( "data-id" ) ) ;
         }
@@ -348,13 +351,18 @@ function onItemSelected( scenarioId )
 
     // load the specified scenario
     if ( ! scenarioId ) {
-        $gScenarioCard.empty() ;
+        $gScenarioCard.empty().data( "scenario", null ) ;
+        $gDownloadsButton.button( "disable" ) ;
         return ;
     }
     // NOTE: We pass "auto-match" as the ROAR override, to tell the server to try to find
     // a matching ROAR scenario.
     loadScenarioCard( $gScenarioCard, scenarioId, true, null, "auto-match", false,
         function( scenario ) {
+            if ( scenario.downloads && scenario.downloads.length > 0 )
+                $gDownloadsButton.button( "enable" ).data( "scenario", $gScenarioCard.data("scenario") ) ;
+            else
+                $gDownloadsButton.button( "disable" ) ;
             // update the layout
             updateLayout() ;
             // NOTE: We set focus to the query input box so that UP/DOWN will work
@@ -426,7 +434,30 @@ function loadScenarioCard( $target, scenarioId, briefMode, scenarioDateOverride,
             $(this).siblings( ".full" ).fadeIn( 250 ) ;
             $gSearchQueryInputBox.focus() ;
         } ) ;
-        $card.find( "a.map-preview" ).imageZoom( $ ) ;
+
+        function showBoardPreviews( $elem, scenario ) {
+            // initialize the image gallery
+            var data = [] ;
+            scenario.map_images.forEach( function( mapImage ) {
+                var url = mapImage.screenshot ;
+                var buf = [] ;
+                if ( mapImage.user ) {
+                    buf.push( "Contributed by <em>", mapImage.user, "</em>" ) ;
+                    if ( mapImage.timestamp ) {
+                        var tstamp = new Date( mapImage.timestamp ) ;
+                        buf.push( "<div style='font-size:80%;font-style:italic;color:#ccc;'>",
+                            tstamp.toLocaleDateString( undefined, { day: "numeric", month: "long", year: "numeric" } ),
+                            "</div>"
+                        ) ;
+                    }
+                }
+                data.push( {
+                    src: url, thumb: url,
+                    subHtml: buf.length > 0 ? buf.join("") : url.split("/").pop(),
+                } ) ;
+            } ) ;
+            $elem.lightGallery( { dynamic: true, dynamicEl: data, speed: 250 } ) ;
+        }
 
         // get the scenario details
         getScenarioData( scenarioId, roarOverride, function( scenario ) {
@@ -434,9 +465,20 @@ function loadScenarioCard( $target, scenarioId, briefMode, scenarioDateOverride,
             insertPlayerFlags( $card, scenario ) ;
             makeBalanceGraphs( $card, scenario, showRoarButtons ) ;
             loadObaInfo( $card, scenario, scenarioDateOverride ) ;
+            // initialize the map previews
+            var $btn = $card.find( ".boards .map-previews" ) ;
+            if ( ! scenario.map_images || scenario.map_images.length === 0 )
+                $btn.hide() ;
+            else {
+                if ( scenario.map_images.length > 1 )
+                    $btn.after( " <span class='map-preview-count'>(" + scenario.map_images.length + ")</span>" ) ;
+                $btn.on( "click", function() {
+                    showBoardPreviews( $(this), scenario ) ;
+                } ) ;
+            }
             // all done - load the card into the UI and notify the caller
+            $target.data( "scenario", scenario ) ;
             $target.html( $card ).fadeIn( 100 ) ;
-            $target.attr( "data-id", scenarioId ) ;
             onDone( scenario ) ;
             $target.attr( "data-seqNo", parseInt(seqNo)+1 ) ;
         } ) ;
@@ -601,38 +643,34 @@ function onImportScenario()
         } ) ;
     }
 
-    // get the scenario details
-    var scenarioId = $gScenarioCard.attr( "data-id" ) ;
-    getScenarioData( scenarioId, "auto-match", function( scenario ) {
-
-        // got them - check if it will be a clean import
-        getWarnings( scenario ) ;
-        if ( warnings.length === 0 && warnings2.length === 0 ) {
-            // yup - do the import
-            doImportScenario( scenario ) ;
-        } else {
-            // nope - show the warnings
-            if ( warnings.length > 0 ) {
-                var buf = [
-                    "<div class='header'>",
-                    "<img src='" + gImagesBaseUrl + "/warning.gif'>",
-                    "<div class='caption'> Some values in your scenario will be changed: </div>",
-                    "</div>"
-                ] ;
-                warnings.unshift( $( buf.join("") ) ) ;
-            }
-            if ( warnings2.length > 0 ) {
-                if ( warnings.length > 0 )
-                    warnings2[0].css( "margin-top", "0.5em" ) ;
-                $.merge( warnings, warnings2 ) ;
-            }
-            $gImportWarnings.empty().append( warnings ).slideToggle( 100 ) ;
-            $gConfirmImportButton.data( "scenario", scenario ).show() ;
-            $gCancelImportButton.show() ;
-            $gImportScenarioButton.hide() ;
+    // check if it will be a clean import
+    var scenario = $gScenarioCard.data( "scenario" ) ;
+    getWarnings( scenario ) ;
+    if ( warnings.length === 0 && warnings2.length === 0 ) {
+        // yup - do the import
+        doImportScenario( scenario ) ;
+    } else {
+        // nope - show the warnings
+        if ( warnings.length > 0 ) {
+            var buf = [
+                "<div class='header'>",
+                "<img src='" + gImagesBaseUrl + "/warning.gif'>",
+                "<div class='caption'> Some values in your scenario will be changed: </div>",
+                "</div>"
+            ] ;
+            warnings.unshift( $( buf.join("") ) ) ;
         }
-
-    } ) ;
+        if ( warnings2.length > 0 ) {
+            if ( warnings.length > 0 )
+                warnings2[0].css( "margin-top", "0.5em" ) ;
+            $.merge( warnings, warnings2 ) ;
+        }
+        $gImportWarnings.empty().append( warnings ).slideToggle( 100 ) ;
+        $gConfirmImportButton.data( "scenario", scenario ).show() ;
+        $gCancelImportButton.show() ;
+        $gDownloadsButton.hide() ;
+        $gImportScenarioButton.hide() ;
+    }
 }
 
 function doImportScenario( scenario )
@@ -683,6 +721,7 @@ function onCancelImportScenario()
     }
     $gConfirmImportButton.hide() ;
     $gCancelImportButton.hide() ;
+    $gDownloadsButton.show() ;
     $gImportScenarioButton.show() ;
 }
 
@@ -848,6 +887,142 @@ window.getEffectivePlayerNat = function( playerName ) {
 
     return null ;
 } ;
+
+// --------------------------------------------------------------------
+
+function onDownloads() {
+
+    // initialize
+    var scenario = $gScenarioCard.data( "scenario" ) ;
+    var eventHandlers = new jQueryHandlers() ;
+    var $dlg ;
+
+    function loadFileGroups( $fgroups ) {
+        var $items = [] ;
+        scenario.downloads.forEach( function( fgroup ) {
+            var buf = [] ;
+            var url = fgroup.screenshot || gImagesBaseUrl+"/missing-image.png" ;
+            buf.push( "<div class='screenshot'>", "<img src='"+url+"'>", "</div>" ) ;
+            buf.push( "<div>" ) ;
+            if ( fgroup.user )
+                buf.push( "<div class='contrib'>", "Contributed by <span class='user'>"+fgroup.user+"</span>", "</div>" ) ;
+            if ( fgroup.timestamp ) {
+                var tstamp = new Date( fgroup.timestamp ) ;
+                tstamp = tstamp.toLocaleDateString( undefined, { day: "numeric", month: "long", year: "numeric" } ) ;
+                buf.push( "<div class='timestamp'>", tstamp, "</div>" ) ;
+            }
+            if ( fgroup.vt_setup ) {
+                buf.push( "<button class='vt_setup' data-url='" + fgroup.vt_setup + "' title='Import the vasl-templates setup'>",
+                    "<img src='"+gImagesBaseUrl+"/sortable-add.png'>", "Import",
+                    "</button>"
+                ) ;
+            }
+            if ( fgroup.vasl_setup ) {
+                buf.push( "<button class='vasl_setup' data-url='" + fgroup.vasl_setup + "' title='Download the VASL setup'>",
+                    "<img src='"+gImagesBaseUrl+"/download.png'>", "Download",
+                    "</button>"
+                ) ;
+            }
+            buf.push( "</div>" ) ;
+            var $item = $( "<li class='fgroup'>" + buf.join("") + "</li>" ) ;
+            $item.find( "button.vt_setup" ).on( "click", function() {
+                onDownloadVtSetup( fgroup.vt_setup ) ;
+            } ) ;
+            $item.find( "button.vasl_setup" ).on( "click", function() {
+                onDownloadVaslSetup( fgroup.vasl_setup ) ;
+            } ) ;
+            fixup_external_links( $item ) ;
+            $items.push( $item ) ;
+        } ) ;
+        $fgroups.html( $items ) ;
+    }
+
+    function onDownloadVtSetup( url ) {
+        // download the vasl-templates setup
+        var $progressDlg = _show_vassal_shim_progress_dlg( "Downloading the scenario..." ) ;
+        $.ajax( {
+            url: url, type: "GET",
+        } ).done( function( resp ) {
+            $progressDlg.dialog( "close" ) ;
+            // the file was downloaded OK - load it into the UI
+            var fname = url.split( "/" ).pop() ;
+            if ( ! do_load_scenario( JSON.stringify(resp), fname ) )
+                return ;
+            // all done - we can now close the downloads popup *and* the parent search dialog
+            $dlg.dialog( "close" ) ;
+            $gDialog.dialog( "close" ) ;
+        } ).fail( function( xhr, status, errorMsg ) {
+            $progressDlg.dialog( "close" ) ;
+            showErrorMsg( "Can't download the <em>vasl-templates</em> setup:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+        } ) ;
+    }
+
+    function onDownloadVaslSetup( url ) {
+        // download the VASL setup
+        // FUDGE! Triggering a download (that works in both a browser window and the desktop app)
+        // is depressingly tricky :-( We don't want to mess with window.location, since the download
+        // could end up replacing the webapp in the browser :-/ Wrapping the button with an <a> tag
+        // sorta works, but it can cause an external browser window to open, and remain open :-/
+        // We download the file ourself and then ask the user to save it.
+        var $progressDlg = _show_vassal_shim_progress_dlg( "Downloading the VASL scenario...", 330 ) ;
+        $.ajax( {
+            url: url, type: "GET",
+            xhrFields: { responseType: "arraybuffer" }
+        } ).done( function( resp ) {
+            $progressDlg.dialog( "close" ) ;
+            // the file was downloaded OK - give it to the user to save
+            var fname = url.split( "/" ).pop().split( "|" ).pop() ;
+            if ( gWebChannelHandler ) {
+                var vsavData = new Uint8Array( resp ) ;
+                gWebChannelHandler.save_downloaded_vsav( fname,
+                    btoa( String.fromCharCode.apply( null, vsavData ) )
+                ) ;
+            } else {
+                download( resp, fname, "application/octet-stream" ) ;
+            }
+        } ).fail( function( xhr, status, errorMsg ) {
+            $progressDlg.dialog( "close" ) ;
+            showErrorMsg( "Can't download the VASL scenario:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+        } ) ;
+    }
+
+    // show the dialog
+    $( "#scenario-downloads-dialog" ).dialog( {
+        dialogClass: "scenario-downloads",
+        title: "Downloads for this scenario:",
+        modal: true,
+        width: 450, minWidth: 300,
+        height: 200, minHeight: 150,
+        draggable: false,
+        closeOnEscape: false,
+        open: function() {
+            $dlg = $(this) ;
+            $dlg.parent().draggable() ;
+            eventHandlers.addHandler( $(".ui-widget-overlay"), "click", function( evt ) {
+                $dlg.dialog( "close" ) ; // nb: clicking outside the popup closes it
+            } ) ;
+            // load the available downloads
+            var $fgroups = $dlg.find( ".fgroups" ) ;
+            loadFileGroups( $fgroups ) ;
+            $(this).css( "height", Math.min( $fgroups.outerHeight(), 400 ) ) ;
+            var $parentDlg = $( ".ui-dialog.scenario-search" ) ;
+            $( ".ui-dialog.scenario-downloads" ).position( {
+                my: "right bottom", at: "right top-2", of: $parentDlg.find( "button.downloads" )
+            } ) ;
+            // add a keyboard handler for ESCAPE
+            eventHandlers.addHandler( $(document), "keydown", function( evt ) {
+                if ( evt.keyCode == $.ui.keyCode.ESCAPE ) {
+                    $dlg.dialog( "close" ) ;
+                    stopEvent( evt ) ;
+                }
+            } ) ;
+        },
+        close: function() {
+            // clean up
+            eventHandlers.cleanUp() ;
+        },
+    } ) ;
+}
 
 // --------------------------------------------------------------------
 
@@ -1043,18 +1218,7 @@ window.showScenarioInfo = function()
                 height: $(window).height() * 0.8,
                 minHeight: 300,
                 create: function() {
-                    // add the credit panel
-                    var $btnPane = $( ".ui-dialog.scenario-info .ui-dialog-buttonpane" ) ;
-                    var buf = [ "<div class='credit'>",
-                        "<a href='#'>", "<img src='" + gImagesBaseUrl+"/asl-scenario-archive.png" + "'>", "</a>",
-                        "<div class='caption'>",
-                        "<a href='#'>", "Information provided by", "<br>", "the ASL Scenario Archive.", "</a>",
-                        "</div>",
-                        "</div>"
-                    ] ;
-                    var $credit = $( buf.join("") ) ;
-                    fixup_external_links( $credit ) ;
-                    $btnPane.prepend( $credit ) ;
+                    addAsaCreditPanel( $(".ui-dialog.scenario-info"), null ) ;
                 },
                 open: function() {
                     // initialize
@@ -1068,14 +1232,21 @@ window.showScenarioInfo = function()
                     var url = gAppConfig.ASA_SCENARIO_URL.replace( "{ID}", scenarioId ) ;
                     var $btnPane = $( ".ui-dialog.scenario-info .ui-dialog-buttonpane" ) ;
                     $btnPane.find( ".credit a" ).attr( "href", url ) ;
-                    // configure the "unlink scenario" button
-                    var $btn = $btnPane.find( "button.unlink" ) ;
+                    // configure the "upload scenario" button
+                    var $btn = $btnPane.find( "button.upload" ) ;
                     $btn.prepend(
-                        $( "<img src='" + gImagesBaseUrl+"/cross.png" + "' style='height:0.75em;margin-right:0.35em;'>" )
+                        $( "<img src='" + gImagesBaseUrl+"/upload.png" + "' style='height:0.9em;margin:0 0.35em -1px 0;'>" )
                     ) ;
                     var creditWidth = $btnPane.find( ".credit" ).outerWidth() ;
-                    $btn.css( { float: "left", position: "absolute", left: creditWidth+20, padding: "2px 5px" } ) ;
-                    $btn.attr( "title", "Unlink your scenario from the ASL Scenario Archive" ) ;
+                    $btn.css( { position: "absolute", left: creditWidth+20, padding: "2px 5px" } ) ;
+                    $btn.attr( "title", "Upload your setup to the ASL Scenario Archive" ) ;
+                    // configure the "unlink scenario" button
+                    var $btn2 = $btnPane.find( "button.unlink" ) ;
+                    $btn2.prepend(
+                        $( "<img src='" + gImagesBaseUrl+"/cross.png" + "' style='height:0.6em;margin-right:0.35em;padding-bottom:1px;'>" )
+                    ) ;
+                    $btn2.css( { position: "absolute", left: creditWidth+40+$btn.outerWidth(), padding: "2px 5px" } ) ;
+                    $btn2.attr( "title", "Unlink your scenario from the ASL Scenario Archive" ) ;
                     // update the layout
                     onResize() ;
                     eventHandlers.addHandler( $(document), "keydown", function( evt ) {
@@ -1107,6 +1278,10 @@ window.showScenarioInfo = function()
                     Unlink: { text: "Unlink", class: "unlink", click: function() {
                         updateForConnectedScenario( null, null ) ;
                         $dlg.dialog( "close" ) ;
+                    } },
+                    Upload: { text: "Upload", class: "upload", click: function() {
+                        $dlg.dialog( "close" ) ;
+                        uploadScenario() ;
                     } },
                 },
             } ) ;
@@ -1171,11 +1346,11 @@ function getScenarioIndex( onReady )
         // nope - download it (nb: we do this on-demand, instead of during startup,
         // to give the backend time if it wants to download a fresh copy).
         $.getJSON( gGetScenarioIndexUrl, function( resp ) {
-            if ( resp.error ) {
-                var msg = resp.error ;
+            if ( resp.warning ) {
+                var msg = resp.warning ;
                 if ( resp.message )
                     msg += "<div class='pre'>" + escapeHTML(resp.message) + "</div>" ;
-                showErrorMsg( msg ) ;
+                showWarningMsg( msg ) ;
                 return ;
             }
             _scenarioIndex = resp ;
@@ -1203,6 +1378,33 @@ function getScenarioData( scenarioId, roarOverride, onReady )
         return ;
     } ) ;
 }
+
+// --------------------------------------------------------------------
+
+window.addAsaCreditPanel = function( $dlg, scenarioId )
+{
+    // create the credit panel
+    var url = scenarioId ? gAppConfig.ASA_SCENARIO_URL.replace( "{ID}", scenarioId ) : "https://aslscenarioarchive.com" ;
+    var buf = [ "<div class='credit'>",
+        "<a href='"+url+"'>", "<img src='" + gImagesBaseUrl+"/asl-scenario-archive.png" + "'>", "</a>",
+        "<div class='caption'>",
+        "<a href='"+url+"'>", "Information provided by", "<br>", "the ASL Scenario Archive.", "</a>",
+        "</div>",
+        "</div>"
+    ] ;
+    var $credit = $( buf.join("") ) ;
+    $credit.css( { float: "left", "margin-right": "0.5em", display: "flex", "align-items": "center" } ) ;
+    $credit.find( "img" ).css( { height: "1.4em", "margin-right": "0.5em", opacity: 0.7 } ) ;
+    $credit.find( ".caption" ).css( { "font-size": "70%", "line-height": "1em", "margin-top": "-4px" } ) ;
+    $credit.find( "a" ).css( { "text-decoration": "none", "font-style": "italic", color: "#666" } ) ;
+    $credit.find( "a" ).on( "click", function() { $(this).blur() ; } ) ;
+
+    // add the credit panel to the dialog's button pane
+    fixup_external_links( $credit ) ;
+    var $btnPane = $dlg.find( ".ui-dialog-buttonpane" ) ;
+    $btnPane.find( ".credit" ).remove() ;
+    $btnPane.prepend( $credit ) ;
+} ;
 
 // --------------------------------------------------------------------
 

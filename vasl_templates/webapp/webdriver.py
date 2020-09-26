@@ -6,11 +6,10 @@ import tempfile
 import atexit
 import logging
 
-from PIL import Image, ImageChops
 from selenium import webdriver
 
 from vasl_templates.webapp import app, globvars
-from vasl_templates.webapp.utils import TempFile, SimpleError
+from vasl_templates.webapp.utils import TempFile, SimpleError, trim_image
 
 _logger = logging.getLogger( "webdriver" )
 
@@ -110,12 +109,7 @@ class WebDriver:
 
         def do_get_screenshot( fname ): #pylint: disable=missing-docstring
             self.driver.save_screenshot( fname )
-            img = Image.open( fname )
-            # trim the screenshot (nb: we assume a white background)
-            bgd = Image.new( img.mode, img.size, (255,255,255,255) )
-            diff = ImageChops.difference( img, bgd )
-            bbox = diff.getbbox()
-            return img.crop( bbox )
+            return trim_image( fname )
 
         with TempFile( extn=".html", mode="w", encoding="utf-8" ) as html_tempfile, \
              TempFile( extn=".png" ) as screenshot_tempfile:

@@ -123,12 +123,11 @@
 
 </div> <!-- end player-info -->
 
-{%if BOARDS%} <div class="boards">
+{# NOTE: We always show the boards div, even if there aren't any, since there might be preview images. #}
+<div class="boards">
     <b>Boards:</b> {{BOARDS}}
-    {%if MAP_IMAGES%} {%for map in MAP_IMAGES%}
-        <a href="{{map}}" class="map-preview"><img src="{{url_for('static',filename='images/map-preview.png')}}" title="Board preview"></a>
-    {%endfor%} {%endif%}
-</div> {%endif%}
+    <img src="{{url_for('static',filename='images/map-preview.png')}}" class="map-previews" title="Board previews">
+</div>
 
 {%if OVERLAYS%} <div class="overlays"> <b>Overlays:</b> {{OVERLAYS}} </div> {%endif%}
 

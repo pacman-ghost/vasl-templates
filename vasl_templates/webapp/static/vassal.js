@@ -301,6 +301,7 @@ function on_analyze_vsav()
         // yup - confirm the operation
         ask( "Analyze VASL scenario",
             "<p>There are some vehicles/ordnance already configured. <p>They will be <i>replaced</i> with those found in the analyzed VASL scenario.", {
+            width: 520,
             ok: function() { _load_and_process_vsav( _do_analyze_vsav ) ; },
         } ) ;
         return ;
@@ -468,9 +469,7 @@ function on_load_vsav_file_selected()
     var fileReader = new FileReader() ;
     var file = $("#load-vsav").prop( "files" )[0] ;
     fileReader.onload = function() {
-        vsav_data = fileReader.result ;
-        if ( vsav_data.substring(0,5) === "data:" )
-            vsav_data = vsav_data.split( "," )[1] ;
+        vsav_data = removeBase64Prefix( fileReader.result ) ;
         gLoadVsavHandler( vsav_data, file.name ) ;
         gLoadVsavHandler = null ;
     } ;
@@ -529,13 +528,13 @@ function show_vassal_shim_error_dlg( resp, caption )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function _show_vassal_shim_progress_dlg( caption )
+function _show_vassal_shim_progress_dlg( caption, width )
 {
     // show the progress dialog
     return $( "#vassal-shim-progress" ).dialog( {
         dialogClass: "vassal-shim-progress",
         modal: true,
-        width: 300,
+        width: width || 300,
         height: 60,
         resizable: false,
         closeOnEscape: false,

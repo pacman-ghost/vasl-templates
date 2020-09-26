@@ -68,6 +68,7 @@ _APP_CONFIG_DEFAULTS = { # Bodhgaya, India (APR/19)
     # but VASSAL is already so slow to load images, and doing everything twice would make it that much worse :-/
     "ONLINE_COUNTER_IMAGES_URL_TEMPLATE": "https://raw.githubusercontent.com/vasl-developers/vasl/develop/dist/images/{{PATH}}", #pylint: disable=line-too-long
     "ONLINE_EXTN_COUNTER_IMAGES_URL_TEMPLATE": "http://vasl-templates.org/services/counter/{{EXTN_ID}}/{{PATH}}",
+    "ASA_UPLOAD_URL": "https://aslscenarioarchive.com/rest/update/{ID}?user={USER}&token={TOKEN}",
 }
 
 @app.route( "/app-config" )
@@ -94,6 +95,10 @@ def get_app_config():
         vals["THEATERS"] = vals["THEATERS"].split()
     for key in ["APP_NAME","APP_VERSION","APP_DESCRIPTION","APP_HOME_URL"]:
         vals[ key ] = getattr( vasl_templates.webapp.config.constants, key )
+
+    # include the ASL Scenario Archive config
+    for key in ["ASA_MAX_VASL_SETUP_SIZE","ASA_MAX_SCREENSHOT_SIZE"]:
+        vals[ key ] = app.config[ key ]
 
     # include the dice hotness config
     vals[ "LFA_DICE_HOTNESS_WEIGHTS" ] = get_json_val(

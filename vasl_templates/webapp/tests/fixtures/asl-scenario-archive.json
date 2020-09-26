@@ -29,9 +29,9 @@
     "attacker": "Romanian",
     "att_desc": "1st Romanian Army",
     "maps": [ 1, "2", "RB" ],
-    "mapImages": [
-        "http://localhost:5010/static/images/asl-scenario-archive.png"
-    ],
+    "mapImages": [ {
+        "url": "http://localhost:5010/static/images/asl-scenario-archive.png"
+    } ],
     "overlays": [ 1, "2", "OG1" ],
     "misc": "Some extra rules",
     "errata": [
@@ -42,7 +42,22 @@
         "totalGames": "10",
         "defender_wins": "3",
         "attacker_wins": "7"
-    } ]
+    } ],
+    "templateImages": [
+        { "url": "http://test.com/alice:1400000000|screenshot1.png", "user": "alice", "created": "2014-05-13 01:02:03" },
+        { "url": "http://test.com/bob:1500000000|screenshot2.png", "user": "bob", "created": "2017-07-14 01:02:03" },
+        { "url": "http://test.com/chuck:1600000000|screenshot3.png", "user": "chuck", "created": "2020-09-13 01:02:03" }
+    ],
+    "vaslTemplates": [
+        { "url": "http://test.com/alice:1400000000|vt_setup1.json", "user": "alice", "created": "2014-05-13 01:02:03" },
+        { "url": "http://test.com/bob:1500000000|vt_setup2.json", "user": "bob", "created": "2017-07-14 01:02:03" },
+        { "url": "http://test.com/dave:1700000000|vt_setup4.json", "user": "dave", "created": "2023-11-14 01:02:03" }
+    ],
+    "vaslTemplateSetups": [
+        { "url": "http://test.com/alice:1400000000|vt_setup1.vsav", "user": "alice", "created": "2014-05-13 01:02:03" },
+        { "url": "http://test.com/chuck:1600000000|vt_setup3.vsav", "user": "chuck", "created": "2020-09-13 01:02:03" },
+        { "url": "http://test.com/dave:1700000000|vt_setup4.vsav", "user": "dave", "created": "2023-11-14 01:02:03" }
+    ]
 },
 
 { "scenario_id": "2",

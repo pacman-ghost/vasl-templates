@@ -21,8 +21,12 @@
     <div class="warnings" style="display:none;"></div>
     <div class="buttons">
         <button class="import" title="Import this scenario and link it to the ASL Scenario Archive.">
-            <img class="logo" src="{{url_for('static',filename='images/sortable-add.png')}}">
+            <img src="{{url_for('static',filename='images/sortable-add.png')}}">
             Import
+        </button>
+        <button class="downloads" title="Downloads for this scenario.">
+            <img src="{{url_for('static',filename='images/download.png')}}">
+            Downloads
         </button>
         <button class="cancel-import"> Cancel </button>
         <button class="confirm-import ok"> OK </button>

@@ -10,10 +10,10 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='jquery-ui/jquery-ui.min.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='growl/jquery.growl.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='popmenu/jquery.popmenu.css')}}" />
-<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='imageZoom/jquery.imageZoom.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='spectrum/spectrum.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='select2/select2.min.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='chartjs/Chart.min.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='lightgallery/css/lightgallery.min.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/main.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/tabs.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/tabs-scenario.css')}}" />
@@ -32,6 +32,8 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/snippets.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/scenario-search-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/scenario-card.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/scenario-upload-dialog.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/scenario-downloads-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/user-settings-dialog.css')}}" />
 
 </head>
@@ -58,6 +60,8 @@
 <input id="load-template-pack" type="file" accept=".zip,.j2" style="display:none;">
 <input id="load-vsav" type="file" accept=".vsav" style="display:none;">
 <input id="load-vlog" type="file" multiple accept=".vlog" style="display:none;">
+<input id="select-vsav-for-upload" type="file" multiple accept=".vsav" style="display:none;">
+<input id="select-screenshot-for-upload" type="file" multiple accept=".png,.jpg,.jpeg,.gif" style="display:none;">
 
 <div id="alt-webapp-base-url" style="display:none;"> Webapp base URL: </div>
 
@@ -77,6 +81,8 @@
 {%include "edit-vo-dialog.html"%}
 {%include "scenario-info-dialog.html"%}
 {%include "scenario-search-dialog.html"%}
+{%include "scenario-upload-dialog.html"%}
+{%include "scenario-downloads-dialog.html"%}
 {%include "select-roar-scenario-dialog.html"%}
 
 {%include "vassal.html"%}
@@ -97,7 +103,6 @@
 <script src="{{url_for('static',filename='jinja/jinja.js')}}"></script>
 <script src="{{url_for('static',filename='growl/jquery.growl.js')}}"></script>
 <script src="{{url_for('static',filename='popmenu/jquery.popmenu-1.0.0.min.js')}}"></script>
-<script src="{{url_for('static',filename='imageZoom/jquery.imageZoom.min.js')}}"></script>
 <script src="{{url_for('static',filename='hotkey/jquery.hotkey.js')}}"></script>
 <script src="{{url_for('static',filename='spectrum/spectrum.js')}}"></script>
 <script src="{{url_for('static',filename='download/download.min.js')}}"></script>
@@ -107,6 +112,10 @@
 <script src="{{url_for('static',filename='js-cookie/js.cookie.js')}}"></script>
 <script src="{{url_for('static',filename='chartjs/Chart.min.js')}}"></script>
 <script src="{{url_for('static',filename='chartjs/chartjs-plugin-labels.min.js')}}"></script>
+<script src="{{url_for('static',filename='lightgallery/js/lightgallery.min.js')}}"></script>
+<script src="{{url_for('static',filename='lightgallery/js/lg-thumbnail.min.js')}}"></script>
+<script src="{{url_for('static',filename='lightgallery/js/lg-zoom.min.js')}}"></script>
+<script src="{{url_for('static',filename='lightgallery/js/lg-rotate.min.js')}}"></script>
 
 <script>
 gAppName = "{{APP_NAME}}" ;
@@ -128,6 +137,8 @@ gGetRoarScenarioIndexUrl = "{{url_for('get_roar_scenario_index')}}" ;
 gAnalyzeVsavUrl = "{{url_for('analyze_vsav')}}" ;
 gAnalyzeVlogsUrl = "{{url_for('analyze_vlogs')}}" ;
 gUpdateVsavUrl = "{{url_for('update_vsav')}}" ;
+gPrepareAsaUploadUrl = "{{url_for('prepare_asa_upload')}}" ;
+gOnSuccessfulAsaUploadUrl = "{{url_for('on_successful_asa_upload',scenario_id='ID')}}" ;
 gMakeSnippetImageUrl = "{{url_for('make_snippet_image')}}" ;
 gHelpUrl = "{{url_for('show_help')}}" ;
 </script>
@@ -135,6 +146,7 @@ gHelpUrl = "{{url_for('show_help')}}" ;
 <script src="{{url_for('static',filename='main.js')}}"></script>
 <script src="{{url_for('static',filename='snippets.js')}}"></script>
 <script src="{{url_for('static',filename='scenarios.js')}}"></script>
+<script src="{{url_for('static',filename='scenario-upload.js')}}"></script>
 <script src="{{url_for('static',filename='nat_caps.js')}}"></script>
 <script src="{{url_for('static',filename='extras.js')}}"></script>
 <script src="{{url_for('static',filename='simple_notes.js')}}"></script>

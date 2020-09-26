@@ -174,11 +174,11 @@ function getRoarScenarioIndex( onReady )
 
         // nope - download it
         $.getJSON( gGetRoarScenarioIndexUrl, function( resp ) {
-            if ( resp.error ) {
-                var msg = resp.error ;
+            if ( resp.warning ) {
+                var msg = resp.warning ;
                 if ( resp.message )
                     msg += "<div class='pre'>" + escapeHTML(resp.message) + "</div>" ;
-                showErrorMsg( msg ) ;
+                showWarningMsg( msg ) ;
                 return ;
             }
             _roarScenarioIndex = resp ;

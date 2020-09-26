@@ -355,9 +355,9 @@ public class VassalShim
         cmd.execute() ;
 
         // extract the labels from the scenario
+        logger.info( "Searching the VASL scenario for labels (players={};{})...", players[0], players[1] ) ;
         Map<String,GamePieceLabelFields> ourLabels = new HashMap<String,GamePieceLabelFields>() ;
         ArrayList<GamePieceLabelFields> otherLabels = new ArrayList<GamePieceLabelFields>() ;
-        logger.info( "Searching the VASL scenario for labels (players={};{})...", players[0], players[1] ) ;
         AppBoolean hasPlayerOwnedLabels = new AppBoolean( false ) ;
         extractLabels( cmd, players, hasPlayerOwnedLabels, ourLabels, otherLabels, true ) ;
 
@@ -496,9 +496,11 @@ public class VassalShim
                         String nat = snippetId.substring( 0, pos ) ;
                         if ( ! nat.equals( "extras" ) )
                             hasPlayerOwnedLabels.setVal( true ) ;
-                        if ( ! nat.equals( players[0] ) && ! nat.equals( players[1] ) ) {
-                            addSnippet = false ;
-                            logger.debug( "- Skipping label: {} (owner={})", snippetId, nat ) ;
+                        if ( players != null ) {
+                            if ( ! nat.equals( players[0] ) && ! nat.equals( players[1] ) ) {
+                                addSnippet = false ;
+                                logger.debug( "- Skipping label: {} (owner={})", snippetId, nat ) ;
+                            }
                         }
                     }
                     if ( addSnippet ) {
@@ -917,6 +919,98 @@ public class VassalShim
 
         // save the report
         Utils.saveXml( doc, reportFilename ) ;
+    }
+
+    public void takeScreenshot( String scenarioFilename, String outputFilename )
+        throws IOException, InterruptedException
+    {
+        // load the scenario
+        Command cmd = loadScenario( scenarioFilename ) ;
+        cmd.execute() ;
+
+        // generate the screenshot
+        doTakeScreenshot( cmd, outputFilename ) ;
+    }
+
+    private void doTakeScreenshot( Command cmd, String outputFilename )
+        throws IOException, InterruptedException
+    {
+        // figure out how big to make the screenshot
+        VASSAL.build.module.Map map = selectMap() ;
+        Dimension mapSize = map.mapSize() ;
+        map.getZoomer().setZoomFactor( 1.0 ) ;
+        int mapWidth = mapSize.width ;
+        int mapHeight = mapSize.height ;
+
+        // generate a screenshot
+        AppImageSaver imageSaver = new AppImageSaver( map ) ;
+        File outputFile = new File( outputFilename ) ;
+        int timeout = Integer.parseInt( config.getProperty( "SCREENSHOT_TIMEOUT", "30" ) ) ;
+        logger.debug( "Creating screenshot: width=" + mapWidth + " ; height=" + mapHeight + " ; timeout=" + timeout ) ;
+        imageSaver.generateScreenshot( outputFile, mapWidth, mapHeight, timeout ) ;
+    }
+
+    public void prepareUpload( String scenarioFilename, String strippedScenarioFilename, String screenshotFilename )
+        throws IOException, InterruptedException
+    {
+        // load the scenario
+        Command cmd = loadScenario( scenarioFilename ) ;
+        cmd.execute() ;
+
+        // figure out what labels we want to strip
+        logger.debug( "Configuring snippet ID's to strip:" ) ;
+        ArrayList<Pattern> snippetIdPatterns = new ArrayList<Pattern>() ;
+        String[] targetSnippetIds = config.getProperty( "STRIP_SNIPPETS_FOR_UPLOAD",
+            "victory_conditions ssr /ob_(vehicle|ordnance)_note_[0-9.]+"
+        ).split( "\\s+" ) ;
+        for ( String regex: targetSnippetIds ) {
+            logger.debug( "- " + regex ) ;
+            snippetIdPatterns.add( Pattern.compile( regex ) ) ;
+        }
+
+        // extract the labels from the scenario
+        logger.debug( "Searching the VASL scenario for labels." ) ;
+        AppBoolean hasPlayerOwnedLabels = new AppBoolean( false ) ;
+        Map<String,GamePieceLabelFields> ourLabels = new HashMap<String,GamePieceLabelFields>() ;
+        ArrayList<GamePieceLabelFields> otherLabels = new ArrayList<GamePieceLabelFields>() ;
+        extractLabels( cmd, null, hasPlayerOwnedLabels, ourLabels, otherLabels, false ) ;
+
+        // process each label
+        logger.info( "Stripping labels..." ) ;
+        for ( String snippetId: ourLabels.keySet() ) {
+            // check if this is a label we want to strip
+            boolean rc = false ;
+            for ( Pattern pattern: snippetIdPatterns ) {
+                if ( pattern.matcher( snippetId ).find() ) {
+                    rc = true ;
+                    break ;
+                }
+            }
+            if ( ! rc ) {
+                // nope - leave it alone
+                logger.debug( "- Ignoring \"" + snippetId + "\"." ) ;
+                continue ;
+            }
+            // yup - make it so
+            logger.info( "- Stripping \"" + snippetId + "\"." ) ;
+            GamePieceLabelFields labelFields = ourLabels.get( snippetId ) ;
+            RemovePiece removeCmd = new RemovePiece( labelFields.gamePiece() ) ;
+            try {
+                removeCmd.execute() ;
+            } catch( Exception ex ) {
+                String msg = "ERROR: Couldn't delete label '" + snippetId + "'" ;
+                logger.warn( msg, ex ) ;
+            }
+        }
+
+        // save the scenario
+        saveScenario( strippedScenarioFilename ) ;
+
+        // generate the screenshot
+        // NOTE: This sometimes crashes (NPE), so it must be done last.
+        logger.info( "Generating screenshot..." ) ;
+        doTakeScreenshot( cmd, screenshotFilename ) ;
+        logger.info( "- OK." ) ;
     }
 
     private VASSAL.build.module.Map selectMap()

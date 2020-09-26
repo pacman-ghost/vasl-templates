@@ -1,0 +1,66 @@
+<div id="scenario-upload-dialog" style="display:none;">
+
+<div class="row">
+    <label for="scenario"> Scenario: </label> <span class="scenario-name"></span>
+    <span class="scenario-id"></span>
+    <span class="asa-id"></span>
+</div>
+
+<div class="auth">
+<div class="row">
+    <label for="user"> User name: </label> <input class="user" type="text" size="20">
+    <span class="hint"> (register for an account <a href="https://www.aslscenarioarchive.com/register.php">here</a>) <span>
+</div>
+<div class="row">
+    <label for="token"> API token: </label> <input class="token" type="text" size="20">
+    <span class="hint"> (get this from your account's <em>My Page</em>) </span>
+</div>
+</div>
+
+<div class="grid">
+
+<div class="left">
+
+<div class="vsav-container">
+    <div class="hint">
+        <img src="{{url_for('static',filename='images/lfa/file.png')}}">
+        Click here to select your VASL save file, or drag it in.
+    </div>
+    <div class="file-info" style="display:none;">
+        <img src="{{url_for('static',filename='images/lfa/file.png')}}">
+        <div>
+            <span class="name"></span>
+        </div>
+    </div>
+    <img src="{{url_for('static',filename='images/cross.png')}}" class="remove" title="Remove this file" style="display:none;">
+</div>
+
+<div class="disclaimer">
+Your <em>vasl-templates</em> setup will also be uploaded.
+<div style="margin-top:0.5em;display:flex;">
+    <img src="{{url_for('static',filename='images/warning.gif')}}" style="height:1.5em;margin:0.1em 0.5em 0 0;">
+    <div> For copyright reasons, some information will be removed from the uploads (e.g. Victory Conditions, SSR's). If you are sure that the scenario is <em>not</em> copyrighted, you can upload the complete files at the <a href="" class="asa-scenario">ASL Scenario Archive</a>. </div>
+</div>
+</div>
+
+</div> <!-- end left -->
+
+<div class="right">
+
+<div class="screenshot-container">
+    <div class="hint">
+        <img src="{{url_for('static',filename='images/screenshot.png')}}">
+        Click here to select a screenshot file, <br> or drag one in.
+    </div>
+    <div class="preview" style="display:none;">
+        <img src="">
+    </div>
+    <img src="{{url_for('static',filename='images/cross.png')}}" class="remove" title="Remove this file" style="display:none;">
+</div>
+
+</div> <!-- end right -->
+
+</div> <!-- end grid -->
+
+</div>
+

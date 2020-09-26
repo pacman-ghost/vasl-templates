@@ -9,7 +9,7 @@ import math
 from collections import defaultdict
 
 from flask import request, Response, send_file
-from PIL import Image
+from PIL import Image, ImageChops
 
 # ---------------------------------------------------------------------
 
@@ -158,6 +158,31 @@ def resize_image_response( resp, default_width=None, default_height=None, defaul
     else:
         # nope - return the image as-is
         return resp
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def trim_image( img ):
+    """Trim whitespace from an image."""
+    if isinstance( img, str ):
+        img = Image.open( img )
+    # trim the screenshot (nb: we assume a white background)
+    bgd = Image.new( img.mode, img.size, (255,255,255,255) )
+    diff = ImageChops.difference( img, bgd )
+    bbox = diff.getbbox()
+    return img.crop( bbox )
+
+def get_image_data( img, **kwargs ):
+    """Get the data from a Pillow image."""
+    buf = io.BytesIO()
+    img.save( buf, format=kwargs.pop("format","PNG"), **kwargs )
+    buf.seek( 0 )
+    return buf.read()
+
+def remove_alpha_from_image( img ):
+    """Remove the alpha channel from an image."""
+    img2 = Image.new( "RGB", img.size, "WHITE" )
+    img2.paste( img, (0,0), img )
+    return img2
 
 # ---------------------------------------------------------------------
 

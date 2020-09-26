@@ -242,10 +242,15 @@ function close_dialog_if_no_others( $dlg )
 {
     // NOTE: Escape doesn't always close a dialog, so we do it ourself, but we have to handle the case
     // where more than one dialog is on-screen, and only close if there isn't another dialog on top of us.
-    if ( $(".ui.dialog").length >= 2 )
+    var nDialogs = 0 ;
+    $( ".ui-dialog" ).each( function() {
+        if ( $(this).css( "display" ) !== "none" )
+            ++ nDialogs ;
+    } ) ;
+    if ( nDialogs >= 2 )
         return ;
     // NOTE: We also want to stop Escape from closing a dialog if an image preview is being shown.
-    if ( $( ".jquery-image-zoom" ).length > 0 )
+    if ( $( ".lg-outer" ).length > 0 )
         return ;
 
     // close the dialog
@@ -264,6 +269,7 @@ function ask( title, msg, args )
         modal: true,
         closeOnEscape:false,
         title: title,
+        width: args.width || 400,
         minWidth: 250,
         maxHeight: window.innerHeight,
         create: function() {
@@ -296,6 +302,25 @@ function ask( title, msg, args )
     } ) ;
 
     return false ;
+}
+
+function showMsgDialog( title, msg, width )
+{
+    // show the message in a dialog
+    $( "#ask" ).dialog( {
+        dialogClass: "ask",
+        modal: true,
+        title: title,
+        width: width, minWidth: 250,
+        open: function() {
+            $(this).html( msg ) ;
+        },
+        buttons: {
+            OK: function() {
+                $(this).dialog( "close" ) ;
+            },
+        },
+    } ) ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -461,9 +486,14 @@ function addUrlParam( url, param, val )
 }
 
 function escapeHTML( val ) { return new Option(val).innerHTML ; }
-function pluralString( n, str1, str2 ) { return (n == 1) ? str1 : str2 ; }
 function trimString( val ) { return val ? val.trim() : val ; }
 function fpFmt( val, nDigits ) { return val.toFixed( nDigits ) ; }
+
+function pluralString( n, str1, str2, combine )
+{
+    var val = (n == 1) ? str1 : str2 ;
+    return combine ? n + " " + val : val ;
+}
 
 function percentString( val )
 {
@@ -536,11 +566,29 @@ function getFilenameExtn( fname )
         return null ;
 }
 
+function removeBase64Prefix( val )
+{
+    // remove the base64 prefix from the start of the string
+    // - data: MIME-TYPE ; base64 , ...
+    return val.replace( /^data:.*?;base64,/, "" ) ;
+}
+
 function stopEvent( evt )
 {
     // stop further processing for the event
     evt.preventDefault() ;
     evt.stopPropagation() ;
+}
+
+function makeBlob( data, mimeType )
+{
+    // create a Blob from a binary string
+    var bytes = new Uint8Array( data.length ) ;
+    for ( var i=0 ; i < data.length ; ++i )
+        bytes[i] = data.charCodeAt( i ) ;
+    return new Blob( [bytes], {
+        type: mimeType || "application/octet-stream"
+    } ) ;
 }
 
 function isIE()

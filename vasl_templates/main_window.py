@@ -334,3 +334,11 @@ class MainWindow( QWidget ):
     def on_snippet_image( self, img_data ):
         """Called when a snippet image has been generated."""
         self._web_channel_handler.on_snippet_image( img_data )
+
+    @pyqtSlot( str, str, result=bool )
+    @catch_exceptions( caption="SLOT EXCEPTION", retval=False )
+    def save_downloaded_vsav( self, fname, data ):
+        """Called when a VASL scenario has been downloaded."""
+        data = base64.b64decode( data )
+        # NOTE: We handle this the same as saving an updated VSAV.
+        return self._web_channel_handler.save_updated_vsav( fname, data )

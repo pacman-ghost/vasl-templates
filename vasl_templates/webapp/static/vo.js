@@ -136,6 +136,7 @@ function add_vo( vo_type, player_no )
                 if ( usedVoIds.indexOf( sel_entry.id ) !== -1 ) {
                     var vo_type2 = SORTABLE_DISPLAY_NAMES[ "ob_" + vo_type ][0] ;
                     ask( "Add "+vo_type2, "<p>This "+vo_type2+" is already in the OB<p>Do you want to add it again?", {
+                        width: 300,
                         ok: add_sel_entry,
                     } ) ;
                     return ;

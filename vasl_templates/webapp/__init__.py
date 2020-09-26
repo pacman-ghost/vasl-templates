@@ -83,6 +83,9 @@ app = Flask( __name__ )
 app.config[ "ASA_SCENARIO_URL" ] = "https://aslscenarioarchive.com/scenario.php?id={ID}"
 app.config[ "ASA_PUBLICATION_URL" ] = "https://aslscenarioarchive.com/viewPub.php?id={ID}"
 app.config[ "ASA_PUBLISHER_URL" ] = "https://aslscenarioarchive.com/viewPublisher.php?id={ID}"
+app.config[ "ASA_GET_SCENARIO_URL" ] = "https://aslscenarioarchive.com/rest/scenario/list/{ID}"
+app.config[ "ASA_MAX_VASL_SETUP_SIZE" ] = 200 # nb: KB
+app.config[ "ASA_MAX_SCREENSHOT_SIZE" ] = 200 # nb: KB
 
 # load the application configuration
 config_dir = os.path.join( BASE_DIR, "config" )
