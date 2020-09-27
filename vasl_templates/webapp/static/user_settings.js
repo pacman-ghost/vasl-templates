@@ -37,7 +37,7 @@ function user_settings()
         for ( var name in USER_SETTINGS ) {
             var $elem = $( ".ui-dialog.user-settings [name='" + name + "']" ) ;
             func = handlers[ "unload_" + USER_SETTINGS[name] ] ;
-            settings[name] = func( $elem ) ;
+            gUserSettings[name] = func( $elem ) ;
         }
         return settings ;
     }
@@ -115,7 +115,7 @@ function user_settings()
         buttons: {
             OK: function() {
                 // unload and install the new user settings
-                gUserSettings = unload_settings() ;
+                unload_settings() ;
                 save_user_settings() ;
                 apply_user_settings() ;
                 $(this).dialog( "close" ) ;
