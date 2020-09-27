@@ -1,1 +1,116 @@
-{"SCENARIO_NAME":"Hube's Pocket","SCENARIO_ID":"ASL G","ROAR_ID":131,"SCENARIO_LOCATION":"Near Buchach, Southern Russia","SCENARIO_DATE":"1944-04-05","SCENARIO_WIDTH":"","VICTORY_CONDITIONS_WIDTH":"300px","SSR_WIDTH":"330px","OB_VEHICLES_WIDTH_1":"","OB_ORDNANCE_WIDTH_1":"","OB_VEHICLES_WIDTH_2":"","OB_ORDNANCE_WIDTH_2":"","VICTORY_CONDITIONS":"The Germans win immediately by exiting &ge; 10 vehicles <br>\noff the west edge in either one or two Convoys (see SSR 4).","PLAYER_1":"german","PLAYER_1_ELR":"4","PLAYER_1_SAN":"2","PLAYER_2":"russian","PLAYER_2_ELR":"3","PLAYER_2_SAN":"2","SSR":["The SPW 251/sMG inherent HS is a 3-4-8.","German inherent crews have a morale of 9.","No German unit may enter any hex of Board 4 prior to Turn 2.","All units of the 1st Panzer Army must enter in Convoy (E11.) on/after Turn 5 (some, none, or all may enter each Turn) along any single road hex along the east edge."],"OB_VEHICLES_1":[{"name":"PzKpfw IVH"},{"name":"PzKpfw VG"},{"name":"SPW 251/sMG"},{"name":"SPW 251/1"},{"name":"Buessing-NAG 4500"},{"name":"Opel 6700 (Blitz)"},{"name":"SdKfz 7"}],"OB_VEHICLES_2":[{"name":"T-34/85"},{"name":"T-34 M43"}],"SCENARIO_NOTES":[{"caption":"Download the scenario card from <a href=\"http://www.multimanpublishing.com/Support/ASLASLSK/ASLOfficialDownloads/tabid/109/Default.aspx\">Multi-Man Publishing</a> (ASL Classic pack).","width":""}],"OB_SETUPS_1":[{"caption":"Enter on Turn 1 along the west edge of Boards 2/5 (see SSR 3)","width":""},{"caption":"Enter per SSR 4","width":"200px"}],"OB_SETUPS_2":[{"caption":"Enter on Turn 1 along the north edge","width":""}],"OB_NOTES_1":[],"OB_NOTES_2":[]}
+{
+    "SCENARIO_NAME": "Hube's Pocket",
+    "SCENARIO_ID": "ASL G",
+    "SCENARIO_LOCATION": "Near Buchach, Southern Russia",
+    "SCENARIO_DATE": "1944-04-06",
+    "SCENARIO_WIDTH": "",
+    "PLAYER_1_DESCRIPTION": "Advance elements of 5th Tank Corps",
+    "PLAYER_2_DESCRIPTION": "10th SS Panzer Division \"Frundsberg\" and the First Panzer Army ",
+    "ASA_ID": "56514",
+    "ROAR_ID": "131",
+    "PLAYERS_WIDTH": "",
+    "VICTORY_CONDITIONS_WIDTH": "320px",
+    "SSR_WIDTH": "330px",
+    "OB_VEHICLES_WIDTH_1": "",
+    "OB_VEHICLES_MA_NOTES_WIDTH_1": "300px",
+    "OB_ORDNANCE_WIDTH_1": "",
+    "OB_ORDNANCE_MA_NOTES_WIDTH_1": "300px",
+    "OB_VEHICLES_WIDTH_2": "",
+    "OB_VEHICLES_MA_NOTES_WIDTH_2": "300px",
+    "OB_ORDNANCE_WIDTH_2": "",
+    "OB_ORDNANCE_MA_NOTES_WIDTH_2": "300px",
+    "VICTORY_CONDITIONS": "The Germans win immediately by exiting &ge; 10 vehicles <br>\noff the west edge in either one or two Convoys (see SSR 4).",
+    "SCENARIO_THEATER": "ETO",
+    "PLAYER_1": "german",
+    "PLAYER_1_ELR": "4",
+    "PLAYER_1_SAN": "2",
+    "PLAYER_2": "russian",
+    "PLAYER_2_ELR": "3",
+    "PLAYER_2_SAN": "2",
+    "SSR": [
+        "The SPW 251/sMG inherent HS is a 3-4-8.",
+        "German inherent crews have a morale of 9.",
+        "No German unit may enter any hex of Board 4 prior to Turn 2.",
+        "All units of the 1st Panzer Army must enter in Convoy (E11.) on/after Turn 5 (some, none, or all may enter each Turn) along any single road hex along the east edge."
+    ],
+    "OB_VEHICLES_1": [
+        {
+            "id": "ge/v:027",
+            "seq_id": 1,
+            "name": "PzKpfw IVH"
+        },
+        {
+            "id": "ge/v:030",
+            "seq_id": 2,
+            "name": "PzKpfw VG"
+        },
+        {
+            "id": "ge/v:072",
+            "seq_id": 3,
+            "name": "SPW 251/sMG"
+        },
+        {
+            "id": "ge/v:071",
+            "seq_id": 4,
+            "name": "SPW 251/1"
+        },
+        {
+            "id": "ge/v:116",
+            "seq_id": 5,
+            "name": "Buessing-NAG 4500"
+        },
+        {
+            "id": "ge/v:115",
+            "seq_id": 6,
+            "name": "Opel 6700 (Blitz)"
+        },
+        {
+            "id": "ge/v:118",
+            "seq_id": 7,
+            "name": "SdKfz 7"
+        }
+    ],
+    "OB_VEHICLES_2": [
+        {
+            "id": "ru/v:027",
+            "seq_id": 1,
+            "name": "T-34/85"
+        },
+        {
+            "id": "ru/v:025",
+            "seq_id": 2,
+            "name": "T-34 M43"
+        }
+    ],
+    "SCENARIO_NOTES": [
+        {
+            "caption": "Download the scenario card from <a href=\"http://www.multimanpublishing.com/Support/ASLASLSK/ASLOfficialDownloads/tabid/109/Default.aspx\">Multi-Man Publishing</a> (ASL Classic pack).",
+            "width": "",
+            "id": 1
+        }
+    ],
+    "OB_SETUPS_1": [
+        {
+            "caption": "Enter on Turn 1 along the west edge of Boards 2/5 (see SSR 3)",
+            "width": "",
+            "id": 1
+        },
+        {
+            "caption": "Enter per SSR 4",
+            "width": "200px",
+            "id": 2
+        }
+    ],
+    "OB_SETUPS_2": [
+        {
+            "caption": "Enter on Turn 1 along the north edge",
+            "width": "",
+            "id": 1
+        }
+    ],
+    "OB_NOTES_1": [],
+    "OB_NOTES_2": [],
+    "_app_version": "v1.3",
+    "_last_update_time": "2020-09-27T04:33:18.643Z",
+    "_creation_time": "2020-09-27T04:11:07.200Z"
+}

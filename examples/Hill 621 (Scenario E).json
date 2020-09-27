@@ -1,1 +1,179 @@
-{"SCENARIO_NAME":"Hill 621","SCENARIO_ID":"ASL E","ROAR_ID":129,"SCENARIO_LOCATION":"Near Minsk, Russia","SCENARIO_DATE":"1944-06-29","SCENARIO_WIDTH":"","VICTORY_CONDITIONS_WIDTH":"240px","SSR_WIDTH":"300px","OB_VEHICLES_WIDTH_1":"","OB_ORDNANCE_WIDTH_1":"","OB_VEHICLES_WIDTH_2":"","OB_ORDNANCE_WIDTH_2":"","VICTORY_CONDITIONS":"The Russians win at Game End if they Control &ge; five Level 3 hill hexes on Board 2.","PLAYER_1":"russian","PLAYER_1_ELR":"4","PLAYER_1_SAN":"3","PLAYER_2":"german","PLAYER_2_ELR":"3","PLAYER_2_SAN":"4","SSR":["EC are Moderate, with no wind at start.","After \"At Start\" placement, each German infantry unit must take a TC. The only possible consequence of failure is that the unit must begin the scenario broken. Those units which break during this pre-game TC are not subject to DM in the initial German RPh.","The Germans receive one module of 80+mm Battalion Mortar OBA (HE and Smoke) with the radio in the initial OB.","The Germans receive one module of 100+mm OBA (HE and Smoke) with the Turn 4 reinforcements."],"OB_VEHICLES_1":[{"name":"T-34 M43"},{"name":"SU-152"},{"name":"SU-122"},{"name":"ZIS-5"}],"OB_VEHICLES_2":[{"name":"PzKpfw IVH"},{"name":"PzKpfw IIIN"},{"name":"StuG IIIG (L)"},{"name":"StuH 42"},{"name":"SPW 250/1"},{"name":"SPW 251/1"},{"name":"SPW 251/sMG"}],"OB_ORDNANCE_2":[{"name":"7.5cm PaK 40"},{"name":"5cm PaK 38"}],"SCENARIO_NOTES":[{"caption":"Download the scenario card from <a href=\"http://www.multimanpublishing.com/Support/ASLASLSK/ASLOfficialDownloads/tabid/109/Default.aspx\">Multi-Man Publishing</a> (ASL Classic pack).","width":"300px"}],"OB_SETUPS_1":[{"caption":"Set up on any whole hex of Board 3","width":""},{"caption":"Enter on Turn 2 on any single road hex <br>\non the east edge of Board 3","width":""},{"caption":"Enter on Turn 5 on any single road hex <br>\non the east edge of Board 3","width":""}],"OB_SETUPS_2":[{"caption":"Set up in any whole hex of Board 4","width":""},{"caption":"Enter on Turn 1 on any single road hex <br>\non any edge of Board 2","width":""},{"caption":"Enter on Turn 2 on any single road hex <br>\non the north <i>or</i> south edge of Board 4","width":""},{"caption":"Enter on Turn 4 on any single road hex <br>\non the west edge of Board 2","width":""},{"caption":"Enter on Turn 5 on any single road hex <br>\nalong the north, south or west edge of Board 2","width":""},{"caption":"Enter on Turn 8 along <br>\nthe west edge of Board 2","width":""}],"OB_NOTES_1":[],"OB_NOTES_2":[{"caption":"80+mm Battalion Mortar <br> OBA (HE/Smoke)","width":""},{"caption":"100+mm OBA (HE/Smoke)","width":""}]}
+{
+    "SCENARIO_NAME": "Hill 621",
+    "SCENARIO_ID": "ASL E",
+    "SCENARIO_LOCATION": "Near Minsk, Russia",
+    "SCENARIO_DATE": "1944-07-01",
+    "SCENARIO_WIDTH": "",
+    "PLAYER_1_DESCRIPTION": "Retreating elements of 170th Infantry Division",
+    "PLAYER_2_DESCRIPTION": "Elements of 5th Guards Army",
+    "ASA_ID": "56512",
+    "ROAR_ID": "129",
+    "PLAYERS_WIDTH": "",
+    "VICTORY_CONDITIONS_WIDTH": "240px",
+    "SSR_WIDTH": "500px",
+    "OB_VEHICLES_WIDTH_1": "",
+    "OB_VEHICLES_MA_NOTES_WIDTH_1": "300px",
+    "OB_ORDNANCE_WIDTH_1": "",
+    "OB_ORDNANCE_MA_NOTES_WIDTH_1": "300px",
+    "OB_VEHICLES_WIDTH_2": "",
+    "OB_VEHICLES_MA_NOTES_WIDTH_2": "300px",
+    "OB_ORDNANCE_WIDTH_2": "",
+    "OB_ORDNANCE_MA_NOTES_WIDTH_2": "300px",
+    "VICTORY_CONDITIONS": "The Russians win at Game End if they Control &ge; five Level 3 hill hexes on Board 2.",
+    "SCENARIO_THEATER": "ETO",
+    "PLAYER_1": "russian",
+    "PLAYER_1_ELR": "4",
+    "PLAYER_1_SAN": "3",
+    "PLAYER_2": "german",
+    "PLAYER_2_ELR": "3",
+    "PLAYER_2_SAN": "4",
+    "SSR": [
+        "EC are Moderate, with no wind at start.",
+        "After \"At Start\" placement, each German infantry unit must take a TC. The only possible consequence of failure is that the unit must begin the scenario broken. Those units which break during this pre-game TC are not subject to DM in the initial German RPh.",
+        "The Germans receive one module of 80+mm Battalion Mortar OBA (HE and Smoke) with the radio in the initial OB.",
+        "The Germans receive one module of 100+mm OBA (HE and Smoke) with the Turn 4 reinforcements."
+    ],
+    "OB_VEHICLES_1": [
+        {
+            "id": "ru/v:025",
+            "seq_id": 1,
+            "name": "T-34 M43"
+        },
+        {
+            "id": "ru/v:047",
+            "seq_id": 2,
+            "name": "SU-152"
+        },
+        {
+            "id": "ru/v:046",
+            "seq_id": 3,
+            "name": "SU-122"
+        },
+        {
+            "id": "ru/v:068",
+            "seq_id": 4,
+            "name": "ZIS-5"
+        }
+    ],
+    "OB_VEHICLES_2": [
+        {
+            "id": "ge/v:027",
+            "seq_id": 1,
+            "name": "PzKpfw IVH"
+        },
+        {
+            "id": "ge/v:019",
+            "seq_id": 2,
+            "name": "PzKpfw IIIN"
+        },
+        {
+            "id": "ge/v:038",
+            "seq_id": 3,
+            "name": "StuG IIIG (L)"
+        },
+        {
+            "id": "ge/v:039",
+            "seq_id": 4,
+            "name": "StuH 42"
+        },
+        {
+            "id": "ge/v:065",
+            "seq_id": 5,
+            "name": "SPW 250/1"
+        },
+        {
+            "id": "ge/v:071",
+            "seq_id": 6,
+            "name": "SPW 251/1"
+        },
+        {
+            "id": "ge/v:072",
+            "seq_id": 7,
+            "name": "SPW 251/sMG"
+        }
+    ],
+    "OB_ORDNANCE_2": [
+        {
+            "id": "ge/o:009",
+            "seq_id": 1,
+            "name": "7.5cm PaK 40"
+        },
+        {
+            "id": "ge/o:007",
+            "seq_id": 2,
+            "name": "5cm PaK 38"
+        }
+    ],
+    "SCENARIO_NOTES": [
+        {
+            "caption": "Download the scenario card from <a href=\"http://www.multimanpublishing.com/Support/ASLASLSK/ASLOfficialDownloads/tabid/109/Default.aspx\">Multi-Man Publishing</a> (ASL Classic pack).",
+            "width": "300px",
+            "id": 1
+        }
+    ],
+    "OB_SETUPS_1": [
+        {
+            "caption": "Set up on any whole hex of Board 3",
+            "width": "",
+            "id": 1
+        },
+        {
+            "caption": "Enter on Turn 2 on any single road hex <br>\non the east edge of Board 3",
+            "width": "",
+            "id": 2
+        },
+        {
+            "caption": "Enter on Turn 5 on any single road hex <br>\non the east edge of Board 3",
+            "width": "",
+            "id": 3
+        }
+    ],
+    "OB_SETUPS_2": [
+        {
+            "caption": "Set up in any whole hex of Board 4",
+            "width": "",
+            "id": 1
+        },
+        {
+            "caption": "Enter on Turn 1 on any single road hex <br>\non any edge of Board 2",
+            "width": "",
+            "id": 2
+        },
+        {
+            "caption": "Enter on Turn 2 on any single road hex <br>\non the north <i>or</i> south edge of Board 4",
+            "width": "",
+            "id": 3
+        },
+        {
+            "caption": "Enter on Turn 4 on any single road hex <br>\non the west edge of Board 2",
+            "width": "",
+            "id": 4
+        },
+        {
+            "caption": "Enter on Turn 5 on any single road hex <br>\nalong the north, south or west edge of Board 2",
+            "width": "",
+            "id": 5
+        },
+        {
+            "caption": "Enter on Turn 8 along <br>\nthe west edge of Board 2",
+            "width": "",
+            "id": 6
+        }
+    ],
+    "OB_NOTES_1": [],
+    "OB_NOTES_2": [
+        {
+            "caption": "80+mm Battalion Mortar <br> OBA (HE/Smoke)",
+            "width": "",
+            "id": 1
+        },
+        {
+            "caption": "100+mm OBA (HE/Smoke)",
+            "width": "",
+            "id": 2
+        }
+    ],
+    "_app_version": "v1.3",
+    "_last_update_time": "2020-09-27T04:13:08.719Z",
+    "_creation_time": "2020-09-27T03:46:56.089Z"
+}
