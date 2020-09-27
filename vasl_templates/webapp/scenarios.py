@@ -518,6 +518,9 @@ def prepare_asa_upload(): #pylint: disable=too-many-locals
 def on_successful_asa_upload( scenario_id ):
     """Update the local scenario index after a successful upload."""
 
+    if app.config.get( "DISABLE_LOCAL_ASA_INDEX_UPDATES" ):
+        return jsonify( { "status": "ok" } )
+
     # download the specified scenario
     url = app.config["ASA_GET_SCENARIO_URL"].replace( "{ID}", scenario_id )
     try:
@@ -528,7 +531,7 @@ def on_successful_asa_upload( scenario_id ):
         return jsonify( { "status": "error", "message": msg } )
 
     # update the local index
-    if os.path.isfile( _asa_scenarios.cache_fname ) and not app.config.get( "DISABLE_LOCAL_ASA_INDEX_UPDATES" ):
+    if os.path.isfile( _asa_scenarios.cache_fname ):
         # NOTE: Since the downloaded index file contains a *list* of scenarios, we append the new scenario info
         # to the end of that list, and then the next time the program starts and reads the list into a dict,
         # the most-recent version is the one that will ultimately be used. This lets us identify these temporary changes
