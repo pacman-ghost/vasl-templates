@@ -558,14 +558,14 @@ def _analyze_vlogs( fnames ):
     dlg = wait_for_elem( 2, ".ui-dialog.lfa-upload" )
 
     # add each log file
-    for fname in fnames:
+    for fno,fname in enumerate(fnames):
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/analyze-vlog/"+fname )
         vlog_data = open( fname, "rb" ).read()
         set_stored_msg( "_vlog-persistence_", "{}|{}".format(
             os.path.split( fname )[1],
             base64.b64encode( vlog_data ).decode( "utf-8" )
         ) )
-        find_child( "button.add", dlg ).click()
+        find_child( "#lfa-upload .{}".format( "hint" if fno == 0 else "files" ), dlg ).click()
         wait_for( 2, lambda: get_stored_msg( "_vlog-persistence_" ) == "" )
 
     # start the analysis

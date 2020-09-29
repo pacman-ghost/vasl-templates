@@ -93,9 +93,6 @@ window.on_analyze_vlog = function()
         create: function() {
             // initialize the dialog
             init_dialog( $(this), "OK", false ) ;
-            var $btnPane = $( ".ui-dialog.lfa-upload .ui-dialog-buttonpane" ) ;
-            var $btn = $( "<button class='add'> <img src='" + gImagesBaseUrl+"/sortable-add.png'> Add </button>" ) ;
-            $btnPane.prepend( $btn ) ;
         },
         open: function() {
             // initialize the dialog
@@ -110,8 +107,6 @@ window.on_analyze_vlog = function()
                 beforeStop: onDragEnd,
             } ).empty() ;
             initExternalDragDrop() ;
-            var $addBtn = $( ".ui-dialog.lfa-upload button.add" ) ;
-            gEventHandlers.addHandler( $addBtn, "click", onAddFile ) ;
             gEventHandlers.addHandler( $gLogFilesToUpload, "click", onAddFile ) ;
             gEventHandlers.addHandler( $dlg.find(".hint"), "click", onAddFile ) ;
             updateUi() ;
@@ -187,7 +182,7 @@ function addFileToUploadList( fname, vlog_data )
     $gLogFilesToUpload.append( $item ) ;
     updateUi() ;
 
-    // add click handler to remove the file from the list
+    // add click handlers to remove the file from the list
     gEventHandlers.addHandler( $item.children( ".delete" ), "click", function() {
         gDisableClickToAddTimestamp = new Date() ;
         removeFileFromUploadList( $(this).parent() ) ;
