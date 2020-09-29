@@ -980,6 +980,8 @@ function onDownloads() {
             } else {
                 download( resp, fname, "application/octet-stream" ) ;
             }
+            // all done - we can now close the downloads popup
+            $dlg.dialog( "close" ) ;
         } ).fail( function( xhr, status, errorMsg ) {
             $progressDlg.dialog( "close" ) ;
             showErrorMsg( "Can't download the VASL scenario:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
