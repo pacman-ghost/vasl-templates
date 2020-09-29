@@ -60,9 +60,13 @@ def _load_vasl_extns( extn_dir, msg_store ): #pylint: disable=too-many-locals,to
         return []
 
     def log_warning( fmt, *args, **kwargs ): #pylint: disable=missing-docstring
+        soft = kwargs.pop( "soft", False )
         msg = fmt.format( *args, **kwargs )
         warnings.append( msg )
-        _logger.warning( "%s", msg )
+        if soft:
+            _logger.info( "%s", msg )
+        else:
+            _logger.warning( "%s", msg )
 
     # load our extension info files
     all_extn_info = {}
@@ -110,7 +114,7 @@ def _load_vasl_extns( extn_dir, msg_store ): #pylint: disable=too-many-locals,to
         # get the extension's ID and version string
         extn_id = node.attrib.get( "extensionId" )
         if not extn_id:
-            log_warning( "Can't find ID for VASL extension: {}", extn_fname )
+            log_warning( "Can't find ID for VASL extension: {}", extn_fname, soft=True )
             continue
         extn_version = node.attrib.get( "version" )
         if not extn_version:
@@ -122,7 +126,8 @@ def _load_vasl_extns( extn_dir, msg_store ): #pylint: disable=too-many-locals,to
         extn_info = all_extn_info.get( ( extn_id, extn_version ) )
         if not extn_info:
             log_warning( "Not accepting {}: no extension info for {}/{}.",
-                os.path.split(extn_fname)[1], extn_id, extn_version
+                os.path.split(extn_fname)[1], extn_id, extn_version,
+                soft = True
             )
             continue
 
