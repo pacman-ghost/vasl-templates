@@ -49,19 +49,20 @@ $(document).ready( function () {
 
     // initialize the menu
     var $menu = $("#menu input") ;
+    var imagesDir = gImagesBaseUrl + "/menu" ;
     $menu.popmenu( {
-        new_scenario: { label: "New scenario", action: function() { on_new_scenario() ; } },
-        load_scenario: { label: "Load scenario", action: on_load_scenario },
-        save_scenario: { label: "Save scenario", action: on_save_scenario },
+        new_scenario: { label: "New scenario", icon: imagesDir+"/new.png", action: on_new_scenario },
+        load_scenario: { label: "Load scenario", icon: imagesDir+"/open.png", action: on_load_scenario },
+        save_scenario: { label: "Save scenario", icon: imagesDir+"/save.png", action: on_save_scenario },
         separator: { type: "separator" },
-        analyze_vsav: { label: "Analyze VASL scenario", action: on_analyze_vsav },
-        update_vsav: { label: "Update VASL scenario", action: on_update_vsav },
-        analyze_vlog: { label: "Analyze log files", action: on_analyze_vlog },
+        analyze_vsav: { label: "Analyze VASL scenario", icon: imagesDir+"/analyze-vsav.png", action: on_analyze_vsav },
+        update_vsav: { label: "Update VASL scenario", icon: imagesDir+"/update-vsav.png", action: on_update_vsav },
+        analyze_vlog: { label: "Analyze log files", icon: imagesDir+"/lfa.png", action: on_analyze_vlog },
         separator2: { type: "separator" },
-        template_pack: { label: "Load template pack", action: on_template_pack },
-        user_settings: { label: "Settings", action: user_settings },
+        template_pack: { label: "Load template pack", icon: imagesDir+"/template-pack.png", action: on_template_pack },
+        user_settings: { label: "Settings", icon: imagesDir+"/settings.png", action: user_settings },
         separator3: { type: "separator" },
-        show_help: { label: "Help", action: show_help },
+        show_help: { label: "Help", icon: imagesDir+"/help.png", action: show_help },
     } ) ;
     // nb: we only show the popmenu on left click (not the normal right-click)
     $menu.off( "contextmenu" ) ;

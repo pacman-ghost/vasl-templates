@@ -14,9 +14,8 @@ label { height: 1.25em ; margin-top: -3px ; }
 #menu { position: absolute ; top: 15px ; right: 8px ; z-index: 1 ; }
 #menu input[type='image'] { height: 30px ; }
 
-.PopMenu-Item { width: 12em ; }
-.PopMenu-Item a { padding: 5px 10px 5px 10px ; }
-.PopMenu-Icon { display: none ; }
+.PopMenu-Item { width: 14em ; }
+.PopMenu-Item a { padding: 5px 10px 5px 30px ; }
 
 #alt-webapp-base-url { position: absolute ; top: 30px ; right: 110px ;
     font-size: 80% ; font-style: italic ; color: #cc0000 ;
