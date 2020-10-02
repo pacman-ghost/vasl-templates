@@ -6,6 +6,9 @@
 .ui-dialog.user-settings fieldset { margin: 0.5em 0 0 0 ; padding-top: 0.5em ; border-radius: 0 ; }
 .ui-dialog.user-settings .select2 { margin-top: -4px ; }
 
+.ui-dialog.user-settings .inactive { color: #888 ; }
+.ui-dialog.user-settings .inactive .select2-selection__rendered { color: #888 !important ; }
+
 .ui-dialog.user-settings img.need-localhost { display: inline-block ; height: 0.75em ; }
 .ui-dialog.user-settings div.need-localhost { float: left ; width: 290px ; font-size: 80% ; font-style: italic ; color: #c02020 ; }
 .ui-dialog.user-settings div.need-localhost img { float: left ; height: 1.5em ; margin-right: 0.25em ; }

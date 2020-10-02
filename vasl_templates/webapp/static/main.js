@@ -60,7 +60,9 @@ $(document).ready( function () {
         analyze_vlog: { label: "Analyze log files", icon: imagesDir+"/lfa.png", action: on_analyze_vlog },
         separator2: { type: "separator" },
         template_pack: { label: "Load template pack", icon: imagesDir+"/template-pack.png", action: on_template_pack },
-        user_settings: { label: "Settings", icon: imagesDir+"/settings.png", action: user_settings },
+        user_settings: { label: "Settings", icon: imagesDir+"/settings.png", action: function() {
+            user_settings( null, null ) ;
+        } },
         separator3: { type: "separator" },
         show_help: { label: "Help", icon: imagesDir+"/help.png", action: show_help },
     } ) ;

@@ -21,8 +21,13 @@
         Hide unavailable multi-applicable notes
     </div>
 
+    <div class="row">
+        <input type="checkbox" name="confirm-update-vsav-settings">
+        Confirm settings before updating scenarios
+    </div>
+
     <div class="row" style="margin-top:0.25em;">
-        <label for="">Date format:</label>
+        <label for="date-format">Date format:</label>
         <select name="date-format" style="width:9em;">
             <option value="mm/dd/yy">MM/DD/YYYY</option>
             <option value="dd/mm/yy">DD/MM/YYYY</option>
@@ -31,7 +36,7 @@
     </div>
 
     <fieldset> <legend> Images in scenarios </legend>
-        Get images from:
+        <label for="scenario-images-source"> Get images from: </label>
         <select name="scenario-images-source" style="width:7.5em;">
             <option value="1">this program</option>
             <option value="2">the internet</option>

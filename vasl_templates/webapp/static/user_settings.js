@@ -4,29 +4,43 @@ SCENARIO_IMAGES_SOURCE_INTERNET = 2 ;
 gUserSettings = Cookies.getJSON( "user-settings" ) || { "scenario-images-source": SCENARIO_IMAGES_SOURCE_INTERNET } ;
 
 USER_SETTINGS = {
-    "vasl-username": "text",
-    "snippet-font-family": "text",
-    "snippet-font-size": "text",
-    "date-format": "droplist",
-    "scenario-images-source": "droplist",
-    "hide-unavailable-ma-notes": "checkbox",
-    "auto-create-national-capabilities-labels": "checkbox",
-    "include-vasl-images-in-snippets": "checkbox",
-    "include-flags-in-snippets": "checkbox",
-    "custom-list-bullets": "checkbox",
-    "vo-notes-as-images": "checkbox",
+    "vasl-username": { type: "text" },
+    "snippet-font-family": { type: "text", for_update_vsav: true },
+    "snippet-font-size": { type: "text", for_update_vsav: true },
+    "date-format": { type: "droplist" },
+    "scenario-images-source": { type: "droplist", for_update_vsav: true },
+    "hide-unavailable-ma-notes": { type: "checkbox", for_update_vsav: true },
+    "confirm-update-vsav-settings": { type: "checkbox", for_update_vsav: true },
+    "auto-create-national-capabilities-labels": { type: "checkbox", for_update_vsav: true },
+    "include-vasl-images-in-snippets": { type: "checkbox", for_update_vsav: true },
+    "include-flags-in-snippets": { type: "checkbox", for_update_vsav: true },
+    "custom-list-bullets": { type: "checkbox", for_update_vsav: true },
+    "vo-notes-as-images": { type: "checkbox", for_update_vsav: true },
 } ;
 
 // --------------------------------------------------------------------
 
-function user_settings()
+function user_settings( on_ok, caption )
 {
     function load_settings() {
         // load each user setting
         for ( var name in USER_SETTINGS ) {
             var $elem = $( ".ui-dialog.user-settings [name='" + name + "']" ) ;
-            var func = handlers[ "load_" + USER_SETTINGS[name] ] ;
+            var func = handlers[ "load_" + USER_SETTINGS[name].type ] ;
             func( $elem, gUserSettings[name] ) ;
+            // update the control (and associated label) for its active/inactive state
+            var $label = $( ".ui-dialog.user-settings label[for='" + name + "']" ) ;
+            if ( USER_SETTINGS[name].type == "droplist" )
+                $elem = $label.siblings( ".select2" ) ;
+            if ( on_ok && ! USER_SETTINGS[name].for_update_vsav ) {
+                // NOTE: It would be nice to also update the droplist items for select2's,
+                // but these are created dynamically and it's more trouble than it's worth :-/
+                $elem.addClass( "inactive" ) ;
+                $label.addClass( "inactive" ) ;
+            } else {
+                $elem.removeClass( "inactive" ) ;
+                $label.removeClass( "inactive" ) ;
+            }
         }
         update_ui() ;
     }
@@ -36,7 +50,7 @@ function user_settings()
         var settings = {} ;
         for ( var name in USER_SETTINGS ) {
             var $elem = $( ".ui-dialog.user-settings [name='" + name + "']" ) ;
-            func = handlers[ "unload_" + USER_SETTINGS[name] ] ;
+            func = handlers[ "unload_" + USER_SETTINGS[name].type ] ;
             gUserSettings[name] = func( $elem ) ;
         }
         return settings ;
@@ -74,11 +88,11 @@ function user_settings()
 
     // show the "user settings" dialog
     $( "#user-settings" ).dialog( {
-        title: "User settings",
+        title: caption || "User settings",
         dialogClass: "user-settings",
         modal: true,
         width: 460,
-        height: 375,
+        height: 400,
         resizable: false,
         create: function() {
             init_dialog( $(this), "OK", true ) ;
@@ -98,19 +112,19 @@ function user_settings()
             // install handlers to keep the UI updated
             for ( var name in USER_SETTINGS ) {
                 var $elem = $( ".ui-dialog.user-settings [name='" + name + "']" ) ;
-                if ( USER_SETTINGS[name] === "checkbox" )
+                if ( USER_SETTINGS[name].type === "checkbox" )
                     $elem.click( update_ui ) ;
-                else if ( USER_SETTINGS[name] === "droplist" )
+                else if ( USER_SETTINGS[name].type === "droplist" )
                     $elem.change( update_ui ) ;
             }
         },
         open: function() {
             on_dialog_open( $(this) ) ;
-            // load the current user settings
-            load_settings( $(this) ) ;
             // FUDGE! Doing this in the "open" handler breaks loading the scenario-images-source droplist :shrug:
             // FIXME! Using select2 breaks Ctrl-Enter handling :-(
             $(this).find( "select" ).select2( { minimumResultsForSearch: -1 } ) ;
+            // load the current user settings
+            load_settings( $(this) ) ;
         },
         buttons: {
             OK: function() {
@@ -119,6 +133,8 @@ function user_settings()
                 save_user_settings() ;
                 apply_user_settings() ;
                 $(this).dialog( "close" ) ;
+                if ( on_ok )
+                    setTimeout( on_ok, 50 ) ; // nb: work-around a timing issue in the PyQt app
             },
             Cancel: function() { $(this).dialog( "close" ) ; },
         },

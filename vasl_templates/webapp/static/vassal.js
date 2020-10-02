@@ -2,7 +2,18 @@ gLoadVsavHandler = null ;
 
 // --------------------------------------------------------------------
 
-function on_update_vsav() { _load_and_process_vsav( _do_update_vsav ) ; }
+function on_update_vsav() {
+    // check if we should ask the user to confirm the settings
+    if ( gUserSettings[ "confirm-update-vsav-settings" ] ) {
+        // yup - make it so
+        user_settings( function() {
+            _load_and_process_vsav( _do_update_vsav ) ;
+        }, "Confirm user settings" ) ;
+    } else {
+        // nope - just do it
+        _load_and_process_vsav( _do_update_vsav ) ;
+    }
+}
 
 function _do_update_vsav( vsav_data, fname )
 {
