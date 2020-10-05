@@ -465,10 +465,6 @@ def prepare_asa_upload(): #pylint: disable=too-many-locals
                 )
 
                 # read the screenshot image
-                screenshot_file.save_copy(
-                    app.config.get( "PREPARE_ASA_UPLOAD_SCREENSHOT" ),
-                    logger, "generated screenshot"
-                )
                 if os.path.getsize( screenshot_file.name ) == 0:
                     # NOTE: The VASSAL shim sometimes crashes while trying to generate a screenshot :-(
                     screenshot_data = None
@@ -497,6 +493,16 @@ def prepare_asa_upload(): #pylint: disable=too-many-locals
                     img = ImageOps.expand( img, border_size, (255,255,255,255) )
                     # get the final image data
                     screenshot_data = save_image( img )
+
+                # save a copy of the screenshot image
+                fname = app.config.get( "PREPARE_ASA_UPLOAD_SCREENSHOT" )
+                if fname:
+                    logger.debug( "Saving a copy of the generated screenshot: %s", fname )
+                    with open( fname, "wb" ) as fp:
+                        fp.write( screenshot_data )
+                else:
+                    if os.path.isfile( fname ):
+                        os.unlink( fname )
 
     except Exception as ex: #pylint: disable=broad-except
 
