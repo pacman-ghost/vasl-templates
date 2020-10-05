@@ -231,7 +231,7 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
 
     // add a handler for the snippet button
     $content.children("img.snippet").click( function( evt ) {
-        generate_snippet( $(this), evt, {} ) ;
+        generate_snippet( $(this), evt.shiftKey, {} ) ;
         return false ;
     } ) ;
 }

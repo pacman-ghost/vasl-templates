@@ -149,7 +149,7 @@ function _make_simple_note( note_type, caption )
     // add a handler for the snippet button
     $content.children("img.snippet").click( function( evt ) {
         var extra_params = get_simple_note_snippet_extra_params( $(this) ) ;
-        generate_snippet( $(this), evt, extra_params ) ;
+        generate_snippet( $(this), evt.shiftKey, extra_params ) ;
         return false ;
     } ) ;
 

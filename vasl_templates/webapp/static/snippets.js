@@ -33,7 +33,7 @@ var gScenarioCreatedTime = null ;
 
 // --------------------------------------------------------------------
 
-function generate_snippet( $btn, evt, extra_params )
+function generate_snippet( $btn, as_image, extra_params )
 {
     // generate the snippet
     var template_id = $btn.data( "id" ) ;
@@ -41,7 +41,7 @@ function generate_snippet( $btn, evt, extra_params )
     var snippet = make_snippet( $btn, params, extra_params, true ) ;
 
     // check if the user is requesting the snippet as an image
-    if ( evt.shiftKey ) {
+    if ( as_image ) {
         // yup - send the snippet to the backend to generate the image
         var $dlg = null ;
         var timeout_id = setTimeout( function() {

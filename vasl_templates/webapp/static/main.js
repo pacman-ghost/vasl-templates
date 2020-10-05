@@ -28,6 +28,7 @@ var NATIONALITY_SPECIFIC_BUTTONS = {
 } ;
 
 GENERATE_SNIPPET_HINT = "Generate an HTML snippet (shift-click to get an image)." ;
+EDIT_TEMPLATE_HINT = "Edit the template that will generate this snippet." ;
 
 // --------------------------------------------------------------------
 
@@ -358,7 +359,7 @@ $(document).ready( function () {
     $("button.edit-template").click( function() {
         edit_template( $(this).data( "id" ) ) ;
     } ).html( "<div><img src='" + gImagesBaseUrl + "/edit-template.png'>Edit</div>" )
-        .attr( "title", "Edit the template." )
+        .attr( "title", EDIT_TEMPLATE_HINT )
         .button( {} ) ;
 
     // watch for changes to the scenario details
@@ -459,7 +460,10 @@ function init_snippet_button( $btn )
     var buf = [ "<div class='snippet-control' data-id='" + template_id + "'>",
         $btn.prop( "outerHTML" ),
         "<select data-id='" + template_id2 + "'>",
-        "<option value='edit' class='edit-template' title='Edit the template that will generate this snippet.'>Edit</option>",
+        // NOTE: We use really short captions so they don't get truncated if the popup menu
+        // is opened near the right-hand edge of the window :-/
+        "<option value='edit' class='edit-template' title='" + EDIT_TEMPLATE_HINT + "'>Edit</option>",
+        "<option value='as-image' class='as-image' title='Generate the snippet as an image.'>Image</option>",
         "</select>",
         "</div>"
     ] ;
@@ -472,7 +476,7 @@ function init_snippet_button( $btn )
     $newBtn.find( "button" )
         .prepend( $( "<img src='" + gImagesBaseUrl + "/" + fname + "' style='" + style + "'>" ) )
         .click( function( evt ) {
-            generate_snippet( $(this), evt, null ) ;
+            generate_snippet( $(this), evt.shiftKey, null ) ;
             return false ;
         } )
         .attr( "title", GENERATE_SNIPPET_HINT ) ;
@@ -491,8 +495,11 @@ function init_snippet_button( $btn )
     $newBtn.children( ".ui-selectmenu-button" ).click( function() { $btn.blur() ; } ) ;
 
     // handle requests to edit the template
-    $newBtn.children( "select" ).on( "selectmenuselect", function() {
-        edit_template( $(this).attr("data-id") ) ;
+    $newBtn.children( "select" ).on( "selectmenuselect", function( evt, ui ) {
+        if ( ui.item.value === "edit" )
+            edit_template( $(this).attr("data-id") ) ;
+        else if ( ui.item.value === "as-image" )
+            generate_snippet( $newBtn, true, null ) ;
     } ) ;
 
     // replace the existing button with the new replacement button
