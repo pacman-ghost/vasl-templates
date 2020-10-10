@@ -6,11 +6,13 @@
 {{CSS:common}}
 table {
     border: 1px solid #c0c0c0 ; background: #f0f0f0 ;
+    padding: 0 5px 0 2px ;
 {%if PLAYER_1_DESCRIPTION or PLAYER_2_DESCRIPTION%}
 {# NOTE: We had to do some heavy-duty hacking to get the layout to work in VASSAL :-/ The idea is that there is a padding column on the far right of the table that expands to fill up the available width, thus pushing the data columns (flags, player, ELR/SAN) to the left. We can then have a cell that spans all these columns for the player descriptions. All this is only necessary when there are player descriptions, which is why the PLAYER_WIDTH variable is only used if there are player descriptions. #}
     width: {{PLAYERS_WIDTH or "200px"}} ;
 {%endif%}
 }
+td.flag { padding-right: 2px ; }
 td.player { width: 1px ; white-space: nowrap ; font-weight: bold ; }
 td.val { width: 1px ; white-space: nowrap ; }
 td.description { font-size: 90% ; font-style: italic ; color: #808080 ; }
