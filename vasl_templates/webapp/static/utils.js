@@ -466,6 +466,13 @@ function fixup_external_links( $root )
     } ) ;
 }
 
+function wrapExcWithSpan( val )
+{
+    // wrap an EXC block with a <span>
+    var excRegex = new RegExp( /\[EXC: .*?\]/g ) ;
+    return wrapSubstrings( val, excRegex, "<span class='exc'>", "</span>" ) ;
+}
+
 function getUrlParam( param )
 {
     // look for the specified URL parameter

@@ -405,6 +405,25 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     if ( extra_params )
         $.extend( true, params, extra_params ) ;
 
+    // allow EXC blocks to be styled
+    params.VICTORY_CONDITIONS = wrapExcWithSpan( params.VICTORY_CONDITIONS ) ;
+    params.SCENARIO_NOTE = wrapExcWithSpan( params.SCENARIO_NOTE ) ;
+    if ( params.SSR ) {
+        for ( i=0 ; i < params.SSR.length ; ++i )
+            params.SSR[i] = wrapExcWithSpan( params.SSR[i] ) ;
+    }
+    params.OB_NOTE = wrapExcWithSpan( params.OB_NOTE ) ;
+    params.VO_NOTE_HTML = wrapExcWithSpan( params.VO_NOTE_HTML ) ;
+    [ "VEHICLES", "ORDNANCE" ].forEach( function( voType ) {
+        for ( var playerId=1 ; playerId <= 2 ; ++playerId ) {
+            var notes = params[ "OB_" + voType + "_MA_NOTES_" + playerId ] ;
+            if ( ! notes )
+                continue ;
+            for ( var i=0 ; i < notes.length ; ++i )
+                notes[i][1] = wrapExcWithSpan( notes[i][1] ) ;
+        }
+    } ) ;
+
     // check that the players have different nationalities
     if ( params.PLAYER_1 === params.PLAYER_2 )
         showWarningMsg( "Both players have the same nationality!" ) ;
@@ -492,19 +511,13 @@ function adjust_vo_comments( params )
         return val.substring(0,match.index) + buf.join("") + val.substring(match.index+match[0].length ) ;
     }
 
-    // allow comment EXC's to be styled
-    var excRegex = new RegExp( /\[EXC: .*?\]/g ) ;
-    function adjustExc( val ) {
-        return wrapSubstrings( val, excRegex, "<span class='exc'>", "</span>" ) ;
-    }
-
     // adjust comments
     if ( params.OB_VO ) {
         for ( i=0 ; i < params.OB_VO.length ; ++i ) {
             if ( ! params.OB_VO[i].comments )
                 continue ;
             for ( var j=0 ; j < params.OB_VO[i].comments.length ; ++j ) {
-                params.OB_VO[i].comments[j] = adjustSplitMG( adjustExc(
+                params.OB_VO[i].comments[j] = adjustSplitMG( wrapExcWithSpan(
                     params.OB_VO[i].comments[j]
                 ) ) ;
             }

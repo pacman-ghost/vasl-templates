@@ -10,7 +10,6 @@ function set_nat_caps_params( player_nat, params )
 
     // initialize
     params.NAT_CAPS = {} ;
-    var excRegex = new RegExp( /\[EXC: .*?\]/g ) ;
     var val ;
 
     function add_nat_cap( key, val ) {
@@ -20,7 +19,7 @@ function set_nat_caps_params( player_nat, params )
     function fixup_content( val ) {
         val = strReplaceAll( val, "1st", "1<sup>st</sup>" ) ;
         val = strReplaceAll( val, "2nd", "2<sup>nd</sup>" ) ;
-        return wrapSubstrings( val, excRegex, "<span class='exc'>", "</span>" ) ;
+        return wrapExcWithSpan( val ) ;
     }
 
     // set the TH# color

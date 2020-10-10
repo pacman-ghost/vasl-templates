@@ -18,3 +18,5 @@ td.l { text-align: left ; }
 td.r { text-align: right ; }
 
 sup { font-size: 75% ; }
+
+.exc { font-style: italic ; color: #404040 ; }
