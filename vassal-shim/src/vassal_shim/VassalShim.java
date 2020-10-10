@@ -344,7 +344,8 @@ public class VassalShim
         // load the snippets supplied to us by the web server
         String[] players = new String[2] ;
         Map<String,Snippet> snippets = new HashMap<String,Snippet>() ;
-        parseSnippets( snippetsFilename, players, snippets ) ;
+        AppBoolean fuzzyLabelCompares = new AppBoolean( false ) ;
+        parseSnippets( snippetsFilename, players, snippets, fuzzyLabelCompares ) ;
 
         // load the scenario
         configureBoards() ;
@@ -392,7 +393,7 @@ public class VassalShim
         }
 
         // update the labels from the snippets
-        Map< String, ArrayList<ReportNode> > labelReport = processSnippets( ourLabels, otherLabels, snippets ) ;
+        Map< String, ArrayList<ReportNode> > labelReport = processSnippets( ourLabels, otherLabels, snippets, fuzzyLabelCompares ) ;
 
         // save the scenario
         saveScenario( saveFilename ) ;
@@ -406,7 +407,7 @@ public class VassalShim
         // any possible problems caused by reusing the current session (e.g. there might be some saved state somewhere).
     }
 
-    private void parseSnippets( String snippetsFilename, String[] players, Map<String,Snippet> snippets ) throws IOException, ParserConfigurationException, SAXException, XPathExpressionException
+    private void parseSnippets( String snippetsFilename, String[] players, Map<String,Snippet> snippets, AppBoolean fuzzyLabelCompares ) throws IOException, ParserConfigurationException, SAXException, XPathExpressionException
     {
         logger.info( "Loading snippets: {}", snippetsFilename ) ;
 
@@ -415,6 +416,9 @@ public class VassalShim
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder() ;
         Document doc = docBuilder.parse( new File( snippetsFilename ) ) ;
         doc.getDocumentElement().normalize() ;
+        fuzzyLabelCompares.setVal(
+            doc.getDocumentElement().getAttribute( "fuzzyLabelCompares" ).equals( "true" )
+        ) ;
 
         // get the player details
         NodeList nodes = doc.getElementsByTagName( "player1" ) ;
@@ -537,7 +541,7 @@ public class VassalShim
     }
 
     private Map< String, ArrayList<ReportNode> >
-    processSnippets( Map<String,GamePieceLabelFields> ourLabels, ArrayList<GamePieceLabelFields> otherLabels, Map<String,Snippet> snippets )
+    processSnippets( Map<String,GamePieceLabelFields> ourLabels, ArrayList<GamePieceLabelFields> otherLabels, Map<String,Snippet> snippets, AppBoolean fuzzyLabelCompares )
     {
         // initialize
         Map< String, ArrayList<ReportNode> > labelReport = new HashMap<String,ArrayList<ReportNode>>() ;
@@ -574,9 +578,11 @@ public class VassalShim
             }
             // we've match the snippet to a label, update the label content
             String currState = labelFields.gamePiece().getState() ;
+            String currStateCmp = fuzzyLabelCompares.getVal() ? adjustLabelContent( currState ) : currState ;
             String snippetContent = snippet.content.replace( "\n", " " ) ;
             String newState = labelFields.getNewGamePieceState( snippetContent ) ;
-            if ( currState.equals( newState ) ) {
+            String newStateCmp = fuzzyLabelCompares.getVal() ? adjustLabelContent( newState ) : newState ;
+            if ( currStateCmp.equals( newStateCmp ) ) {
                 logger.info( "- Skipping label (unchanged): {}", snippetId ) ;
                 labelReport.get( "unchanged" ).add( new ReportNode( snippetId, null ) ) ;
             } else {
@@ -919,6 +925,14 @@ public class VassalShim
 
         // save the report
         Utils.saveXml( doc, reportFilename ) ;
+    }
+
+    private String adjustLabelContent( String val )
+    {
+        // remove content we want to ignore when comparing labels
+        Pattern pattern = Pattern.compile( "<style>.*?</style>" ) ;
+        val = pattern.matcher( val ).replaceAll( "{{{STYLE}}}" ) ;
+        return val ;
     }
 
     public void takeScreenshot( String scenarioFilename, String outputFilename )

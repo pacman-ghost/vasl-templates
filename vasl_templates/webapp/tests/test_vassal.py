@@ -354,9 +354,7 @@ def test_dump_vsav( webapp, webdriver ):
     """Test dumping a scenario."""
 
     # initialize
-    control_tests = init_webapp( webapp, webdriver,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-     )
+    control_tests = init_webapp( webapp, webdriver )
 
     def do_test(): #pylint: disable=missing-docstring
 
@@ -686,9 +684,7 @@ def test_analyze_vsav_hip_concealed( webapp, webdriver ):
     """Test analyzing a scenario that contains HIP and concealed units."""
 
     # initialize
-    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
+    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
 
     def do_test(): #pylint: disable=missing-docstring
 

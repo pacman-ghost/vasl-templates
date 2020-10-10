@@ -36,6 +36,7 @@ def update_vsav(): #pylint: disable=too-many-statements,too-many-locals
     vsav_filename = request.json[ "filename" ]
     players = request.json[ "players" ]
     snippets = request.json[ "snippets" ]
+    test_mode = request.json.get( "testMode" )
 
     # initialize
     logger = logging.getLogger( "update_vsav" )
@@ -61,7 +62,7 @@ def update_vsav(): #pylint: disable=too-many-statements,too-many-locals
 
             with TempFile() as snippets_file:
                 # save the snippets in a temp file
-                xml = _save_snippets( snippets, players, snippets_file, logger )
+                xml = _save_snippets( snippets, players, snippets_file, test_mode, logger )
                 snippets_file.close( delete=False )
                 fname = app.config.get( "UPDATE_VSAV_SNIPPETS" ) # nb: for diagnosing problems
                 if fname:
@@ -115,7 +116,7 @@ def update_vsav(): #pylint: disable=too-many-statements,too-many-locals
         },
     } )
 
-def _save_snippets( snippets, players, fp, logger ): #pylint: disable=too-many-locals
+def _save_snippets( snippets, players, fp, test_mode, logger ): #pylint: disable=too-many-locals
     """Save the snippets in a file.
 
     NOTE: We save the snippets as XML because Java :-/
@@ -135,6 +136,13 @@ def _save_snippets( snippets, players, fp, logger ): #pylint: disable=too-many-l
     root = ET.Element( "snippets" )
     ET.SubElement( root, "player1", nat=players[0] )
     ET.SubElement( root, "player2", nat=players[1] )
+
+    # FUDGE! Some of the VASSAL tests update a scenario and check what labels were updated, but this can fail
+    # if we're using the real data files, and make a change to e.g. the common CSS (since it will cause labels
+    # to update unexpectedly). To work-around this, if we are running tests, we do tell the VASSAL shim to do
+    # "fuzzy" comparisons (and ignore un-important content) when deciding if a label needs to be updated.
+    if test_mode:
+        root.set( "fuzzyLabelCompares", "true" )
 
     # add the snippets
     for snippet_id,snippet_info in snippets.items():

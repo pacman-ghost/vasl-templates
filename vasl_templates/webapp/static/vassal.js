@@ -26,6 +26,7 @@ function _do_update_vsav( vsav_data, fname )
         filename: fname,
         vsav_data: vsav_data,
         players: [ get_player_nat(1), get_player_nat(2) ],
+        testMode: !! getUrlParam( "store_msgs" ),
         snippets: snippets
     } ;
     $.ajax( {
