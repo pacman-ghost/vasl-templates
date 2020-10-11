@@ -689,11 +689,9 @@ function on_player_change_with_confirm( player_no )
     } else {
         // yup - make it so
         ask( "Change player nationality",
-            "<p>Do you want to change this player's nationality?<p>You will lose changes made to their OB.", {
+            "<p> Do you want to change this player's nationality? <p> You will lose changes made to their OB.", {
             ok: function() { on_player_change( player_no ) ; },
-            cancel: function() {
-                $select.val( $select.data("prev-val") ).trigger( "change" ) ;
-            },
+            cancel: function() { $select.val( $select.data("prev-val") ).trigger( "change" ) ; },
         } ) ;
     }
 }

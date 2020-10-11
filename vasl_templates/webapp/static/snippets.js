@@ -1481,10 +1481,10 @@ function on_load_scenario()
         do_on_load_scenario() ;
     else {
         // yup - confirm the operation
-        ask( "Load scenario", "<p>This scenario has been changed.<p>Do you want load another scenario, and lose your changes?", {
+        ask( "Load scenario",
+            "<p> This scenario has been changed. <p> Do you want to load another scenario, and lose your changes?", {
             width: 470,
             ok: do_on_load_scenario,
-            cancel: function() {},
         } ) ;
     }
 
@@ -1897,9 +1897,9 @@ function on_new_scenario()
         do_on_new_scenario( true ) ;
     else {
         // yup - confirm the operation
-        ask( "New scenario", "<p>This scenario has been changed.<p>Do you want to reset it, and lose your changes?", {
+        ask( "New scenario",
+            "<p> This scenario has been changed. <p> Do you want to reset it, and lose your changes?", {
             ok: function() { do_on_new_scenario( true ) ; },
-            cancel: function() {},
         } ) ;
     }
 }

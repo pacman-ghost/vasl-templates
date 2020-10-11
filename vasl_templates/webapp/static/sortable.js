@@ -172,7 +172,8 @@ $.fn.sortable2 = function( action, args )
             caption,
             "</div>"
         ] ;
-        ask( "Delete "+display_name[0], buf.join(""), {
+        ask( "Delete " + display_name[0],
+            buf.join(""), {
             width: 350,
             ok: do_delete_entry,
             close: function() { set_entry_colors( $entry, false ) ; },

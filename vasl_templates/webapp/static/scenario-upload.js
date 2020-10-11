@@ -44,8 +44,10 @@ window.uploadScenario = function() {
                 if ( vsavDataDecoded.length <= 1024*maxBytes )
                     doSelectVsavData( fname, vsavData ) ;
                 else {
-                    ask( "VASL scenario", "VASL scenario files should be less than " + maxBytes + " KB.", {
+                    ask( "ASL Scenario Archive upload",
+                        "VASL scenario files should be less than " + maxBytes + " KB.", {
                         ok: function() { doSelectVsavData( fname, vsavData ) ; },
+                        ok_caption: "Continue",
                     } ) ;
                 }
             }
@@ -88,8 +90,10 @@ window.uploadScenario = function() {
                 if ( imageDataDecoded.length <= 1024*maxBytes )
                     doSelectScreenshotFile() ;
                 else {
-                    ask( "VASL screenshot", "Screenshots should be less than " + maxBytes + " KB.", {
-                        ok: doSelectScreenshotFile
+                    ask( "ASL Scenario Archive upload",
+                        "Screenshots should be less than " + maxBytes + " KB.", {
+                        ok: doSelectScreenshotFile,
+                        ok_caption: "Continue",
                     } ) ;
                 }
             }
@@ -236,9 +240,10 @@ function uploadFiles( asaScenarioId )
         doUploadFiles() ;
     } else {
         // nope - confirm with the user first
-        ask( "Incomplete upload", warningMsg, {
+        ask( "ASL Scenario Archive upload", warningMsg, {
             width: width,
             ok: doUploadFiles,
+            ok_caption: "Continue",
         } ) ;
     }
 

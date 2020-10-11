@@ -312,7 +312,7 @@ function on_analyze_vsav()
     if ( voDefined1 || voDefined2 ) {
         // yup - confirm the operation
         ask( "Analyze VASL scenario",
-            "<p>There are some vehicles/ordnance already configured. <p>They will be <i>replaced</i> with those found in the analyzed VASL scenario.", {
+            "<p> There are some vehicles/ordnance already configured. <p> They will be <i>replaced</i> with those found in the analyzed VASL scenario.", {
             width: 520,
             ok: function() { _load_and_process_vsav( _do_analyze_vsav ) ; },
         } ) ;

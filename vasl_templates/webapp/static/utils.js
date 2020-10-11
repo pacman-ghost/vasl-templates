@@ -209,7 +209,7 @@ function init_dialog( $dlg, ok_button_text, auto_dismiss )
     }
 }
 
-function on_dialog_open( $dlg )
+function on_dialog_open( $dlg, $focus )
 {
     // initialize the dialog
     var ok_button_text = $dlg.data( "ok-button-text" ) ;
@@ -217,8 +217,11 @@ function on_dialog_open( $dlg )
     $( ".ui-dialog-buttonpane button:contains(Cancel)" ).addClass( "cancel" ) ;
 
     // set initial focus
-    var $cancel = $( ".ui-dialog-buttonpane button:contains(Cancel)" ) ;
-    $cancel.focus() ;
+    if ( ! $focus )
+        $focus = $( ".ui-dialog-buttonpane button:contains(Cancel)" ) ;
+    setTimeout( function() {
+        $focus.focus() ;
+    }, 20 ) ;
 }
 
 function auto_dismiss_dialog( $dlg, evt, btn_text )
@@ -242,10 +245,23 @@ function click_dialog_button( $dlg, btn_text )
 
 function ask( title, msg, args )
 {
+    // initialize
+    var $dlg = $( "#ask" ) ;
+    buttons = {} ;
+    var ok_caption = args.ok_caption || "OK" ;
+    buttons[ ok_caption ] = function() {
+        $dlg.dialog( "close" ) ;
+        if ( "ok" in args )
+            args.ok() ;
+    } ;
+    buttons.Cancel = function() {
+        $dlg.dialog( "close" ) ;
+        if ( "cancel" in args )
+            args.cancel() ;
+    } ;
+
     // ask a question
-    var $dlg = $("#ask") ;
-    $dlg.html( msg ) ;
-    $dlg.dialog( {
+    $dlg.html( msg ).dialog( {
         dialogClass: "ask",
         modal: true,
         closeOnEscape: false, // nb: handle_escape() has a special case for this dialog
@@ -253,6 +269,7 @@ function ask( title, msg, args )
         width: args.width || 400,
         minWidth: 250,
         maxHeight: window.innerHeight,
+        buttons: buttons,
         create: function() {
             init_dialog( $(this), "OK", false ) ;
             // we handle ESCAPE ourself, to make it the same as clicking Cancel, not just closing the dialog
@@ -264,27 +281,14 @@ function ask( title, msg, args )
             } ) ;
         },
         open: function() {
+            $(this).data( "ok-button-text", ok_caption ) ;
             on_dialog_open( $(this) ) ;
-        },
-        buttons: {
-            OK: function() {
-                $(this).dialog( "close" ) ;
-                if ( "ok" in args )
-                    args.ok() ;
-            },
-            Cancel: function() {
-                $(this).dialog( "close" ) ;
-                if ( "cancel" in args )
-                    args.cancel() ;
-            },
         },
         close: function() {
             if ( "close" in args )
                 args.close() ;
         },
     } ) ;
-
-    return false ;
 }
 
 function showMsgDialog( title, msg, width )
