@@ -77,12 +77,13 @@ function add_vo( vo_type, player_no )
     var $dlg = $("#select-vo").dialog( {
         title: "Add " + SORTABLE_DISPLAY_NAMES["ob_"+vo_type][0],
         dialogClass: "select-vo",
+        closeOnEscape: false, // nb: this is handled by handle_escape()
         modal: true,
         minWidth: 400,
         minHeight: 350,
         create: function() {
             init_dialog( $(this), "OK", false ) ;
-            // handle ENTER, ESCAPE and double-click
+            // handle ENTER and double-click
             function auto_select_vo( evt ) {
                 if ( $( "#select-vo select" ).val() ) {
                     $( ".ui-dialog.select-vo button:contains('OK')" ).click() ;
@@ -92,8 +93,6 @@ function add_vo( vo_type, player_no )
             $(this).keydown( function(evt) {
                 if ( evt.keyCode == $.ui.keyCode.ENTER )
                     auto_select_vo( evt ) ;
-                else if ( evt.keyCode == $.ui.keyCode.ESCAPE )
-                    $(this).dialog( "close" ) ;
             } ).dblclick( function(evt) {
                 auto_select_vo( evt ) ;
             } ) ;
@@ -389,6 +388,7 @@ function on_select_vo_image( $btn, on_ok ) {
     // show the dialog
     var $dlg = $("#select-vo-image").dialog( {
         dialogClass: "select-vo-image",
+        closeOnEscape: false, // nb: this is handled by handle_escape()
         modal: true,
         position: { my: "left top", at: "left-50 bottom+5", of: $btn, "collision": "fit" },
         width: 1, height: 1, // nb: to avoid flicker; we set the size when the images have finished loading

@@ -136,6 +136,7 @@ window.show_lfa_dialog = function( resp )
         dialogClass: "lfa",
         modal: true,
         resizable: false,
+        // NOTE: We handle ESCAPE ourself, handle_escape() has an exception for this dialog.
         closeOnEscape: false,
         create: function() {
             // initialize the splitter

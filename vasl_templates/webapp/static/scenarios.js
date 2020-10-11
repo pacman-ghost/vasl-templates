@@ -35,7 +35,7 @@ window.searchForScenario = function()
             title: "Search for scenarios",
             dialogClass: "scenario-search",
             modal: true,
-            closeOnEscape: false,
+            closeOnEscape: false, // nb: handled in handle_escape()
             width: $(window).width() * 0.8,
             minWidth: 750,
             height: $(window).height() * 0.8,
@@ -52,11 +52,6 @@ window.searchForScenario = function()
             open: function() {
                 // initialize
                 $dlg = $(this) ;
-                eventHandlers.addHandler( $(document), "keydown", function( evt ) {
-                    // FUDGE! Escape doesn't always close the dialog, we handle it ourself :-/
-                    if ( evt.keyCode == $.ui.keyCode.ESCAPE )
-                        close_dialog_if_no_others( $dlg ) ;
-                } ) ;
                 // reset everything
                 $gSearchQueryInputBox.val( "" ) ;
                 $gDialog.find( ".select2-results__option" ).remove() ;
@@ -996,7 +991,7 @@ function onDownloads() {
         width: 450, minWidth: 300,
         height: 200, minHeight: 150,
         draggable: false,
-        closeOnEscape: false,
+        closeOnEscape: false, // nb: handled in handle_escape()
         open: function() {
             $dlg = $(this) ;
             $dlg.parent().draggable() ;
@@ -1010,13 +1005,6 @@ function onDownloads() {
             var $parentDlg = $( ".ui-dialog.scenario-search" ) ;
             $( ".ui-dialog.scenario-downloads" ).position( {
                 my: "right bottom", at: "right top-2", of: $parentDlg.find( "button.downloads" )
-            } ) ;
-            // add a keyboard handler for ESCAPE
-            eventHandlers.addHandler( $(document), "keydown", function( evt ) {
-                if ( evt.keyCode == $.ui.keyCode.ESCAPE ) {
-                    $dlg.dialog( "close" ) ;
-                    stopEvent( evt ) ;
-                }
             } ) ;
         },
         close: function() {
@@ -1214,7 +1202,7 @@ window.showScenarioInfo = function()
             $( "#scenario-info-dialog" ).dialog( {
                 dialogClass: "scenario-info",
                 modal: true,
-                closeOnEscape: false,
+                closeOnEscape: false, // nb: handled in handle_escape()
                 width: $(window).width() * 0.8,
                 minWidth: 500,
                 height: $(window).height() * 0.8,
@@ -1252,10 +1240,7 @@ window.showScenarioInfo = function()
                     // update the layout
                     onResize() ;
                     eventHandlers.addHandler( $(document), "keydown", function( evt ) {
-                        // FUDGE! Escape doesn't always close the dialog, we handle it ourself :-/
-                        if ( evt.keyCode == $.ui.keyCode.ESCAPE ) {
-                            close_dialog_if_no_others( $dlg ) ;
-                        } else if ( evt.keyCode == 16 ) { // nb: checking evt.shiftKey is unreliable
+                        if ( evt.keyCode == 16 ) { // nb: checking evt.shiftKey is unreliable
                             window.getSelection().empty() ;
                             $draggable.draggable( "disable" ) ;
                         }

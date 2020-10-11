@@ -76,15 +76,6 @@ $(document).ready( function () {
             pos.left+$(this).width(), pos.top+$(this).height()+2, "fade", 200
         ) ;
     } ) ;
-    // nb: we dismiss the popmenu and any notifications on ESCAPE
-    $(document).keydown( function(evt) {
-        if ( evt.keyCode == 27 ) {
-            $menu.popmenu( "hide" ) ;
-            $(".growl-close").each( function() {
-                $(this).trigger( "click" ) ;
-            } ) ;
-        }
-    } ) ;
     // add handlers
     $("#load-scenario").change( on_load_scenario_file_selected ) ;
     $("#load-template-pack").change( on_template_pack_file_selected ) ;
@@ -380,8 +371,12 @@ $(document).ready( function () {
         } ) ;
     } ) ;
 
-    // initialize hotkeys
+    // initialize keyboard handlers
     init_hotkeys() ;
+    $(document).on( "keydown", function( evt ) {
+        if ( evt.keyCode == $.ui.keyCode.ESCAPE )
+            handle_escape( evt ) ;
+    } ) ;
 
     // check for a dirty scenario before leaving the page
     if ( ! getUrlParam( "disable_close_window_check" ) ) {
@@ -876,6 +871,39 @@ function adjust_footer_vspacers()
         $footer.after( "<div class='vspacer' style='height:" + Math.ceil(Math.max(0,delta)) + "px'></div>" ) ;
     } ) ;
 
+}
+
+// --------------------------------------------------------------------
+
+function handle_escape( evt )
+{
+    // NOTE: Handling Escape is messy, since we could have a modal dialog that opened another modal dialog
+    // that opened an image gallery, etc. We add a global keydown handler for Escape and try to figure out
+    // what we should do here. The only requirement is that dialogs set "closeOnEscape".
+
+    // NOTE: We ignore ESCAPE if an image gallery is on-screen (we let it handle it).
+    if ( $( ".lg-outer" ).length > 0 )
+        return ;
+
+    // always close the menu and any notifications
+    $("#menu input").popmenu( "hide" ) ;
+    $(".growl-close").each( function() {
+        $(this).trigger( "click" ) ;
+    } ) ;
+
+    // find the top-most dialog (if any) and close it
+    var $topmost = null ;
+    $( ".ui-dialog" ).each( function() {
+        if ( $(this).css( "display" ) != "block" )
+            return ;
+        if ( $topmost === null || $(this).css("z-index") > $topmost.css("z-index") )
+            $topmost = $(this) ;
+    } ) ;
+    if ( $topmost ) {
+        var $dlg = $topmost.children( ".ui-dialog-content" ) ;
+        if ( ["ask","lfa","vassal-shim-progress"].indexOf( $dlg.attr("id") ) === -1 )
+            $topmost.children( ".ui-dialog-content" ).dialog( "close" ) ;
+    }
 }
 
 // --------------------------------------------------------------------

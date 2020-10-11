@@ -549,7 +549,7 @@ function _show_vassal_shim_progress_dlg( caption, width )
         width: width || 300,
         height: 60,
         resizable: false,
-        closeOnEscape: false,
+        closeOnEscape: false, // nb: handle_escape() has a special case to ignore this dialog
         open: function() {
             $(this).find( ".message" ).text( caption ) ;
         },

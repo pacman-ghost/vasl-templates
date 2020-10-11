@@ -238,25 +238,6 @@ function click_dialog_button( $dlg, btn_text )
     $( $dlg2.find( ".ui-dialog-buttonpane button:contains('" + btn_text + "')" ) ).click() ;
 }
 
-function close_dialog_if_no_others( $dlg )
-{
-    // NOTE: Escape doesn't always close a dialog, so we do it ourself, but we have to handle the case
-    // where more than one dialog is on-screen, and only close if there isn't another dialog on top of us.
-    var nDialogs = 0 ;
-    $( ".ui-dialog" ).each( function() {
-        if ( $(this).css( "display" ) !== "none" )
-            ++ nDialogs ;
-    } ) ;
-    if ( nDialogs >= 2 )
-        return ;
-    // NOTE: We also want to stop Escape from closing a dialog if an image preview is being shown.
-    if ( $( ".lg-outer" ).length > 0 )
-        return ;
-
-    // close the dialog
-    $dlg.dialog( "close" ) ;
-}
-
 // --------------------------------------------------------------------
 
 function ask( title, msg, args )
@@ -267,7 +248,7 @@ function ask( title, msg, args )
     $dlg.dialog( {
         dialogClass: "ask",
         modal: true,
-        closeOnEscape:false,
+        closeOnEscape: false, // nb: handle_escape() has a special case for this dialog
         title: title,
         width: args.width || 400,
         minWidth: 250,
@@ -276,8 +257,10 @@ function ask( title, msg, args )
             init_dialog( $(this), "OK", false ) ;
             // we handle ESCAPE ourself, to make it the same as clicking Cancel, not just closing the dialog
             $(this).closest( ".ui-dialog" ).keydown( function( evt ) {
-                if ( evt.keyCode == $.ui.keyCode.ESCAPE )
+                if ( evt.keyCode == $.ui.keyCode.ESCAPE ) {
                     $(".ui-dialog.ask button:contains(Cancel)").click() ;
+                    stopEvent( evt ) ;
+                }
             } ) ;
         },
         open: function() {

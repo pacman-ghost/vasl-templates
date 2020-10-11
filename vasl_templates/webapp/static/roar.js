@@ -52,13 +52,14 @@ window.selectRoarScenario = function( onSelected )
             title: "Connect scenario to ROAR",
             dialogClass: "select-roar-scenario",
             modal: true,
+            closeOnEscape: false, // nb: handled in handle_escape()
             minWidth: 400,
             minHeight: 350,
             create: function() {
                 // initialize the dialog
                 init_dialog( $(this), "OK", false ) ;
                 loadScenarios( $sel, scenarios ) ;
-                // handle ENTER, ESCAPE and double-click
+                // handle ENTER and double-click
                 function autoSelectScenario( evt ) {
                     if ( $sel.val() ) {
                         $( ".ui-dialog.select-roar-scenario button.ok" ).click() ;
@@ -68,10 +69,6 @@ window.selectRoarScenario = function( onSelected )
                 $(this).keydown( function( evt ) {
                     if ( evt.keyCode == $.ui.keyCode.ENTER )
                         autoSelectScenario( evt ) ;
-                    else if ( evt.keyCode == $.ui.keyCode.ESCAPE ) {
-                        $(this).dialog( "close" ) ;
-                        stopEvent( evt ) ;
-                    }
                 } ).dblclick( function( evt ) {
                     autoSelectScenario( evt ) ;
                 } ) ;
