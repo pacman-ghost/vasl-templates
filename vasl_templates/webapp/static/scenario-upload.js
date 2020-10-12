@@ -298,7 +298,7 @@ function uploadFiles( asaScenarioId )
             url = "/test-asa-upload/{ID}?user={USER}&token={TOKEN}" ;
         }
         url = url.replace( "{ID}", asaScenarioId ).replace( "{USER}", userName ).replace( "{TOKEN}", apiToken ) ;
-        var $dlg = _show_vassal_shim_progress_dlg( "Uploading your scenario..." ) ;
+        var $pleaseWait = showPleaseWaitDialog( "Uploading your scenario...", { width: 260 } ) ;
         $.ajax( {
             url: url,
             method: "POST",
@@ -309,7 +309,7 @@ function uploadFiles( asaScenarioId )
         } ).done( function( resp ) {
 
             // check the response
-            $dlg.dialog( "close" ) ;
+            $pleaseWait.dialog( "close" ) ;
             if ( resp.result.status == "ok" ) {
                 var msg = resp.result.message ? resp.result.message.replace("1 file(s)","1 file") : "The scenario was uploaded OK." ;
                 showInfoMsg( msg ) ;
@@ -333,7 +333,7 @@ function uploadFiles( asaScenarioId )
         } ).fail( function( xhr, status, errorMsg ) {
 
             // the upload failed - report the error
-            $dlg.dialog( "close" ) ;
+            $pleaseWait.dialog( "close" ) ;
             showErrorMsg( "Can't upload the scenario:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
 
         } ) ;

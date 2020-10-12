@@ -224,22 +224,20 @@ function analyzeLogFiles( vlog_data )
 {
     // send a request to analyze the log files
     var objName = pluralString( vlog_data.length, "log file", "log files" ) ;
-    var $dlg = _show_vassal_shim_progress_dlg(
-        "Analyzing your " + objName + "..."
-    ) ;
+    var $pleaseWait = showPleaseWaitDialog( "Analyzing your " + objName + "...", { width: 255 } ) ;
     $.ajax( {
         url: gAnalyzeVlogsUrl,
         type: "POST",
         data: JSON.stringify( vlog_data ),
         contentType: "application/json",
     } ).done( function( data ) {
-        $dlg.dialog( "close" ) ;
+        $pleaseWait.dialog( "close" ) ;
         resp = checkResponse( data, objName ) ;
         if ( ! resp )
             return ;
         show_lfa_dialog( resp ) ;
     } ).fail( function( xhr, status, errorMsg ) {
-        $dlg.dialog( "close" ) ;
+        $pleaseWait.dialog( "close" ) ;
         showErrorMsg( "Can't analyze the " + objName + ":<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
     } ) ;
 }

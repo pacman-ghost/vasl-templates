@@ -18,7 +18,7 @@ function on_update_vsav() {
 function _do_update_vsav( vsav_data, fname )
 {
     // generate all the snippets
-    var $dlg = _show_vassal_shim_progress_dlg( "Updating your VASL scenario..." ) ;
+    var $pleaseWait = showPleaseWaitDialog( "Updating your VASL scenario..." ) ;
     var snippets = _generate_snippets() ;
 
     // send a request to update the VSAV
@@ -35,7 +35,7 @@ function _do_update_vsav( vsav_data, fname )
         data: JSON.stringify( data ),
         contentType: "application/json",
     } ).done( function( resp ) {
-        $dlg.dialog( "close" ) ;
+        $pleaseWait.dialog( "close" ) ;
         data = _check_vassal_shim_response( resp, "Can't update the VASL scenario." ) ;
         if ( ! data )
             return ;
@@ -63,7 +63,7 @@ function _do_update_vsav( vsav_data, fname )
         }
         download( atob(data.vsav_data), data.filename, "application/octet-stream" ) ;
     } ).fail( function( xhr, status, errorMsg ) {
-        $dlg.dialog( "close" ) ;
+        $pleaseWait.dialog( "close" ) ;
         showErrorMsg( "Can't update the VASL scenario:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
     } ) ;
 }
@@ -326,7 +326,7 @@ function on_analyze_vsav()
 function _do_analyze_vsav( vsav_data, fname )
 {
     // show the progress dialog
-    var $dlg = _show_vassal_shim_progress_dlg( "Analyzing the VASL scenario..." ) ;
+    var $pleaseWait = showPleaseWaitDialog( "Analyzing the VASL scenario..." ) ;
 
     // send a request to analyze the VSAV
     var data = { filename: fname, vsav_data: vsav_data } ;
@@ -336,13 +336,13 @@ function _do_analyze_vsav( vsav_data, fname )
         data: JSON.stringify( data ),
         contentType: "application/json",
     } ).done( function( resp ) {
-        $dlg.dialog( "close" ) ;
+        $pleaseWait.dialog( "close" ) ;
         data = _check_vassal_shim_response( resp, "Can't analyze the VASL scenario." ) ;
         if ( ! data )
             return ;
         _create_vo_entries_from_analysis( data ) ;
     } ).fail( function( xhr, status, errorMsg ) {
-        $dlg.dialog( "close" ) ;
+        $pleaseWait.dialog( "close" ) ;
         showErrorMsg( "Can't analyze the VASL scenario:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
     } ) ;
 }
@@ -534,24 +534,6 @@ function show_vassal_shim_error_dlg( resp, caption )
         },
         buttons: {
             Close: function() { $(this).dialog( "close" ) ; },
-        },
-    } ) ;
-}
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-function _show_vassal_shim_progress_dlg( caption, width )
-{
-    // show the progress dialog
-    return $( "#vassal-shim-progress" ).dialog( {
-        dialogClass: "vassal-shim-progress",
-        modal: true,
-        width: width || 300,
-        height: 60,
-        resizable: false,
-        closeOnEscape: false, // nb: handle_escape() has a special case to ignore this dialog
-        open: function() {
-            $(this).find( ".message" ).text( caption ) ;
         },
     } ) ;
 }

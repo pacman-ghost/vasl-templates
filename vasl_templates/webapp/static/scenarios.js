@@ -934,11 +934,11 @@ function onDownloads() {
 
     function onDownloadVtSetup( url ) {
         // download the vasl-templates setup
-        var $progressDlg = _show_vassal_shim_progress_dlg( "Downloading the scenario..." ) ;
+        var $pleaseWait = showPleaseWaitDialog( "Downloading the scenario..." ) ;
         $.ajax( {
             url: url, type: "GET",
         } ).done( function( resp ) {
-            $progressDlg.dialog( "close" ) ;
+            $pleaseWait.dialog( "close" ) ;
             // the file was downloaded OK - load it into the UI
             var fname = url.split( "/" ).pop() ;
             if ( ! do_load_scenario( JSON.stringify(resp), fname ) )
@@ -947,7 +947,7 @@ function onDownloads() {
             $dlg.dialog( "close" ) ;
             $gDialog.dialog( "close" ) ;
         } ).fail( function( xhr, status, errorMsg ) {
-            $progressDlg.dialog( "close" ) ;
+            $pleaseWait.dialog( "close" ) ;
             showErrorMsg( "Can't download the <em>vasl-templates</em> setup:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
         } ) ;
     }
@@ -959,12 +959,12 @@ function onDownloads() {
         // could end up replacing the webapp in the browser :-/ Wrapping the button with an <a> tag
         // sorta works, but it can cause an external browser window to open, and remain open :-/
         // We download the file ourself and then ask the user to save it.
-        var $progressDlg = _show_vassal_shim_progress_dlg( "Downloading the VASL scenario...", 330 ) ;
+        var $pleaseWait = showPleaseWaitDialog( "Downloading the VASL scenario...", { width: 320 } ) ;
         $.ajax( {
             url: url, type: "GET",
             xhrFields: { responseType: "arraybuffer" }
         } ).done( function( resp ) {
-            $progressDlg.dialog( "close" ) ;
+            $pleaseWait.dialog( "close" ) ;
             // the file was downloaded OK - give it to the user to save
             var fname = url.split( "/" ).pop().split( "|" ).pop() ;
             if ( gWebChannelHandler ) {
@@ -978,7 +978,7 @@ function onDownloads() {
             // all done - we can now close the downloads popup
             $dlg.dialog( "close" ) ;
         } ).fail( function( xhr, status, errorMsg ) {
-            $progressDlg.dialog( "close" ) ;
+            $pleaseWait.dialog( "close" ) ;
             showErrorMsg( "Can't download the VASL scenario:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
         } ) ;
     }

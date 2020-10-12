@@ -899,7 +899,7 @@ function handle_escape( evt )
     } ) ;
     if ( $topmost ) {
         var $dlg = $topmost.children( ".ui-dialog-content" ) ;
-        if ( ["ask","lfa","vassal-shim-progress"].indexOf( $dlg.attr("id") ) === -1 )
+        if ( ["please-wait","ask","lfa"].indexOf( $dlg.attr("id") ) === -1 )
             $topmost.children( ".ui-dialog-content" ).dialog( "close" ) ;
     }
 }

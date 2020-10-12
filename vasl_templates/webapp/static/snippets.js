@@ -43,16 +43,12 @@ function generate_snippet( $btn, as_image, extra_params )
     // check if the user is requesting the snippet as an image
     if ( as_image ) {
         // yup - send the snippet to the backend to generate the image
-        var $dlg = null ;
+        // NOTE: Generating the first snippet image is slow (because the backend has to spin up a webdriver),
+        // but subsequent snippet images are very fast, so we wait for a short while, and if a response
+        // hasn't been received, then we show a "please wait" dialog.
+        var $pleaseWait = null ;
         var timeout_id = setTimeout( function() {
-            $dlg = $( "#make-snippet-image" ).dialog( {
-                dialogClass: "make-snippet-image",
-                modal: true,
-                width: 300,
-                height: 60,
-                resizable: false,
-                closeOnEscape: false,
-            } ) ;
+            $pleaseWait = showPleaseWaitDialog( "Generating the snippet image..." ) ;
         }, 1*1000 ) ;
         $.ajax( {
             url: gMakeSnippetImageUrl,
@@ -61,8 +57,8 @@ function generate_snippet( $btn, as_image, extra_params )
             contentType: "text/html",
         } ).done( function( resp ) {
             clearTimeout( timeout_id ) ;
-            if ( $dlg )
-                $dlg.dialog( "close" ) ;
+            if ( $pleaseWait )
+                $pleaseWait.dialog( "close" ) ;
             if ( resp.substr( 0, 6 ) === "ERROR:" ) {
                 showErrorMsg( resp.substr(7) ) ;
                 return ;
@@ -86,8 +82,8 @@ function generate_snippet( $btn, as_image, extra_params )
             }
         } ).fail( function( xhr, status, errorMsg ) {
             clearTimeout( timeout_id ) ;
-            if ( $dlg )
-                $dlg.dialog( "close" ) ;
+            if ( $pleaseWait )
+                $pleaseWait.dialog( "close" ) ;
             showErrorMsg( "Can't get the snippet image:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
         } ) ;
         return ;

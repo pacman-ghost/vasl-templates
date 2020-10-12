@@ -310,6 +310,28 @@ function showMsgDialog( title, msg, width )
     } ) ;
 }
 
+function showPleaseWaitDialog( msg, args )
+{
+    if ( ! args )
+        args = {} ;
+
+    // show the "please wait" dialog
+    var $dlg = $( "#please-wait" ) ;
+    $dlg.find( ".message .content" ).text( msg ) ;
+    return $( "#please-wait" ).dialog( {
+        dialogClass: "please-wait",
+        modal: true,
+        closeOnEscape: false, // nb: handle_escape() has a special case to ignore this dialog
+        width: args.width || 300,
+        height: args.height || 60,
+        resizable: false,
+        open: function() {
+            if ( args.height )
+                $(this).find( ".message" ).css( "justify-content", "flex-start" ) ;
+        },
+    } ) ;
+}
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 function showInfoMsg( msg ) { doShowNotificationMsg( "info", msg ) ; }
