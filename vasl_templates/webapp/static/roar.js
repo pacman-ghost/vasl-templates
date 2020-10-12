@@ -75,7 +75,7 @@ window.selectRoarScenario = function( onSelected )
             },
             open: function() {
                 // initialize
-                on_dialog_open( $(this) ) ;
+                on_dialog_open( $(this), $(this).find("select[type='search']") ) ;
                 $sel.select2( "open" ) ;
                 // update the UI
                 onResize( $(this) ) ;

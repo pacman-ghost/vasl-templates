@@ -119,7 +119,7 @@ function user_settings( on_ok, caption )
             }
         },
         open: function() {
-            on_dialog_open( $(this) ) ;
+            on_dialog_open( $(this), $(this).find("input[name='vasl-username']") ) ;
             // FUDGE! Doing this in the "open" handler breaks loading the scenario-images-source droplist :shrug:
             // FIXME! Using select2 breaks Ctrl-Enter handling :-(
             $(this).find( "select" ).select2( { minimumResultsForSearch: -1 } ) ;
