@@ -393,6 +393,8 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
             showWarningMsg( "BAZ are only available from November 1942." ) ;
         if ( template_id === "atmm" && ! is_atmm_available() )
             showWarningMsg( "ATMM are only available from 1944." ) ;
+        if ( template_id === "atmm-romanian" && ! is_atmm_romanian_available() )
+            showWarningMsg( "ATMM are only available from July 1943." ) ;
         if ( template_id == "thh" && ! params.SCENARIO_YEAR )
             showWarningMsg( "Can't determine the THH ATMM check dr without the scenario year." ) ;
     }
@@ -2185,6 +2187,7 @@ function is_pf_romanian_available() { return _is_scenario_in_or_after( 3, 1944 )
 function is_psk_available() { return _is_scenario_in_or_after( 9, 1943 ) ; }
 function is_baz_available() { return _is_scenario_in_or_after( 11, 1942 ) ; }
 function is_atmm_available() { return _is_scenario_in_or_after( 1, 1944 ) ; }
+function is_atmm_romanian_available() { return _is_scenario_in_or_after( 7, 1943 ) ; }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -2211,6 +2214,7 @@ function on_scenario_date_change()
     update_ui( "psk", is_psk_available() ) ;
     update_ui( "baz", is_baz_available() ) ;
     update_ui( "atmm", is_atmm_available() ) ;
+    update_ui( "atmm-romanian", is_atmm_romanian_available() ) ;
 
     // update the vehicle/ordnance entries
     _update_vo_sortable2_entries() ;

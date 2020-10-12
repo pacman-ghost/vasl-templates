@@ -15,6 +15,7 @@ var NATIONALITY_SPECIFIC_BUTTONS = {
     "pf-hungarian": [ "hungarian" ],
     "pf-romanian": [ "romanian" ],
     "atmm": [ "german" ],
+    "atmm-romanian": [ "romanian" ],
     "psk": [ "german" ],
     "mol": [ "russian" ],
     "mol-p": [ "russian" ],

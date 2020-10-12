@@ -1,0 +1,37 @@
+<html> <!-- vasl-templates:id {{SNIPPET_ID}} -->
+
+<head>
+<meta charset="utf-8">
+<style> {{CSS:common}} </style>
+</head>
+
+<table>
+
+<tr>
+<td colspan="2" style="
+  background: {{OB_COLOR}} ;
+  border-bottom: 1px solid {{OB_COLOR_2}} ;
+  padding: 2px 5px ;
+  font-size: 105% ; font-weight: bold ;
+">
+    {{INCLUDE:player_flag}}Anti-Tank Magnetic Mines
+
+<tr>
+<td style="padding:2px 5px;">
+    ATMM check: dr &le; {%if SCENARIO_YEAR < 1944%} 2 {%else%} 3 {%endif%} (&#9651;) <br>
+    <table style="margin-left:10px;">
+        <tr>
+            <td style="width:25px;"> +1 <td> HS
+        <tr>
+            <td> +1 <td> 1st Line
+        <tr>
+            <td> +1 <td> CX
+        <tr>
+            <td> +1 <td> vs. non-armored vehicle
+    </table>
+    original 6 = pinned (CCV reduced by 1) <br>
+    <span class="exc"> EXC: CC DRM is -2 </span>
+
+</table>
+
+</html>

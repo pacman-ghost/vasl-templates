@@ -40,7 +40,7 @@ _NAT_TEMPLATES = {
     "german": [ "pf", "psk", "atmm" ],
     "finnish": [ "pf-finnish" ],
     "hungarian": [ "pf-hungarian" ],
-    "romanian": [ "pf-romanian" ],
+    "romanian": [ "pf-romanian", "atmm-romanian" ],
     "russian": [ "mol", "mol-p" ],
     "american": [ "baz" ],
     "british": [ "piat" ],
