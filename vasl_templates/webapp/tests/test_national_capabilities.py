@@ -307,9 +307,11 @@ def test_time_based_national_capabilities( webapp, webdriver ):
     ] )
 
     # test the South Korean national Capabilities
-    check_oba( "kfw-rok", "Korea", 5, 1950, "???", "3R" )
+    check_oba( "kfw-rok", "Korea", 5, 1950, "???", "3R",
+        comments = [ "Plentiful Ammo included (KMC)" ]
+    )
     check_oba( "kfw-rok", "Korea", 6, 1950, "10B", "3R",
-        comments = [ "ROK: 6B/3R" ]
+        comments = [ "Plentiful Ammo included (KMC)", "ROK: 6B/3R" ]
     )
     check_oba( "kfw-rok", "Korea", 10, 1950, "10B", "3R", plentiful=True )
     check_th_color( "kfw-rok", "Korea", 8, 1950, "Red TH#" )

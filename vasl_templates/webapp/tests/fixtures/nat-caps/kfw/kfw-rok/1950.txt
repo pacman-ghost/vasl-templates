@@ -4,6 +4,7 @@ SMOKE grenades
 HoB: +3/+4 DRM
 Red TH#
 OBA: ??? 3R (access: ≤ 1 (ROK) ; 2 (KMC))
+- Plentiful Ammo included (KMC)
 
 * Republic of Korea (ROK):
   * Early KW ROK rules

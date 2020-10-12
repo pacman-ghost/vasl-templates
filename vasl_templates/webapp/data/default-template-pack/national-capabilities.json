@@ -193,7 +193,7 @@
 "kfw-rok": {
     "th_color": "{! -08/1950 = Red | 09/1950-04/1951 = Red (ROK) ; Black (KMC) | 05/1951- = Black | ??? !}",
     "oba": [ "{! 06/1950- = 10B | ??? !}", "3R",
-        "{! 09/1950- = Plentiful Ammo included !}",
+        "{? 09/1950- | Plentiful Ammo included | Plentiful Ammo included (KMC) | Plentiful Ammo included (ROK: 9/50+) ?}",
         "{! 06/1950-08/1950 = ROK: 6B/3R !}"
     ],
     "oba_access": "&le; 1 (ROK) ; 2 (KMC)",
