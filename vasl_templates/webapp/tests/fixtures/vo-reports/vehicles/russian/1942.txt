@@ -11,8 +11,8 @@ T-60 M42              ®† CS 2                                      ®† CS 2
 T-70                  ®† A4[2] CS 2                                ®† A4 CS 2               5       C†                                                         No Radio
 T-26 M33              ® CS 3                                       ® CS 3                   6       D I† M P                                                   12: Immob, 11: Stall
 T-26 M37/39           ® CS 3                                       ® CS 3                   6       D M P                                                      12: Immob, 11: Stall
-T-26 M31              ® CS 3                                       ® CS 3                   6.1†    M P                                                        CMG: Scrounge OK | 12: Immob, 11: Stall
-T-26 M32              ® CS 3                                       ® CS 3                   6.2†    M P                                                        CMG: Scrounge OK | 12: Immob, 11: Stall
+T-26 M31              ® CS 3                                       ® CS 3                   6.1†    M P                                                        Turret Knock-Out: Non-HE TK = Final TK | CMG: Scrounge as BMG | 12: Immob, 11: Stall
+T-26 M32              ® CS 3                                       ® CS 3                   6.2†    M P                                                        CMG: Scrounge as BMG | 12: Immob, 11: Stall
 OT-26                 ® CS 3[brewup]                               ® CS 3[brewup]           6.3†    M P                                                        12: Immob, 11: Stall
 ST-26 Bridgelayer     CS 3                                         CS 3                     6.4†    M                                                          VBM NA (with bridge) | TCA restrictions | Riders NA | 12: Immob, 11: Stall
 OT-133                ® CS 3                                       ® CS 3                   7†      M P                                                        12: Immob, 11: Stall

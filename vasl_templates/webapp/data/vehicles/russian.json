@@ -89,7 +89,7 @@
   "CS#": 3,
   "note_number": "6.1\u2020",
   "notes": [ "M", "P" ],
-  "comments": [ "CMG: Scrounge OK" ],
+  "comments": [ "Turret Knock-Out: Non-HE TK = Final TK", "CMG: Scrounge as BMG" ],
   "id": "ru/v:009",
   "gpid": 7036
 },
@@ -99,7 +99,7 @@
   "CS#": 3,
   "note_number": "6.2\u2020",
   "notes": [ "M", "P" ],
-  "comments": [ "CMG: Scrounge OK" ],
+  "comments": [ "CMG: Scrounge as BMG" ],
   "id": "ru/v:010",
   "gpid": 7040
 },
