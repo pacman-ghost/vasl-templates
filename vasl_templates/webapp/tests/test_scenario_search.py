@@ -13,7 +13,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
 from vasl_templates.webapp.tests.utils import init_webapp, select_tab, new_scenario, \
     set_player, set_template_params, set_scenario_date, get_player_nat, get_theater, set_theater, \
-    wait_for, wait_for_elem, find_child, find_children, get_css_classes, set_stored_msg
+    wait_for, wait_for_elem, find_child, find_children, get_css_classes, set_stored_msg, click_dialog_button
 
 # ---------------------------------------------------------------------
 
@@ -143,7 +143,7 @@ def test_import_warnings( webapp, webdriver ): #pylint: disable=too-many-stateme
 
         # import a scenario
         _do_scenario_search( "full", [1], webdriver )
-        find_child( "#scenario-search button.import" ).click()
+        _click_import_button( find_child( "#scenario-search" ) )
 
         # check if any warnings were expected
         elem = find_child( "[name='{}']".format( param_name ) )
@@ -274,7 +274,7 @@ def test_unknown_theaters( webapp, webdriver ):
     # search for the "MTO" scenario (this has a theater mapping)
     set_theater( "Korea" )
     dlg = _do_scenario_search( "MTO", ["3a"], webdriver )
-    find_child( "button.import", dlg ).click()
+    _click_import_button( dlg )
     wait_for( 2, lambda: not dlg.is_displayed() )
     assert get_theater() == "ETO"
 
@@ -282,7 +282,7 @@ def test_unknown_theaters( webapp, webdriver ):
     new_scenario()
     set_theater( "Korea" )
     dlg = _do_scenario_search( "Africa", ["3b"], webdriver )
-    find_child( "button.import", dlg ).click()
+    _click_import_button( dlg )
     _check_warnings( [], ["Unknown theater: Africa"] )
     find_child( "button.confirm-import", dlg ).click()
     assert get_theater() == "other"
@@ -299,7 +299,7 @@ def test_unknown_nats( webapp, webdriver ):
     set_player( 1, "french" )
     set_player( 2, "italian" )
     dlg = _do_scenario_search( "Unknown players", ["4a"], webdriver )
-    find_child( "button.import", dlg ).click()
+    _click_import_button( dlg )
     _check_warnings( [], ["Unknown player: Eastasia","Unknown player: Oceania"] )
     expected_bgraphs = { "asa": [
         { "name": "Eastasia", "wins": 2, "percentage": 67 },
@@ -949,7 +949,7 @@ def _unlink_scenario():
 
 def _import_scenario_and_confirm( dlg ):
     """Import a scenario, confirming any warnings."""
-    find_child( "button.import", dlg ).click()
+    _click_import_button( dlg )
     btn = wait_for_elem( 2, "button.confirm-import", dlg )
     btn.click()
     wait_for( 2, lambda: not dlg.is_displayed() )
@@ -961,3 +961,9 @@ def _find_scenario_card():
     if find_child( "#scenario-info-dialog" ).is_displayed():
         return find_child( "#scenario-info-dialog .scenario-card" )
     return None
+
+def _click_import_button( dlg ):
+    """Click the "import scenario" button, and confirm the action (if necessary)."""
+    find_child( "button.import", dlg ).click()
+    if find_child( "#ask" ).is_displayed():
+        click_dialog_button( "OK" )

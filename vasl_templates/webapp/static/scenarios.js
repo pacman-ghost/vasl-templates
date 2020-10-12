@@ -89,7 +89,17 @@ function initDialog( $dlg, scenarios )
     $gDownloadsButton = $dlg.find( "button.downloads" ).button()
         .on( "click", onDownloads ) ;
     $gImportScenarioButton = $dlg.find( "button.import" ).button()
-        .on( "click", onImportScenario ) ;
+        .on( "click", function() {
+            if ( ! is_scenario_dirty() )
+                onImportScenario() ;
+            else {
+                ask( "Import scenario",
+                    "<p> Your scenario has been changed. <p> Do you want to import a new scenario, and lose your changes?", {
+                    width: 470,
+                    ok: onImportScenario,
+                } ) ;
+            }
+    } ) ;
     $gConfirmImportButton = $dlg.find( "button.confirm-import" ).button()
         .on( "click", onConfirmImportScenario ) ;
     $gCancelImportButton = $dlg.find( "button.cancel-import" ).button()
@@ -921,7 +931,15 @@ function onDownloads() {
             buf.push( "</div>" ) ;
             var $item = $( "<li class='fgroup'>" + buf.join("") + "</li>" ) ;
             $item.find( "button.vt_setup" ).on( "click", function() {
-                onDownloadVtSetup( fgroup.vt_setup ) ;
+                if ( ! is_scenario_dirty() )
+                    onDownloadVtSetup( fgroup.vt_setup ) ;
+                else {
+                    ask( "Import scenario",
+                        "<p> Your scenario has been changed. <p> Do you want to import a new scenario, and lose your changes?", {
+                        width: 470,
+                        ok: function() { onDownloadVtSetup( fgroup.vt_setup ) ; },
+                    } ) ;
+                }
             } ) ;
             $item.find( "button.vasl_setup" ).on( "click", function() {
                 onDownloadVaslSetup( fgroup.vasl_setup ) ;
