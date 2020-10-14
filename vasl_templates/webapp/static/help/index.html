@@ -144,7 +144,9 @@ Configuring the program
 For the webdriver, download and unpack one of the following:
 <ul>
     <li> <a href="https://github.com/mozilla/geckodriver/releases">geckodriver</a> (you must have Firefox installed)
+        <div class="note"> Make sure to download the correct version (32- or 64-bit) for your browser (check the About box). </div>
     <li> <a href="http://chromedriver.chromium.org/downloads">chromedriver</a> (you must have Chrome installed)
+        <div class="note"> Make sure to download the version that corresponds to the version of Chrome you are running. </div>
 </ul>
 
 <h2> Setting up a scenario </h2>
@@ -152,11 +154,15 @@ For the webdriver, download and unpack one of the following:
 <p> <img src="images/quick-start/scenario-card.png" class="preview" style="float:right;">
 We'll set up <em>The Streets Of Stalingrad</em>, and the scenario card tells us that this is played on Board 1, so fire up VASL, add this board, then save the scenario somewhere (e.g. <tt>streets-of-stalingrad.vsav</tt>).
 <br clear=all>
+<br>
 
 <p> <img src="images/quick-start/load-scenario.png" class="preview" style="float:left;">
-In <em>vasl-templates</em>, open the save file for this scenario (<tt>The Streets Of Stalingrad (Scenario C).json</tt>; you'll find it in the <tt>examples/</tt> directory).
-<p> Browse through the tabs, and you'll see all the scenario details e.g. Victory Conditions, SSR's, setup instructions. The program also shows the latest results from <a href="http://www.jrvdev.com/ROAR/VER1/RecordByName.asp">ROAR</a>.
+In <em>VASL Templates</em>, open the save file for this scenario (<tt>The Streets Of Stalingrad (Scenario C).json</tt>; you'll find it in the <tt>examples/</tt> directory).
+<p> Browse through the tabs, and you'll see all the scenario details e.g. Victory Conditions, SSR's, setup instructions.
+<p> Click on the info icon in the top-right corner of the <em>Scenario</em> panel to get more detailed information about the scenario.
+<div class="info" style="float:right;"> This information is provided by the <a href="https://aslscenarioarchive.com">ASL Scenario Archive</a>. </div>
 <br clear=all>
+<br>
 
 <p> <img src="images/quick-start/update-scenario.png" class="preview" style="float:right;">
 We now want to create labels in the VASL scenario for all this information. Choose <em>Update VASL scenario</em> from the menu, and select the VASL scenario file you created earlier (e.g. <tt>streets-of-stalingrad.vsav</tt>). The program will now launch VASSAL to do the work, so be patient since it may take a minute or two, and you may see VASSAL momentarily appear on-screen.
@@ -167,12 +173,12 @@ In particular, note the data tables for the vehicles, which contain useful infor
 <h2> Including pictures in the labels </h2>
 
 <p> <img src="images/quick-start/user-settings.png" class="preview" style="float:right;">
-We can pretty-up the labels by including pictures in them. Open the <em>User Settings</em> dialog and turn on <em>Images in scenarios</em>.
+We can pretty-up the labels by including pictures in them. Open the <em>User Settings</em> dialog and turn on the <em>Images in scenarios</em> settings.
 <p> Update the VASL scenario again (as above), open it again in VASSAL, and you will see that the labels now include nationality flags, and the vehicle data tables show the counter images: <br>
 <img src="images/quick-start/images-in-labels.png" class="preview" style="margin:0.5em 0 0 2em;">
-<div class="warning"> Because images can't be stored inside a VASL scenario file, if you turn this option on, you must choose where VASSAL will get the images from:
+<div class="warning"> Because images can't be stored inside a VASL scenario file, if you turn these options on, you must choose where VASSAL will get the images from:
     <ul>
-        <li> <span style="border-bottom:1px solid #ccc;">From this program</span>: the <em>vasl-templates</em> program must be running before you open the scenario in VASSAL. If you are playing with someone online, they must have the program running as well.
+        <li> <span style="border-bottom:1px solid #ccc;">From this program</span>: the <em>VASL Templates</em> program must be running before you open the scenario in VASSAL. If you are playing with someone online, they must have the program running as well.
             <li> <span style="border-bottom:1px solid #ccc;">From the internet</span>: you must have a working internet connection when you open the scenario in VASSAL. There will be a short delay when opening the scenario, as VASSAL downloads the images.
     </ul>
 </div>
@@ -191,14 +197,16 @@ We can pretty-up the labels by including pictures in them. Open the <em>User Set
 
 <h2> Adding the scenario details </h2>
 
-<p> <img src="images/scenario.png" class="preview" style="width:20em;float:left;">
-First, we enter the basic details about the scenario.
-<p> Click on one of the <em>Snippet</em> buttons, and the program will generate an HTML snippet and put it into your clipboard, which you can then copy into a VASL label.
-<p> You can also click on the <em>Search ROAR</em> button, to look for a scenario in ROAR. The basic details for the scenario will be loaded, along with the latest results.
+<p> <img src="images/asa-search.png" class="preview" style="width:30em;float:left;">
+We start by entering the basic scenario details, such as its name, location and date. The easiest way to do this is to search the <a href="https://aslscenarioarchive.com">ASL Scenario Archive</a>.
+<p> Click on the search button, enter the name of the scenario, and once you've found the correct one, click on <em>Import</em> to transfer the details into <em>VASL Templates</em>.
+<p> If the <em>Downloads</em> button is enabled, this means that somebody has contributed the entire scenario setup and/or VASL save file, and these are available for download.
+<div class="hint" style="float:right;width:30em;"> The scenario card may list special rules and errata, and have screenshots of the map setup, all of which will help you set up your scenario correctly. </div>
 <br clear="all">
 
 <p> <img src="images/draggable-overlays.png" class="preview" style="width:20em;float:right;">
-To create a label in VASL, open the <em>Draggable Overlays</em> window, and drag a label onto the main window.
+Once the scenario details are in, click on one of the <em>Snippet</em> buttons, and the program will generate an HTML snippet and put it into your clipboard, which you can then copy into a VASL label.
+<p> To create a label in VASL, open the <em>Draggable Overlays</em> window, and drag a label onto the main window.
 <p> Labels come in two parts, which are accessible via the right-click menu, or press Ctrl-L and Ctrl-2 to access each one. I always just use the first line, so I delete everything in line 2.
 <p> The thick black box indicates that the label is selected. If you click elsewhere on the main window, it goes away, and the label will remain in place even if you click on it, or try to drag it. To select it again, Shift-click somewhere in the box, and you will be able to move it around, or edit it. This can sometimes be difficult to find, since it's not visible on-screen, but it will be in the middle (vertically and horizontally) of the label.
 <br clear="all">
@@ -206,6 +214,8 @@ To create a label in VASL, open the <em>Draggable Overlays</em> window, and drag
 <p> <img src="images/scenario-vasl.png" class="preview" style="width:20em;float:left;">
 Once you have a label in VASL, copy the HTML snippet generated above into it.
 <p> Repeat the process to add the ELR and SAN for both players, and you will now have two labels that you can position in the VASL scenario.
+
+<br><br>
 
 <h4 style="clear:none;"> Automatically adding labels to the VASL scenario </h4>
 <p>Once you've got the hang of adding labels to your VASL scenario, you can get <em>VASL Templates</em> to do it automatically for you. After entering all the scenario details, choose <em>Update VASL scenario</em> from the menu, select the <tt>.vsav</tt> file you want to update, and all the labels will be inserted into the scenario (or updated, if they're already there).
@@ -253,7 +263,7 @@ Finally, if special support weapons such as PF and BAZ are in play, snippets are
 
 <h4> Analyzing a VASL scenario </h4>
 
-<p> If you have already set up the VASL scenario, you can choose <em>"Analyze VASL scenario"</em> from the menu, and the program will scan the <tt>.vsav</tt> file for vehicles and ordnance, and automatically create entries for each one. Only counters from the two configured nationalities will be imported, so make sure you set these first.
+<p> If you have already set up the VASL scenario, you can choose <em>Analyze VASL scenario</em> from the menu, and the program will scan the <tt>.vsav</tt> file for vehicles and ordnance, and automatically create entries for each one. Only counters from the two configured nationalities will be imported, so make sure you set these first.
 
 <h2> Extra templates </h2>
 
@@ -279,31 +289,64 @@ or a <tt>width</tt> and/or <tt>height</tt> parameter to explicitly set the image
 
 <div class="info"> VASSAL caches images (which can't be turned off), so if you're making changes that don't seem to be having any effect, try restarting VASSAL. </div>
 
-<br clear="all">
-
 <h2> Suggested workflow </h2>
 
-<p>
-<ul>
+<p> <ul>
     <li> Set up the VASL scenario, with the boards and counters.
-    <li> In <em>VASL Templates</em>, set the two player nationalities, then analyze the VASL scenario, to automatically create entries for vehicles and ordnance.
-    <li> Enter the other scenario details e.g. the scenario name and date, Victory Conditions and SSR's, setup instructions.
-    <li> Update the VASL scenario file, to automatically create labels for all the scenario details and vehicles/ordnance.
+    <li> In <em>VASL Templates</em>, search the ASL Scenario Archive, and use it to get your scenario configuration started.
+    <li> Enter the other scenario details e.g. Victory Conditions, SSR's and setup instructions.
+    <li> Analyze the VASL scenario, to automatically create entries for vehicles and ordnance.
+    <li> Update the VASL scenario, to automatically create labels for all the scenario details and vehicles/ordnance.
 </ul>
+
+<p> <img src="images/asa-upload.png" class="preview" style="width:300px;float:left;">
+When the scenario has been completed and checked, you can contribute it back to the community by uploading it to the <a href="https://aslscenarioarchive.com">ASL Scenario Archive</a>, where it will be made available to everyone for download.
+<p> Just add your VASL scenario file (<tt>.vsav</tt>), a screenshot will be automatically generated (or you can add your own), then click <em>Upload</em>.
+<div class="info" style="float:right;">For copyright reasons, some details will be removed <br> from the upload e.g. the Victory Conditions and SSR's. </div>
+<br clear="all">
+
+<h2> Analyzing log files </h2>
+
+<p> <img src="images/lfa.png" class="preview" style="width:400px;float:right;">
+As an added bonus, <em>VASL Templates</em> can also analyze VASL log files, to generate a report on how the game went. Choose <em>Analyze log files</em> from the menu, and add one or more VASL log files.
+<p> You will be shown a report showing distribution graphs for the dice, and how the dice went over time. You can filter by the type of dice roll (e.g. only Morale Checks or To Kill rolls), as well as change the window size for moving averages. You can even download the data as a CSV, for further analysis!
+<p> If there is more than one log file, you can also drill down into each individual session: <br>
+<img src="images/lfa-files.png" class="preview" style="margin:0.5em 0 0 2em;width:200px;">
+<p> <img src="images/lfa-hotness.png" class="preview" style="width:300px;float:right;">
+The report also calculates <em>"hotness"</em>, which is a measure of how hot your dice were. The more low rolls you make, the higher your hotness score, while rolling high makes it go down.
+<p> So if you lose, you now have some hard numbers to back you up when you blame the dice <img src="images/smilies/cool.gif">
+
+<br clear="all">
 
 <h2> Configuring the program </h2>
 
-<h4> Showing VASL counter images in the UI </h4>
+<img src="images/user-settings.png" class="preview" style="width:300px;float:right;">
 
-<p> If you want VASL counter images to appear in the UI, you need to tell the program where to find the VASL module (i.e. the <tt>vasl-X.X.X.vmod</tt> file you load into VASSAL):
-<ul>
-<li> If you are running the Windows desktop application, open the <em>Server settings</em> dialog from the <em>File</em> menu and configure it there.
-<li> If you are running the web server directly, create a file called <tt>site.cfg</tt> in the <tt>$/config/</tt> directory and configure it there (there is an example file you can rename and edit).
+<h4 style="clear:none;"> VASL user name</h4>
+<p> Configure your VASL user name here, to have it always shown first when analyzing VASL log files.
+
+<h4 style="clear:none;"> HTML snippet font </h4>
+<p> This setting lets you change the font, and its size, used in VASL labels.
+
+<h4 style="clear:none;"> Auto-create <em>National Capabilities</em> labels </h4>
+<p> Turn this on to automatically create labels that list the national capabilities for both sides when updating a VASL scenario.
+
+<h4 style="clear:none;"> Hide unavailable multi-applicable notes </h4>
+<p> Turn this on to completely omit vehicle/ordnance multi-applicable notes that haven't been set up (instead of showing them as <em>"unavailable"</em>).
+
+<h4 style="clear:none;"> Confirm settings before updating scenarios </h4>
+<p> Turn this on to show the <em>User Settings</em> dialog before updating a VASL scenario. This is useful if you are often creating VASL setups with different settings, and gives you a chance to make sure they are correct.
+
+<br><br>
+
+<h4> Images in scenarios </h4>
+<p> Images cannot be stored in a VASL scenario file, so they must stored elsewhere, which means that VASL needs to be told where to get them from:
+<ul style="font-size:90%;">
+    <li> <em>From this program</em>: the <em>VASL Templates</em> program must be running before you open the scenario in VASSAL. If you are playing with someone online, they must have the program running as well.
+    <li> <em>From the internet</em>: you must have a working internet connection when you open the scenario in VASSAL. There will be a short delay when opening the scenario, as VASSAL downloads the images.
 </ul>
-<p> Once you've configured the VASL module, if you want to also show VASL counter images in the OB snippets that you copy in the VASL scenario, turn this on in the <em>User settings</em> dialog from the main application menu.
 
 <h4> Show Chapter H vehicle/ordnance notes as images </h4>
-
 <p> If you have set up the <a href="#" onclick="select_tab('chapterh');">Chapter H vehicle/ordnance notes</a> as HTML, it may not be possible to get the layout you want, since VASSAL's HTML engine is very old and doesn't support many HTML/CSS features. To work around this, this option tells <em>VASL Templates</em> to render the HTML itself (using a modern browser) and send it as an image to VASSAL, which is slower but gives better results.
 
 </div>
@@ -480,8 +523,6 @@ The tests use <a href="http://pytest.org">pytest</a> and <a href="https://www.se
 pytest --webdriver chrome --headless
 </div>
 <p> Note that since <tt>pylint</tt> is run as part of these tests, this should be done from the root directory of the repo.
-
-<div class="warning"> Internet Explorer is also supported as a WebDriver, but due to differences in the way it works, some tests are currently failing for this. </div>
 
 <h2> Compiling the VASSAL shim </h2>
 
