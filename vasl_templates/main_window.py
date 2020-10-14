@@ -30,7 +30,11 @@ class AppWebPage( QWebEnginePage ):
         if url.host() in ("localhost","127.0.0.1"):
             return True
         if not is_mainframe:
-            return True # nb: we get here if we're in a child frame (e.g. Google Maps)
+            # NOTE: We get here if we're in a child frame (e.g. Google Maps). However, we can't just ignore
+            # these requests, because the help is also in a frame, and we want links to open in an external browser.
+            # Sigh...
+            if "google.com/maps" in url.url():
+                return True
         QDesktopServices.openUrl( url )
         return False
 
