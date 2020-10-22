@@ -87,7 +87,6 @@ function get_scenario_date()
     var scenario_date = $("input[name='SCENARIO_DATE']").datepicker( "getDate" ) ;
     if ( ! scenario_date )
         return null ;
-    scenario_date.setMinutes( scenario_date.getMinutes() - scenario_date.getTimezoneOffset() ) ;
     return scenario_date ;
 }
 
