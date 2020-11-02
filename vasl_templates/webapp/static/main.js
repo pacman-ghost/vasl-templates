@@ -524,14 +524,17 @@ function update_page_load_status( id )
     if ( id === "template-pack" )
         $("fieldset[name='scenario']").fadeIn( 2*1000 ) ;
 
-    // check if the vehicle/ordnance listings have finished loading
-    if ( gPageLoadStatus.indexOf( "vehicle-listings" ) === -1 && gPageLoadStatus.indexOf( "ordnance-listings" ) === -1 ) {
+    // check if we can reset the scenario
+    if ( gPageLoadStatus.indexOf( "reset-scenario" ) !== -1 ) {
         // NOTE: If the default scenario contains any vehicles or ordnance, it will look up the V/O listings,
         // so we need to wait until those have arrived. Note that while the default scenario will normally
         // be empty, having stuff in it is very useful during development.
-        if ( gPageLoadStatus.indexOf( "reset-scenario" ) !== -1 ) {
-            do_on_new_scenario( false ) ;
-            update_page_load_status( "reset-scenario" ) ;
+        if ( gPageLoadStatus.indexOf( "vehicle-listings" ) === -1 && gPageLoadStatus.indexOf( "ordnance-listings" ) === -1 ) {
+            // NOTE: We also need to wait for the app config to arrive (for the scenario theaters).
+            if ( gPageLoadStatus.indexOf( "app-config" ) === -1 ) {
+                do_on_new_scenario( false ) ;
+                update_page_load_status( "reset-scenario" ) ;
+            }
         }
     }
 
