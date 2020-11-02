@@ -10,7 +10,7 @@ from selenium.webdriver.support.ui import Select
 from vasl_templates.webapp.tests.utils import init_webapp, select_menu_option, \
     wait_for, wait_for_elem, find_child, find_children, set_stored_msg, set_stored_msg_marker, get_stored_msg, \
     get_droplist_vals, select_droplist_val, unload_table
-from vasl_templates.webapp.tests.test_vassal import _run_tests
+from vasl_templates.webapp.tests.test_vassal import run_vassal_tests
 
 # ---------------------------------------------------------------------
 
@@ -127,7 +127,7 @@ def test_full( webapp, webdriver ):
         find_child( "#lfa button.ui-dialog-titlebar-close" ).click()
 
     # run the tests
-    _run_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
+    run_vassal_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
 
 
 # ---------------------------------------------------------------------
@@ -212,7 +212,7 @@ def test_4players( webapp, webdriver ):
         find_child( "#lfa button.ui-dialog-titlebar-close" ).click()
 
     # run the tests
-    _run_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
+    run_vassal_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
 
 # ---------------------------------------------------------------------
 
@@ -385,7 +385,7 @@ def test_multiple_files( webapp, webdriver ):
         find_child( "#lfa button.ui-dialog-titlebar-close" ).click()
 
     # run the tests
-    _run_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
+    run_vassal_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
 
 # ---------------------------------------------------------------------
 
@@ -431,7 +431,7 @@ def test_3d6( webapp, webdriver ):
         find_child( "#lfa button.ui-dialog-titlebar-close" ).click()
 
     # run the tests
-    _run_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
+    run_vassal_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
 
 # ---------------------------------------------------------------------
 
@@ -465,7 +465,7 @@ def test_banner_updates( webapp, webdriver ):
         find_child( "#lfa button.ui-dialog-titlebar-close" ).click()
 
     # run the tests
-    _run_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
+    run_vassal_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
 
 # ---------------------------------------------------------------------
 
@@ -505,7 +505,7 @@ def test_download_data( webapp, webdriver ):
         ]
 
     # run the test
-    _run_tests( control_tests, do_test, False )
+    run_vassal_tests( control_tests, do_test, False )
 
 # ---------------------------------------------------------------------
 
@@ -544,7 +544,7 @@ def test_custom_labels( webapp, webdriver ):
         ]
 
     # run the test
-    _run_tests( control_tests, do_test, False )
+    run_vassal_tests( control_tests, do_test, False )
 
 # ---------------------------------------------------------------------
 

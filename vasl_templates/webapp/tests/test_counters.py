@@ -258,7 +258,7 @@ def test_gpid_remapping( webapp, webdriver ):
     # run the tests using VASL 6.4.4 and 6.5.0
     # NOTE: Versions of VASL prior to 6.6.0 are no longer officially supported (since they use Java 8),
     # but we would still like to run these tests. See VassalShim._run_vassal_shim(), where we figure out
-    # which version of Java to use, and _run_tests() in test_vassal.py, where we check for invalid
+    # which version of Java to use, and run_vassal_tests() in test_vassal.py, where we check for invalid
     # combinations of VASSAL and VASL. Sigh...
     do_test( find_vasl_mod("6.4.4"), True )
     do_test( find_vasl_mod("6.5.0"), True )

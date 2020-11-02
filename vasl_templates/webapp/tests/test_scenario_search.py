@@ -11,6 +11,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import StaleElementReferenceException
 
 from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
+from vasl_templates.webapp.tests.test_vassal import run_vassal_tests
 from vasl_templates.webapp.tests.utils import init_webapp, select_tab, new_scenario, \
     set_player, set_template_params, set_scenario_date, get_player_nat, get_theater, set_theater, \
     wait_for, wait_for_elem, find_child, find_children, get_css_classes, set_stored_msg, click_dialog_button
@@ -626,8 +627,7 @@ def test_scenario_upload( webapp, webdriver ):
         assert isinstance( asa_upload["vt_setup"], dict )
         assert asa_upload["vasl_setup"][:3] == "PK:"
         assert asa_upload["screenshot"][:5] == "JPEG:"
-    from vasl_templates.webapp.tests.test_vassal import _run_tests
-    _run_tests( control_tests, do_test, True )
+    run_vassal_tests( control_tests, do_test, True )
 
 # ---------------------------------------------------------------------
 

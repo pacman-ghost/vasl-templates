@@ -209,10 +209,10 @@ def test_full_update( webapp, webdriver ):
             assert updated_vsav_data == b"No changes."
 
     # run the test against all versions of VASSAL+VASL
-    _run_tests( control_tests, lambda: do_test(True), True )
+    run_vassal_tests( control_tests, lambda: do_test(True), True )
 
     # run the test again (once) with no Chapter H vehicle/ordnance notes
-    _run_tests( control_tests, lambda: do_test(False), False )
+    run_vassal_tests( control_tests, lambda: do_test(False), False )
 
 # ---------------------------------------------------------------------
 
@@ -282,7 +282,7 @@ def test_latw_autocreate( webapp, webdriver ):
     # NOTE: We're testing the logic in the front/back-ends that determine whether LATW labels
     # get created/updated/deleted, not the interaction with VASSAL, so we don't need to test
     # against every VASSAL+VASL combination (although we can, if we want, but it'll be slow!)
-    _run_tests( control_tests, do_test, False )
+    run_vassal_tests( control_tests, do_test, False )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -343,7 +343,7 @@ def test_latw_update( webapp, webdriver ):
     # NOTE: We're testing the logic in the front/back-ends that determine whether LATW labels
     # get created/updated/deleted, not the interaction with VASSAL, so we don't need to test
     # against every VASSAL+VASL combination (although we can, if we want, but it'll be slow!)
-    _run_tests( control_tests, do_test, False )
+    run_vassal_tests( control_tests, do_test, False )
 
 # ---------------------------------------------------------------------
 
@@ -368,7 +368,7 @@ def test_dump_vsav( webapp, webdriver ):
         assert vsav_dump == expected
 
     # run the test against all versions of VASSAL+VASL
-    _run_tests( control_tests, do_test, True )
+    run_vassal_tests( control_tests, do_test, True )
 
 # ---------------------------------------------------------------------
 
@@ -451,10 +451,10 @@ def test_update_legacy_labels( webapp, webdriver ):
         _check_vsav_dump( updated_vsav_dump, expected )
 
     # run the test
-    _run_tests( control_tests, lambda: do_test(True), False )
+    run_vassal_tests( control_tests, lambda: do_test(True), False )
 
     # run the test again (once) with no Chapter H vehicle/ordnance notes
-    _run_tests( control_tests, lambda: do_test(False), False )
+    run_vassal_tests( control_tests, lambda: do_test(False), False )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -531,7 +531,7 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
         assert len( [ lbl for lbl in labels if "vasl-templates:id" not in lbl ] ) == 6
 
     # run the test
-    _run_tests( control_tests, do_test, False )
+    run_vassal_tests( control_tests, do_test, False )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -588,7 +588,7 @@ def test_player_owned_labels( webapp, webdriver ):
         }, ignore=["scenario","players","victory_conditions"] )
 
     # run the test against all versions of VASSAL+VASL
-    _run_tests( control_tests, do_test, True )
+    run_vassal_tests( control_tests, do_test, True )
 
 # ---------------------------------------------------------------------
 
@@ -674,7 +674,7 @@ def test_analyze_vsav( webapp, webdriver ):
         )
 
     # run the test against all versions of VASSAL+VASL
-    _run_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
+    run_vassal_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -699,7 +699,7 @@ def test_analyze_vsav_hip_concealed( webapp, webdriver ):
         )
 
     # run the test against all versions of VASSAL+VASL
-    _run_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
+    run_vassal_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -725,7 +725,7 @@ def test_reverse_remapped_gpids( webapp, webdriver ):
         )
 
     # run the test against all versions of VASSAL+VASL
-    _run_tests( control_tests, do_test,
+    run_vassal_tests( control_tests, do_test,
         not pytest.config.option.short_tests,  #pylint: disable=no-member
         min_vasl_version="6.5.0"
     )
@@ -774,11 +774,11 @@ def test_vo_entry_selection_for_theater( webapp, webdriver ):
             # NOTE The other variants always get imported as K:FW counters.
             ("kfw-un-common/o:002","12689/0"), ("kfw-un-common/o:002","11391/0"), ("kfw-un-common/o:002","11440/0")
         ] )
-    _run_tests( control_tests, do_tests, True, min_vasl_version="6.5.0" )
+    run_vassal_tests( control_tests, do_tests, True, min_vasl_version="6.5.0" )
 
 # ---------------------------------------------------------------------
 
-def _run_tests( control_tests, func, test_all, min_vasl_version=None ):
+def run_vassal_tests( control_tests, func, test_all, min_vasl_version=None ):
     """Run the test function for each combination of VASSAL + VASL.
 
     This is, of course, going to be insanely slow, since we need to spin up a JVM
