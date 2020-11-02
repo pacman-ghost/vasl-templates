@@ -243,6 +243,8 @@ class ControlTests:
             dname = app.config[ "TEST_VASSAL_ENGINES" ]
         vassal_engines = []
         for root,_,fnames in os.walk( dname ):
+            if os.sep+"_disabled_"+os.sep in root:
+                continue
             for fname in fnames:
                 if fname == "Vengine.jar":
                     if root.endswith( "/lib" ):

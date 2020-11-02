@@ -10,13 +10,16 @@ import urllib.request
 import pytest
 import tabulate
 
-from vasl_templates.webapp.vasl_mod import VaslMod, get_vo_gpids, compare_vasl_versions, SUPPORTED_VASL_MOD_VERSIONS
+from vasl_templates.webapp.vassal import SUPPORTED_VASSAL_VERSIONS
+from vasl_templates.webapp.vasl_mod import VaslMod, get_vo_gpids, compare_version_strings, SUPPORTED_VASL_MOD_VERSIONS
 from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp.vo import _kfw_listings #pylint: disable=protected-access
 from vasl_templates.webapp.utils import change_extn
 from vasl_templates.webapp.tests.utils import init_webapp, select_tab, find_child, find_children
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
 from vasl_templates.webapp.tests.remote import ControlTests
+
+_EXPECTED_MISSING_GPIDS_EXCEPTIONS = [ "6.5.0", "6.5.1", "6.6.0", "6.6.1" ]
 
 # ---------------------------------------------------------------------
 
@@ -98,11 +101,11 @@ def test_counter_images( webapp ):
     expected_missing_gpids.remove( "1527" ) # FUDGE! this is a remapped GPID (12730)
 
     def _do_check_front( gpid, code, data ):
-        if vasl_version not in ("6.5.0","6.5.1") and gpid in expected_missing_gpids:
+        if vasl_version not in _EXPECTED_MISSING_GPIDS_EXCEPTIONS and gpid in expected_missing_gpids:
             return code == 404 and not data
         return code == 200 and data
     def _do_check_back( gpid, code, data ):
-        if vasl_version not in ("6.5.0","6.5.1") and gpid in expected_missing_gpids:
+        if vasl_version not in _EXPECTED_MISSING_GPIDS_EXCEPTIONS and gpid in expected_missing_gpids:
             return code == 404 and not data
         return (code == 200 and data) or (code == 404 and not data)
 
@@ -253,6 +256,10 @@ def test_gpid_remapping( webapp, webdriver ):
         return matches[0]
 
     # run the tests using VASL 6.4.4 and 6.5.0
+    # NOTE: Versions of VASL prior to 6.6.0 are no longer officially supported (since they use Java 8),
+    # but we would still like to run these tests. See VassalShim._run_vassal_shim(), where we figure out
+    # which version of Java to use, and _run_tests() in test_vassal.py, where we check for invalid
+    # combinations of VASSAL and VASL. Sigh...
     do_test( find_vasl_mod("6.4.4"), True )
     do_test( find_vasl_mod("6.5.0"), True )
     do_test( find_vasl_mod("6.5.1"), True )
@@ -270,11 +277,19 @@ def test_gpid_remapping( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-def test_compare_vasl_versions():
-    """Test comparing VASL version strings."""
+def test_compare_version_strings():
+    """Test comparing version strings."""
+    # test comparing VASSAL version strings
+    for i,vassal_version in enumerate( SUPPORTED_VASSAL_VERSIONS):
+        if i > 0:
+            assert compare_version_strings( SUPPORTED_VASSAL_VERSIONS[i-1], vassal_version ) < 0
+        assert compare_version_strings( SUPPORTED_VASSAL_VERSIONS[i], vassal_version ) == 0
+        if i < len(SUPPORTED_VASSAL_VERSIONS)-1:
+            assert compare_version_strings( vassal_version, SUPPORTED_VASSAL_VERSIONS[i+1] ) < 0
+    # test comparing VASL version strings
     for i,vasl_version in enumerate(SUPPORTED_VASL_MOD_VERSIONS):
         if i > 0:
-            assert compare_vasl_versions( SUPPORTED_VASL_MOD_VERSIONS[i-1], vasl_version ) < 0
-        assert compare_vasl_versions( vasl_version, vasl_version ) == 0
+            assert compare_version_strings( SUPPORTED_VASL_MOD_VERSIONS[i-1], vasl_version ) < 0
+        assert compare_version_strings( vasl_version, vasl_version ) == 0
         if i < len(SUPPORTED_VASL_MOD_VERSIONS)-1:
-            assert compare_vasl_versions( vasl_version, SUPPORTED_VASL_MOD_VERSIONS[i+1] ) < 0
+            assert compare_version_strings( vasl_version, SUPPORTED_VASL_MOD_VERSIONS[i+1] ) < 0

@@ -1,5 +1,6 @@
 # Define VASSAL_DIR in the command line arguments to point to the directory that contains Vengine.jar e.g.
 #   make all VASSAL_DIR=...
+# We are currently compiling with Java 14.0.2, using VASSAL 3.4.2.
 
 SRC_DIR:=src
 DATA_DIR:=data

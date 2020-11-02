@@ -14,8 +14,8 @@ from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp.vo import get_vo_listings
 
-SUPPORTED_VASL_MOD_VERSIONS = [ "6.4.0", "6.4.1", "6.4.2", "6.4.3", "6.4.4", "6.5.0", "6.5.1" ]
-SUPPORTED_VASL_MOD_VERSIONS_DISPLAY = "6.4.0-6.5.1"
+SUPPORTED_VASL_MOD_VERSIONS = [ "6.6.0", "6.6.1" ]
+SUPPORTED_VASL_MOD_VERSIONS_DISPLAY = "6.6.0-.1"
 
 warnings = [] # nb: for the test suite
 
@@ -445,9 +445,12 @@ def get_vo_gpids( vasl_mod ):
     return gpids
 
 
-def compare_vasl_versions( lhs, rhs ):
-    """Compare two VASL version strings."""
-    # NOTE: We can do this with a simple string comparison, but see test_compare_vasl_versions().
+def compare_version_strings( lhs, rhs  ):
+    """Compare two version strings."""
+    def parse( val ): #pylint: disable=missing-docstring
+        mo = re.search( r"^(\d+)\.(\d+)\.(\d+)$", val )
+        return ( int(mo.group(1)), int(mo.group(2)), int(mo.group(3)) )
+    lhs, rhs = parse(lhs), parse(rhs)
     if lhs < rhs:
         return -1
     elif lhs > rhs:
@@ -507,8 +510,8 @@ def get_remapped_gpid( vasl_mod, gpid ):
     for remappings in GPID_REMAPPINGS:
         # FUDGE! Early versions of this code (pre-6.5.0) always applied the remappings for 6.4.3,
         # even for versions of VASL earlier than that. For simplicity, we preserve that behavior.
-        if compare_vasl_versions( remappings[0], "6.5.0" ) < 0 \
-           or compare_vasl_versions( vasl_mod.vasl_version, remappings[0] ) >= 0:
+        if compare_version_strings( remappings[0], "6.5.0" ) < 0 \
+           or compare_version_strings( vasl_mod.vasl_version, remappings[0] ) >= 0:
             gpid = remappings[1].get( gpid, gpid )
     return gpid
 
@@ -517,6 +520,6 @@ def get_reverse_remapped_gpid( vasl_mod, gpid ):
     if not vasl_mod:
         return gpid
     for remappings in REVERSE_GPID_REMAPPINGS:
-        if compare_vasl_versions( vasl_mod.vasl_version, remappings[0] ) >= 0:
+        if compare_version_strings( vasl_mod.vasl_version, remappings[0] ) >= 0:
             gpid = remappings[1].get( gpid, gpid )
     return gpid

@@ -3,6 +3,8 @@ package vassal_shim ;
 import java.io.BufferedWriter ;
 import java.io.FileWriter ;
 import java.util.ArrayList ;
+import java.lang.reflect.Method ;
+import java.lang.reflect.InvocationTargetException ;
 
 import VASSAL.Info ;
 
@@ -18,6 +20,28 @@ public class Main
         if ( args.length == 0 ) {
             printHelp() ;
             System.exit( 0 ) ;
+        }
+
+        // FUDGE! In VASSAL 3.4.4, they changed the way the version number is tracked (it's now in the resources),
+        // and Info.getVersion() reports the wrong thing OOB :-/ We have to install a StandardConfig instance
+        // into the Info class, but since this is a new thing, we have to use reflection to figure out if it exists
+        // and we can do it (and we obviously can't check the VASSAL version, since that's what we're trying to set :-/).
+        // NOTE: We do this in all cases, not just when we're getting the VASSAL version, since VASL is checking
+        // the VASSAL version and complains if there is a mismatch e.g. VASL 6.6.1 was compiled against VASSAL 3.4.6,
+        // but even if we're using VASSAL 3.4.6, it mis-reports itself as 3.4.3, so VASL complains. It might just be
+        // a warning for the user, but VASL could also be adjusting its behaviour depending on what version of VASSAL
+        // is being used, so for safety, we install the VASSAL version number properly. Sigh... :-/
+        try {
+            // NOTE: We're trying to do this:
+            //   Info.setConfig( new StandardConfig() ) ;
+            Class<?> infoClass = Class.forName( "VASSAL.Info" ) ;
+            Class<?> configClass = Class.forName( "VASSAL.launch.Config" ) ;
+            Method setConfigMethod = infoClass.getMethod( "setConfig", configClass ) ;
+            Object standardConfig = Class.forName( "VASSAL.launch.StandardConfig" ).getDeclaredConstructor().newInstance() ;
+            setConfigMethod.invoke( null, standardConfig ) ;
+        } catch( ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex ) {
+            // NOTE: If anything fails, we assume it's because we're on a version earlier than 3.4.4,
+            // and hopefully Info.getVersion() will work OOB.
         }
 
         // execute the specified command

@@ -10,7 +10,7 @@ import typing.re #pylint: disable=import-error
 import pytest
 
 from vasl_templates.webapp.vassal import VassalShim
-from vasl_templates.webapp.vasl_mod import compare_vasl_versions
+from vasl_templates.webapp.vasl_mod import compare_version_strings
 from vasl_templates.webapp.utils import TempFile, change_extn
 from vasl_templates.webapp import globvars
 from vasl_templates.webapp.tests.utils import \
@@ -789,11 +789,35 @@ def _run_tests( control_tests, func, test_all, min_vasl_version=None ):
     vasl_mods = control_tests.get_vasl_mods()
     vassal_engines = control_tests.get_vassal_engines()
 
+    def is_valid_combo( vassal_engine, vasl_mod ):
+        """Check if this is a valid combination of VASSAL and VASL."""
+        # NOTE: From 3.3, VASSAL no longer works with Java 8, and requires VASL 6.6.0 or later.
+        # FUDGE! We assume the version number is part of the VASSAL path, otherwise we would have to
+        # run the VASSAL shim to get the version number, and things are slow enough already :-/
+        mo = re.search( r"\d+\.\d+\.\d+", vassal_engine )
+        vassal_version = mo.group()
+        mo = re.search( r"\d+\.\d+\.\d+", vasl_mod )
+        vasl_version = mo.group()
+        if compare_version_strings( vassal_version, "3.3.0" ) >= 0:
+            if compare_version_strings( vasl_version, "6.6.0" ) < 0:
+                return False
+        else:
+            if compare_version_strings( vasl_version, "6.6.0" ) >= 0:
+                return False
+        return True
+
     # check if we want to test all VASSAL+VASL combinations (nb: if not, we test against only one combination,
     # and since they all should give the same results, it doesn't matter which one.
     if not test_all:
-        vasl_mods = [ random.choice( vasl_mods ) ]
-        vassal_engines = [ random.choice( vassal_engines ) ]
+        for _ in range(0,100):
+            vasl_mod = random.choice( vasl_mods )
+            vassal_engine = random.choice( vassal_engines )
+            if is_valid_combo( vassal_engine, vasl_mod ):
+                vasl_mods = [ vasl_mod ]
+                vassal_engines = [ vassal_engine ]
+                break
+        else:
+            assert False, "Can't find a valid combination of VASSAL and VASL."
 
     # FUDGE! If we are running the tests against a remote server, we still need to be able to run
     # the VASSAL shim locally (to dump VASSAL save files), so we need to set up things up enough
@@ -810,9 +834,11 @@ def _run_tests( control_tests, func, test_all, min_vasl_version=None ):
             # the vmod, extract the buildFile, parse the XML, etc. :-/
             mo = re.search( r"\d+\.\d+\.\d+", vasl_mod )
             vasl_version = mo.group()
-            if min_vasl_version and compare_vasl_versions( vasl_version, min_vasl_version ) < 0:
+            if min_vasl_version and compare_version_strings( vasl_version, min_vasl_version ) < 0:
                 continue
             control_tests.set_vasl_mod( vmod=vasl_mod )
+            if not is_valid_combo( vassal_engine, vasl_mod ):
+                continue
             func()
 
 # ---------------------------------------------------------------------

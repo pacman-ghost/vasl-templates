@@ -19,10 +19,14 @@ from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import BASE_DIR, IS_FROZEN
 from vasl_templates.webapp.utils import TempFile, SimpleError
 from vasl_templates.webapp.webdriver import WebDriver
-from vasl_templates.webapp.vasl_mod import get_reverse_remapped_gpid
+from vasl_templates.webapp.vasl_mod import get_reverse_remapped_gpid, compare_version_strings
 
-SUPPORTED_VASSAL_VERSIONS = [ "3.2.15" ,"3.2.16", "3.2.17" ]
-SUPPORTED_VASSAL_VERSIONS_DISPLAY = "3.2.15-.17"
+# NOTE: VASSAL dropped support for Java 8 from 3.3.0. The first version of VASL that supported
+# the later versions of Java was 6.6.0, but it was compiled against VASSAL 3.4.2, so we don't
+# need to support versions of VASSAL prior to this (3.3.0-.2, 3.4.0-.1), since VASL is known
+# not work with them.
+SUPPORTED_VASSAL_VERSIONS = [ "3.4.2", "3.4.3", "3.4.4", "3.4.5", "3.4.6", "3.4.7" ]
+SUPPORTED_VASSAL_VERSIONS_DISPLAY = "3.4.2-.7"
 
 # ---------------------------------------------------------------------
 
@@ -365,10 +369,28 @@ class VassalShim:
         # initialize
         logger = logging.getLogger( "vassal_shim" )
 
-        # prepare the command
+        # figure out where Java is
         java_path = app.config.get( "JAVA_PATH" )
+        java8_path = app.config.get( "JAVA8_PATH" )
+        if java8_path:
+            # FUDGE! From 3.3, VASSAL no longer works with Java 8. We want to mantain back-compatibility
+            # with the older versions of VASL (6.5.1 and older) for some time, and while it's not a big issue
+            # from the user's perspective (they just configure the appropriate VASSAL+VASL), it's problematic
+            # for the test suite (since it has to be able to run the correct version of Java for the VASSAL
+            # being used). We do this here, and since it's just for the purpose of running tests, we can
+            # require that the VASSAL version be embedded in the filename.
+            # NOTE: I eventually gave up trying to maintain back-compat with older versions of VASL, but
+            # the GPID remapping test (test_gpid_remapping() in test_counters.py) is an important one,
+            # but is currently only relevant for 6.4.4 and 6.5.0-.1, so for the sole purpose of being able
+            # to run those tests, we still support Java 8. Sigh...
+            mo = re.search( r"\d+\.\d+\.\d+", self.vengine_jar )
+            if compare_version_strings( mo.group(), "3.3.0" ) < 0:
+                # we're using a legacy version of VASSAL - use Java 8
+                java_path = java8_path
         if not java_path:
             java_path = "java" # nb: this must be in the PATH
+
+        # prepare the command
         class_path = app.config.get( "JAVA_CLASS_PATH" )
         if not class_path:
             class_path = [ self.vengine_jar, self.shim_jar ]
