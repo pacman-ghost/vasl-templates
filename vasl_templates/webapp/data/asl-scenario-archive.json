@@ -4,7 +4,8 @@
 "theater-mappings": {
     "MTO": "ETO",
     "Normandy": "ETO",
-    "KW": "Korea"
+    "KW": "Korea",
+    "CBI": "PTO"
 },
 
 "_comment_": "This section maps player nationalities from those at the ASL Scenario Archive (must be lower-case) to our nationality ID's.",
