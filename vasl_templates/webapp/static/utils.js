@@ -452,15 +452,6 @@ function get_month_name( month )
 
 // --------------------------------------------------------------------
 
-function getElemSizeAndPosition( $elem )
-{
-    // return the element's size and position
-    return {
-        width: $elem.width(), height: $elem.height(),
-        left: $elem.offset().left, top: $elem.offset().top,
-    } ;
-}
-
 function fixup_external_links( $root )
 {
     // NOTE: We want to open externals links in a new browser window, but simply adding target="_blank"
