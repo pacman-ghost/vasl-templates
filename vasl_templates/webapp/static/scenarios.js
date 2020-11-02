@@ -514,7 +514,7 @@ function loadObaInfo( $target, scenario, scenarioDateOverride )
         return ;
     if ( scenarioDateOverride ) {
         scenarioDateOverride = scenarioDateOverride.toISOString().substring( 0, 10 ) ;
-        if ( scenarioDateOverride == scenarioDate )
+        if ( scenarioDateOverride.substring(0,7) == scenarioDate.substring(0,7) )
             scenarioDateOverride = null ;
         else
             scenarioDate = scenarioDateOverride ;
