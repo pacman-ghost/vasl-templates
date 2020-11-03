@@ -16,12 +16,6 @@ public class Main
 {
     public static void main( String[] args )
     {
-        // parse the command line arguments
-        if ( args.length == 0 ) {
-            printHelp() ;
-            System.exit( 0 ) ;
-        }
-
         // FUDGE! In VASSAL 3.4.4, they changed the way the version number is tracked (it's now in the resources),
         // and Info.getVersion() reports the wrong thing OOB :-/ We have to install a StandardConfig instance
         // into the Info class, but since this is a new thing, we have to use reflection to figure out if it exists
@@ -46,6 +40,8 @@ public class Main
 
         // execute the specified command
         try {
+            if ( args.length == 0 )
+                return ;
             String cmd = args[0].toLowerCase() ;
             if ( cmd.equals( "dump" ) ) {
                 checkArgs( args, 3, false, "the VASL .vmod file and scenario file" ) ;
@@ -118,16 +114,5 @@ public class Main
             System.out.println( "Incorrect number of arguments, please specify " + hint + "." ) ;
             System.exit( 2 ) ;
         }
-    }
-
-    private static void printHelp()
-    {
-        // show program usage
-        System.out.println( Main.class.getName() + " {command} {options}" ) ;
-        System.out.println( "  Provide access to VASSAL functionality." ) ;
-        System.out.println() ;
-        System.out.println( "Available commands:" ) ;
-        System.out.println( "  dump:   Dump a .vsav file." ) ;
-        System.out.println( "  update: Update the labels in a .vsav file." ) ;
     }
 }
