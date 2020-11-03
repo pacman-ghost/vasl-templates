@@ -1,11 +1,11 @@
 package vassal_shim ;
 
+import java.lang.reflect.Field ;
 import java.io.File ;
 import java.io.FileInputStream ;
 import java.io.InputStream ;
 import java.io.InputStreamReader ;
 import java.io.FileOutputStream ;
-import java.io.OutputStream ;
 import java.io.BufferedReader ;
 import java.io.IOException ;
 import java.io.FileNotFoundException ;
@@ -32,6 +32,7 @@ import javax.xml.parsers.ParserConfigurationException ;
 import javax.xml.transform.TransformerException ;
 import javax.xml.transform.TransformerConfigurationException ;
 import javax.xml.xpath.XPathExpressionException  ;
+import javax.swing.Action ;
 import org.w3c.dom.Document ;
 import org.w3c.dom.NodeList ;
 import org.w3c.dom.Node ;
@@ -43,19 +44,15 @@ import org.slf4j.LoggerFactory ;
 import VASSAL.build.GameModule ;
 import VASSAL.build.GpIdChecker ;
 import VASSAL.build.module.GameState ;
-import VASSAL.build.module.GameComponent ;
 import VASSAL.build.module.BasicLogger.LogCommand ;
 import VASSAL.build.module.ModuleExtension ;
 import VASSAL.build.module.ObscurableOptions ;
-import VASSAL.build.module.metadata.SaveMetaData ;
 import VASSAL.build.module.Chatter.DisplayText ;
 import VASSAL.build.widget.PieceSlot ;
 import VASSAL.launch.BasicModule ;
 import VASSAL.command.Command ;
 import VASSAL.command.AddPiece ;
 import VASSAL.command.RemovePiece ;
-import VASSAL.command.ConditionalCommand ;
-import VASSAL.command.AlertCommand ;
 import VASSAL.build.module.map.boardPicker.Board ;
 import VASSAL.counters.GamePiece ;
 import VASSAL.counters.BasicPiece ;
@@ -65,12 +62,6 @@ import VASSAL.counters.PieceCloner ;
 import VASSAL.preferences.Prefs ;
 import VASSAL.tools.DataArchive ;
 import VASSAL.tools.DialogUtils ;
-import VASSAL.tools.io.FileArchive ;
-import VASSAL.tools.io.IOUtils ;
-import VASSAL.tools.io.FastByteArrayOutputStream ;
-import VASSAL.tools.io.ObfuscatingOutputStream ;
-import VASSAL.tools.io.ZipArchive ;
-import VASSAL.i18n.Resources ;
 
 import vassal_shim.lfa.* ;
 
@@ -1062,68 +1053,34 @@ public class VassalShim
         String PROMPT_LOG_COMMENT = "promptLogComment";
         prefs.setValue( PROMPT_LOG_COMMENT, false ) ;
 
-        // FUDGE! We would like to just call GameState.saveGame(), but it calls getRestoreCommand(),
-        // which does nothing unless the "save game" menu action has been enabled!?! Due to Java protections,
-        // there doesn't seem to be any way to get at this object and enable it, so we have to re-implement
-        // the whole saveGame() code without this check :-/
-
-        // get the save string
-        Command cmd = getRestoreCommand() ;
-        String saveString = GameModule.getGameModule().encode( cmd ) ;
-
-        // save the scenario
-        logger.info( "Saving scenario: {}", saveFilename ) ;
-        final FastByteArrayOutputStream ba = new FastByteArrayOutputStream() ;
-        OutputStream out = null ;
-        try {
-            out = new ObfuscatingOutputStream( ba ) ;
-            out.write( saveString.getBytes( "UTF-8" ) ) ;
-            out.close() ;
-        }
-        finally {
-            IOUtils.closeQuietly( out ) ;
-        }
-        FileArchive archive = null ;
-        try {
-            archive = new ZipArchive( new File( saveFilename ) ) ;
-            String SAVEFILE_ZIP_ENTRY = "savedGame" ;  //$NON-NLS-1$
-            archive.add( SAVEFILE_ZIP_ENTRY, ba.toInputStream() ) ;
-            (new SaveMetaData()).save( archive ) ;
-            archive.close() ;
-        }
-        finally {
-            IOUtils.closeQuietly( archive ) ;
-        }
-    }
-
-    private static Command getRestoreCommand() // nb: taken from GameState.getRestoreCommand()
-    {
-        // NOTE: This is the check that's causing the problem :-/
-        // if (!saveGame.isEnabled()) {
-        //   return null;
-        // }
-
+        // get the GameState
         GameState gameState = GameModule.getGameModule().getGameState() ;
-        Command c = new GameState.SetupCommand(false);
-        c.append(checkVersionCommand());
-        c.append( gameState.getRestorePiecesCommand() );
-        for (GameComponent gc : gameState.getGameComponents()) {
-            c.append(gc.getRestoreCommand());
-        }
-        c.append(new GameState.SetupCommand(true));
-        return c;
-    }
 
-    private static Command checkVersionCommand() {
-        // NOTE: This is the same as GameState.checkVersionCommand(), but we can't call that since it's private :-/
-        String runningVersion = GameModule.getGameModule().getAttributeValueString(GameModule.VASSAL_VERSION_RUNNING);
-        ConditionalCommand.Condition cond = new ConditionalCommand.Lt(GameModule.VASSAL_VERSION_RUNNING, runningVersion);
-        Command c = new ConditionalCommand(new ConditionalCommand.Condition[]{cond}, new AlertCommand(Resources.getString("GameState.version_mismatch", runningVersion)));  //$NON-NLS-1$
-        String moduleName = GameModule.getGameModule().getAttributeValueString(GameModule.MODULE_NAME);
-        String moduleVersion = GameModule.getGameModule().getAttributeValueString(GameModule.MODULE_VERSION);
-        cond = new ConditionalCommand.Lt(GameModule.MODULE_VERSION, moduleVersion);
-        c.append(new ConditionalCommand(new ConditionalCommand.Condition[]{cond}, new AlertCommand(Resources.getString("GameState.version_mismatch2", moduleName, moduleVersion ))));  //$NON-NLS-1$
-        return c;
+        // FUDGE! GameState.saveGame() calls Launcher.getInstance().sendSaveCmd() to notify listeners
+        // that the save was successful (which is a bit annoying, since the game has already been saved
+        // at this point, and nobody's listening :-/), which means that we need to install a Launcher.
+        // Note that even if we use reflection to gain access to the private "instance" member variable,
+        // we still need to set it to be a Launcher-derived object, and since the Launcher constructor
+        // sets this "instance" member variable, all we actually need to do is instantiate the object.
+        new DummyLauncher() ;
+
+        // NOTE: We had problems in earlier versions with the GameState.saveGame menu item being disabled,
+        // which caused problems since GameState.saveGame() ends up in getRestoreCommand(), which doesn't
+        // do anything if this menu item is disabled. However, when we upgraded to support VASSAL 3.3.0+,
+        // this menu item seems to be enabled, but I suspect there's a race condition in there somewhere,
+        // so for safety, we explicitly enable the menu item.
+        try {
+            Field field = GameState.class.getDeclaredField( "saveGame" ) ;
+            field.setAccessible( true ) ;
+            Action saveGameAction = (Action) field.get( gameState ) ;
+            saveGameAction.setEnabled( true ) ;
+        } catch( NoSuchFieldException | IllegalAccessException ex ) {
+            // NOTE: We're enabling the menu item to be on the safe side (things seems to work even if
+            // we don't do it), so if something fails, we try to keep going.
+        }
+
+        // save the game
+        gameState.saveGame( new File( saveFilename ) ) ;
     }
 
     private Command loadScenario( String scenarioFilename ) throws IOException
