@@ -63,7 +63,22 @@
     border: 1px solid #ffc030 ; border-radius: 5px ; background: #fffcfc ;
     padding: 2px 5px ;
 }
-#lfa .hotness img.dice { position: absolute ; left: -10px ; top : -25px ; height: 50px ; }
+#lfa .hotness img.dice { position: absolute ; left: -10px ; top : -25px ; height: 50px ; cursor: pointer ; }
+
+/* hotness popup */
+#lfa .hotness-popup {
+    position: absolute ;
+    border: 1px solid #888 ; border-radius: 5px ;
+    padding: 0.5em ;
+    background: #f8f8f8 ;
+    z-index: 100 ;
+}
+#lfa .hotness-popup th { padding: 0.2em 0.5em 0 0.5em ; background: #ddd ; border: 1px dotted #ccc ; font-weight: normal ; }
+#lfa .hotness-popup td.player { white-space: nowrap ; }
+#lfa .hotness-popup .val { border: none ; text-align: center ; color: #444 ; }
+#lfa .hotness-popup td.icon { width: 50px ; }
+#lfa .hotness-popup img.die { height: 1.5em ; margin: 2px 0.2em 0 0 ; }
+#lfa .hotness-popup img.sniper { height: 1.75em ; margin-top: 3px ; }
 
 /* options panel */
 #lfa .options {

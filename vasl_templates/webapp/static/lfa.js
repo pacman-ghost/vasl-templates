@@ -50,7 +50,7 @@ var gDistribDatasetPlayerIndex={}, gPieDatasetPlayerIndex={}, gTimePlotDatasetPl
 var gDistribCharts={}, gPieCharts={}, gTimePlotChart, gHotnessChart ;
 
 var $gDialog ;
-var $gBanner, $gHotness, $gSelectFilePopup, $gOptions, $gRollTypeDropList, $gStackBarGraphsCheckBox ;
+var $gBanner, $gHotness, $gHotnessPopup, $gSelectFilePopup, $gOptions, $gRollTypeDropList, $gStackBarGraphsCheckBox ;
 var $gPlayerColorsButton, $gPlayerColorsPopup ;
 var $gTimePlot, $gTimePlotChartWrapper ;
 var $gTimePlotOptions, $gMovingAverageDropList, $gTimePlotZoomInButton, $gTimePlotZoomOutButton ;
@@ -77,10 +77,13 @@ SHORTCUT_HANDLERS = {
     71: function () { // "G"
         $gMovingAverageDropList.selectmenu("instance").button.focus() ;
     },
-    88: function () { //"X"
+    88: function () { // "X"
         var $elem = $gBanner.find( ".select-file" ) ;
         if ( $elem.css( "display" ) != "none" )
             $gBanner.find( ".select-file" ).click() ;
+    },
+    50: function() { // "2"
+        $( "#lfa .hotness img.dice" ).click() ;
     },
 } ;
 
@@ -170,6 +173,8 @@ window.show_lfa_dialog = function( resp )
             loadDialog() ;
         },
         close: function() {
+            // NOTE: We explicitly close everything so that they aren't visible next time we open.
+            closeAllPopupsAndDropLists() ;
             // clean up handlers
             gEventHandlers.cleanUp() ;
             // clean up charts
@@ -195,6 +200,7 @@ function loadDialog()
     // initialize
     $gBanner = $( "#lfa .banner" ) ;
     $gHotness = $( "#lfa .hotness" ).hide() ;
+    $gHotnessPopup = $( "#lfa .hotness-popup" ) ;
     $gSelectFilePopup = $( "#lfa .select-file-popup" ) ;
     $gOptions = $( "#lfa .options" ) ;
     $gRollTypeDropList = $( "#lfa select[name='roll-type']" ) ;
@@ -216,6 +222,9 @@ function loadDialog()
     // analyze the log files
     gLogFileAnalysis = new LogFileAnalysis( gRawResponseData, -1 ) ;
     var rollTypes = gLogFileAnalysis.getRollTypes() ;
+
+    // initialize the hotness popup
+    initHotnessPopup() ;
 
     // initialize the player colors
     var prevColorsLen = gUserSettings.lfa[ "player-colors" ].length ; // nb: this includes the "expected results" color
@@ -339,6 +348,127 @@ function loadDialog()
 
     // set initial focus
     $gRollTypeDropList.focus() ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function initHotnessPopup()
+{
+    function makeReport() {
+
+        // initialize
+        var rolls={}, snipers={} ;
+        gLogFileAnalysis.forEachPlayer( function( playerId, playerNo ) {
+            rolls[ playerId ] = {} ;
+            for ( var rollType in ROLL_TYPES )
+                rolls[ playerId ][ rollType ] = { 2: 0, 12: 0 } ;
+            snipers[ playerId ] = { 1: 0, 2: 0 } ;
+        } ) ;
+
+        // count how many 2's and 12's were rolled, and Sniper Activations
+        gLogFileAnalysis.extractEvents( 1, {
+            onRollEvent: function( evt ) {
+                var rollTotal = LogFileAnalysis.rollTotal( evt.rollValue ) ;
+                if ( evt.rollType == "SA" && ( rollTotal == 1 || rollTotal == 2 ) )
+                    ++ snipers[ evt.playerId ][ rollTotal ] ;
+                else if ( ! LogFileAnalysis.isSingleDie( evt.rollValue ) && ( rollTotal == 2 || rollTotal == 12 ) )
+                    ++ rolls[ evt.playerId ][ evt.rollType ][ rollTotal ] ;
+            }
+        } ) ;
+
+        // figure out which roll types had at least one 2 or 12
+        var rollTypesToShow = {} ;
+        gLogFileAnalysis.forEachPlayer( function( playerId, playerNo ) {
+            for ( var rollType in ROLL_TYPES ) {
+                if ( rolls[playerId][rollType][2] > 0 || rolls[playerId][rollType][12] > 0 )
+                    rollTypesToShow[ rollType ] = true ;
+            }
+        } ) ;
+
+        // add the 2's and 12's to the report
+        var buf = [] ;
+        function addRollReport( tableClass, die1, die2 ) {
+            // add the header
+            buf.push( "<table class='" + tableClass + "'>" ) ;
+            buf.push( "<tr>", "<td class='icon'>",
+                "<img src='" + makeDieImageUrl( die1, "yellow" ) + "' class='die'>",
+                "<img src='" + makeDieImageUrl( die2, "white" ) + "' class='die'>"
+            ) ;
+            for ( var rollType in ROLL_TYPES ) {
+                if ( rollTypesToShow[ rollType ] )
+                    buf.push( "<th>", rollType ) ;
+            }
+            gLogFileAnalysis.forEachPlayer( function( playerId, playerNo ) {
+                buf.push( "<tr>", "<td class='player'>", makePlayerNameHTML(playerId) ) ;
+                for ( var rollType in ROLL_TYPES ) {
+                    if ( ! rollTypesToShow[ rollType ] )
+                        continue ;
+                    var nRollTypes = rolls[ playerId ][ rollType ][ die1+die2 ] ;
+                    buf.push( "<td class='val'>", nRollTypes === 0 ? "-" : nRollTypes ) ;
+                }
+            } ) ;
+            buf.push( "</table>" ) ;
+        }
+        addRollReport( "2s", 1, 1 ) ;
+        addRollReport( "12s", 6, 6 ) ;
+
+        // add a divider
+        buf.push(
+            "<div style='height:0.25em;border-bottom:1px dotted #aaa;'>&nbsp;</div>",
+            "<div style='height:0.75em;'>&nbsp;</div>"
+        ) ;
+
+        // add the Sniper Activations to the report
+        buf.push( "<table class='snipers'>" ) ;
+        buf.push( "<tr>", "<td class='icon'>",
+            "<img src='" + gImagesBaseUrl+"/sniper.png" + "' class='sniper'>",
+            "<th>", "dr 1", "<th>", "dr 2"
+        ) ;
+        gLogFileAnalysis.forEachPlayer( function( playerId, playerNo ) {
+            buf.push( "<tr>", "<td class='player'>", makePlayerNameHTML(playerId) ) ;
+            [ 1, 2 ].forEach( function( val ) {
+                var nActivations = snipers[ playerId ][ val ] ;
+                buf.push( "<td class='val'>", nActivations === 0 ? "-" : nActivations ) ;
+            } ) ;
+        } ) ;
+        buf.push( "</table>" ) ;
+
+        // generate the report
+        return buf.join( "" ) ;
+    }
+
+    function makePlayerNameHTML( playerId ) {
+        return escapeHTML( gLogFileAnalysis.playerName( playerId )  ) ;
+    }
+
+    // add a click handler for the hotness popup
+    var $elem = $( "#lfa .hotness img.dice" ) ;
+    gEventHandlers.addHandler( $elem, "click", function( evt ) {
+        closeAllPopupsAndDropLists() ;
+        // NOTE: We have to re-generate the report each time it's shown, since the user
+        // may have chosen a different set of log files.
+        $gHotnessPopup.html( makeReport() ).show() ;
+        var maxWidth = 0 ;
+        $gHotnessPopup.find( "table" ).each( function() {
+            maxWidth = Math.max( $(this).outerWidth() , maxWidth ) ;
+        } ) ;
+        $gHotnessPopup.css( { width: maxWidth } ) ;
+        $gHotnessPopup.position( {
+            my: "right top", at: "left-5 top+2", of: $elem, collision: "fit"
+        } ) ;
+        stopEvent( evt ) ;
+    } ) ;
+
+    // handle clicks outside the popup (to dismiss it)
+    // NOTE: We do this by adding a click handler to the main dialog window, and a click handler
+    // to the popup that prevents the event from bubbling up i.e. if the main dialog window receives
+    // a click event, it must've been outside the popup window.
+    gEventHandlers.addHandler( $gHotnessPopup, "click", function() {
+        return false ;
+    } ) ;
+    gEventHandlers.addHandler( $("#lfa"), "click", function() {
+        $gHotnessPopup.hide() ;
+    } ) ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1362,6 +1492,7 @@ function customTimePlotTooltip( tooltipModel )
     var newLeft = position.left + window.pageXOffset + tooltipModel.caretX + marginX ;
     if ( newLeft >= position.width - tooltipElem.offsetWidth - 20 )
         newLeft = tooltipModel.caretX - tooltipElem.offsetWidth ;
+    tooltipElem.style["z-index"] = 150 ; // nb: put this on top of the hotness popup
     tooltipElem.style.left = newLeft + "px" ;
     tooltipElem.style.top = position.top + window.pageYOffset + tooltipModel.caretY - tooltipElem.offsetHeight - marginY + "px" ;
     tooltipElem.style.background = tooltipModel.backgroundColor ;
@@ -1816,6 +1947,7 @@ function closeAllPopupsAndDropLists()
         $(this).spectrum( "hide") ;
     } ) ;
     $gSelectFilePopup.hide() ;
+    $gHotnessPopup.hide() ;
 
     // close all droplists
     $( "#lfa select" ).each( function() {

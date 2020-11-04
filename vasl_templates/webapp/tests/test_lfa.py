@@ -232,16 +232,6 @@ def test_multiple_files( webapp, webdriver ):
         assert player_names.pop() == "expected results"
         assert player_names == expected
 
-    def select_file( fname ):
-        """Select one of the files being analyzed."""
-        find_child( "#lfa .banner .select-file" ).click()
-        popup = wait_for_elem( 2, "#lfa .select-file-popup" )
-        for row in find_children( ".row", popup ):
-            if find_child( "label", row ).text == fname:
-                find_child( "input[type='radio']", row ).click()
-                return
-        assert False, "Couldn't find file: "+fname
-
     def do_test(): #pylint: disable=missing-docstring
 
         # NOTE: The "1a" and "1b" log files have the same players (Alice and Bob), but the "2" log file
@@ -325,7 +315,7 @@ def test_multiple_files( webapp, webdriver ):
         check_color_pickers( [ "Alice", "Bob", "Chuck" ] )
 
         # select a file and check the results
-        select_file( "multiple-1a.vlog" )
+        _select_log_file( "multiple-1a.vlog" )
         _select_roll_type( "" )
         lfa = _get_chart_data( 1 )
         assert lfa["timePlot"] == [
@@ -351,7 +341,7 @@ def test_multiple_files( webapp, webdriver ):
         check_color_pickers( [ "Alice", "Bob" ] )
 
         # select another file and check the results
-        select_file( "multiple-2.vlog" )
+        _select_log_file( "multiple-2.vlog" )
         _select_roll_type( "" )
         lfa = _get_chart_data( 1 )
         assert lfa["timePlot"] == [
@@ -376,7 +366,7 @@ def test_multiple_files( webapp, webdriver ):
         check_color_pickers( [ "Bob", "Chuck" ] )
 
         # select all files and check the results
-        select_file(  "All files" )
+        _select_log_file(  "All files" )
         _select_roll_type( "" )
         check_all_files()
         check_color_pickers( [ "Alice", "Bob", "Chuck" ] )
@@ -386,6 +376,91 @@ def test_multiple_files( webapp, webdriver ):
 
     # run the tests
     run_vassal_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
+
+# ---------------------------------------------------------------------
+
+@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
+def test_hotness_report( webapp, webdriver ):
+    """Test generating the hotness popup."""
+
+    # initialize
+    control_tests = init_webapp( webapp, webdriver, vlog_persistence=1 )
+
+    def unload_report():
+        """Unload the hotness popup."""
+        find_child( "#lfa .hotness img.dice" ).click()
+        wait_for_elem( 2, "#lfa .hotness-popup" )
+        report = {}
+        for key in ( "2s", "12s", "snipers" ):
+            report[ key ] = unload_table(
+                "//div[@class='hotness-popup']//table[@class='{}']//tr".format( key )
+            )
+        return report
+
+    def do_test(): #pylint: disable=missing-docstring
+
+        # load the test log files
+        #       vlog #1             vlog #2
+        #   ===============     ===============
+        #   Alice   SA 1        Alice   TH 2
+        #   Bob     TC 2        Chuck   Rally 2
+        #   Chuck   SA 2        Alice   SA 2
+        #   Bob     Rally 12    Bob     TH 2
+        #   Bob     SA 1        Chuck   MC 12
+        #   Chuck   SA 1        Chuck   CC 2
+        #   Bob     TC 12
+        #   Chuck   MC 2
+        #   Chuck   SA 1
+        _analyze_vlogs( [ "hotness-report-1.vlog", "hotness-report-2.vlog" ] )
+
+        # check the hotness popup
+        assert unload_report() == {
+            "2s": [
+                [ "MC", "Rally", "TH", "CC", "TC" ],
+                [ "Alice", "-", "-", "1", "-", "-" ],
+                [ "Bob", "-", "-", "1", "-", "1" ],
+                [ "Chuck", "1", "1", "-", "1", "-" ],
+            ],
+            "12s": [
+                [ "MC", "Rally", "TH", "CC", "TC" ],
+                [ "Alice", "-", "-", "-", "-", "-" ],
+                [ "Bob", "-", "1", "-", "-", "1" ],
+                [ "Chuck", "1", "-", "-", "-", "-" ],
+            ],
+            "snipers": [
+                [ "dr 1", "dr 2" ],
+                [ "Alice", "1", "1" ],
+                [ "Bob", "1", "-" ],
+                [ "Chuck", "2", "1" ],
+            ],
+        }
+
+        # select only one of the log files and check the hotness popup
+        _select_log_file( "hotness-report-2.vlog" )
+        assert unload_report() == {
+            "2s": [
+                [ "MC", "Rally", "TH", "CC" ],
+                [ "Alice", "-", "-", "1", "-" ],
+                [ "Bob", "-", "-", "1", "-" ],
+                [ "Chuck", "-", "1", "-", "1" ],
+            ],
+            "12s": [
+                [ "MC", "Rally", "TH", "CC" ],
+                [ "Alice", "-", "-", "-", "-" ],
+                [ "Bob", "-", "-", "-", "-" ],
+                [ "Chuck", "1", "-", "-", "-" ],
+            ],
+            "snipers": [
+                [ "dr 1", "dr 2" ],
+                [ "Alice", "-", "1" ],
+                [ "Bob", "-", "-" ],
+                [ "Chuck", "-", "-" ],
+            ],
+        }
+
+    # run the tests
+    run_vassal_tests( control_tests, do_test, False )
 
 # ---------------------------------------------------------------------
 
@@ -620,6 +695,16 @@ def _check_time_plot_values( expected_window_sizes, window_size, expected ):
     # unload and check the time plot values
     vals = _unload_table( "time-plot" )
     assert vals == expected
+
+def _select_log_file( fname ):
+    """Select one of the log files being analyzed."""
+    find_child( "#lfa .banner .select-file" ).click()
+    popup = wait_for_elem( 2, "#lfa .select-file-popup" )
+    for row in find_children( ".row", popup ):
+        if find_child( "label", row ).text == fname:
+            find_child( "input[type='radio']", row ).click()
+            return
+    assert False, "Couldn't find file: "+fname
 
 def _unload_table( sel ):
     """Unload chart data from an HTML table."""
