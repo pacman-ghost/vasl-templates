@@ -197,9 +197,12 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
     var vo_note_key = get_vo_note_key( vo_entry ) ;
     var vo_note = get_vo_note( vo_type, nat, vo_note_key ) ;
     var vo_note_image_url = null ;
-    if ( vo_note )
-        vo_note_image_url = make_app_url( "/" + vo_type + "/" + nat + "/note/" + vo_note_key, true ) ;
-    else {
+    if ( vo_note ) {
+        if ( vo_note_key.substring( 0, 3 ) === "LC " )
+            vo_note_image_url = make_app_url( "/" + vo_type + "/landing-craft/note/" + vo_note_key.substring(3), true ) ;
+        else
+            vo_note_image_url = make_app_url( "/" + vo_type + "/" + nat + "/note/" + vo_note_key, true ) ;
+    } else {
         // NOTE: Note numbers seem to be distinct across all Allied Minor or all Axis Minor vehicles/ordnance,
         // so if we don't find a note in a given nationality's normal vehicles/ordnance, we can get away with
         // just checking their corresponding common vehicles/ordnance.
