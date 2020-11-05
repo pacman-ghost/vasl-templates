@@ -129,6 +129,7 @@ def get_roar_scenario_index():
                 return _make_not_available_response(
                     "Couldn't get the ROAR scenarios.", _roar_scenarios.error_msg
                 )
+            else:
                 return _make_not_available_response(
                     "Please wait, the ROAR scenarios are still downloading.", None
                 )
