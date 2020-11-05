@@ -107,9 +107,14 @@ def get_scenario_index():
     # generate the scenario index
     with _asa_scenarios:
         if _asa_scenarios.index is None:
-            return _make_not_available_response(
-                "Please wait, the scenario index is still downloading.", _asa_scenarios.error_msg
-            )
+            if  _asa_scenarios.error_msg:
+                return _make_not_available_response(
+                    "Couldn't get the scenario index.", _asa_scenarios.error_msg
+                )
+            else:
+                return _make_not_available_response(
+                    "Please wait, the scenario index is still downloading.", None
+                )
         return jsonify( [
             make_entry( scenario )
             for scenario in _asa_scenarios.index.values()
@@ -120,9 +125,13 @@ def get_roar_scenario_index():
     """Return the ROAR scenario index."""
     with _roar_scenarios:
         if _roar_scenarios.index is None:
-            return _make_not_available_response(
-                "Please wait, the ROAR scenarios are still downloading.", _roar_scenarios.error_msg
-            )
+            if _roar_scenarios.error_msg:
+                return _make_not_available_response(
+                    "Couldn't get the ROAR scenarios.", _roar_scenarios.error_msg
+                )
+                return _make_not_available_response(
+                    "Please wait, the ROAR scenarios are still downloading.", None
+                )
         return jsonify( _roar_scenarios.index )
 
 def _make_not_available_response( msg, msg2 ):
@@ -248,6 +257,9 @@ def _match_roar_scenario( scenario ):
         return sum( r[1] for r in results )
 
     with _roar_scenarios:
+        if not getattr( _roar_scenarios, "index", None ):
+            # NOTE: We can get here if there was a problem downloading the ROAR scenarios.
+            return []
         # try to match by scenario title
         title = scenario.get( "title" )
         if not title:

@@ -72,6 +72,7 @@ class DownloadedFile:
                 # happens in a background thread, the web page will probably have already finished rendering,
                 # and without the ability to push notifications, it's too late to tell the user.
                 _logger.error( "Can't install %s data: %s", self.key, ex )
+                self.error_msg = str(ex)
 
     def __enter__( self ):
         """Gain access to the underlying data.
