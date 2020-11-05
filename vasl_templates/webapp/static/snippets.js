@@ -20,10 +20,13 @@ var MA_NOTE_REDIRECTS = {
     "AxM": "axis-minor",
 } ;
 
-// NOTE: There are BFP references like "Jp 5", but we ignore these since they are referring to
-// a vehicle/ordnance *note*, not a multi-applicable note.
+// NOTE: There are BFP references like "Jp 5" and "AllM 34", but we ignore these since they are
+// referring to a vehicle/ordnance *note*, not a multi-applicable note.
 MA_NOTE_REDIRECT_REGEX = new RegExp(
     "^((Br|Ch|Fr|Ge|Jp|Ru|US|AllM|AxM) [A-Z]{1,2})(\\u2020(<sup>\\d</sup>)?|<sup>T</sup>)?$"
+) ;
+NO_WARNING_FOR_MA_NOTE_KEYS_REGEX = new RegExp(
+    "^(Jp 5|AllM 34)"
 ) ;
 
 var gDefaultScenario = null ;
@@ -657,7 +660,8 @@ function get_ma_notes_keys( nat, vo_entries, vo_type )
             }
             if ( ! rc ) {
                 unrecognized.push( [ vo_entry, vo_entry.notes[j] ] ) ;
-                console.log( "Couldn't recognize multi-applicable note keys for '" + vo_entry.name + "':", vo_entry.notes[j] ) ;
+                if ( ! vo_entry.notes[j].match( NO_WARNING_FOR_MA_NOTE_KEYS_REGEX ) )
+                    console.log( "Couldn't recognize multi-applicable note keys for '" + vo_entry.name + "':", vo_entry.notes[j] ) ;
             }
         }
     }
