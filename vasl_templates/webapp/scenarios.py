@@ -497,12 +497,13 @@ def prepare_asa_upload(): #pylint: disable=too-many-locals
                 # save a copy of the screenshot image
                 fname = app.config.get( "PREPARE_ASA_UPLOAD_SCREENSHOT" )
                 if fname:
-                    logger.debug( "Saving a copy of the generated screenshot: %s", fname )
-                    with open( fname, "wb" ) as fp:
-                        fp.write( screenshot_data )
-                else:
-                    if os.path.isfile( fname ):
-                        os.unlink( fname )
+                    if screenshot_data:
+                        logger.debug( "Saving a copy of the generated screenshot: %s", fname )
+                        with open( fname, "wb" ) as fp:
+                            fp.write( screenshot_data )
+                    else:
+                        if os.path.isfile( fname ):
+                            os.unlink( fname )
 
     except Exception as ex: #pylint: disable=broad-except
 
