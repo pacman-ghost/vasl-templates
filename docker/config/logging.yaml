@@ -19,13 +19,25 @@ handlers:
 loggers:
     werkzeug:
         level: "WARNING"
-        handlers: [ "console" ]
+        handlers: [ "file" ]
     vasl_mod:
         level: "WARNING"
-        handlers: [ "console", "file" ]
+        handlers: [ "file" ]
     update_vsav:
         level: "WARNING"
-        handlers: [ "console", "file" ]
+        handlers: [ "file" ]
+    analyze_vsav:
+        level: "WARNING"
+        handlers: [ "file" ]
+    analyze_vlog:
+        level: "WARNING"
+        handlers: [ "file" ]
+    webdriver:
+        level: "WARNING"
+        handlers: [ "file" ]
+    downloads:
+        level: "WARNING"
+        handlers: [ "file" ]
     control_tests:
-        level: "DEBUG"
+        level: "INFO"
         handlers: [ "console", "file" ]

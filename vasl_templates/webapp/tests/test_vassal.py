@@ -9,22 +9,13 @@ import typing.re #pylint: disable=import-error
 
 import pytest
 
-from vasl_templates.webapp.vassal import VassalShim
 from vasl_templates.webapp.vasl_mod import compare_version_strings
 from vasl_templates.webapp.utils import TempFile, change_extn
-from vasl_templates.webapp import globvars
 from vasl_templates.webapp.tests.utils import \
     init_webapp, refresh_webapp, select_menu_option, get_stored_msg, set_stored_msg, set_stored_msg_marker, wait_for, \
     new_scenario, set_player
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, load_scenario_params, save_scenario, \
     assert_scenario_params_complete
-
-# ---------------------------------------------------------------------
-
-class DummyVaslMod:
-    """Dummy VaslMod class that lets us run the VASSAL shim locally (to dump scenarios)."""
-    def __init__( self, fname ):
-        self.filename = fname
 
 # ---------------------------------------------------------------------
 
@@ -114,7 +105,7 @@ def test_full_update( webapp, webdriver ):
         # NOTE: We could arguably only do this once, but updating scenarios is the key functionality of the VASSAL shim,
         # and so it's worth checking that every VASSAL+VASL combination understands its input correctly.
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/full.vsav" )
-        vsav_dump = _dump_vsav( fname )
+        vsav_dump = _dump_vsav( control_tests, fname )
         _check_vsav_dump( vsav_dump, {
             "scenario": "Somewhere",
             "players": re.compile( r"American:.*Belgian:" ),
@@ -150,7 +141,7 @@ def test_full_update( webapp, webdriver ):
             # check the results
             temp_file.write( updated_vsav_data )
             temp_file.close( delete=False )
-            updated_vsav_dump = _dump_vsav( temp_file.name )
+            updated_vsav_dump = _dump_vsav( control_tests, temp_file.name )
             expected = {
                 "scenario":  "Modified scenario name (<>{}\"'\\)",
                 "players": re.compile( r"American:.*Belgian:" ),
@@ -234,12 +225,14 @@ def test_latw_autocreate( webapp, webdriver ):
 
         # check the VASL scenario
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/empty.vsav" )
-        vsav_dump = _dump_vsav( fname )
+        vsav_dump = _dump_vsav( control_tests, fname )
         _check_vsav_dump( vsav_dump, {}, ignore_labels )
 
         # update the scenario (German/Russian, no date)
         load_scenario_params( { "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "" } } )
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3 } )
+        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+            { "created": 3 }
+        )
         _check_vsav_dump( updated_vsav_dump, {
             # nb: no LATW labels should have been created
         }, ignore_labels )
@@ -248,7 +241,9 @@ def test_latw_autocreate( webapp, webdriver ):
         load_scenario_params( {
             "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "10/01/1943" }
         } )
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 4 } )
+        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+            { "created": 4 }
+        )
         _check_vsav_dump( updated_vsav_dump, {
             "german/pf": "Panzerfaust",
         }, ignore_labels )
@@ -257,14 +252,18 @@ def test_latw_autocreate( webapp, webdriver ):
         load_scenario_params( {
             "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "01/01/1944" }
         } )
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 5 } )
+        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+            { "created": 5 }
+        )
         _check_vsav_dump( updated_vsav_dump, {
             "german/pf": "Panzerfaust", "german/atmm": "ATMM check:",
         }, ignore_labels )
 
         # update the scenario (British/American, no date)
         load_scenario_params( { "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "" } } )
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3 } )
+        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+            { "created": 3 }
+        )
         _check_vsav_dump( updated_vsav_dump, {
             # nb: no LATW labels should have been created
         }, ignore_labels )
@@ -273,7 +272,9 @@ def test_latw_autocreate( webapp, webdriver ):
         load_scenario_params( {
             "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "12/31/1945" }
         } )
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3 } )
+        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+            { "created": 3 }
+        )
         _check_vsav_dump( updated_vsav_dump, {
             # nb: no LATW labels should have been created
         }, ignore_labels )
@@ -304,7 +305,7 @@ def test_latw_update( webapp, webdriver ):
 
         # check the VASL scenario
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/latw.vsav" )
-        vsav_dump = _dump_vsav( fname )
+        vsav_dump = _dump_vsav( control_tests, fname )
         _check_vsav_dump( vsav_dump, {
             "german/psk": "Panzerschrek", "german/atmm": "ATMM check:", # nb: the PF label has no snippet ID
             "russian/mol-p": "TH#", # nb: the MOL label has no snippet ID
@@ -317,7 +318,9 @@ def test_latw_update( webapp, webdriver ):
         # NOTE: We changed the MOL-P template (to add custom list bullets), so the snippet is different
         # to when this test was originally written, and so #updated changed from 2 to 3.
         # NOTE: Same thing happened when we factored out the common CSS into common.css :-/ Sigh...
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 5 } )
+        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+            { "created": 3, "updated": 5 }
+        )
         _check_vsav_dump( updated_vsav_dump, {
             "german/pf": "Panzerfaust", # nb: the PF label now has a snippet ID
             "german/psk": "Panzerschrek", "german/atmm": "ATMM check:",
@@ -330,7 +333,9 @@ def test_latw_update( webapp, webdriver ):
         load_scenario_params( {
             "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "12/31/1943" }
         } )
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 2 } )
+        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+            { "created": 3, "updated": 2 }
+        )
         _check_vsav_dump( updated_vsav_dump, {
             # NOTE: We used to delete the PSK/ATMM/MOL-P labels, but this no longer happens with player-owned labels.
             "german/psk": "Panzerschrek", "german/atmm": "ATMM check:",
@@ -360,7 +365,7 @@ def test_dump_vsav( webapp, webdriver ):
 
         # dump the VASL scenario
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/dump-vsav/labels.vsav" )
-        vsav_dump = _dump_vsav( fname )
+        vsav_dump = _dump_vsav( control_tests, fname )
 
         # check the result
         fname = change_extn( fname, ".txt" )
@@ -392,7 +397,7 @@ def test_update_legacy_labels( webapp, webdriver ):
         # dump the VASL scenario
         # NOTE: We implemented snippet ID's in v0.5, this scenario is the "Hill 621" example from v0.4.
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/hill621-legacy.vsav" )
-        vsav_dump = _dump_vsav( fname )
+        vsav_dump = _dump_vsav( control_tests, fname )
         labels = _get_vsav_labels( vsav_dump )
         assert len( [ lbl for lbl in labels if "vasl-templates:id" not in lbl ] ) == 20
         assert len( [ lbl for lbl in labels if "vasl-templates:id" in lbl ] ) == 0 #pylint: disable=len-as-condition
@@ -402,7 +407,9 @@ def test_update_legacy_labels( webapp, webdriver ):
         saved_scenario = json.load( open( fname2, "r" ) )
         load_scenario( saved_scenario )
         expected = 5 if enable_vo_notes else 1
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": expected, "updated": 20 } )
+        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+            { "created": expected, "updated": 20 }
+        )
 
         # check the results
         # nb: the update process should create 1 new label (the "Download from MMP" scenario note)
@@ -474,7 +481,7 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
         # dump the VASL scenario
         # NOTE: This scenario contains LATW labels created using v0.4 i.e. they have no snippet ID's.
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/latw-legacy.vsav" )
-        vsav_dump = _dump_vsav( fname )
+        vsav_dump = _dump_vsav( control_tests, fname )
         labels = _get_vsav_labels( vsav_dump )
         assert len( [ lbl for lbl in labels if "vasl-templates:id" not in lbl ] ) == 8
         assert len( [ lbl for lbl in labels if "vasl-templates:id" in lbl ] ) == 0 #pylint: disable=len-as-condition
@@ -486,7 +493,9 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
         load_scenario_params( {
             "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "12/31/1945" }
         } )
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 5 } )
+        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+            { "created": 3, "updated": 5 }
+        )
         _check_vsav_dump( updated_vsav_dump, {
             "german/pf": "Panzerfaust", "german/psk": "Panzerschrek", "german/atmm": "ATMM check:",
             "russian/mol": "Kindling Attempt:", "russian/mol-p": "TH#",
@@ -499,7 +508,9 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
         load_scenario_params( {
             "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "12/31/1945" }
         } )
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 2 } )
+        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+            { "created": 3, "updated": 2 }
+        )
         _check_vsav_dump( updated_vsav_dump, {
             "british/piat": "PIAT",
             "american/baz": "Bazooka  ('45)",
@@ -510,7 +521,9 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
 
         # update the VSAV (some LATW are active)
         load_scenario_params( { "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "" } } )
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 5 } )
+        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+            { "created": 3, "updated": 5 }
+        )
         _check_vsav_dump( updated_vsav_dump, {
             "german/pf": "Panzerfaust", "german/psk": "Panzerschrek", "german/atmm": "ATMM check:",
             "russian/mol": "Kindling Attempt:", "russian/mol-p": "TH#",
@@ -521,7 +534,9 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
 
         # update the VSAV (some LATW are active)
         load_scenario_params( { "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "" } } )
-        updated_vsav_dump = _update_vsav_and_dump( fname, { "created": 3, "updated": 2 } )
+        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+            { "created": 3, "updated": 2 }
+        )
         _check_vsav_dump( updated_vsav_dump, {
             "british/piat": "PIAT",
             "american/baz": "Bazooka",
@@ -566,7 +581,9 @@ def test_player_owned_labels( webapp, webdriver ):
         #   - scenario (timestamp)
         #   - players (new American player)
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/player-owned-labels-legacy.vsav" )
-        updated_vsav_dump  = _update_vsav_and_dump( fname, { "updated": 4 } )
+        updated_vsav_dump  = _update_vsav_and_dump( control_tests, fname,
+            { "updated": 4 }
+        )
         _check_vsav_dump( updated_vsav_dump , {
             "german/ob_setup_1.1": "german setup #1",
             "american/ob_setup_2.1": "american setup #1",
@@ -580,7 +597,9 @@ def test_player_owned_labels( webapp, webdriver ):
         #   - players (new American player)
         # The existing Russian OB setup label should be ignored and left in-place.
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/player-owned-labels.vsav" )
-        updated_vsav_dump  = _update_vsav_and_dump( fname, { "created": 1, "updated": 2 } )
+        updated_vsav_dump  = _update_vsav_and_dump( control_tests, fname,
+            { "created": 1, "updated": 2 }
+        )
         _check_vsav_dump( updated_vsav_dump , {
             "german/ob_setup_1.1": "german setup #1",
             "american/ob_setup_2.1": "american setup #1",
@@ -819,13 +838,6 @@ def run_vassal_tests( control_tests, func, test_all, min_vasl_version=None ):
         else:
             assert False, "Can't find a valid combination of VASSAL and VASL."
 
-    # FUDGE! If we are running the tests against a remote server, we still need to be able to run
-    # the VASSAL shim locally (to dump VASSAL save files), so we need to set up things up enough
-    # for this to work.
-    if control_tests.server_url:
-        vasl_mods_local = control_tests._do_get_vasl_mods() #pylint: disable=protected-access
-        globvars.vasl_mod = DummyVaslMod( random.choice( vasl_mods_local ) )
-
     # run the test for each VASSAL+VASL
     for vassal_engine in vassal_engines:
         control_tests.set_vassal_engine( vengine=vassal_engine )
@@ -836,9 +848,9 @@ def run_vassal_tests( control_tests, func, test_all, min_vasl_version=None ):
             vasl_version = mo.group()
             if min_vasl_version and compare_version_strings( vasl_version, min_vasl_version ) < 0:
                 continue
-            control_tests.set_vasl_mod( vmod=vasl_mod )
             if not is_valid_combo( vassal_engine, vasl_mod ):
                 continue
+            control_tests.set_vasl_mod( vmod=vasl_mod )
             func()
 
 # ---------------------------------------------------------------------
@@ -878,25 +890,25 @@ def _update_vsav( fname, expected ):
 
     return updated_vsav_data
 
-def _update_vsav_and_dump( fname, expected ):
+def _update_vsav_and_dump( control_tests, fname, expected ):
     """Update a VASL scenario and dump the result."""
 
-    # update the VASL
+    # update the VSAV
     updated_vsav_data = _update_vsav( fname, expected )
 
     # dump the updated VSAV
     with TempFile() as temp_file:
         temp_file.write( updated_vsav_data )
         temp_file.close( delete=False )
-        return _dump_vsav( temp_file.name )
+        return _dump_vsav( control_tests, temp_file.name )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def _dump_vsav( fname ):
+def _dump_vsav( control_tests, fname ):
     """Dump a VASL scenario file."""
-    # NOTE: This is run locally, even if we're running the tests against a remote server.
-    vassal_shim = VassalShim()
-    return vassal_shim.dump_scenario( fname )
+    with open( fname, "rb" ) as fp:
+        vsav_data = fp.read()
+        return control_tests.get_vsav_dump( bin_data=vsav_data )
 
 def _check_vsav_dump( vsav_dump, expected, ignore=None ):
     """"Check that a VASL scenario dump contains what we expect."""

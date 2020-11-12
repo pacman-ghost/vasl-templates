@@ -289,7 +289,7 @@ class VassalShim:
     def __init__( self ): #pylint: disable=too-many-branches
 
         # locate the VASSAL engine
-        vassal_dir = app.config.get( "VASSAL_DIR" )
+        vassal_dir = self._get_vassal_dir()
         if not vassal_dir:
             raise SimpleError( "The VASSAL installation directory has not been configured." )
         self.vengine_jar = None
@@ -323,7 +323,7 @@ class VassalShim:
     @staticmethod
     def get_version():
         """Get the VASSAL version."""
-        vassal_dir = app.config.get( "VASSAL_DIR" )
+        vassal_dir = VassalShim._get_vassal_dir()
         if not vassal_dir:
             return None
         # FUDGE! We can't capture the output on Windows, get the result in a temp file instead :-/
@@ -471,7 +471,8 @@ class VassalShim:
     @staticmethod
     def get_boards_dir():
         """Get the configured boards directory."""
-        boards_dir = app.config.get( "BOARDS_DIR" )
+        # NOTE: The Docker container configures this setting via an environment variable.
+        boards_dir = app.config.get( "BOARDS_DIR", os.environ.get("VASL_BOARDS_DIR") )
         if not boards_dir:
             raise SimpleError( "The VASL boards directory has not been configured." )
         if not os.path.isdir( boards_dir ):
@@ -513,7 +514,7 @@ class VassalShim:
     @staticmethod
     def check_vassal_version( msg_store ):
         """Check the version of VASSAL."""
-        if not app.config.get( "VASSAL_DIR" ) or not msg_store:
+        if not VassalShim._get_vassal_dir() or not msg_store:
             return
         try:
             version = VassalShim.get_version()
@@ -527,6 +528,12 @@ class VassalShim:
                     "This program has not been tested with VASSAL {}.<p>Things might work, but they might not...",
                     version
                 )
+
+    @staticmethod
+    def _get_vassal_dir():
+        """Get the VASSAL installation directory."""
+        # NOTE: The Docker container configures this setting via an environment variable.
+        return app.config.get( "VASSAL_DIR", os.environ.get("VASSAL_DIR") )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

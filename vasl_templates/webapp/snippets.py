@@ -58,6 +58,9 @@ def load_default_template_pack(): #pylint: disable=too-many-locals
             data["templates"]["extras/"+key] = val
 
     # check if a default template pack has been configured
+    # NOTE: The Docker container configures this setting via an environment variable.
+    global default_template_pack
+    default_template_pack = os.environ.get( "DEFAULT_TEMPLATE_PACK", default_template_pack )
     if default_template_pack:
         dname = default_template_pack
         data["_path_"] = dname

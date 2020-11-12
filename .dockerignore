@@ -3,5 +3,6 @@
 ! setup.py
 ! requirements*.txt
 ! vasl_templates/
+! vassal-shim/release/
 ! docker/
 ! LICENSE.txt

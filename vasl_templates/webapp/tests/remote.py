@@ -19,7 +19,9 @@ import pytest
 
 from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import DATA_DIR
+from vasl_templates.webapp.vassal import VassalShim
 from vasl_templates.webapp.vasl_mod import set_vasl_mod
+from vasl_templates.webapp.utils import TempFile
 from vasl_templates.webapp import main as webapp_main
 from vasl_templates.webapp import snippets as webapp_snippets
 from vasl_templates.webapp import scenarios as webapp_scenarios
@@ -259,6 +261,14 @@ class ControlTests:
         _logger.info( "Installing VASSAL engine: %s", vengine )
         app.config["VASSAL_DIR"] = vengine
         return self
+
+    def _get_vsav_dump( self, bin_data=None ): #pylint: disable=no-self-use
+        """Dump a VSAV file."""
+        with TempFile( mode="wb" ) as temp_file:
+            temp_file.write( bin_data )
+            temp_file.close( delete=False )
+            vassal_shim = VassalShim()
+            return vassal_shim.dump_scenario( temp_file.name )
 
     def _set_vo_notes_dir( self, dtype=None ):
         """Set the vehicle/ordnance notes directory."""
