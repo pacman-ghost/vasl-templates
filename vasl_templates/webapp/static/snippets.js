@@ -822,11 +822,11 @@ function unload_snippet_params( unpack_scenario_date, template_id )
     if ( unpack_scenario_date ) {
         var scenario_date = get_scenario_date() ;
         if ( scenario_date ) {
-            params.SCENARIO_DAY_OF_MONTH = scenario_date.getDate() ;
+            params.SCENARIO_DAY_OF_MONTH = scenario_date[0] ;
             params.SCENARIO_DAY_OF_MONTH_POSTFIX = make_formatted_day_of_month( params.SCENARIO_DAY_OF_MONTH ) ;
-            params.SCENARIO_MONTH = 1 + scenario_date.getMonth() ;
-            params.SCENARIO_MONTH_NAME = get_month_name( scenario_date.getMonth() ) ;
-            params.SCENARIO_YEAR = scenario_date.getFullYear() ;
+            params.SCENARIO_MONTH = scenario_date[1] ;
+            params.SCENARIO_MONTH_NAME = get_month_name( params.SCENARIO_MONTH ) ;
+            params.SCENARIO_YEAR = scenario_date[2] ;
         }
     }
 
@@ -1872,7 +1872,7 @@ function unload_params_for_save( includeMetadata )
     // save the scenario date in ISO-8601 format
     var scenario_date = get_scenario_date() ;
     if ( scenario_date )
-        params.SCENARIO_DATE = scenario_date.toISOString().substring( 0, 10 ) ;
+        params.SCENARIO_DATE = scenario_date[3] ;
 
     // save some admin metadata
     if ( includeMetadata ) {
@@ -2177,11 +2177,11 @@ function _is_scenario_in_or_after( month, year ) {
     var scenario_date = get_scenario_date() ;
     if ( ! scenario_date )
         return false ;
-    if ( scenario_date.getFullYear() > year )
+    if ( scenario_date[2] > year )
         return true ;
-    if ( scenario_date.getFullYear() < year )
+    if ( scenario_date[2] < year )
         return false ;
-    return scenario_date.getMonth() >= month-1  ;
+    return scenario_date[1] >= month  ;
 }
 
 function is_pf_available() { return _is_scenario_in_or_after( 10, 1943 ) ; }

@@ -87,7 +87,15 @@ function get_scenario_date()
     var scenario_date = $("input[name='SCENARIO_DATE']").datepicker( "getDate" ) ;
     if ( ! scenario_date )
         return null ;
-    return scenario_date ;
+    // NOTE: Returning a Javascript Date object creates massive headaches since it is adjusted
+    // for the current timezone, so we avoid problems by extracting the date fields here, and
+    // discarding the time fields.
+    var date=scenario_date.getDate(), month=1+scenario_date.getMonth(), year=scenario_date.getFullYear() ;
+    return [
+        date, month, year,
+        year + "-" + pad(month,2,"0") + "-" + pad(date,2,"0"),
+        date + " " + get_month_name(month) + ", " + year
+    ] ;
 }
 
 function is_template_available( template_id )
@@ -447,7 +455,7 @@ function make_formatted_day_of_month( dom )
 function get_month_name( month )
 {
     // get the name of the month
-    return _MONTH_NAMES[ month ] ;
+    return _MONTH_NAMES[ month-1 ] ;
 }
 
 // --------------------------------------------------------------------
@@ -494,6 +502,15 @@ function addUrlParam( url, param, val )
 function escapeHTML( val ) { return new Option(val).innerHTML ; }
 function trimString( val ) { return val ? val.trim() : val ; }
 function fpFmt( val, nDigits ) { return val.toFixed( nDigits ) ; }
+
+function pad( val, len, ch )
+{
+    // left-pad the value
+    val = val.toString() ;
+    while( val.length < len )
+        val = ch + val ;
+    return val ;
+}
 
 function pluralString( n, str1, str2, combine )
 {

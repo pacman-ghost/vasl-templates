@@ -508,16 +508,15 @@ function insertPlayerFlags( $target, scenario )
 function loadObaInfo( $target, scenario, scenarioDateOverride )
 {
     // initialize
-    var theater =  getEffectiveTheater( scenario.theater ) ;
+    var theater = getEffectiveTheater( scenario.theater ) ;
     var scenarioDate = scenario.scenario_date_iso ;
     if ( ! theater || ( !scenarioDate && !scenarioDateOverride ) )
         return ;
     if ( scenarioDateOverride ) {
-        scenarioDateOverride = scenarioDateOverride.toISOString().substring( 0, 10 ) ;
-        if ( scenarioDateOverride.substring(0,7) == scenarioDate.substring(0,7) )
+        if ( scenarioDateOverride[3].substring(0,7) == scenarioDate.substring(0,7) )
             scenarioDateOverride = null ;
         else
-            scenarioDate = scenarioDateOverride ;
+            scenarioDate = scenarioDateOverride[3] ;
     }
     var params = {
         SCENARIO_THEATER: theater,
@@ -556,7 +555,7 @@ function loadObaInfo( $target, scenario, scenarioDateOverride )
         // update the date warning
         if ( scenarioDateOverride ) {
             $target.find( ".date-warning .val" ).text(
-                parseInt( scenarioDateOverride.substring(5,7) ) + "/" + scenarioDateOverride.substring(2,4)
+                scenarioDateOverride[1] + "/" + scenarioDateOverride[2].toString().substring(2,4)
             ) ;
             $target.find( ".date-warning" ).show() ;
         }
@@ -801,10 +800,7 @@ function getImportFieldCurrVal_date( importField ) {
     var scenarioDate = get_scenario_date() ;
     if ( ! scenarioDate )
         return null ;
-    return [
-        scenarioDate.toISOString().substring( 0, 10 ),
-        scenarioDate.getDate() + " " + get_month_name(scenarioDate.getMonth()) + ", " + scenarioDate.getFullYear()
-    ] ;
+    return [ scenarioDate[3], scenarioDate[4] ] ;
 }
 
 function doImportField_date( importField, newVal ) {
