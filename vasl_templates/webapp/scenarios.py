@@ -577,20 +577,23 @@ _last_asa_upload = None
 def test_asa_upload( scenario_id ):
     """A test endpoint that can be used to simulate ASL Scenario Archive uploads."""
 
+    # initialize
+    logger = logging.getLogger( "test_asa_upload" )
+
     def save_file( key, asa_upload, convert=None ):
         """Save a file that has been uploaded to us."""
         f = request.files.get( key )
         if not f:
-            print( "- {}: not present.".format( key ) )
+            logger.info( "- %s: not present.", key )
             return
         data = f.read()
         asa_upload[ key ] = convert(data) if convert else data
-        print( "- {}: {} ({}) ; #bytes={}".format( key, f.filename, f.content_type, len(data) ) )
+        logger.info( "- %s: %s (%s) ; #bytes=%d", key, f.filename, f.content_type, len(data) )
         fname = app.config.get( "SAVE_ASA_UPLOAD_" + key.upper() )
         if fname:
             with open( fname, "wb" ) as fp:
                 fp.write( data )
-            print( "  - Saved to:", fname )
+            logger.info( "  - Saved to: %s", fname )
 
     def make_response( fname ):
         """Generate a response."""
@@ -615,7 +618,7 @@ def test_asa_upload( scenario_id ):
         return make_response( "incorrect-token" )
 
     # process the request
-    print( "ASA upload: id={} ; user=\"{}\" ; token=\"{}\"".format( scenario_id, user_name,api_token ) )
+    logger.info( "ASA upload: id=%s ; user=\"%s\" ; token=\"%s\"", scenario_id, user_name,api_token )
     asa_upload = {}
     save_file( "vasl_setup", asa_upload )
     save_file( "vt_setup", asa_upload, lambda v: json.loads(v) ) #pylint: disable=unnecessary-lambda
