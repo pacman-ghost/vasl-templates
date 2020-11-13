@@ -76,7 +76,8 @@ def init_webapp( webapp, webdriver, **options ):
         .set_user_files_dir( dtype=None ) \
         .set_roar_scenario_index( fname="roar-scenario-index.json" ) \
         .set_scenario_index( fname="asl-scenario-archive.json" ) \
-        .set_app_config( key="MAP_URL", val="MAP:[{LAT},{LONG}]" )
+        .set_app_config( key="MAP_URL", val="MAP:[{LAT},{LONG}]" ) \
+        .set_app_config( key="DISABLE_LFA_HOTNESS_FADEIN", val=True )
     if "reset" in options:
         options.pop( "reset" )( control_tests )
 
