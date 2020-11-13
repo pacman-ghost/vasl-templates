@@ -80,7 +80,11 @@ function user_settings( on_ok, caption )
     var handlers = {
         load_checkbox: function( $elem, val ) { $elem.prop( "checked", val?true:false ) ; },
         unload_checkbox: function( $elem ) { return $elem.prop( "checked" ) ; },
-        load_droplist: function( $elem, val ) { if ( val ) $elem.val( val ) ; },
+        load_droplist: function( $elem, val ) {
+            if ( val ) {
+                $elem.select2( "trigger", "select", { data: { id: val } } ) ;
+            }
+        },
         unload_droplist: function( $elem ) { return $elem.children(":selected").val() ; },
         load_text: function( $elem, val ) { $elem.val( val ? val.trim() : "" ) ; },
         unload_text: function( $elem ) { return $elem.val().trim() ; },
