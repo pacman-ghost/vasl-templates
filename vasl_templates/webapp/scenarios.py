@@ -10,9 +10,10 @@ import base64
 import re
 import time
 import math
+import hashlib
 import logging
 
-from flask import request, render_template, jsonify, abort
+from flask import request, render_template, make_response, jsonify, abort
 from PIL import Image, ImageOps
 
 from vasl_templates.webapp import app
@@ -26,15 +27,18 @@ from vasl_templates.webapp.utils import TempFile, \
 
 def _build_asa_scenario_index( df, new_data, logger ):
     """Build the ASL Scenario Archive index."""
-    df.index = {
+    # parse the scenario index
+    index = {
         scenario["scenario_id"]: scenario
         for scenario in new_data["scenarios"]
     }
+    # install the results
+    df.index = index
     if logger:
         logger.debug( "Loaded the ASL Secenario Archive index: #scenarios=%d", len(df.index) )
         logger.debug( "- Generated at: %s", new_data.get( "_generatedAt_", "n/a" ) )
 
-_asa_scenarios = DownloadedFile( "ASA", 1*24,
+_asa_scenarios = DownloadedFile( "ASA", 6, # nb: TTL = #hours
     "asl-scenario-archive.json",
     "https://vasl-templates.org/services/asl-scenario-archive/scenario-index.json",
     _build_asa_scenario_index,
@@ -45,14 +49,17 @@ _asa_scenarios = DownloadedFile( "ASA", 1*24,
 
 def _build_roar_scenario_index( df, new_data, logger ):
     """Build the ROAR scenario index."""
-    df.index, df.title_matching, df.id_matching = {}, {}, {}
+    # parse the scenario index
+    index, title_matching, id_matching = {}, {}, {}
     for roar_id,scenario in new_data.items():
         if roar_id.startswith( "_" ):
             continue
         scenario[ "roar_id" ] = roar_id
-        df.index[ roar_id ] = scenario
-        _update_roar_matching_index( df.title_matching, scenario.get("name"), roar_id )
-        _update_roar_matching_index( df.id_matching, scenario.get("scenario_id"), roar_id )
+        index[ roar_id ] = scenario
+        _update_roar_matching_index( title_matching, scenario.get("name"), roar_id )
+        _update_roar_matching_index( id_matching, scenario.get("scenario_id"), roar_id )
+    # install the results
+    df.index, df.title_matching, df.id_matching = index, title_matching, id_matching
     if logger:
         logger.debug( "Loaded the ROAR scenario index: #scenarios=%d", len(df.index) )
         logger.debug( "- Generated at: %s", new_data.get( "_generatedAt_", "n/a" ) )
@@ -74,7 +81,7 @@ def _make_roar_matching_key( val ):
         return val
     return re.sub( "[^a-z0-9]", "", val.lower() )
 
-_roar_scenarios = DownloadedFile( "ROAR", 1*24,
+_roar_scenarios = DownloadedFile( "ROAR", 6, # nb: TTL = #hours
     "roar-scenario-index.json",
     "https://vasl-templates.org/services/roar/scenario-index.json",
     _build_roar_scenario_index,
@@ -115,10 +122,15 @@ def get_scenario_index():
                 return _make_not_available_response(
                     "Please wait, the scenario index is still downloading.", None
                 )
-        return jsonify( [
+        etag = hashlib.md5( json.dumps( _asa_scenarios.index ).encode( "utf-8" ) ).hexdigest()
+        if request.headers.get( "If-None-Match" ) == etag:
+            return "Not Modified", 304
+        resp = make_response( jsonify( [
             make_entry( scenario )
             for scenario in _asa_scenarios.index.values()
-        ] )
+        ] ) )
+        resp.headers["ETag"] = etag
+        return resp
 
 @app.route( "/roar/scenario-index" )
 def get_roar_scenario_index():
@@ -133,7 +145,12 @@ def get_roar_scenario_index():
                 return _make_not_available_response(
                     "Please wait, the ROAR scenarios are still downloading.", None
                 )
-        return jsonify( _roar_scenarios.index )
+        etag = hashlib.md5( json.dumps( _roar_scenarios.index ).encode( "utf-8" ) ).hexdigest()
+        if request.headers.get( "If-None-Match" ) == etag:
+            return "Not Modified", 304
+        resp = make_response( jsonify( _roar_scenarios.index ) )
+        resp.headers["ETag"] = etag
+        return resp
 
 def _make_not_available_response( msg, msg2 ):
     """Generate a "not available" response."""
@@ -595,7 +612,7 @@ def test_asa_upload( scenario_id ):
                 fp.write( data )
             logger.info( "  - Saved to: %s", fname )
 
-    def make_response( fname ):
+    def make_resp( fname ):
         """Generate a response."""
         dname = os.path.join( os.path.dirname(__file__), "tests/fixtures/asa-responses/" )
         fname = os.path.join( dname, "{}.json".format( fname ) )
@@ -610,12 +627,12 @@ def test_asa_upload( scenario_id ):
     # parse the request
     user_name = request.args.get( "user" )
     if not user_name:
-        return make_response( "missing-user-name" )
+        return make_resp( "missing-user-name" )
     api_token = request.args.get( "token" )
     if not api_token:
-        return make_response( "missing-token" )
+        return make_resp( "missing-token" )
     if api_token == "incorrect-token":
-        return make_response( "incorrect-token" )
+        return make_resp( "incorrect-token" )
 
     # process the request
     logger.info( "ASA upload: id=%s ; user=\"%s\" ; token=\"%s\"", scenario_id, user_name,api_token )
@@ -628,7 +645,7 @@ def test_asa_upload( scenario_id ):
         global _last_asa_upload
         _last_asa_upload = asa_upload
 
-    return make_response( "ok" )
+    return make_resp( "ok" )
 
 # ---------------------------------------------------------------------
 

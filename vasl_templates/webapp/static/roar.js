@@ -158,19 +158,26 @@ function loadScenarios( $sel, scenarios )
 // --------------------------------------------------------------------
 
 var _roarScenarioIndex = null ; // nb: don't access this directly, use getRoarScenarioIndex()
+var _roarScenarioIndexETag ;
 
 function getRoarScenarioIndex( onReady )
 {
-    // check if we already have the ROAR scenario index
-    if ( _roarScenarioIndex  ) {
-
-        // yup - just do it
-        onReady( _roarScenarioIndex ) ;
-
-    } else {
-
-        // nope - download it
-        $.getJSON( gGetRoarScenarioIndexUrl, function( resp ) {
+    // nope - download it
+    $.ajax( {
+        url: gGetRoarScenarioIndexUrl,
+        type: "GET",
+        datatype: "json",
+        beforeSend: function( xhr ) {
+            if ( _roarScenarioIndexETag )
+                xhr.setRequestHeader( "If-None-Match", _roarScenarioIndexETag ) ;
+        },
+        success: function( resp, status, xhr ) {
+            if ( xhr.status == 304 ) {
+                // our cached copy is still valid
+                onReady( _roarScenarioIndex ) ;
+                return ;
+            }
+            // check if a warning was issued
             if ( resp.warning ) {
                 var msg = resp.warning ;
                 if ( resp.message )
@@ -178,13 +185,16 @@ function getRoarScenarioIndex( onReady )
                 showWarningMsg( msg ) ;
                 return ;
             }
+            // save a copy of the data, then notify the caller
             _roarScenarioIndex = resp ;
+            _roarScenarioIndexETag = xhr.getResponseHeader( "ETag" ) ;
             onReady( resp ) ;
-        } ).fail( function( xhr, status, errorMsg ) {
+        },
+        error: function( xhr, status, errorMsg ) {
             showErrorMsg( "Can't get the ROAR scenario index:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
-        } ) ;
-
-    }
+            return ;
+        },
+    } ) ;
 }
 
 // --------------------------------------------------------------------

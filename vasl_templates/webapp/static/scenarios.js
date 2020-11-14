@@ -28,7 +28,7 @@ window.searchForScenario = function()
     var eventHandlers = new jQueryHandlers() ;
 
     // NOTE: We have to get the scenario index before we can do anything.
-    getScenarioIndex( function( scenarios ) {
+    getScenarioIndex( function( scenarios, isNewScenarios ) {
 
         // show the dialog
         $( "#scenario-search" ).dialog( {
@@ -42,7 +42,6 @@ window.searchForScenario = function()
             minHeight: 400,
             position: { my: "center center", at: "center center", of: window },
             create: function() {
-                initPrefixIndex( scenarios ) ;
                 initDialog( $(this), scenarios ) ;
                 // FUDGE! This works around a weird layout problem. The very first time the dialog opens,
                 // the search input box (the whole .select2-dropdown, actually) is too far left. The layout
@@ -52,6 +51,8 @@ window.searchForScenario = function()
             open: function() {
                 // initialize
                 $dlg = $(this) ;
+                if ( isNewScenarios )
+                    initSearchResults( $dlg, scenarios ) ;
                 // reset everything
                 $gSearchQueryInputBox.val( "" ) ;
                 $gDialog.find( ".select2-results__option" ).remove() ;
@@ -116,8 +117,14 @@ function initDialog( $dlg, scenarios )
     } ) ;
     var $gripper = $( "<img src='" + gImagesBaseUrl + "/gripper-vert.png'>" ) ;
     $dlg.find( ".gutter.gutter-horizontal" ).append( $gripper ) ;
+}
 
-    // initialize the select2
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function initSearchResults( $dlg, scenarios )
+{
+    // initialize the search results
+    initPrefixIndex( scenarios ) ;
     var options = [] ;
     scenarios.forEach( function( scenario ) {
         options.push( {
@@ -127,6 +134,12 @@ function initDialog( $dlg, scenarios )
         } ) ;
     } ) ;
     sortScenarios( options ) ;
+
+    // load the search results
+    if ( $gScenariosSelect ) {
+        // clean up the previous select2
+        $gScenariosSelect.empty().select2( "destroy" ) ;
+    }
     $gScenariosSelect = $dlg.find( ".scenarios select" ) ;
     $gScenariosSelect.select2( {
         data: options,
@@ -146,6 +159,8 @@ function initDialog( $dlg, scenarios )
     $gScenariosSelect.on( "select2:select", function( evt ) {
         onItemSelected( evt.params.data.id ) ;
     } ) ;
+
+    // keep the UI up-to-date as items are selected
     $gSearchQueryInputBox = $dlg.find( ".select2-search__field" ) ;
     $gSearchQueryInputBox.on( "input", function() {
         // FUDGE! select2 rebuilds the list of matching items, and selects the first one,
@@ -1333,20 +1348,25 @@ window.updateForConnectedScenario = function( scenarioId, roarId )
 // --------------------------------------------------------------------
 
 var _scenarioIndex ; // nb: don't access this directly, use getScenarioIndex()
+var _scenarioIndexETag ;
 
 function getScenarioIndex( onReady )
 {
-    // check if we already have the scenario index
-    if ( _scenarioIndex ) {
-
-        // yup - just do it
-        onReady( _scenarioIndex ) ;
-
-    } else {
-
-        // nope - download it (nb: we do this on-demand, instead of during startup,
-        // to give the backend time if it wants to download a fresh copy).
-        $.getJSON( gGetScenarioIndexUrl, function( resp ) {
+    $.ajax( {
+        url: gGetScenarioIndexUrl,
+        type: "GET",
+        datatype: "json",
+        beforeSend: function( xhr ) {
+            if ( _scenarioIndexETag )
+                xhr.setRequestHeader( "If-None-Match", _scenarioIndexETag ) ;
+        },
+        success: function( resp, status, xhr ) {
+            if ( xhr.status == 304 ) {
+                // our cached copy is still valid
+                onReady( _scenarioIndex, false ) ;
+                return ;
+            }
+            // check if a warning was issued
             if ( resp.warning ) {
                 var msg = resp.warning ;
                 if ( resp.message )
@@ -1354,14 +1374,16 @@ function getScenarioIndex( onReady )
                 showWarningMsg( msg ) ;
                 return ;
             }
+            // save a copy of the data, then notify the caller
             _scenarioIndex = resp ;
-            onReady( resp ) ;
-        } ).fail( function( xhr, status, errorMsg ) {
+            _scenarioIndexETag = xhr.getResponseHeader( "ETag" ) ;
+            onReady( resp, true ) ;
+        },
+        error: function( xhr, status, errorMsg ) {
             showErrorMsg( "Can't get the scenario index:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
             return ;
-        } ) ;
-
-    }
+        },
+    } ) ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

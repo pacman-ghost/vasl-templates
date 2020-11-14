@@ -7,6 +7,7 @@ import os
 import threading
 import json
 import urllib.request
+import urllib.error
 import time
 import datetime
 import tempfile
@@ -17,6 +18,8 @@ from vasl_templates.webapp.utils import parse_int
 
 _registry = set()
 _logger = logging.getLogger( "downloads" )
+
+_etags = {}
 
 # ---------------------------------------------------------------------
 
@@ -92,68 +95,75 @@ class DownloadedFile:
         """Download fresh copies of each file."""
         #pylint: disable=protected-access
 
-        # process each DownloadedFile
-        for df in _registry:
+        # loop forever (until the program exits)
+        while True:
 
-            # check if we should simulate slow downloads
-            delay = parse_int( app.config.get( "DOWNLOADED_FILES_DELAY" ) )
-            if delay:
-                _logger.debug( "Simulating a slow download for the %s file: delay=%s", df.key, delay )
-                time.sleep( delay )
+            # process each DownloadedFile
+            # NOTE: The DownloadedFile registry is built once at startup, so we don't need to lock it.
+            for df in _registry:
 
-            # get the download URL
-            url = app.config.get( "{}_DOWNLOAD_URL".format( df.key.upper() ), df.url )
-            if os.path.isfile( url ):
-                # read the data directly from a file (for debugging porpoises)
-                _logger.info( "Loading the %s data directly from a file: %s", df.key, url )
-                df._set_data( url )
-                continue
-
-            # check if we have a cached copy of the file
-            ttl = parse_int( app.config.get( "{}_DOWNLOAD_CACHE_TTL".format( df.key ), df.ttl ), 24 )
-            if ttl <= 0:
-                _logger.info( "Download of the %s file has been disabled.", df.key )
-                continue
-            ttl *= 60*60
-            if os.path.isfile( df.cache_fname ):
-                # yup - check how long ago it was downloaded
-                mtime = os.path.getmtime( df.cache_fname )
-                age = int( time.time() - mtime )
-                _logger.debug( "Checking the cached %s file: age=%s, ttl=%s (mtime=%s)",
-                    df.key,
-                    datetime.timedelta( seconds=age ),
-                    datetime.timedelta( seconds=ttl ),
-                    time.strftime( "%Y-%m-%d %H:%M:%S", time.localtime(mtime) )
-                )
-                if age < ttl:
+                # get the download URL
+                url = app.config.get( "{}_DOWNLOAD_URL".format( df.key.upper() ), df.url )
+                if os.path.isfile( url ):
+                    # read the data directly from a file (for debugging porpoises)
+                    _logger.info( "Loading the %s data directly from a file: %s", df.key, url )
+                    df._set_data( url )
                     continue
 
-            # download the file
-            _logger.info( "Downloading the %s file: %s", df.key, url )
-            try:
-                req = urllib.request.Request( url,
+                # check if we have a cached copy of the file
+                ttl = parse_int( app.config.get( "{}_DOWNLOAD_CACHE_TTL".format( df.key ), df.ttl ), 24 )
+                if ttl <= 0:
+                    _logger.info( "Download of the %s file has been disabled.", df.key )
+                    continue
+                ttl *= 60*60
+                if os.path.isfile( df.cache_fname ):
+                    # yup - check how long ago it was downloaded
+                    mtime = os.path.getmtime( df.cache_fname )
+                    age = int( time.time() - mtime )
+                    _logger.debug( "Checking the cached %s file: age=%s, ttl=%s (mtime=%s)",
+                        df.key,
+                        datetime.timedelta( seconds=age ),
+                        datetime.timedelta( seconds=ttl ),
+                        time.strftime( "%Y-%m-%d %H:%M:%S", time.localtime(mtime) )
+                    )
+                    if age < ttl:
+                        continue
+
+                # download the file
+                _logger.info( "Downloading the %s file: %s", df.key, url )
+                try:
                     headers = { "Accept-Encoding": "gzip, deflate" }
-                )
-                fp = urllib.request.urlopen( req )
-                data = fp.read().decode( "utf-8" )
-            except Exception as ex: #pylint: disable=broad-except
-                msg = str( getattr(ex,"reason",None) or ex )
-                _logger.error( "Can't download the %s file: %s", df.key, msg )
-                df.error_msg = msg
-                continue
-            _logger.info( "Downloaded the %s file OK: %d bytes", df.key, len(data) )
+                    if url in _etags:
+                        _logger.debug( "- If-None-Match = %s", _etags[url] )
+                        headers[ "If-None-Match" ] = _etags[ url ]
+                    req = urllib.request.Request( url, headers=headers )
+                    resp = urllib.request.urlopen( req )
+                    data = resp.read().decode( "utf-8" )
+                    etag = resp.headers.get( "ETag" )
+                    _logger.info( "Downloaded the %s file OK: %d bytes", df.key, len(data) )
+                    if etag:
+                        _logger.debug( "- Got etag: %s", etag )
+                        _etags[ url ] = etag
+                except Exception as ex: #pylint: disable=broad-except
+                    if isinstance( ex, urllib.error.HTTPError ) and ex.code == 304: #pylint: disable=no-member
+                        _logger.info( "Download %s file: 304 Not Modified", df.key )
+                        if os.path.isfile( df.cache_fname ):
+                            # NOTE: We touch the file so that the TTL check will work the next time around.
+                            os.utime( df.cache_fname )
+                        continue
+                    msg = str( getattr(ex,"reason",None) or ex )
+                    _logger.error( "Can't download the %s file: %s", df.key, msg )
+                    df.error_msg = msg
+                    continue
 
-            # install the new data
-            df._set_data( data )
-            # NOTE: We only need to worry about thread-safety because a fresh copy of the file is downloaded
-            # while the old one is in use, but because downloads are only done once at startup, once we get here,
-            # we could delete the lock and allow unfettered access to the underlying data (since it's all
-            # going to be read-only).
-            # For simplicty, we leave the lock in place. It will slow things down a bit, since we will be
-            # serializing access to the data (unnecessarily, because it's all read-only) but none of the code
-            # is performance-critical and we can probably live it.
+                # install the new data
+                df._set_data( data )
 
-            # save a cached copy of the data
-            _logger.debug( "Saving a cached copy of the %s file: %s", df.key, df.cache_fname )
-            with open( df.cache_fname, "w", encoding="utf-8" ) as fp:
-                fp.write( data )
+                # save a cached copy of the data
+                _logger.debug( "Saving a cached copy of the %s file: %s", df.key, df.cache_fname )
+                with open( df.cache_fname, "w", encoding="utf-8" ) as fp:
+                    fp.write( data )
+
+            # sleep before looping back and doing it all again
+            delay = parse_int( app.config.get( "DOWNLOAD_CHECK_INTERVAL" ), 2 )
+            time.sleep( delay * 60*60 )
