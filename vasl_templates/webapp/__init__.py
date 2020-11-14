@@ -22,7 +22,8 @@ def _on_startup():
     # NOTE: We used to do this in the mainline code of __init__, so that we didn't have to wait
     # for the first request before starting the download (useful if we are running as a standalone server).
     # However, this means that the downloads start whenever we import this module e.g. for a stand-alone
-    # command-line tool :-/
+    # command-line tool :-/ Instead, we send a dummy request in run_server.py to trigger a call
+    # to this function.
     from vasl_templates.webapp.downloads import DownloadedFile
     threading.Thread( daemon=True,
         target = DownloadedFile.download_files

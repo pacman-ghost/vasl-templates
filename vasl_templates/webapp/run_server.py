@@ -2,6 +2,9 @@
 """ Run the webapp server. """
 
 import os
+import threading
+import urllib.request
+import time
 import glob
 
 # ---------------------------------------------------------------------
@@ -17,11 +20,24 @@ for fspec in ["config","static","templates"] :
         files = glob.glob( fspec )
     extra_files.extend( files )
 
-# run the server
+# initialize
 from vasl_templates.webapp import app
-app.run(
-    host = app.config.get( "FLASK_HOST", "localhost" ),
-    port = app.config["FLASK_PORT_NO"],
-    debug = app.config.get( "FLASK_DEBUG", False ),
+host = app.config.get( "FLASK_HOST", "localhost" )
+port = app.config["FLASK_PORT_NO"]
+debug = app.config.get( "FLASK_DEBUG", False )
+
+def start_server():
+    """Force the server to do "first request" initialization."""
+    # NOTE: This is not needed when running the desktop app (since it will request the home page),
+    # but if we're running just the server (i.e. from the console, or a Docker container), then
+    # sending a request, any request, will trigger the "first request" initialization (in particular,
+    # the download thread).
+    time.sleep( 5 )
+    url = "http://{}:{}/ping".format( host, port )
+    _ = urllib.request.urlopen( url )
+threading.Thread( target=start_server, daemon=True ).start()
+
+# run the server
+app.run( host=host, port=port, debug=debug,
     extra_files = extra_files
 )
