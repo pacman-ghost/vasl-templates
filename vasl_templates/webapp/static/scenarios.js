@@ -58,7 +58,9 @@ window.searchForScenario = function()
                 $gDialog.find( ".select2-results__option" ).remove() ;
                 updateForSearchResults() ;
                 $gScenarioCard.empty() ;
-                $gFooter.hide() ;
+                // NOTE: We don't hide the footer since we want it to take up its space in the layout,
+                // so that the list of search results is the correct height.
+                $gFooter.css( "opacity", 0 ) ;
                 $gImportWarnings.empty().hide() ;
                 $gDownloadsButton.button( "disable" ) ;
                 $gImportScenarioButton.show() ;
@@ -336,7 +338,7 @@ function formatItem( opt )
 
     // check if this is the first time we're showing search results
     if ( gIsFirstSearch ) {
-        $gFooter.fadeIn( 5*1000 ) ;
+        $gFooter.fadeTo( 5*1000, 0.8 ) ;
         gIsFirstSearch = false ;
     }
 
