@@ -169,7 +169,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         params.SNIPPET_ID = player_nat + "/" + params.SNIPPET_ID ;
 
     // set the vehicle/ordnance labels
-    if ( template_id.indexOf( "_vehicles_" ) !== -1 ) {
+    if ( template_id.indexOf( "_vehicle_" ) !== -1 || template_id.indexOf( "_vehicles_" ) !== -1 ) {
         params.VO_TYPE = "Vehicle" ;
         params.VO_TYPES = "Vehicles" ;
     } else if ( template_id.indexOf( "_ordnance_" ) !== -1 ) {
@@ -459,6 +459,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
             filters: {
                 join: function( vals, sep ) { return vals ? vals.join(sep) : "" ; },
                 nbsp: function( val ) { return strReplaceAll( val, " ", "&nbsp;" ) ; },
+                upper: function( val ) { return val ? val.toUpperCase() : "" ; },
             } ,
         } ) ;
         snippet = snippet.trim() ;

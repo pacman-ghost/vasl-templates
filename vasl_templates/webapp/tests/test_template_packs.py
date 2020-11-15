@@ -92,10 +92,30 @@ def test_new_default_template_pack( webapp, webdriver ):
             ct.set_default_template_pack( dname="template-packs/new-default/" ) \
               .set_vo_notes_dir( dtype="test" )
     )
-    set_player( 1, "german" )
-    set_player( 2, "russian" )
 
     # check that the new templates are being used
+    _do_test_default_template_pack( webdriver )
+
+def test_new_default_template_pack_zip( webapp, webdriver ):
+    """Test changing the default template pack."""
+
+    # create a new template pack as a ZIP file
+    zip_data = make_zip_from_files( "new-default" )
+
+    # initialize
+    init_webapp( webapp, webdriver,
+        reset = lambda ct:
+            ct.set_default_template_pack( bin_data=zip_data ) \
+              .set_vo_notes_dir( dtype="test" )
+    )
+
+    # check that the new templates are being used
+    _do_test_default_template_pack( webdriver )
+
+def _do_test_default_template_pack( webdriver ):
+    """Check that the default template pack is being used."""
+    set_player( 1, "german" )
+    set_player( 2, "russian" )
     _check_snippets( webdriver, lambda tid: "New default {}.".format( tid.upper() ) )
 
 # ---------------------------------------------------------------------

@@ -72,27 +72,30 @@ def load_default_template_pack(): #pylint: disable=too-many-locals
     if os.path.isdir( dname ):
         # yup - return the files in it
         nat, templates, css, includes =_do_get_template_pack( dname )
-        data["nationalities"].update( nat )
-        data["templates"] = templates
-        data["css"] = css
-        data["includes"] = includes
     else:
         # extract the template pack files from the specified ZIP file
-        if not os.path.isfile( dname ):
-            raise RuntimeError( "Can't find template pack: {}".format( dname ) )
-        data["templates"] = {}
-        with zipfile.ZipFile( dname, "r" ) as zip_file:
-            for fname in zip_file.namelist():
-                if fname.endswith( "/" ):
-                    continue
-                fdata = zip_file.read( fname ).decode( "utf-8" )
-                fname2 = os.path.split(fname)[1]
-                if fname2.lower() == "nationalities.json":
-                    data["nationalities"].update( json.loads( fdata ) )
-                    continue
-                if fname.startswith( "extras" + os.sep ):
-                    fname2 = "extras/" + fname2
-                data["templates"][ fname2 ] = fdata
+        nat, templates, css, includes =_do_get_template_pack_from_zip( dname )
+    data["nationalities"].update( nat )
+    data["templates"] = templates
+    data["css"] = css
+    data["includes"] = includes
+
+    # FUDGE! In early versions of this program, the vehicles and ordnance templates were different
+    # (e.g. because only vehicles can be radioless, only ordnance can be QSU), but once everything
+    # was handled via generic capabilities, they became the same. We would therefore like to have
+    # a single template file handle both vehicles and ordnance, but the program had been architected
+    # in such a way that vehicles and ordnance snippets are generated from their own templates,
+    # so rather than re-architect the program, we maintain separate templates, that just happen
+    # to be read from the same file. This causes a bit of stuffing around when the code needs to know
+    # what file a template comes from (e.g. loading a template pack), but it's mostly transparent...
+    templates = data.get( "templates" )
+    if templates:
+        if "ob_vo" in templates:
+            templates["ob_vehicles"] = templates["ob_ordnance"] = templates.pop( "ob_vo" )
+        if "ob_vo_note" in templates:
+            templates["ob_vehicle_note"] = templates["ob_ordnance_note"] = templates.pop( "ob_vo_note" )
+        if "ob_ma_notes" in templates:
+            templates["ob_vehicles_ma_notes"] = templates["ob_ordnance_ma_notes"] = templates.pop( "ob_ma_notes" )
 
     globvars.template_pack = data
 
@@ -104,7 +107,7 @@ def _do_get_template_pack( dname ):
     if not os.path.isdir( dname ):
         abort( 404 )
     nationalities, templates, css, includes = {}, {}, {}, {}
-    for root,_,fnames in os.walk(dname):
+    for root,_,fnames in os.walk( dname ):
         for fname in fnames:
             # add the next file to the results
             fname_stem, extn = os.path.splitext( fname )
@@ -117,26 +120,41 @@ def _do_get_template_pack( dname ):
                     relpath = os.path.relpath( os.path.abspath(fname), dname )
                     if relpath.startswith( "extras" + os.sep ):
                         fname_stem = "extras/" + fname_stem
-                    # FUDGE! In early versions of this program, the vehicles and ordnance templates were different
-                    # (e.g. because only vehicles can be radioless, only ordnance can be QSU), but once everything
-                    # was handled via generic capabilities, they became the same. We would therefore like to have
-                    # a single template file handle both vehicles and ordnance, but the program had been architected
-                    # in such a way that vehicles and ordnance snippets are generated from their own templates,
-                    # so rather than re-architect the program, we maintain separate templates, that just happen
-                    # to be read from the same file. This causes a bit of stuffing around when the code needs to know
-                    # what file a template comes from (e.g. loading a template pack), but it's mostly transparent...
-                    if fname_stem == "ob_vo":
-                        templates["ob_vehicles"] = templates["ob_ordnance"] = fp.read()
-                    elif fname_stem == "ob_vo_note":
-                        templates["ob_vehicle_note"] = templates["ob_ordnance_note"] = fp.read()
-                    elif fname_stem == "ob_ma_notes":
-                        templates["ob_vehicles_ma_notes"] = templates["ob_ordnance_ma_notes"] = fp.read()
-                    else:
-                        templates[fname_stem] = fp.read()
+                    templates[ fname_stem ] = fp.read()
                 elif extn == ".css":
-                    css[fname_stem] = fp.read()
+                    css[ fname_stem ] = fp.read()
                 elif extn == ".include":
-                    includes[fname_stem] = fp.read()
+                    includes[ fname_stem ] = fp.read()
+    return nationalities, templates, css, includes
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def _do_get_template_pack_from_zip( fname ):
+    """Get the specified template pack."""
+    fname = os.path.abspath( fname )
+    if not os.path.isfile( fname ):
+        abort( 404 )
+    nationalities, templates, css, includes = {}, {}, {}, {}
+    with zipfile.ZipFile( fname, "r" ) as zip_file:
+        for zip_fname in zip_file.namelist():
+            if zip_fname.endswith( "/" ):
+                continue
+            # extract the next file
+            fdata = zip_file.read( zip_fname ).decode( "utf-8" )
+            fname2 = os.path.split( zip_fname )[1]
+            # add the file to the results
+            if fname2.lower() == "nationalities.json":
+                nationalities = json.loads( fdata )
+                continue
+            fname2, extn = os.path.splitext( fname2 )
+            if zip_fname.startswith( "extras" + os.sep ):
+                fname2 = "extras/" + fname2
+            if extn == ".css":
+                css[ fname2 ] = fdata
+            elif extn == ".include":
+                includes[ fname2 ] = fdata
+            else:
+                templates[ fname2 ] = fdata
     return nationalities, templates, css, includes
 
 # ---------------------------------------------------------------------

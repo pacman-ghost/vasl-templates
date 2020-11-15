@@ -43,11 +43,11 @@ class ControlTests:
             self.server_url = pytest.config.option.server_url #pylint: disable=no-member
         except AttributeError:
             self.server_url = None
-        # set up a temp directory for our test VASL extensions
-        self._vasl_extns_temp_dir = tempfile.TemporaryDirectory()
+        # set up a directory for our temp files
+        self._temp_dir = tempfile.TemporaryDirectory()
 
     def __del__( self ):
-        self._vasl_extns_temp_dir.cleanup()
+        self._temp_dir.cleanup()
 
     def __getattr__( self, name ):
         """Generic entry point for handling control requests."""
@@ -116,9 +116,14 @@ class ControlTests:
         webapp_main.default_scenario = fname
         return self
 
-    def _set_default_template_pack( self, dname=None ):
+    def _set_default_template_pack( self, dname=None, bin_data=None ):
         """Set the default template pack."""
-        if dname == "real":
+        if bin_data:
+            fname = os.path.join( self._temp_dir.name, "default-template-pack.zip" )
+            with open( fname, "wb" ) as fp:
+                fp.write( bin_data )
+            dname = fname
+        elif dname == "real":
             dname = os.path.join( os.path.split(__file__)[0], "../data/default-template-pack" )
         elif dname:
             dname2 = os.path.join( os.path.split(__file__)[0], "fixtures" )
@@ -168,7 +173,7 @@ class ControlTests:
                 except AttributeError:
                     dname = app.config[ "TEST_VASL_EXTNS_DIR" ]
             elif extns_dtype == "test":
-                dname = self._vasl_extns_temp_dir.name
+                dname = self._temp_dir.name
             else:
                 assert False, "Unknown extensions directory type: "+extns_dtype
             _logger.info( "Enabling VASL extensions: %s", dname )
@@ -211,7 +216,7 @@ class ControlTests:
 
     def _set_test_vasl_extn( self, fname=None, bin_data=None ):
         """Set the test VASL extension."""
-        fname = os.path.join( self._vasl_extns_temp_dir.name, fname )
+        fname = os.path.join( self._temp_dir.name, fname )
         with open( fname, "wb" ) as fp:
             fp.write( bin_data )
         return self
