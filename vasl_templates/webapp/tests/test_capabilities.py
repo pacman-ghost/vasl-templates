@@ -14,15 +14,12 @@ from vasl_templates.webapp.tests.test_vo_reports import get_vo_report
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
 
-IGNORE_CAPABILITIES = [ "T", "NT", "ST" ]
+_IGNORE_CAPABILITIES = [ "T", "NT", "ST" ]
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    pytest.config.option.short_tests, #pylint: disable=no-member
-    reason = "--short-tests specified"
-) #pylint: disable=too-many-statements
-def test_month_capabilities( webapp, webdriver ):
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+def test_month_capabilities( webapp, webdriver ): #pylint: disable=too-many-statements
     """Test date-based capabilities that change in the middle of a year."""
 
     # Sherman III(a): WP6(J4+)† s8
@@ -305,10 +302,7 @@ def test_month_capabilities( webapp, webdriver ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-@pytest.mark.skipif(
-    pytest.config.option.short_tests, #pylint: disable=no-member
-    reason = "--short-tests specified"
-) #pylint: disable=too-many-statements
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
 def test_kfw( webapp, webdriver ):
     """Test date-based capabilities for K:FW vehicles/ordnance."""
 
@@ -328,10 +322,7 @@ def test_kfw( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    pytest.config.option.short_tests, #pylint: disable=no-member
-    reason = "--short-tests specified"
-)
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
 def test_theater_capabilities( webapp, webdriver ):
     """Test theater-specific capabilities."""
 
@@ -407,27 +398,15 @@ def test_theater_capabilities( webapp, webdriver ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-@pytest.mark.skipif(
-    pytest.config.option.short_tests, #pylint: disable=no-member
-    reason = "--short-tests specified"
-)
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-)
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_extensions, #pylint: disable=no-member
-    reason = "--vasl-extensions not specified"
-)
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
 def test_theater_capabilities_bfp( webapp, webdriver ):
     """Test theater-specific capabilities (BFP extension)."""
 
     # initialize
-    init_webapp( webapp, webdriver,
-        reset = lambda ct:
-            ct.set_data_dir( dtype="real" ) \
-            .set_vasl_mod( vmod="random", extns_dtype="real" )
-    )
+    webapp.control_tests \
+        .set_data_dir( "{REAL}" ) \
+        .set_vasl_version( "random", "{REAL}" )
+    init_webapp( webapp, webdriver )
 
     # LVT(A)1(L): C10(P)†2
     vehicle = [ "american", "vehicles", "LVT(A)1(L)" ]
@@ -446,10 +425,7 @@ def test_theater_capabilities_bfp( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    pytest.config.option.short_tests, #pylint: disable=no-member
-    reason = "--short-tests specified"
-)
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
 def test_american_ordnance_note_c( webapp, webdriver ):
     """Test handling of American Ordnance Note C."""
 
@@ -474,10 +450,7 @@ def test_american_ordnance_note_c( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    pytest.config.option.short_tests, #pylint: disable=no-member
-    reason = "--short-tests specified"
-)
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
 def test_nationality_capabilities( webapp, webdriver ):
     """Test nationality-specific capabilities."""
 
@@ -759,19 +732,12 @@ def test_custom_comments( webapp, webdriver ): #pylint: disable=too-many-stateme
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-    ) #pylint: disable=too-many-statements
 def test_capability_updates_in_ui( webapp, webdriver ):
-    """Ensure that capabilities are updated in the UI correctly."""
+    """Check that capabilities are updated in the UI correctly."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct:
-            ct.set_data_dir( dtype="real" ) \
-              .set_vasl_mod( vmod="random" )
-    )
+    webapp.control_tests.set_data_dir( "{REAL}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load the scenario
     scenario_data = {
@@ -805,7 +771,7 @@ def test_capability_updates_in_ui( webapp, webdriver ):
                 results[-1].append( [ c.get_attribute("innerHTML") for c in capabilities ] )
         for row in expected:
             for i,entries in enumerate(row):
-                row[i] = [ e for e in entries if e not in IGNORE_CAPABILITIES ]
+                row[i] = [ e for e in entries if e not in _IGNORE_CAPABILITIES ]
         assert results == expected
 
     # no scenario date => we should be showing the raw capabilities
@@ -896,10 +862,8 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     """Test elite vehicles/ordnance."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct:
-            ct.set_data_dir( dtype="real" )
-    )
+    webapp.control_tests.set_data_dir( "{REAL}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     def get_sortable_elem():
         """Find the sortable element for the test vehicle."""
@@ -1046,7 +1010,7 @@ def _check_capabilities( webdriver, webapp,
         merge_common = False,
         row = row
     )
-    for cap in IGNORE_CAPABILITIES:
+    for cap in _IGNORE_CAPABILITIES:
         expected = re.sub( r"(^|\s+){}($|\s+)".format(cap), "", expected )
     assert capabilities == expected
 

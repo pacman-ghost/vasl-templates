@@ -1,37 +1,26 @@
 """ Test serving counter images. """
 
 import os
-import io
 import json
 import re
 import shutil
 import urllib.request
 
 import pytest
-import tabulate
 
 from vasl_templates.webapp.vassal import SUPPORTED_VASSAL_VERSIONS
-from vasl_templates.webapp.vasl_mod import VaslMod, get_vo_gpids, compare_version_strings, SUPPORTED_VASL_MOD_VERSIONS
-from vasl_templates.webapp.config.constants import DATA_DIR
+from vasl_templates.webapp.vasl_mod import get_vo_gpids, SUPPORTED_VASL_MOD_VERSIONS
 from vasl_templates.webapp.vo import _kfw_listings #pylint: disable=protected-access
-from vasl_templates.webapp.utils import change_extn
+from vasl_templates.webapp.utils import compare_version_strings
 from vasl_templates.webapp.tests.utils import init_webapp, select_tab, find_child, find_children
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
-from vasl_templates.webapp.tests.remote import ControlTests
 
 _EXPECTED_MISSING_GPIDS_EXCEPTIONS = [ "6.5.0", "6.5.1", "6.6.0", "6.6.1" ]
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-)
-@pytest.mark.skipif(
-    pytest.config.option.short_tests, #pylint: disable=no-member
-    reason = "--short-tests specified"
-) #pylint: disable=too-many-statements,too-many-locals
-def test_counter_images( webapp ):
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+def test_counter_images( webapp, webdriver ): #pylint: disable=too-many-locals
     """Test that counter images are served correctly."""
 
     # NOTE: This is ridiculously slow on Windows :-/
@@ -52,8 +41,8 @@ def test_counter_images( webapp ):
                 assert locals()["check_"+side]( gpid, resp_code, resp_data )
 
     # test counter images when no VASL module has been configured
-    control_tests = ControlTests( webapp )
-    control_tests.set_vasl_mod( vmod=None )
+    webapp.control_tests.set_vasl_version( None, None )
+    init_webapp( webapp, webdriver )
     # NOTE: It doesn't really matter which set of GPID's we use, since we're expecting
     # a missing image for everything anyway. We just use the most recent supported version.
     gpids = get_vo_gpids( None )
@@ -100,6 +89,7 @@ def test_counter_images( webapp ):
     expected_missing_gpids.remove( "1002" ) # FUDGE! this is a remapped GPID (11340)
     expected_missing_gpids.remove( "1527" ) # FUDGE! this is a remapped GPID (12730)
 
+    vasl_version = None
     def _do_check_front( gpid, code, data ):
         if vasl_version not in _EXPECTED_MISSING_GPIDS_EXCEPTIONS and gpid in expected_missing_gpids:
             return code == 404 and not data
@@ -117,36 +107,29 @@ def test_counter_images( webapp ):
             shutil.rmtree( save_dir )
         os.makedirs( save_dir )
 
-    # test each VASL module file in the specified directory
+    # test each VASL version
     failed = False
-    vmod_fnames = control_tests.get_vasl_mods()
-    for vmod_fname in vmod_fnames:
+    vasl_versions = webapp.control_tests.get_vasl_versions()
+    for vasl_version in vasl_versions:
 
-        # install the VASL module file
-        control_tests.set_vasl_mod( vmod=vmod_fname )
-
-        # NOTE: We assume we have access to the same VASL modules as the server, but the path on the webserver
-        # might be different to what it is locally, so we translate it here.
-        fname = os.path.split( vmod_fname )[1]
-        vasl_mods_dir = pytest.config.option.vasl_mods #pylint: disable=no-member
-        fname = os.path.join( vasl_mods_dir, fname )
+        # initialize
+        webapp.control_tests \
+            .set_data_dir( "{REAL}" ) \
+            .set_vasl_version( vasl_version, None )
+        init_webapp( webapp, webdriver )
 
         # figure out what we're expecting to see
         # NOTE: The results were the same across 6.4.0-6.4.4, but 6.5.0 introduced some changes.
-        vasl_mod = VaslMod( fname, DATA_DIR, None )
-        vasl_version = vasl_mod.vasl_version
         fname = os.path.join( check_dir, "vasl-pieces-{}.txt".format( vasl_version ) )
         if not os.path.isfile( fname ):
             fname = os.path.join( check_dir, "vasl-pieces-legacy.txt" )
         expected_vasl_pieces = open( fname, "r" ).read()
 
         # generate a report for the pieces loaded
-        buf = io.StringIO()
-        _dump_pieces( vasl_mod, buf )
-        report = buf.getvalue()
+        report, gpids = webapp.control_tests.get_vasl_pieces( vasl_version )
         if save_dir:
-            fname2 = change_extn( os.path.split(vmod_fname)[1], ".txt" )
-            with open( os.path.join(save_dir,fname2), "w" ) as fp:
+            fname2 = os.path.join( save_dir, vasl_version+".txt" )
+            with open( fname2, "w" ) as fp:
                 fp.write( report )
 
         # check the report
@@ -158,45 +141,17 @@ def test_counter_images( webapp ):
                 assert False, "Report mismatch: {}".format( vasl_version )
 
         # check each counter
-        gpids = get_vo_gpids( vasl_mod )
         check_images( gpids, check_front=_do_check_front, check_back=_do_check_back )
 
     assert not failed
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-def _dump_pieces( vasl_mod, out ):
-    """Dump the VaslMod pieces."""
-
-    # dump the VASL pieces
-    results = [ [ "GPID", "Name", "Front images", "Back images"] ]
-    pieces = vasl_mod._pieces #pylint: disable=protected-access
-    # GPID's were originally int's but then changed to str's. We then started seeing non-numeric GPID's :-/
-    # For back-compat, we try to maintain sort order for numeric values.
-    def sort_key( val ): #pylint: disable=missing-docstring
-        if val.isdigit():
-            return ( "0"*10 + val )[-10:]
-        else:
-            # nb: we make sure that alphanumeric values appear after numeric values, even if they start with a number
-            return "_" + val
-    gpids = sorted( pieces.keys(), key=sort_key ) # nb: because GPID's changed from int to str :-/
-    for gpid in gpids:
-        piece = pieces[ gpid ]
-        assert piece["gpid"] == gpid
-        results.append( [ gpid, piece["name"], piece["front_images"], piece["back_images"] ] )
-    print( tabulate.tabulate( results, headers="firstrow", numalign="left" ), file=out )
-
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-)
 def test_gpid_remapping( webapp, webdriver ):
     """Test GPID remapping."""
 
     # initialize
-    control_tests = init_webapp( webapp, webdriver )
+    init_webapp( webapp, webdriver )
 
     def check_gpid_image( gpid ):
         """Check if we can get the image for the specified GPID."""
@@ -220,14 +175,13 @@ def test_gpid_remapping( webapp, webdriver ):
         else:
             assert check_gpid_image( gpid ) == 404
 
-    def do_test( vmod_fname, valid_images ):
+    def do_test( vasl_version, valid_images ):
         """Do the test."""
-        # initialize (using the specified VASL vmod)
-        init_webapp( webapp, webdriver, scenario_persistence=1,
-            reset = lambda ct:
-                ct.set_data_dir( dtype="real" ) \
-                  .set_vasl_mod( vmod=vmod_fname )
-        )
+        # initialize (using the specified version of VASL)
+        webapp.control_tests \
+            .set_data_dir( "{REAL}" ) \
+            .set_vasl_version( vasl_version, None )
+        init_webapp( webapp, webdriver, scenario_persistence=1 )
         load_scenario( scenario_data )
         # check that the German vehicles loaded correctly
         select_tab( "ob1" )
@@ -247,38 +201,26 @@ def test_gpid_remapping( webapp, webdriver ):
     fname = os.path.join( os.path.split(__file__)[0], "fixtures/gpid-remapping.json" )
     scenario_data = json.load( open( fname, "r" ) )
 
-    # locate the VASL modules
-    vmod_fnames = control_tests.get_vasl_mods()
-    def find_vasl_mod( version ):
-        """Find the VASL module for the specified version."""
-        matches = [ fname for fname in vmod_fnames if "vasl-{}.vmod".format(version) in fname ]
-        assert len(matches) == 1
-        return matches[0]
-
     # run the tests using VASL 6.4.4 and 6.5.0
     # NOTE: Versions of VASL prior to 6.6.0 are no longer officially supported (since they use Java 8),
     # but we would still like to run these tests. See VassalShim._run_vassal_shim(), where we figure out
     # which version of Java to use, and run_vassal_tests() in test_vassal.py, where we check for invalid
     # combinations of VASSAL and VASL. Sigh...
-    do_test( find_vasl_mod("6.4.4"), True )
-    do_test( find_vasl_mod("6.5.0"), True )
-    do_test( find_vasl_mod("6.5.1"), True )
+    do_test( "6.4.4", True )
+    do_test( "6.5.0", True )
+    do_test( "6.5.1", True )
 
     # disable GPID remapping and try again
-    prev_gpid_mappings = control_tests.set_gpid_remappings( gpids=[] )
-    try:
-        do_test( find_vasl_mod("6.4.4"), True )
-        do_test( find_vasl_mod("6.5.0"), False )
-        do_test( find_vasl_mod("6.5.1"), False )
-    finally:
-        # NOTE: This won't get done if Python exits unexpectedly in the try block,
-        # which will leave the server in the wrong state if it's remote.
-        control_tests.set_gpid_remappings( gpids=prev_gpid_mappings )
+    webapp.control_tests.set_gpid_remappings( {} )
+    do_test( "6.4.4", True )
+    do_test( "6.5.0", False )
+    do_test( "6.5.1", False )
 
 # ---------------------------------------------------------------------
 
 def test_compare_version_strings():
     """Test comparing version strings."""
+
     # test comparing VASSAL version strings
     for i,vassal_version in enumerate( SUPPORTED_VASSAL_VERSIONS):
         if i > 0:
@@ -286,6 +228,7 @@ def test_compare_version_strings():
         assert compare_version_strings( SUPPORTED_VASSAL_VERSIONS[i], vassal_version ) == 0
         if i < len(SUPPORTED_VASSAL_VERSIONS)-1:
             assert compare_version_strings( vassal_version, SUPPORTED_VASSAL_VERSIONS[i+1] ) < 0
+
     # test comparing VASL version strings
     for i,vasl_version in enumerate(SUPPORTED_VASL_MOD_VERSIONS):
         if i > 0:

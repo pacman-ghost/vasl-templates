@@ -5,36 +5,32 @@ import zipfile
 import typing
 import re
 
-import pytest
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.utils import TempFile
-from vasl_templates.webapp.tests.utils import init_webapp, refresh_webapp, set_player, select_tab, new_scenario, \
+from vasl_templates.webapp.tests.utils import init_webapp, set_player, select_tab, new_scenario, \
     find_child, find_children, wait_for_clipboard
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 
+_TEST_VASL_EXTN_FNAME = "test-vasl-extension.zip"
+
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-)
 def test_load_vasl_extensions( webapp, webdriver ):
     """Test loading VASL extensions."""
-
-    # initialize
-    control_tests = init_webapp( webapp, webdriver )
 
     def do_test( build_info_fname, build_info, expected ): #pylint: disable=missing-docstring
 
         # create the test VASL extension
-        _set_test_vasl_extn( control_tests, build_info, build_info_fname )
+        extn_fname = _set_test_vasl_extn( webapp, build_info, build_info_fname )
 
         # reload the webapp
-        control_tests.set_vasl_mod( vmod="random", extns_dtype="test" )
-        _check_warning_msgs( control_tests, expected )
+        webapp.control_tests.set_vasl_version( "random", "{TEMP_DIR}" )
+        init_webapp( webapp, webdriver )
+        expected = expected.replace( "{EXTN-FNAME}", extn_fname )
+        _check_warning_msgs( webapp, expected )
 
     # try loading an extension that has no buildFile
     do_test( "foo", "<foo />", "Missing buildFile:" )
@@ -49,75 +45,63 @@ def test_load_vasl_extensions( webapp, webdriver ):
 
     # try loading an extension with an unknown ID
     do_test( "buildFile", '<VASSAL.build.module.ModuleExtension version="v0.1" extensionId="unknown" />',
-        "Not accepting test.zip: no extension info for unknown/v0.1"
+        "Not accepting {EXTN-FNAME}: no extension info for unknown/v0.1"
     )
 
     # try loading something that's not a ZIP file
-    control_tests.set_test_vasl_extn( fname="test.zip", bin_data=b"This is not a ZIP file." ) \
-                 .set_vasl_mod( vmod="random", extns_dtype="test" )
-    _check_warning_msgs( control_tests, "Can't check VASL extension (not a ZIP file):" )
+    webapp.control_tests \
+        .save_temp_file( _TEST_VASL_EXTN_FNAME, b"This is not a ZIP file." ) \
+        .set_vasl_version( "random", "{TEMP_DIR}" )
+    init_webapp( webapp, webdriver )
+    _check_warning_msgs( webapp, "Can't check VASL extension (not a ZIP file):" )
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-)
 def test_vasl_extension_info( webapp, webdriver ):
     """Test matching VASL extensions with our extension info files."""
 
-    # initialize
-    control_tests = init_webapp( webapp, webdriver )
-
     # prepare our test VASL extension
     fname = os.path.join( os.path.split(__file__)[0], "fixtures/vasl-extensions/test-extn.xml" )
-    _set_test_vasl_extn( control_tests, open(fname,"r").read() )
+    extn_fname = _set_test_vasl_extn( webapp, open(fname,"r").read() )
 
-    def do_test( dtype, expected ): #pylint: disable=missing-docstring
-        control_tests.set_data_dir( dtype="real" ) \
-                     .set_vasl_extn_info_dir( dtype=dtype ) \
-                     .set_vasl_mod( vmod="random", extns_dtype="test" )
-        _check_warning_msgs( control_tests, expected )
+    def do_test( dname, expected ): #pylint: disable=missing-docstring
+        webapp.control_tests \
+            .set_vasl_version( "random", "{TEMP_DIR}" ) \
+            .set_vasl_extn_info_dir( dname )
+        init_webapp( webapp, webdriver )
+        _check_warning_msgs( webapp, expected )
 
     # try loading the VASL extension, with no matching extension info
     do_test( "mismatched-id",
-        "Not accepting test.zip: no extension info for test/v0.1"
+        "Not accepting {}: no extension info for test/v0.1".format( extn_fname )
     )
     do_test( "mismatched-version",
-        "Not accepting test.zip: no extension info for test/v0.1"
+        "Not accepting {}: no extension info for test/v0.1".format( extn_fname )
     )
 
     # try loading the VASL extension, with matching extension info
     do_test( "good-match", None )
-    extns = control_tests.get_vasl_extns()
+    extns = webapp.control_tests.get_vasl_extns()
     assert len(extns) == 1
     extn = extns[0]
+    assert os.path.basename( extn[0] ) == _TEST_VASL_EXTN_FNAME
     assert extn[1] == { "extensionId": "test", "version": "v0.1" }
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-)
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_extensions, #pylint: disable=no-member
-    reason = "--vasl-extensions not specified"
-)
-@pytest.mark.skipif(
-    not pytest.config.option.vo_notes, #pylint: disable=no-member
-    reason = "--vo-notes not specified"
-)
 def test_dedupe_ma_notes( webapp, webdriver ):
     """Test deduping multi-applicable notes."""
 
+    # check if the remote webapp server supports this test
+    if not webapp.control_tests.has_capability( "chapter-h" ):
+        return
+
     # initialize
-    init_webapp( webapp, webdriver,
-        reset = lambda ct:
-            ct.set_data_dir( dtype="real" ) \
-              .set_vasl_mod( vmod="random", extns_dtype="real" ) \
-              .set_vo_notes_dir( dtype="real" )
-    )
+    webapp.control_tests \
+        .set_data_dir( "{REAL}" ) \
+        .set_vasl_version( "random", "{REAL}" ) \
+        .set_vo_notes_dir( "{REAL}" )
+    init_webapp( webapp, webdriver )
 
     def do_test( vehicles, expected ): #pylint: disable=missing-docstring
         # add the specified vehicles
@@ -171,21 +155,8 @@ def test_dedupe_ma_notes( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-)
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_extensions, #pylint: disable=no-member
-    reason = "--vasl-extensions not specified"
-)
 def test_kgs_extensions( webapp, webdriver ):
     """Test the KGS extension."""
-
-    # initialize
-    control_tests = init_webapp( webapp, webdriver,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
 
     def check_counter_images( veh_name, expected ):
         """Check the counter images available for the specified vehicle."""
@@ -226,10 +197,10 @@ def test_kgs_extensions( webapp, webdriver ):
     def do_test( enable_extns ): #pylint: disable=missing-docstring
 
         # initialize
-        control_tests.set_vasl_mod( vmod="random",
-            extns_dtype = "real" if enable_extns else None
-        )
-        refresh_webapp( webdriver )
+        webapp.control_tests \
+            .set_data_dir( "{REAL}" ) \
+            .set_vasl_version( "random", "{REAL}" if enable_extns else None )
+        init_webapp( webapp, webdriver )
         set_player( 2, "russian" )
 
         # check the Matilda II(b)
@@ -248,28 +219,19 @@ def test_kgs_extensions( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-)
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_extensions, #pylint: disable=no-member
-    reason = "--vasl-extensions not specified"
-)
-@pytest.mark.skipif(
-    not pytest.config.option.vo_notes, #pylint: disable=no-member
-    reason = "--vo-notes not specified"
-)
 def test_bfp_extensions( webapp, webdriver ):
     """Test the Bounding Fire extension."""
 
+    # check if the remote webapp server supports this test
+    if not webapp.control_tests.has_capability( "chapter-h" ):
+        return
+
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct:
-            ct.set_data_dir( dtype="real" ) \
-              .set_vasl_mod( vmod="random", extns_dtype="real" ) \
-              .set_vo_notes_dir( dtype="real" )
-    )
+    webapp.control_tests \
+        .set_data_dir( "{REAL}" ) \
+        .set_vasl_version( "random", "{REAL}" ) \
+        .set_vo_notes_dir( "{REAL}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load the test scenario
     load_scenario( {
@@ -318,28 +280,19 @@ def test_bfp_extensions( webapp, webdriver ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-)
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_extensions, #pylint: disable=no-member
-    reason = "--vasl-extensions not specified"
-)
-@pytest.mark.skipif(
-    not pytest.config.option.vo_notes, #pylint: disable=no-member
-    reason = "--vo-notes not specified"
-)
 def test_bfp_extensions2( webapp, webdriver ):
     """Test the Bounding Fire extension (Operation Cobra counters)."""
 
+    # check if the remote webapp server supports this test
+    if not webapp.control_tests.has_capability( "chapter-h" ):
+        return
+
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct:
-            ct.set_data_dir( dtype="real" ) \
-              .set_vasl_mod( vmod="random", extns_dtype="real" ) \
-              .set_vo_notes_dir( dtype="real" )
-    )
+    webapp.control_tests \
+        .set_data_dir( "{REAL}" ) \
+        .set_vasl_version( "random", "{REAL}" ) \
+        .set_vo_notes_dir( "{REAL}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load the test scenario
     load_scenario( {
@@ -386,7 +339,7 @@ def test_bfp_extensions2( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-def _set_test_vasl_extn( control_tests, build_info, build_info_fname="buildFile" ):
+def _set_test_vasl_extn( webapp, build_info, build_info_fname="buildFile" ):
     """Install a test VASL extension file."""
     with TempFile() as temp_file:
         with zipfile.ZipFile( temp_file.name, "w" ) as zip_file:
@@ -394,11 +347,13 @@ def _set_test_vasl_extn( control_tests, build_info, build_info_fname="buildFile"
         temp_file.close( delete=False )
         with open( temp_file.name, "rb" ) as fp:
             zip_data = fp.read()
-    control_tests.set_test_vasl_extn( fname="test.zip", bin_data=zip_data )
+    fname = _TEST_VASL_EXTN_FNAME
+    webapp.control_tests.save_temp_file( fname, zip_data )
+    return fname
 
-def _check_warning_msgs( control_tests, expected ):
+def _check_warning_msgs( webapp, expected ):
     """Check that the startup warning messages are what we expect."""
-    warnings = control_tests.get_vasl_mod_warnings()
+    warnings = webapp.control_tests.get_vasl_mod_warnings()
     if expected:
         assert len(warnings) == 1
         if isinstance( expected, typing.re.Pattern ):

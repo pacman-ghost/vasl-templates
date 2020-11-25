@@ -1,5 +1,7 @@
 """ Test HTML snippet generation. """
 
+import base64
+
 import pytest
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -18,9 +20,8 @@ def test_snippet_ids( webapp, webdriver ):
     """Check that snippet ID's are generated correctly."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
+    webapp.control_tests.set_data_dir( "{REAL}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load a scenario (so that we get some sortable's)
     scenario_data = {
@@ -228,9 +229,8 @@ def test_edit_templates( webapp, webdriver ):
     """Test editing templates."""
 
     # initialize
-    init_webapp( webapp, webdriver, edit_template_links=1,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver, edit_template_links=1 )
     ob_setups = {
         1: find_child( "#ob_setups-sortable_1" ),
         2: find_child( "#ob_setups-sortable_2" )
@@ -320,12 +320,12 @@ def test_snippet_images( webapp, webdriver ):
     """Test generating snippet images."""
 
     # initialize
-    control_tests = init_webapp( webapp, webdriver, scenario_persistence=1, snippet_image_persistence=1,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1, snippet_image_persistence=1 )
 
     # check if there is a webdriver configured
-    if "WEBDRIVER_PATH" not in control_tests.get_app_config():
+    remote_app_config = webapp.control_tests.get_app_config()
+    if "WEBDRIVER_PATH" not in remote_app_config:
         return
 
     # load a test scenario
@@ -359,10 +359,11 @@ def test_snippet_images( webapp, webdriver ):
         # wait for the snippet image to be generated
         wait_for( 20, lambda: ret_buffer.get_attribute( "value" ) )
         fname, img_data = ret_buffer.get_attribute( "value" ).split( "|", 1 )
+        img_data = base64.b64decode( img_data )
 
         # check the results
         assert fname == expected_fname
-        last_snippet_image = control_tests.get_last_snippet_image()
+        last_snippet_image = webapp.control_tests.get_last_snippet_image()
         assert img_data == last_snippet_image
 
     def do_simple_test( template_id, expected_fname ): #pylint: disable=missing-docstring

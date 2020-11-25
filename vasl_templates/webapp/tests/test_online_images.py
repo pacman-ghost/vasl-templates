@@ -2,7 +2,6 @@
 
 import re
 
-import pytest
 from selenium.webdriver.common.action_chains import ActionChains
 
 from vasl_templates.webapp.tests.utils import init_webapp, select_tab, \
@@ -13,20 +12,14 @@ from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-)
 def test_online_images( webapp, webdriver ):
     """Test using online images in VASL scenarios."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct:
-            ct.set_data_dir( dtype="real" ) \
-              .set_vasl_mod( vmod="random" ) \
-              .set_default_template_pack( dname="real" )
-    )
+    webapp.control_tests \
+        .set_data_dir( "{REAL}" ) \
+        .set_vasl_version( "random", None )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load the test scenario
     load_scenario( {
@@ -73,20 +66,14 @@ def test_online_images( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-)
 def test_multiple_images( webapp, webdriver ):
     """Test handling of VASL counters that have multiple images."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct:
-            ct.set_data_dir( dtype="real" ) \
-              .set_vasl_mod( vmod="random" ) \
-              .set_default_template_pack( dname="real" )
-    )
+    webapp.control_tests \
+        .set_data_dir( "{REAL}" ) \
+        .set_vasl_version( "random", None )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load the test scenario
     load_scenario( {
@@ -129,24 +116,14 @@ def test_multiple_images( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-)
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_extensions, #pylint: disable=no-member
-    reason = "--vasl-extensions not specified"
-)
 def test_extensions( webapp, webdriver ):
     """Test handling of VASL counters in extensions."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct:
-            ct.set_data_dir( dtype="real" ) \
-              .set_vasl_mod( vmod="random", extns_dtype="real" ) \
-              .set_default_template_pack( dname="real" )
-    )
+    webapp.control_tests \
+        .set_data_dir( "{REAL}" ) \
+        .set_vasl_version( "random", "{REAL}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load the test scenario
     load_scenario( {

@@ -31,11 +31,11 @@ stats = defaultdict( lambda: [0,0] ) # nb: [ #runs, total elapsed time ]
 # ---------------------------------------------------------------------
 
 @click.command()
-@click.option( "--server-url", default="http://localhost:5010", help="Webapp server URL." )
+@click.option( "--webapp-url", default="http://localhost:5010", help="Webapp server URL." )
 @click.option( "--snippet-images", default=1, help="Number of 'snippet image' threads to run." )
 @click.option( "--update-vsav", default=1, help="Number of 'update VSAV' threads to run." )
 @click.option( "--vsav","vsav_fname", help="VASL scenario file (.vsav) to be updated." )
-def main( server_url, snippet_images, update_vsav, vsav_fname ):
+def main( webapp_url, snippet_images, update_vsav, vsav_fname ):
     """Stress-test the shared WebDriver."""
 
     # initialize
@@ -52,13 +52,13 @@ def main( server_url, snippet_images, update_vsav, vsav_fname ):
         threads.append( threading.Thread(
             target = snippet_images_thread,
             name = "snippet-images/{:02d}".format( 1+i ),
-            args = ( server_url, )
+            args = ( webapp_url, )
         ) )
     for i in range(0,update_vsav):
         threads.append( threading.Thread(
             target = update_vsav_thread,
             name = "update-vsav/{:02d}".format( 1+i ),
-            args = ( server_url, vsav_fname, vsav_data )
+            args = ( webapp_url, vsav_fname, vsav_data )
         ) )
 
     # launch the test threads
@@ -96,14 +96,14 @@ def main( server_url, snippet_images, update_vsav, vsav_fname ):
 
 # ---------------------------------------------------------------------
 
-def snippet_images_thread( server_url ):
+def snippet_images_thread( webapp_url ):
     """Test generating snippet images."""
 
     with WebDriver() as webdriver:
 
         # initialize
         webdriver = webdriver.driver
-        init_webapp( webdriver, server_url,
+        init_webapp( webdriver, webapp_url,
              [ "snippet_image_persistence", "scenario_persistence" ]
         )
 
@@ -169,7 +169,7 @@ def snippet_images_thread( server_url ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def update_vsav_thread( server_url, vsav_fname, vsav_data ):
+def update_vsav_thread( webapp_url, vsav_fname, vsav_data ):
     """Test updating VASL scenario files."""
 
     # initialize
@@ -179,7 +179,7 @@ def update_vsav_thread( server_url, vsav_fname, vsav_data ):
 
         # initialize
         webdriver = webdriver.driver
-        init_webapp( webdriver, server_url,
+        init_webapp( webdriver, webapp_url,
              [ "vsav_persistence", "scenario_persistence" ]
         )
 
@@ -242,10 +242,10 @@ def log( fmt, *args, **kwargs ):
 
 # ---------------------------------------------------------------------
 
-def init_webapp( webdriver, server_url, options ):
+def init_webapp( webdriver, webapp_url, options ):
     """Initialize the webapp."""
     log( "Initializing the webapp." )
-    url = server_url + "?" + "&".join( "{}=1".format(opt) for opt in options )
+    url = webapp_url + "?" + "&".join( "{}=1".format(opt) for opt in options )
     url += "&store_msgs=1" # nb: stop notification balloons from building up
     webdriver.get( url )
     wait_for( 5, lambda: find_child("#_page-loaded_",webdriver) is not None )

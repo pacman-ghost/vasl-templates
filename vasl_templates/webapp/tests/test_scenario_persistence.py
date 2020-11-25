@@ -44,9 +44,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     """Test loading/saving scenarios."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     def check_ob_tabs( *args ):
         """Check that the OB tabs have been set correctly."""

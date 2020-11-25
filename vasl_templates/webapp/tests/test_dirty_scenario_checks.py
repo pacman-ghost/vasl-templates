@@ -18,9 +18,7 @@ def test_dirty_scenario_checks( webapp, webdriver ):
     """Test checking for a dirty scenario."""
 
     # initialize
-    init_webapp( webapp, webdriver,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    init_webapp( webapp, webdriver )
 
     # initialize
     SIMPLE_NOTES = {

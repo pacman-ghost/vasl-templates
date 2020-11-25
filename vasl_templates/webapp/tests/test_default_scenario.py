@@ -12,9 +12,8 @@ def test_default_scenario( webapp, webdriver ):
     """Test loading the default scenario."""
 
     # initialize
-    init_webapp( webapp, webdriver,
-        reset = lambda ct: ct.set_default_scenario( fname="new-default-scenario.json" )
-    )
+    webapp.control_tests.set_default_scenario( "new-default-scenario.json" )
+    init_webapp( webapp, webdriver )
 
     # wait for the scenario to load
     elem = find_child( "input[name='SCENARIO_NAME']" )

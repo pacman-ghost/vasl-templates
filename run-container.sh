@@ -10,18 +10,24 @@ function print_help {
 
     -p  --port             Web server port number.
         --vassal           VASSAL installation directory.
-    -v  --vasl-vmod        Path to the VASL .vmod file.
+    -v  --vasl             Path to the VASL module file (.vmod ).
     -e  --vasl-extensions  Path to the VASL extensions directory.
         --boards           Path to the VASL boards.
         --chapter-h        Path to the Chapter H notes directory.
         --user-files       Path to the user files directory.
     -k  --template-pack    Path to a user-defined template pack.
 
-    -t  --tag              Docker tag.
+    -t  --tag              Docker image tag.
+        --name             Docker container name.
     -d  --detach           Detach from the container and let it run in the background.
-        --no-build         Launch the container as-is (i.e. without rebuilding it first).
-        --build-network    Docker network to use when building the container.
+        --no-build         Launch the container as-is (i.e. without rebuilding the image first).
+        --build-network    Docker network to use when building the image.
         --run-network      Docker network to use when running the container.
+
+    Options for the test suite:
+      --control-tests-port   Remote test control port number.
+      --test-data-vassal     Directory containing VASSAL releases.
+      --test-data-vasl-mods  Directory containing VASL modules.
 
 NOTE: If the port the webapp server is listening on *inside* the container is different
 to the port exposed *outside* the container, webdriver image generation (e.g. Shift-Click
@@ -39,32 +45,29 @@ EOM
 # initialize
 cd `dirname "$0"`
 PORT=5010
-VASSAL_LOCAL=
 VASSAL=
-VASL_MOD_LOCAL=
 VASL_MOD=
-VASL_BOARDS_LOCAL=
-VASL_BOARDS=
-VASL_EXTNS_LOCAL=
 VASL_EXTNS=
-CHAPTER_H_NOTES_LOCAL=
+VASL_BOARDS=
 CHAPTER_H_NOTES=
-TEMPLATE_PACK_LOCAL=
-TEMPLATE_PACK=
-USER_FILES_LOCAL=
 USER_FILES=
-TAG=latest
+TEMPLATE_PACK=
+IMAGE_TAG=latest
+CONTAINER_NAME=vasl-templates
 DETACH=
 NO_BUILD=
 BUILD_NETWORK=
 RUN_NETWORK=
+CONTROL_TESTS_PORT=
+TEST_DATA_VASSAL=
+TEST_DATA_VASL_MODS=
 
 # parse the command-line arguments
 if [ $# -eq 0 ]; then
     print_help
     exit 0
 fi
-params="$(getopt -o p:v:e:k:t:d -l port:,vassal:,vasl-vmod:,vasl-extensions:,boards:,chapter-h:,user-files:,template-pack:,tag:,detach,no-build,build-network:,run-network:,help --name "$0" -- "$@")"
+params="$(getopt -o p:v:e:k:t:d -l port:,control-tests-port:,vassal:,vasl:,vasl-extensions:,boards:,chapter-h:,template-pack:,user-files:,tag:,name:,detach,no-build,build-network:,run-network:,test-data-vassal:,test-data-vasl-mods:,help --name "$0" -- "$@")"
 if [ $? -ne 0 ]; then exit 1; fi
 eval set -- "$params"
 while true; do
@@ -73,28 +76,31 @@ while true; do
             PORT=$2
             shift 2 ;;
         --vassal)
-            VASSAL_LOCAL=$2
+            VASSAL=$2
             shift 2 ;;
-        -v | --vasl-vmod)
-            VASL_MOD_LOCAL=$2
+        -v | --vasl)
+            VASL_MOD=$2
             shift 2 ;;
         -e | --vasl-extensions)
-            VASL_EXTNS_LOCAL=$2
+            VASL_EXTNS=$2
             shift 2 ;;
         --boards)
-            VASL_BOARDS_LOCAL=$2
+            VASL_BOARDS=$2
             shift 2 ;;
         --chapter-h)
-            CHAPTER_H_NOTES_LOCAL=$2
+            CHAPTER_H_NOTES=$2
             shift 2 ;;
         --user-files)
-            USER_FILES_LOCAL=$2
+            USER_FILES=$2
             shift 2 ;;
         -k | --template-pack)
-            TEMPLATE_PACK_LOCAL=$2
+            TEMPLATE_PACK=$2
             shift 2 ;;
         -t | --tag)
-            TAG=$2
+            IMAGE_TAG=$2
+            shift 2 ;;
+        --name)
+            CONTAINER_NAME=$2
             shift 2 ;;
         -d | --detach )
             DETACH=--detach
@@ -110,6 +116,17 @@ while true; do
         --run-network )
             RUN_NETWORK="--network $2"
             shift 2 ;;
+        --control-tests-port)
+            CONTROL_TESTS_PORT=$2
+            shift 2 ;;
+        --test-data-vassal )
+            target=`readlink -f "$2"`
+            TEST_DATA_VASSAL="--volume $target:/test-data/vassal/"
+            shift 2 ;;
+        --test-data-vasl-mods )
+            target=`readlink -f "$2"`
+            TEST_DATA_VASL_MODS="--volume $target:/test-data/vasl-mods/"
+            shift 2 ;;
         --help )
             print_help
             exit 0 ;;
@@ -121,102 +138,114 @@ while true; do
 done
 
 # check if a VASSAL directory has been specified
-if [ -n "$VASSAL_LOCAL" ]; then
-    if [ ! -d "$VASSAL_LOCAL" ]; then
-        echo "Can't find the VASSAL directory: $VASSAL_LOCAL"
+if [ -n "$VASSAL" ]; then
+    if [ ! -d "$VASSAL" ]; then
+        echo "Can't find the VASSAL directory: $VASSAL"
         exit 1
     fi
-    VASSAL=/data/vassal/
-    VASSAL_VOLUME="--volume `readlink -f "$VASSAL_LOCAL"`:$VASSAL"
-    VASSAL_ENV="--env VASSAL_DIR=$VASSAL"
+    target=/data/vassal/
+    VASSAL_VOLUME="--volume `readlink -f "$VASSAL"`:$target"
+    VASSAL_ENV="--env VASSAL_DIR=$target"
 fi
 
-# check if a VASL .vmod file has been specified
-if [ -n "$VASL_MOD_LOCAL" ]; then
-    if [ ! -f "$VASL_MOD_LOCAL" ]; then
-        echo "Can't find the VASL .vmod file: $VASL_MOD_LOCAL"
+# check if a VASL module file has been specified
+if [ -n "$VASL_MOD" ]; then
+    if [ ! -f "$VASL_MOD" ]; then
+        echo "Can't find the VASL .vmod file: $VASL_MOD"
         exit 1
     fi
-    VASL_MOD=/data/vasl.vmod
-    VASL_MOD_VOLUME="--volume `readlink -f "$VASL_MOD_LOCAL"`:$VASL_MOD"
-    VASL_MOD_ENV="--env VASL_MOD=$VASL_MOD"
-fi
-
-# check if a VASL boards directory has been specified
-if [ -n "$VASL_BOARDS_LOCAL" ]; then
-    if [ ! -d "$VASL_BOARDS_LOCAL" ]; then
-        echo "Can't find the VASL boards directory: $VASL_BOARDS_LOCAL"
-        exit 1
-    fi
-    VASL_BOARDS=/data/boards/
-    VASL_BOARDS_VOLUME="--volume `readlink -f "$VASL_BOARDS_LOCAL"`:$VASL_BOARDS"
-    VASL_BOARDS_ENV="--env VASL_BOARDS_DIR=$VASL_BOARDS"
+    target=/data/vasl.vmod
+    VASL_MOD_VOLUME="--volume `readlink -f "$VASL_MOD"`:$target"
+    VASL_MOD_ENV="--env VASL_MOD=$target"
 fi
 
 # check if a VASL extensions directory has been specified
-if [ -n "$VASL_EXTNS_LOCAL" ]; then
-    if [ ! -d "$VASL_EXTNS_LOCAL" ]; then
-        echo "Can't find the VASL extensions directory: $_EXTNS_DIR_LOCAL"
+if [ -n "$VASL_EXTNS" ]; then
+    if [ ! -d "$VASL_EXTNS" ]; then
+        echo "Can't find the VASL extensions directory: $VASL_EXTNS"
         exit 1
     fi
-    VASL_EXTNS=/data/vasl-extensions/
-    VASL_EXTNS_VOLUME="--volume `readlink -f "$VASL_EXTNS_LOCAL"`:$VASL_EXTNS"
-    VASL_EXTNS_ENV="--env VASL_EXTNS_DIR=$VASL_EXTNS"
+    target=/data/vasl-extensions/
+    VASL_EXTNS_VOLUME="--volume `readlink -f "$VASL_EXTNS"`:$target"
+    VASL_EXTNS_ENV="--env VASL_EXTNS_DIR=$target"
+fi
+
+# check if a VASL boards directory has been specified
+if [ -n "$VASL_BOARDS" ]; then
+    if [ ! -d "$VASL_BOARDS" ]; then
+        echo "Can't find the VASL boards directory: $VASL_BOARDS"
+        exit 1
+    fi
+    target=/data/boards/
+    VASL_BOARDS_VOLUME="--volume `readlink -f "$VASL_BOARDS"`:$target"
+    VASL_BOARDS_ENV="--env BOARDS_DIR=$target"
 fi
 
 # check if a Chapter H notes directory has been specified
-if [ -n "$CHAPTER_H_NOTES_LOCAL" ]; then
-    if [ ! -d "$CHAPTER_H_NOTES_LOCAL" ]; then
-        echo "Can't find the Chapter H notes directory: $CHAPTER_H_NOTES_LOCAL"
+if [ -n "$CHAPTER_H_NOTES" ]; then
+    if [ ! -d "$CHAPTER_H_NOTES" ]; then
+        echo "Can't find the Chapter H notes directory: $CHAPTER_H_NOTES"
         exit 1
     fi
-    CHAPTER_H_NOTES=/data/chapter-h-notes/
-    CHAPTER_H_NOTES_VOLUME="--volume `readlink -f "$CHAPTER_H_NOTES_LOCAL"`:$CHAPTER_H_NOTES"
-    CHAPTER_H_NOTES_ENV="--env CHAPTER_H_NOTES_DIR=$CHAPTER_H_NOTES"
-fi
-
-# check if a template pack has been specified
-if [ -n "$TEMPLATE_PACK_LOCAL" ]; then
-    # NOTE: The template pack can either be a file (ZIP) or a directory.
-    if ! ls "$TEMPLATE_PACK_LOCAL" >/dev/null 2>&1 ; then
-        echo "Can't find the template pack: $TEMPLATE_PACK_LOCAL"
-        exit 1
-    fi
-    TEMPLATE_PACK=/data/template-pack
-    TEMPLATE_PACK_VOLUME="--volume `readlink -f "$TEMPLATE_PACK_LOCAL"`:$TEMPLATE_PACK"
-    TEMPLATE_PACK_ENV="--env DEFAULT_TEMPLATE_PACK=$TEMPLATE_PACK"
+    target=/data/chapter-h-notes/
+    CHAPTER_H_NOTES_VOLUME="--volume `readlink -f "$CHAPTER_H_NOTES"`:$target"
+    CHAPTER_H_NOTES_ENV="--env CHAPTER_H_NOTES_DIR=$target"
 fi
 
 # check if a user files directory has been specified
-if [ -n "$USER_FILES_LOCAL" ]; then
-    if [ ! -d "$USER_FILES_LOCAL" ]; then
-        echo "Can't find the user files directory: $USER_FILES_LOCAL"
+if [ -n "$USER_FILES" ]; then
+    if [ ! -d "$USER_FILES" ]; then
+        echo "Can't find the user files directory: $USER_FILES"
         exit 1
     fi
-    USER_FILES=/data/user-files/
-    USER_FILES_VOLUME="--volume `readlink -f "$USER_FILES_LOCAL"`:$USER_FILES"
-    USER_FILES_ENV="--env USER_FILES_DIR=$USER_FILES"
+    target=/data/user-files/
+    USER_FILES_VOLUME="--volume `readlink -f "$USER_FILES"`:$target"
+    USER_FILES_ENV="--env USER_FILES_DIR=$target"
 fi
 
-# build the container
+# check if a template pack has been specified
+if [ -n "$TEMPLATE_PACK" ]; then
+    # NOTE: The template pack can either be a file (ZIP) or a directory.
+    if ! ls "$TEMPLATE_PACK" >/dev/null 2>&1 ; then
+        echo "Can't find the template pack: $TEMPLATE_PACK"
+        exit 1
+    fi
+    target=/data/template-pack
+    TEMPLATE_PACK_VOLUME="--volume `readlink -f "$TEMPLATE_PACK"`:$target"
+    TEMPLATE_PACK_ENV="--env DEFAULT_TEMPLATE_PACK=$target"
+fi
+
+# check if testing has been enabled
+if [ -n "$CONTROL_TESTS_PORT" ]; then
+    CONTROL_TESTS_PORT_BUILD="--build-arg CONTROL_TESTS_PORT=$CONTROL_TESTS_PORT"
+    CONTROL_TESTS_PORT_RUN="--env CONTROL_TESTS_PORT=$CONTROL_TESTS_PORT --publish $CONTROL_TESTS_PORT:$CONTROL_TESTS_PORT"
+fi
+
+# build the image
 if [ -z "$NO_BUILD" ]; then
-    echo Building the \"$TAG\" container...
-    docker build $BUILD_NETWORK --tag vasl-templates:$TAG . 2>&1 \
-        | sed -e 's/^/  /'
+    echo Building the \"$IMAGE_TAG\" image...
+    docker build \
+        --tag vasl-templates:$IMAGE_TAG \
+        $CONTROL_TESTS_PORT_BUILD \
+        $BUILD_NETWORK \
+        . 2>&1 \
+      | sed -e 's/^/  /'
     if [ ${PIPESTATUS[0]} -ne 0 ]; then exit 10 ; fi
     echo
 fi
 
 # launch the container
-echo Launching the \"$TAG\" container...
+echo Launching the \"$IMAGE_TAG\" image as \"$CONTAINER_NAME\"...
 docker run \
+    --name $CONTAINER_NAME \
     --publish $PORT:5010 \
-    --name vasl-templates \
-    $VASSAL_VOLUME $VASL_MOD_VOLUME $VASL_BOARDS_VOLUME $VASL_EXTNS_VOLUME $CHAPTER_H_NOTES_VOLUME $USER_FILES_VOLUME $TEMPLATE_PACK_VOLUME \
-    $VASSAL_ENV $VASL_MOD_ENV $VASL_BOARDS_ENV $VASL_EXTNS_ENV $CHAPTER_H_NOTES_ENV $USER_FILES_ENV $TEMPLATE_PACK_ENV \
+    $CONTROL_TESTS_PORT_RUN \
+    $VASSAL_VOLUME $VASL_MOD_VOLUME $VASL_EXTNS_VOLUME $VASL_BOARDS_VOLUME $CHAPTER_H_NOTES_VOLUME $TEMPLATE_PACK_VOLUME $USER_FILES_VOLUME \
+    $VASSAL_ENV $VASL_MOD_ENV $VASL_EXTNS_ENV $VASL_BOARDS_ENV $CHAPTER_H_NOTES_ENV $TEMPLATE_PACK_ENV $USER_FILES_ENV \
     $RUN_NETWORK $DETACH \
+    $TEST_DATA_VASSAL $TEST_DATA_VASL_MODS \
     -it --rm \
-    vasl-templates:$TAG \
+    vasl-templates:$IMAGE_TAG \
     2>&1 \
-| sed -e 's/^/  /'
+  | sed -e 's/^/  /'
 exit ${PIPESTATUS[0]}

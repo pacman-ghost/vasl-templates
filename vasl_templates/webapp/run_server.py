@@ -7,37 +7,70 @@ import urllib.request
 import time
 import glob
 
+import click
+
 # ---------------------------------------------------------------------
 
-# monitor extra files for changes
-extra_files = []
-for fspec in ["config","static","templates"] :
-    fspec = os.path.abspath( os.path.join( os.path.dirname(__file__), fspec ) )
-    if os.path.isdir( fspec ):
-        files = [ os.path.join(fspec,f) for f in os.listdir(fspec) ]
-        files = [ f for f in files if os.path.isfile(f) and os.path.splitext(f)[1] not in [".swp"] ]
+@click.command()
+@click.option( "--addr","-a","bind_addr", help="Webapp server address (host:port)." )
+@click.option( "--force-init-delay", default=0, help="Force the webapp to initialize (#seconds delay)." )
+@click.option( "--debug","flask_debug", is_flag=True, default=False, help="Run Flask in debug mode." )
+def main( bind_addr, force_init_delay, flask_debug ):
+    """Run the vasl-templates webapp server."""
+
+    # initialize
+    from vasl_templates.webapp import app
+    port = None
+    if bind_addr:
+        words = bind_addr.split( ":" )
+        host = words[0]
+        if len(words) > 1:
+            port = words[1]
     else:
-        files = glob.glob( fspec )
-    extra_files.extend( files )
+        host = app.config.get( "FLASK_HOST", "localhost" )
+    if not port:
+        port = app.config.get( "FLASK_PORT_NO" )
+    if not flask_debug:
+        flask_debug = app.config.get( "FLASK_DEBUG", False )
 
-# initialize
-from vasl_templates.webapp import app
-host = app.config.get( "FLASK_HOST", "localhost" )
-port = app.config["FLASK_PORT_NO"]
-debug = app.config.get( "FLASK_DEBUG", False )
+    # validate the configuration
+    if not host:
+        raise RuntimeError( "The server host was not set." )
+    if not port:
+        raise RuntimeError( "The server port was not set." )
 
-def start_server():
-    """Force the server to do "first request" initialization."""
-    # NOTE: This is not needed when running the desktop app (since it will request the home page),
-    # but if we're running just the server (i.e. from the console, or a Docker container), then
-    # sending a request, any request, will trigger the "first request" initialization (in particular,
-    # the download thread).
-    time.sleep( 5 )
-    url = "http://{}:{}/ping".format( host, port )
-    _ = urllib.request.urlopen( url )
-threading.Thread( target=start_server, daemon=True ).start()
+    # monitor extra files for changes
+    extra_files = []
+    fspecs = [ "static/", "templates/", "config/" ]
+    fspecs.extend( [ "tests/control_tests_servicer.py", "tests/proto/generated/" ] )
+    for fspec in fspecs:
+        fspec = os.path.abspath( os.path.join( os.path.dirname(__file__), fspec ) )
+        if os.path.isdir( fspec ):
+            files = [ os.path.join(fspec,f) for f in os.listdir(fspec) ]
+            files = [ f for f in files if os.path.isfile(f) and os.path.splitext(f)[1] not in [".swp"] ]
+        else:
+            files = glob.glob( fspec )
+        extra_files.extend( files )
 
-# run the server
-app.run( host=host, port=port, debug=debug,
-    extra_files = extra_files
-)
+    # check if we should force webapp initialization
+    if force_init_delay > 0:
+        def _start_server():
+            """Force the server to do "first request" initialization."""
+            # NOTE: This is not needed when running the desktop app (since it will request the home page),
+            # but if we're running just the server (i.e. from the console, or a Docker container), then
+            # it's useful to send a request (any request), since this will trigger "first request" initialization
+            # (in particular, starting the download thread).
+            time.sleep( force_init_delay )
+            url = "http://{}:{}/ping".format( host, port )
+            _ = urllib.request.urlopen( url )
+        threading.Thread( target=_start_server, daemon=True ).start()
+
+    # run the server
+    app.run( host=host, port=port, debug=flask_debug,
+        extra_files = extra_files
+    )
+
+# ---------------------------------------------------------------------
+
+if __name__ == "__main__":
+    main() #pylint: disable=no-value-for-parameter

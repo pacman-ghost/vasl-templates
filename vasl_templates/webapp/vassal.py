@@ -17,9 +17,9 @@ from flask import request, jsonify
 
 from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import BASE_DIR, IS_FROZEN
-from vasl_templates.webapp.utils import TempFile, SimpleError
+from vasl_templates.webapp.utils import TempFile, SimpleError, compare_version_strings
 from vasl_templates.webapp.webdriver import WebDriver
-from vasl_templates.webapp.vasl_mod import get_reverse_remapped_gpid, compare_version_strings
+from vasl_templates.webapp.vasl_mod import get_reverse_remapped_gpid
 
 # NOTE: VASSAL dropped support for Java 8 from 3.3.0. The first version of VASL that supported
 # the later versions of Java was 6.6.0, but it was compiled against VASSAL 3.4.2, so we don't
@@ -471,8 +471,7 @@ class VassalShim:
     @staticmethod
     def get_boards_dir():
         """Get the configured boards directory."""
-        # NOTE: The Docker container configures this setting via an environment variable.
-        boards_dir = app.config.get( "BOARDS_DIR", os.environ.get("VASL_BOARDS_DIR") )
+        boards_dir = app.config.get( "BOARDS_DIR" )
         if not boards_dir:
             raise SimpleError( "The VASL boards directory has not been configured." )
         if not os.path.isdir( boards_dir ):
@@ -532,8 +531,7 @@ class VassalShim:
     @staticmethod
     def _get_vassal_dir():
         """Get the VASSAL installation directory."""
-        # NOTE: The Docker container configures this setting via an environment variable.
-        return app.config.get( "VASSAL_DIR", os.environ.get("VASSAL_DIR") )
+        return app.config.get( "VASSAL_DIR" )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

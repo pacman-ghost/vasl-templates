@@ -96,6 +96,7 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
 
     def do_check_snippets( btn, date, expected, warning ):
         """Check that snippets are being generated correctly."""
+
         # change the scenario date, check that the button is displayed correctly
         set_scenario_date( "{:02}/01/{:04}".format( date[1], date[0] ) )
         select_tab( "ob1" )
@@ -105,10 +106,12 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
             assert "inactive" in classes
         else:
             assert "inactive" not in classes
+
         # test snippet generation
         marker = set_stored_msg_marker( "_last-warning_" )
         btn.click()
         wait_for_clipboard( 2, expected )
+
         # check if a warning was issued
         last_warning = get_stored_msg( "_last-warning_" )
         if warning:

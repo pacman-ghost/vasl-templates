@@ -12,9 +12,8 @@ def test_time_based_comments( webapp, webdriver ):
     """Test time-based comments."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
+    webapp.control_tests.set_data_dir( "{REAL}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # test a "START-" time-range
     _test_comments( "german", "vehicles", "SPW 251/10", [
@@ -48,9 +47,8 @@ def test_french_veh_f( webapp, webdriver ):
     """Test French Vehicle Note F."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
+    webapp.control_tests.set_data_dir( "{REAL}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # test an "(a)" vehicle
     _test_comments( "french", "vehicles", "Ac de 40 CA(a)", [
@@ -82,9 +80,8 @@ def test_axis_minor_veh_e( webapp, webdriver ):
     """Test Axis Minor Vehicle Note E."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
+    webapp.control_tests.set_data_dir( "{REAL}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # test an "(f)" vehicle
     _test_comments( "romanian", "vehicles", "R-35(f)", [
@@ -130,9 +127,8 @@ def test_axis_minor_ord_e( webapp, webdriver ):
     """Test Axis Minor Ordnance Note E."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
+    webapp.control_tests.set_data_dir( "{REAL}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # test a "(g)" gun
     _test_comments( "romanian", "ordnance", "leFH 18(g)", [
@@ -153,7 +149,7 @@ def test_axis_minor_ord_e( webapp, webdriver ):
 # ---------------------------------------------------------------------
 
 def _test_comments( nat, vo_type, vo_name, vals ):
-    """ Generate and check comments for a series of dates. """
+    """Generate and check comments for a series of dates."""
 
     # load the specified vehicle/ordnance
     new_scenario()

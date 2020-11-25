@@ -179,9 +179,8 @@ def test_count_remaining_hilites( webapp, webdriver ):
     """Test highlighting in the "count remaining" extras template."""
 
     # initialize
-    init_webapp( webapp, webdriver,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
+    webapp.control_tests.set_data_dir( "{REAL}" )
+    init_webapp( webapp, webdriver )
 
     def do_test( month, year, expected ): #pylint: disable=missing-docstring
 

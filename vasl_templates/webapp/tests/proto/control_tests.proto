@@ -1,0 +1,164 @@
+syntax = "proto3" ;
+
+import "google/protobuf/empty.proto" ;
+
+// --------------------------------------------------------------------
+
+message StartTestsResponse {
+    repeated string capabilities = 1 ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+message GetVassalVersionsResponse {
+    repeated string vassalVersions = 1 ;
+}
+
+message SetVassalVersionRequest {
+    string vassalVersion = 1 ;
+}
+
+message GetVaslVersionsResponse {
+    repeated string vaslVersions = 1 ;
+}
+
+message SetVaslVersionRequest {
+    enum VaslExtnsType { NONE=0 ; REAL=1 ; TEMP_DIR=2 ; }
+    string vaslVersion = 1 ;
+    VaslExtnsType vaslExtnsType = 2 ;
+}
+
+message GetVaslExtnsResponse {
+    string vaslExtnsJson = 1 ;
+}
+
+message SetVaslExtnInfoDirRequest {
+    string dirName = 1 ; // nb: relative to the fixtures directory
+}
+
+message SetGpidRemappingsRequest {
+    string gpidRemappingsJson = 1 ;
+}
+
+message GetVaslModWarningsResponse {
+    repeated string warnings = 1 ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+message SetDataDirRequest {
+    enum DirType { TEST=0 ; REAL=1 ; }
+    DirType dirType = 1 ;
+}
+
+message SetDefaultScenarioRequest {
+    string fileName = 1 ; // nb: relative to the fixtures directory
+}
+
+message SetDefaultTemplatePackRequest {
+    enum TemplatePackType { DEFAULT=0 ; REAL=1 ; }
+    oneof tp_oneof {
+        TemplatePackType templatePackType = 1 ;
+        string dirName = 2 ; // nb: relative to the fixtures directory
+        bytes zipData = 3 ;
+    }
+}
+
+message SetVehOrdNotesDirRequest {
+    enum DirType { NONE=0 ; TEST=1 ; REAL=2 ; }
+    DirType dirType = 1 ;
+}
+
+message SetUserFilesDirRequest {
+    string dirOrUrl = 1 ; // nb: relative to the fixtures directory
+}
+
+message SetAsaScenarioIndexRequest {
+    string fileName = 1 ; // nb: relative to the fixtures directory
+}
+
+message SetRoarScenarioIndexRequest {
+    string fileName = 1 ; // nb: relative to the fixtures directory
+}
+
+message GetLastSnippetImageResponse {
+    bytes imageData = 1 ;
+}
+
+message GetLastAsaUploadResponse {
+    string lastUploadJson = 1 ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+message DumpVsavRequest {
+    bytes vsavData = 1 ;
+}
+message DumpVsavResponse {
+    string vsavDump = 1 ;
+}
+
+message GetVaslPiecesRequest {
+    string vaslVersion = 1 ;
+}
+message GetVaslPiecesResponse {
+    string pieceDump = 1 ;
+    repeated string gpids = 2 ;
+}
+
+message GetAppConfigResponse {
+    string appConfigJson = 1 ;
+}
+
+message SetAppConfigValRequest {
+    string key = 1 ;
+    oneof ac_oneof {
+        string strVal = 2 ;
+        int32 intVal = 3 ;
+        bool boolVal = 4 ;
+    }
+}
+
+message DeleteAppConfigValRequest {
+    string key = 1 ;
+}
+
+message SaveTempFileRequest {
+    string fileName = 1 ; // nb: relative to the servicer's temp directory
+    bytes data = 2 ;
+}
+
+// --------------------------------------------------------------------
+
+service ControlTests
+{
+    rpc startTests( google.protobuf.Empty ) returns ( StartTestsResponse ) ;
+    rpc endTests( google.protobuf.Empty ) returns ( google.protobuf.Empty ) ;
+
+    rpc getVassalVersions( google.protobuf.Empty ) returns ( GetVassalVersionsResponse ) ;
+    rpc setVassalVersion( SetVassalVersionRequest ) returns ( google.protobuf.Empty ) ;
+    rpc getVaslVersions( google.protobuf.Empty ) returns ( GetVaslVersionsResponse ) ;
+    rpc setVaslVersion( SetVaslVersionRequest ) returns ( google.protobuf.Empty ) ;
+    rpc getVaslExtns( google.protobuf.Empty ) returns ( GetVaslExtnsResponse ) ;
+    rpc setVaslExtnInfoDir( SetVaslExtnInfoDirRequest ) returns ( google.protobuf.Empty ) ;
+    rpc setGpidRemappings( SetGpidRemappingsRequest ) returns ( google.protobuf.Empty ) ;
+    rpc getVaslModWarnings( google.protobuf.Empty ) returns ( GetVaslModWarningsResponse ) ;
+
+    rpc setDataDir( SetDataDirRequest ) returns ( google.protobuf.Empty ) ;
+    rpc setDefaultScenario( SetDefaultScenarioRequest ) returns ( google.protobuf.Empty ) ;
+    rpc setDefaultTemplatePack( SetDefaultTemplatePackRequest ) returns ( google.protobuf.Empty ) ;
+    rpc setVehOrdNotesDir( SetVehOrdNotesDirRequest ) returns ( google.protobuf.Empty ) ;
+    rpc setUserFilesDir( SetUserFilesDirRequest ) returns ( google.protobuf.Empty ) ;
+    rpc setAsaScenarioIndex( SetAsaScenarioIndexRequest ) returns ( google.protobuf.Empty ) ;
+    rpc setRoarScenarioIndex( SetRoarScenarioIndexRequest ) returns ( google.protobuf.Empty ) ;
+    rpc getLastSnippetImage( google.protobuf.Empty ) returns ( GetLastSnippetImageResponse ) ;
+    rpc resetLastAsaUpload( google.protobuf.Empty ) returns ( google.protobuf.Empty ) ;
+    rpc getLastAsaUpload( google.protobuf.Empty ) returns ( GetLastAsaUploadResponse ) ;
+
+    rpc dumpVsav( DumpVsavRequest ) returns ( DumpVsavResponse ) ;
+    rpc getVaslPieces( GetVaslPiecesRequest ) returns ( GetVaslPiecesResponse ) ;
+    rpc getAppConfig( google.protobuf.Empty ) returns ( GetAppConfigResponse ) ;
+    rpc setAppConfigVal( SetAppConfigValRequest ) returns ( google.protobuf.Empty ) ;
+    rpc deleteAppConfigVal( DeleteAppConfigValRequest ) returns ( google.protobuf.Empty ) ;
+    rpc saveTempFile( SaveTempFileRequest ) returns ( google.protobuf.Empty ) ;
+}

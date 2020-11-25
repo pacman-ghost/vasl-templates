@@ -9,6 +9,7 @@ from flask import request, render_template, jsonify, abort
 from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp.vo_utils import copy_vo_entry, add_vo_comments, apply_extn_info,  make_vo_index
+from vasl_templates.webapp import vo_utils as webapp_vo_utils
 
 _kfw_listings = { "vehicles": {}, "ordnance": {} }
 
@@ -106,6 +107,7 @@ def _do_load_vo_listings( vasl_mod, vo_type, merge_common, real_data_dir, msg_st
             del listings[ minor_type+"-common" ]
 
     # add vehicle/ordnance comments (based on what notes they have)
+    webapp_vo_utils._vo_comments = None #pylint: disable=protected-access
     add_vo_comments( listings, vo_type, msg_store )
     add_vo_comments( _kfw_listings[vo_type], vo_type, msg_store )
 

@@ -1,0 +1,10 @@
+[Debug]
+
+; Set this if you want to run the test suite (allows the webapp server to be controlled using gRPC).
+; CONTROL_TESTS_PORT = -1
+
+; Set this to a directory containing the VASSAL releases to run the test suite with.
+; TEST_VASSAL_ENGINES = ...
+
+; Set this to a directory containing the VASL modules (.vmod files) to run the test suite with.
+; TEST_VASL_MODS = ...

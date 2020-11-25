@@ -367,7 +367,10 @@ def test_roar_matching( webapp, webdriver ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-@pytest.mark.skipif( pytest.config.option.server_url is not None, reason="--server-url specified" ) #pylint: disable=no-member
+@pytest.mark.skipif(
+    pytest.config.option.webapp_url is not None, #pylint: disable=no-member
+    reason = "Can't test against a remote webapp server."
+)
 def test_roar_matching2( webapp, webdriver ):
     """Test matching scenarios with ROAR scenarios."""
 
@@ -542,13 +545,11 @@ def test_scenario_linking( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 def test_scenario_upload( webapp, webdriver ):
     """Test uploading scenarios to the ASL Scenario Archive."""
 
     # initialize
-    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
+    init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
 
     def do_upload( prep_upload, expect_ask ):
         """Upload the scenario to our test endpoint."""
@@ -564,17 +565,17 @@ def test_scenario_upload( webapp, webdriver ):
             prep_upload( dlg )
 
         # start the upload
-        control_tests.reset_last_asa_upload()
+        webapp.control_tests.reset_last_asa_upload()
         find_child( "button.upload", dlg ).click()
         if expect_ask:
             dlg = wait_for_elem( 2, ".ui-dialog.ask" )
             find_child( "button.ok", dlg ).click()
 
         # wait for the upload to be processed
-        asa_upload = wait_for( 5, control_tests.get_last_asa_upload )
-        assert asa_upload["user"] == user_name
-        assert asa_upload["token"] == api_token
-        return asa_upload
+        last_asa_upload = wait_for( 5, webapp.control_tests.get_last_asa_upload )
+        assert last_asa_upload["user"] == user_name
+        assert last_asa_upload["token"] == api_token
+        return last_asa_upload
 
     user_name, api_token = "joe", "xyz123"
     def prep_upload( dlg ):
@@ -621,13 +622,15 @@ def test_scenario_upload( webapp, webdriver ):
 
     # test uploading a VASL save file
     def do_test(): #pylint: disable=missing-docstring
+        init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
         dlg = _do_scenario_search( "full", [1], webdriver )
         find_child( "button.import", dlg ).click()
-        asa_upload = do_upload( prep_upload2, False )
-        assert isinstance( asa_upload["vt_setup"], dict )
-        assert asa_upload["vasl_setup"][:3] == "PK:"
-        assert asa_upload["screenshot"][:5] == "JPEG:"
-    run_vassal_tests( control_tests, do_test, True )
+        last_asa_upload = do_upload( prep_upload2, False )
+        assert isinstance( last_asa_upload["vt_setup"], dict )
+        assert last_asa_upload["vasl_setup"][:2] == b"PK"
+        assert last_asa_upload["screenshot"][:2] == b"\xff\xd8" \
+          and last_asa_upload["screenshot"][-2:] == b"\xff\xd9" # nb: these are the magic numbers for JPEG's
+    run_vassal_tests( webapp, do_test )
 
 # ---------------------------------------------------------------------
 

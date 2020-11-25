@@ -6,6 +6,7 @@ import io
 import tempfile
 import pathlib
 import math
+import re
 from collections import defaultdict
 
 from flask import request, Response, send_file
@@ -210,6 +211,19 @@ def parse_int( val, default=None ):
         return default
 
 # ---------------------------------------------------------------------
+
+def compare_version_strings( lhs, rhs  ):
+    """Compare two version strings."""
+    def parse( val ): #pylint: disable=missing-docstring
+        mo = re.search( r"^(\d+)\.(\d+)\.(\d+)$", val )
+        return ( int(mo.group(1)), int(mo.group(2)), int(mo.group(3)) )
+    lhs, rhs = parse(lhs), parse(rhs)
+    if lhs < rhs:
+        return -1
+    elif lhs > rhs:
+        return +1
+    else:
+        return 0
 
 def friendly_fractions( val, postfix=None, postfix2=None ):
     """Convert decimal values to more friendly fractions."""

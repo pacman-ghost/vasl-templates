@@ -11,13 +11,10 @@ from collections import defaultdict
 
 import lxml.html
 import pytest
-from PyQt5.QtWidgets import QApplication
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, WebDriverException
-
-from vasl_templates.webapp.tests.remote import ControlTests
 
 # standard templates
 _STD_TEMPLATES = {
@@ -61,44 +58,13 @@ def init_webapp( webapp, webdriver, **options ):
     _webapp = webapp
     _webdriver = webdriver
 
-    # reset the server
-    # NOTE: We have to do this manually, since we can't use pytest's monkeypatch'ing,
-    # since we could be talking to a remote server (see ControlTests for more details).
-    control_tests = ControlTests( webapp )
-    control_tests \
-        .set_data_dir( dtype="test" ) \
-        .set_default_scenario( fname=None ) \
-        .set_default_template_pack( dname=None ) \
-        .set_vasl_extn_info_dir( dtype=None ) \
-        .set_vasl_mod( vmod=None, extns_dtype=None ) \
-        .set_vassal_engine( vengine=None ) \
-        .set_vo_notes_dir( dtype=None ) \
-        .set_user_files_dir( dtype=None ) \
-        .set_roar_scenario_index( fname="roar-scenario-index.json" ) \
-        .set_scenario_index( fname="asl-scenario-archive.json" ) \
-        .set_app_config( key="MAP_URL", val="MAP:[{LAT},{LONG}]" ) \
-        .set_app_config( key="DISABLE_LFA_HOTNESS_FADEIN", val=True )
-    if "reset" in options:
-        options.pop( "reset" )( control_tests )
-
-    # force the default template pack to be reloaded (using the new settings)
-    control_tests.reset_template_pack()
-
     # load the webapp
+    options[ "force-reinit" ] = 1 # nb: force the webapp to re-initialize
     webdriver.get( webapp.url_for( "main", **options ) )
     _wait_for_webapp()
 
     # reset the user settings
     webdriver.delete_all_cookies()
-
-    return control_tests
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-def refresh_webapp( webdriver ):
-    """Refresh the webapp."""
-    webdriver.refresh()
-    _wait_for_webapp()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -569,6 +535,7 @@ def _get_clipboard() :
     """
     if pytest.config.option.use_clipboard: #pylint: disable=no-member
         global _pyqt_app
+        from PyQt5.QtWidgets import QApplication
         if _pyqt_app is None:
             _pyqt_app = QApplication( [] )
         clipboard = QApplication.clipboard()

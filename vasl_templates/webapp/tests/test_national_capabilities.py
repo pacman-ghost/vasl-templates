@@ -14,9 +14,8 @@ def test_national_capabilities_reports( webapp, webdriver ):
     """Check the national capabilities reports."""
 
     # initialize
-    init_webapp( webapp, webdriver,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
+    webapp.control_tests.set_data_dir( "{REAL}" )
+    init_webapp( webapp, webdriver )
 
     # initialize
     check_dir = os.path.join( os.path.split(__file__)[0], "fixtures/nat-caps/" )
@@ -77,9 +76,7 @@ def test_national_capabilities_reports( webapp, webdriver ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def _get_nat_caps( webapp, webdriver,
-    nat, theater, year, month
-): #pylint: disable=too-many-locals
+def _get_nat_caps( webapp, webdriver, nat, theater, year, month ): #pylint: disable=too-many-locals
     """Get a national capabilities snippet."""
 
     # get the snippet
@@ -197,9 +194,8 @@ def test_time_based_national_capabilities( webapp, webdriver ):
     """
 
     # initialize
-    init_webapp( webapp, webdriver,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
+    webapp.control_tests.set_data_dir( "{REAL}" )
+    init_webapp( webapp, webdriver )
 
     def check_notes( nat, theater, month, year, expected ):
         """Check the national capabilities notes."""

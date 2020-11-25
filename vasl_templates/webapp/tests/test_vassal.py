@@ -9,32 +9,25 @@ import typing.re #pylint: disable=import-error
 
 import pytest
 
-from vasl_templates.webapp.vasl_mod import compare_version_strings
-from vasl_templates.webapp.utils import TempFile, change_extn
+from vasl_templates.webapp.utils import TempFile, change_extn, compare_version_strings
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, refresh_webapp, select_menu_option, get_stored_msg, set_stored_msg, set_stored_msg_marker, wait_for, \
+    init_webapp, select_menu_option, get_stored_msg, set_stored_msg, set_stored_msg_marker, wait_for, \
     new_scenario, set_player
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, load_scenario_params, save_scenario, \
     assert_scenario_params_complete
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
 def test_full_update( webapp, webdriver ):
     """Test updating a scenario that contains the full set of snippets."""
-
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, no_app_config_snippet_params=1,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
 
     def do_test( enable_vo_notes ): #pylint: disable=missing-docstring
 
         # initialize
-        control_tests.set_vo_notes_dir( dtype = "test" if enable_vo_notes else None )
-        refresh_webapp( webdriver )
+        webapp.control_tests \
+            .set_data_dir( "{REAL}" ) \
+            .set_vo_notes_dir( "{TEST}" if enable_vo_notes else None )
+        init_webapp( webapp, webdriver, vsav_persistence=1, no_app_config_snippet_params=1 )
 
         # load the scenario fields
         SCENARIO_PARAMS = {
@@ -105,7 +98,7 @@ def test_full_update( webapp, webdriver ):
         # NOTE: We could arguably only do this once, but updating scenarios is the key functionality of the VASSAL shim,
         # and so it's worth checking that every VASSAL+VASL combination understands its input correctly.
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/full.vsav" )
-        vsav_dump = _dump_vsav( control_tests, fname )
+        vsav_dump = _dump_vsav( webapp, fname )
         _check_vsav_dump( vsav_dump, {
             "scenario": "Somewhere",
             "players": re.compile( r"American:.*Belgian:" ),
@@ -141,7 +134,7 @@ def test_full_update( webapp, webdriver ):
             # check the results
             temp_file.write( updated_vsav_data )
             temp_file.close( delete=False )
-            updated_vsav_dump = _dump_vsav( control_tests, temp_file.name )
+            updated_vsav_dump = _dump_vsav( webapp, temp_file.name )
             expected = {
                 "scenario":  "Modified scenario name (<>{}\"'\\)",
                 "players": re.compile( r"American:.*Belgian:" ),
@@ -200,39 +193,33 @@ def test_full_update( webapp, webdriver ):
             assert updated_vsav_data == b"No changes."
 
     # run the test against all versions of VASSAL+VASL
-    run_vassal_tests( control_tests, lambda: do_test(True), True )
+    run_vassal_tests( webapp, lambda: do_test(True) )
 
     # run the test again (once) with no Chapter H vehicle/ordnance notes
-    run_vassal_tests( control_tests, lambda: do_test(False), False )
+    run_vassal_tests( webapp, lambda: do_test(False), all_combos=False )
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
 def test_latw_autocreate( webapp, webdriver ):
     """Test auto-creation of LATW labels."""
-
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
 
     # NOTE: We're only interested in what happens with the LATW labels, we ignore everything else.
     ignore_labels = [ "scenario", "players", "victory_conditions" ]
 
     def do_test(): #pylint: disable=missing-docstring
 
+        # initialize
+        webapp.control_tests.set_data_dir( "{REAL}" )
+        init_webapp( webapp, webdriver, vsav_persistence=1 )
+
         # check the VASL scenario
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/empty.vsav" )
-        vsav_dump = _dump_vsav( control_tests, fname )
+        vsav_dump = _dump_vsav( webapp, fname )
         _check_vsav_dump( vsav_dump, {}, ignore_labels )
 
         # update the scenario (German/Russian, no date)
         load_scenario_params( { "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "" } } )
-        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
-            { "created": 3 }
-        )
+        updated_vsav_dump = _update_vsav_and_dump( webapp, fname, { "created": 3 } )
         _check_vsav_dump( updated_vsav_dump, {
             # nb: no LATW labels should have been created
         }, ignore_labels )
@@ -241,9 +228,7 @@ def test_latw_autocreate( webapp, webdriver ):
         load_scenario_params( {
             "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "10/01/1943" }
         } )
-        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
-            { "created": 4 }
-        )
+        updated_vsav_dump = _update_vsav_and_dump( webapp, fname, { "created": 4 } )
         _check_vsav_dump( updated_vsav_dump, {
             "german/pf": "Panzerfaust",
         }, ignore_labels )
@@ -252,18 +237,14 @@ def test_latw_autocreate( webapp, webdriver ):
         load_scenario_params( {
             "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "01/01/1944" }
         } )
-        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
-            { "created": 5 }
-        )
+        updated_vsav_dump = _update_vsav_and_dump( webapp, fname, { "created": 5 } )
         _check_vsav_dump( updated_vsav_dump, {
             "german/pf": "Panzerfaust", "german/atmm": "ATMM check:",
         }, ignore_labels )
 
         # update the scenario (British/American, no date)
         load_scenario_params( { "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "" } } )
-        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
-            { "created": 3 }
-        )
+        updated_vsav_dump = _update_vsav_and_dump( webapp, fname, { "created": 3 } )
         _check_vsav_dump( updated_vsav_dump, {
             # nb: no LATW labels should have been created
         }, ignore_labels )
@@ -272,9 +253,7 @@ def test_latw_autocreate( webapp, webdriver ):
         load_scenario_params( {
             "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "12/31/1945" }
         } )
-        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
-            { "created": 3 }
-        )
+        updated_vsav_dump = _update_vsav_and_dump( webapp, fname, { "created": 3 } )
         _check_vsav_dump( updated_vsav_dump, {
             # nb: no LATW labels should have been created
         }, ignore_labels )
@@ -283,29 +262,25 @@ def test_latw_autocreate( webapp, webdriver ):
     # NOTE: We're testing the logic in the front/back-ends that determine whether LATW labels
     # get created/updated/deleted, not the interaction with VASSAL, so we don't need to test
     # against every VASSAL+VASL combination (although we can, if we want, but it'll be slow!)
-    run_vassal_tests( control_tests, do_test, False )
+    run_vassal_tests( webapp, do_test, all_combos=False )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
 def test_latw_update( webapp, webdriver ):
     """Test updating of LATW labels."""
-
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
 
     # NOTE: We're only interested in what happens with the LATW labels, we ignore everything else.
     ignore_labels = [ "scenario", "players", "victory_conditions" ]
 
     def do_test(): #pylint: disable=missing-docstring
 
+        # initialize
+        webapp.control_tests.set_data_dir( "{REAL}" )
+        init_webapp( webapp, webdriver, vsav_persistence=1 )
+
         # check the VASL scenario
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/latw.vsav" )
-        vsav_dump = _dump_vsav( control_tests, fname )
+        vsav_dump = _dump_vsav( webapp, fname )
         _check_vsav_dump( vsav_dump, {
             "german/psk": "Panzerschrek", "german/atmm": "ATMM check:", # nb: the PF label has no snippet ID
             "russian/mol-p": "TH#", # nb: the MOL label has no snippet ID
@@ -318,7 +293,7 @@ def test_latw_update( webapp, webdriver ):
         # NOTE: We changed the MOL-P template (to add custom list bullets), so the snippet is different
         # to when this test was originally written, and so #updated changed from 2 to 3.
         # NOTE: Same thing happened when we factored out the common CSS into common.css :-/ Sigh...
-        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+        updated_vsav_dump = _update_vsav_and_dump( webapp, fname,
             { "created": 3, "updated": 5 }
         )
         _check_vsav_dump( updated_vsav_dump, {
@@ -333,7 +308,7 @@ def test_latw_update( webapp, webdriver ):
         load_scenario_params( {
             "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "12/31/1943" }
         } )
-        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+        updated_vsav_dump = _update_vsav_and_dump( webapp, fname,
             { "created": 3, "updated": 2 }
         )
         _check_vsav_dump( updated_vsav_dump, {
@@ -348,24 +323,21 @@ def test_latw_update( webapp, webdriver ):
     # NOTE: We're testing the logic in the front/back-ends that determine whether LATW labels
     # get created/updated/deleted, not the interaction with VASSAL, so we don't need to test
     # against every VASSAL+VASL combination (although we can, if we want, but it'll be slow!)
-    run_vassal_tests( control_tests, do_test, False )
+    run_vassal_tests( webapp, do_test, all_combos=False )
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
 def test_dump_vsav( webapp, webdriver ):
     """Test dumping a scenario."""
 
-    # initialize
-    control_tests = init_webapp( webapp, webdriver )
-
     def do_test(): #pylint: disable=missing-docstring
+
+        # initialize
+        init_webapp( webapp, webdriver )
 
         # dump the VASL scenario
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/dump-vsav/labels.vsav" )
-        vsav_dump = _dump_vsav( control_tests, fname )
+        vsav_dump = _dump_vsav( webapp, fname )
 
         # check the result
         fname = change_extn( fname, ".txt" )
@@ -373,31 +345,25 @@ def test_dump_vsav( webapp, webdriver ):
         assert vsav_dump == expected
 
     # run the test against all versions of VASSAL+VASL
-    run_vassal_tests( control_tests, do_test, True )
+    run_vassal_tests( webapp, do_test )
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
 def test_update_legacy_labels( webapp, webdriver ):
     """Test detection and updating of legacy labels."""
-
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
 
     def do_test( enable_vo_notes ): #pylint: disable=missing-docstring
 
         # initialize
-        control_tests.set_vo_notes_dir( dtype = "test" if enable_vo_notes else None )
-        refresh_webapp( webdriver )
+        webapp.control_tests \
+            .set_data_dir( "{REAL}" ) \
+            .set_vo_notes_dir( "{TEST}" if enable_vo_notes else None )
+        init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
 
         # dump the VASL scenario
         # NOTE: We implemented snippet ID's in v0.5, this scenario is the "Hill 621" example from v0.4.
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/hill621-legacy.vsav" )
-        vsav_dump = _dump_vsav( control_tests, fname )
+        vsav_dump = _dump_vsav( webapp, fname )
         labels = _get_vsav_labels( vsav_dump )
         assert len( [ lbl for lbl in labels if "vasl-templates:id" not in lbl ] ) == 20
         assert len( [ lbl for lbl in labels if "vasl-templates:id" in lbl ] ) == 0 #pylint: disable=len-as-condition
@@ -407,7 +373,7 @@ def test_update_legacy_labels( webapp, webdriver ):
         saved_scenario = json.load( open( fname2, "r" ) )
         load_scenario( saved_scenario )
         expected = 5 if enable_vo_notes else 1
-        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+        updated_vsav_dump = _update_vsav_and_dump( webapp, fname,
             { "created": expected, "updated": 20 }
         )
 
@@ -457,31 +423,27 @@ def test_update_legacy_labels( webapp, webdriver ):
             expected["german/ob_ordnance_ma_notes_2"] = r"<span class='key'>N:</span> Unavailable."
         _check_vsav_dump( updated_vsav_dump, expected )
 
-    # run the test
-    run_vassal_tests( control_tests, lambda: do_test(True), False )
+    # run the test against all versions of VASSAL+VASL
+    run_vassal_tests( webapp, lambda: do_test(True) )
 
     # run the test again (once) with no Chapter H vehicle/ordnance notes
-    run_vassal_tests( control_tests, lambda: do_test(False), False )
+    run_vassal_tests( webapp, lambda: do_test(False), all_combos=False )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
 def test_update_legacy_latw_labels( webapp, webdriver ):
     """Test detection and updating of legacy LATW labels."""
 
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
-
     def do_test(): #pylint: disable=missing-docstring
+
+        # initialize
+        webapp.control_tests.set_data_dir( "{REAL}" )
+        init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
 
         # dump the VASL scenario
         # NOTE: This scenario contains LATW labels created using v0.4 i.e. they have no snippet ID's.
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/latw-legacy.vsav" )
-        vsav_dump = _dump_vsav( control_tests, fname )
+        vsav_dump = _dump_vsav( webapp, fname )
         labels = _get_vsav_labels( vsav_dump )
         assert len( [ lbl for lbl in labels if "vasl-templates:id" not in lbl ] ) == 8
         assert len( [ lbl for lbl in labels if "vasl-templates:id" in lbl ] ) == 0 #pylint: disable=len-as-condition
@@ -493,7 +455,7 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
         load_scenario_params( {
             "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "12/31/1945" }
         } )
-        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+        updated_vsav_dump = _update_vsav_and_dump( webapp, fname,
             { "created": 3, "updated": 5 }
         )
         _check_vsav_dump( updated_vsav_dump, {
@@ -508,7 +470,7 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
         load_scenario_params( {
             "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "12/31/1945" }
         } )
-        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+        updated_vsav_dump = _update_vsav_and_dump( webapp, fname,
             { "created": 3, "updated": 2 }
         )
         _check_vsav_dump( updated_vsav_dump, {
@@ -521,7 +483,7 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
 
         # update the VSAV (some LATW are active)
         load_scenario_params( { "scenario": { "PLAYER_1": "german", "PLAYER_2": "russian", "SCENARIO_DATE": "" } } )
-        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+        updated_vsav_dump = _update_vsav_and_dump( webapp, fname,
             { "created": 3, "updated": 5 }
         )
         _check_vsav_dump( updated_vsav_dump, {
@@ -534,7 +496,7 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
 
         # update the VSAV (some LATW are active)
         load_scenario_params( { "scenario": { "PLAYER_1": "british", "PLAYER_2": "american", "SCENARIO_DATE": "" } } )
-        updated_vsav_dump = _update_vsav_and_dump( control_tests, fname,
+        updated_vsav_dump = _update_vsav_and_dump( webapp, fname,
             { "created": 3, "updated": 2 }
         )
         _check_vsav_dump( updated_vsav_dump, {
@@ -545,35 +507,29 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
         # nb: the legacy labels left in place: the scenario comment, the PF/PSK/ATMM, MOL/MOL-P and BAZ labels
         assert len( [ lbl for lbl in labels if "vasl-templates:id" not in lbl ] ) == 6
 
-    # run the test
-    run_vassal_tests( control_tests, do_test, False )
+    # run the test against all versions of VASSAL+VASL
+    run_vassal_tests( webapp, do_test )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
 def test_player_owned_labels( webapp, webdriver ):
     """Test how we update labels owned by different player nationalities."""
 
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
-
-    # initialize
-    load_scenario_params( {
-        "scenario": {
-            "SCENARIO_NAME": "Player-owned labels",
-            "SCENARIO_DATE": "01/01/1940",
-            "PLAYER_1": "german",
-            "PLAYER_2": "american",
-        },
-        "ob1": { "OB_SETUPS_1": [ { "caption": "german setup #1" } ] },
-        "ob2": { "OB_SETUPS_2": [ { "caption": "american setup #1" } ] },
-    } )
-
     def do_test(): #pylint: disable=missing-docstring
+
+        # initialize
+        webapp.control_tests.set_data_dir( "{REAL}" )
+        init_webapp( webapp, webdriver, vsav_persistence=1 )
+        load_scenario_params( {
+            "scenario": {
+                "SCENARIO_NAME": "Player-owned labels",
+                "SCENARIO_DATE": "01/01/1940",
+                "PLAYER_1": "german",
+                "PLAYER_2": "american",
+            },
+            "ob1": { "OB_SETUPS_1": [ { "caption": "german setup #1" } ] },
+            "ob2": { "OB_SETUPS_2": [ { "caption": "american setup #1" } ] },
+        } )
 
         # update a legacy scenario (i.e. labels have *not* been tagged with their owner player nationality)
         # NOTE: We expect to see 4 labels updated:
@@ -581,7 +537,7 @@ def test_player_owned_labels( webapp, webdriver ):
         #   - scenario (timestamp)
         #   - players (new American player)
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/player-owned-labels-legacy.vsav" )
-        updated_vsav_dump  = _update_vsav_and_dump( control_tests, fname,
+        updated_vsav_dump  = _update_vsav_and_dump( webapp, fname,
             { "updated": 4 }
         )
         _check_vsav_dump( updated_vsav_dump , {
@@ -597,7 +553,7 @@ def test_player_owned_labels( webapp, webdriver ):
         #   - players (new American player)
         # The existing Russian OB setup label should be ignored and left in-place.
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/player-owned-labels.vsav" )
-        updated_vsav_dump  = _update_vsav_and_dump( control_tests, fname,
+        updated_vsav_dump  = _update_vsav_and_dump( webapp, fname,
             { "created": 1, "updated": 2 }
         )
         _check_vsav_dump( updated_vsav_dump , {
@@ -607,24 +563,18 @@ def test_player_owned_labels( webapp, webdriver ):
         }, ignore=["scenario","players","victory_conditions"] )
 
     # run the test against all versions of VASSAL+VASL
-    run_vassal_tests( control_tests, do_test, True )
+    run_vassal_tests( webapp, do_test )
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vasl_extensions, reason="--vasl-extensions not specified" ) #pylint: disable=no-member
 def test_analyze_vsav( webapp, webdriver ):
     """Test analyzing a scenario."""
 
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1,
-        reset = lambda ct:
-            ct.set_data_dir( dtype="real" ) \
-              .set_vasl_mod( vmod="random", extns_dtype="real" )
-    )
-
     def do_test(): #pylint: disable=missing-docstring
+
+        # initialize
+        webapp.control_tests.set_data_dir( "{REAL}" )
+        init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
 
         # analyze a basic scenario
         new_scenario()
@@ -693,20 +643,19 @@ def test_analyze_vsav( webapp, webdriver ):
         )
 
     # run the test against all versions of VASSAL+VASL
-    run_vassal_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
+    run_vassal_tests( webapp, do_test, vasl_extns_type="{REAL}" )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 def test_analyze_vsav_hip_concealed( webapp, webdriver ):
     """Test analyzing a scenario that contains HIP and concealed units."""
 
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
-
     def do_test(): #pylint: disable=missing-docstring
 
+        # initialize
+        init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
+
+        # do the test
         # NOTE: The test scenario contains hidden/concealed units belonging to the Russians and Germans,
         # but because the owning user is test/password, they should be ignored (unless you configure VASSAL
         # with these credentials, so don't do that :-/).
@@ -718,22 +667,20 @@ def test_analyze_vsav_hip_concealed( webapp, webdriver ):
         )
 
     # run the test against all versions of VASSAL+VASL
-    run_vassal_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
+    run_vassal_tests( webapp, do_test )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 def test_reverse_remapped_gpids( webapp, webdriver ):
     """Test reverse mapping of GPID's."""
 
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
-
     def do_test(): #pylint: disable=missing-docstring
 
+        # initialize
+        webapp.control_tests.set_data_dir( "{REAL}" )
+        init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
+
+        # do the test
         new_scenario()
         set_player( 1, "american" )
         set_player( 2, "croatian" )
@@ -744,25 +691,20 @@ def test_reverse_remapped_gpids( webapp, webdriver ):
         )
 
     # run the test against all versions of VASSAL+VASL
-    run_vassal_tests( control_tests, do_test,
-        not pytest.config.option.short_tests,  #pylint: disable=no-member
-        min_vasl_version="6.5.0"
-    )
+    run_vassal_tests( webapp, do_test, min_vasl_version="6.5.0" )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 def test_vo_entry_selection_for_theater( webapp, webdriver ):
     """Test selection of vehicle/ordnance entries by theater."""
 
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1,
-        reset = lambda ct:
-            ct.set_data_dir( dtype="real" )
-    )
-
     def do_test( theater, expected ): #pylint: disable=missing-docstring
+
+        # initialize
+        webapp.control_tests.set_data_dir( "{REAL}" )
+        init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
+
+        # do the test
         new_scenario()
         load_scenario_params( { "scenario": {
             "SCENARIO_THEATER": theater,
@@ -793,30 +735,24 @@ def test_vo_entry_selection_for_theater( webapp, webdriver ):
             # NOTE The other variants always get imported as K:FW counters.
             ("kfw-un-common/o:002","12689/0"), ("kfw-un-common/o:002","11391/0"), ("kfw-un-common/o:002","11440/0")
         ] )
-    run_vassal_tests( control_tests, do_tests, True, min_vasl_version="6.5.0" )
+    run_vassal_tests( webapp, do_tests, min_vasl_version="6.5.0" )
 
 # ---------------------------------------------------------------------
 
-def run_vassal_tests( control_tests, func, test_all, min_vasl_version=None ):
+def run_vassal_tests( webapp, func, all_combos=None, min_vasl_version=None, vasl_extns_type=None ):
     """Run the test function for each combination of VASSAL + VASL.
 
     This is, of course, going to be insanely slow, since we need to spin up a JVM
     and initialize VASSAL/VASL each time :-/
     """
 
-    # locate all VASL modules and VASSAL engines
-    vasl_mods = control_tests.get_vasl_mods()
-    vassal_engines = control_tests.get_vassal_engines()
+    # get the available VASSAL and VASL versions
+    vassal_versions = webapp.control_tests.get_vassal_versions()
+    vasl_versions = webapp.control_tests.get_vasl_versions()
 
-    def is_valid_combo( vassal_engine, vasl_mod ):
+    def is_valid_combo( vassal_version, vasl_version ):
         """Check if this is a valid combination of VASSAL and VASL."""
-        # NOTE: From 3.3, VASSAL no longer works with Java 8, and requires VASL 6.6.0 or later.
-        # FUDGE! We assume the version number is part of the VASSAL path, otherwise we would have to
-        # run the VASSAL shim to get the version number, and things are slow enough already :-/
-        mo = re.search( r"\d+\.\d+\.\d+", vassal_engine )
-        vassal_version = mo.group()
-        mo = re.search( r"\d+\.\d+\.\d+", vasl_mod )
-        vasl_version = mo.group()
+        # NOTE: From 3.3, VASSAL requires VASL 6.6.0 or later (and no longer works with Java 8).
         if compare_version_strings( vassal_version, "3.3.0" ) >= 0:
             if compare_version_strings( vasl_version, "6.6.0" ) < 0:
                 return False
@@ -827,30 +763,29 @@ def run_vassal_tests( control_tests, func, test_all, min_vasl_version=None ):
 
     # check if we want to test all VASSAL+VASL combinations (nb: if not, we test against only one combination,
     # and since they all should give the same results, it doesn't matter which one.
-    if not test_all:
+    if all_combos is None:
+        all_combos = not pytest.config.option.short_tests #pylint: disable=no-member
+    if not all_combos:
         for _ in range(0,100):
-            vasl_mod = random.choice( vasl_mods )
-            vassal_engine = random.choice( vassal_engines )
-            if is_valid_combo( vassal_engine, vasl_mod ):
-                vasl_mods = [ vasl_mod ]
-                vassal_engines = [ vassal_engine ]
+            vasl_version = random.choice( vasl_versions )
+            vassal_version = random.choice( vassal_versions )
+            if is_valid_combo( vassal_version, vasl_version ):
+                vasl_versions = [ vasl_version ]
+                vassal_versions = [ vassal_version ]
                 break
         else:
             assert False, "Can't find a valid combination of VASSAL and VASL."
 
     # run the test for each VASSAL+VASL
-    for vassal_engine in vassal_engines:
-        control_tests.set_vassal_engine( vengine=vassal_engine )
-        for vasl_mod in vasl_mods:
-            # FUDGE! We assume the version number is part of the filename. Otherwise, we have to load
-            # the vmod, extract the buildFile, parse the XML, etc. :-/
-            mo = re.search( r"\d+\.\d+\.\d+", vasl_mod )
-            vasl_version = mo.group()
+    for vassal_version in vassal_versions:
+        for vasl_version in vasl_versions:
             if min_vasl_version and compare_version_strings( vasl_version, min_vasl_version ) < 0:
                 continue
-            if not is_valid_combo( vassal_engine, vasl_mod ):
+            if not is_valid_combo( vassal_version, vasl_version ):
                 continue
-            control_tests.set_vasl_mod( vmod=vasl_mod )
+            webapp.control_tests \
+                .set_vassal_version( vassal_version ) \
+                .set_vasl_version( vasl_version, vasl_extns_type )
             func()
 
 # ---------------------------------------------------------------------
@@ -859,7 +794,8 @@ def _update_vsav( fname, expected ):
     """Update a VASL scenario."""
 
     # read the VSAV data
-    vsav_data = open( fname, "rb" ).read()
+    with open( fname, "rb" ) as fp:
+        vsav_data = fp.read()
 
     # send the VSAV data to the front-end to be updated
     set_stored_msg( "_vsav-persistence_", base64.b64encode( vsav_data ).decode( "utf-8" ) )
@@ -867,10 +803,12 @@ def _update_vsav( fname, expected ):
     _ = set_stored_msg_marker( "_last-warning_" )
     select_menu_option( "update_vsav" )
 
-    # wait for the results to come back
-    wait_for( 2, lambda: get_stored_msg( "_vsav-persistence_" ) == "" ) # nb: wait for the front-end to receive the data
+    # wait for the front-end to receive the data
+    wait_for( 2, lambda: get_stored_msg( "_vsav-persistence_" ) == "" )
+
+    # wait for the updated data to come back
     timeout = 120 if os.name == "nt" else 60
-    wait_for( timeout, lambda: get_stored_msg( "_vsav-persistence_" ) != "" ) # nb: wait for the updated data to arrive
+    wait_for( timeout, lambda: get_stored_msg( "_vsav-persistence_" ) != "" )
     updated_vsav_data = get_stored_msg( "_vsav-persistence_" )
     if updated_vsav_data.startswith( "ERROR: " ):
         raise RuntimeError( updated_vsav_data )
@@ -890,7 +828,7 @@ def _update_vsav( fname, expected ):
 
     return updated_vsav_data
 
-def _update_vsav_and_dump( control_tests, fname, expected ):
+def _update_vsav_and_dump( webapp, fname, expected ):
     """Update a VASL scenario and dump the result."""
 
     # update the VSAV
@@ -900,15 +838,13 @@ def _update_vsav_and_dump( control_tests, fname, expected ):
     with TempFile() as temp_file:
         temp_file.write( updated_vsav_data )
         temp_file.close( delete=False )
-        return _dump_vsav( control_tests, temp_file.name )
+        return _dump_vsav( webapp, temp_file.name )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def _dump_vsav( control_tests, fname ):
+def _dump_vsav( webapp, fname ):
     """Dump a VASL scenario file."""
-    with open( fname, "rb" ) as fp:
-        vsav_data = fp.read()
-        return control_tests.get_vsav_dump( bin_data=vsav_data )
+    return webapp.control_tests.dump_vsav( fname )
 
 def _check_vsav_dump( vsav_dump, expected, ignore=None ):
     """"Check that a VASL scenario dump contains what we expect."""
@@ -962,16 +898,19 @@ def _analyze_vsav( fname, expected_ob1, expected_ob2, expected_report ):
 
     # read the VSAV data
     fname = os.path.join( os.path.split(__file__)[0], "fixtures/analyze-vsav/"+fname )
-    vsav_data = open( fname, "rb" ).read()
+    with open( fname, "rb" ) as fp:
+        vsav_data = fp.read()
 
     # send the VSAV data to the front-end to be analyzed
     set_stored_msg( "_vsav-persistence_", base64.b64encode( vsav_data ).decode( "utf-8" ) )
     prev_info_msg = set_stored_msg_marker( "_last-info_" )
     prev_warning_msg = set_stored_msg_marker( "_last-warning_" )
     select_menu_option( "analyze_vsav" )
+
+    # wait for the analysis to finish
     wait_for( 60,
         lambda: get_stored_msg("_last-info_") != prev_info_msg or get_stored_msg("_last-warning_") != prev_warning_msg
-    ) # nb: wait for the analysis to finish
+    )
 
     # check the results
     saved_scenario = save_scenario()

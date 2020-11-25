@@ -205,11 +205,6 @@ def _do_main( template_pack, default_scenario, remote_debugging, debug ): #pylin
     main_window.show()
     ret_code = qt_app.exec_()
 
-    # shutdown the webapp server
-    url = "http://localhost:{}/shutdown".format( port )
-    urllib.request.urlopen( url ).read()
-    thread.join()
-
     return ret_code
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

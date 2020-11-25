@@ -22,9 +22,8 @@ def test_vo_notes( webapp, webdriver ):
     """Test generating snippets for vehicle/ordnance notes."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load the test scenario
     load_scenario( {
@@ -60,9 +59,8 @@ def test_ma_notes( webapp, webdriver ):
     """Test generating snippets for vehicle/ordnance multi-applicable notes."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     def do_test( player_no, nat, vo_type, vo_entries, expected ):
         """Load the specified vehicles and check the resulting snippet."""
@@ -117,9 +115,8 @@ def test_ma_html_notes( webapp, webdriver ):
     """Test how we load vehicle/ordnance notes (HTML vs. PNG)."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load the test scenario
     load_scenario( {
@@ -144,9 +141,8 @@ def test_common_vo_notes( webapp, webdriver ):
     """Test handling of Allied/Axis Minor common vehicles/ordnance."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load the test scenario
     load_scenario( {
@@ -182,9 +178,8 @@ def test_common_vo_notes2( webapp, webdriver ):
     """Test handling of Allied/Axis Minor common vehicles/ordnance (as images)."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load the test scenario
     load_scenario( {
@@ -221,9 +216,8 @@ def test_extra_ma_notes( webapp, webdriver ):
     """Test handling of Landing Craft and Allied/Axis Minor common vehicles/ordnance."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load the test scenario
     load_scenario( {
@@ -297,9 +291,8 @@ def test_landing_craft_notes( webapp, webdriver ):
     """Test handling of Landing Craft notes."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load the test scenario
     load_scenario( {
@@ -322,9 +315,8 @@ def test_update_ui( webapp, webdriver ):
     """Check that the UI is updated correctly for multi-applicable notes."""
 
     # initialize
-    init_webapp( webapp, webdriver,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver )
 
     def do_test( nat, veh_expected, ord_expected ):
         """Do the test."""
@@ -356,9 +348,7 @@ def test_seq_ids( webapp, webdriver ):
     """Test handling of vehicle/ordnance sequence ID's."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load the test scenario
     load_scenario( {
@@ -422,9 +412,8 @@ def test_special_cases( webapp, webdriver ):
     """Test special cases."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # check that Italian Multi-Applicable Ordnance (only) Note R has a line-through
     load_scenario( {
@@ -442,34 +431,27 @@ def test_special_cases( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    not pytest.config.option.vo_notes, #pylint: disable=no-member
-    reason = "--vo-notes not specified"
-) #pylint: disable=too-many-locals,too-many-branches
-# NOTE: The expected output files contain pieces from the supported extensions,
-# so the VASL extensions directory must be loaded.
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-    )
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_extensions, #pylint: disable=no-member
-    reason = "--vasl-extensions not specified"
-    ) #pylint: disable=too-many-locals
-def test_vo_notes_reports( webapp, webdriver ):
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+def test_vo_notes_reports( webapp, webdriver ): #pylint: disable=too-many-locals
     """Check the vehicle/ordnance notes reports."""
 
-    # initialize
-    # NOTE: The server must be configured with the *real* Chapter H vehicle/ordnance notes.
-    vo_notes_dir = pytest.config.option.vo_notes #pylint: disable=no-member
-    init_webapp( webapp, webdriver,
-        reset = lambda ct:
-            ct.set_data_dir( dtype="real" ) \
-              .set_vasl_mod( vmod="random", extns_dtype="real" ) \
-              .set_vo_notes_dir( dtype="real" )
-    )
+    # check if the remote webapp server supports this test
+    if not webapp.control_tests.has_capability( "chapter-h" ):
+        return
 
     # initialize
+    webapp.control_tests \
+        .set_data_dir( "{REAL}" ) \
+        .set_vasl_version( "random", vasl_extns_type="{REAL}" ) \
+        .set_vo_notes_dir( "{REAL}" )
+    init_webapp( webapp, webdriver )
+
+    # initialize
+    # FUDGE! It's not correct to get the Chapter H directory from our *local* config, we should be
+    # using whatever the *remote* server is using, but since this directory is not publicly available,
+    # we can live it. The right way to do things would be to provide a way for us to get the fixtures
+    # from the remote server, which is far more trouble than it's worth.
+    vo_notes_dir = webapp.config[ "CHAPTER_H_NOTES_DIR" ]
     check_dir = os.path.join( vo_notes_dir, "tests/" )
     save_dir = os.environ.get( "VO_NOTES_SAVEDIR" ) # nb: define this to save the generated reports
 

@@ -6,8 +6,6 @@ import base64
 import re
 import random
 
-import pytest
-
 from vasl_templates.webapp.utils import TempFile
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.utils import \
@@ -22,9 +20,8 @@ def test_individual_files( webapp, webdriver ):
     """Test loading individual template files."""
 
     # initialize
-    init_webapp( webapp, webdriver, template_pack_persistence=1,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver, template_pack_persistence=1 )
     set_player( 1, "german" )
     set_player( 2, "russian" )
 
@@ -52,9 +49,8 @@ def test_zip_files( webapp, webdriver ):
     """Test loading ZIP'ed template packs."""
 
     # initialize
-    init_webapp( webapp, webdriver, template_pack_persistence=1,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver, template_pack_persistence=1 )
     set_player( 1, "german" )
     set_player( 2, "russian" )
 
@@ -87,11 +83,10 @@ def test_new_default_template_pack( webapp, webdriver ):
     """Test changing the default template pack."""
 
     # initialize
-    init_webapp( webapp, webdriver,
-        reset = lambda ct:
-            ct.set_default_template_pack( dname="template-packs/new-default/" ) \
-              .set_vo_notes_dir( dtype="test" )
-    )
+    webapp.control_tests \
+        .set_default_template_pack( "new-default/" ) \
+        .set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver )
 
     # check that the new templates are being used
     _do_test_default_template_pack( webdriver )
@@ -103,11 +98,10 @@ def test_new_default_template_pack_zip( webapp, webdriver ):
     zip_data = make_zip_from_files( "new-default" )
 
     # initialize
-    init_webapp( webapp, webdriver,
-        reset = lambda ct:
-            ct.set_default_template_pack( bin_data=zip_data ) \
-              .set_vo_notes_dir( dtype="test" )
-    )
+    webapp.control_tests \
+        .set_default_template_pack( zip_data ) \
+        .set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver )
 
     # check that the new templates are being used
     _do_test_default_template_pack( webdriver )
@@ -157,7 +151,6 @@ def test_nationality_data( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
 def test_missing_templates( webapp, webdriver ):
     """Test UI updates for missing templates."""
 

@@ -15,25 +15,15 @@ from vasl_templates.webapp.tests.utils import init_webapp, get_nationalities, fi
 
 # ---------------------------------------------------------------------
 
-# NOTE: The expected output files contain pieces from the supported extensions,
-# so the VASL extensions directory must be loaded.
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-)
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_extensions, #pylint: disable=no-member
-    reason = "--vasl-extensions not specified"
-) #pylint: disable=too-many-statements,too-many-locals
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
 def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
     """Check the vehicle/ordnance reports."""
 
     # initialize
-    init_webapp( webapp, webdriver,
-        reset = lambda ct:
-            ct.set_data_dir( dtype="real" ) \
-              .set_vasl_mod( vmod="random", extns_dtype="real" )
-    )
+    webapp.control_tests \
+        .set_data_dir( "{REAL}" ) \
+        .set_vasl_version( "random", "{REAL}" )
+    init_webapp( webapp, webdriver )
 
     # initialize
     check_dir = os.path.join( os.path.split(__file__)[0], "fixtures/vo-reports/" )

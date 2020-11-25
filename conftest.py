@@ -2,6 +2,8 @@
 
 import os
 import threading
+import json
+import re
 import logging
 import tempfile
 import urllib.request
@@ -11,8 +13,8 @@ import pytest
 from flask import url_for
 
 from vasl_templates.webapp import app
-app.testing = True
 from vasl_templates.webapp.tests import utils
+from vasl_templates.webapp.tests.control_tests import ControlTests
 
 FLASK_WEBAPP_PORT = 5011
 
@@ -25,7 +27,7 @@ def pytest_addoption( parser ):
 
     # add test options
     parser.addoption(
-        "--server-url", action="store", dest="server_url", default=None,
+        "--webapp", action="store", dest="webapp_url", default=None,
         help="Webapp server to test against."
     )
     # NOTE: Chrome seems to be ~15% faster than Firefox, headless ~5% faster than headful.
@@ -48,31 +50,6 @@ def pytest_addoption( parser ):
         help="Run a shorter version of the test suite."
     )
 
-    # NOTE: Some tests require the VASL module file(s). We don't want to put these into source control,
-    # so we provide this option to allow the caller to specify where they live.
-    parser.addoption(
-        "--vasl-mods", action="store", dest="vasl_mods", default=None,
-        help="Directory containing the VASL .vmod file(s)."
-    )
-    parser.addoption(
-        "--vasl-extensions", action="store", dest="vasl_extensions", default=None,
-        help="Directory containing the VASL extensions."
-    )
-
-    # NOTE: Some tests require VASSAL to be installed. This option allows the caller to specify
-    # where it is (multiple installations can be placed in sub-directories).
-    parser.addoption(
-        "--vassal", action="store", dest="vassal", default=None,
-        help="Directory containing VASSAL installation(s)."
-    )
-
-    # NOTE: Some tests require Chapter H vehicle/ordnance notes. This is copyrighted material,
-    # so it is kept in a private repo.
-    parser.addoption(
-        "--vo-notes", action="store", dest="vo_notes", default=None,
-        help="Directory containing Chapter H vehicle/ordnance notes and test results."
-    )
-
     # NOTE: It's not good to have the code run differently to how it will normally,
     # but using the clipboard to retrieve snippets causes more trouble than it's worth :-/
     # since any kind of clipboard activity while the tests are running could cause them to fail
@@ -84,13 +61,34 @@ def pytest_addoption( parser ):
 
 # ---------------------------------------------------------------------
 
-@pytest.fixture( scope="session" )
+_webapp = None
+
+@pytest.fixture( scope="function" )
 def webapp():
     """Launch the webapp."""
 
+    # get the global webapp fixture
+    global _webapp
+    if _webapp is None:
+        _webapp = _make_webapp()
+
+    # reset the remote webapp server
+    _webapp.control_tests.start_tests()
+
+    # return the webapp to the caller
+    yield _webapp
+
+    # reset the remote webapp server
+    _webapp.control_tests.end_tests()
+
+def _make_webapp():
+    """Create the global webapp fixture."""
+
     # initialize
-    server_url = pytest.config.option.server_url #pylint: disable=no-member
-    app.base_url = server_url if server_url else "http://localhost:{}".format(FLASK_WEBAPP_PORT)
+    webapp_url = pytest.config.option.webapp_url #pylint: disable=no-member
+    if webapp_url and not webapp_url.startswith( "http://" ):
+        webapp_url = "http://" + webapp_url
+    app.base_url = webapp_url if webapp_url else "http://localhost:{}".format( FLASK_WEBAPP_PORT )
     logging.disable( logging.CRITICAL )
 
     # initialize
@@ -119,10 +117,19 @@ def webapp():
     app.url_for = make_webapp_url
 
     # check if we need to start a local webapp server
-    if not server_url:
+    if not webapp_url:
         # yup - make it so
+        # NOTE: We run the server thread as a daemon so that it won't prevent the tests from finishing
+        # when they're done. We used to call $/shutdown after yielding the webapp fixture, but when
+        # we changed it from being per-session to per-function, we can no longer do that.
+        # This means that the webapp doesn't get a chance to shutdown properly (in particular,
+        # clean up the gRPC service), but since we send an EndTests message at the of each test,
+        # the remote server gets a chance to clean up then. It's not perfect (e.g. if the tests fail
+        # or otherwise finish eearly before they get a chance to send the EndTests message), but
+        # we can live with it.
         thread = threading.Thread(
-            target = lambda: app.run( host="0.0.0.0", port=FLASK_WEBAPP_PORT, use_reloader=False )
+            target = lambda: app.run( host="0.0.0.0", port=FLASK_WEBAPP_PORT, use_reloader=False ),
+            daemon = True
         )
         thread.start()
         # wait for the server to start up
@@ -138,13 +145,23 @@ def webapp():
                 assert False, "Unexpected exception: {}".format(ex)
         utils.wait_for( 5, is_ready )
 
-    # return the server to the caller
-    yield app
+    # set up control of the remote webapp server
+    try:
+        resp = json.load(
+            urllib.request.urlopen( app.url_for( "get_control_tests" ) )
+        )
+    except urllib.error.HTTPError as ex:
+        if ex.code == 404:
+            raise RuntimeError( "Can't get the test control port - has remote test control been enabled?" )
+        raise
+    port_no = resp.get( "port" )
+    if not port_no:
+        raise RuntimeError( "The webapp server is not running the test control service." )
+    mo = re.search( r"^http://(.+):\d+$", app.base_url )
+    addr = "{}:{}".format( mo.group(1), port_no )
+    app.control_tests = ControlTests( addr )
 
-    # shutdown the local webapp server
-    if not server_url:
-        urllib.request.urlopen( app.url_for("shutdown") ).read()
-        thread.join()
+    return app
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

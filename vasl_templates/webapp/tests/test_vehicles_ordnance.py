@@ -226,19 +226,12 @@ def test_variable_capabilities( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-)
 def test_html_names( webapp, webdriver ):
     """Test handling of vehicles/ordnance that have HTML in their name."""
 
     # initialize
-    init_webapp( webapp, webdriver,
-        reset = lambda ct:
-            ct.set_data_dir( dtype="real" ) \
-              .set_vasl_mod( vmod="random" )
-    )
+    webapp.control_tests.set_data_dir( "{REAL}" )
+    init_webapp( webapp, webdriver )
 
     def get_available_ivfs():
         """Get the PzKw IVF's available for selection."""
@@ -349,17 +342,13 @@ def test_duplicate_vo_entries( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    pytest.config.option.short_tests, #pylint: disable=no-member
-    reason = "--short-tests specified"
-) #pylint: disable=too-many-locals,too-many-branches
-def test_common_vo( webapp, webdriver ):
+@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+def test_common_vo( webapp, webdriver ): #pylint: disable=too-many-locals
     """Test loading of common vehicles/ordnance and landing craft."""
 
     # initialize
-    init_webapp( webapp, webdriver,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
+    webapp.control_tests.set_data_dir( "{REAL}" )
+    init_webapp( webapp, webdriver )
 
     # initialize
     ALLIED_MINOR = [ "belgian", "danish", "dutch", "greek", "polish", "yugoslavian" ]
@@ -479,19 +468,14 @@ def test_common_vo( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-) #pylint: disable=too-many-statements
 def test_vo_images( webapp, webdriver ): #pylint: disable=too-many-statements
     """Test handling of vehicles/ordnance that have multiple images."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct:
-            ct.set_data_dir( dtype="real" ) \
-              .set_vasl_mod( vmod="random" )
-    )
+    webapp.control_tests \
+        .set_data_dir( "{REAL}" ) \
+        .set_vasl_version( "random", None )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     def check_sortable2_entries( player_no, expected ):
         """Check the settings on the player's vehicles."""
@@ -655,19 +639,14 @@ def test_vo_images( webapp, webdriver ): #pylint: disable=too-many-statements
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-    ) #pylint: disable=too-many-statements
 def test_change_vo_image( webapp, webdriver ):
     """Test changing a V/O image."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct:
-            ct.set_data_dir( dtype="real" ) \
-              .set_vasl_mod( vmod="random" )
-    )
+    webapp.control_tests \
+        .set_data_dir( "{REAL}" ) \
+        .set_vasl_version( "random", None )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # add an ISU-152
     set_player( 2, "russian" )
@@ -734,19 +713,12 @@ def test_change_vo_image( webapp, webdriver ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-@pytest.mark.skipif(
-    not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason = "--vasl-mods not specified"
-)
 def test_change_vo_image2( webapp, webdriver ):
     """Test changing the image for a V/O that has no alternative images."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct:
-            ct.set_data_dir( dtype="real" ) \
-              .set_vasl_mod( vmod="random" )
-    )
+    webapp.control_tests.set_data_dir( "{REAL}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # add an 107mm GVPM
     set_player( 2, "russian" )

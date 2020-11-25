@@ -4,7 +4,6 @@ import os
 import base64
 import csv
 
-import pytest
 from selenium.webdriver.support.ui import Select
 
 from vasl_templates.webapp.tests.utils import init_webapp, select_menu_option, \
@@ -14,15 +13,13 @@ from vasl_templates.webapp.tests.test_vassal import run_vassal_tests
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 def test_full( webapp, webdriver ):
     """Test a full log file analysis."""
 
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vlog_persistence=1, lfa_tables=1 )
-
     def do_test(): #pylint: disable=missing-docstring
+
+        # initialize
+        init_webapp( webapp, webdriver, vlog_persistence=1, lfa_tables=1 )
 
         # analyze the log file
         #   === RPh ===     === PFPh ===   === MPh ===   === DFPh ===
@@ -127,20 +124,17 @@ def test_full( webapp, webdriver ):
         find_child( "#lfa button.ui-dialog-titlebar-close" ).click()
 
     # run the tests
-    run_vassal_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
-
+    run_vassal_tests( webapp, do_test )
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 def test_4players( webapp, webdriver ):
     """Test a file log file analysis with 4 players."""
 
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vlog_persistence=1, lfa_tables=1 )
-
     def do_test(): #pylint: disable=missing-docstring
+
+        # initialize
+        init_webapp( webapp, webdriver, vlog_persistence=1, lfa_tables=1 )
 
         # analyze the log file
         #   RPh     PFPh    MPh      DFPh
@@ -212,17 +206,12 @@ def test_4players( webapp, webdriver ):
         find_child( "#lfa button.ui-dialog-titlebar-close" ).click()
 
     # run the tests
-    run_vassal_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
+    run_vassal_tests( webapp, do_test )
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 def test_multiple_files( webapp, webdriver ):
     """Test analyzing multiple log files."""
-
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vlog_persistence=1, lfa_tables=1 )
 
     def check_color_pickers( expected ):
         """Check which color pickers are being presented to the user."""
@@ -233,6 +222,9 @@ def test_multiple_files( webapp, webdriver ):
         assert player_names == expected
 
     def do_test(): #pylint: disable=missing-docstring
+
+        # initialize
+        init_webapp( webapp, webdriver, vlog_persistence=1, lfa_tables=1 )
 
         # NOTE: The "1a" and "1b" log files have the same players (Alice and Bob), but the "2" log file
         # has Bob and Chuck.
@@ -375,17 +367,12 @@ def test_multiple_files( webapp, webdriver ):
         find_child( "#lfa button.ui-dialog-titlebar-close" ).click()
 
     # run the tests
-    run_vassal_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
+    run_vassal_tests( webapp, do_test )
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 def test_hotness_report( webapp, webdriver ):
     """Test generating the hotness popup."""
-
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vlog_persistence=1 )
 
     def unload_report():
         """Unload the hotness popup."""
@@ -399,6 +386,9 @@ def test_hotness_report( webapp, webdriver ):
         return report
 
     def do_test(): #pylint: disable=missing-docstring
+
+        # initialize
+        init_webapp( webapp, webdriver, vlog_persistence=1 )
 
         # load the test log files
         #       vlog #1             vlog #2
@@ -460,19 +450,17 @@ def test_hotness_report( webapp, webdriver ):
         }
 
     # run the tests
-    run_vassal_tests( control_tests, do_test, False )
+    run_vassal_tests( webapp, do_test, all_combos=False )
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 def test_3d6( webapp, webdriver ):
     """Test scenarios that use the 3d6 extension."""
 
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vlog_persistence=1, lfa_tables=1 )
-
     def do_test(): #pylint: disable=missing-docstring
+
+        # initialize
+        init_webapp( webapp, webdriver, vlog_persistence=1, lfa_tables=1 )
 
         # analyze the log file
         _analyze_vlogs( "3d6.vlog" )
@@ -506,17 +494,12 @@ def test_3d6( webapp, webdriver ):
         find_child( "#lfa button.ui-dialog-titlebar-close" ).click()
 
     # run the tests
-    run_vassal_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
+    run_vassal_tests( webapp, do_test )
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 def test_banner_updates( webapp, webdriver ):
     """Test updating the banner."""
-
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vlog_persistence=1 )
 
     def check_banner( roll_type ):
         """Check the banner."""
@@ -525,6 +508,9 @@ def test_banner_updates( webapp, webdriver ):
         assert find_child( "#lfa .banner .roll-type" ).text == roll_type
 
     def do_test(): #pylint: disable=missing-docstring
+
+        # initialize
+        init_webapp( webapp, webdriver, vlog_persistence=1 )
 
         # analyze the log file
         _analyze_vlogs( "banner-updates.vlog" )
@@ -540,19 +526,17 @@ def test_banner_updates( webapp, webdriver ):
         find_child( "#lfa button.ui-dialog-titlebar-close" ).click()
 
     # run the tests
-    run_vassal_tests( control_tests, do_test, not pytest.config.option.short_tests ) #pylint: disable=no-member
+    run_vassal_tests( webapp, do_test, all_combos=False )
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 def test_download_data( webapp, webdriver ):
     """Test downloading the data."""
 
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vlog_persistence=1, lfa_persistence=1 )
-
     def do_test(): #pylint: disable=missing-docstring
+
+        # initialize
+        init_webapp( webapp, webdriver, vlog_persistence=1, lfa_persistence=1 )
 
         # analyze the log file
         _analyze_vlogs( "download-test.vlog" )
@@ -580,19 +564,17 @@ def test_download_data( webapp, webdriver ):
         ]
 
     # run the test
-    run_vassal_tests( control_tests, do_test, False )
+    run_vassal_tests( webapp, do_test, all_combos=False )
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, reason="--vasl-mods not specified" ) #pylint: disable=no-member
-@pytest.mark.skipif( not pytest.config.option.vassal, reason="--vassal not specified" ) #pylint: disable=no-member
 def test_custom_labels( webapp, webdriver ):
     """Test custom labels in the log file."""
 
-    # initialize
-    control_tests = init_webapp( webapp, webdriver, vlog_persistence=1, lfa_persistence=1 )
-
     def do_test(): #pylint: disable=missing-docstring
+
+        # initialize
+        init_webapp( webapp, webdriver, vlog_persistence=1, lfa_persistence=1 )
 
         # analyze the log file
         _analyze_vlogs( "custom-labels.vlog" )
@@ -619,7 +601,7 @@ def test_custom_labels( webapp, webdriver ):
         ]
 
     # run the test
-    run_vassal_tests( control_tests, do_test, False )
+    run_vassal_tests( webapp, do_test )
 
 # ---------------------------------------------------------------------
 

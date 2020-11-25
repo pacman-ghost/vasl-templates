@@ -24,17 +24,18 @@ RUN url=$( curl -s https://api.github.com/repos/mozilla/geckodriver/releases/lat
     curl -sL "$url" \
         | tar -C /usr/bin/ -xz
 
-# clean up
-RUN dnf clean all
-
 # install the application requirements
 WORKDIR /app
 COPY requirements.txt requirements-dev.txt ./
 RUN pip3 install -r requirements.txt
-ARG ENABLE_TESTS
-RUN if [ "$ENABLE_TESTS" ]; then \
+ARG CONTROL_TESTS_PORT
+RUN if [ -n "$CONTROL_TESTS_PORT" ]; then \
+    dnf install -y gcc-c++ python3-devel && \
     pip3 install -r requirements-dev.txt \
 ; fi
+
+# clean up
+RUN dnf clean all
 
 # install the application
 COPY vasl_templates/webapp/ ./vasl_templates/webapp/
@@ -44,9 +45,6 @@ RUN pip3 install --editable .
 
 # install the config files
 COPY docker/config/ ./vasl_templates/webapp/config/
-RUN if [ "$ENABLE_TESTS" ]; then \
-    echo "ENABLE_REMOTE_TEST_CONTROL = 1" >>vasl_templates/webapp/config/debug.cfg \
-; fi
 
 # create a new user
 RUN useradd --create-home app

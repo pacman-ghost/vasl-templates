@@ -13,21 +13,23 @@ _logger = logging.getLogger( "vasl_mod" )
 from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp.vo import get_vo_listings
+from vasl_templates.webapp.utils import compare_version_strings
 
 SUPPORTED_VASL_MOD_VERSIONS = [ "6.6.0", "6.6.1" ]
 SUPPORTED_VASL_MOD_VERSIONS_DISPLAY = "6.6.0-.1"
 
-warnings = [] # nb: for the test suite
+_warnings = [] # nb: for the test suite
 
 # ---------------------------------------------------------------------
 
 def set_vasl_mod( vmod_fname, msg_store ):
     """Install a new global VaslMod object."""
     globvars.vasl_mod = None
+    global _warnings
+    _warnings = []
     if vmod_fname:
         # load and install the specified VASL module
-        # NOTE: The Docker container configures this setting via an environment variable.
-        extns_dir = app.config.get( "VASL_EXTNS_DIR", os.environ.get("VASL_EXTNS_DIR") )
+        extns_dir = app.config.get( "VASL_EXTNS_DIR" )
         extns = _load_vasl_extns( extns_dir, msg_store )
         try:
             vasl_mod = VaslMod( vmod_fname, DATA_DIR, extns )
@@ -62,7 +64,7 @@ def _load_vasl_extns( extn_dir, msg_store ): #pylint: disable=too-many-locals,to
     def log_warning( fmt, *args, **kwargs ): #pylint: disable=missing-docstring
         soft = kwargs.pop( "soft", False )
         msg = fmt.format( *args, **kwargs )
-        warnings.append( msg )
+        _warnings.append( msg )
         if soft:
             _logger.info( "%s", msg )
         else:
@@ -443,20 +445,6 @@ def get_vo_gpids( vasl_mod ):
                 )
 
     return gpids
-
-
-def compare_version_strings( lhs, rhs  ):
-    """Compare two version strings."""
-    def parse( val ): #pylint: disable=missing-docstring
-        mo = re.search( r"^(\d+)\.(\d+)\.(\d+)$", val )
-        return ( int(mo.group(1)), int(mo.group(2)), int(mo.group(3)) )
-    lhs, rhs = parse(lhs), parse(rhs)
-    if lhs < rhs:
-        return -1
-    elif lhs > rhs:
-        return +1
-    else:
-        return 0
 
 # ---------------------------------------------------------------------
 

@@ -3,7 +3,6 @@
 import json
 import re
 
-import pytest
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 
@@ -25,9 +24,8 @@ def test_include_vasl_images_in_snippets( webapp, webdriver ):
     """Test including VASL counter images in snippets."""
 
     # initialize
-    init_webapp( webapp, webdriver,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
+    webapp.control_tests.set_data_dir( "{REAL}" )
+    init_webapp( webapp, webdriver )
     set_user_settings( { "scenario-images-source": SCENARIO_IMAGES_SOURCE_THIS_PROGRAM } )
 
     # add a vehicle
@@ -65,9 +63,8 @@ def test_include_flags_in_snippets( webapp, webdriver ):
     """Test including flags in snippets."""
 
     # initialize
-    init_webapp( webapp, webdriver,
-        reset = lambda ct: ct.set_data_dir( dtype="real" )
-    )
+    webapp.control_tests.set_data_dir( "{REAL}" )
+    init_webapp( webapp, webdriver )
 
     # prepare the scenario
     set_player( 1, "german" )
@@ -185,9 +182,8 @@ def test_hide_unavailable_ma_notes( webapp, webdriver ):
     """Test showing/hiding unavailable multi-applicable notes."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load the test vehicle
     load_scenario( {
@@ -237,9 +233,8 @@ def test_vo_notes_as_images( webapp, webdriver ):
     """Test showing vehicle/ordnance notes as HTML/images."""
 
     # initialize
-    init_webapp( webapp, webdriver, scenario_persistence=1,
-        reset = lambda ct: ct.set_vo_notes_dir( dtype="test" )
-    )
+    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load the test vehicle
     load_scenario( {
@@ -285,50 +280,43 @@ def test_vo_notes_as_images( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( not pytest.config.option.vasl_mods, #pylint: disable=no-member
-    reason="--vasl-mods not specified"
-)
 def test_alternate_webapp_base_url( webapp, webdriver ):
     """Test changing the webapp base URL."""
 
-    # initialize
-    def _init_webapp(): #pylint: disable=missing-docstring
-        return init_webapp( webapp, webdriver, scenario_persistence=1,
-            reset = lambda ct:
-              ct.set_data_dir( dtype="real" ) \
-                .set_vasl_mod( vmod="random", extns_dtype="test" )
-        )
-    control_tests = _init_webapp()
-
-    # enable images
-    set_user_settings( {
-        "scenario-images-source": SCENARIO_IMAGES_SOURCE_THIS_PROGRAM,
-        "include-vasl-images-in-snippets": True,
-        "include-flags-in-snippets": True,
-        "custom-list-bullets": True,
-        "vo-notes-as-images": True,
-    } )
-
-    # load the scenario
-    load_scenario( {
-        "SCENARIO_NAME": "test scenario",
-        "SCENARIO_DATE": "01/01/1940",
-        "VICTORY_CONDITIONS": "Just do it!",
-        "SCENARIO_NOTES": [ { "caption": "Scenario note #1" } ],
-        "SSR": [ "SSR #1", "SSR #2", "SSR #3" ],
-        "PLAYER_1": "german",
-        "OB_SETUPS_1": [ { "caption": "OB setup note 1" } ],
-        "OB_NOTES_1": [ { "caption": "OB note 1" } ],
-        "OB_VEHICLES_1": [ { "name": "PzKpfw VG" } ],
-        "OB_ORDNANCE_1": [ { "name": "8.8cm PaK 43" } ],
-        "PLAYER_2": "russian",
-        "OB_SETUPS_2": [ { "caption": "OB setup note 2" } ],
-        "OB_NOTES_2": [ { "caption": "OB note 2" } ],
-        "OB_VEHICLES_2": [ { "name": "T-34/85" } ],
-        "OB_ORDNANCE_2": [ { "name": "82mm BM obr. 37" } ],
-    } )
-
     def do_test( expected ): #pylint: disable=missing-docstring
+
+        # initialize
+        webapp.control_tests.set_data_dir( "{REAL}" )
+        init_webapp( webapp, webdriver, scenario_persistence=1 )
+
+        # enable images
+        set_user_settings( {
+            "scenario-images-source": SCENARIO_IMAGES_SOURCE_THIS_PROGRAM,
+            "include-vasl-images-in-snippets": True,
+            "include-flags-in-snippets": True,
+            "custom-list-bullets": True,
+            "vo-notes-as-images": True,
+        } )
+
+        # load the scenario
+        load_scenario( {
+            "SCENARIO_NAME": "test scenario",
+            "SCENARIO_DATE": "01/01/1940",
+            "VICTORY_CONDITIONS": "Just do it!",
+            "SCENARIO_NOTES": [ { "caption": "Scenario note #1" } ],
+            "SSR": [ "SSR #1", "SSR #2", "SSR #3" ],
+            "PLAYER_1": "german",
+            "OB_SETUPS_1": [ { "caption": "OB setup note 1" } ],
+            "OB_NOTES_1": [ { "caption": "OB note 1" } ],
+            "OB_VEHICLES_1": [ { "name": "PzKpfw VG" } ],
+            "OB_ORDNANCE_1": [ { "name": "8.8cm PaK 43" } ],
+            "PLAYER_2": "russian",
+            "OB_SETUPS_2": [ { "caption": "OB setup note 2" } ],
+            "OB_NOTES_2": [ { "caption": "OB note 2" } ],
+            "OB_VEHICLES_2": [ { "name": "T-34/85" } ],
+            "OB_ORDNANCE_2": [ { "name": "82mm BM obr. 37" } ],
+        } )
+
         # generate each snippet
         snippet_btns = find_snippet_buttons()
         for tab_id,btns in snippet_btns.items():
@@ -346,12 +334,10 @@ def test_alternate_webapp_base_url( webapp, webdriver ):
     do_test( webapp.base_url + "/" )
 
     # test with a custom base URL
-    try:
-        control_tests.set_app_config( key="ALTERNATE_WEBAPP_BASE_URL", val="http://ALT-BASE-URL" )
-        _init_webapp()
-        do_test( "http://ALT-BASE-URL/" )
-    finally:
-        control_tests.set_app_config( key="ALTERNATE_WEBAPP_BASE_URL", val=None )
+    webapp.control_tests.set_app_config_val(
+        key="ALTERNATE_WEBAPP_BASE_URL", val="http://ALT-BASE-URL"
+    )
+    do_test( "http://ALT-BASE-URL/" )
 
 # ---------------------------------------------------------------------
 

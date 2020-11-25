@@ -27,9 +27,11 @@ def test_jshint():
 
     # check each Javascript file
     dname = os.path.join( os.path.split(__file__)[0], "../static/" )
-    for fname in os.listdir(dname):
-        if os.path.splitext(fname)[1] != ".js":
+    for fname in os.listdir( dname ):
+
+        if os.path.splitext( fname )[1] != ".js":
             continue
+
         # run JSHint for the next file
         proc = subprocess.run(
             [ jshint, os.path.join(dname,fname) ],

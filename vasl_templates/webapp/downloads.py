@@ -130,6 +130,9 @@ class DownloadedFile:
                         continue
 
                 # download the file
+                if app.config.get( "DISABLE_DOWNLOADED_FILES" ):
+                    _logger.info( "Download disabled (%s): %s", df.key, url )
+                    continue
                 _logger.info( "Downloading the %s file: %s", df.key, url )
                 try:
                     headers = { "Accept-Encoding": "gzip, deflate" }
