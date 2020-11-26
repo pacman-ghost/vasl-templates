@@ -1,0 +1,49 @@
+{%if DOCKER_CONTAINER_ID%}
+<table>
+    <tr> <td class="key"> Docker container:
+         <td class="val"> {{DOCKER_CONTAINER_NAME}} <span class="info"> ({{DOCKER_CONTAINER_ID}}) </span>
+    <tr> <td class="key"> Docker image:
+         <td class="val"> {{DOCKER_IMAGE_NAME}} <span class="info"> (built {{DOCKER_IMAGE_TIMESTAMP}}) </span>
+</table>
+{%endif%}
+
+<table>
+    <tr> <td class="key"> VASSAL:
+    <td class="val"> {%if VASSAL_VERSION%} {{VASSAL_VERSION}} {%else%} <span class="na"> n/a </span> {%endif%}
+         {%if VASSAL_DIR%} <span class="extra path"> {{VASSAL_DIR}} </span> {%endif%}
+    <tr> <td class="key"> VASL:
+    <td class="val"> {%if VASL_VERSION%} {{VASL_VERSION}} {%else%} <span class="na"> n/a </span> {%endif%}
+         {%if VASL_MOD%} <span class="extra path"> {{VASL_MOD}} </span> {%endif%}
+    <tr> <td class="key"> VASL extensions:
+         <td class="val path"> {%if VASL_EXTNS_DIR%} {{VASL_EXTNS_DIR}} {%else%} - {%endif%}
+    <tr> <td class="key"> VASL boards:
+         <td class="val path"> {%if BOARDS_DIR%} {{BOARDS_DIR}} {%else%} - {%endif%}
+</table>
+
+<table>
+    <tr> <td class="key"> Java:
+         <td class="val path"> {%if JAVA_PATH%} {{JAVA_PATH}} {%else%} - {%endif%}
+    <tr> <td class="key"> Web driver:
+         <td class="val path"> {%if WEBDRIVER_PATH%} {{WEBDRIVER_PATH}} {%else%} - {%endif%}
+</table>
+
+<table>
+    <tr> <td class="key"> Chapter H:
+         <td class="val path"> {%if CHAPTER_H_NOTES_DIR%} {{CHAPTER_H_NOTES_DIR}} {%else%} - {%endif%}
+    <tr> <td class="key"> User files:
+         <td class="val path"> {%if USER_FILES_DIR%} {{USER_FILES_DIR}} {%else%} - {%endif%}
+</table>
+
+<table>
+    <tr> <td class="key" colspan="2"> Scenario downloads:
+    <tr> <td class="key"> <ul> <li> ASA: </ul>
+         <td class="val"> {%if LAST_ASA_SCENARIO_INDEX_DOWNLOAD_TIME%}
+              {{LAST_ASA_SCENARIO_INDEX_DOWNLOAD_TIME}}
+              {%if LAST_ASA_SCENARIO_INDEX_GENERATED_AT%} <span class="info"> (generated {{LAST_ASA_SCENARIO_INDEX_GENERATED_AT}}) </span> {%endif%}
+            {%else%} - {%endif%}
+    <tr> <td class="key"> <ul> <li> ROAR: </ul>
+         <td class="val"> {%if LAST_ROAR_SCENARIO_INDEX_DOWNLOAD_TIME%}
+              {{LAST_ROAR_SCENARIO_INDEX_DOWNLOAD_TIME}}
+              {%if LAST_ROAR_SCENARIO_INDEX_GENERATED_AT%} <span class="info"> (generated {{LAST_ROAR_SCENARIO_INDEX_GENERATED_AT}}) </span> {%endif%}
+           {%else%} - {%endif%}
+</table>

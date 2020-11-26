@@ -5,11 +5,14 @@ import threading
 import concurrent
 import json
 import uuid
+from datetime import datetime, timedelta
+import re
 import logging
 
 from flask import request, render_template, jsonify, send_file, redirect, url_for, abort
 
 from vasl_templates.webapp import app, shutdown_event
+from vasl_templates.webapp.vassal import VassalShim
 from vasl_templates.webapp.utils import MsgStore, parse_int
 import vasl_templates.webapp.config.constants
 from vasl_templates.webapp.config.constants import BASE_DIR, DATA_DIR
@@ -39,7 +42,6 @@ def get_startup_msgs():
     if _check_versions:
         _check_versions = False
         # check the VASSAL version
-        from vasl_templates.webapp.vassal import VassalShim
         try:
             VassalShim.check_vassal_version( startup_msg_store )
         except Exception as ex: #pylint: disable=broad-except
@@ -95,7 +97,7 @@ def get_app_config():
     }
     if isinstance( vals["THEATERS"], str ):
         vals["THEATERS"] = vals["THEATERS"].split()
-    for key in ["APP_NAME","APP_VERSION","APP_DESCRIPTION","APP_HOME_URL"]:
+    for key in [ "APP_NAME", "APP_VERSION", "APP_DESCRIPTION", "APP_HOME_URL" ]:
         vals[ key ] = getattr( vasl_templates.webapp.config.constants, key )
 
     # include the ASL Scenario Archive config
@@ -120,7 +122,6 @@ def get_app_config():
         vals[ "ALTERNATE_WEBAPP_BASE_URL" ] = alt_webapp_base_url
 
     # include information about VASSAL and VASL
-    from vasl_templates.webapp.vassal import VassalShim
     try:
         vals[ "VASSAL_VERSION" ] = VassalShim.get_version()
     except Exception as ex: #pylint: disable=broad-except
@@ -154,6 +155,83 @@ def get_app_config():
                 startup_msg_store.error( msg )
 
     return jsonify( vals )
+
+# ---------------------------------------------------------------------
+
+@app.route( "/program-info" )
+def get_program_info():
+    """Get the program info."""
+
+    # NOTE: We can't convert to local time, since the time zone inside a Docker container
+    # may not be the same as on the host (or where the client is). It's possible to make it so,
+    # but messy, so to keep things simple, we get the client to pass in the timezone offset.
+    tz_offset = parse_int( request.args.get( "tz_offset", 0 ) )
+    def to_localtime( tstamp ):
+        """Convert a timestamp to local time."""
+        return tstamp + timedelta( minutes=tz_offset )
+
+    # set the basic details
+    params = {
+        "APP_VERSION": vasl_templates.webapp.config.constants.APP_VERSION,
+        "VASSAL_VERSION": VassalShim.get_version()
+    }
+    if globvars.vasl_mod:
+        params[ "VASL_VERSION" ] = globvars.vasl_mod.vasl_version
+    for key in [ "VASSAL_DIR", "VASL_MOD", "VASL_EXTNS_DIR", "BOARDS_DIR",
+                 "JAVA_PATH", "WEBDRIVER_PATH", "CHAPTER_H_NOTES_DIR", "USER_FILES_DIR" ]:
+        params[ key ] = app.config.get( key )
+
+    def parse_timestamp( val ):
+        """Parse a timestamp."""
+        if not val:
+            return None
+        # FUDGE! Adjust the timezone offset from "HH:MM" to "HHMM".
+        val = re.sub( r"(\d{2}):(\d{2})$", r"\1\2", val )
+        try:
+            val = datetime.strptime( val, "%Y-%m-%d %H:%M:%S %z" )
+        except ValueError:
+            return None
+        return to_localtime( val )
+
+    def replace_mountpoint( key ):
+        """Replace a mount point with its corresponding target (on the host)."""
+        params[ key ] = os.environ.get( "{}_TARGET".format( key ) )
+
+    # check if we are running inside a Docker container
+    if app.config.get( "IS_CONTAINER" ):
+        # yup - return related information
+        params[ "DOCKER_IMAGE_NAME" ] = os.environ.get( "DOCKER_IMAGE_NAME" )
+        params[ "DOCKER_IMAGE_TIMESTAMP" ] = datetime.strftime(
+            parse_timestamp( os.environ.get( "DOCKER_IMAGE_TIMESTAMP" ) ),
+            "%H:%M %d %b %Y"
+        )
+        params[ "DOCKER_CONTAINER_NAME" ] = os.environ.get( "DOCKER_CONTAINER_NAME" )
+        with open( "/proc/self/cgroup", "r" ) as fp:
+            buf = fp.read()
+        mo = re.search( r"^\d+:name=.+/docker/([0-9a-f]{12})", buf, re.MULTILINE )
+        params[ "DOCKER_CONTAINER_ID" ] = mo.group(1) if mo else "???"
+        # replace Docker mount points with their targets on the host
+        for key in [ "VASSAL_DIR", "VASL_MOD", "VASL_EXTNS_DIR", "BOARDS_DIR",
+                     "CHAPTER_H_NOTES_DIR", "USER_FILES_DIR" ]:
+            replace_mountpoint( key )
+
+    # check the scenario index downloads
+    def check_df( df ): #pylint: disable=missing-docstring
+        with df:
+            if not os.path.isfile( df.cache_fname ):
+                return
+            mtime = datetime.utcfromtimestamp( os.path.getmtime( df.cache_fname ) )
+            key = "LAST_{}_SCENARIO_INDEX_DOWNLOAD_TIME".format( df.key )
+            params[ key ] = datetime.strftime(to_localtime(mtime), "%H:%M (%d %b %Y)" )
+            generated_at = parse_timestamp( getattr( df, "generated_at", None ) )
+            if generated_at:
+                key =  "LAST_{}_SCENARIO_INDEX_GENERATED_AT".format( df.key )
+                params[ key ] = datetime.strftime( generated_at, "%H:%M %d %b %Y" )
+    from vasl_templates.webapp.scenarios import _asa_scenarios, _roar_scenarios
+    check_df( _asa_scenarios )
+    check_df( _roar_scenarios )
+
+    return render_template( "program-info-content.html", **params )
 
 # ---------------------------------------------------------------------
 

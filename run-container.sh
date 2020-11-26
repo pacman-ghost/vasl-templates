@@ -143,9 +143,10 @@ if [ -n "$VASSAL" ]; then
         echo "Can't find the VASSAL directory: $VASSAL"
         exit 1
     fi
-    target=/data/vassal/
-    VASSAL_VOLUME="--volume `readlink -f "$VASSAL"`:$target"
-    VASSAL_ENV="--env VASSAL_DIR=$target"
+    mpoint=/data/vassal/
+    target=$( readlink -f "$VASSAL" )
+    VASSAL_VOLUME="--volume $target:$mpoint"
+    VASSAL_ENV="--env VASSAL_DIR=$mpoint --env VASSAL_DIR_TARGET=$target"
 fi
 
 # check if a VASL module file has been specified
@@ -154,9 +155,10 @@ if [ -n "$VASL_MOD" ]; then
         echo "Can't find the VASL .vmod file: $VASL_MOD"
         exit 1
     fi
-    target=/data/vasl.vmod
-    VASL_MOD_VOLUME="--volume `readlink -f "$VASL_MOD"`:$target"
-    VASL_MOD_ENV="--env VASL_MOD=$target"
+    mpoint=/data/vasl.vmod
+    target=$( readlink -f "$VASL_MOD" )
+    VASL_MOD_VOLUME="--volume $target:$mpoint"
+    VASL_MOD_ENV="--env VASL_MOD=$mpoint --env VASL_MOD_TARGET"
 fi
 
 # check if a VASL extensions directory has been specified
@@ -165,9 +167,10 @@ if [ -n "$VASL_EXTNS" ]; then
         echo "Can't find the VASL extensions directory: $VASL_EXTNS"
         exit 1
     fi
-    target=/data/vasl-extensions/
-    VASL_EXTNS_VOLUME="--volume `readlink -f "$VASL_EXTNS"`:$target"
-    VASL_EXTNS_ENV="--env VASL_EXTNS_DIR=$target"
+    mpoint=/data/vasl-extensions/
+    target=$( readlink -f "$VASL_EXTNS" )
+    VASL_EXTNS_VOLUME="--volume $target:$mpoint"
+    VASL_EXTNS_ENV="--env VASL_EXTNS_DIR=$mpoint --env VASL_EXTNS_DIR_TARGET=$target"
 fi
 
 # check if a VASL boards directory has been specified
@@ -176,9 +179,10 @@ if [ -n "$VASL_BOARDS" ]; then
         echo "Can't find the VASL boards directory: $VASL_BOARDS"
         exit 1
     fi
-    target=/data/boards/
-    VASL_BOARDS_VOLUME="--volume `readlink -f "$VASL_BOARDS"`:$target"
-    VASL_BOARDS_ENV="--env BOARDS_DIR=$target"
+    mpoint=/data/boards/
+    target=$( readlink -f "$VASL_BOARDS" )
+    VASL_BOARDS_VOLUME="--volume $target:$mpoint"
+    VASL_BOARDS_ENV="--env BOARDS_DIR=$mpoint --env BOARDS_DIR_TARGET=$target"
 fi
 
 # check if a Chapter H notes directory has been specified
@@ -187,9 +191,10 @@ if [ -n "$CHAPTER_H_NOTES" ]; then
         echo "Can't find the Chapter H notes directory: $CHAPTER_H_NOTES"
         exit 1
     fi
-    target=/data/chapter-h-notes/
-    CHAPTER_H_NOTES_VOLUME="--volume `readlink -f "$CHAPTER_H_NOTES"`:$target"
-    CHAPTER_H_NOTES_ENV="--env CHAPTER_H_NOTES_DIR=$target"
+    mpoint=/data/chapter-h-notes/
+    target=$( readlink -f "$CHAPTER_H_NOTES" )
+    CHAPTER_H_NOTES_VOLUME="--volume $target:$mpoint"
+    CHAPTER_H_NOTES_ENV="--env CHAPTER_H_NOTES_DIR=$mpoint --env CHAPTER_H_NOTES_DIR_TARGET=$target"
 fi
 
 # check if a user files directory has been specified
@@ -198,9 +203,10 @@ if [ -n "$USER_FILES" ]; then
         echo "Can't find the user files directory: $USER_FILES"
         exit 1
     fi
-    target=/data/user-files/
-    USER_FILES_VOLUME="--volume `readlink -f "$USER_FILES"`:$target"
-    USER_FILES_ENV="--env USER_FILES_DIR=$target"
+    mpoint=/data/user-files/
+    target=$( readlink -f "$USER_FILES" )
+    USER_FILES_VOLUME="--volume $target:$mpoint"
+    USER_FILES_ENV="--env USER_FILES_DIR=$mpoint --env USER_FILES_DIR_TARGET=$target"
 fi
 
 # check if a template pack has been specified
@@ -210,9 +216,10 @@ if [ -n "$TEMPLATE_PACK" ]; then
         echo "Can't find the template pack: $TEMPLATE_PACK"
         exit 1
     fi
-    target=/data/template-pack
-    TEMPLATE_PACK_VOLUME="--volume `readlink -f "$TEMPLATE_PACK"`:$target"
-    TEMPLATE_PACK_ENV="--env DEFAULT_TEMPLATE_PACK=$target"
+    mpoint=/data/template-pack
+    target=$( readlink -f "$TEMPLATE_PACK" )
+    TEMPLATE_PACK_VOLUME="--volume $target:$mpoint"
+    TEMPLATE_PACK_ENV="--env DEFAULT_TEMPLATE_PACK=$mpoint --env DEFAULT_TEMPLATE_PACK_TARGET"
 fi
 
 # check if testing has been enabled
@@ -239,6 +246,9 @@ echo Launching the \"$IMAGE_TAG\" image as \"$CONTAINER_NAME\"...
 docker run \
     --name $CONTAINER_NAME \
     --publish $PORT:5010 \
+    --env DOCKER_IMAGE_NAME="vasl-templates:$IMAGE_TAG" \
+    --env DOCKER_IMAGE_TIMESTAMP="$(date --utc +"%Y-%m-%d %H:%M:%S %:z")" \
+    --env DOCKER_CONTAINER_NAME="$CONTAINER_NAME" \
     $CONTROL_TESTS_PORT_RUN \
     $VASSAL_VOLUME $VASL_MOD_VOLUME $VASL_EXTNS_VOLUME $VASL_BOARDS_VOLUME $CHAPTER_H_NOTES_VOLUME $TEMPLATE_PACK_VOLUME $USER_FILES_VOLUME \
     $VASSAL_ENV $VASL_MOD_ENV $VASL_EXTNS_ENV $VASL_BOARDS_ENV $CHAPTER_H_NOTES_ENV $TEMPLATE_PACK_ENV $USER_FILES_ENV \

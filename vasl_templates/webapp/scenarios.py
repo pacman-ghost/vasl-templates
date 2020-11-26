@@ -34,6 +34,7 @@ def _build_asa_scenario_index( df, new_data, logger ):
     }
     # install the results
     df.index = index
+    df.generated_at = new_data.get( "_generatedAt_" )
     if logger:
         logger.debug( "Loaded the ASL Secenario Archive index: #scenarios=%d", len(df.index) )
         logger.debug( "- Generated at: %s", new_data.get( "_generatedAt_", "n/a" ) )
@@ -60,6 +61,7 @@ def _build_roar_scenario_index( df, new_data, logger ):
         _update_roar_matching_index( id_matching, scenario.get("scenario_id"), roar_id )
     # install the results
     df.index, df.title_matching, df.id_matching = index, title_matching, id_matching
+    df.generated_at = new_data.get( "_generatedAt_" )
     if logger:
         logger.debug( "Loaded the ROAR scenario index: #scenarios=%d", len(df.index) )
         logger.debug( "- Generated at: %s", new_data.get( "_generatedAt_", "n/a" ) )

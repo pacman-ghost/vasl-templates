@@ -34,6 +34,7 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/scenario-upload-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/scenario-downloads-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/user-settings-dialog.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/program-info.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/please-wait.css')}}" />
 
 </head>
@@ -90,6 +91,7 @@
 {%include "lfa-upload.html"%}
 
 {%include "user-settings-dialog.html"%}
+{%include "program-info-dialog.html"%}
 
 {%include "ask-dialog.html"%}
 {%include "please-wait.html"%}
@@ -140,6 +142,7 @@ gUpdateVsavUrl = "{{url_for('update_vsav')}}" ;
 gPrepareAsaUploadUrl = "{{url_for('prepare_asa_upload')}}" ;
 gOnSuccessfulAsaUploadUrl = "{{url_for('on_successful_asa_upload',scenario_id='ID')}}" ;
 gMakeSnippetImageUrl = "{{url_for('make_snippet_image')}}" ;
+gGetProgramInfoUrl = "{{url_for('get_program_info')}}" ;
 gHelpUrl = "{{url_for('show_help')}}" ;
 </script>
 

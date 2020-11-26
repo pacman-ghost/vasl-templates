@@ -52,7 +52,7 @@ $(document).ready( function () {
     // initialize the menu
     var $menu = $("#menu input") ;
     var imagesDir = gImagesBaseUrl + "/menu" ;
-    $menu.popmenu( {
+    var menuItems = {
         new_scenario: { label: "New scenario", icon: imagesDir+"/new.png", action: on_new_scenario },
         load_scenario: { label: "Load scenario", icon: imagesDir+"/open.png", action: on_load_scenario },
         save_scenario: { label: "Save scenario", icon: imagesDir+"/save.png", action: on_save_scenario },
@@ -66,8 +66,12 @@ $(document).ready( function () {
             user_settings( null, null ) ;
         } },
         separator3: { type: "separator" },
+        program_info: { label: "Program info", icon: imagesDir+"/info.png", action: show_program_info },
         show_help: { label: "Help", icon: imagesDir+"/help.png", action: show_help },
-    } ) ;
+    } ;
+    if ( getUrlParam( "pyqt" ) )
+        delete menuItems.program_info ;
+    $menu.popmenu( menuItems ) ;
     // nb: we only show the popmenu on left click (not the normal right-click)
     $menu.off( "contextmenu" ) ;
     $menu.click( function() {
@@ -909,6 +913,40 @@ function handle_escape( evt )
 }
 
 // --------------------------------------------------------------------
+
+function show_program_info()
+{
+    // show the PROGRAM INFO dialog
+    $( "#program-info" ).dialog( {
+        title: gAppConfig.APP_NAME + " (" + gAppConfig.APP_VERSION + ")",
+        dialogClass: "program-info",
+        modal: true,
+        width: $(window).width() * 0.8,
+        minWidth: 750,
+        height: $(window).height() * 0.8,
+        minHeight: 400,
+        open: function() {
+            var $dlg = $(this) ;
+            $dlg.find( ".content" ).hide() ;
+            $dlg.find( ".loader" ).show() ;
+            var url = gGetProgramInfoUrl + "?tz_offset=" + -new Date().getTimezoneOffset() ;
+            $.get( url, function( resp ) {
+                $dlg.find( ".loader" ).hide() ;
+                $dlg.find( ".content" ).html( resp ).fadeIn( 250 ) ;
+            } ).fail( function( xhr, status, errorMsg ) {
+                showErrorMsg( "Can't get the program info:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+                $dlg.dialog( "close" ) ;
+            } ) ;
+        },
+        buttons: {
+            OK: function() {
+                $(this).dialog( "close" ) ;
+            }
+        },
+    } ) ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 function show_help()
 {
