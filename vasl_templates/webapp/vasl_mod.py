@@ -75,7 +75,8 @@ def _load_vasl_extns( extn_dir, msg_store ): #pylint: disable=too-many-locals,to
     dname = app.config.get( "_VASL_EXTN_INFO_DIR_" ) # nb: this is set by the test suite
     if not dname:
         dname = os.path.join( DATA_DIR, "extensions" )
-    for fname in glob.glob( os.path.join(dname,"*.json") ):
+    # NOTE: We sort the filenames so that the test results are stable.
+    for fname in sorted( glob.glob( os.path.join(dname,"*.json") ) ):
         _logger.debug( "Loading VASL extension info: %s", fname )
         with open( fname, "r" ) as fp:
             extn_info = json.load( fp )
@@ -88,7 +89,8 @@ def _load_vasl_extns( extn_dir, msg_store ): #pylint: disable=too-many-locals,to
 
     # process each VASL extension
     extns = []
-    for extn_fname in os.listdir( extn_dir ):
+    # NOTE: We sort the filenames so that the test results are stable.
+    for extn_fname in sorted( os.listdir( extn_dir ) ):
 
         # check if this is a file we're interested in
         if os.path.splitext(extn_fname)[1] not in valid_fname_extns:
