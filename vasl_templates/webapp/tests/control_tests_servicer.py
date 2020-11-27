@@ -174,6 +174,10 @@ class ControlTestsServicer( BaseControlTestsServicer ): #pylint: disable=too-man
         """End a test run."""
         self._log_request( request, context )
         # end the test run
+        # NOTE: If the active VaslMod has loaded any extension files from our temp directory, since they are
+        # kept open for the duration, we need to clean up the VaslMod (so that it will close these files),
+        # otherwise we may not be able to clean up our temp file directory.
+        webapp_vasl_mod.set_vasl_mod( None, None )
         self.cleanup()
         return Empty()
 
