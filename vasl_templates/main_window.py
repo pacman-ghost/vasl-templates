@@ -62,25 +62,26 @@ class MainWindow( QWidget ):
         # initialize the main window
         self.setWindowTitle( APP_NAME )
         if IS_FROZEN:
-            dname = os.path.join( sys._MEIPASS, "vasl_templates/webapp" ) #pylint: disable=no-member,protected-access
+            base_dir = os.path.join( sys._MEIPASS, "vasl_templates/webapp" ) #pylint: disable=no-member,protected-access
         else:
-            dname = os.path.join( os.path.split(__file__)[0], "webapp" )
+            base_dir = os.path.join( os.path.split(__file__)[0], "webapp" )
         self.setWindowIcon( QIcon(
-            os.path.join( dname, "static/images/app.ico" )
+            os.path.join( base_dir, "static/images/app.ico" )
         ) )
 
         # create the menu
         menu_bar = QMenuBar( self )
         file_menu = menu_bar.addMenu( "&File" )
-        def add_action( caption, handler ):
+        def add_action( caption, icon, handler ):
             """Add a menu action."""
-            action = QAction( caption, self )
+            icon = QIcon( os.path.join( base_dir, "static/images/menu", icon ) if icon else None )
+            action = QAction( icon, caption, self )
             action.triggered.connect( handler )
             file_menu.addAction( action )
-        add_action( "&Settings", self.on_settings )
-        add_action( "&About", self.on_about )
+        add_action( "&Settings", "settings.png", self.on_settings )
+        add_action( "&About", "info.png", self.on_about )
         file_menu.addSeparator()
-        add_action( "E&xit", self.on_exit )
+        add_action( "E&xit", "exit.png", self.on_exit )
 
         # set the window geometry
         if disable_browser:
