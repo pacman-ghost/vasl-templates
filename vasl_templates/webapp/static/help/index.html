@@ -198,7 +198,7 @@ We can pretty-up the labels by including pictures in them. Open the <em>User Set
 <h2> Adding the scenario details </h2>
 
 <p> <img src="images/asa-search.png" class="preview" style="width:30em;float:left;">
-We start by entering the basic scenario details, such as its name, location and date. The easiest way to do this is to search the <a href="https://aslscenarioarchive.com">ASL Scenario Archive</a>.
+We start by entering the basic scenario details, such as its name, location and date. The easiest way to do this is by searching the <a href="https://aslscenarioarchive.com">ASL Scenario Archive</a>.
 <p> Click on the search button, enter the name of the scenario, and once you've found the correct one, click on <em>Import</em> to transfer the details into <em>VASL Templates</em>.
 <p> If the <em>Downloads</em> button is enabled, this means that somebody has contributed the entire scenario setup and/or VASL save file, and these are available for download.
 <div class="hint" style="float:right;width:30em;"> The scenario card may list special rules and errata, and have screenshots of the map setup, all of which will help you set up your scenario correctly. </div>
@@ -310,7 +310,9 @@ When the scenario has been completed and checked, you can contribute it back to 
 <p> <img src="images/lfa.png" class="preview" style="width:400px;float:right;">
 As an added bonus, <em>VASL Templates</em> can also analyze VASL log files, to generate a report on how the game went. Choose <em>Analyze log files</em> from the menu, and add one or more VASL log files.
 <p> You will be shown a report showing distribution graphs for the dice, and how the dice went over time. You can filter by the type of dice roll (e.g. only Morale Checks or To Kill rolls), as well as change the window size for moving averages. You can even download the data as a CSV, for further analysis!
-<p> If there is more than one log file, you can also drill down into each individual session: <br>
+<p> Click on the flaming dice to see how many 2's and 12's each player rolled, as well as Sniper Activations. <br>
+<img src="images/lfa-2s-and-12s.png" class="preview" style="margin:0.5em 0 0 2em;width:200px;">
+<p> And if there is more than one log file, you can also drill down into each individual session: <br>
 <img src="images/lfa-files.png" class="preview" style="margin:0.5em 0 0 2em;width:200px;">
 <p> <img src="images/lfa-hotness.png" class="preview" style="width:300px;float:right;">
 The report also calculates <em>"hotness"</em>, which is a measure of how hot your dice were. The more low rolls you make, the higher your hotness score, while rolling high makes it go down.
@@ -518,7 +520,11 @@ When you're writing a new template file, it would be painful to have to ZIP up a
 <div class="code">
 pip install --editable .[dev]
 </div>
-The tests use <a href="http://pytest.org">pytest</a> and <a href="https://www.seleniumhq.org/projects/webdriver/">Selenium WebDriver</a>, so you will need <tt>geckodriver</tt> and/or <tt>chromedriver</tt> somewhere in your PATH. The driver to use can be specified via the <tt>--webdriver</tt> parameter, and you can also run the tests headless e.g
+You may need to install some pre-requisites first e.g. on Fedora:
+<div class="code">
+sudo dnf install gcc-c++ python3-devel libxml2-devel libxslt-devel
+</div>
+<p> The tests use <a href="http://pytest.org">pytest</a> and <a href="https://www.seleniumhq.org/projects/webdriver/">Selenium WebDriver</a>, so you will need <tt>geckodriver</tt> and/or <tt>chromedriver</tt> somewhere in your PATH. The driver to use can be specified via the <tt>--webdriver</tt> parameter, and you can also run the tests headless e.g
 <div class="code">
 pytest --webdriver chrome --headless
 </div>
