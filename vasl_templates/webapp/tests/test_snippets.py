@@ -218,7 +218,7 @@ def test_players_snippets( webapp, webdriver ):
     _test_snippet( btn, {
         "PLAYER_1": "british",
         },
-        "player1=[british:British] ; ELR=[1] ; SAN=[2] ; description=[Froggy Army]" \
+        "player1=[british:British] ; ELR=[1] ; SAN=[2] ; description=[]" \
             " | player2=[british:British] ; ELR=[3] ; SAN=[4] ; description=[Barmy Army]",
         [ "Both players have the same nationality!" ],
     )

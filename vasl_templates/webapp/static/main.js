@@ -717,11 +717,10 @@ function is_player_ob_empty( player_no )
 
 function on_player_change( player_no )
 {
-    // update the tab label
+    // update the UI
     var player_nat = update_ob_tab_header( player_no ) ;
-
-    // show/hide the nationality-specific buttons
     update_nationality_specific_buttons( player_no ) ;
+    $( "input[name='PLAYER_" + player_no + "_DESCRIPTION']" ).val( "" ) ;
 
     // show/hide the vehicle/ordnance multi-applicable notes controls
     function update_ma_notes_controls( vo_type ) {
