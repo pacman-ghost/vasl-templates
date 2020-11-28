@@ -4,7 +4,7 @@
   "type": "MTR",
   "capabilities": [ "IR", "s7\u2020" ],
   "capabilities2": { "WP": "6\u2020" },
-  "comments": [ "HE &le; 2 hexes: <ul> <li> ROF 1 <li> Air Bursts NA </ul>", "Smoke: Range 3-10 hexes", "WP: Range 1-5 hexes <ul> <li> ROF 1 <li> Dispersed <li> Air Bursts NA </ul>" ],
+  "comments": [ "Smoke: Range 3-10 hexes", "HE &le; 2 hexes: <ul> <li> ROF 1 <li> Air Bursts NA </ul>", "WP: Range 1-5 hexes <ul> <li> ROF 1 <li> Dispersed <li> Air Bursts NA </ul>" ],
   "note_number": "1\u2020",
   "id": "ja/o:000",
   "gpid": 3253

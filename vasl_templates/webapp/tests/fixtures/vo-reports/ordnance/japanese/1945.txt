@@ -2,7 +2,7 @@
 
 Name                                                  Capabilities                  (effective)             #       Notes               Comments
 ----------------------------------------------------  ----------------------------  ----------------------  ------  ------------------  -------------------------------------------------------------------------------------------------------------------------------------------
-Type 89 Heavy Grenade Launcher                        IR s7† WP6†                   IR s7† WP6†             1†      n/a                 HE &#8804; 2 hexes: [{ *:ROF 1 *:Air Bursts NA }] | Smoke: Range 3-10 hexes | WP: Range 1-5 hexes [{ *:ROF 1 *:Dispersed *:Air Bursts NA }]
+Type 89 Heavy Grenade Launcher                        IR s7† WP6†                   IR s7† WP6†             1†      n/a                 Smoke: Range 3-10 hexes | HE &#8804; 2 hexes: [{ *:ROF 1 *:Air Bursts NA }] | WP: Range 1-5 hexes [{ *:ROF 1 *:Dispersed *:Air Bursts NA }]
 Year-11 Type Curved-Fire Infantry Gun                 WP5                           WP5                     2†      A B†<sup>1</sup>    QSU | Animal-Packed | As 82mm MTR
 Type 97 Curved-Fire Infantry Gun                      WP5                           WP5                     3†      A                   QSU | Animal-Packed
 Type 97 Light Close-Attack Gun                        WP5                           WP5                     4†      A B†<sup>1</sup>    QSU | Animal-Packed | As 82mm MTR

@@ -34,7 +34,7 @@
   "type": "MTR",
   "capabilities": [ "IR" ],
   "capabilities2": { "s": 5, "WP": 5 },
-  "comments": [ "HE &le; 2 hexes: <ul> <li> ROF 1 <li> Air Bursts NA </ul>", "Smoke: Range 3-10 hexes", "WP: Range 1-5 hexes <ul> <li> ROF 1 <li> Dispersed <li> Air Bursts NA </ul>", "Japanese: No Captured Use penalty; Cave OK" ],
+  "comments": [ "Smoke: Range 3-10 hexes", "HE &le; 2 hexes: <ul> <li> ROF 1 <li> Air Bursts NA </ul>", "WP: Range 1-5 hexes <ul> <li> ROF 1 <li> Dispersed <li> Air Bursts NA </ul>", "Japanese: No Captured Use penalty; Cave OK" ],
   "note_number": "2\u2020",
   "notes": [ "A" ],
   "id": "ch/o:004",

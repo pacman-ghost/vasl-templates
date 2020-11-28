@@ -6,7 +6,7 @@ Type 27 Grenade Launcher                                                        
 Mortaio da 45 "Brixia"                                                                      2       A D†                        B# = 11 | Animal-Packed
 5cm leGrW 36                                                                                2       A                           Animal-Packed
 50mm RM obr. 38                                                                             2       A                           Animal-Packed
-Type 89 Heavy Grenade Launcher  IR WP5 s5                     IR WP5 s5                     2†      A                           HE &#8804; 2 hexes: [{ *:ROF 1 *:Air Bursts NA }] | Smoke: Range 3-10 hexes | WP: Range 1-5 hexes [{ *:ROF 1 *:Dispersed *:Air Bursts NA }] | Japanese: No Captured Use penalty; Cave OK | Animal-Packed
+Type 89 Heavy Grenade Launcher  IR WP5 s5                     IR WP5 s5                     2†      A                           Smoke: Range 3-10 hexes | HE &#8804; 2 hexes: [{ *:ROF 1 *:Air Bursts NA }] | WP: Range 1-5 hexes [{ *:ROF 1 *:Dispersed *:Air Bursts NA }] | Japanese: No Captured Use penalty; Cave OK | Animal-Packed
 M2 60mm                         IR                            IR                            3†      A                           Animal-Packed
 Stokes 3-in.                                                                                4       A E†                        QSU | Animal-Packed
 8cm GrW 34                      IR s6                         IR s6                         4       A E†                        QSU | Animal-Packed
