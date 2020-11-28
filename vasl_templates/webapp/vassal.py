@@ -24,9 +24,15 @@ from vasl_templates.webapp.vasl_mod import get_reverse_remapped_gpid
 # NOTE: VASSAL dropped support for Java 8 from 3.3.0. The first version of VASL that supported
 # the later versions of Java was 6.6.0, but it was compiled against VASSAL 3.4.2, so we don't
 # need to support versions of VASSAL prior to this (3.3.0-.2, 3.4.0-.1), since VASL is known
-# not work with them.
-SUPPORTED_VASSAL_VERSIONS = [ "3.4.2", "3.4.3", "3.4.4", "3.4.5", "3.4.6", "3.4.7" ]
-SUPPORTED_VASSAL_VERSIONS_DISPLAY = "3.4.2-.7"
+# to not work with them.
+# The versions of VASSAL each version of VASL was compiled against, and Java bundled with
+# the Windows version of VASSAL are:
+#   VASL  | VASSAL  Java
+#   ------+------------------
+#   6.6.0 | 3.4.2   14.0.2+12
+#   6.6.1 | 3.4.6   15+36
+SUPPORTED_VASSAL_VERSIONS = [ "3.4.2", "3.4.6" ]
+SUPPORTED_VASSAL_VERSIONS_DISPLAY = "3.4.2, 3.4.6"
 
 # ---------------------------------------------------------------------
 
