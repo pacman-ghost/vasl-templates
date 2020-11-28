@@ -86,6 +86,12 @@ $(document).ready( function () {
     $("#load-template-pack").change( on_template_pack_file_selected ) ;
     $("#load-vsav").change( on_load_vsav_file_selected ) ;
     $("#load-vlog").change( on_load_vlog_file_selected ) ;
+    // preload the menu item images
+    for ( var item in menuItems ) {
+        var url = menuItems[ item ].icon ;
+        if ( url )
+            $.get( make_app_url( url )  ) ;
+    }
     // all done - we can show the menu now
     $("#menu").show() ;
 
@@ -577,11 +583,8 @@ function update_page_load_status( id )
             showErrorMsg( "Can't get the startup messages:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
         } ) ;
         // preload the flag images (so that the player droplist renders immediately)
-        for ( var nat in gTemplatePack.nationalities ) {
-            $("body").append( $(
-                "<img src='" + make_player_flag_url(nat,false) + "' style='display:none;'>"
-            ) ) ;
-        }
+        for ( var nat in gTemplatePack.nationalities )
+            $.get( make_player_flag_url( nat, false ) ) ;
     }
 }
 
