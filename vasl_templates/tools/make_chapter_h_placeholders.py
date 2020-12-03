@@ -218,6 +218,11 @@ def load_vo_data_from_extension( fname ):
     # get the extension ID
     data = json.load( open( fname, "r" ) )
     extn_id = data["extensionId"]
+    if extn_id == "08d":
+        # NOTE: All the vehicle/ordnance notes and multi-applicable notes in the Fight For Seoul extension
+        # actually reference those in K:FW (and there is code in the main application to handle this), so
+        # the user doesn't need to set anything up for FfS (other than what they already need to do for K:FW).
+        return results
 
     # load the file
     for nat in data:

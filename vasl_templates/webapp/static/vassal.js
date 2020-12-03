@@ -389,7 +389,8 @@ function _create_vo_entries_from_analysis( report )
                 return entries[0] ;
             var entries2 = [] ;
             for ( var i=0 ; i < entries.length ; ++i ) {
-                var isKFW = entries[i].id.substr( 0, 4 ) === "kfw-" ;
+                var entry_id = entries[i].id ;
+                var isKFW = entry_id.substr(0,4) === "kfw-" || entry_id.substr(0,3) === "ffs" ;
                 if ( (theater == "Korea" && isKFW) || (theater != "Korea" && !isKFW) )
                     entries2.push( entries[i] ) ;
             }

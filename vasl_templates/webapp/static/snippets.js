@@ -538,7 +538,11 @@ function get_vo_note_key( vo_entry )
         return null ;
     var key = match[0] ;
     // NOTE: The K:FW counters appear in the main VASL module, but we handle them as if they were an extension.
-    if ( vo_entry.extn_id )
+    if ( vo_entry.extn_id === "08d" ) {
+        // NOTE: All the FfS V/O and M/A notes actually reference K:FW (nb: there are only 2 American counters
+        // in this extension, so we can always map them to K:FW UN).
+        key = "kfw-un:" + key ;
+    } else if ( vo_entry.extn_id )
         key = vo_entry.extn_id + ":" + key ;
     else if ( vo_entry.id.match( /^kfw-(uro|bcfk|rok|ounc|un-common)\// ) )
         key = "kfw-un:" + key ;
@@ -617,7 +621,9 @@ function get_ma_notes_keys( nat, vo_entries, vo_type )
         for ( j=0 ; j < vo_entry.notes.length ; ++j ) {
 
             // NOTE: The K:FW counters appear in the main VASL module, but we handle them as if they were an extension.
-            var key = translate_kfw_key( vo_entry, j, /^kfw-(uro|bcfk|rok|ounc|un-common)\//, "kfw-un" ) ;
+            // NOTE: All the FfS V/O and M/A notes actually reference K:FW (nb: there are only 2 American counters
+            // in this extension, so we can always map them to K:FW UN).
+            var key = translate_kfw_key( vo_entry, j, /^(kfw-(uro|bcfk|rok|ounc|un-common)|ffs)\//, "kfw-un" ) ;
             if ( key ) {
                 keys[0][ key ] = true ;
                 continue ;

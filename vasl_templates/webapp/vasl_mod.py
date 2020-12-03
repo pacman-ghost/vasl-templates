@@ -299,7 +299,7 @@ class VaslMod:
             front_images, back_images = self._get_image_paths( gpid, node.text )
             piece = {
                 "gpid": gpid,
-                "name": node.attrib["entryName"],
+                "name": node.attrib["entryName"].strip(),
                 "front_images": front_images,
                 "back_images": back_images,
                 "is_small": int(node.attrib["height"]) <= 48,
@@ -382,7 +382,8 @@ class VaslMod:
         # ignore dismantled ordnance
         if len(front_images) > 1:
             for pair in [
-              ("dm","dmb"), ("dm.png","dmm.png"), ("-dm.png","-dm-malf.png"), ("(KFW)dm.png","(KFW)dmx.png")
+              ("dm","dmb"), ("dm.png","dmm.png"), ("-dm.png","-dm-malf.png"),
+              ("(KFW)dm.png","(KFW)dmx.png"), ("amrcl75-malf.png","dm-75rcl.gif")
             ]:
                 if check_pair( pair ):
                     _logger.debug( "Ignoring dismantled images: gpid=%s, front=%s, back=%s",

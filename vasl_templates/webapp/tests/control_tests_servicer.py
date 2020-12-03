@@ -194,7 +194,11 @@ class ControlTestsServicer( BaseControlTestsServicer ): #pylint: disable=too-man
         self._log_request( request, context )
         vassal_version = request.vassalVersion
         # set the VASSAL engine
-        if vassal_version:
+        if vassal_version == "random":
+            # NOTE: Some tests require VASSAL to be configured, and since they should all
+            # should behave in the same way, it doesn't matter which one we use.
+            dname = random.choice( list( self._vassal_engines.values() ) )
+        elif vassal_version:
             dname = self._vassal_engines.get( vassal_version )
             if not dname:
                 raise RuntimeError( "Unknown VASSAL version: {}".format( vassal_version ) )

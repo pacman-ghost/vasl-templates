@@ -30,6 +30,7 @@ M3 3-in. AA Gun                                                                 
 M1A1 90mm AA Gun                                                                    26†     N                                No Move
 M2 90mm AA Gun                    LF [90†, 1 ROF, B11]     LF [90†, 1 ROF, B11]     27†[1]  B†
 20mm Oerlikon Mk4                                                                   1†      US P                             2 TK DR
+M20(L) 75mm Recoilless Rifle      H† WP7                   H† WP7                   25†     K M O P R                        &#8734; H | Crewed
 Type 89 Heavy Grenade Launcher                                                      1†      A P                              Range &#8804; 2: [{ *:Air Bursts NA *:ROF 1 }] | Animal-Packed
 M2 4.2-in. Mortar                 WP10                     WP10                     2†      K M O P Y                        QSU | Area FP = 12
 M3A1 37mm AT Gun                  C7                       C7                       3†      C K P                            QSU

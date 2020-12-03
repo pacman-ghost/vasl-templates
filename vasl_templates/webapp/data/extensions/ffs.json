@@ -1,0 +1,44 @@
+{
+
+"extensionId": "08d",
+"version": "0.0",
+"displayName": "Fight For Seoul",
+"displayNameAbbrev": "FfS",
+
+"american": {
+
+"vehicles": [
+
+{ "name": "POA-CWS-H5",
+  "_comment_": "This was copied from kfw-uro/v:005. We can't use copy_from since K:FW is also an extension, and we don't control load order.",
+  "type": "MTv",
+  "CS#": 6,
+  "capabilities2": { "C": 5, "sM": 8 },
+  "note_number": "5\u2020",
+  "notes": [ "C", "M" ],
+  "comments": [ "TCA restrictions", "CE: MA, SA Fire NA", "Fire MA &amp; SA NA" ],
+  "id": "ffs/v:000",
+  "gpid": "08d:15"
+}
+
+],
+
+"ordnance": [
+
+{ "name": "M20(L) 75mm Recoilless Rifle",
+  "_comment_": "This was copied from kfw-un-common/o:004. We can't use copy_from since K:FW is also an extension, and we don't control load order.",
+  "type": "RCL",
+  "capabilities": [ "H\u2020" ],
+  "capabilities2": { "WP": 7 },
+  "comments": [ "&infin; H", "Crewed" ],
+  "note_number": "25\u2020",
+  "notes": [ "K", "M", "O", "P", "R" ],
+  "id": "ffs/o:000",
+  "gpid": "08d:75"
+}
+
+]
+
+}
+
+}

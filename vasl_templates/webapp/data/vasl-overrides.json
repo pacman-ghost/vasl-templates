@@ -142,6 +142,17 @@
         "front_images": "us/veh/usSearchlight(KFW).png",
         "back_images": null
     }
+},
+
+"08d:75": {
+    "expected": {
+        "name": "RCL 75*",
+        "front_images": "amrcl75-malf.png",
+        "back_images": "dm-75rcl.gif"
+    },
+    "updated": {
+        "front_images": "amrcl75.png"
+    }
 }
 
 }

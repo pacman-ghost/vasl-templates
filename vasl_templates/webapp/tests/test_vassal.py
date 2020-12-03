@@ -12,7 +12,7 @@ import pytest
 from vasl_templates.webapp.utils import TempFile, change_extn, compare_version_strings
 from vasl_templates.webapp.tests.utils import \
     init_webapp, select_menu_option, get_stored_msg, set_stored_msg, set_stored_msg_marker, wait_for, \
-    new_scenario, set_player
+    new_scenario, set_player, find_child
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, load_scenario_params, save_scenario, \
     assert_scenario_params_complete
 
@@ -580,7 +580,7 @@ def test_analyze_vsav( webapp, webdriver ):
         new_scenario()
         set_player( 1, "german" )
         set_player( 2, "russian" )
-        _analyze_vsav( "basic.vsav",
+        analyze_vsav( "basic.vsav",
             [ [ "ge/v:033", "ge/v:066" ], [ "ge/o:029" ] ],
             [ [ "ru/v:064" ], [ "ru/o:002", "ru/o:006" ] ],
             [ "Imported 2 German vehicles and 1 ordnance.", "Imported 1 Russian vehicle and 2 ordnance." ]
@@ -590,7 +590,7 @@ def test_analyze_vsav( webapp, webdriver ):
         new_scenario()
         set_player( 1, "french" )
         set_player( 2, "british" )
-        _analyze_vsav( "basic.vsav",
+        analyze_vsav( "basic.vsav",
             [ [], [] ],
             [ [], [] ],
             [ "No vehicles/ordnance were imported." ]
@@ -600,7 +600,7 @@ def test_analyze_vsav( webapp, webdriver ):
         new_scenario()
         set_player( 1, "american" )
         set_player( 2, "japanese" )
-        _analyze_vsav( "landing-craft.vsav",
+        analyze_vsav( "landing-craft.vsav",
             [ [ ("sh/v:000","397/0"), ("sh/v:000","399/0"), ("sh/v:006","413/0"), ("sh/v:006","415/0") ], [] ],
             [ [ "sh/v:007", "sh/v:008" ], [] ],
             [ "Imported 4 American vehicles.", "Imported 2 Japanese vehicles." ]
@@ -610,7 +610,7 @@ def test_analyze_vsav( webapp, webdriver ):
         new_scenario()
         set_player( 1, "belgian" )
         set_player( 2, "romanian" )
-        _analyze_vsav( "common-vo.vsav",
+        analyze_vsav( "common-vo.vsav",
             [ [ "be/v:000", "alc/v:011" ], [ "be/o:001", "alc/o:012" ] ],
             [ [ "ro/v:000", "axc/v:027" ], [ "ro/o:003", "axc/o:002" ] ],
             [ "Imported 2 Belgian vehicles and 2 ordnance.", "Imported 2 Romanian vehicles and 2 ordnance." ]
@@ -619,14 +619,14 @@ def test_analyze_vsav( webapp, webdriver ):
         new_scenario()
         set_player( 1, "yugoslavian" )
         set_player( 2, "croatian" )
-        _analyze_vsav( "common-vo.vsav",
+        analyze_vsav( "common-vo.vsav",
             [ [ "alc/v:011" ], [ "alc/o:012" ] ],
             [ [ "axc/v:027" ], [ "axc/o:002" ] ],
             [ "Imported 1 Yugoslavian vehicle and 1 ordnance.", "Imported 1 Croatian vehicle and 1 ordnance." ]
         )
         # try again with the Germans/Russians
         new_scenario()
-        _analyze_vsav( "common-vo.vsav",
+        analyze_vsav( "common-vo.vsav",
             [ [], [] ],
             [ [], [] ],
             [ "No vehicles/ordnance were imported." ]
@@ -636,7 +636,7 @@ def test_analyze_vsav( webapp, webdriver ):
         new_scenario()
         set_player( 1, "american" )
         set_player( 2, "japanese" )
-        _analyze_vsav( "extensions-bfp.vsav",
+        analyze_vsav( "extensions-bfp.vsav",
             [ [ "am/v:906" ], [ "am/o:900" ] ],
             [ [ "ja/v:902" ], [ "ja/o:902" ] ],
             [ "Imported 1 American vehicle and 1 ordnance.", "Imported 1 Japanese vehicle and 1 ordnance." ]
@@ -660,7 +660,7 @@ def test_analyze_vsav_hip_concealed( webapp, webdriver ):
         # but because the owning user is test/password, they should be ignored (unless you configure VASSAL
         # with these credentials, so don't do that :-/).
         new_scenario()
-        _analyze_vsav( "hip-concealed.vsav",
+        analyze_vsav( "hip-concealed.vsav",
             [ [], [] ],
             [ [], [] ],
             [ "No vehicles/ordnance were imported." ]
@@ -684,7 +684,7 @@ def test_reverse_remapped_gpids( webapp, webdriver ):
         new_scenario()
         set_player( 1, "american" )
         set_player( 2, "croatian" )
-        _analyze_vsav( "reverse-remapped-gpids-650.vsav",
+        analyze_vsav( "reverse-remapped-gpids-650.vsav",
             [ ["am/v:044"], ["am/o:002","am/o:021"] ],
             [ ["cr/v:002","cr/v:003"], ["cr/o:000"] ],
             [ "Imported 1 American vehicle and 2 ordnance.", "Imported 2 Croatian vehicles and 1 ordnance." ]
@@ -710,7 +710,7 @@ def test_vo_entry_selection_for_theater( webapp, webdriver ):
             "SCENARIO_THEATER": theater,
             "PLAYER_1": "american",
         } } )
-        _analyze_vsav( "vo-entry-selection-for-theater.vsav",
+        analyze_vsav( "vo-entry-selection-for-theater.vsav",
             [ [], expected ],
             [ [], [] ],
             [ "Imported 4 American ordnance." ]
@@ -893,7 +893,7 @@ def _get_vsav_labels( vsav_dump ):
 
 # ---------------------------------------------------------------------
 
-def _analyze_vsav( fname, expected_ob1, expected_ob2, expected_report ):
+def analyze_vsav( fname, expected_ob1, expected_ob2, expected_report ):
     """Analyze a VASL scenario."""
 
     # read the VSAV data
@@ -904,13 +904,12 @@ def _analyze_vsav( fname, expected_ob1, expected_ob2, expected_report ):
     # send the VSAV data to the front-end to be analyzed
     set_stored_msg( "_vsav-persistence_", base64.b64encode( vsav_data ).decode( "utf-8" ) )
     prev_info_msg = set_stored_msg_marker( "_last-info_" )
-    prev_warning_msg = set_stored_msg_marker( "_last-warning_" )
+    set_stored_msg_marker( "_last-warning_" )
     select_menu_option( "analyze_vsav" )
 
     # wait for the analysis to finish
-    wait_for( 60,
-        lambda: get_stored_msg("_last-info_") != prev_info_msg or get_stored_msg("_last-warning_") != prev_warning_msg
-    )
+    wait_for( 2, lambda: find_child( "#please-wait" ).is_displayed() )
+    wait_for( 60, lambda: not find_child( "#please-wait" ).is_displayed() )
 
     # check the results
     saved_scenario = save_scenario()

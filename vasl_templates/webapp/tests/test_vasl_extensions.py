@@ -10,9 +10,10 @@ from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.utils import TempFile
 from vasl_templates.webapp.tests.utils import init_webapp, set_player, select_tab, new_scenario, \
-    find_child, find_children, wait_for_clipboard
+    find_child, find_children, wait_for_clipboard, generate_sortable_entry_snippet
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
+from vasl_templates.webapp.tests.test_vassal import analyze_vsav
 
 _TEST_VASL_EXTN_FNAME = "test-vasl-extension.zip"
 
@@ -336,6 +337,98 @@ def test_bfp_extensions2( webapp, webdriver ):
         ( True, "B", "A vehicle of the sam" ),
         ( True, "C", "A vehicle of the sam" ),
     ], transform=_extract_extn_ma_notes )
+
+# ---------------------------------------------------------------------
+
+def test_ffs_extensions( webapp, webdriver ):
+    """Test the Fight For Seoul extension."""
+
+    # check if the remote webapp server supports this test
+    if not webapp.control_tests.has_capability( "chapter-h" ):
+        return
+
+    # analyze a VASL scenario that has the FfS counters
+    webapp.control_tests \
+        .set_vassal_version( "random" ) \
+        .set_vasl_version( "random", None ) # nb: we don't load the extension
+    init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
+    set_player( 1, "american" )
+    analyze_vsav( "ffs.vsav",
+        [ [], [] ],
+        [ [], [] ],
+        [ "No vehicles/ordnance were imported." ]
+    )
+
+    # analyze the same VASL scenario with the FfS extension loaded
+    webapp.control_tests \
+        .set_data_dir( "{REAL}" ) \
+        .set_vassal_version( "random" ) \
+        .set_vasl_version( "random", "{REAL}" ) \
+        .set_vo_notes_dir( "{REAL}" )
+    init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
+    set_player( 1, "american" )
+    analyze_vsav( "ffs.vsav",
+        [ [ "ffs/v:000" ], [ "ffs/o:000" ] ],
+        [ [], [] ],
+        [ "Imported 1 American vehicle and 1 ordnance." ]
+    )
+
+    # NOTE: All the vehicle/ordnance and multi-applicable notes in the FfS extension
+    # actually refer to K:FW, so we want to make sure we get the correct ones.
+    select_tab( "ob1" )
+
+    # check the vehicle's OB snippet
+    btn = find_child( "button.generate[data-id='ob_vehicles_1']" )
+    btn.click()
+    wait_for_clipboard( 2, re.compile(
+        'POA-CWS-H5'
+        '.+<div class="note"'
+        '.+&#x2756;'
+        '.+5\u2020, C, M',
+        re.DOTALL
+    ) )
+
+    # check the vehicle's multi-applicable notes
+    btn = find_child( "button.generate[data-id='ob_vehicles_ma_notes_1']" )
+    btn.click()
+    clipboard = wait_for_clipboard( 2, [
+        ( True, "C", "37mm canister has 12" ),
+        ( True, "M", "Used by the U.S.M.C." ),
+    ], transform=_extract_extn_ma_notes )
+    # make sure we haven't incorrectly got the *American* multi-applicable notes
+    assert "and is available in all theaters" not in clipboard
+
+    # check the vehicle's Chapter H note
+    sortable = find_child( "#ob_vehicles-sortable_1" )
+    snippet = generate_sortable_entry_snippet( sortable, 0 )
+    assert "U.S.M.C. tankers gave the H5 the nickname" in snippet
+
+    # check the ordnance's OB snippet
+    btn = find_child( "button.generate[data-id='ob_ordnance_1']" )
+    btn.click()
+    wait_for_clipboard( 2, re.compile(
+        r'M20\(L\) 75mm Recoilless Rifle'
+        '.+<div class="note"'
+        '.+&#x2756;'
+        '.+25\u2020, K, M, O, P, R',
+        re.DOTALL
+    ) )
+
+    # check the ordnance's multi-applicable notes
+    btn = find_child( "button.generate[data-id='ob_ordnance_ma_notes_1']" )
+    btn.click()
+    clipboard = wait_for_clipboard( 2, [
+        ( True, "K", "Used by ROK Army for" ),
+        ( True, "M", "Used by the U.S.M.C." ),
+        ( True, "O", "Used by one or more " ),
+        ( True, "P", "Used by the Korean M" ),
+        ( True, "R", "Used by Royal Marine" ),
+    ], transform=_extract_extn_ma_notes )
+
+    # check the ordnance's Chapter H note
+    sortable = find_child( "#ob_ordnance-sortable_1" )
+    snippet = generate_sortable_entry_snippet( sortable, 0 )
+    assert "The KMC received their M20's in August 1951." in snippet
 
 # ---------------------------------------------------------------------
 

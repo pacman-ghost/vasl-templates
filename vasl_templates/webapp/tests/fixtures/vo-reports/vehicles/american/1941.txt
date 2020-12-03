@@ -94,6 +94,7 @@ M4A3F                WP7[J4+]†[3] s5[J4+] sM4[4+] CS 5[brewup]  CS 5[brewup]  
 M4A3F(75)W           WP7 s5 sM8 CS 6                            WP7 s5 sM8 CS 6          13†     US F†<sup>2</sup> US G US R†<sup>1</sup> US Y C                               Multiple Hits
 M4A1F(76)W           A4[A4]5[5]†[2] s5[5] sM8 CS 6              sM8 CS 6                 15†     US A†<sup>2</sup> US F†<sup>1</sup> US G US <s>P</s> US Y C
 M4A3F(76)W           A4[A4]5[5]†[2] s5[5] sM8 CS 6              sM8 CS 6                 16†     US A†<sup>2</sup> US F†<sup>1</sup> US G US <s>P</s> US Y C
+POA-CWS-H5           C5 sM8 CS 6                                C5 sM8 CS 6              5†      C M                                                                           TCA restrictions | CE: MA, SA Fire NA | Fire MA &amp; SA NA
 M24                  WP7 s5 sM8 CS 5                            WP7 s5 sM8 CS 5          1†      O Y                                                                           Multiple Hits
 M4A3E8               A†[1] s5 sM8 CS 6                          A†[1] s5 sM8 CS 6        2†      A†<sup>1</sup> P                                                              &#8734; A
 M4A3E8(105)          C7 H9 WP9 s7 sM8 CS 6                      C7 H9 WP9 s7 sM8 CS 6    3†      C M
