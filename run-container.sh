@@ -3,6 +3,28 @@
 
 # ---------------------------------------------------------------------
 
+function get_target {
+    local type=$1
+    local target=$2
+
+    # check that the target exists
+    if [ "$type" == "FILE" ]; then
+        test -f "$target" || return
+    elif [ "$type" == "DIR" ]; then
+        test -d "$target" || return
+    elif [ "$type" == "FILE-OR-DIR" ]; then
+        ls "$target" >/dev/null 2>&1 || return
+    fi
+
+    # convert the target to a full path
+    # FUDGE! I couldn't get the "docker run" command to work with spaces in the volume targets (although printing
+    # the command out, then copy-and-pasting it into the terminal worked fine) (and no, using ${var@Q} didn't help).
+    # So, the next best thing is to allow users to create symlinks to the targets :-/
+    echo $(realpath --no-symlinks "$target" )
+}
+
+# ---------------------------------------------------------------------
+
 function print_help {
     echo "`basename "$0"` {options}"
     cat <<EOM
@@ -120,11 +142,11 @@ while true; do
             CONTROL_TESTS_PORT=$2
             shift 2 ;;
         --test-data-vassal )
-            target=`readlink -f "$2"`
+            target=$( realpath --no-symlinks "$2" )
             TEST_DATA_VASSAL="--volume $target:/test-data/vassal/"
             shift 2 ;;
         --test-data-vasl-mods )
-            target=`readlink -f "$2"`
+            target=$( realpath --no-symlinks "$2" )
             TEST_DATA_VASL_MODS="--volume $target:/test-data/vasl-mods/"
             shift 2 ;;
         --help )
@@ -139,72 +161,72 @@ done
 
 # check if a VASSAL directory has been specified
 if [ -n "$VASSAL" ]; then
-    if [ ! -d "$VASSAL" ]; then
+    target=$( get_target DIR "$VASSAL" )
+    if [ -z "$target" ]; then
         echo "Can't find the VASSAL directory: $VASSAL"
         exit 1
     fi
     mpoint=/data/vassal/
-    target=$( readlink -f "$VASSAL" )
     VASSAL_VOLUME="--volume $target:$mpoint"
     VASSAL_ENV="--env VASSAL_DIR=$mpoint --env VASSAL_DIR_TARGET=$target"
 fi
 
 # check if a VASL module file has been specified
 if [ -n "$VASL_MOD" ]; then
-    if [ ! -f "$VASL_MOD" ]; then
+    target=$( get_target FILE "$VASL_MOD" )
+    if [ -z "$target" ]; then
         echo "Can't find the VASL .vmod file: $VASL_MOD"
         exit 1
     fi
     mpoint=/data/vasl.vmod
-    target=$( readlink -f "$VASL_MOD" )
     VASL_MOD_VOLUME="--volume $target:$mpoint"
     VASL_MOD_ENV="--env VASL_MOD=$mpoint --env VASL_MOD_TARGET"
 fi
 
 # check if a VASL extensions directory has been specified
 if [ -n "$VASL_EXTNS" ]; then
-    if [ ! -d "$VASL_EXTNS" ]; then
+    target=$( get_target DIR "$VASL_EXTNS" )
+    if [ -z "$target" ]; then
         echo "Can't find the VASL extensions directory: $VASL_EXTNS"
         exit 1
     fi
     mpoint=/data/vasl-extensions/
-    target=$( readlink -f "$VASL_EXTNS" )
     VASL_EXTNS_VOLUME="--volume $target:$mpoint"
     VASL_EXTNS_ENV="--env VASL_EXTNS_DIR=$mpoint --env VASL_EXTNS_DIR_TARGET=$target"
 fi
 
 # check if a VASL boards directory has been specified
 if [ -n "$VASL_BOARDS" ]; then
-    if [ ! -d "$VASL_BOARDS" ]; then
+    target=$( get_target DIR "$VASL_BOARDS" )
+    if [ -z "$target" ]; then
         echo "Can't find the VASL boards directory: $VASL_BOARDS"
         exit 1
     fi
     mpoint=/data/boards/
-    target=$( readlink -f "$VASL_BOARDS" )
     VASL_BOARDS_VOLUME="--volume $target:$mpoint"
     VASL_BOARDS_ENV="--env BOARDS_DIR=$mpoint --env BOARDS_DIR_TARGET=$target"
 fi
 
 # check if a Chapter H notes directory has been specified
 if [ -n "$CHAPTER_H_NOTES" ]; then
-    if [ ! -d "$CHAPTER_H_NOTES" ]; then
+    target=$( get_target DIR "$CHAPTER_H_NOTES" )
+    if [ -z "$target" ]; then
         echo "Can't find the Chapter H notes directory: $CHAPTER_H_NOTES"
         exit 1
     fi
     mpoint=/data/chapter-h-notes/
-    target=$( readlink -f "$CHAPTER_H_NOTES" )
     CHAPTER_H_NOTES_VOLUME="--volume $target:$mpoint"
     CHAPTER_H_NOTES_ENV="--env CHAPTER_H_NOTES_DIR=$mpoint --env CHAPTER_H_NOTES_DIR_TARGET=$target"
 fi
 
 # check if a user files directory has been specified
 if [ -n "$USER_FILES" ]; then
-    if [ ! -d "$USER_FILES" ]; then
+    target=$( get_target DIR "$USER_FILES" )
+    if [ -z "$target" ]; then
         echo "Can't find the user files directory: $USER_FILES"
         exit 1
     fi
     mpoint=/data/user-files/
-    target=$( readlink -f "$USER_FILES" )
     USER_FILES_VOLUME="--volume $target:$mpoint"
     USER_FILES_ENV="--env USER_FILES_DIR=$mpoint --env USER_FILES_DIR_TARGET=$target"
 fi
@@ -212,12 +234,12 @@ fi
 # check if a template pack has been specified
 if [ -n "$TEMPLATE_PACK" ]; then
     # NOTE: The template pack can either be a file (ZIP) or a directory.
-    if ! ls "$TEMPLATE_PACK" >/dev/null 2>&1 ; then
+    target=$( get_target FILE-OR-DIR "$TEMPLATE_PACK" )
+    if [ -z "$target" ]; then
         echo "Can't find the template pack: $TEMPLATE_PACK"
         exit 1
     fi
     mpoint=/data/template-pack
-    target=$( readlink -f "$TEMPLATE_PACK" )
     TEMPLATE_PACK_VOLUME="--volume $target:$mpoint"
     TEMPLATE_PACK_ENV="--env DEFAULT_TEMPLATE_PACK=$mpoint --env DEFAULT_TEMPLATE_PACK_TARGET"
 fi
