@@ -10,7 +10,7 @@ OBA: 7B 2R (access: ≤ 1)
 * Armored Assault NA
 * Riders NA
 * Assault Engineers: WP grenades
-* Leaders & Political Officers increase Morale as if Commissar
+* Leaders & Political Officers increase Morale  as if Commissar
 * SW B#/X#/ROF penalty
 * Restricted Fire
 * Infantry Platoon Movement

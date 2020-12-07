@@ -11,7 +11,7 @@ OBA: - - -
 * Riders NA
 * Assault Engineers: WP grenades
 * Early KW CPVA rules
-* Leaders & Political Officers increase Morale as if Commissar
+* Leaders & Political Officers increase Morale  as if Commissar
 * SW B#/X#/ROF penalty
 * Restricted Fire
 * Infantry Platoon Movement
