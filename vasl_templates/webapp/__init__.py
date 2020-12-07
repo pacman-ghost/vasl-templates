@@ -11,6 +11,7 @@ import logging
 import logging.config
 
 from flask import Flask, request
+import flask.cli
 import yaml
 
 from vasl_templates.webapp.config.constants import BASE_DIR
@@ -157,6 +158,9 @@ def _on_sigint( signum, stack ): #pylint: disable=unused-argument
         raise SystemExit()
 
 # ---------------------------------------------------------------------
+
+# disable the Flask startup banner
+flask.cli.show_server_banner = lambda *args: None
 
 # initialize Flask
 app = Flask( __name__ )

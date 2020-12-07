@@ -127,10 +127,6 @@ def _do_main( template_pack, default_scenario, remote_debugging, debug ): #pylin
         MainWindow.showErrorMsg( "Couldn't install the server settings:\n\n{}".format( ex ) )
         return 2
 
-    # disable the Flask "do not use in a production environment" warning
-    import flask.cli
-    flask.cli.show_server_banner = lambda *args: None
-
     # start the webapp server
     port = webapp.config[ "FLASK_PORT_NO" ]
     def webapp_thread():
