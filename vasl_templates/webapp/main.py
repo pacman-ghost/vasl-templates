@@ -15,9 +15,10 @@ from vasl_templates.webapp import app, shutdown_event
 from vasl_templates.webapp.vassal import VassalShim
 from vasl_templates.webapp.utils import MsgStore, parse_int
 import vasl_templates.webapp.config.constants
-from vasl_templates.webapp.config.constants import BASE_DIR, DATA_DIR
+from vasl_templates.webapp.config.constants import BASE_DIR, DATA_DIR, IS_FROZEN
 from vasl_templates.webapp import globvars
 from vasl_templates.webapp.lfa import DEFAULT_LFA_DICE_HOTNESS_WEIGHTS, DEFAULT_LFA_DICE_HOTNESS_THRESHOLDS
+from vasl_templates.utils import get_build_info
 
 # NOTE: This is used to stop multiple instances of the program from running (see main.py in the desktop app).
 INSTANCE_ID = uuid.uuid4().hex
@@ -196,6 +197,17 @@ def get_program_info():
     def replace_mountpoint( key ):
         """Replace a mount point with its corresponding target (on the host)."""
         params[ key ] = os.environ.get( "{}_TARGET".format( key ) )
+
+    # check if we are running the desktop application
+    if IS_FROZEN:
+        # yup - return information about the build
+        build_info = get_build_info()
+        if build_info:
+            params[ "BUILD_TIMESTAMP" ] = datetime.strftime(
+                to_localtime( datetime.utcfromtimestamp( build_info["timestamp"] ) ),
+                "%H:%M (%d %b %Y)"
+            )
+            params[ "BUILD_GIT_INFO" ] = build_info[ "git_info" ]
 
     # check if we are running inside a Docker container
     if app.config.get( "IS_CONTAINER" ):

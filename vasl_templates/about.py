@@ -2,7 +2,6 @@
 
 import sys
 import os
-import json
 import time
 import io
 import re
@@ -12,7 +11,8 @@ from PyQt5.QtCore import QUrl
 from PyQt5.QtGui import QDesktopServices, QIcon, QCursor
 from PyQt5.QtWidgets import QDialog
 
-from vasl_templates.webapp.config.constants import APP_NAME, APP_VERSION, APP_HOME_URL, BASE_DIR, IS_FROZEN
+from vasl_templates.webapp.config.constants import APP_NAME, APP_VERSION, APP_HOME_URL, IS_FROZEN
+from vasl_templates.utils import get_build_info
 
 # ---------------------------------------------------------------------
 
@@ -41,28 +41,17 @@ class AboutDialog( QDialog ):
         self.app_icon.mouseReleaseEvent = self.on_app_icon_clicked
         self.app_icon.setCursor( QCursor( QtCore.Qt.PointingHandCursor ) )
 
-        # get the build info
-        dname = os.path.join( BASE_DIR, "config" )
-        fname = os.path.join( dname, "build-info.json" )
-        if os.path.isfile( fname ):
-            build_info = json.load( open( fname, "r" ) )
-        else:
-            build_info = None
-
         # load the dialog
         self.app_name.setText( "{} ({})".format( APP_NAME, APP_VERSION ) )
         self.license.setText( "Licensed under the GNU Affero General Public License (v3)." )
+        build_info = get_build_info()
         if build_info:
             buf = io.StringIO()
-            timestamp = build_info[ "timestamp" ]
             buf.write( "Built {}".format(
-                time.strftime( "%d %B %Y %H:%S", time.localtime( timestamp ) ) # nb: "-d" doesn't work on Windows :-/
+                time.strftime( "%d %B %Y %H:%M", time.localtime( build_info["timestamp"] ) )
             ) )
-            if "branch_name" in build_info or "last_commit_id" in build_info:
-                buf.write( " <small><em>({}".format( build_info["branch_name"] ) )
-                if "last_commit_id" in build_info:
-                    buf.write( ":{}".format( build_info["last_commit_id"][:8] ) )
-                buf.write( ")</em></small>" )
+            if "git_info" in build_info:
+                buf.write( " <small><em>({})</em></small>".format( build_info["git_info"] ) )
             buf.write( "." )
             self.build_info.setText( buf.getvalue() )
         else:

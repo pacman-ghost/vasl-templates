@@ -1,8 +1,35 @@
 """ Miscellaneous utilities. """
 
+import os
 import functools
 import logging
 import traceback
+import json
+
+from vasl_templates.webapp.config.constants import BASE_DIR
+
+# ---------------------------------------------------------------------
+
+def get_build_info():
+    """Get the program build info."""
+
+    # locate and load the build info file
+    fname = os.path.join( BASE_DIR, "config", "build-info.json" )
+    if not os.path.isfile( fname ):
+        return None
+    build_info = json.load( open( fname, "r" ) )
+
+    # get the build timestamp
+    result = { "timestamp": build_info["timestamp"] }
+
+    # get the git info
+    if "branch_name" in build_info:
+        git_info = build_info[ "branch_name" ]
+        if "last_commit_id" in build_info:
+            git_info += ":{}".format( build_info["last_commit_id"][:8] )
+        result["git_info"] = git_info
+
+    return result
 
 # ---------------------------------------------------------------------
 

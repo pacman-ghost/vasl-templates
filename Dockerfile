@@ -61,7 +61,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 # install the application
 WORKDIR /app
-COPY vasl_templates/webapp/ ./vasl_templates/webapp/
+COPY vasl_templates/ ./vasl_templates/
 COPY vassal-shim/release/vassal-shim.jar ./vassal-shim/release/
 COPY setup.py requirements.txt requirements-dev.txt LICENSE.txt ./
 RUN pip3 install --editable .

@@ -1,3 +1,11 @@
+{%if BUILD_TIMESTAMP%}
+<table>
+    <tr> <td class="key"> Build date:
+         <td class="val"> {{BUILD_TIMESTAMP}}
+             {%if BUILD_GIT_INFO%} <span class="info"> ({{BUILD_GIT_INFO}}) </span> {%endif%}
+</table>
+{%endif%}
+
 {%if DOCKER_CONTAINER_ID%}
 <table>
     <tr> <td class="key"> Docker container:
