@@ -11,6 +11,11 @@ import logging
 import urllib.request
 from urllib.error import URLError
 
+# FUDGE! This works around a problem running the compiled desktop app on Fedora 30.
+#  https://github.com/pyinstaller/pyinstaller/issues/1113#issuecomment-244855512
+#  https://github.com/pyinstaller/pyinstaller/issues/1113#issuecomment-551934945
+import encodings.idna #pylint: disable=unused-import
+
 import PyQt5.QtWebEngineWidgets
 from PyQt5.QtWidgets import QApplication, QMessageBox
 from PyQt5.QtCore import Qt, QSettings, QDir
