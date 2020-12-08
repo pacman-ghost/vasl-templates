@@ -18,5 +18,6 @@ td.l { text-align: left ; }
 td.r { text-align: right ; }
 
 sup { font-size: 75% ; }
+sub { vertical-align: sub ; font-size: 80% ; line-height: 0.5em ; }
 
 .exc { font-style: italic ; color: #404040 ; }
