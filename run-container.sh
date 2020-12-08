@@ -32,7 +32,7 @@ function print_help {
 
     -p  --port             Web server port number.
         --vassal           VASSAL installation directory.
-    -v  --vasl             Path to the VASL module file (.vmod ).
+    -v  --vasl             Path to the VASL module file (.vmod).
     -e  --vasl-extensions  Path to the VASL extensions directory.
         --boards           Path to the VASL boards.
         --chapter-h        Path to the Chapter H notes directory.
@@ -180,7 +180,7 @@ if [ -n "$VASL_MOD" ]; then
     fi
     mpoint=/data/vasl.vmod
     VASL_MOD_VOLUME="--volume $target:$mpoint"
-    VASL_MOD_ENV="--env VASL_MOD=$mpoint --env VASL_MOD_TARGET"
+    VASL_MOD_ENV="--env VASL_MOD=$mpoint --env VASL_MOD_TARGET=$target"
 fi
 
 # check if a VASL extensions directory has been specified
