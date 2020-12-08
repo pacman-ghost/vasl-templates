@@ -194,7 +194,9 @@ def get_flag( nat ):
     if not re.search( "^[-a-z~]+$", nat ):
         abort( 404 )
     key = "flags:{}".format( nat )
-    height = app.config.get( "DEFAULT_FLAG_HEIGHT", 11 )
+    # NOTE: Most of the flags are at the larger size, so we default to that size (since we get better results
+    # doing that, and scaling down to the smaller size as needed, rather than the other way around).
+    height = app.config.get( "DEFAULT_FLAG_HEIGHT", 13 )
 
     # check if a custom flag has been configured
     if globvars.template_pack:

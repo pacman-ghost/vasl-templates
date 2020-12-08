@@ -1,0 +1,2 @@
+{# Some versions of Java require <img> tags to have the width and height specified!?! #}
+{%if PLAYER_FLAG%}<img src="{{PLAYER_FLAG}}" {{PLAYER_FLAG_SIZE_LARGE}}>&nbsp;{%endif%}
