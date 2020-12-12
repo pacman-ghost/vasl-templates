@@ -1,7 +1,8 @@
 SCENARIO_IMAGES_SOURCE_THIS_PROGRAM = 1 ;
 SCENARIO_IMAGES_SOURCE_INTERNET = 2 ;
 
-gUserSettings = Cookies.getJSON( "user-settings" ) || { "scenario-images-source": SCENARIO_IMAGES_SOURCE_INTERNET } ;
+DEFAULT_USER_SETTINGS = { "scenario-images-source": SCENARIO_IMAGES_SOURCE_INTERNET } ;
+gUserSettings = Cookies.getJSON( "user-settings" ) || DEFAULT_USER_SETTINGS ;
 
 USER_SETTINGS = {
     "vasl-username": { type: "text" },
@@ -180,5 +181,7 @@ function apply_user_settings()
 function install_user_settings( user_settings ) // nb: this is called by the PyQT desktop application
 {
     gUserSettings = JSON.parse( user_settings ) ;
+    if ( Object.keys( gUserSettings ).length === 0 )
+        gUserSettings = DEFAULT_USER_SETTINGS ;
     apply_user_settings() ;
 }
