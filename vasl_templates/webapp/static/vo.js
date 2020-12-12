@@ -284,6 +284,8 @@ function find_vo( vo_type, nat, vo_id )
 {
     // find the specificed vehicle/ordnance
     var entries = gVehicleOrdnanceListings[vo_type][nat] ;
+    if ( ! entries )
+        return null ;
     for ( var i=0 ; i < entries.length ; ++i ) {
         if ( entries[i].id === vo_id )
             return entries[i] ;

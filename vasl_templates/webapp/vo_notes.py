@@ -20,11 +20,15 @@ from vasl_templates.webapp.utils import resize_image_response, is_image_file, is
 @app.route( "/vehicles/notes" )
 def get_vehicle_notes():
     """Return the Chapter H vehicle notes."""
+    if not globvars.vo_notes:
+        abort( 404 )
     return jsonify( globvars.vo_notes[ "vehicles" ] )
 
 @app.route( "/ordnance/notes" )
 def get_ordnance_notes():
     """Return the Chapter H ordnance notes."""
+    if not globvars.vo_notes:
+        abort( 404 )
     return jsonify( globvars.vo_notes[ "ordnance" ] )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

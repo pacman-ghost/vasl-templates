@@ -274,6 +274,7 @@ $(document).ready( function () {
         }
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the application config:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+        update_page_load_status( "app-config" ) ;
     } ) ;
 
     // get the vehicle/ordnance listings
@@ -282,24 +283,28 @@ $(document).ready( function () {
         update_page_load_status( "vehicle-listings" ) ;
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the vehicle listings:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+        update_page_load_status( "vehicle-listings" ) ;
     } ) ;
     $.getJSON( gOrdnanceListingsUrl, function(data) {
         gVehicleOrdnanceListings.ordnance = data ;
         update_page_load_status( "ordnance-listings" ) ;
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the ordnance listings:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+        update_page_load_status( "ordnance-listings" ) ;
     } ) ;
     $.getJSON( gVehicleNotesUrl, function(data) {
         gVehicleOrdnanceNotes.vehicles = data ;
         update_page_load_status( "vehicle-notes" ) ;
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the vehicle notes:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+        update_page_load_status( "vehicle-notes" ) ;
     } ) ;
     $.getJSON( gOrdnanceNotesUrl, function(data) {
         gVehicleOrdnanceNotes.ordnance = data ;
         update_page_load_status( "ordnance-notes" ) ;
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the ordnance notes:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+        update_page_load_status( "ordnance-notes" ) ;
     } ) ;
 
     // get the VASL piece info
@@ -308,6 +313,7 @@ $(document).ready( function () {
         update_page_load_status( "vasl-piece-info" ) ;
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the VASL piece info:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+        update_page_load_status( "vasl-piece-info" ) ;
     } ) ;
 
     // get the template pack
@@ -328,6 +334,7 @@ $(document).ready( function () {
         update_page_load_status( "template-pack" ) ;
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the template pack:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+        update_page_load_status( "template-pack" ) ;
     } ) ;
 
     // fixup the layout
@@ -727,6 +734,8 @@ function on_player_change( player_no )
 
     // show/hide the vehicle/ordnance multi-applicable notes controls
     function update_ma_notes_controls( vo_type ) {
+        if ( ! gTemplatePack.nationalities )
+            return ;
         var show = ( gVehicleOrdnanceNotes[vo_type] && gVehicleOrdnanceNotes[vo_type][player_nat] ) ||
                    ["allied-minor","axis-minor"].indexOf( gTemplatePack.nationalities[ player_nat ].type ) !== -1 ||
                    player_nat === "free-french" ;
@@ -749,6 +758,8 @@ function on_player_change( player_no )
 
     // enable/disable the "add vehicle/ordnance" buttons
     function update_add_vo_button( vo_type ) {
+        if ( ! gVehicleOrdnanceListings[ vo_type ] )
+            return ;
         $( "#ob_"+vo_type+"-add_"+player_no ).button(
             gVehicleOrdnanceListings[vo_type][player_nat] ? "enable": "disable"
         ) ;

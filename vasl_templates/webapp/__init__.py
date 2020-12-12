@@ -36,8 +36,15 @@ def _on_request():
     with _init_lock:
         global _init_done
         if not _init_done or (request.path == "/" and request.args.get("force-reinit")):
-            _init_webapp()
-            _init_done = True
+            try:
+                _init_webapp()
+            except Exception as ex: #pylint: disable=broad-except
+                from vasl_templates.webapp.main import startup_msg_store #pylint: disable=cyclic-import
+                startup_msg_store.error( str(ex) )
+            finally:
+                # NOTE: It's important to set this, even if initialization failed, so we don't
+                # try to initialize again.
+                _init_done = True
 
 def _init_webapp():
     """Do startup initialization."""

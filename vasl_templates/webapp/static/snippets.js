@@ -1931,6 +1931,7 @@ function do_on_new_scenario( user_requested ) {
             update_page_load_status( "default-scenario" ) ;
         } ).fail( function( xhr, status, errorMsg ) {
             showErrorMsg( "Can't get the default scenario:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+            update_page_load_status( "default-scenario" ) ;
             return ;
         } ) ;
     }

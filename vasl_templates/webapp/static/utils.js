@@ -13,7 +13,7 @@ function make_app_url( url, for_snippet )
 function get_nationality_display_name( nat_id )
 {
     // get the nationality's display name
-    if ( ! gTemplatePack.nationalities[ nat_id ] )
+    if ( ! gTemplatePack.nationalities || ! gTemplatePack.nationalities[nat_id] )
         return null ;
     return gTemplatePack.nationalities[ nat_id ].display_name ;
 }
@@ -62,6 +62,8 @@ function get_player_colors_for_element( $elem )
 }
 
 function make_player_flag_url( nat, for_snippet ) {
+    if ( ! gTemplatePack.nationalities )
+        return null ;
     var flag = gTemplatePack.nationalities[nat].flag ;
     if ( flag )
         return flag ; // nb:  custom flag, just use that

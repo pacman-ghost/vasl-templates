@@ -29,6 +29,8 @@ def _do_get_listings( vo_type ):
     """Return the vehicle/ordnance listings."""
     if request.args.get("merge_common") == "1" and request.args.get("report") != "1":
         # nb: this is the normal case
+        if not globvars.vo_listings:
+            abort( 404 )
         return globvars.vo_listings[ vo_type ]
     else:
         # nb: we should only get here during tests
