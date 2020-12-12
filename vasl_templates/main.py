@@ -24,6 +24,16 @@ import click
 
 from vasl_templates.webapp.utils import SimpleError
 
+# NOTE: We're supposed to do the following to support HiDPI, but it causes the main window
+# to become extremely large when the Windows zoom level is high (and it doesn't really fix
+# the dialog layout problems anyway :-/).# Since we're a webapp running in a browser,
+# desktop DPI isn't really an issue for us, we just need to make sure that the Qt dialogs
+# look OK. I adjusted the layout for the About box so it's correct for HiDPI; it doesn't
+# look great for normal DPI (too much whitespace), but it's useable.
+#   # nb: this must be done before the QApplication object is created
+#   QApplication.setAttribute( PyQt5.QtCore.Qt.AA_EnableHighDpiScaling, True )
+#   QApplication.setAttribute( PyQt5.QtCore.Qt.AA_UseHighDpiPixmaps, True )
+
 # FUDGE! This needs to be created before showing any UI elements e.g. an error message box.
 qt_app = QApplication( sys.argv )
 

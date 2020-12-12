@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>410</width>
-    <height>150</height>
+    <width>460</width>
+    <height>182</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,13 +40,19 @@
     <rect>
      <x>80</x>
      <y>20</y>
-     <width>321</width>
-     <height>44</height>
+     <width>371</width>
+     <height>61</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QLabel" name="app_name">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="font">
        <font>
         <family>DejaVu Sans</family>
@@ -60,6 +66,12 @@
     </item>
     <item>
      <widget class="QLabel" name="build_info">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="font">
        <font>
         <family>DejaVu Sans</family>
@@ -77,8 +89,8 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>110</y>
-     <width>391</width>
+     <y>140</y>
+     <width>441</width>
      <height>31</height>
     </rect>
    </property>
@@ -118,10 +130,16 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>100</y>
-     <width>391</width>
-     <height>17</height>
+     <y>120</y>
+     <width>441</width>
+     <height>21</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="text">
     <string>*** HOME URL ***</string>
@@ -134,8 +152,8 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>80</y>
-     <width>388</width>
+     <y>100</y>
+     <width>441</width>
      <height>17</height>
     </rect>
    </property>

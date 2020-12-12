@@ -37,7 +37,7 @@
       <x>10</x>
       <y>30</y>
       <width>381</width>
-      <height>51</height>
+      <height>58</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout_3">
@@ -152,7 +152,7 @@
       <x>10</x>
       <y>30</y>
       <width>381</width>
-      <height>111</height>
+      <height>116</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -357,7 +357,7 @@
       <x>10</x>
       <y>30</y>
       <width>381</width>
-      <height>81</height>
+      <height>86</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout_4">
@@ -446,18 +446,6 @@
        </property>
        <item>
         <widget class="QLabel" name="chapter_h_image_scaling_label">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <family>DejaVu Sans</family>
-           <pointsize>8</pointsize>
-          </font>
-         </property>
          <property name="text">
           <string>Image s&amp;caling:</string>
          </property>
@@ -485,12 +473,6 @@
            <width>30</width>
            <height>16777215</height>
           </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>DejaVu Sans</family>
-           <pointsize>8</pointsize>
-          </font>
          </property>
          <property name="inputMask">
           <string/>
