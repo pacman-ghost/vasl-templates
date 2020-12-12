@@ -216,7 +216,7 @@ _set_config_from_env( "USER_FILES_DIR" )
 # initialize logging
 _fname = os.path.join( config_dir, "logging.yaml" )
 if os.path.isfile( _fname ):
-    with open( _fname, "r" ) as fp:
+    with open( _fname, "r", encoding="utf-8" ) as fp:
         try:
             logging.config.dictConfig( yaml.safe_load( fp ) )
         except Exception as ex: #pylint: disable=broad-except

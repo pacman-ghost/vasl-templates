@@ -576,10 +576,10 @@ def on_successful_asa_upload( scenario_id ):
         # the most-recent version is the one that will ultimately be used. This lets us identify these temporary changes
         # that have been made to the cached index file (which will be overwritten when we download a fresh copy).
         # This is not particularly efficient, but it won't happen too often.
-        with open( _asa_scenarios.cache_fname, "r" ) as fp:
+        with open( _asa_scenarios.cache_fname, "r", encoding="utf-8" ) as fp:
             data = json.load( fp )
         data["scenarios"].append( new_scenario )
-        with open( _asa_scenarios.cache_fname, "w" ) as fp:
+        with open( _asa_scenarios.cache_fname, "w", encoding="utf-8" ) as fp:
             json.dump( data, fp )
 
     # update the in-memory scenario index
@@ -618,7 +618,7 @@ def test_asa_upload( scenario_id ):
         """Generate a response."""
         dname = os.path.join( os.path.dirname(__file__), "tests/fixtures/asa-responses/" )
         fname = os.path.join( dname, "{}.json".format( fname ) )
-        resp = json.load( open( fname, "r" ) )
+        resp = json.load( open( fname, "r", encoding="utf-8" ) )
         return jsonify( resp )
 
     # simulate a slow response

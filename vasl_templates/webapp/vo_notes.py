@@ -13,7 +13,7 @@ from flask import request, render_template, jsonify, send_file, abort, Response,
 from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.files import FileServer
 from vasl_templates.webapp.webdriver import WebDriver
-from vasl_templates.webapp.utils import resize_image_response, is_image_file, is_empty_file
+from vasl_templates.webapp.utils import read_text_file, resize_image_response, is_image_file, is_empty_file
 
 # ---------------------------------------------------------------------
 
@@ -138,8 +138,7 @@ def load_vo_notes( msg_store ): #pylint: disable=too-many-statements,too-many-lo
 
                 # HTML file - read the content
                 fname = os.path.join( root, fname )
-                with open( fname, "r" ) as fp:
-                    html_content = fp.read().strip()
+                html_content = read_text_file( fname ).strip()
                 if "&half;" in html_content:
                     # NOTE: VASSAL doesn't like this, use "frac12;" :-/
                     logging.warning( "Found &half; in HTML: %s", fname )

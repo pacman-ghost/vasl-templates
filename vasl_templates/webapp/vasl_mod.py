@@ -78,7 +78,7 @@ def _load_vasl_extns( extn_dir, msg_store ): #pylint: disable=too-many-locals,to
     # NOTE: We sort the filenames so that the test results are stable.
     for fname in sorted( glob.glob( os.path.join(dname,"*.json") ) ):
         _logger.debug( "Loading VASL extension info: %s", fname )
-        with open( fname, "r" ) as fp:
+        with open( fname, "r", encoding="utf-8" ) as fp:
             extn_info = json.load( fp )
         all_extn_info[ ( extn_info["extensionId"], extn_info["version"] ) ] = extn_info
         _logger.debug( "- id=%s ; version=%s", extn_info["extensionId"], extn_info["version"] )
@@ -237,9 +237,9 @@ class VaslMod:
 
         # load our overrides
         fname = os.path.join( data_dir, "vasl-overrides.json" )
-        vasl_overrides = json.load( open( fname, "r" ) )
+        vasl_overrides = json.load( open( fname, "r", encoding="utf-8" ) )
         fname = os.path.join( data_dir, "expected-multiple-images.json" )
-        expected_multiple_images = json.load( open( fname, "r" ) )
+        expected_multiple_images = json.load( open( fname, "r", encoding="utf-8" ) )
 
         # get the VASL version
         build_info = self._files[0][0].read( "buildFile" )

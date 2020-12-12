@@ -336,7 +336,7 @@ class VassalShim:
         with TempFile() as temp_file:
             temp_file.close( delete=False )
             VassalShim()._run_vassal_shim( "version", temp_file.name ) #pylint: disable=protected-access
-            with open( temp_file.name, "r" ) as fp:
+            with open( temp_file.name, "r", encoding="utf-8" ) as fp:
                 return fp.read()
 
     def dump_scenario( self, fname ):

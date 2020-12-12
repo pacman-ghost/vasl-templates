@@ -83,11 +83,11 @@ def _do_load_vo_listings( vasl_mod, vo_type, merge_common, real_data_dir, msg_st
                     nat = minor_type + "-common"
                 else:
                     minor_nats[minor_type].add( nat )
-            with open( os.path.join(root,fname), "r" ) as fp:
+            with open( os.path.join(root,fname), "r", encoding="utf-8" ) as fp:
                 ( _kfw_listings[vo_type] if is_kfw else listings )[ nat ] = json.load( fp )
             fname2 = os.path.join( root, "{}.lend-lease.json".format( fname_stem ) )
             if os.path.isfile( fname2 ):
-                with open( fname2, "r" ) as fp:
+                with open( fname2, "r", encoding="utf-8" ) as fp:
                     listings[nat].extend( json.load( fp ) )
 
     # apply any changes for VASL extensions

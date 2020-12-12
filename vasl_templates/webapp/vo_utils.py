@@ -206,7 +206,7 @@ def add_vo_comments( listings, vo_type, msg_store ):
     global _vo_comments
     if not _vo_comments:
         fname = os.path.join( app.config.get("DATA_DIR",DATA_DIR), "vo-comments.json" )
-        _vo_comments = json.load( open( fname, "r" ) )
+        _vo_comments = json.load( open( fname, "r", encoding="utf-8" ) )
 
     # process each vehicle/ordnance
     for nat,vo_entries in listings.items():

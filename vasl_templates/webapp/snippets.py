@@ -15,6 +15,7 @@ from PIL import Image
 from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp.webdriver import WebDriver
+from vasl_templates.webapp.utils import read_text_file
 
 default_template_pack = None
 
@@ -44,9 +45,9 @@ def load_default_template_pack(): #pylint: disable=too-many-locals
         "default-template-pack/"
     )
     data = { "templates": {} }
-    with open( os.path.join( base_dir, "nationalities.json" ), "r") as fp:
+    with open( os.path.join( base_dir, "nationalities.json" ), "r", encoding="utf-8" ) as fp:
         data["nationalities"] = json.load( fp )
-    with open( os.path.join( base_dir, "national-capabilities.json" ), "r" ) as fp:
+    with open( os.path.join( base_dir, "national-capabilities.json" ), "r", encoding="utf-8" ) as fp:
         data["national-capabilities"] = json.load( fp )
 
     # NOTE: Similarly, we always load the default extras templates, and user-defined template packs
@@ -111,20 +112,20 @@ def _do_get_template_pack( dname ):
         for fname in fnames:
             # add the next file to the results
             fname_stem, extn = os.path.splitext( fname )
-            fname = os.path.join( root, fname )
-            with open( fname, "r" ) as fp:
-                if (fname_stem, extn) == ("nationalities", ".json"):
-                    nationalities = json.load( fp )
-                    continue
-                if extn == ".j2":
-                    relpath = os.path.relpath( os.path.abspath(fname), dname )
-                    if relpath.startswith( "extras" + os.sep ):
-                        fname_stem = "extras/" + fname_stem
-                    templates[ fname_stem ] = fp.read()
-                elif extn == ".css":
-                    css[ fname_stem ] = fp.read()
-                elif extn == ".include":
-                    includes[ fname_stem ] = fp.read()
+            fname = os.path.join( root, fname  )
+            buf = read_text_file( fname )
+            if (fname_stem, extn) == ("nationalities", ".json"):
+                nationalities = json.loads( buf )
+                continue
+            if extn == ".j2":
+                relpath = os.path.relpath( os.path.abspath(fname), dname )
+                if relpath.startswith( "extras" + os.sep ):
+                    fname_stem = "extras/" + fname_stem
+                templates[ fname_stem ] = buf
+            elif extn == ".css":
+                css[ fname_stem ] = buf
+            elif extn == ".include":
+                includes[ fname_stem ] = buf
     return nationalities, templates, css, includes
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

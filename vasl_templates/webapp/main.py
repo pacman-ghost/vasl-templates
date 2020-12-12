@@ -147,7 +147,7 @@ def get_app_config():
         vals[ key ] = app.config.get( key )
     fname = os.path.join( DATA_DIR, "asl-scenario-archive.json" )
     if os.path.isfile( fname ):
-        with open( fname, "r" ) as fp:
+        with open( fname, "r", encoding="utf-8" ) as fp:
             try:
                 vals[ "SCENARIOS_CONFIG" ] = json.load( fp )
             except json.decoder.JSONDecodeError as ex:
@@ -299,7 +299,7 @@ def get_default_scenario():
         fname = os.path.join( app.config.get("DATA_DIR",DATA_DIR), "default-scenario.json" )
 
     # return the default scenario
-    with open(fname,"r") as fp:
+    with open( fname, "r", encoding="utf-8" ) as fp:
         return jsonify( json.load( fp ) )
 
 # ---------------------------------------------------------------------

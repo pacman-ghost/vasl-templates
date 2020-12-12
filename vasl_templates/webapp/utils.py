@@ -7,10 +7,13 @@ import tempfile
 import pathlib
 import math
 import re
+import logging
 from collections import defaultdict
 
 from flask import request, Response, send_file
 from PIL import Image, ImageChops
+
+from vasl_templates.webapp import app
 
 # ---------------------------------------------------------------------
 
@@ -105,6 +108,29 @@ class TempFile:
     def __exit__( self, exc_type, exc_val, exc_tb ):
         """Exit the context manager."""
         self.close( delete=True )
+
+# ---------------------------------------------------------------------
+
+def read_text_file( fname ):
+    """Read a text file."""
+    # NOTE: There are several places where we read user-generated files (e.g. template packs, Chapter H notes),
+    # which contain HTML content, so the ideal case is that they be plain ASCII, with special characters specified
+    # as HTML entities. However, people are copy-and-pasting Chapter H content from their eASLRB's, which means
+    # we need to handle encoding. chardet is overkill for what we need, and we simply try the most common cases.
+    encodings = app.config.get( "TEXT_FILE_ENCODINGS", "ascii,utf-8,windows-1252,iso-8859-1" )
+    with open( fname, "rb" ) as fp:
+        buf = fp.read()
+        if buf[0:3] == b"\xEF\xBB\xBF":
+            buf = buf[3:]
+            encodings = "utf-8"
+        for enc in encodings.split( "," ):
+            try:
+                return buf.decode( enc.strip() )
+            except UnicodeDecodeError:
+                pass
+    msg = "Can't decode text file: {}".format( fname )
+    logging.warning( msg )
+    return msg
 
 # ---------------------------------------------------------------------
 
