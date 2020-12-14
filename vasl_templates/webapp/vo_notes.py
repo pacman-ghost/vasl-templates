@@ -259,7 +259,10 @@ def _fixup_urls( html, url_stem ):
     """Fixup URL's to Chapter H files."""
     matches = list( re.finditer( r"<img [^>]*src=(['\"])(.*?)\1", html ) )
     for mo in reversed(matches):
-        html = html[:mo.start(2)] + url_stem+ html[mo.start(2):]
+        before, after = html[:mo.start(2)], html[mo.start(2):]
+        if after.startswith( ( "http://", "https://", "file://" ) ):
+            continue
+        html = before + url_stem + after
     return html
 
 # ---------------------------------------------------------------------
