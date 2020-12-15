@@ -808,6 +808,7 @@ public class VassalShim
             String defaultLabelText2 = config.getProperty( "DEFAULT_LABEL_TEXT2", "no background" ) ;
             String snippetContent = snippet.content.replace( "\n", " " ) ;
             try {
+                snippetContent = snippetContent.replace( "\t", " " ) ;
                 gamePiece.setState(
                     gamePiece.getState().replace( "\t"+defaultUserName+"\\", "\tvasl-templates\\" )
                                         .replace( "\t"+defaultLabelText1+"\\", "\t" + snippetContent + "\\" )
