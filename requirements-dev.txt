@@ -1,7 +1,7 @@
 pytest==3.6.0
 grpcio-tools==1.33.2
 tabulate==0.8.2
-lxml==4.2.4
+lxml==4.6.2
 pylint==1.9.2
 pytest-pylint==0.9.0
 pyinstaller==3.6
