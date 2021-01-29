@@ -18,6 +18,8 @@ from vasl_templates.webapp.tests.control_tests import ControlTests
 
 FLASK_WEBAPP_PORT = 5011
 
+_pytest_options = None
+
 # ---------------------------------------------------------------------
 
 def pytest_addoption( parser ):
@@ -59,6 +61,15 @@ def pytest_addoption( parser ):
         help="Use the clipboard to get snippets."
     )
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def pytest_configure( config ):
+    """Called after command-line options have been parsed."""
+    global _pytest_options
+    _pytest_options = config.option
+    import vasl_templates.webapp.tests
+    vasl_templates.webapp.tests.pytest_options = config.option
+
 # ---------------------------------------------------------------------
 
 _webapp = None
@@ -85,7 +96,7 @@ def _make_webapp():
     """Create the global webapp fixture."""
 
     # initialize
-    webapp_url = pytest.config.option.webapp_url #pylint: disable=no-member
+    webapp_url = _pytest_options.webapp_url
     if webapp_url and not webapp_url.startswith( "http://" ):
         webapp_url = "http://" + webapp_url
     app.base_url = webapp_url if webapp_url else "http://localhost:{}".format( FLASK_WEBAPP_PORT )
@@ -103,11 +114,11 @@ def _make_webapp():
             # stop the browser from checking for a dirty scenario when leaving the page
             kwargs["disable_close_window_check"] = 1
             # check if the tests are being run headless
-            if pytest.config.option.headless: #pylint: disable=no-member
+            if _pytest_options.headless:
                 # yup - there is no clipboard support :-/
-                pytest.config.option.use_clipboard = False #pylint: disable=no-member
+                _pytest_options.use_clipboard = False
             # check if we should disable using the clipboard for snippets
-            if not pytest.config.option.use_clipboard: #pylint: disable=no-member
+            if not _pytest_options.use_clipboard:
                 # NOTE: It's not a bad idea to bypass the clipboard, even when running in a browser,
                 # to avoid problems if something else uses the clipboard while the tests are running.
                 kwargs["store_clipboard"] = 1
@@ -152,7 +163,7 @@ def _make_webapp():
         )
     except urllib.error.HTTPError as ex:
         if ex.code == 404:
-            raise RuntimeError( "Can't get the test control port - has remote test control been enabled?" )
+            raise RuntimeError( "Can't get the test control port - has remote test control been enabled?" ) from ex
         raise
     port_no = resp.get( "port" )
     if not port_no:
@@ -188,20 +199,21 @@ def webdriver( request ):
     from selenium import webdriver as wb
     if driver == "firefox":
         options = wb.FirefoxOptions()
-        options.set_headless( headless = pytest.config.option.headless ) #pylint: disable=no-member
+        options.headless = _pytest_options.headless
         driver = wb.Firefox(
-            firefox_options = options,
-            log_path = os.path.join( tempfile.gettempdir(), "geckodriver.log" )
+            options = options,
+            service_log_path = os.path.join( tempfile.gettempdir(), "geckodriver.log" )
         )
     elif driver == "chrome":
         options = wb.ChromeOptions()
-        options.set_headless( headless = pytest.config.option.headless ) #pylint: disable=no-member
-        driver = wb.Chrome( chrome_options=options )
+        options.headless = _pytest_options.headless
+        options.add_argument( "--disable-gpu" )
+        driver = wb.Chrome( options=options )
     elif driver == "ie":
         # NOTE: IE11 requires a registry key to be set:
         #   https://github.com/SeleniumHQ/selenium/wiki/InternetExplorerDriver#required-configuration
         options = wb.IeOptions()
-        if pytest.config.option.headless: #pylint: disable=no-member
+        if _pytest_options.headless:
             raise RuntimeError( "IE WebDriver cannot be run headless." )
         options.IntroduceInstabilityByIgnoringProtectedModeSettings = True
         options.EnsureCleanSession = True
@@ -210,7 +222,7 @@ def webdriver( request ):
         raise RuntimeError( "Unknown webdriver: {}".format( driver ) )
 
     # set the browser size
-    words = pytest.config.option.window_size.split( "x" ) #pylint: disable=no-member
+    words = _pytest_options.window_size.split( "x" )
     driver.set_window_size( int(words[0]), int(words[1]) )
 
     # return the webdriver to the caller

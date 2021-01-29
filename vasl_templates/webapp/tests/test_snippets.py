@@ -6,6 +6,7 @@ import pytest
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
+from vasl_templates.webapp.tests import pytest_options
 from vasl_templates.webapp.tests.utils import \
     init_webapp, select_tab, find_snippet_buttons, set_template_params, wait_for, wait_for_clipboard, \
     get_stored_msg, set_stored_msg_marker, find_child, find_children, adjust_html, \
@@ -313,7 +314,7 @@ def test_edit_templates( webapp, webdriver ):
 # However, the workaround we implemented in that script (dismissing the dialog) doesn't work here,
 # and I just couldn't get things to work (not even reloading the page each time helped) :-(
 @pytest.mark.skipif(
-    pytest.config.option.webdriver == "firefox", #pylint: disable=no-member
+    pytest_options.webdriver == "firefox",
     reason="Selenium problems (?) cause these tests to fail under Firefox."
 )
 def test_snippet_images( webapp, webdriver ):

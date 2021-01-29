@@ -385,7 +385,7 @@ def get_scenario_card( scenario_id ): #pylint: disable=too-many-branches
     min_turns = scenario.get( "min_turns", "0" )
     max_turns = scenario.get( "max_turns", "0" )
     if min_turns != "0":
-        if min_turns == max_turns or max_turns == "0":
+        if max_turns in ("0",min_turns):
             args[ "TURN_COUNT" ] = friendly_fractions( min_turns, "turn", "turns" )
         elif max_turns != "0":
             args[ "TURN_COUNT" ] = "{}-{} turns".format( friendly_fractions(min_turns), friendly_fractions(max_turns) )

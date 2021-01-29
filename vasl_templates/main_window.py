@@ -97,7 +97,7 @@ class MainWindow( QWidget ):
 
         # initialize the layout
         layout = QVBoxLayout( self )
-        layout.addWidget( menu_bar )
+        layout.setMenuBar( menu_bar )
         # FUDGE! We offer the option to disable the QWebEngineView since getting it to run
         # under Windows (especially older versions) is unreliable (since it uses OpenGL).
         # By disabling it, the program will at least start (in particular, the webapp server),
@@ -165,6 +165,9 @@ class MainWindow( QWidget ):
             if self._view:
                 app_settings.setValue( "MainWindow/geometry", self.saveGeometry() )
             self.close()
+            # FUDGE! We need to do this to stop PyQt 5.15.2 from complaining that the profile
+            # is being deleted while the page is still alive.
+            self._view.page().deleteLater()
 
         # check if the scenario is dirty
         def callback( is_dirty ):

@@ -32,7 +32,8 @@ def get_git_info():
     # get the latest commit ID
     proc = subprocess.run(
         [ "git", "log" ],
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8"
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8",
+        check=True
     )
     buf = proc.stdout.split( "\n" )[0]
     mo = re.search( r"^commit ([a-z0-9]+)$", buf )
@@ -41,7 +42,8 @@ def get_git_info():
     # get the current git branch
     proc = subprocess.run(
         [ "git", "branch" ],
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8"
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8",
+        check=True
     )
     lines = [ s for s in proc.stdout.split("\n") if s.startswith("* ") ]
     if len(lines) != 1:

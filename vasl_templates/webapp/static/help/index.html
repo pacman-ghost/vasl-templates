@@ -52,7 +52,7 @@
 
 <p> If you're on a Mac or Linux, you can run the program directly from the source code. Get a copy from <a href="https://github.com/pacman-ghost/vasl-templates">Github</a> in the usual way, by <tt>git clone</tt>'ing it, or downloading a ZIP and unpacking it somewhere.
 
-<p> The web server was written and tested using Python 3.6, but it doesn't do anything particularly funky, so any recent version of Python <em>should</em> work.
+<p> The web server was written and tested using Python 3.8.7, but it doesn't do anything particularly funky, so any recent version of Python <em>should</em> work.
 
 <p> While not essential, it is <em>strongly</em> recommended that you set up a <a href="https://virtualenv.pypa.io/en/stable/">virtual environment</a> first. Then, install the requirements:
 <div class="code">
@@ -63,7 +63,8 @@ pip install .[gui]
 
 <p> If you're on Windows, the Qt runtime will have been installed as part of PyQt5 (when you did the <tt>pip install</tt> above), but if you're in a virtual environment and you're getting <em>"DLL load failed"</em> errors, this is due to a problem with the way Python sets up the virtualenv. In the virtualenv's <tt>scripts/</tt> sub-directory, there should be <em>two</em> Python DLL's, so if you're missing <tt>python3.dll</tt>, copy it over from the Python installation the virtualenv was created from, and you should be good to go.
 
-<p> If you're on Linux, you will need to install Qt 5.10.0. While your distro may have it as a package, I didn't have much luck on Fedora 27, and had to install it manually using their <a href="https://www.qt.io/download">installer</a>.
+<p> If you're on Linux, you <em>may</em> need to install Qt 5.15.2. On Fedora 33, running the "gui" install above should install everything you need.
+
 <p> Then, just run the <tt>vasl-templates</tt> command.
 
 <h4> Running just the web server </h4>

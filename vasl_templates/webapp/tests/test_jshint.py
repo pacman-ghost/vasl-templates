@@ -35,7 +35,8 @@ def test_jshint():
         # run JSHint for the next file
         proc = subprocess.run(
             [ jshint, os.path.join(dname,fname) ],
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8"
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8",
+            check=False
         )
         if proc.stdout or proc.stderr:
             print( "=== JSHint failed: {} ===".format( fname ) )

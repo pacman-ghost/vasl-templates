@@ -37,8 +37,9 @@ setup(
         "gui": [
             # NOTE: PyQt5 requirements: https://doc.qt.io/qt-5/linux.html
             #   Linux: mesa-libGL-devel ; @"C Development Tools and Libraries"
-            # nb: WebEngine seems to be broken in 5.10.1 :-/
-            "PyQT5==5.10.0",
+            # NOTE: You may need to disable VMware 3D acceleration, if QWebEngineView is crashing.
+            "PyQT5==5.15.2",
+            "PyQtWebEngine==5.15.2",
         ],
         "dev": parse_requirements( "requirements-dev.txt" ),
     },

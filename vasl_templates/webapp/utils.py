@@ -193,7 +193,8 @@ def trim_image( img ):
     if isinstance( img, str ):
         img = Image.open( img )
     # trim the screenshot (nb: we assume a white background)
-    bgd = Image.new( img.mode, img.size, (255,255,255,255) )
+    img = remove_alpha_from_image( img )
+    bgd = Image.new( img.mode, img.size, (255,255,255) )
     diff = ImageChops.difference( img, bgd )
     bbox = diff.getbbox()
     return img.crop( bbox )
@@ -207,9 +208,7 @@ def get_image_data( img, **kwargs ):
 
 def remove_alpha_from_image( img ):
     """Remove the alpha channel from an image."""
-    img2 = Image.new( "RGB", img.size, "WHITE" )
-    img2.paste( img, (0,0), img )
-    return img2
+    return img.convert( "RGB" )
 
 # ---------------------------------------------------------------------
 
@@ -304,4 +303,3 @@ def make_formatted_day_of_month( dom ):
 
 class SimpleError( Exception ):
     """Represents a simple error that doesn't require a stack trace (e.g. bad configuration)."""
-    pass

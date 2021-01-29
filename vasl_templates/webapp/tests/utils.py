@@ -10,11 +10,12 @@ import uuid
 from collections import defaultdict
 
 import lxml.html
-import pytest
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, WebDriverException
+
+import vasl_templates.webapp.tests
 
 # standard templates
 _STD_TEMPLATES = {
@@ -533,7 +534,7 @@ def _get_clipboard() :
     in the UI (e.g. clicking a button) and the result appearing in the clipboard, so tests
     should use wait_for_clipboard() instead.
     """
-    if pytest.config.option.use_clipboard: #pylint: disable=no-member
+    if vasl_templates.webapp.tests.pytest_options.use_clipboard:
         global _pyqt_app
         from PyQt5.QtWidgets import QApplication
         if _pyqt_app is None:
@@ -627,7 +628,7 @@ _IE_HTML_TAGS = [ "<i>" ]
 
 def adjust_html( val ):
     """Adjust HTML content for IE."""
-    if pytest.config.option.webdriver != "ie": #pylint: disable=no-member
+    if vasl_templates.webapp.tests.pytest_options.webdriver != "ie":
         return val
     # convert HTML tags to uppercase :-/
     for tag in _IE_HTML_TAGS:

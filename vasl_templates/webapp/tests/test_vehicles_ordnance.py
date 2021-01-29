@@ -8,6 +8,7 @@ import pytest
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
+from vasl_templates.webapp.tests import pytest_options
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, save_scenario
 from vasl_templates.webapp.tests.utils import \
     init_webapp, get_nationalities, select_tab, set_template_params, find_child, find_children, \
@@ -342,7 +343,7 @@ def test_duplicate_vo_entries( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( pytest_options.short_tests, reason="--short-tests specified" )
 def test_common_vo( webapp, webdriver ): #pylint: disable=too-many-locals
     """Test loading of common vehicles/ordnance and landing craft."""
 
@@ -415,7 +416,7 @@ def test_common_vo( webapp, webdriver ): #pylint: disable=too-many-locals
             if nat in ["thai","indonesian","anzac","burmese","filipino"]: # nb: these are in the BFP extension
                 assert not elem.is_enabled()
                 continue
-            elif nat == "kfw-cpva" and vo_type == "vehicles":
+            if nat == "kfw-cpva" and vo_type == "vehicles":
                 assert not elem.is_enabled()
                 continue
             elem.click()

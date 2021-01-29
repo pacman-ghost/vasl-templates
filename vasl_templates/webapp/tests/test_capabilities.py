@@ -10,6 +10,7 @@ from vasl_templates.webapp.tests.utils import \
     init_webapp, select_menu_option, select_tab, click_dialog_button, \
     find_child, find_children, wait_for_clipboard, \
     set_scenario_date
+from vasl_templates.webapp.tests import pytest_options
 from vasl_templates.webapp.tests.test_vo_reports import get_vo_report
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
@@ -18,7 +19,7 @@ _IGNORE_CAPABILITIES = [ "T", "NT", "ST" ]
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( pytest_options.short_tests, reason="--short-tests specified" )
 def test_month_capabilities( webapp, webdriver ): #pylint: disable=too-many-statements
     """Test date-based capabilities that change in the middle of a year."""
 
@@ -302,7 +303,7 @@ def test_month_capabilities( webapp, webdriver ): #pylint: disable=too-many-stat
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( pytest_options.short_tests, reason="--short-tests specified" )
 def test_kfw( webapp, webdriver ):
     """Test date-based capabilities for K:FW vehicles/ordnance."""
 
@@ -322,7 +323,7 @@ def test_kfw( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( pytest_options.short_tests, reason="--short-tests specified" )
 def test_theater_capabilities( webapp, webdriver ):
     """Test theater-specific capabilities."""
 
@@ -398,7 +399,7 @@ def test_theater_capabilities( webapp, webdriver ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( pytest_options.short_tests, reason="--short-tests specified" )
 def test_theater_capabilities_bfp( webapp, webdriver ):
     """Test theater-specific capabilities (BFP extension)."""
 
@@ -425,7 +426,7 @@ def test_theater_capabilities_bfp( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( pytest_options.short_tests, reason="--short-tests specified" )
 def test_american_ordnance_note_c( webapp, webdriver ):
     """Test handling of American Ordnance Note C."""
 
@@ -450,7 +451,7 @@ def test_american_ordnance_note_c( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( pytest_options.short_tests, reason="--short-tests specified" )
 def test_nationality_capabilities( webapp, webdriver ):
     """Test nationality-specific capabilities."""
 

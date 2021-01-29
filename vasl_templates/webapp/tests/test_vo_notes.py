@@ -10,6 +10,7 @@ import lxml.html
 import lxml.etree
 import tabulate
 
+from vasl_templates.webapp.tests import pytest_options
 from vasl_templates.webapp.tests.utils import \
     init_webapp, get_nationalities, select_tab, set_player, select_menu_option, click_dialog_button, \
     find_child, find_children, wait_for, wait_for_clipboard
@@ -431,7 +432,7 @@ def test_special_cases( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( pytest_options.short_tests, reason="--short-tests specified" )
 def test_vo_notes_reports( webapp, webdriver ): #pylint: disable=too-many-locals
     """Check the vehicle/ordnance notes reports."""
 

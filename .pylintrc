@@ -144,7 +144,9 @@ disable=print-statement,
     duplicate-code, # can't get it to shut up about @pytest.mark.skipif's :-/
     no-else-return,
     len-as-condition,
-    consider-using-enumerate
+    consider-using-enumerate,
+    import-outside-toplevel,
+    isinstance-second-argument-not-valid-type
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -511,7 +513,7 @@ max-public-methods=20
 max-returns=10
 
 # Maximum number of statements in function / method body
-max-statements=80
+max-statements=100
 
 # Minimum number of public methods for a class (see R0903).
 min-public-methods=2

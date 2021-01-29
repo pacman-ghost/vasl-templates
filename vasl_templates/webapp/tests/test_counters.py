@@ -12,6 +12,7 @@ from vasl_templates.webapp.vassal import SUPPORTED_VASSAL_VERSIONS
 from vasl_templates.webapp.vasl_mod import get_vo_gpids, SUPPORTED_VASL_MOD_VERSIONS
 from vasl_templates.webapp.vo import _kfw_listings #pylint: disable=protected-access
 from vasl_templates.webapp.utils import compare_version_strings
+from vasl_templates.webapp.tests import pytest_options
 from vasl_templates.webapp.tests.utils import init_webapp, select_tab, find_child, find_children
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
 
@@ -19,7 +20,7 @@ _EXPECTED_MISSING_GPIDS_EXCEPTIONS = [ "6.5.0", "6.5.1", "6.6.0", "6.6.1" ]
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( pytest_options.short_tests, reason="--short-tests specified" )
 def test_counter_images( webapp, webdriver ): #pylint: disable=too-many-locals
     """Test that counter images are served correctly."""
 

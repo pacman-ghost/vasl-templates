@@ -179,7 +179,7 @@ def dump_time_plot( players, log_file, roll_type, window_size ):
         """Dump the buffered ROLL events."""
         print( tabulate.tabulate( rolls, tablefmt="plain" ) )
 
-    def onTurnTrack( evt ): #pylint: disable=unused-variable
+    def onTurnTrack( evt ): #pylint: disable=unused-variable,possibly-unused-variable
         """Process a TURN TRACK event."""
         nonlocal rolls
         if rolls:
@@ -189,7 +189,7 @@ def dump_time_plot( players, log_file, roll_type, window_size ):
         print( "--- {} Turn {} {} ---".format( evt["side"], evt["turnNo"], evt["phase"] ) )
         print()
 
-    def onRoll( evt ) : #pylint: disable=unused-variable
+    def onRoll( evt ) : #pylint: disable=unused-variable,possibly-unused-variable
         """Process a ROLL event"""
         # check if we should process this ROLL event
         if roll_type:

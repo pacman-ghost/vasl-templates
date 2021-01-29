@@ -2,9 +2,9 @@
 
 import re
 
-import pytest
 from selenium.webdriver.support.ui import Select
 
+from vasl_templates.webapp.tests import pytest_options
 from vasl_templates.webapp.tests.test_scenario_persistence import ALL_SCENARIO_PARAMS
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.utils import \
@@ -174,5 +174,5 @@ def test_dirty_scenario_checks( webapp, webdriver ):
     for tab_id,params in ALL_SCENARIO_PARAMS.items():
         for param in params:
             do_test( tab_id, param )
-            if pytest.config.option.short_tests: #pylint: disable=no-member
+            if pytest_options.short_tests:
                 break # nb: it's a bit excessive to check *every* parameter :-/

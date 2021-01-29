@@ -46,7 +46,7 @@ class BuildFile:
                     val = click.style( child.tag, fg="green" )
                     if line_nos:
                         val += ":{}".format( click.style( str(child.sourceline), fg="cyan" ) )
-                    click.echo( "{} {} {}".format( header, val, header ) )
+                    click.echo( "{header} {} {header}".format( val, header=header ) )
                     click.echo()
                     # dump any attributes
                     if attribs:

@@ -7,9 +7,8 @@ import base64
 import random
 import typing.re #pylint: disable=import-error
 
-import pytest
-
 from vasl_templates.webapp.utils import TempFile, change_extn, compare_version_strings
+from vasl_templates.webapp.tests import pytest_options
 from vasl_templates.webapp.tests.utils import \
     init_webapp, select_menu_option, get_stored_msg, set_stored_msg, set_stored_msg_marker, wait_for, \
     new_scenario, set_player, find_child
@@ -764,7 +763,7 @@ def run_vassal_tests( webapp, func, all_combos=None, min_vasl_version=None, vasl
     # check if we want to test all VASSAL+VASL combinations (nb: if not, we test against only one combination,
     # and since they all should give the same results, it doesn't matter which one.
     if all_combos is None:
-        all_combos = not pytest.config.option.short_tests #pylint: disable=no-member
+        all_combos = not pytest_options.short_tests
     if not all_combos:
         for _ in range(0,100):
             vasl_version = random.choice( vasl_versions )

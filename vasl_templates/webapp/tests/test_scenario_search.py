@@ -10,6 +10,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import StaleElementReferenceException
 
+from vasl_templates.webapp.tests import pytest_options
 from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario, load_scenario
 from vasl_templates.webapp.tests.test_vassal import run_vassal_tests
 from vasl_templates.webapp.tests.utils import init_webapp, select_tab, new_scenario, \
@@ -368,7 +369,7 @@ def test_roar_matching( webapp, webdriver ):
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 @pytest.mark.skipif(
-    pytest.config.option.webapp_url is not None, #pylint: disable=no-member
+    pytest_options.webapp_url is not None,
     reason = "Can't test against a remote webapp server."
 )
 def test_roar_matching2( webapp, webdriver ):

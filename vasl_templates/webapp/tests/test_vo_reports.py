@@ -10,12 +10,13 @@ import lxml.html
 import lxml.etree
 import tabulate
 
+from vasl_templates.webapp.tests import pytest_options
 import vasl_templates.webapp.tests.utils as test_utils
 from vasl_templates.webapp.tests.utils import init_webapp, get_nationalities, find_child, wait_for
 
 # ---------------------------------------------------------------------
 
-@pytest.mark.skipif( pytest.config.option.short_tests, reason="--short-tests specified" ) #pylint: disable=no-member
+@pytest.mark.skipif( pytest_options.short_tests, reason="--short-tests specified" )
 def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
     """Check the vehicle/ordnance reports."""
 

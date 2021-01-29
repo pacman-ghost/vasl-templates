@@ -179,10 +179,9 @@ def _do_main( template_pack, default_scenario, remote_debugging, debug ): #pylin
                 raise SimpleError( "Unexpected server check response: {}".format( resp ) )
             if resp[6:] == INSTANCE_ID:
                 break
-            else:
-                from vasl_templates.webapp.config.constants import APP_NAME
-                QMessageBox.warning( None, APP_NAME, "The program is already running." )
-                return -1
+            from vasl_templates.webapp.config.constants import APP_NAME
+            QMessageBox.warning( None, APP_NAME, "The program is already running." )
+            return -1
         except URLError:
             # no response - the webapp server is probably still starting up
             time.sleep( 0.25 )

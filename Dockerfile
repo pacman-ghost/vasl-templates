@@ -9,7 +9,7 @@ FROM centos:8 AS base
 RUN dnf -y upgrade-minimal
 
 # install Python
-RUN dnf install -y python36 && pip3 install --upgrade pip
+RUN dnf install -y python38 python3-pip
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -21,7 +21,7 @@ RUN dnf install -y python36 && pip3 install --upgrade pip
 FROM base AS build
 
 # set up a virtualenv
-RUN python3 -m venv /opt/venv && pip3 install --upgrade pip
+RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 # install the application requirements

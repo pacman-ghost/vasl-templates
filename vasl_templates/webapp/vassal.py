@@ -445,7 +445,7 @@ class VassalShim:
             try:
                 proc = subprocess.Popen( args2, **kwargs )
             except FileNotFoundError as ex:
-                raise SimpleError( "Can't run the VASSAL shim (have you configured Java?): {}".format( ex ) )
+                raise SimpleError( "Can't run the VASSAL shim (have you configured Java?): {}".format( ex ) ) from ex
             try:
                 proc.wait( timeout )
             except subprocess.TimeoutExpired:

@@ -2,11 +2,13 @@
 
 import os
 import threading
+import io
 import tempfile
 import atexit
 import logging
 
 from selenium import webdriver
+from PIL import Image
 
 from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.utils import TempFile, SimpleError, trim_image
@@ -68,19 +70,19 @@ class WebDriver:
         kwargs = { "executable_path": webdriver_path }
         if "chromedriver" in webdriver_path:
             options = webdriver.ChromeOptions()
-            options.set_headless( headless=True )
+            options.headless = True
             # OMG! The chromedriver looks for Chrome/Chromium in a hard-coded, fixed location (the default
             # installation directory). We offer a way here to override this.
             chrome_path = app.config.get( "CHROME_PATH" )
             if chrome_path:
                 options.binary_location = chrome_path
-            kwargs["chrome_options"] = options
+            kwargs["options"] = options
             self.driver = webdriver.Chrome( **kwargs )
         elif "geckodriver" in webdriver_path:
             options = webdriver.FirefoxOptions()
-            options.set_headless( headless=True )
-            kwargs["firefox_options"] = options
-            kwargs["log_path"] = app.config.get( "GECKODRIVER_LOG",
+            options.headless = True
+            kwargs["options"] = options
+            kwargs["service_log_path"] = app.config.get( "GECKODRIVER_LOG",
                 os.path.join( tempfile.gettempdir(), "geckodriver.log" )
             )
             self.driver = webdriver.Firefox( **kwargs )
@@ -107,12 +109,12 @@ class WebDriver:
     def get_screenshot( self, html, window_size, large_window_size=None ):
         """Get a preview screenshot of the specified HTML."""
 
-        def do_get_screenshot( fname ): #pylint: disable=missing-docstring
-            self.driver.save_screenshot( fname )
-            return trim_image( fname )
+        def do_get_screenshot(): #pylint: disable=missing-docstring
+            data = self.driver.get_screenshot_as_png()
+            img = Image.open( io.BytesIO( data ) )
+            return trim_image( img )
 
-        with TempFile( extn=".html", mode="w", encoding="utf-8" ) as html_tempfile, \
-             TempFile( extn=".png" ) as screenshot_tempfile:
+        with TempFile( extn=".html", mode="w", encoding="utf-8" ) as html_tempfile:
 
             # NOTE: We could do some funky Javascript stuff to load the browser directly from the string,
             # but using a temp file is straight-forward and pretty much guaranteed to work :-/
@@ -121,16 +123,15 @@ class WebDriver:
             self.driver.get( "file://{}".format( html_tempfile.name ) )
 
             # take a screenshot of the HTML
-            screenshot_tempfile.close( delete=False )
             self.driver.set_window_size( window_size[0], window_size[1] )
-            img = do_get_screenshot( screenshot_tempfile.name )
+            img = do_get_screenshot()
             retry_ratio = float( app.config.get( "WEBDRIVER_SCREENSHOT_RETRY_RATIO", 0.8 ) )
             if img.width > window_size[0]*retry_ratio or img.height > window_size[1]*retry_ratio:
                 # FUDGE! The webdriver sometimes has trouble when the image is close to the edge of the canvas
                 # (it gets cropped), so we retry even if we appear to be completely within the canvas.
                 if large_window_size:
                     self.driver.set_window_size( large_window_size[0], large_window_size[1] )
-                    img = do_get_screenshot( screenshot_tempfile.name )
+                    img = do_get_screenshot()
             return img
 
     def get_snippet_screenshot( self, snippet_id, snippet ):
