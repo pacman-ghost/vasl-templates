@@ -5,7 +5,8 @@
 
 <!-- caption = {{CAPTION:/20|Grid caption}} -->
 <!-- #cols = {{COLS:3/1|# columns}} ; #rows = {{ROWS:2/1|# rows}} -->
-<!-- cell size = {{CELL_WIDTH:160px/5|Cell width}} x {{CELL_HEIGHT:60px/5|Cell height}} -->
+<!-- cell size = {{CELL_WIDTH:180px/5|Cell width}} x {{CELL_HEIGHT:70px/5|Cell height}} -->
+<!-- cell labels = {{CELL_LABELS:none::letters::numbers|Cell labels}} -->
 <!-- color = {{PLAYER_COLOR_DROPLIST:|Border color}} ; border = {{BORDER_STYLE:solid::dotted::dashed::double::groove::ridge::inset::outset|Border style}} -->
 
 <head>
@@ -15,20 +16,33 @@ td {
     width: {{CELL_WIDTH}} ;
     height: {{CELL_HEIGHT}} ;
     border: 1px {{BORDER_STYLE}} {{PLAYER_COLOR2}} ;
+    padding: 2px 5px ;
 }
 td.caption {
     height: 1px ; padding: 2px 5px ;
     font-size: 105% ; font-weight: bold ; text-align: center ;
     background: {{PLAYER_COLOR0}} ; border: none ;
 }
+.cell-label { font-size: 120% ; }
 </style>
 </head>
 
 {% set RANGE = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50] %}
+{% set LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
 <table>
 {%if CAPTION%} <tr> <td class="caption" colspan="{{COLS}}"> {{CAPTION}} {%endif%}
 {% for row in RANGE %} {% if row <= ROWS %}
-    <tr> {% for col in RANGE %} {% if col <= COLS %} <td> {%endif%} {%endfor%}
+    <tr> {% for col in RANGE %}
+        {% if col <= COLS %}
+            {% set CELL_NO = (row - 1) * COLS + (col - 1) %}
+            <td valign="top">
+            {% if CELL_LABELS == "letters" %}
+                <span class="cell-label"> {{LETTERS[CELL_NO]}} </span>
+            {% elif CELL_LABELS == "numbers" %}
+                <span class="cell-label"> {{CELL_NO + 1}} </span>
+            {%endif%}
+        {%endif%}
+{%endfor%}
 {%endif%} {%endfor%}
 </table>
 

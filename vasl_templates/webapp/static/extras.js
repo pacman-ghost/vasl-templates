@@ -95,7 +95,7 @@ function _show_extra_template( template_id )
                     buf.push( " title='" + escapeHTML(template_info.params[i].description) + "'" ) ;
                 buf.push( ">" ) ;
             } else if ( template_info.params[i].type === "select" ) {
-                buf.push( "<select class='param' name='" + escapeHTML(template_info.params[i].name) + "'>" ) ;
+                buf.push( "<select class='param' name='" + escapeHTML(template_info.params[i].name) + "' style='width:6em;'>" ) ;
                 for ( j=0 ; j < template_info.params[i].options.length ; ++j )
                     buf.push( "<option>", template_info.params[i].options[j], "</option>" ) ;
                 buf.push( "</select>" ) ;
