@@ -930,8 +930,14 @@ function handle_escape( evt )
 function show_program_info()
 {
     // show the PROGRAM INFO dialog
+    var caption = "Program info" ;
+    if ( gAppConfig.APP_NAME ) {
+        caption = gAppConfig.APP_NAME ;
+        if ( gAppConfig.APP_VERSION )
+            caption += " (" + gAppConfig.APP_VERSION + ")" ;
+    }
     $( "#program-info" ).dialog( {
-        title: gAppConfig.APP_NAME + " (" + gAppConfig.APP_VERSION + ")",
+        title: caption,
         dialogClass: "program-info",
         modal: true,
         width: $(window).width() * 0.8,
