@@ -8,6 +8,7 @@ import threading
 import json
 import urllib.request
 import urllib.error
+import gzip
 import time
 import datetime
 import tempfile
@@ -135,13 +136,16 @@ class DownloadedFile:
                     continue
                 _logger.info( "Downloading the %s file: %s", df.key, url )
                 try:
-                    headers = { "Accept-Encoding": "gzip, deflate" }
+                    headers = { "Accept-Encoding": "gzip" }
                     if url in _etags:
                         _logger.debug( "- If-None-Match = %s", _etags[url] )
                         headers[ "If-None-Match" ] = _etags[ url ]
                     req = urllib.request.Request( url, headers=headers )
                     resp = urllib.request.urlopen( req )
-                    data = resp.read().decode( "utf-8" )
+                    data = resp.read()
+                    if resp.headers.get( "Content-Encoding" ) == "gzip":
+                        data = gzip.decompress( data )
+                    data = data.decode( "utf-8" )
                     etag = resp.headers.get( "ETag" )
                     _logger.info( "Downloaded the %s file OK: %d bytes", df.key, len(data) )
                     if etag:
