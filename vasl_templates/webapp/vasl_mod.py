@@ -1,6 +1,7 @@
 """ Wrapper around a VASL module file and extensions. """
 
 import os
+import threading
 import json
 import glob
 import zipfile
@@ -17,6 +18,8 @@ from vasl_templates.webapp.utils import compare_version_strings
 
 SUPPORTED_VASL_MOD_VERSIONS = [ "6.6.0", "6.6.1" ]
 SUPPORTED_VASL_MOD_VERSIONS_DISPLAY = "6.6.0-.1"
+
+_zip_file_lock = threading.Lock()
 
 _warnings = [] # nb: for the test suite
 
@@ -198,7 +201,16 @@ class VaslMod:
         # load the image data
         image_path = os.path.join( "images", image_path )
         image_path = re.sub( r"[\\/]+", "/", image_path ) # nb: in case we're on Windows :-/
-        image_data = piece[ "zip_file" ].read( image_path )
+        # FUDGE! Reading ZIP file should be thread-safe, but there appears to be a bug in Python 3.7 and 3.8
+        # that causes intermittent decompression errors:
+        #   https://bugs.python.org/issue42369
+        # We work around this by only allowing 1 thread to read from a ZIP file at any time. Strictly speaking,
+        # we should do this everywhere we read from a ZIP file, but this is the only place where multiple threads
+        # come into play. It's also overkill to have a single lock for *all* ZIP files, but it won't kill us
+        # to do things this way, and trying to do things "properly" is problematic (i.e. when do we clean up
+        # these locks?).
+        with _zip_file_lock:
+            image_data = piece[ "zip_file" ].read( image_path )
 
         return image_path, image_data
 
