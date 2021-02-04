@@ -72,9 +72,17 @@ def get_user_file( path ):
 
 # ---------------------------------------------------------------------
 
+# FUDGE! We had a weird problem here after upgrading to Flask 1.1.2. We used the "defaults" parameter
+# to set a default value of 0 for the "index" parameter, but if the caller explicitly passed in a value of 0,
+# I think Flask was trying to be clever and returning a HTTP 308 Permanent Redirect to the other path e.g.
+#   /counter/12345/front/0 => HTTP 308 /counter/12345/front
+# which is fine, except that VASSAL doesn't understand HTTP 308's >:-/ Oddly, it was only happening here,
+# and not at other places where we have default parameters (maybe because we're using send_file()?).
+# We work-around this by changing how we specify the default value for "index". Sigh...
+
 @app.route( "/counter/<gpid>/<side>/<int:index>" )
-@app.route( "/counter/<gpid>/<side>", defaults={"index":0} )
-def get_counter_image( gpid, side, index ):
+@app.route( "/counter/<gpid>/<side>" )
+def get_counter_image( gpid, side, index=0 ):
     """Get a counter image."""
 
     # check if a VASL module has been configured
@@ -87,7 +95,7 @@ def get_counter_image( gpid, side, index ):
         abort( 404 )
     return send_file(
         io.BytesIO( image_data ),
-        attachment_filename = os.path.split( image_path )[1]## nb: so Flask can figure out the MIME type
+        attachment_filename = os.path.split( image_path )[1] # nb: so Flask can figure out the MIME type
     )
 
 # ---------------------------------------------------------------------
