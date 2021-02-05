@@ -50,7 +50,7 @@ var gDistribDatasetPlayerIndex={}, gPieDatasetPlayerIndex={}, gTimePlotDatasetPl
 var gDistribCharts={}, gPieCharts={}, gTimePlotChart, gHotnessChart ;
 
 var $gDialog ;
-var $gBanner, $gHotness, $gHotnessPopup, $gSelectFilePopup, $gOptions, $gRollTypeDropList, $gStackBarGraphsCheckBox ;
+var $gBanner, $gHotness, $gHotnessPopup, $gSelectFilePopup, $gOptions, $gRollTypeDropList, $gDistribLineGraphsCheckBox, $gStackBarGraphsCheckBox ;
 var $gPlayerColorsButton, $gPlayerColorsPopup ;
 var $gTimePlot, $gTimePlotChartWrapper ;
 var $gTimePlotOptions, $gMovingAverageDropList, $gTimePlotZoomInButton, $gTimePlotZoomOutButton ;
@@ -204,6 +204,9 @@ function loadDialog()
     $gSelectFilePopup = $( "#lfa .select-file-popup" ) ;
     $gOptions = $( "#lfa .options" ) ;
     $gRollTypeDropList = $( "#lfa select[name='roll-type']" ) ;
+    $gDistribLineGraphsCheckBox = $( "#lfa input[name='distrib-line-graphs']" ).prop(
+        "checked", gUserSettings.lfa["distrib-line-graphs"]
+    ) ;
     $gStackBarGraphsCheckBox = $( "#lfa input[name='stack-bar-graphs']" ).prop(
         "checked", gUserSettings.lfa["stack-bar-graphs"]
     ) ;
@@ -269,6 +272,21 @@ function loadDialog()
     } ) ;
     $gRollTypeDropList.html( buf.join("") ).selectmenu( "refresh" ) ;
     gEventHandlers.addHandler( $gRollTypeDropList, "selectmenuchange", reloadAll ) ;
+
+    // add a click handler for distrib line graphs
+    gEventHandlers.addHandler( $gDistribLineGraphsCheckBox, "click", function() {
+        // update the UI
+        var isChecked = $(this).is( ":checked" ) ;
+        for ( var key in DR_VALS ) {
+            for ( var i=0 ; i < gDistribCharts[key].data.datasets.length-1 ; ++i )
+                gDistribCharts[key].data.datasets[i].type = isChecked ? "line" : "bar" ;
+            gDistribCharts[key].options.animation.duration = $gDisableAnimationsCheckBox.is( ":checked" ) ? 0 : 1000 ;
+            gDistribCharts[key].update() ;
+        }
+        // save the new setting
+        gUserSettings.lfa["distrib-line-graphs"] = isChecked ;
+        save_user_settings() ;
+    } ) ;
 
     // add a click handler for stacked bar graphs
     gEventHandlers.addHandler( $gStackBarGraphsCheckBox, "click", function() {
@@ -713,7 +731,7 @@ function reloadAll()
     } ) ;
     var key, data ;
     for ( key in DR_VALS ) {
-        data =  getDistribData( key) ;
+        data = getDistribData( key) ;
         var $parentElem = $( "#lfa .distrib" + DR_CLASS_IDS[key] ) ;
         if ( gShowTabularData ) {
             // show the data in tables (for testing porpoises)
@@ -1047,7 +1065,8 @@ function createDistribChart( key, classId )
         if ( playerId ) {
             playerId = gDistribDatasetPlayerIndex[key][ tooltipItem[0].datasetIndex ] ;
             var nRolls = gLfaStats[playerId][key].nRolls ;
-            var msg = gLfaStats[playerId][key].distrib[ tooltipItem[0].label ] + " of " + nRolls ;
+            var nInstances = gLfaStats[playerId][key].distrib[ tooltipItem[0].label ] || 0 ;
+            var msg = nInstances + " of " + nRolls ;
             msg += " " + pluralString( nRolls, key, key+"'s" ) ;
             msg += " (" + tooltipItem[0].value + "%)" ;
             return "     " + msg ;
@@ -1057,7 +1076,6 @@ function createDistribChart( key, classId )
     // create the chart
     var $canvas = $( "#lfa .distrib" + classId + " canvas" ) ;
     var chart = new Chart( $canvas, {
-        type: "bar",
         data: {
             labels: DR_VALS[key],
         },
@@ -1119,7 +1137,7 @@ function getDistribData( key )
         var dataVals = [] ;
         DR_VALS[key].forEach( function( drVal ) {
             if ( gLfaStats[playerId][key].distrib[ drVal ] === undefined ) {
-                dataVals.push( null ) ;
+                dataVals.push( 0 ) ;
                 return ;
             }
             var val = 100 * gLfaStats[playerId][key].distrib[ drVal ] / gLfaStats[playerId][key].nRolls ;
@@ -1132,12 +1150,18 @@ function getDistribData( key )
 
         // add a dataset for the player's rolls
         datasets.push( {
-            type: "bar",
             label: label,
             data: dataVals,
-            borderColor: makeArray( getPlayerColor(playerId), 11 ),
-            backgroundColor: makeArray( getPlayerColor2(playerId), 11 ),
+            type: $gDistribLineGraphsCheckBox.is(":checked") ? "line" : "bar",
+            // nb: the following are used for both bar and line graphs
             borderWidth: 1,
+            borderColor: getPlayerColor( playerId ),
+            backgroundColor: getPlayerColor2( playerId ),
+            // nb: the following are needed for line graphs
+            fill: false,
+            lineTension: 0,
+            pointBackgroundColor: getPlayerColor( playerId ),
+            spanGaps: true,
         } ) ;
 
     } ) ;
@@ -1722,8 +1746,9 @@ function updateChartColors( playerId, newColor )
     for ( key in DR_CLASS_IDS ) {
         for ( i=0 ; i < gDistribCharts[key].data.datasets.length ; ++i ) {
             if ( isDatasetMatch( i ) ) {
-                gDistribCharts[key].data.datasets[ i ].borderColor = playerId === ":expected:" ? newColor : makeArray( newColor, 11 ) ;
-                gDistribCharts[key].data.datasets[ i ].backgroundColor = playerId === ":expected:" ? newColor : makeArray( makePlayerColor2( newColor ), 11 ) ;
+                gDistribCharts[key].data.datasets[ i ].borderColor = newColor ;
+                gDistribCharts[key].data.datasets[ i ].backgroundColor = playerId === ":expected:" ? newColor : makePlayerColor2( newColor ) ;
+                gDistribCharts[key].data.datasets[ i ].pointBackgroundColor = newColor ;
                 gDistribCharts[key].update() ;
                 break ;
             }
