@@ -83,7 +83,7 @@
 { "name": "37 PstK/37(g)",
   "type": "AT",
   "capabilities2": { "H": [ ["6[9]","3+"], "\u2020" ] },
-  "comments": [ "QSU", "H6[9]: vs AFV or HEAT-allowed target <ul> <li> TH# = 11 - range <li> ROF 2 </ul>" ],
+  "comments": [ "QSU", "H6[9]: vs AFV or HEAT-allowed target ('43+) <ul> <li> TH# = 11 - range <li> ROF 2 </ul>" ],
   "note_number": "11\u2020",
   "notes": [ "B", "D" ],
   "id": "fi/o:010",
