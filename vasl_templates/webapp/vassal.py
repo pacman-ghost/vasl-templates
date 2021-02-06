@@ -17,7 +17,7 @@ from flask import request, jsonify
 
 from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import BASE_DIR, IS_FROZEN
-from vasl_templates.webapp.utils import TempFile, SimpleError, compare_version_strings
+from vasl_templates.webapp.utils import TempFile, SimpleError, compare_version_strings, is_windows
 from vasl_templates.webapp.webdriver import WebDriver
 from vasl_templates.webapp.vasl_mod import get_reverse_remapped_gpid
 
@@ -393,6 +393,11 @@ class VassalShim:
             if compare_version_strings( mo.group(), "3.3.0" ) < 0:
                 # we're using a legacy version of VASSAL - use Java 8
                 java_path = java8_path
+        if not java_path and is_windows():
+            # we're on Windows - try to use the Java that is now bundled with VASSAL
+            fname = os.path.join( self._get_vassal_dir(), "jre/bin/java.exe" )
+            if os.path.isfile( fname ):
+                java_path = fname
         if not java_path:
             java_path = "java" # nb: this must be in the PATH
 

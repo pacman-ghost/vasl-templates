@@ -235,6 +235,10 @@ def parse_int( val, default=None ):
     except (ValueError, TypeError):
         return default
 
+def is_windows():
+    """Check if we're running on Windows."""
+    return os.name == "nt"
+
 # ---------------------------------------------------------------------
 
 def compare_version_strings( lhs, rhs  ):
