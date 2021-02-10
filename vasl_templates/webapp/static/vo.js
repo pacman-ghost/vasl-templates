@@ -459,8 +459,21 @@ function make_local_counter_image_url( gpid, index, for_snippet )
 
 function make_online_counter_image_url( gpid, index )
 {
+    // check if a URL has been explicitly defined for this GPID
+    var key = gpid ;
+    if ( index !== null )
+        key += "/" + index ;
+    var url = gOnlineCounterImages[ key ] ;
+    if ( url )
+        return encodeURI( url ) ;
+    if ( index === 0 ) {
+        url = gOnlineCounterImages[ gpid ] ;
+        if ( url )
+            return encodeURI( url ) ;
+    }
+
     // check if we have a piece from the core VASL module or an extension
-    var url, extn_id ;
+    var extn_id ;
     var pos = gpid.toString().indexOf( ":" ) ;
     // FUDGE! K:FW was originally done as an extension, then moved into the main VASL module.
     // One of the consequences of this is that a lot of the new counters have a GPID that
@@ -477,7 +490,10 @@ function make_online_counter_image_url( gpid, index )
     if ( index === null )
         index = 0 ;
     url = strReplaceAll( url, "{{INDEX}}", index ) ;
-    url = strReplaceAll( url, "{{PATH}}", gVaslPieceInfo[gpid].paths[index] ) ;
+    if ( gVaslPieceInfo[gpid] )
+        url = strReplaceAll( url, "{{PATH}}", gVaslPieceInfo[gpid].paths[index] ) ;
+    else
+        console.log( "ERROR: Missing GPID:", gpid ) ;
     if ( extn_id )
         url = strReplaceAll( url, "{{EXTN_ID}}", extn_id ) ;
 

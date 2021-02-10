@@ -4,7 +4,7 @@ import os
 import json
 import copy
 
-from flask import request, render_template, jsonify, abort
+from flask import request, render_template, send_file, jsonify, abort
 
 from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.config.constants import DATA_DIR
@@ -175,6 +175,19 @@ def _do_load_vo_listings( vasl_mod, vo_type, merge_common, real_data_dir, msg_st
         assert False, "Unknown V/O type: {}".format( vo_type )
 
     return listings
+
+# ---------------------------------------------------------------------
+
+@app.route( "/online-counter-images" )
+def get_online_counter_images():
+    """Get the online counter images data."""
+    # FUDGE! For some reason, some counters have a different path in the .vmod file to where they live
+    # in the source tree, which means that when we generate a URL for that counter image, it will 404.
+    # There doesn't seem to be any pattern to these counters, and since there aren't too many of them,
+    # the most robust solution is probably to fix them up manually :-/
+    # NOTE: To check these: $/counter-image-urls.html?fetch-images=1
+    fname = os.path.join( DATA_DIR, "online-counter-images.json" )
+    return send_file( fname, "application/json" )
 
 # ---------------------------------------------------------------------
 

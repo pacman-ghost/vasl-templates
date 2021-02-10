@@ -225,16 +225,20 @@ class VaslMod:
             """Return the piece's image paths."""
             paths = piece[ "front_images" ]
             return paths if isinstance(paths,list) else [paths]
-        return {
-            get_reverse_remapped_gpid( self, p["gpid"] ): {
-                "name": p["name"],
-                "front_images": image_count( p, "front_images" ),
-                "back_images": image_count( p, "back_images" ),
-                "paths": get_image_paths( p ),
-                "is_small": p["is_small"],
+        piece_info_table = {}
+        for gpid, piece in self._pieces.items():
+            piece_info = {
+                "name": piece["name"],
+                "front_images": image_count( piece, "front_images" ),
+                "back_images": image_count( piece, "back_images" ),
+                "paths": get_image_paths( piece ),
+                "is_small": piece["is_small"],
             }
-            for p in self._pieces.values()
-        }
+            piece_info_table[ gpid ] = piece_info
+            reverse_gpid = get_reverse_remapped_gpid( self, gpid )
+            if reverse_gpid != gpid:
+                piece_info_table[ reverse_gpid ] = piece_info
+        return piece_info_table
 
     def get_extns( self ):
         """Return the loaded VASL extensions."""

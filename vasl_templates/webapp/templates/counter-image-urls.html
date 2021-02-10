@@ -8,6 +8,8 @@
 th, td { text-align: left ; vertical-align: top ; padding-right: 1em ; }
 th { background: #eee ; }
 td { border-bottom: 1px solid #eee ; font-size: 90% ; }
+td.nationality { border: 1px solid black ; padding: 0.25em 0.5em ; background: #e8e8e8 ; font-size: 100% ; }
+img.counter { float: left ; margin: 0 0.5em 0.5em 0 ; height: 3em ; }
 </style>
 </head>
 
@@ -22,15 +24,19 @@ td { border-bottom: 1px solid #eee ; font-size: 90% ; }
 <script>
 gAppConfig = null ;
 gVaslPieceInfo = null ;
+gOnlineCounterImages = null ;
 
 $(document).ready( function () {
 
+    // parse URL arguments
+    var fetch_images = getUrlParam( "fetch-images" ) ;
+
     // initialize
     var counter_image_urls ;
-    var on_load_counter = 3 ;
+    var on_load_counter = 4 ;
     function on_data_loaded() {
         if ( --on_load_counter == 0 )
-            show_counter_image_urls( counter_image_urls ) ;
+            show_counter_image_urls( counter_image_urls, fetch_images ) ;
     }
 
     // get the app config
@@ -39,6 +45,7 @@ $(document).ready( function () {
         on_data_loaded() ;
     } ).fail( function( xhr, status, errorMsg ) {
         alert( "Can't get the application config:\n\n" + errorMsg ) ;
+        return ;
     } ) ;
 
     // get the VASL piece info
@@ -47,72 +54,153 @@ $(document).ready( function () {
         on_data_loaded() ;
     } ).fail( function( xhr, status, errorMsg ) {
         alert( "Can't get the VASL piece info:\n\n" + errorMsg ) ;
+        return ;
+    } ) ;
+
+    // get the online counter images
+    $.getJSON( "{{url_for('get_online_counter_images')}}", function(data) {
+        gOnlineCounterImages = data ;
+        on_data_loaded() ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        alert( "Can't get the online counter images:\n\n" + errorMsg ) ;
+        return ;
     } ) ;
 
     // get the vehicle/ordnance listings
     var url ;
     if ( "{{VO_TYPE}}" == "ordnance" )
         url = "{{url_for( 'get_ordnance_listings', report=1 )}}" ;
-    else
+    else if ( "{{VO_TYPE}}" == "vehicles" )
         url = "{{url_for( 'get_vehicle_listings', report=1 )}}" ; // nb: includes landing craft
+        else {
+                alert( "Invelid vo/type: {{VO_TYPE}}" ) ;
+        return ;
+    }
     url += "&merge_common=1" ;
     $.getJSON( url, function(data) {
-        counter_image_urls = data[ "{{NATIONALITY}}" ] ;
+        counter_image_urls = data ;
+        if ( "{{NATIONALITY}}" != "*" )
+            counter_image_urls = { "{{NATIONALITY}}": data[ "{{NATIONALITY}}" ] } ;
         on_data_loaded() ;
     } ).fail( function( xhr, status, errorMsg ) {
         alert( "Can't get the {{VO_TYPE0}} listings:\n\n" + errorMsg ) ;
+        return ;
     } ) ;
 } ) ;
 
-function show_counter_image_urls( counters )
+function show_counter_image_urls( counters, fetch_images )
 {
     // initialize
     if ( ! counters )
         counters = [] ;
     var buf = [] ;
     buf.push( "<table>" ) ;
-    buf.push( "<tr>", "<th>ID", "<th>Name", "<th>GPID", "<th>Local URL's", "<th>Online URL's" ) ;
 
-    // process each counter
-    for ( var i=0 ; i < counters.length ; ++i ) {
+    // process each nationality
+    for ( var nat in counters ) {
 
-        var counter = counters[i] ;
-        buf.push( "<tr>",
-            "<td>", counter.id,
-            "<td>", counter.name,
-        ) ;
+        if ( Object.keys( counters ).length > 1 )
+            buf.push( "<tr>", "<td class='nationality' colspan=5>", nat ) ;
 
-        // process each counter variant
-        var gpids = $.isArray( counter.gpid ) ? counter.gpid : [ counter.gpid ] ;
-        var gpids2=[] , local_urls=[] , online_urls=[] ;
-        for ( var j=0 ; j < gpids.length ; ++j ) {
+        buf.push( "<tr>", "<th>ID", "<th>Name", "<th>GPID", "<th>Local URL's", "<th>Online URL's" ) ;
 
-            if ( gpids[j] === null || [7140,7146].indexOf( gpids[j] ) !== -1 ) {
-                buf.push( "<td>", "<td>", "<td>" ) ;
-                continue ;
+        function add_image( urls, online, caption, url ) {
+            var buf2 = [ "<div>" ] ;
+            if ( fetch_images ) {
+                buf2.push( "<img" ) ;
+                if ( online )
+                    buf2.push( " data-url='" + url + "'" ) ;
+                else
+                    buf2.push( " src='" + url + "'" ) ;
+                buf2.push( " class='counter' data-caption='" + caption + "'>" ) ;
             }
-            gpids2.push( gpids[j] ) ;
-
-            // NOTE: We don't handle the case where there are multiple images available for a GPID,
-            // but this happens so infrequently, we can live with it (see expected-multiple-images.json).
-            var index = 0 ;
-
-            // generate the counter image URL's
-            var url = make_local_counter_image_url( gpids[j], index, false ) ;
-            local_urls.push( "<a href='" + url + "' target='_blank'>" + url + "</a>" ) ;
-            url = make_online_counter_image_url( gpids[j], index ) ;
-            online_urls.push( "<a href='" + url + "' target='_blank'>" + url + "</a>" ) ;
+            buf2.push( "<a href='" + url + "' target='_blank'>" + url + "</a>" ) ;
+            buf2.push( "</div>" ) ;
+            urls.push( buf2.join("") ) ;
+        }
+        function check_image( evt ) {
+            // check if the counter image loaded OK
+            var img = evt.target ;
+            if ( img.complete && img.naturalWidth !== 0 )
+                return ;
+            var $img = $( img ) ;
+            console.log( "COUNTER ERROR: " + $img.data("caption") + "\n-", $img.prop("src") ) ;
         }
 
-        buf.push(
-            "<td>", gpids2.join( "<br>" ),
-            "<td>", local_urls.join( "<br>" ),
-            "<td>", online_urls.join( "<br>" ),
-        ) ;
+        // process each counter
+        for ( var i=0 ; i < counters[nat].length ; ++i ) {
+
+            var counter = counters[nat][i] ;
+            buf.push( "<tr>",
+                "<td>", counter.id,
+                "<td>", counter.name,
+            ) ;
+
+            // process each counter variant
+            var gpids = $.isArray( counter.gpid ) ? counter.gpid : [ counter.gpid ] ;
+            var gpids2=[] , local_urls=[] , online_urls=[] ;
+            for ( var j=0 ; j < gpids.length ; ++j ) {
+
+                if ( gpids[j] === null )
+                    continue ;
+                gpids2.push( gpids[j] ) ;
+
+                // NOTE: We don't handle the case where there are multiple images available for a GPID,
+                // but this happens so infrequently, we can live with it (see expected-multiple-images.json).
+                var index = 0 ;
+
+                // generate the counter image URL's
+                var caption = "gpid=" + gpids[j] ;
+                add_image( local_urls, false, caption,
+                    make_local_counter_image_url( gpids[j], index, false )
+                ) ;
+                add_image( online_urls, true, caption,
+                    make_online_counter_image_url( gpids[j], index )
+                ) ;
+            }
+
+            buf.push(
+                "<td>", gpids2.join( "<br>" ),
+                "<td>", local_urls.join( "<br>" ),
+                "<td>", online_urls.join( "<br>" ),
+            ) ;
+        }
+
     }
 
     buf.push( "</table>" ) ;
-    $("#results").html( buf.join("") ).show() ;
+    var $results = $( buf.join("") ) ;
+    var onlineImages = [] ;
+    $results.find( "img.counter" ).each( function() {
+        if ( $(this).data( "url" ) )
+            onlineImages.push( $(this) ) ;
+        else
+            $(this).on( "load", check_image ).on( "error", check_image ) ;
+    } ) ;
+    $("#results").html( $results ).show() ;
+
+    // FUDGE! If we just insert all the online images into the page get the browser to downloaded them normally,
+    // a lot of them fail, I assume because Github is rate-limiting requests. We work around this by manually
+    // downloading them one at a time :-/
+    function downloadNextOnlineImage() {
+        if ( onlineImages.length == 0 ) {
+            console.log( "- Done." ) ;
+            return ;
+        }
+        if ( onlineImages.length % 100 == 0 )
+            console.log( "-", onlineImages.length, "images left..." ) ;
+        var $img = onlineImages.pop() ;
+        var url = $img.data( "url" ) ;
+        function onLoaded( evt ) {
+            check_image( evt ) ;
+            downloadNextOnlineImage() ;
+        }
+        $img.on( "load", onLoaded ).on( "error", onLoaded ).attr( "src", url ) ;
+    }
+    if ( onlineImages.length > 0 ) {
+        console.log( "Downloading online images:", onlineImages.length ) ;
+        downloadNextOnlineImage() ;
+    }
 }
 
 </script>

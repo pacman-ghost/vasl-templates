@@ -937,7 +937,7 @@
   "note_number": "88",
   "notes": [ "A\u2020", "D\u2020", "N" ],
   "id": "ge/v:105",
-  "gpid": [ 7146, 2772 ]
+  "gpid": 2772
 },
 { "name": "SdKfz 10/5",
   "type": "AAht",
@@ -945,7 +945,7 @@
   "note_number": "88.1\u2020",
   "notes": [ "A\u2020<sup>2</sup>", "D\u2020<sup>1</sup>" ],
   "id": "ge/v:106",
-  "gpid": [ 7140, 2775 ]
+  "gpid": 2775
 },
 { "name": "SdKfz 6/2",
   "type": "AAht",

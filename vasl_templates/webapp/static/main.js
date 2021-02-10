@@ -5,6 +5,7 @@ gValidTemplateIds = [] ;
 gVehicleOrdnanceListings = {} ;
 gVehicleOrdnanceNotes = {} ;
 gVaslPieceInfo = {} ;
+gOnlineCounterImages = {} ;
 
 gWebChannelHandler = null ;
 gEmSize = null ;
@@ -316,6 +317,15 @@ $(document).ready( function () {
         update_page_load_status( "vasl-piece-info" ) ;
     } ) ;
 
+    // get the online counter images data
+    $.getJSON( gGetOnlineCounterImagesUrl, function(data) {
+        gOnlineCounterImages = data ;
+        update_page_load_status( "online-counter-images" ) ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        showErrorMsg( "Can't get the online counter images:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+        update_page_load_status( "online-counter-images" ) ;
+    } ) ;
+
     // get the template pack
     $.getJSON( gGetTemplatePackUrl, function(data) {
         if ( "error" in data )
@@ -525,7 +535,7 @@ gPageLoadStatus = [
     "main", "app-config",
     "vehicle-listings", "ordnance-listings", "reset-scenario",
     "vehicle-notes", "ordnance-notes",
-    "vasl-piece-info", "template-pack", "default-scenario"
+    "vasl-piece-info", "online-counter-images", "template-pack", "default-scenario"
 ] ;
 
 function update_page_load_status( id )
