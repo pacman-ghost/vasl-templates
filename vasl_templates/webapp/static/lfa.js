@@ -30,7 +30,7 @@ var ROLL_TYPES = {
 } ;
 
 var MOVING_AVERAGE_WINDOW_SIZES = [ 5, 10, 20, 50, 100 ] ;
-var PREFERRED_WINDOW_SIZE = 10 ;
+var PREFERRED_WINDOW_SIZE = 20 ;
 var MAX_TIME_PLOT_SPACING = 40 ;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
