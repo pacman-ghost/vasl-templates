@@ -50,7 +50,7 @@ var gDistribDatasetPlayerIndex={}, gPieDatasetPlayerIndex={}, gTimePlotDatasetPl
 var gDistribCharts={}, gPieCharts={}, gTimePlotChart, gHotnessChart ;
 
 var $gDialog ;
-var $gBanner, $gHotness, $gHotnessPopup, $gSelectFilePopup, $gOptions, $gRollTypeDropList, $gDistribLineGraphsCheckBox, $gStackBarGraphsCheckBox ;
+var $gBanner, $gHotness, $gHotnessPopup, $gSelectFilePopup, $gOptions, $gRollTypeDropList, $gDistribBarGraphsCheckBox, $gStackBarGraphsCheckBox ;
 var $gPlayerColorsButton, $gPlayerColorsPopup ;
 var $gTimePlot, $gTimePlotChartWrapper ;
 var $gTimePlotOptions, $gMovingAverageDropList, $gTimePlotZoomInButton, $gTimePlotZoomOutButton ;
@@ -204,8 +204,8 @@ function loadDialog()
     $gSelectFilePopup = $( "#lfa .select-file-popup" ) ;
     $gOptions = $( "#lfa .options" ) ;
     $gRollTypeDropList = $( "#lfa select[name='roll-type']" ) ;
-    $gDistribLineGraphsCheckBox = $( "#lfa input[name='distrib-line-graphs']" ).prop(
-        "checked", gUserSettings.lfa["distrib-line-graphs"]
+    $gDistribBarGraphsCheckBox = $( "#lfa input[name='distrib-bar-graphs']" ).prop(
+        "checked", gUserSettings.lfa["distrib-bar-graphs"]
     ) ;
     $gStackBarGraphsCheckBox = $( "#lfa input[name='stack-bar-graphs']" ).prop(
         "checked", gUserSettings.lfa["stack-bar-graphs"]
@@ -274,17 +274,18 @@ function loadDialog()
     gEventHandlers.addHandler( $gRollTypeDropList, "selectmenuchange", reloadAll ) ;
 
     // add a click handler for distrib line graphs
-    gEventHandlers.addHandler( $gDistribLineGraphsCheckBox, "click", function() {
+    gEventHandlers.addHandler( $gDistribBarGraphsCheckBox, "click", function() {
         // update the UI
         var isChecked = $(this).is( ":checked" ) ;
         for ( var key in DR_VALS ) {
             for ( var i=0 ; i < gDistribCharts[key].data.datasets.length-1 ; ++i )
-                gDistribCharts[key].data.datasets[i].type = isChecked ? "line" : "bar" ;
-            gDistribCharts[key].options.animation.duration = $gDisableAnimationsCheckBox.is( ":checked" ) ? 0 : 1000 ;
+                gDistribCharts[key].data.datasets[i].type = isChecked ? "bar" : "line" ;
+            setChartAnimation( gDistribCharts[key].options ) ;
             gDistribCharts[key].update() ;
         }
+        updateUi() ;
         // save the new setting
-        gUserSettings.lfa["distrib-line-graphs"] = isChecked ;
+        gUserSettings.lfa["distrib-bar-graphs"] = isChecked ;
         save_user_settings() ;
     } ) ;
 
@@ -294,7 +295,7 @@ function loadDialog()
         var isChecked = $(this).is( ":checked" ) ;
         for ( var key in DR_VALS ) {
             gDistribCharts[key].options.scales.xAxes[0].stacked = isChecked ;
-            gDistribCharts[key].options.animation.duration = $gDisableAnimationsCheckBox.is( ":checked" ) ? 0 : 1000 ;
+            setChartAnimation( gDistribCharts[key].options ) ;
             gDistribCharts[key].update() ;
         }
         // save the new setting
@@ -366,6 +367,9 @@ function loadDialog()
 
     // set initial focus
     $gRollTypeDropList.focus() ;
+
+    // update the UI
+    updateUi() ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1152,7 +1156,7 @@ function getDistribData( key )
         datasets.push( {
             label: label,
             data: dataVals,
-            type: $gDistribLineGraphsCheckBox.is(":checked") ? "line" : "bar",
+            type: $gDistribBarGraphsCheckBox.is(":checked") ? "bar" : "line",
             // nb: the following are used for both bar and line graphs
             borderWidth: 1,
             borderColor: getPlayerColor( playerId ),
@@ -1646,6 +1650,15 @@ function updateLayout()
     $gDialog.find( ".no-data" ).each( function() {
         positionNoData( $(this) ) ;
     } ) ;
+}
+
+function updateUi()
+{
+    // update the UI
+    if ( $gDistribBarGraphsCheckBox.is( ":checked" ) )
+        $gStackBarGraphsCheckBox.removeAttr( "disabled" ) ;
+    else
+        $gStackBarGraphsCheckBox.attr( "disabled", "disabled" ) ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
