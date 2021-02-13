@@ -212,6 +212,7 @@ def get_program_info():
     # check if we are running inside a Docker container
     if app.config.get( "IS_CONTAINER" ):
         # yup - return related information
+        params[ "BUILD_GIT_INFO" ] = os.environ.get( "BUILD_GIT_INFO" )
         params[ "DOCKER_IMAGE_NAME" ] = os.environ.get( "DOCKER_IMAGE_NAME" )
         params[ "DOCKER_IMAGE_TIMESTAMP" ] = datetime.strftime(
             parse_timestamp( os.environ.get( "DOCKER_IMAGE_TIMESTAMP" ) ),

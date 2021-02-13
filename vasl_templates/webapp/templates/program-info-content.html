@@ -11,7 +11,10 @@
     <tr> <td class="key"> Docker container:
          <td class="val"> {{DOCKER_CONTAINER_NAME}} <span class="info"> ({{DOCKER_CONTAINER_ID}}) </span>
     <tr> <td class="key"> Docker image:
-         <td class="val"> {{DOCKER_IMAGE_NAME}} <span class="info"> (built {{DOCKER_IMAGE_TIMESTAMP}}) </span>
+         <td class="val"> {{DOCKER_IMAGE_NAME}} <span class="info">
+            (built {{DOCKER_IMAGE_TIMESTAMP}})
+            {%if BUILD_GIT_INFO%} ({{BUILD_GIT_INFO}}) {%endif%}
+            </span>
 </table>
 {%endif%}
 

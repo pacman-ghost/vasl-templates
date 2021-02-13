@@ -211,6 +211,7 @@ function main
         --publish $PORT:5010 \
         --env DOCKER_IMAGE_NAME="vasl-templates:$IMAGE_TAG" \
         --env DOCKER_IMAGE_TIMESTAMP="$(date --utc +"%Y-%m-%d %H:%M:%S %:z")" \
+        --env BUILD_GIT_INFO="$(get_git_info)" \
         --env DOCKER_CONTAINER_NAME="$CONTAINER_NAME" \
         $CONTROL_TESTS_PORT_RUN \
         $VASSAL_VOLUME $VASL_MOD_VOLUME $VASL_EXTNS_VOLUME $VASL_BOARDS_VOLUME $CHAPTER_H_NOTES_VOLUME $TEMPLATE_PACK_VOLUME $USER_FILES_VOLUME \
@@ -225,6 +226,20 @@ function main
 }
 
 # ---------------------------------------------------------------------
+
+function get_git_info {
+    # NOTE: We assume the source code has a git repo, and git is installed, etc. etc., which should
+    # all be true, but in the event we can't get the current branch and commit ID, we return nothing,
+    # and nothing will be shown in the Program Info dialog in the UI.
+    cd "${0%/*}"
+    local branch=$( git branch | grep "^\*" | cut -c 3- )
+    local commit=$( git log | head -n 1 | cut -f 2 -d " " | cut -c 1-8 )
+    if [[ -n "$branch" && -n "$commit" ]]; then
+        echo "$branch:$commit"
+    fi
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 function get_target {
     local type=$1
