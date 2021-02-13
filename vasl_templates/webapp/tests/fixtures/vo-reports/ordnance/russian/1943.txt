@@ -18,7 +18,7 @@ Name                  Capabilities          (effective)    #     Notes      Comm
 76.2mm P obr. 00/02P  s8                    s8             13    n/a        QSU | Horse-Drawn
 76.2mm P obr. 02/30   s8                    s8             14    n/a        QSU | Horse-Drawn
 76.2mm P obr. 39      A4[2]5[3]6[4]7[5] s8  A5 s8          15†   n/a        QSU
-76.2mm P obr. 36      A4[2] s8              A4 s8          16†   n/a        QSU
+76.2mm P obr. 36      A4[2] s8              s8             16†   n/a        QSU
 85mm P obr. 44        A5[4]6[5] s8          s8             17    n/a        QSU
 107mm P obr. 10/30    s8                    s8             18    n/a        Horse-Drawn
 122mm G obr. 10/30    s8                    s8             19    n/a        Horse-Drawn

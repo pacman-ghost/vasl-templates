@@ -47,7 +47,7 @@ Valentine II               sM8 CS 4                                             
 Valentine V                sM8 CS 4                                              sM8 CS 4                          28†     K†<sup>1</sup> N<sup>T</sup>
 Valentine VIII             HE7 sD6 CS 4                                          HE7 sD6 CS 4                      29      N<sup>T</sup>
 Valentine XI               WP6 s8 sD8 CS 4                                       WP6 s8 sD8 CS 4                   30      n/a
-Churchill I                HE9†[2] s†[2] sD5[4] sM8†[1] CS 7                     HE9†[2] s†[2] sD5 sM8†[1] CS 7    31†     N<sup>T</sup> S†<sup>2</sup> Z†<sup>1</sup> CC        40 MA: T | 76 SA: NT (bow-mounted) | 76 SA: +1 DRM vs Moving/Motion | Smoke &amp; HE: 76 SA only | 76 SA: s9, &#8734; HE | Steep climbs
+Churchill I                HE9†[2] s†[2] sD5[4] sM8†[1] CS 7                     HE9†[2] s†[2] sM8†[1] CS 7        31†     N<sup>T</sup> S†<sup>2</sup> Z†<sup>1</sup> CC        40 MA: T | 76 SA: NT (bow-mounted) | 76 SA: +1 DRM vs Moving/Motion | Smoke &amp; HE: 76 SA only | 76 SA: s9, &#8734; HE | Steep climbs
 Churchill IV               D6[J4]7[5]†[2] HE7[F3]8[4+]†[1] sD6[4+] sM8†[3] CS 7  D7†[2] HE8†[1] sD6 sM8†[3] CS 7   32†     J†<sup>2</sup> N Y†<sup>1</sup> Z†<sup>3</sup> CC     Steep climbs
 Churchill V                H6 s9 sD7 sM8†[1] CS 7                                H6 s9 sD7 sM8†[1] CS 7            33†     S Z†<sup>1</sup> CC                                   Steep climbs
 Churchill VI               WP6[J4+]†[1] s8 sD7 sM8†[2] CS 7                      WP6†[1] s8 sD7 sM8†[2] CS 7       34†     W†<sup>1</sup> Z†<sup>2</sup> CC                      Steep climbs

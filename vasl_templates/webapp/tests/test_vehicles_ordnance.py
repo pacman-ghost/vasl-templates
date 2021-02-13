@@ -223,7 +223,7 @@ def test_variable_capabilities( webapp, webdriver ):
     do_test( 12, 1944, '"D6\u2020" "HE8\u2020" "sD6" "sM8\u2020" "CS 7"' )
     do_test( 1, 1945, '"D7\u2020" "HE8\u2020" "sD6" "sM8\u2020" "CS 7"' )
     do_test( 12, 1945, '"D7\u2020" "HE8\u2020" "sD6" "sM8\u2020" "CS 7"' )
-    do_test( 1, 1946, '"D7\u2020" "HE8\u2020" "sD6" "sM8\u2020" "CS 7"' )
+    do_test( 1, 1946, '"HE8\u2020" "sD6" "sM8\u2020" "CS 7"' )
 
 # ---------------------------------------------------------------------
 

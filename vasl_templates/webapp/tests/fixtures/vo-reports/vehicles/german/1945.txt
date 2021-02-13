@@ -1,130 +1,130 @@
 === vehicles/german/1945 ===
 
-Name                    Capabilities                   (effective)                 #       Notes                              Comments
-----------------------  -----------------------------  --------------------------  ------  ---------------------------------  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-PzKpfw IB               sD6 CS 2                       sD6 CS 2                    1†      N<sup>F</sup>                      2 TK DR
-PzKpfw IIA              sD6 CS 3                       sD6 CS 3                    2       n/a
-PzKpfw IIF              sD7 CS 3                       sD7 CS 3                    3       N
-PzKpfw II(Fl)           sD7† CS 2[brewup]              sD7† CS 2[brewup]           4†      n/a                                sD: 3 hex range
-PzKpfw IIL              sD7 CS 4                       sD7 CS 4                    5       n/a
-PzKpfw 35t              sD5 CS 4                       sD5 CS 4                    6†      n/a
-PzKpfw 38(t)A           A4[1]5[2] sD6 CS 4             A5 sD6 CS 4                 7†      E                                  ESB: 0 DRM
-PzKpfw 38(t)E           A4[1]5[2] sD7 CS 4             A5 sD7 CS 4                 8†      E                                  ESB: 0 DRM
-Aufklaerer 38(t)        CS 5                           CS 5                        9       A† E                               MA &amp; CMG: AA ok | ESB: 0 DRM
-FT-17 730m(f)           CS 2                           CS 2                        9.1†    a c f                              Road Rate NA | French ESB | CE: +1 Rear Turret &amp; Indirect Fire
-FT-17 730(f)            AP9 CS 2                       AP9 CS 2                    9.1†    a c f                              Road Rate NA | French ESB | CE: +1 Rear Turret &amp; Indirect Fire
-38H 735(f)              AP10 CS 3                      AP10 CS 3                   9.2     a b† f                             French ESB | CMG: AA ok (TCA only)
-35-S 739(f)             CS 4                           CS 4                        9.3     a b†<sup>2</sup> d†<sup>1</sup> f  French ESB | CMG: AA ok (TCA only) | Immob: dr &#8804; 4 [EXC: mines, Direct Fire vs front/rear]
-PzKpfw IIID             sD6 CS 5                       sD6 CS 5                    10†     n/a
-PzKpfw IIIF             A4[1] sD7 CS 5                 A4 sD7 CS 5                 11†     n/a
-PzKpfw IIIG             A4[1] sD7 CS 5                 A4 sD7 CS 5                 12      N
-PzKpfw IIIH             A4[1] sD7 CS 6                 A4 sD7 CS 6                 13†     N
-PzKpfw IIIJ             A6[2] sD7 CS 6                 A6 sD7 CS 6                 14†     N S
-PzKpfw IIIL             A6[2] sD7 CS 5                 A6 sD7 CS 5                 15†     B† N S
-PzKpfw IIIN             H9 s9 sD7 CS 5                 H9 s9 sD7 CS 5              16      B† N<sup>T</sup> S
-PzKpfw III(Fl)          sD7 CS 3                       sD7 CS 3                    17      n/a
-PzKpfw IVA              AP7 s9 sD6 CS 5                AP7 s9 sD6 CS 5             18†     n/a
-PzKpfw IVC              AP7 s9 sD6 CS 5                AP7 s9 sD6 CS 5             19†     n/a
-PzKpfw IVD              AP7 H6 s9 sD7 CS 5             AP7 H6 s9 sD7 CS 5          20      N R†
-PzKpfw IVE              AP7 H6 s9 sD7 CS 6             AP7 H6 s9 sD7 CS 6          21      N R†
-PzKpfw IVF<sub>1</sub>  AP7 H6 s9 sD7 CS 6             AP7 H6 s9 sD7 CS 6          22      N R†
-PzKpfw IVF<sub>2</sub>  A5[2] s8 sD6 CS 6              A5 s8 sD6 CS 6              23†     N S
-PzKpfw IVH              A5[2] s8 sD5 CS 6              A5 s8 sD5 CS 6              24†     B† S
-PzKpfw IVJ              A3[4] s8 sN9 CS 6              A3 s8 sN9 CS 6              25      S
-PzKpfw VD               sD5 CS 5[brewup]               sD5 CS 5[brewup]            26      F†                                 12: Burn, 11: Immob, 10: Stall
-PzKpfw VG               sN7[4] CS 6                    sN7 CS 6                    27†     H†                                 12: Stall
-PzKpfw M15/42(i)        CS 4                           CS 4                        28      I                                  Red TH# | Italian ESB
-PzKpfw P26/40(i)        s8 CS 4                        s8 CS 4                     29      I                                  Red TH# | Italian ESB
-PzKpfw VIE              A6[2] sD7 CS 6                 A6 sD7 CS 6                 30†     K N<sup>FT</sup>                   SA: Mines (CC: 12 FP) | Morale 9
-PzKpfw VIE (L)          A4[4] sN7[4] CS 6              A4 sN7 CS 6                 31      K                                  Morale 9
-PzKpfw VIB              sN9 CS 6                       sN9 CS 6                    32†     K                                  Morale 9
-StuG IIIB               AP7 H6 s9 sD7 CS 4             AP7 H6 s9 sD7 CS 4          33†     n/a
-StuG IIIG               A6[2] s8 sD7 CS 4              A6 s8 sD7 CS 4              34†     N<sup>FT</sup> P† S                AAMG: VCA only
-StuG IIIG (L)           A4[4] s8 sN9 CS 4              A4 s8 sN9 CS 4              35      O† Q† S                            AAMG: BU only, Rider NA, elevation restrictions | CMG: VCA only
-StuH 42                 H9 s9 sD7 CS 4                 H9 s9 sD7 CS 4              36†     N<sup>FT</sup> P† S                AAMG: VCA only
-StuH 42 (L)             H9 s9 sN9 CS 4                 H9 s9 sN9 CS 4              35      O† Q† S                            AAMG: BU only, Rider NA, elevation restrictions | CMG: VCA only
-StuPz IV                H7 s9 CS 6                     H7 s9 CS 6                  37†     S                                  BMG: HD Fire OK | No IF
-Sturmtiger              sN9 CS 5                       sN9 CS 5                    37.1†   K                                  MA: No Bnd (F)F, Motion Fire, Acq, CE | No Area Target Type, same Location, consecutive Fire | +1 TH DRM vs Moving/Motion/Dash | Riders Bail Out when MA fires | IFT: 36+ FP with -3 DRM | HE TK#: [{ *:Direct Hit (dr 1-2): 28 (armored), 22 (unarmored); <br/> Specific Collateral Attack = full FP *:Near Miss: 10 (armored), 16 (unarmored); <br/> Specific Collateral Attack = 20 FP }] | No IF | Morale 9
-PzJg Tiger              CS 7                           CS 7                        38      n/a
-StuG 75/18(i)           H7 s9 CS 3                     H7 s9 CS 3                  39      I P†                               Red TH# | Italian ESB | AAMG: VCA only
-StuG 75/34(i)           s9 CS 3                        s9 CS 3                     40      I P†                               Red TH# | Italian ESB | AAMG: VCA only
-StuG 105/25(i)          H7 s9 CS 3                     H7 s9 CS 3                  41      I P†                               No IF | Red TH# | Italian ESB | AAMG: VCA only
-StuG 75/46(i)           s9 CS 3                        s9 CS 3                     42      I P†                               Red TH# | Italian ESB | AAMG: VCA only
-PzJg I                  A5[1] HE7 CS 3                 A5 HE7 CS 3                 43      N
-PzJg 35R(f)             A5[1] HE7 CS 3                 A5 HE7 CS 3                 44      a                                  French ESB
-Pz 35R 731(f)           CS 2                           CS 2                        44.1†   a                                  French ESB
-Marder I(f)             A6[2] HE7 s7 CS 4[brewup]      A6 HE7 s7 CS 4[brewup]      45†     a                                  French ESB
-GSW 39H(f) Pak          A4[4] HE9 CS 3                 A4 HE9 CS 3                 45.1    a e                                French ESB
-Marder II               A6[2] HE7 s7 CS 4[brewup]      A6 HE7 s7 CS 4[brewup]      46      M† N<sup>FT</sup>
-Marder III(t)H          A6[2] HE7 s7 sD6 CS 4[brewup]  A6 HE7 s7 sD6 CS 4[brewup]  47      E G N<sup>F</sup>                  CE: +3 Front | ESB: 0 DRM
-Marder III(t)M          A5[3] HE7 s7 sD5 CS 4[brewup]  A5 HE7 s7 sD5 CS 4[brewup]  48      E                                  ESB: 0 DRM
-PzJg III/IV             HE7 CS 5                       HE7 CS 5                    49      M†
-JgdPz 38(t)             A4[4] HE7 CS 4                 A4 HE7 CS 4                 50      E O†                               ESB: 0 DRM | AAMG: BU only, Rider NA, elevation restrictions
-JgdPz 38(t) (Fl)        CS 4                           CS 4                        51      E O†                               ESB: 0 DRM | AAMG: BU only, Rider NA, elevation restrictions
-JgdPz IV                A4[4] HE7 s7 sN7[4] CS 4       A4 HE7 s7 sN7 CS 4          52      S
-JgdPz IV (L)            A4[4] HE7 s7 sN8[4] CS 4       A4 HE7 s7 sN8 CS 4          52      S
-StuIG 33B               H7 s9 CS 5                     H7 s9 CS 5                  53†     n/a                                BMG: HD Fire OK | No IF
-JgdPz IV/70             HE7 sN9 CS 4                   HE7 sN9 CS 4                54†     S
-JgdPz V                 HE7 sN9 CS 6                   HE7 sN9 CS 6                55      H                                  12: Stall
-JgdPz VI                HE7 sN9 CS 7                   HE7 sN9 CS 7                56      n/a
-SPW 250/1               CS 4                           CS 4                        57      N
-SPW 250/sMG             CS 4†                          CS 4†                       58†     J† N                               Inherent Crew &amp; Passenger | CMG: Normal Range = 16, VCA only | CMG: Removal/Scrounge OK (LMG) | AAMG: Removal OK (dm HMG); Scrounge OK (LMG) | AAMG: NA VCA
-SPW 250/7               IR s8 CS 4[brewup]             IR s8 CS 4[brewup]          59      J† N                               Inherent Infantry Crew | AAMG: NA VCA
-SPW 250/8               H6 s8 CS 4[brewup]             H6 s8 CS 4[brewup]          60      Q†                                 CMG: VCA only
-SPW 250/9               CS 4                           CS 4                        61†     A†                                 MA &amp; CMG: AA ok
-SPW 250/10              A4[1] CS 4                     A4 CS 4                     62      J† N                               AAMG: NA VCA
-SPW 251/1               CS 5                           CS 5                        63      C† N
-SPW 251/sMG             CS 5†                          CS 5†                       58†     C† J† N                            Inherent Crew &amp; Passenger | CMG: Normal Range = 16, VCA only | CMG: Removal/Scrounge OK (LMG) | AAMG: Removal OK (dm HMG); Scrounge OK (LMG) | AAMG: NA VCA
-SPW 251/2               IR s8 CS 4[brewup]             IR s8 CS 4[brewup]          59      C† J† N                            Inherent Infantry Crew | AAMG: NA VCA
-SPW 251/9               H6 s9 CS 4[brewup]             H6 s9 CS 4[brewup]          64      C† N Q†                            CMG: VCA only
-SPW 251/10              A4[1] CS 4                     A4 CS 4                     65      C† J† N                            PSK | AAMG: NA VCA
-SPW 251/16              CS 4[brewup]                   CS 4[brewup]                66†     n/a                                Port/starboard FT's
-SPW 251/21              CS 4                           CS 4                        66.1†   n/a                                3 TK DR | MA: AA ok
-SPW 251/22              HE7 s7 CS 4[brewup]            HE7 s7 CS 4[brewup]         67      J†                                 AAMG: NA VCA
-SPW S307(f)             A4[4] HE9 CS 4                 A4 HE9 CS 4                 67.1    a e                                French ESB
-mSPW S307(f)            IR s5 CS 4                     IR s5 CS 4                  67.2    a e                                CE: +1 Rear &amp; Indirect Fire | VCA Facing | Extra Smoke | No IF | French ESB
-Kfz 13                  CS 2                           CS 2                        68†     n/a                                Always CE
-PSW 221                 sD6 CS 2                       sD6 CS 2                    69†     A† N                               BU Fire NA | Reverse MP &#215;4 | MA &amp; CMG: AA ok
-PSW 222                 sD6 CS 3                       sD6 CS 3                    70†     A† N                               Reverse MP &#215;3 | MA &amp; CMG: AA ok
-PSW 222 (L)             sD6 CS 3                       sD6 CS 3                    70†     A† N<sup>F</sup>                   Reverse MP &#215;3 | MA &amp; CMG: AA ok
-PSW 231 (6 rad)         CS 4                           CS 4                        71†     n/a                                Reverse MP &#215;2
-PSW 231 (8 rad)         sD6 CS 4                       sD6 CS 4                    72†     N
-PSW 232 (8 rad)         sD6 CS 4                       sD6 CS 4                    72      N<sup>F</sup>
-PSW 233                 H8 s9 sD7 CS 5                 H8 s9 sD7 CS 5              73      N<sup>T</sup>
-PSW 234/1               CS 5                           CS 5                        74      A†                                 MA &amp; CMG: AA ok
-PSW 234/2               A5[3] sD7 CS 4                 A5 sD7 CS 4                 75      n/a
-PSW 234/3               H8 s9 CS 5                     H8 s9 CS 5                  76      Q†                                 CMG: VCA only
-PSW 234/4               HE7 s7 CS 5[brewup]            HE7 s7 CS 5[brewup]         77†     n/a                                Reverse MP &#215;4
-sIG IB                  H6 s9 CS 4[brewup]             H6 s9 CS 4[brewup]          78      G                                  No IF | CE: +3 Front
-sIG II                  H6 s9 CS 4[brewup]             H6 s9 CS 4[brewup]          79      N                                  No IF
-sIG 38(t)M              H6 s9 CS 4[brewup]             H6 s9 CS 4[brewup]          80      E N<sup>FT</sup>                   No IF | ESB: 0 DRM
-PzA II                  H5 s8 CS 4                     H5 s8 CS 4                  81      M†
-PzA LrS(f)              H4 s8 CS 4                     H4 s8 CS 4                  82      a N                                No IF | French ESB
-GSW 39H(f)              H4 s7 CS 4                     H4 s7 CS 4                  82.1    a e                                French ESB
-PzA III/IV              H5 s8 CS 6                     H5 s8 CS 6                  83      n/a                                No IF
-FlaKPz 38(t)            CS 4                           CS 4                        84      A† E                               CE: +1 | MA &amp; CMG: AA ok | ESB: 0 DRM
-37 FlaK/Pz IV           CS 5                           CS 5                        85†     A†                                 Moving: [{ *:Fire &#8804; level NA }] | Firing: [{ *:No CE DRM *:Random SW Destruction for MA }] | MA &amp; CMG: AA ok
-FlaKPz IV/20            CS 6                           CS 6                        86      A†                                 4 TK DR | MA &amp; CMG: AA ok
-FlaKPz IV/37            CS 6                           CS 6                        87      A†                                 MA &amp; CMG: AA ok
-SdKfz 10/4              CS 5                           CS 5                        88      A† D† N                            MA &amp; CMG: AA ok | Ammo trailer
-SdKfz 10/5              CS 4                           CS 4                        88.1†   A†<sup>2</sup> D†<sup>1</sup>      MA &amp; CMG: AA ok | Ammo trailer
-SdKfz 6/2               CS 5                           CS 5                        89      A† D† N                            MA &amp; CMG: AA ok | Ammo trailer
-SdKfz 7/1               CS 4                           CS 4                        90      A† D† N                            4 TK DR | MA &amp; CMG: AA ok | Ammo trailer
-Kfz 4                   CS 3                           CS 3                        91†     N                                  2 TK DR (MG)
-2cm FlaK LKW            CS 5                           CS 5                        92      A†                                 MA &amp; CMG: AA ok
-3.7cm FlaK LKW          CS 5                           CS 5                        92      A†                                 MA &amp; CMG: AA ok
-Goliath                                                                            93†     L†                                 Bog assistance
-Kfz 1                   cs 2†                          cs 2†                       94†     L† N                               Inherent Crew if armed (with CS#) | Bog assistance
-Kfz 1/20                cs 2                           cs 2                        95†     L†                                 +3 Target Size &amp; HD in Water | Bog assistance
-Opel 6700 (Blitz)       cs 6                           cs 6                        96      N
-Buessing-NAG 4500       cs 7                           cs 7                        96      N
-SdKfz 2                 cs 2                           cs 2                        97†     L† N                               As vehicle (not motorcycle) | Crew/HS Riders OK | Hidden AT Mine attacks NA | AP Mine attacks: Area Fire | Bog assistance
-SdKfz 7                 cs 6                           cs 6                        98      N
-SdKfz 11                cs 5                           cs 5                        99      N
-PzKpfw IA               sD6 CS 2                       sD6 CS 2                    1†      Ge N                               2 TK DR (MG)
-PzKpfw ICV              sD5 CS 3                       sD5 CS 3                    2       A†                                 MG: VCA only
-PzKpfw IID              sD6 CS 3                       sD6 CS 3                    3       n/a
-PzKpfw II Bridgelayer   sD6 CS 2                       sD6 CS 2                    4†      n/a                                Inherent Crew | Movement restrictions | Stun = Recall, CE NA
-Pz-7TP                  CS 3                           CS 3                        5       B†
-PSW M35                 CS 5                           CS 5                        6†      n/a                                Reverse MP &#215;2
-SdKfz8 FlaK 18          A5[2]4[3] CS 6                 A4 CS 6                     7††[1]  n/a                                CE: +3 VCA, otherwise 0 DRM | Indirect Fire: CE +1 | MA: Rear VCA NA | MA: Random SW Destruction | Mines: As unarmored
+Name                    Capabilities                   (effective)              #       Notes                              Comments
+----------------------  -----------------------------  -----------------------  ------  ---------------------------------  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+PzKpfw IB               sD6 CS 2                       sD6 CS 2                 1†      N<sup>F</sup>                      2 TK DR
+PzKpfw IIA              sD6 CS 3                       sD6 CS 3                 2       n/a
+PzKpfw IIF              sD7 CS 3                       sD7 CS 3                 3       N
+PzKpfw II(Fl)           sD7† CS 2[brewup]              sD7† CS 2[brewup]        4†      n/a                                sD: 3 hex range
+PzKpfw IIL              sD7 CS 4                       sD7 CS 4                 5       n/a
+PzKpfw 35t              sD5 CS 4                       sD5 CS 4                 6†      n/a
+PzKpfw 38(t)A           A4[1]5[2] sD6 CS 4             sD6 CS 4                 7†      E                                  ESB: 0 DRM
+PzKpfw 38(t)E           A4[1]5[2] sD7 CS 4             sD7 CS 4                 8†      E                                  ESB: 0 DRM
+Aufklaerer 38(t)        CS 5                           CS 5                     9       A† E                               MA &amp; CMG: AA ok | ESB: 0 DRM
+FT-17 730m(f)           CS 2                           CS 2                     9.1†    a c f                              Road Rate NA | French ESB | CE: +1 Rear Turret &amp; Indirect Fire
+FT-17 730(f)            AP9 CS 2                       AP9 CS 2                 9.1†    a c f                              Road Rate NA | French ESB | CE: +1 Rear Turret &amp; Indirect Fire
+38H 735(f)              AP10 CS 3                      AP10 CS 3                9.2     a b† f                             French ESB | CMG: AA ok (TCA only)
+35-S 739(f)             CS 4                           CS 4                     9.3     a b†<sup>2</sup> d†<sup>1</sup> f  French ESB | CMG: AA ok (TCA only) | Immob: dr &#8804; 4 [EXC: mines, Direct Fire vs front/rear]
+PzKpfw IIID             sD6 CS 5                       sD6 CS 5                 10†     n/a
+PzKpfw IIIF             A4[1] sD7 CS 5                 sD7 CS 5                 11†     n/a
+PzKpfw IIIG             A4[1] sD7 CS 5                 sD7 CS 5                 12      N
+PzKpfw IIIH             A4[1] sD7 CS 6                 sD7 CS 6                 13†     N
+PzKpfw IIIJ             A6[2] sD7 CS 6                 sD7 CS 6                 14†     N S
+PzKpfw IIIL             A6[2] sD7 CS 5                 sD7 CS 5                 15†     B† N S
+PzKpfw IIIN             H9 s9 sD7 CS 5                 H9 s9 sD7 CS 5           16      B† N<sup>T</sup> S
+PzKpfw III(Fl)          sD7 CS 3                       sD7 CS 3                 17      n/a
+PzKpfw IVA              AP7 s9 sD6 CS 5                AP7 s9 sD6 CS 5          18†     n/a
+PzKpfw IVC              AP7 s9 sD6 CS 5                AP7 s9 sD6 CS 5          19†     n/a
+PzKpfw IVD              AP7 H6 s9 sD7 CS 5             AP7 H6 s9 sD7 CS 5       20      N R†
+PzKpfw IVE              AP7 H6 s9 sD7 CS 6             AP7 H6 s9 sD7 CS 6       21      N R†
+PzKpfw IVF<sub>1</sub>  AP7 H6 s9 sD7 CS 6             AP7 H6 s9 sD7 CS 6       22      N R†
+PzKpfw IVF<sub>2</sub>  A5[2] s8 sD6 CS 6              s8 sD6 CS 6              23†     N S
+PzKpfw IVH              A5[2] s8 sD5 CS 6              s8 sD5 CS 6              24†     B† S
+PzKpfw IVJ              A3[4] s8 sN9 CS 6              s8 sN9 CS 6              25      S
+PzKpfw VD               sD5 CS 5[brewup]               sD5 CS 5[brewup]         26      F†                                 12: Burn, 11: Immob, 10: Stall
+PzKpfw VG               sN7[4] CS 6                    CS 6                     27†     H†                                 12: Stall
+PzKpfw M15/42(i)        CS 4                           CS 4                     28      I                                  Red TH# | Italian ESB
+PzKpfw P26/40(i)        s8 CS 4                        s8 CS 4                  29      I                                  Red TH# | Italian ESB
+PzKpfw VIE              A6[2] sD7 CS 6                 sD7 CS 6                 30†     K N<sup>FT</sup>                   SA: Mines (CC: 12 FP) | Morale 9
+PzKpfw VIE (L)          A4[4] sN7[4] CS 6              CS 6                     31      K                                  Morale 9
+PzKpfw VIB              sN9 CS 6                       sN9 CS 6                 32†     K                                  Morale 9
+StuG IIIB               AP7 H6 s9 sD7 CS 4             AP7 H6 s9 sD7 CS 4       33†     n/a
+StuG IIIG               A6[2] s8 sD7 CS 4              s8 sD7 CS 4              34†     N<sup>FT</sup> P† S                AAMG: VCA only
+StuG IIIG (L)           A4[4] s8 sN9 CS 4              s8 sN9 CS 4              35      O† Q† S                            AAMG: BU only, Rider NA, elevation restrictions | CMG: VCA only
+StuH 42                 H9 s9 sD7 CS 4                 H9 s9 sD7 CS 4           36†     N<sup>FT</sup> P† S                AAMG: VCA only
+StuH 42 (L)             H9 s9 sN9 CS 4                 H9 s9 sN9 CS 4           35      O† Q† S                            AAMG: BU only, Rider NA, elevation restrictions | CMG: VCA only
+StuPz IV                H7 s9 CS 6                     H7 s9 CS 6               37†     S                                  BMG: HD Fire OK | No IF
+Sturmtiger              sN9 CS 5                       sN9 CS 5                 37.1†   K                                  MA: No Bnd (F)F, Motion Fire, Acq, CE | No Area Target Type, same Location, consecutive Fire | +1 TH DRM vs Moving/Motion/Dash | Riders Bail Out when MA fires | IFT: 36+ FP with -3 DRM | HE TK#: [{ *:Direct Hit (dr 1-2): 28 (armored), 22 (unarmored); <br/> Specific Collateral Attack = full FP *:Near Miss: 10 (armored), 16 (unarmored); <br/> Specific Collateral Attack = 20 FP }] | No IF | Morale 9
+PzJg Tiger              CS 7                           CS 7                     38      n/a
+StuG 75/18(i)           H7 s9 CS 3                     H7 s9 CS 3               39      I P†                               Red TH# | Italian ESB | AAMG: VCA only
+StuG 75/34(i)           s9 CS 3                        s9 CS 3                  40      I P†                               Red TH# | Italian ESB | AAMG: VCA only
+StuG 105/25(i)          H7 s9 CS 3                     H7 s9 CS 3               41      I P†                               No IF | Red TH# | Italian ESB | AAMG: VCA only
+StuG 75/46(i)           s9 CS 3                        s9 CS 3                  42      I P†                               Red TH# | Italian ESB | AAMG: VCA only
+PzJg I                  A5[1] HE7 CS 3                 HE7 CS 3                 43      N
+PzJg 35R(f)             A5[1] HE7 CS 3                 HE7 CS 3                 44      a                                  French ESB
+Pz 35R 731(f)           CS 2                           CS 2                     44.1†   a                                  French ESB
+Marder I(f)             A6[2] HE7 s7 CS 4[brewup]      HE7 s7 CS 4[brewup]      45†     a                                  French ESB
+GSW 39H(f) Pak          A4[4] HE9 CS 3                 HE9 CS 3                 45.1    a e                                French ESB
+Marder II               A6[2] HE7 s7 CS 4[brewup]      HE7 s7 CS 4[brewup]      46      M† N<sup>FT</sup>
+Marder III(t)H          A6[2] HE7 s7 sD6 CS 4[brewup]  HE7 s7 sD6 CS 4[brewup]  47      E G N<sup>F</sup>                  CE: +3 Front | ESB: 0 DRM
+Marder III(t)M          A5[3] HE7 s7 sD5 CS 4[brewup]  HE7 s7 sD5 CS 4[brewup]  48      E                                  ESB: 0 DRM
+PzJg III/IV             HE7 CS 5                       HE7 CS 5                 49      M†
+JgdPz 38(t)             A4[4] HE7 CS 4                 HE7 CS 4                 50      E O†                               ESB: 0 DRM | AAMG: BU only, Rider NA, elevation restrictions
+JgdPz 38(t) (Fl)        CS 4                           CS 4                     51      E O†                               ESB: 0 DRM | AAMG: BU only, Rider NA, elevation restrictions
+JgdPz IV                A4[4] HE7 s7 sN7[4] CS 4       HE7 s7 CS 4              52      S
+JgdPz IV (L)            A4[4] HE7 s7 sN8[4] CS 4       HE7 s7 CS 4              52      S
+StuIG 33B               H7 s9 CS 5                     H7 s9 CS 5               53†     n/a                                BMG: HD Fire OK | No IF
+JgdPz IV/70             HE7 sN9 CS 4                   HE7 sN9 CS 4             54†     S
+JgdPz V                 HE7 sN9 CS 6                   HE7 sN9 CS 6             55      H                                  12: Stall
+JgdPz VI                HE7 sN9 CS 7                   HE7 sN9 CS 7             56      n/a
+SPW 250/1               CS 4                           CS 4                     57      N
+SPW 250/sMG             CS 4†                          CS 4†                    58†     J† N                               Inherent Crew &amp; Passenger | CMG: Normal Range = 16, VCA only | CMG: Removal/Scrounge OK (LMG) | AAMG: Removal OK (dm HMG); Scrounge OK (LMG) | AAMG: NA VCA
+SPW 250/7               IR s8 CS 4[brewup]             IR s8 CS 4[brewup]       59      J† N                               Inherent Infantry Crew | AAMG: NA VCA
+SPW 250/8               H6 s8 CS 4[brewup]             H6 s8 CS 4[brewup]       60      Q†                                 CMG: VCA only
+SPW 250/9               CS 4                           CS 4                     61†     A†                                 MA &amp; CMG: AA ok
+SPW 250/10              A4[1] CS 4                     CS 4                     62      J† N                               AAMG: NA VCA
+SPW 251/1               CS 5                           CS 5                     63      C† N
+SPW 251/sMG             CS 5†                          CS 5†                    58†     C† J† N                            Inherent Crew &amp; Passenger | CMG: Normal Range = 16, VCA only | CMG: Removal/Scrounge OK (LMG) | AAMG: Removal OK (dm HMG); Scrounge OK (LMG) | AAMG: NA VCA
+SPW 251/2               IR s8 CS 4[brewup]             IR s8 CS 4[brewup]       59      C† J† N                            Inherent Infantry Crew | AAMG: NA VCA
+SPW 251/9               H6 s9 CS 4[brewup]             H6 s9 CS 4[brewup]       64      C† N Q†                            CMG: VCA only
+SPW 251/10              A4[1] CS 4                     CS 4                     65      C† J† N                            PSK | AAMG: NA VCA
+SPW 251/16              CS 4[brewup]                   CS 4[brewup]             66†     n/a                                Port/starboard FT's
+SPW 251/21              CS 4                           CS 4                     66.1†   n/a                                3 TK DR | MA: AA ok
+SPW 251/22              HE7 s7 CS 4[brewup]            HE7 s7 CS 4[brewup]      67      J†                                 AAMG: NA VCA
+SPW S307(f)             A4[4] HE9 CS 4                 HE9 CS 4                 67.1    a e                                French ESB
+mSPW S307(f)            IR s5 CS 4                     IR s5 CS 4               67.2    a e                                CE: +1 Rear &amp; Indirect Fire | VCA Facing | Extra Smoke | No IF | French ESB
+Kfz 13                  CS 2                           CS 2                     68†     n/a                                Always CE
+PSW 221                 sD6 CS 2                       sD6 CS 2                 69†     A† N                               BU Fire NA | Reverse MP &#215;4 | MA &amp; CMG: AA ok
+PSW 222                 sD6 CS 3                       sD6 CS 3                 70†     A† N                               Reverse MP &#215;3 | MA &amp; CMG: AA ok
+PSW 222 (L)             sD6 CS 3                       sD6 CS 3                 70†     A† N<sup>F</sup>                   Reverse MP &#215;3 | MA &amp; CMG: AA ok
+PSW 231 (6 rad)         CS 4                           CS 4                     71†     n/a                                Reverse MP &#215;2
+PSW 231 (8 rad)         sD6 CS 4                       sD6 CS 4                 72†     N
+PSW 232 (8 rad)         sD6 CS 4                       sD6 CS 4                 72      N<sup>F</sup>
+PSW 233                 H8 s9 sD7 CS 5                 H8 s9 sD7 CS 5           73      N<sup>T</sup>
+PSW 234/1               CS 5                           CS 5                     74      A†                                 MA &amp; CMG: AA ok
+PSW 234/2               A5[3] sD7 CS 4                 sD7 CS 4                 75      n/a
+PSW 234/3               H8 s9 CS 5                     H8 s9 CS 5               76      Q†                                 CMG: VCA only
+PSW 234/4               HE7 s7 CS 5[brewup]            HE7 s7 CS 5[brewup]      77†     n/a                                Reverse MP &#215;4
+sIG IB                  H6 s9 CS 4[brewup]             H6 s9 CS 4[brewup]       78      G                                  No IF | CE: +3 Front
+sIG II                  H6 s9 CS 4[brewup]             H6 s9 CS 4[brewup]       79      N                                  No IF
+sIG 38(t)M              H6 s9 CS 4[brewup]             H6 s9 CS 4[brewup]       80      E N<sup>FT</sup>                   No IF | ESB: 0 DRM
+PzA II                  H5 s8 CS 4                     H5 s8 CS 4               81      M†
+PzA LrS(f)              H4 s8 CS 4                     H4 s8 CS 4               82      a N                                No IF | French ESB
+GSW 39H(f)              H4 s7 CS 4                     H4 s7 CS 4               82.1    a e                                French ESB
+PzA III/IV              H5 s8 CS 6                     H5 s8 CS 6               83      n/a                                No IF
+FlaKPz 38(t)            CS 4                           CS 4                     84      A† E                               CE: +1 | MA &amp; CMG: AA ok | ESB: 0 DRM
+37 FlaK/Pz IV           CS 5                           CS 5                     85†     A†                                 Moving: [{ *:Fire &#8804; level NA }] | Firing: [{ *:No CE DRM *:Random SW Destruction for MA }] | MA &amp; CMG: AA ok
+FlaKPz IV/20            CS 6                           CS 6                     86      A†                                 4 TK DR | MA &amp; CMG: AA ok
+FlaKPz IV/37            CS 6                           CS 6                     87      A†                                 MA &amp; CMG: AA ok
+SdKfz 10/4              CS 5                           CS 5                     88      A† D† N                            MA &amp; CMG: AA ok | Ammo trailer
+SdKfz 10/5              CS 4                           CS 4                     88.1†   A†<sup>2</sup> D†<sup>1</sup>      MA &amp; CMG: AA ok | Ammo trailer
+SdKfz 6/2               CS 5                           CS 5                     89      A† D† N                            MA &amp; CMG: AA ok | Ammo trailer
+SdKfz 7/1               CS 4                           CS 4                     90      A† D† N                            4 TK DR | MA &amp; CMG: AA ok | Ammo trailer
+Kfz 4                   CS 3                           CS 3                     91†     N                                  2 TK DR (MG)
+2cm FlaK LKW            CS 5                           CS 5                     92      A†                                 MA &amp; CMG: AA ok
+3.7cm FlaK LKW          CS 5                           CS 5                     92      A†                                 MA &amp; CMG: AA ok
+Goliath                                                                         93†     L†                                 Bog assistance
+Kfz 1                   cs 2†                          cs 2†                    94†     L† N                               Inherent Crew if armed (with CS#) | Bog assistance
+Kfz 1/20                cs 2                           cs 2                     95†     L†                                 +3 Target Size &amp; HD in Water | Bog assistance
+Opel 6700 (Blitz)       cs 6                           cs 6                     96      N
+Buessing-NAG 4500       cs 7                           cs 7                     96      N
+SdKfz 2                 cs 2                           cs 2                     97†     L† N                               As vehicle (not motorcycle) | Crew/HS Riders OK | Hidden AT Mine attacks NA | AP Mine attacks: Area Fire | Bog assistance
+SdKfz 7                 cs 6                           cs 6                     98      N
+SdKfz 11                cs 5                           cs 5                     99      N
+PzKpfw IA               sD6 CS 2                       sD6 CS 2                 1†      Ge N                               2 TK DR (MG)
+PzKpfw ICV              sD5 CS 3                       sD5 CS 3                 2       A†                                 MG: VCA only
+PzKpfw IID              sD6 CS 3                       sD6 CS 3                 3       n/a
+PzKpfw II Bridgelayer   sD6 CS 2                       sD6 CS 2                 4†      n/a                                Inherent Crew | Movement restrictions | Stun = Recall, CE NA
+Pz-7TP                  CS 3                           CS 3                     5       B†
+PSW M35                 CS 5                           CS 5                     6†      n/a                                Reverse MP &#215;2
+SdKfz8 FlaK 18          A5[2]4[3] CS 6                 CS 6                     7††[1]  n/a                                CE: +3 VCA, otherwise 0 DRM | Indirect Fire: CE +1 | MA: Rear VCA NA | MA: Random SW Destruction | Mines: As unarmored

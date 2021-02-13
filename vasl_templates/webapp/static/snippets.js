@@ -1292,9 +1292,12 @@ function _check_capability_timestamp( capabilities, timestamp, nat, scenario_the
         }
     }
 
-    // remove any trailing "+" (FIXME! What does it even mean? Doesn't make sense :-/)
-    if ( timestamp.substring( timestamp.length-1 ) === "+" )
+    // check for a trailing "+"
+    var hasTrailingPlus = false ;
+    if ( timestamp.substring( timestamp.length-1 ) === "+" ) {
+        hasTrailingPlus = true ;
         timestamp = timestamp.substring( 0, timestamp.length-1 ) ;
+    }
 
     // check if there is anything left
     if ( ! timestamp ) {
@@ -1319,7 +1322,7 @@ function _check_capability_timestamp( capabilities, timestamp, nat, scenario_the
         // check if the capabilitity is available
         if ( timestamp >= 50 )
             timestamp -= 40 ;
-        if ( scenario_year > 1940 + timestamp )
+        if ( hasTrailingPlus && scenario_year > 1940 + timestamp )
             return capabilities[0] ;
         else if ( scenario_year === 1940 + timestamp ) {
             if( !month || scenario_month >= month )

@@ -4,7 +4,7 @@ Name                 Capabilities                        (effective)            
 -------------------  ----------------------------------  ----------------------------------  ---  ------------------  ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 47 Krh/41                                                                                    1    A                   Animal-Packed
 50 Krh/39(r)                                                                                 2†   A B                 Animal-Packed | No Captured Use penalty for Russians
-81 Krh/32            IR[3+]† s8[N1]†                     s8†                                 3†   A                   QSU | Animal-Packed
+81 Krh/32            IR[3+]† s8[N1+]†                    s8†                                 3†   A                   QSU | Animal-Packed
 81 Savunheitin M/42  s†                                  s†                                  4†   A                   QSU | Smoke only | &#8734; Smoke | Range: 2-18 | Animal-Packed
 120 Krh/40                                                                                   5†   n/a                 QSU
 Boys ATR(b)                                                                                  6†   n/a                 AP TK# = 5 | No Long Range

@@ -7,12 +7,12 @@ Name                      Capabilities                         (effective)      
 10cm NbW 35               s10                                  s10                                  3    O                 QSU | Animal-Packed
 12cm GrW 42               s8                                   s8                                   4†   n/a               QSU
 2.8cm sPzB 41                                                                                       5†   A† N P            QSU | Use APCR TK vs AFV | &#8734; APCR | En Portee NA
-3.7cm PaK 35/36           A4[1]5[2]4[3]3[4] H6[9]†             A3 H6[9]†                            6    B† N P            QSU | En Portee NA
+3.7cm PaK 35/36           A4[1]5[2]4[3]3[4] H6[9]†             H6[9]†                               6    B† N P            QSU | En Portee NA
 4.2cm lePaK 41                                                                                      7    A† N<sup>T</sup>  QSU | Use APCR TK vs AFV | &#8734; APCR
-5cm PaK 38                A5[1]6[2]5[3]4[4]                    A4                                   8†   N                 QSU
+5cm PaK 38                A5[1]6[2]5[3]4[4]                                                         8†   N                 QSU
 7.5cm PaK 97/38           H6 s7                                H6 s7                                9    N<sup>T</sup>     QSU
-7.5cm PaK 40              A5[2]4[3]3[4] s7                     A3 s7                                10†  N<sup>T</sup>     QSU
-7.62cm PaK 36r            A5[2]4[3]3[4] s6                     A3 s6                                11†  N                 QSU
+7.5cm PaK 40              A5[2]4[3]3[4] s7                     s7                                   10†  N<sup>T</sup>     QSU
+7.62cm PaK 36r            A5[2]4[3]3[4] s6                     s6                                   11†  N                 QSU
 8.8cm PaK 43              LF [88†, 1 ROF, B11, <b>M4</b>, -1]  LF [88†, 1 ROF, B11, <b>M4</b>, -1]  12   C†
 8.8cm PaK 43/41                                                                                     13   n/a
 12.8cm K 81/1                                                                                       14   n/a               No Move
@@ -31,8 +31,8 @@ s 10cm K 18               H6 s8                                H6 s8            
 2cm FlaKvierling 38                                                                                 27†  N                 4 TK DR
 3.7cm FlaK 36 o. 37       H5[9]†                               H5[9]†                               28   B† N
 3.7cm FlaK 43                                                                                       29   n/a
-8.8cm FlaK 18 o. 36       A5[2]4[3]3[4] LF [88L†, 1 ROF, B11]  A3 LF [88L†, 1 ROF, B11]             30   C† N
+8.8cm FlaK 18 o. 36       A5[2]4[3]3[4] LF [88L†, 1 ROF, B11]  LF [88L†, 1 ROF, B11]                30   C† N
 2cm Tankb&#252;sche S-18                                                                            1†   AxM A             No Long Range | Animal-Packed
-4.7 cm PaK 36(t)          A5[1]4[2]                            A4                                   2†   n/a               QSU
+4.7 cm PaK 36(t)          A5[1]4[2]                                                                 2†   n/a               QSU
 7.5 cm Geb G36            H7†                                  H7†                                  3†   Ge O              HEAT &#8805; 26 hexes: As * Gun | QSU | Animal-Packed
 10.5 cm Geb H40           H8                                   H8                                   4†   Ge O              QSU | Animal-Packed

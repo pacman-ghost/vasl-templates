@@ -8,19 +8,19 @@ PzKpfw IIF              sD7 CS 3                       sD7 CS 3                 
 PzKpfw II(Fl)           sD7† CS 2[brewup]              sD7† CS 2[brewup]           4†      n/a                                sD: 3 hex range
 PzKpfw IIL              sD7 CS 4                       sD7 CS 4                    5       n/a
 PzKpfw 35t              sD5 CS 4                       sD5 CS 4                    6†      n/a
-PzKpfw 38(t)A           A4[1]5[2] sD6 CS 4             A5 sD6 CS 4                 7†      E                                  ESB: 0 DRM
-PzKpfw 38(t)E           A4[1]5[2] sD7 CS 4             A5 sD7 CS 4                 8†      E                                  ESB: 0 DRM
+PzKpfw 38(t)A           A4[1]5[2] sD6 CS 4             sD6 CS 4                    7†      E                                  ESB: 0 DRM
+PzKpfw 38(t)E           A4[1]5[2] sD7 CS 4             sD7 CS 4                    8†      E                                  ESB: 0 DRM
 Aufklaerer 38(t)        CS 5                           CS 5                        9       A† E                               MA &amp; CMG: AA ok | ESB: 0 DRM
 FT-17 730m(f)           CS 2                           CS 2                        9.1†    a c f                              Road Rate NA | French ESB | CE: +1 Rear Turret &amp; Indirect Fire
 FT-17 730(f)            AP9 CS 2                       AP9 CS 2                    9.1†    a c f                              Road Rate NA | French ESB | CE: +1 Rear Turret &amp; Indirect Fire
 38H 735(f)              AP10 CS 3                      AP10 CS 3                   9.2     a b† f                             French ESB | CMG: AA ok (TCA only)
 35-S 739(f)             CS 4                           CS 4                        9.3     a b†<sup>2</sup> d†<sup>1</sup> f  French ESB | CMG: AA ok (TCA only) | Immob: dr &#8804; 4 [EXC: mines, Direct Fire vs front/rear]
 PzKpfw IIID             sD6 CS 5                       sD6 CS 5                    10†     n/a
-PzKpfw IIIF             A4[1] sD7 CS 5                 A4 sD7 CS 5                 11†     n/a
-PzKpfw IIIG             A4[1] sD7 CS 5                 A4 sD7 CS 5                 12      N
-PzKpfw IIIH             A4[1] sD7 CS 6                 A4 sD7 CS 6                 13†     N
-PzKpfw IIIJ             A6[2] sD7 CS 6                 A6 sD7 CS 6                 14†     N S
-PzKpfw IIIL             A6[2] sD7 CS 5                 A6 sD7 CS 5                 15†     B† N S
+PzKpfw IIIF             A4[1] sD7 CS 5                 sD7 CS 5                    11†     n/a
+PzKpfw IIIG             A4[1] sD7 CS 5                 sD7 CS 5                    12      N
+PzKpfw IIIH             A4[1] sD7 CS 6                 sD7 CS 6                    13†     N
+PzKpfw IIIJ             A6[2] sD7 CS 6                 sD7 CS 6                    14†     N S
+PzKpfw IIIL             A6[2] sD7 CS 5                 sD7 CS 5                    15†     B† N S
 PzKpfw IIIN             H9 s9 sD7 CS 5                 H9 s9 sD7 CS 5              16      B† N<sup>T</sup> S
 PzKpfw III(Fl)          sD7 CS 3                       sD7 CS 3                    17      n/a
 PzKpfw IVA              AP7 s9 sD6 CS 5                AP7 s9 sD6 CS 5             18†     n/a
@@ -28,18 +28,18 @@ PzKpfw IVC              AP7 s9 sD6 CS 5                AP7 s9 sD6 CS 5          
 PzKpfw IVD              AP7 H6 s9 sD7 CS 5             AP7 H6 s9 sD7 CS 5          20      N R†
 PzKpfw IVE              AP7 H6 s9 sD7 CS 6             AP7 H6 s9 sD7 CS 6          21      N R†
 PzKpfw IVF<sub>1</sub>  AP7 H6 s9 sD7 CS 6             AP7 H6 s9 sD7 CS 6          22      N R†
-PzKpfw IVF<sub>2</sub>  A5[2] s8 sD6 CS 6              A5 s8 sD6 CS 6              23†     N S
-PzKpfw IVH              A5[2] s8 sD5 CS 6              A5 s8 sD5 CS 6              24†     B† S
+PzKpfw IVF<sub>2</sub>  A5[2] s8 sD6 CS 6              s8 sD6 CS 6                 23†     N S
+PzKpfw IVH              A5[2] s8 sD5 CS 6              s8 sD5 CS 6                 24†     B† S
 PzKpfw IVJ              A3[4] s8 sN9 CS 6              s8 sN9 CS 6                 25      S
 PzKpfw VD               sD5 CS 5[brewup]               sD5 CS 5[brewup]            26      F†                                 12: Burn, 11: Immob, 10: Stall
 PzKpfw VG               sN7[4] CS 6                    CS 6                        27†     H†                                 12: Stall
 PzKpfw M15/42(i)        CS 4                           CS 4                        28      I                                  Red TH# | Italian ESB
 PzKpfw P26/40(i)        s8 CS 4                        s8 CS 4                     29      I                                  Red TH# | Italian ESB
-PzKpfw VIE              A6[2] sD7 CS 6                 A6 sD7 CS 6                 30†     K N<sup>FT</sup>                   SA: Mines (CC: 12 FP) | Morale 9
+PzKpfw VIE              A6[2] sD7 CS 6                 sD7 CS 6                    30†     K N<sup>FT</sup>                   SA: Mines (CC: 12 FP) | Morale 9
 PzKpfw VIE (L)          A4[4] sN7[4] CS 6              CS 6                        31      K                                  Morale 9
 PzKpfw VIB              sN9 CS 6                       sN9 CS 6                    32†     K                                  Morale 9
 StuG IIIB               AP7 H6 s9 sD7 CS 4             AP7 H6 s9 sD7 CS 4          33†     n/a
-StuG IIIG               A6[2] s8 sD7 CS 4              A6 s8 sD7 CS 4              34†     N<sup>FT</sup> P† S                AAMG: VCA only
+StuG IIIG               A6[2] s8 sD7 CS 4              s8 sD7 CS 4                 34†     N<sup>FT</sup> P† S                AAMG: VCA only
 StuG IIIG (L)           A4[4] s8 sN9 CS 4              s8 sN9 CS 4                 35      O† Q† S                            AAMG: BU only, Rider NA, elevation restrictions | CMG: VCA only
 StuH 42                 H9 s9 sD7 CS 4                 H9 s9 sD7 CS 4              36†     N<sup>FT</sup> P† S                AAMG: VCA only
 StuH 42 (L)             H9 s9 sN9 CS 4                 H9 s9 sN9 CS 4              35      O† Q† S                            AAMG: BU only, Rider NA, elevation restrictions | CMG: VCA only
@@ -50,13 +50,13 @@ StuG 75/18(i)           H7 s9 CS 3                     H7 s9 CS 3               
 StuG 75/34(i)           s9 CS 3                        s9 CS 3                     40      I P†                               Red TH# | Italian ESB | AAMG: VCA only
 StuG 105/25(i)          H7 s9 CS 3                     H7 s9 CS 3                  41      I P†                               No IF | Red TH# | Italian ESB | AAMG: VCA only
 StuG 75/46(i)           s9 CS 3                        s9 CS 3                     42      I P†                               Red TH# | Italian ESB | AAMG: VCA only
-PzJg I                  A5[1] HE7 CS 3                 A5 HE7 CS 3                 43      N
-PzJg 35R(f)             A5[1] HE7 CS 3                 A5 HE7 CS 3                 44      a                                  French ESB
+PzJg I                  A5[1] HE7 CS 3                 HE7 CS 3                    43      N
+PzJg 35R(f)             A5[1] HE7 CS 3                 HE7 CS 3                    44      a                                  French ESB
 Pz 35R 731(f)           CS 2                           CS 2                        44.1†   a                                  French ESB
-Marder I(f)             A6[2] HE7 s7 CS 4[brewup]      A6 HE7 s7 CS 4[brewup]      45†     a                                  French ESB
+Marder I(f)             A6[2] HE7 s7 CS 4[brewup]      HE7 s7 CS 4[brewup]         45†     a                                  French ESB
 GSW 39H(f) Pak          A4[4] HE9 CS 3                 HE9 CS 3                    45.1    a e                                French ESB
-Marder II               A6[2] HE7 s7 CS 4[brewup]      A6 HE7 s7 CS 4[brewup]      46      M† N<sup>FT</sup>
-Marder III(t)H          A6[2] HE7 s7 sD6 CS 4[brewup]  A6 HE7 s7 sD6 CS 4[brewup]  47      E G N<sup>F</sup>                  CE: +3 Front | ESB: 0 DRM
+Marder II               A6[2] HE7 s7 CS 4[brewup]      HE7 s7 CS 4[brewup]         46      M† N<sup>FT</sup>
+Marder III(t)H          A6[2] HE7 s7 sD6 CS 4[brewup]  HE7 s7 sD6 CS 4[brewup]     47      E G N<sup>F</sup>                  CE: +3 Front | ESB: 0 DRM
 Marder III(t)M          A5[3] HE7 s7 sD5 CS 4[brewup]  A5 HE7 s7 sD5 CS 4[brewup]  48      E                                  ESB: 0 DRM
 PzJg III/IV             HE7 CS 5                       HE7 CS 5                    49      M†
 JgdPz 38(t)             A4[4] HE7 CS 4                 HE7 CS 4                    50      E O†                               ESB: 0 DRM | AAMG: BU only, Rider NA, elevation restrictions
@@ -72,12 +72,12 @@ SPW 250/sMG             CS 4†                          CS 4†                
 SPW 250/7               IR s8 CS 4[brewup]             IR s8 CS 4[brewup]          59      J† N                               Inherent Infantry Crew | AAMG: NA VCA
 SPW 250/8               H6 s8 CS 4[brewup]             H6 s8 CS 4[brewup]          60      Q†                                 CMG: VCA only
 SPW 250/9               CS 4                           CS 4                        61†     A†                                 MA &amp; CMG: AA ok
-SPW 250/10              A4[1] CS 4                     A4 CS 4                     62      J† N                               AAMG: NA VCA
+SPW 250/10              A4[1] CS 4                     CS 4                        62      J† N                               AAMG: NA VCA
 SPW 251/1               CS 5                           CS 5                        63      C† N
 SPW 251/sMG             CS 5†                          CS 5†                       58†     C† J† N                            Inherent Crew &amp; Passenger | CMG: Normal Range = 16, VCA only | CMG: Removal/Scrounge OK (LMG) | AAMG: Removal OK (dm HMG); Scrounge OK (LMG) | AAMG: NA VCA
 SPW 251/2               IR s8 CS 4[brewup]             IR s8 CS 4[brewup]          59      C† J† N                            Inherent Infantry Crew | AAMG: NA VCA
 SPW 251/9               H6 s9 CS 4[brewup]             H6 s9 CS 4[brewup]          64      C† N Q†                            CMG: VCA only
-SPW 251/10              A4[1] CS 4                     A4 CS 4                     65      C† J† N                            ATR | AAMG: NA VCA
+SPW 251/10              A4[1] CS 4                     CS 4                        65      C† J† N                            ATR | AAMG: NA VCA
 SPW 251/16              CS 4[brewup]                   CS 4[brewup]                66†     n/a                                Port/starboard FT's
 SPW 251/21              CS 4                           CS 4                        66.1†   n/a                                3 TK DR | MA: AA ok
 SPW 251/22              HE7 s7 CS 4[brewup]            HE7 s7 CS 4[brewup]         67      J†                                 AAMG: NA VCA

@@ -17,7 +17,7 @@
 },
 { "name": "81 Krh/32",
   "type": "MTR",
-  "capabilities2": { "s": [ [8,"N1"], "\u2020" ], "IR": [ [null,"3+"], "\u2020" ] },
+  "capabilities2": { "s": [ [8,"N1+"], "\u2020" ], "IR": [ [null,"3+"], "\u2020" ] },
   "comments": [ "QSU" ],
   "note_number": "3\u2020",
   "notes": [ "A" ],

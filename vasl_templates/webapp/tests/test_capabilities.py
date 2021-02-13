@@ -81,7 +81,7 @@ def test_month_capabilities( webapp, webdriver ): #pylint: disable=too-many-stat
     _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1944", "A4 sM8 CS 6" )
     _check_capabilities( webdriver, webapp, *vehicle, "ETO", "12/1944", "A4 sM8 CS 6" )
     _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1945", "A5 s5 sM8 CS 6" )
-    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1946", "A5 s5 sM8 CS 6" )
+    _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1946", "sM8 CS 6" )
 
     # M4A1(76)W & M4A3(76)W: A4(A4)/5(5)†2, s5(5)
     for vo_name in ("M4A1(76)W","M4A3(76)W"):
@@ -90,7 +90,7 @@ def test_month_capabilities( webapp, webdriver ): #pylint: disable=too-many-stat
         _check_capabilities( webdriver, webapp, *vehicle, "ETO", "07/1944", "sM8 CS 6" )
         _check_capabilities( webdriver, webapp, *vehicle, "ETO", "08/1944", "A4[!2] sM8 CS 6" )
         _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1945", "A5[!2] s5 sM8 CS 6" )
-        _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1946", "A5[!2] s5 sM8 CS 6" )
+        _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1946", "sM8 CS 6" )
 
     # Sherman Crab: s5(J4+); WP7(J4+)†2
     vehicle = [ "american", "vehicles", "Sherman Crab" ]
@@ -277,7 +277,7 @@ def test_month_capabilities( webapp, webdriver ): #pylint: disable=too-many-stat
     _check_capabilities( webdriver, webapp, *vehicle, "ETO", "06/1944", "WP7[!] s8 CS 5 [brewup]" )
     _check_capabilities( webdriver, webapp, *vehicle, "ETO", "01/1945", "WP7[!] s8 CS 5 [brewup]" )
 
-    # 81 Krh/32: s8(N1)†
+    # 81 Krh/32: s8(N1+)†
     ordnance = [ "finnish", "ordnance", "81 Krh/32" ]
     _check_capabilities( webdriver, webapp, *ordnance, "ETO", "12/1940", "NT" )
     _check_capabilities( webdriver, webapp, *ordnance, "ETO", "10/1941", "NT" )
@@ -831,7 +831,7 @@ def test_capability_updates_in_ui( webapp, webdriver ):
     ] )
     check_capabilities( "01/01/1943", [
         [
-            [ "A5", "sD6", "CS 4" ],
+            [ "sD6", "CS 4" ],
             [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
         ],
         [ [ "NT", "A4", "H6[9]\u2020" ] ],
@@ -840,7 +840,7 @@ def test_capability_updates_in_ui( webapp, webdriver ):
     ] )
     check_capabilities( "01/01/1944", [
         [
-            [ "A5", "sD6", "CS 4" ],
+            [ "sD6", "CS 4" ],
             [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
         ],
         [ [ "NT", "A3", "H6[9]\u2020" ] ],
@@ -849,10 +849,10 @@ def test_capability_updates_in_ui( webapp, webdriver ):
     ] )
     check_capabilities( "01/01/1945", [
         [
-            [ "A5", "sD6", "CS 4" ],
+            [ "sD6", "CS 4" ],
             [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
         ],
-        [ [ "NT", "A3", "H6[9]\u2020" ] ],
+        [ [ "NT", "H6[9]\u2020" ] ],
         [ [ "D7\u2020", "HE8\u2020", "sD6", "sM8\u2020", "CS 7" ] ],
         [ [ "NT", "A7" ] ]
     ] )

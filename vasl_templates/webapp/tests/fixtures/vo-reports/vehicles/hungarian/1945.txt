@@ -1,15 +1,15 @@
 === vehicles/hungarian/1945 ===
 
-Name              Capabilities                   (effective)             #    Notes           Comments
-----------------  -----------------------------  ----------------------  ---  --------------  ---------------------------------------------------------
-38M Toldi I       CS 3                           CS 3                    7†   A†<sup>1</sup>  MA: ATR 12 [TH] | MA: Scrounge OK | CMG: AA ok (TCA only)
-38M Toldi IIA     CS 3                           CS 3                    8†   A†<sup>1</sup>  AP TK# = 9 | CMG: AA ok (TCA only)
-40M Turan I(r)    sD5 CS 5                       sD5 CS 5                9†   E N Q           Russian ESB | ESB: +1 DRM | Red TH#
-41M Turan II(r)   AP6 s7 sD5 CS 5                AP6 s7 sD5 CS 5         10†  E N Q           Russian ESB | ESB: +1 DRM | Red TH#
-PzKpfw VG(g)      sN6 CS 6                       sN6 CS 6                11†  E               12: Stall | German ESB | Black TH#
-PzKpfw VIE(L)(g)  A3[4] sN6 CS 6                 A3 sN6 CS 6             12†  E               Morale 8 | German ESB | Black TH#
-43M Zrinyi II     s7 sD5 CS 4                    s7 sD5 CS 4             13†  Q
-39M Csaba         CS 4                           CS 4                    14   n/a
-40M Csaba         CS 4                           CS 4                    14   n/a
-Marder II(g)      A4[3]3[4] HE7 s6 CS 4[brewup]  A3 HE7 s6 CS 4[brewup]  15   E               German ESB | Black TH#
-40M Nimrod        H6[9][3+] CS 6                 H6[9] CS 6              16†  P†<sup>1</sup>  HEAT TK# = 26 | MA &amp; CMG: AA ok
+Name              Capabilities                   (effective)          #    Notes           Comments
+----------------  -----------------------------  -------------------  ---  --------------  ---------------------------------------------------------
+38M Toldi I       CS 3                           CS 3                 7†   A†<sup>1</sup>  MA: ATR 12 [TH] | MA: Scrounge OK | CMG: AA ok (TCA only)
+38M Toldi IIA     CS 3                           CS 3                 8†   A†<sup>1</sup>  AP TK# = 9 | CMG: AA ok (TCA only)
+40M Turan I(r)    sD5 CS 5                       sD5 CS 5             9†   E N Q           Russian ESB | ESB: +1 DRM | Red TH#
+41M Turan II(r)   AP6 s7 sD5 CS 5                AP6 s7 sD5 CS 5      10†  E N Q           Russian ESB | ESB: +1 DRM | Red TH#
+PzKpfw VG(g)      sN6 CS 6                       sN6 CS 6             11†  E               12: Stall | German ESB | Black TH#
+PzKpfw VIE(L)(g)  A3[4] sN6 CS 6                 sN6 CS 6             12†  E               Morale 8 | German ESB | Black TH#
+43M Zrinyi II     s7 sD5 CS 4                    s7 sD5 CS 4          13†  Q
+39M Csaba         CS 4                           CS 4                 14   n/a
+40M Csaba         CS 4                           CS 4                 14   n/a
+Marder II(g)      A4[3]3[4] HE7 s6 CS 4[brewup]  HE7 s6 CS 4[brewup]  15   E               German ESB | Black TH#
+40M Nimrod        H6[9][3+] CS 6                 H6[9] CS 6           16†  P†<sup>1</sup>  HEAT TK# = 26 | MA &amp; CMG: AA ok
