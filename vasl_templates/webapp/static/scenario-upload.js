@@ -139,7 +139,7 @@ window.uploadScenario = function() {
         ) ;
     }
 
-    // shpw the upload dialog
+    // show the upload dialog
     $( "#scenario-upload-dialog" ).dialog( {
         title: "Upload to the ASL Scenario Archive",
         dialogClass: "scenario-upload",
@@ -274,8 +274,10 @@ function uploadFiles( asaScenarioId )
 
         // prepare the upload
         var formData = new FormData() ;
+        var vtSetupJson = JSON.stringify( vtSetup, null, 4 ) ;
+        var vtSetupJsonUTF8 = (new TextEncoder()).encode( vtSetupJson ) ;
         formData.append( "vt_setup",
-            makeBlob( JSON.stringify( vtSetup, null, 4 ), "application/json" ),
+            makeBlob( vtSetupJsonUTF8, "application/json" ),
             prefix + "|" + "scenario.json"
         ) ;
         if ( gVsavData ) {

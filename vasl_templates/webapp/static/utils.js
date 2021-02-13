@@ -608,9 +608,15 @@ function stopEvent( evt )
 function makeBlob( data, mimeType )
 {
     // create a Blob from a binary string
-    var bytes = new Uint8Array( data.length ) ;
-    for ( var i=0 ; i < data.length ; ++i )
-        bytes[i] = data.charCodeAt( i ) ;
+    var bytes ;
+    if ( typeof data === "object" )
+        bytes = data ; // i.e. output from TextEncoder.encode()
+    else if ( typeof data === "string" ) {
+        bytes = new Uint8Array( data.length ) ;
+        for ( var i=0 ; i < data.length ; ++i )
+            bytes[i] = data.charCodeAt( i ) ;
+    } else
+        return null ;
     return new Blob( [bytes], {
         type: mimeType || "application/octet-stream"
     } ) ;
