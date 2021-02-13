@@ -151,7 +151,7 @@ function user_settings( on_ok, caption )
 function save_user_settings()
 {
     // save the user settings
-    Cookies.set( "user-settings", gUserSettings, { expires: 999 } ) ;
+    Cookies.set( "user-settings", gUserSettings, { SameSite: "strict", expires: 999 } ) ;
     if ( gWebChannelHandler )
         gWebChannelHandler.on_user_settings_change( JSON.stringify( gUserSettings ) ) ;
 }
