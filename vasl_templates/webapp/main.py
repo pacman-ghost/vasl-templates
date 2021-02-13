@@ -368,6 +368,16 @@ def get_control_tests():
 
 # ---------------------------------------------------------------------
 
+@app.route( "/favicon.ico" )
+def get_favicon():
+    """Get the license."""
+    # FUDGE! We specify the favicon in the main page (in a <link> tag), but the additional support pages
+    # don't have this, which results in a spurious and annoying 404 warning message in the console,
+    # so we explicitly provide this endpoint :-/
+    return app.send_static_file( "images/app.ico" )
+
+# ---------------------------------------------------------------------
+
 @app.route( "/ping" )
 def ping():
     """Let the caller know we're alive."""
