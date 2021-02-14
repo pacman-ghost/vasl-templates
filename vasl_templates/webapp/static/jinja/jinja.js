@@ -48,9 +48,10 @@ var jinja;
   var IDENTIFIERS = /[$_a-z][$\w]*/ig;
   var VARIABLES = /i(\.i|\[[@#i]\])*/g;
   var ACCESSOR = /(\.i|\[[@#i]\])/g;
-  var OPERATORS = /(===?|!==?|>=?|<=?|&&|\|\||[+\-\*\/%])/g;
+  // NOTE: We use ^ for the Python-like "in" operator.
+  var OPERATORS = /(===?|!==?|>=?|<=?|&&|\|\||[+\-\*\/%|\^])/g;
   //extended (english) operators
-  var EOPS = /(^|[^$\w])(and|or|not|is|isnot)([^$\w]|$)/g;
+  var EOPS = /(^|[^$\w])(and|or|not|is|isnot|in)([^$\w]|$)/g;
   var LEADING_SPACE = /^\s+/;
   var TRAILING_SPACE = /\s+$/;
 
@@ -73,7 +74,8 @@ var jinja;
     or: '||',
     not: '!',
     is: '==',
-    isnot: '!='
+    isnot: '!=',
+    in: '^',
   };
 
   var constants = {
@@ -265,6 +267,26 @@ var jinja;
     });
     parsed3.src = parsed3.src.replace(VARIABLES, this.parseVar.bind(this));
     parsed2.src = this.injectEnt(parsed3, 'i');
+
+    // FUDGE! We want to support the Python "in" operators, but this is problematic since there isn't
+    // a corresponding Javascript operator, and we have to translate it into a call to indexOf().
+    // NOTE: Expressions of the form "'foo' in 'bar'" won't work, because we get a pseudo-expression
+    // of "@^@", which gets translated to "@.indexOf(@) !== -1", and the call to injectEnt() later
+    // has no way of knowing that the literals should be swapped around. However, this is not a case
+    // we really need to worry about :-/
+    // NOTE: It also won't handle computed expressions (e.g. "A+B in C+D"), but the user can also calculate
+    // these values and save them in a temporary variable, and then use those in the "in" expression.
+    var regex = new RegExp( /(@|get\(.+?\))\^(@|get\(.+?\))/g ) ;
+    var matches = [] ;
+    while( (match = regex.exec( parsed2.src )) !== null )
+        matches.push( match ) ;
+    while ( matches.length > 0 ) {
+        var match = matches.pop() ;
+        parsed2.src = parsed2.src.substring( 0, match.index )
+            + match[2] + ".toLowerCase().indexOf(" + match[1] + ".toLowerCase()) !== -1"
+            + parsed2.src.substring( match.index + match[0].length ) ;
+    }
+
     parsed1.src = this.injectEnt(parsed2, '#');
     return this.injectEnt(parsed1, '@');
   };

@@ -400,6 +400,41 @@ def test_snippet_images( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+@pytest.mark.skipif( pytest_options.short_tests, reason="--short-tests specified" )
+def test_jinja_in( webapp, webdriver ):
+    """Test the "in" operator in Jinja templates."""
+
+    # initialize
+    init_webapp( webapp, webdriver, edit_template_links=1 )
+
+    def do_test( search_for, search_in, expected ):
+        """Test the IN operator."""
+        # install a new template
+        elem = find_child( "a._edit-template-link_[data-id='victory_conditions']" )
+        webdriver.execute_script( "$(arguments[0]).click();", elem )
+        elem = find_child( "#edit-template textarea" )
+        elem.clear()
+        buf = [
+            "{%set HELLO_WORLD = \"Hello, world!\"%}",
+            "{%set HELLO = \"hello\"%}",
+            "{%if " + search_for + " in " + search_in + "%} YES {%else%} NO {%endif%}"
+        ]
+        template = "\n".join( buf )
+        elem.send_keys( template )
+        elem.send_keys( Keys.ESCAPE )
+        # process the template
+        elem = find_child( "button.generate[data-id='victory_conditions']" )
+        elem.click()
+        wait_for_clipboard( 2, "YES" if expected else "NO" )
+
+    # do th tests
+    do_test( '"foo"', "HELLO_WORLD", False )
+    do_test( '"O, W"', "HELLO_WORLD", True )
+    do_test( "HELLO", "HELLO_WORLD", True )
+    do_test( "HELLO", '"hello, big guy!"', True )
+
+# ---------------------------------------------------------------------
+
 def _test_snippet( btn, params, expected, expected2 ):
     """Do a single test."""
 
