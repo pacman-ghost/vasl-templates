@@ -1,7 +1,6 @@
 """" Test scenario search. """
 
 import os
-import re
 import base64
 import time
 
@@ -665,7 +664,7 @@ def test_scenario_downloads( webapp, webdriver ):
         if btn:
             fgroup[ key ] = fixup( btn.get_attribute( "data-url" ) )
     def fixup( val ): #pylint: disable=missing-docstring
-        val = re.sub( r"(localhost|127.0.0.1):\d+", "{LOCALHOST}", val )
+        val = val.replace( webapp.base_url, "{WEBAPP-BASE-URL}" )
         val = val.replace( "%7C", "|" )
         return val
 
@@ -676,7 +675,7 @@ def test_scenario_downloads( webapp, webdriver ):
     # check the downloads for a scenario that has some
     _do_scenario_search( "full", [1], webdriver )
     assert unload_downloads() == [ {
-        "screenshot": "http://{LOCALHOST}/static/images/missing-image.png",
+        "screenshot": "{WEBAPP-BASE-URL}/static/images/missing-image.png",
         "timestamp": "November 14, 2023",
         "user": "dave",
         "vasl_setup": "http://test.com/dave:1700000000|vt_setup4.vsav",
