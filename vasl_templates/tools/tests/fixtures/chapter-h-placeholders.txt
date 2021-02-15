@@ -15,6 +15,7 @@ allied-minor/ordnance/36.png
 allied-minor/ordnance/a.html
 allied-minor/ordnance/b.html
 allied-minor/ordnance/c.html
+allied-minor/ordnance/d.html
 allied-minor/ordnance/de.html
 allied-minor/ordnance/gr.html
 allied-minor/ordnance/n.html

@@ -66,10 +66,7 @@ def make_chapter_h_placeholders( output_fname, log=None \
                 notes, ma_notes = load_vo_data( fname, nat )
                 if nat not in results:
                     results[ nat ] = {}
-                if nat == "landing-craft":
-                    results[ nat ][ vo_type ] = { "notes": notes, "ma_notes": ma_notes }
-                else:
-                    results[ nat ][ vo_type ] = { "notes": notes, "ma_notes": ma_notes }
+                results[ nat ][ vo_type ] = { "notes": notes, "ma_notes": ma_notes }
 
     # insert the K:FW vehicles/ordnance
     kfw_vo_data = load_kfw_vo_data()
@@ -108,6 +105,11 @@ def make_chapter_h_placeholders( output_fname, log=None \
                     if key not in results[nat][vo_type]:
                         results[nat][vo_type][key] = []
                     results[nat][vo_type][key].extend( extn_data[nat][vo_type].get( key, [] ) )
+
+    # FUDGE! Allied Ordnance Note D is not in the Allied Minor common.json file (it's referenced
+    # by some of the nationality-specific Guns e.g. Belgian DBT), so we add it in manually.
+    assert "D" not in results["allied-minor"]["ordnance"]["ma_notes"]
+    results["allied-minor"]["ordnance"]["ma_notes"].append( "D" )
 
     # generate the placeholder files
     with zipfile.ZipFile( output_fname, "w" ) as zip_file:
