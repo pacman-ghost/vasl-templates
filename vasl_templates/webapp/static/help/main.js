@@ -71,6 +71,11 @@ $(document).ready( function() {
     var tab_id = getUrlParam( "tab" ) ;
     if ( tab_id )
         $( "a[href='#helptabs-" + tab_id + "']" ).click() ;
+
+    // check if we should scroll to an anchor
+    var anchor = window.location.hash.substring( 1 ) ;
+    if ( anchor )
+        $( "a[name='" + anchor + "']" )[0].scrollIntoView() ;
 } ) ;
 
 // --------------------------------------------------------------------
