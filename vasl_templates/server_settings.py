@@ -29,7 +29,7 @@ SERVER_SETTINGS = {
     "webdriver-path": { "type": "file", "name": "webdriver", "allow_on_path": True, "fspec": _EXE_FSPEC },
     "chapter-h-notes-dir": { "type": "dir", "name": "Chapter H notes directory" },
     "chapter-h-image-scaling": { "type": "int", "name": "Chapter H image scaling" },
-    "user-files-dir": { "type": "dir", "name": "user files directory" },
+    "user-files-dir": { "type": "dir", "name": "user files directory", "allow_urls": True },
 }
 
 # ---------------------------------------------------------------------
@@ -133,8 +133,9 @@ class ServerSettingsDialog( QDialog ):
             ctrl = self._get_control( key )
             func = getattr( self, "_unload_"+vals["type"] )
             args, kwargs = [ vals["name"] ], {}
-            if "allow_on_path" in vals:
-                kwargs[ "allow_on_path" ] = vals["allow_on_path"]
+            for k in ("allow_on_path","allow_urls"):
+                if k in vals:
+                    kwargs[ k ] = vals[ k ]
             val = func( ctrl, *args, **kwargs )
             if val is None:
                 # nb: something failed validation, an error message has already been shown
@@ -189,9 +190,11 @@ class ServerSettingsDialog( QDialog ):
         self._update_ui()
 
     @staticmethod
-    def _unload_dir( ctrl, name ):
+    def _unload_dir( ctrl, name, allow_urls=False ):
         """Unload and validate a directory path."""
         dname = ctrl.text().strip()
+        if allow_urls and dname.startswith( ("http://","https://") ):
+            return dname
         if dname and not os.path.isdir( dname ):
             MainWindow.showErrorMsg( "Can't find the {}:\n    {}".format( name, dname ) )
             ctrl.setFocus()

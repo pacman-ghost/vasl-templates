@@ -63,7 +63,7 @@ def get_user_file( path ):
     dname = app.config.get( "USER_FILES_DIR" )
     if not dname:
         abort( 404 )
-    if not os.path.isdir( dname ):
+    if not os.path.isdir( dname ) and not dname.startswith( ("http://","https://") ):
         logging.error( "Missing user files directory: %s", dname )
     resp = FileServer( dname ).serve_file( path )
     if not resp:
