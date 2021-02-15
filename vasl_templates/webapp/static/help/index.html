@@ -85,8 +85,8 @@ and then connect to it in a browser at <tt>http://localhost:5010</tt>.
     --chapter-h ~/vasl/chapter-h/ \
     --user-files ~/vasl/user-files/
 </div>
+
 <p> Then open a browser and connect to the webapp at <tt>http://localhost:5010</tt>.
-<p> Note that some features (e.g. updating and analyzing VASL scenario files) may not be available.
 <div class="warning"> If you have SElinux enabled, it may prevent the container from accessing files on the host. Access can be allowed like this:
 <div class="code"> chcon -Rt svirt_sandbox_file_t /home/pacman-ghost/vasl/ </div>
 </div>
@@ -383,13 +383,15 @@ The report also calculates <em>"hotness"</em>, which is a measure of how hot you
 <h2> Adding Chapter H notes to your VASL scenario </h2>
 
 <p> <img src="images/chapter-h/ui.png" style="float:right;" class="preview"> Restart the <em>VASL Templates</em> program, and add a PSW 234/1 to the German OB. You will see some changes in the UI (see screenshot).
+
+<p> In the bottom-right, there are new controls for generating an HTML snippet for the multi-applicable notes. Click on the <em>Snippet</em> button, create a label in a VASL scenario, and you see the multi-applicable notes for the vehicles in the OB (the program will only include those that are needed). This content was taken from the <tt>a.html</tt> file you set up earlier.
+
+<p> <img src="images/chapter-h/ma-notes-snippet.png" style="margin-left:2em;" class="preview">
+
 <br clear="all">
 
-<p> <img src="images/chapter-h/ma-notes-snippet.png" style="float:left;" class="preview"> In the bottom-right, there are new controls for generating an HTML snippet for the multi-applicable notes. Click on the <em>Snippet</em> button, create a label in a VASL scenario, and you see the multi-applicable notes for the vehicles in the OB (the program will only include those that are needed). This content was taken from the <tt>a.html</tt> file you set up earlier.
-<br clear="all">
-
-<p> <img src="images/chapter-h/notes-snippet.png" style="float:right;" class="preview">Each individual vehicle and ordnance can also now have its own snippet button. Click on the one for the PSW 234/1, transfer the snippet to your VASL scenario, and you will see the image for Note 74 you set up earlier.
-<br clear="all">
+<p> Each individual vehicle and ordnance can also now have its own snippet button. Click on the one for the PSW 234/1, transfer the snippet to your VASL scenario, and you will see the image for Note 74 you set up earlier.
+<p> <img src="images/chapter-h/notes-snippet.png" style="margin-left:2em;" class="preview">
 
 <div class="hint"> Depending on how you scanned the Chapter H pages, the image may not be the right size, so you can set a scaling factor for these images in the Server Settings dialog. As a guide, I scanned my ASLRB at 300dpi, and a scaling factor of 40% produced images that fit in with the rest of the scenario. However, if you have a lot of these images, there will be a noticeable delay when loading the scenario in VASSAL (because the program has to resize all the images), so you will be better off shrinking the images yourself, then setting the scaling factor to 100, so that no resizing needs to be done. </div>
 <div class="info"> VASSAL caches images (which can't be turned off), so if you're making changes that don't seem to be having any effect, try restarting VASSAL. </div>
