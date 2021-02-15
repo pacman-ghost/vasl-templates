@@ -222,7 +222,9 @@ def get_program_info():
         with open( "/proc/self/cgroup", "r" ) as fp:
             buf = fp.read()
         mo = re.search( r"^\d+:name=.+/docker/([0-9a-f]{12})", buf, re.MULTILINE )
-        params[ "DOCKER_CONTAINER_ID" ] = mo.group(1) if mo else "???"
+        # NOTE: Reading cgroup stopped working when we upgraded to Fedora 33, but still works
+        # on Centos 8 (but reading the host name gives the physical host's name under Centos :-/).
+        params[ "DOCKER_CONTAINER_ID" ] = mo.group(1) if mo else os.uname()[1]
         # replace Docker mount points with their targets on the host
         for key in [ "VASSAL_DIR", "VASL_MOD", "VASL_EXTNS_DIR", "BOARDS_DIR",
                      "CHAPTER_H_NOTES_DIR", "USER_FILES_DIR" ]:
