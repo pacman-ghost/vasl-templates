@@ -1,7 +1,7 @@
 <html> <!-- vasl-templates:id {{SNIPPET_ID}} -->
 
 <!-- vasl-templates:name Count remaining -->
-<!-- vasl-templates:description Add the snippet as the label of a counter (e.g. Panzerfaust or Tank-Hunter Hero), then press <i>Ctrl-L</i> when you need to update how many are left. -->
+<!-- vasl-templates:description Add the snippet as the label of a counter (e.g. Panzerfaust or Tank-Hunter Hero), then press <i>Ctrl-L</i> when you need to update how many are left. Or add a caption, and use it as a stand-alone label. -->
 <!-- vasl-templates:comment The HTML is deliberately malformed, so that the number remaining is the last thing in snippet, which makes it easier to change during the course of a game. -->
 <!-- vasl-templates:footer <table> <tr>
     {% set HILITE_STYLE = 'style="background:#ffffe0;border-color:#888;"' %}
@@ -41,5 +41,7 @@
 </table> -->
 
 <!-- vasl-templates:comment We don't include common.css because it's not necessary, and we want to keep the generated snippet short. -->
+<!-- vasl-templates:comment {{CAPTION:(none)::Panzerfaust::Tank-Hunter Heroes|Caption}} -->
 {# NOTE: We specify the font size in pixels, rather than as a percentage, since this label should be added to a counter. #}
-<div style="font-size:12px;font-weight:bold;"> {{COUNT:/2|Number}}
+<div style="font-size:12px;font-weight:bold;">
+{%if CAPTION != "(none)"%}{{CAPTION}}:{%endif%} {{COUNT:/2|Number}}
