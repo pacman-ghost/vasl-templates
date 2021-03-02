@@ -363,6 +363,7 @@ function loadDialog()
 
     // load the charts with data
     Chart.defaults.global.defaultFontColor = "#444" ;
+    $gMovingAverageDropList.val( PREFERRED_WINDOW_SIZE ) ;
     reloadAll() ;
 
     // set initial focus
@@ -774,7 +775,7 @@ function reloadAll()
     // the droplist of available window sizes only shows "1" (i.e. for the raw rolls), which persists if
     // the user then switches to a roll type that has lots of points (e.g. "All"), and so they have to
     // manually change the window size. This is annoying, so we attempt to remedy that with this.
-    var windowSize = $gMovingAverageDropList.val()  == 1 ? PREFERRED_WINDOW_SIZE : null ;
+    var windowSize = Math.max( $gMovingAverageDropList.val(), PREFERRED_WINDOW_SIZE ) ;
 
     // update the time-plot chart
     gTimePlotZoom = null ; // nb: force the chart to auto-fit
