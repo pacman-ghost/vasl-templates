@@ -42,14 +42,14 @@
 <p> <em>VASL Templates</em> is a web application that runs in a browser, but since it hasn't been set up as a web site on the public internet, you will need to run the web server yourself.
 <p> As a convenience, a program is provided that bundles the web server together with an embedded browser, so that it runs as if it were a normal desktop application.
 
-<a name="install-windows">
+<a name="install-windows"></a>
 <h2> Installing on Windows </h2>
 
 <p> If you're using Windows, you should get the pre-built version from <a href="https://github.com/pacman-ghost/vasl-templates/releases">Github</a>, unpack it somewhere, then run <tt>vasl-templates.exe</tt>. Note that it can be a bit slow to start, so please give it a few seconds.
 <p> If the program won't start because a DLL is missing from your computer, install the <a href="https://www.microsoft.com/en-in/download/details.aspx?id=48145">VC2015 runtime</a> (get the 32-bit version, <tt>vc_redist.x86.exe</tt>, even if you are running 64-bit Windows).
 <p> If you don't see anything in the main window, check the notes below about configuring OpenGL.
 
-<a name="run-from-source">
+<a name="run-from-source"></a>
 <h2> Running from source </h2>
 
 <p> If you're on a Mac or Linux, you can run the program directly from the source code. Get a copy from <a href="https://github.com/pacman-ghost/vasl-templates">Github</a> in the usual way, by <tt>git clone</tt>'ing it, or downloading a ZIP and unpacking it somewhere.
@@ -77,7 +77,7 @@ python vasl_templates/webapp/run_server.py
 </div>
 and then connect to it in a browser at <tt>http://localhost:5010</tt>.
 
-<a name="run-docker">
+<a name="run-docker"></a>
 <h2>Running a Docker container</h2>
 
 <p> If you have Docker installed, the webapp can be run in a container e.g.
@@ -94,7 +94,7 @@ and then connect to it in a browser at <tt>http://localhost:5010</tt>.
 <div class="code"> chcon -Rt svirt_sandbox_file_t /home/pacman-ghost/vasl/ </div>
 </div>
 
-<a name="install-webdriver">
+<a name="install-webdriver"></a>
 <h2>Installing a webdriver</h2>
 
 <p> Some features require a <em>webdriver</em> to be installed. You can use either:
@@ -105,7 +105,7 @@ and then connect to it in a browser at <tt>http://localhost:5010</tt>.
 
 <p> Unpack the download ZIP file somewhere (it will contain a single executable file), and configure the location in the <em>Server Settings</em> dialog (or set <tt>WEBDRIVER_PATH</tt> in <tt>site.cfg</tt>, if you are running from source).
 
-<a name="gui-problems">
+<a name="gui-problems"></a>
 <h2> I'm having problems running the desktop application </h2>
 
 <p> The desktop application uses OpenGL for the embedded browser, so if you are getting error messages about OpenGL, or the main window is not displaying properly, you can try configuring OpenGL to work in a different way.
@@ -131,7 +131,7 @@ The program will then not attempt to create the embedded browser, and will just 
 
 <div id="helptabs-quickstart">
 
-<a name="qs-configure">
+<a name="qs-configure"></a>
 <h2 style="margin-top:0;">
 <img src="images/quick-start/settings.png" class="preview" style="float:right;width:400px;">
 Configuring the program
@@ -146,7 +146,7 @@ Configuring the program
     <tr> <td class="key"> VASL extensions: </td> <td class="val"> <nobr>C:\bin\vasl\extensions\</nobr>
     <tr> <td class="key"> VASL boards: </td> <td class="val"> <nobr>C:\bin\vasl\boards\</nobr>
     <tr> <td class="key" valign="top"> Java: </td> <td class="val"> <nobr>C:\Program Files\VASSAL-3.4.6\jre\bin\java.exe</nobr>
-        <div class="hint"> If you're on Windows, you can leave this field blank, <br> and the version of Java that comes with VASSAL will be used. </div>
+        <div class="hint"> Leave this field blank to use the Java that comes with VASSAL (Windows only), or on your PATH. </div>
     <tr> <td class="key"> Web driver: </td> <td class="val"> <nobr>C:\bin\geckodriver.exe</nobr>
 </table>
 For the webdriver, download and unpack one of the following:
@@ -157,7 +157,7 @@ For the webdriver, download and unpack one of the following:
         <div class="note"> Make sure to download the version that corresponds to the version of Chrome you are running. </div>
 </ul>
 
-<a name="qs-setup-scenario">
+<a name="qs-setup-scenario"></a>
 <h2> Setting up a scenario </h2>
 
 <p> <img src="images/quick-start/scenario-card.png" class="preview" style="float:right;">
@@ -177,9 +177,9 @@ In <em>VASL Templates</em>, open the save file for this scenario (<tt>The Street
 We now want to create labels in the VASL scenario for all this information. Choose <em>Update VASL scenario</em> from the menu, and select the VASL scenario file you created earlier (e.g. <tt>streets-of-stalingrad.vsav</tt>). The program will now launch VASSAL to do the work, so be patient since it may take a minute or two, and you may see VASSAL momentarily appear on-screen.
 <p> Once it's done, save the updated <tt>.vsav</tt> file somewhere. Go back to VASSAL, open the updated <tt>.vsav</tt> file, and you will see all the labels with the scenario information: <br>
 <img src="images/quick-start/updated-scenario.png" class="preview" style="margin:0.5em 0 0 2em;"> <br>
-In particular, note the data tables for the vehicles, which contain useful information that will need during your game.
+In particular, note the data tables for the vehicles, which contain useful information that you can refer to during your game.
 
-<a name="qs-include-pictures">
+<a name="qs-include-pictures"></a>
 <h2> Including pictures in the labels </h2>
 
 <p> <img src="images/quick-start/user-settings.png" class="preview" style="float:right;">
@@ -205,7 +205,7 @@ We can pretty-up the labels by including pictures in them. Open the <em>User Set
 
 <div class="info"> You can find more examples <a href="https://github.com/pacman-ghost/vasl-templates/tree/master/examples/">here</a>, with files that you can load into the program, together with the generated VASL scenarios. </div>
 
-<a name="add-scenario-details">
+<a name="add-scenario-details"></a>
 <h2> Adding the scenario details </h2>
 
 <p> <img src="images/asa-search.png" class="preview" style="width:30em;float:left;">
@@ -218,6 +218,7 @@ We start by entering the basic scenario details, such as its name, location and 
 <p> <img src="images/draggable-overlays.png" class="preview" style="width:20em;float:right;">
 Once the scenario details are in, click on one of the <em>Snippet</em> buttons, and the program will generate an HTML snippet and put it into your clipboard, which you can then copy into a VASL label.
 <p> To create a label in VASL, open the <em>Draggable Overlays</em> window, and drag a label onto the main window.
+<div class="hint"> Make sure to use the <em>"Label (no background)"</em> label, as indicated in the screenshot, since the others may not work properly! </div>
 <p> Labels come in two parts, which are accessible via the right-click menu, or press Ctrl-L and Ctrl-2 to access each one. I always just use the first line, so I delete everything in line 2.
 <p> The thick black box indicates that the label is selected. If you click elsewhere on the main window, it goes away, and the label will remain in place even if you click on it, or try to drag it. To select it again, Shift-click somewhere in the box, and you will be able to move it around, or edit it. This can sometimes be difficult to find, since it's not visible on-screen, but it will be in the middle (vertically and horizontally) of the label.
 <br clear="all">
@@ -234,7 +235,7 @@ Once you have a label in VASL, copy the HTML snippet generated above into it.
 
 <br clear="all">
 
-<a name="add-vc-ssr">
+<a name="add-vc-ssr"></a>
 <h2> Adding victory conditions and SSR's </h2>
 
 <p> <img src="images/vc.png" class="preview" style="width:20em;float:left;">
@@ -253,7 +254,7 @@ To add SSR's, click on the green plus button in the SSR section and add the SSR 
 <p> <img src="images/ssr.png" class="preview" style="width:25em;float:right;">
 Once they're all in, click on the <em>Snippet</em> button to get a nicely formatted bullet list.
 
-<a name="add-ob">
+<a name="add-ob"></a>
 <h2> Adding each player's OB </h2>
 
 <p> <img src="images/ob_vehicles.png" class="preview" style="width:20em;float:right;">
@@ -278,13 +279,13 @@ Finally, if special support weapons such as PF and BAZ are in play, snippets are
 
 <p> If you have already set up the VASL scenario, you can choose <em>Analyze VASL scenario</em> from the menu, and the program will scan the <tt>.vsav</tt> file for vehicles and ordnance, and automatically create entries for each one. Only counters from the two configured nationalities will be imported, so make sure you set these first.
 
-<a name="extras-templates">
+<a name="extras-templates"></a>
 <h2> Extra templates </h2>
 
 <p> <img src="images/extras-templates.png" class="preview" style="width:15em;float:right;">
 <p> Extra templates are also available to generate other kinds of snippets e.g. to keep track of how many PF shots you have left, or to generate a shaded box that can be inserted behind the Turn Track to indicate an LV Hindrance.
 
-<a name="user-images">
+<a name="user-images"></a>
 <h2> Including your own images </h2>
 
 <p> <img src="images/user-file.png" class="preview" style="width:300px;float:right;">
@@ -306,7 +307,7 @@ or a <tt>width</tt> and/or <tt>height</tt> parameter to explicitly set the image
 
 <div class="warning"> You should avoid having spaces in image URL's, since VASSAL seems to have problems with them. </div>
 
-<a name="workflow">
+<a name="workflow"></a>
 <h2> Suggested workflow </h2>
 
 <p> <ul>
@@ -323,7 +324,7 @@ When the scenario has been completed and checked, you can contribute it back to 
 <div class="info" style="float:right;">For copyright reasons, some details will be removed <br> from the upload e.g. the Victory Conditions and SSR's. </div>
 <br clear="all">
 
-<a name="lfa">
+<a name="lfa"></a>
 <h2> Analyzing log files </h2>
 
 <p> <img src="images/lfa.png" class="preview" style="width:400px;float:right;">
@@ -339,7 +340,7 @@ The report also calculates <em>"hotness"</em>, which is a measure of how hot you
 
 <br clear="all">
 
-<a name="configuration">
+<a name="configuration"></a>
 <h2> Configuring the program </h2>
 
 <img src="images/user-settings.png" class="preview" style="width:300px;float:right;">
@@ -379,7 +380,7 @@ The report also calculates <em>"hotness"</em>, which is a measure of how hot you
 
 <p> It is possible to include Chapter H notes in your VASL scenarios, but since this is copyrighted material, the data files are not included in releases, and you will need to set them up yourself.
 
-<a name="setup-chapter-h">
+<a name="setup-chapter-h"></a>
 <h2> Setting up the Chapter H data files </h2>
 
 <p> Unpack this <a href="https://github.com/pacman-ghost/vasl-templates/tree/master/chapter-h/">ZIP file</a> somewhere, and configure the location in the <em>Server Settings</em> dialog (or the <tt>CHAPTER_H_NOTES_DIR</tt> setting in <tt>site.cfg</tt>, if you are running from source).
@@ -399,7 +400,7 @@ The report also calculates <em>"hotness"</em>, which is a measure of how hot you
     <p> Note that the HTML engine used by VASSAL is ancient and doesn't support floating images, which is needed to format this content in the same way as the ASLRB. To work around this, an option is provided (in the User Settings) to show these vehicle/ordnance notes as images. If this is enabled, the vehicle/ordnance notes will be rendered by the <em>VASL Templates</em> program (using a modern browser), and sent to VASSAL as an image, which is slower but gives the expected layout. If you don't use images in your HTML, you can leave this option disabled, and the raw HTML will be inserted into the VASL scenario, where it will be displayed much more quickly by VASSAL.
 </div>
 
-<a name="add-chapter-h-labels">
+<a name="add-chapter-h-labels"></a>
 <h2> Adding Chapter H notes to your VASL scenario </h2>
 
 <p> <img src="images/chapter-h/ui.png" style="float:right;" class="preview"> Restart the <em>VASL Templates</em> program, and add a PSW 234/1 to the German OB. You will see some changes in the UI (see screenshot).
@@ -416,7 +417,7 @@ The report also calculates <em>"hotness"</em>, which is a measure of how hot you
 <div class="hint"> Depending on how you scanned the Chapter H pages, the image may not be the right size, so you can set a scaling factor for these images in the Server Settings dialog. As a guide, I scanned my ASLRB at 300dpi, and a scaling factor of 40% produced images that fit in with the rest of the scenario. However, if you have a lot of these images, there will be a noticeable delay when loading the scenario in VASSAL (because the program has to resize all the images), so you will be better off shrinking the images yourself, then setting the scaling factor to 100, so that no resizing needs to be done. </div>
 <div class="info"> VASSAL caches images (which can't be turned off), so if you're making changes that don't seem to be having any effect, try restarting VASSAL. </div>
 
-<a name="cheat-sheet">
+<a name="cheat-sheet"></a>
 <h2> Creating a scenario reference sheet </h2>
 
 <p> If you Shift-click on the Snippet buttons, an <em>image</em> of the snippet will be copied to the clipboard, instead of the raw HTML snippet.  You can then copy these into Microsoft Word (or any other editor that can accept images), and print it out, to get a reference sheet with all the Chapter H notes for a scenario. Very handy, even if you're not using VASL!
@@ -434,7 +435,7 @@ The report also calculates <em>"hotness"</em>, which is a measure of how hot you
 
 <p> The template files can be found in <tt>$/data/default-template-pack/</tt> (where <tt>$</tt> is where you've installed the program).
 
-<a name="template-conditionals">
+<a name="template-conditionals"></a>
 <h2> Placeholders and template conditionals </h2>
 
 <p> <img src="images/ssr-template.png" class="preview" style="width:20em;float:right;">
@@ -498,7 +499,7 @@ But if the user hasn't specified anything for this field, what's between the <tt
 &lt;table style=""&gt;
 </div>
 
-<a name="template-loops">
+<a name="template-loops"></a>
 <h2> Looping over lists </h2>
 
 <p> There will often be multiple SSR's, and near the bottom of the file, we can see how these are handled:
@@ -519,7 +520,7 @@ If the user had entered the SSR's as shown in the screenshot, then we would get 
 </div>
 Note that if they enter HTML into the SSR text, it will be inserted verbatim into the HTML snippet, thus allowing them to format the content.
 
-<a name="template-packs">
+<a name="template-packs"></a>
 <h2> Template packs </h2>
 
 <p> If you want to customize how the HTML snippets are generated, you could just edit the files directly, but the down-side of doing this is that if you install a new version of the program, you will lose your changes.
@@ -542,7 +543,7 @@ When you're writing a new template file, it would be painful to have to ZIP up a
 
 <div id="helptabs-fordevelopers">
 
-<a name="dev-setup">
+<a name="dev-setup"></a>
 <h2 style="margin-top:0;"> Setting up </h2>
 
 <p> After cloning the repo, install the <em>developer</em> requirements:
@@ -559,7 +560,13 @@ pytest --webdriver chrome --headless
 </div>
 <p> Note that since <tt>pylint</tt> is run as part of these tests, this should be done from the root directory of the repo.
 
-<a name="compile-vassal-shim">
+<a name="running-tests"></a>
+<h2> Running the test suite</h2>
+
+<p> The test suite communicates with the web server being tested using gRPC, which runs over a socket. To configure this port, rename the provided <tt>debug.cfg.example</tt> file to <tt>debug.cfg</tt>, and configure it there (or use -1 to have one automatically assigned.).
+<p> You should also provide at least one installation of VASSAL, and at least one VASL <tt>.vmod</tt> file. If there are multiple installations of VASSAL and/or VASL, the tests will be run against each combination thereof.
+
+<a name="compile-vassal-shim"></a>
 <h2> Compiling the VASSAL shim </h2>
 
 <p> The program uses VASSAL to update VASL scenarios (<tt>.vsav</tt> files), and since this is written in Java, a helper program has been written in Java to do this.
@@ -570,7 +577,7 @@ make all VASSAL_DIR=...
 where <tt>VASSAL_DIR</tt> points to VASSAL's <tt>lib/</tt> directory (the program needs <tt>Vengine.jar</tt>).
 <p> Since this program doesn't change very often, the resulting artifact (<tt>vassal-shim.jar</tt>) is checked into source control, so that it can be used without needing to install a JDK and compiling it first.
 
-<a name="code-linting">
+<a name="code-linting"></a>
 <h2> Code lint'ing </h2>
 
 <p> Python code is checked using <a href="https://pylint.readthedocs.io/en/latest/"><tt>pylint</tt></a> (installed during the <tt>pip install</tt> above), which should be run from the root directory of the repo.
@@ -581,7 +588,7 @@ export JSHINT_RHINO=~/bin/jshint-2.6.3/dist/jshint-rhino.js
 </div>
 Note that both of these are run as part of a normal <tt>pytest</tt> run.
 
-<a name="freeze">
+<a name="freeze"></a>
 <h2> Creating a pre-compiled package </h2>
 
 <p> It is possible to compile the desktop application down to a single binary. This is typically done for the benefit of Windows users, but also works for other platforms. From the root directory of the repo:

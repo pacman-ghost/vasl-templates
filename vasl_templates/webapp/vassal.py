@@ -105,7 +105,6 @@ def update_vsav(): #pylint: disable=too-many-statements,too-many-locals
 
     # return the results
     logger.info( "Updated the VSAV file OK: elapsed=%.3fs", time.time()-start_time )
-    # NOTE: We adjust the recommended save filename to encourage users to not overwrite the original file :-/
     vsav_filename = os.path.split( vsav_filename )[1]
     errors = []
     for fail in report["failed"]:
