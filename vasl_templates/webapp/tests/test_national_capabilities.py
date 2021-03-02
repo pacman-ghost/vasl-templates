@@ -230,16 +230,13 @@ def test_time_based_national_capabilities( webapp, webdriver ):
 
     # test the German national capabilities
     check_notes( "german", "ETO", 12, 1942, [
-        "No Inherent PF", "No Inherent ATMM", "No Squad Assault Fire"
+        "No Inherent PF", "No Inherent ATMM"
     ] )
     check_notes( "german", "ETO", 9, 1943, [
-        "No Inherent PF", "No Inherent ATMM", "No Squad Assault Fire"
+        "No Inherent PF", "No Inherent ATMM"
     ] )
     check_notes( "german", "ETO", 10, 1943, [
-        "Inherent PF", "No Inherent ATMM", "No Squad Assault Fire"
-    ] )
-    check_notes( "german", "ETO", 1, 1944, [
-        "Inherent PF", "Inherent ATMM", "Squad Assault Fire"
+        "Inherent PF", "No Inherent ATMM"
     ] )
 
     # test the Russian national capabilities
