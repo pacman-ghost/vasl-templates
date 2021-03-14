@@ -152,6 +152,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         player_no = get_player_no_for_element( $btn ) ;
     var player_nat = get_player_nat( player_no ) ;
     if ( player_no ) {
+        params.PLAYER_NAT = player_nat ;
         params.PLAYER_NAME = get_nationality_display_name( params["PLAYER_"+player_no] ) ;
         var colors = get_player_colors( player_no ) ;
         params.OB_COLOR = colors[0] ;
