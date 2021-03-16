@@ -1081,6 +1081,14 @@ function createDistribChart( key, classId )
     // create the chart
     var $canvas = $( "#lfa .distrib" + classId + " canvas" ) ;
     var chart = new Chart( $canvas, {
+        // FUDGE! The charts seem to be sensitive to the initial type, and don't redraw themselves properly
+        // when switching types later. If they start as line graphs, the points appear on top of the vertical
+        // column dividers, but if the user switches to bar graphs, the left- and right-most bars are not visible.
+        // If they start as bar graphs, and the user switches to line graphs, the points appear in between
+        // the vertical column dividers, which is techincally correct, but doesn't look as good.
+        // So, it looks like the chart control is getting confused about where to draw the various elements
+        // when switching between graph types, so we opt for the 2nd case.
+        type: "bar",
         data: {
             labels: DR_VALS[key],
         },
