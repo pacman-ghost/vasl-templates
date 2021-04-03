@@ -1,7 +1,7 @@
 # python 3.8.7
 
 flask==1.1.2
-pyyaml==5.3.1
+pyyaml==5.4
 pillow==8.1.0
 selenium==3.141.0
 click==7.1.2
