@@ -31,6 +31,10 @@
   "display_name": "Australian",
   "ob_colors": [ "#f6edda","#e5cea0", "#e5cea0" ]
 },
+"british~anzac": {
+  "display_name": "ANZAC",
+  "ob_colors": [ "#f6edda","#e5cea0", "#e5cea0" ]
+},
 
 "french": {
   "display_name": "French",
@@ -122,10 +126,6 @@
   "type": "axis-minor"
 },
 
-"anzac": {
-  "display_name": "ANZAC",
-  "ob_colors": [ "#f6edda","#e5cea0", "#e5cea0" ]
-},
 "thai": {
   "display_name": "Thai",
   "ob_colors": [ "#3ceb7c","#1de256", "#0ed93c" ]

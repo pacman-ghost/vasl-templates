@@ -1,6 +1,6 @@
-=== anzac (ETO 1940) ===
+=== british~anzac (ETO 1944) ===
 
-Smoke grenades
+SMOKE grenades
 HoB: -1 DRM
 Black TH#
 OBA: 8B 2R (access: ≤ 2)

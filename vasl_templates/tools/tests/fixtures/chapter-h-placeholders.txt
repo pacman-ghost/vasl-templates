@@ -182,10 +182,6 @@ american/vehicles/w.html
 american/vehicles/x.html
 american/vehicles/y.html
 american/vehicles/z.html
-anzac/vehicles/adf-bj/1.png
-anzac/vehicles/adf-bj/2.png
-anzac/vehicles/adf-bj/3.png
-anzac/vehicles/adf-bj/4.png
 axis-minor/ordnance/44.png
 axis-minor/ordnance/45.png
 axis-minor/ordnance/46.png
@@ -425,6 +421,10 @@ british/vehicles/w.html
 british/vehicles/x.html
 british/vehicles/y.html
 british/vehicles/z.html
+british~anzac/vehicles/adf-bj/1.png
+british~anzac/vehicles/adf-bj/2.png
+british~anzac/vehicles/adf-bj/3.png
+british~anzac/vehicles/adf-bj/4.png
 bulgarian/ordnance/37.png
 bulgarian/ordnance/38.png
 bulgarian/ordnance/39.png

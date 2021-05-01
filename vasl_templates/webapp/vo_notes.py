@@ -83,7 +83,7 @@ def load_vo_notes( msg_store ): #pylint: disable=too-many-statements,too-many-lo
     vo_notes = { "vehicles": defaultdict(dict), "ordnance": defaultdict(dict) }
     # NOTE: We don't have any data files for these vehicles/ordnance, but they have
     # multi-applicable notes, so we force them to appear in the final results.
-    vo_notes["vehicles"]["anzac"] = {}
+    vo_notes["vehicles"]["british~anzac"] = {}
     vo_notes["ordnance"]["indonesian"] = {}
     vo_note_layout_width = app.config.get( "VO_NOTE_LAYOUT_WIDTH", 500 )
 
@@ -200,6 +200,7 @@ def load_vo_notes( msg_store ): #pylint: disable=too-many-statements,too-many-lo
             vo_notes[vo_type2]["british~canadian"] = copy.deepcopy( vo_notes[vo_type2]["british"] )
             vo_notes[vo_type2]["british~newzealand"] = copy.deepcopy( vo_notes[vo_type2]["british"] )
             vo_notes[vo_type2]["british~australian"] = copy.deepcopy( vo_notes[vo_type2]["british"] )
+            vo_notes[vo_type2]["british~anzac"] = copy.deepcopy( vo_notes[vo_type2]["british"] )
 
     def install_kfw_vo_notes( nat, vo_type, extn_id, include ):
         """Install the K:FW vehicle/ordnance notes into the specified nationality."""

@@ -1,8 +1,0 @@
-=== vehicles/anzac/1941 ===
-
-Name              Capabilities    (effective)    #    Notes              Comments
-----------------  --------------  -------------  ---  -----------------  --------------------------------------------------------------------------
-Matilda Frog      sD6 CS 5        sD6 CS 5       1†   n/a                Immob dr &#8804; 3 [EXC: mines, Direct Fire vs front/rear]
-Matilda II(L)     sD6 CS 5        sD6 CS 5       2†   Br B†<sup>1</sup>  Immob dr &#8804; 3 [EXC: mines, Direct Fire vs front/rear]
-Matilda II CS(L)  s9 sD6 CS 5     s9 sD6 CS 5    3†   Br S†<sup>1</sup>  Immob dr &#8804; 3 [EXC: mines, Direct Fire vs front/rear] | &#8734; Smoke
-Valentine III CS  s9 sM8 CS 5     s9 sM8 CS 5    4†   Br S†<sup>1</sup>  &#8734; Smoke
