@@ -199,6 +199,7 @@ def load_vo_notes( msg_store ): #pylint: disable=too-many-statements,too-many-lo
         if "british" in vo_notes[vo_type2]:
             vo_notes[vo_type2]["british~canadian"] = copy.deepcopy( vo_notes[vo_type2]["british"] )
             vo_notes[vo_type2]["british~newzealand"] = copy.deepcopy( vo_notes[vo_type2]["british"] )
+            vo_notes[vo_type2]["british~australian"] = copy.deepcopy( vo_notes[vo_type2]["british"] )
 
     def install_kfw_vo_notes( nat, vo_type, extn_id, include ):
         """Install the K:FW vehicle/ordnance notes into the specified nationality."""
