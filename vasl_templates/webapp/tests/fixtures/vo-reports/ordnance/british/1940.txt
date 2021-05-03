@@ -2,8 +2,8 @@
 
 Name                          Capabilities                 (effective)                  #    Notes                 Comments
 ----------------------------  ---------------------------  ---------------------------  ---  --------------------  ------------------------------------
-OML 2-in. Mortar              IR[2+]† s7                   s7                           1    A† N P
-OML 2-in. Airborne Mortar     IR s7                        IR s7                        1    n/a
+OML 2-in. Mortar              IR[2+]† s7                   s7                           1    A† D N P              Animal-Packed
+OML 2-in. Airborne Mortar     IR s7                        IR s7                        1    D                     Animal-Packed
 OML 3-in. Mortar              IR[2+]†[1] WP7 s8[1+]†       WP7                          2†   A†<sup>1</sup> D N P  QSU | Animal-Packed
 OSB 4.2-in. Mortar            WP7 s8                       WP7 s8                       3†   N P                   Towed
 OQF 25mm Hotchkiss                                                                      4†   B N                   QSU | En Portee NA

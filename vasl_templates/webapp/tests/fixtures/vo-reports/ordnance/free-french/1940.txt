@@ -3,7 +3,7 @@
 Name                         Capabilities                (effective)         #          Notes                 Comments
 ---------------------------  --------------------------  ------------------  ---------  --------------------  -----------------------------------------------------------------------------------------
 LG de 50 mle 37(f)                                                           Fr 1       Fr A Fr B Fr C† Fr E  Animal-Packed | Crewed
-OML 2-in. Mortar             IR[2+]† s7                  s7                  Fr 22†[1]  Fr W†
+OML 2-in. Mortar             IR[2+]† s7                  s7                  Fr 22†[1]  Fr W†                 Animal-Packed
 Mortier de 60 mle 35(f)      IR[2+]†                                         Fr 2†      Fr A Fr B Fr V        Animal-Packed | No Captured Use penalty for Vichy French
 M2 60mm Mortar               IR WP7[5]                   IR                  Fr 22      Fr W†
 OML 3-in. Mortar             IR[2+]†[1] WP7 s8[1+]†      WP7                 Fr 22†[1]  Fr W†                 QSU | Animal-Packed

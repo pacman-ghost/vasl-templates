@@ -4,7 +4,7 @@
   "type": "MTR",
   "capabilities2": { "s": 7, "IR": [ [null,"2+"], "\u2020" ] },
   "note_number": "1",
-  "notes": [ "A\u2020", "N", "P" ],
+  "notes": [ "A\u2020", "D", "N", "P" ],
   "id": "br/o:000",
   "gpid": 1153
 },
@@ -13,6 +13,7 @@
   "capabilities": [ "IR" ],
   "capabilities2": { "s": 7 },
   "note_number": "1",
+  "notes": [ "D" ],
   "id": "br/o:001",
   "gpid": 1149
 },
