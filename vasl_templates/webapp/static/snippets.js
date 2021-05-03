@@ -1614,13 +1614,26 @@ function do_load_scenario_data( params )
         return $elem ;
     } ;
     // FUDGE! We must set the players first, since changing these will reset the OB tabs.
+    function is_valid_player_id( player_nat ) {
+        return gTemplatePack.nationalities[ player_nat ] !== undefined ;
+    }
     if ( "PLAYER_1" in params ) {
-        set_param( $("select[name='PLAYER_1']"), "PLAYER_1" ) ;
-        on_player_change( 1 ) ;
+        if ( is_valid_player_id( params.PLAYER_1 ) ) {
+            set_param( $("select[name='PLAYER_1']"), "PLAYER_1" ) ;
+            on_player_change( 1 ) ;
+        } else {
+            showErrorMsg( "Invalid player nationality: " + params.PLAYER_1 ) ;
+            params_loaded.PLAYER_1 = true ;
+        }
     }
     if ( "PLAYER_2" in params ) {
-        set_param( $("select[name='PLAYER_2']"), "PLAYER_2" ) ;
-        on_player_change( 2 ) ;
+        if ( is_valid_player_id( params.PLAYER_2 ) ) {
+            set_param( $("select[name='PLAYER_2']"), "PLAYER_2" ) ;
+            on_player_change( 2 ) ;
+        } else {
+            showErrorMsg( "Invalid player nationality: " + params.PLAYER_2 ) ;
+            params_loaded.PLAYER_2 = true ;
+        }
     }
     var i ;
     for ( var key in params ) {
