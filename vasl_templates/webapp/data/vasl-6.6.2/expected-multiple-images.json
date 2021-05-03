@@ -1,0 +1,43 @@
+{
+
+"1555": {
+    "name": "2pdr Portee",
+    "front_images": [ "br/vehicles/portee.gif", "br/vehicles/portee0.gif" ],
+    "back_images": null
+},
+
+"2212": {
+    "name": "76* INF FRC",
+    "front_images": [ "al/gun/alINF76.gif", "al/gun/alINF76u.gif" ],
+    "back_images": "al/gun/alINF76b.gif"
+},
+
+"7409": {
+    "name": "76 ItK/28 B(s)",
+    "front_images": "fi/gun/fiAA76L.png",
+    "back_images": [ "fi/gun/fiAA76L.png", "fi/gun/fiAA76LB.png" ]
+},
+
+"adf:1828": {
+    "name": "105 ART wz.29",
+    "front_images": "po/gun/poARTwz29-BFP.png",
+    "back_images": [ "po/gun/poARTwz29-BFP.png", "po/gun/poARTwz29-BFPb.png" ]
+},
+"adf:1829": {
+    "name": "120* ART wz09.31",
+    "front_images": "po/gun/poARTwz0931-BFP.png",
+    "back_images": [ "po/gun/poARTwz0931-BFP.png", "po/gun/poARTwz0931-BFPb.png" ]
+},
+"adf:1830": {
+    "name": "155 ART wz.17",
+    "front_images": "po/gun/poARTwz17-BFP.png",
+    "back_images": [ "po/gun/poARTwz17-BFP.png", "po/gun/poARTwz17-BFPb.png" ]
+},
+
+"3b5:3676": {
+    "name": "M19A1 MGMC",
+    "front_images": [ "us/veh/usM19A1MGMC(trailer)KFW.png", "us/veh/usM19A1MGMC(KFW).png" ],
+    "back_images": null
+}
+
+}

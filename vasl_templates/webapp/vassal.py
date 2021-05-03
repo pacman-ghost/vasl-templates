@@ -31,8 +31,15 @@ from vasl_templates.webapp.vasl_mod import get_reverse_remapped_gpid
 #   ------+------------------
 #   6.6.0 | 3.4.2   14.0.2+12
 #   6.6.1 | 3.4.6   15+36
-SUPPORTED_VASSAL_VERSIONS = [ "3.4.2", "3.4.6" ]
-SUPPORTED_VASSAL_VERSIONS_DISPLAY = "3.4.2, 3.4.6"
+#   6.6.2 | 3.5.5   16+36
+# NOTE: VASSAL+VASL back-compat has gone out the window :-/ We have to tie versions of VASL
+# to specific versions of VASSAL. Sigh...
+SUPPORTED_VASSAL_VERSIONS = {
+    "3.4.2": [ "6.6.0", "6.6.1" ],
+    "3.4.6": [ "6.6.0", "6.6.1" ],
+    "3.5.5": [ "6.6.0", "6.6.1", "6.6.2" ],
+}
+SUPPORTED_VASSAL_VERSIONS_DISPLAY = "3.4.2, 3.4.6, 3.5.5"
 
 # ---------------------------------------------------------------------
 
@@ -338,6 +345,11 @@ class VassalShim:
             with open( temp_file.name, "r", encoding="utf-8" ) as fp:
                 return fp.read()
 
+    @staticmethod
+    def is_compatible_version( vassal_version, vasl_version ):
+        """Check if the VASSAL+VASL versions are compatible."""
+        return vasl_version in SUPPORTED_VASSAL_VERSIONS.get( vassal_version, [] )
+
     def dump_scenario( self, fname ):
         """Dump a scenario file."""
         return self._run_vassal_shim( "dump", fname )
@@ -537,6 +549,13 @@ class VassalShim:
                     "This program has not been tested with VASSAL {}.<p>Things might work, but they might not...",
                     version
                 )
+        elif globvars.vasl_mod:
+            if not VassalShim.is_compatible_version( version, globvars.vasl_mod.vasl_version ):
+                if msg_store:
+                    msg_store.error(
+                        "VASSAL {} and VASL {} are not compatible.".format( version, globvars.vasl_mod.vasl_version ),
+                        version
+                    )
 
     @staticmethod
     def _get_vassal_dir():

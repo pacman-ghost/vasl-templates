@@ -10,13 +10,10 @@ import pytest
 
 from vasl_templates.webapp.vassal import SUPPORTED_VASSAL_VERSIONS
 from vasl_templates.webapp.vasl_mod import get_vo_gpids, SUPPORTED_VASL_MOD_VERSIONS
-from vasl_templates.webapp.vo import _kfw_listings #pylint: disable=protected-access
 from vasl_templates.webapp.utils import compare_version_strings
 from vasl_templates.webapp.tests import pytest_options
 from vasl_templates.webapp.tests.utils import init_webapp, select_tab, find_child, find_children
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
-
-_EXPECTED_MISSING_GPIDS_EXCEPTIONS = [ "6.5.0", "6.5.1", "6.6.0", "6.6.1" ]
 
 # ---------------------------------------------------------------------
 
@@ -39,7 +36,7 @@ def test_counter_images( webapp, webdriver ): #pylint: disable=too-many-locals
                 except urllib.error.HTTPError as ex:
                     resp_code = ex.code
                     resp_data = None
-                assert locals()["check_"+side]( gpid, resp_code, resp_data )
+                assert locals()["check_"+side]( resp_code, resp_data )
 
     # test counter images when no VASL module has been configured
     webapp.control_tests.set_vasl_version( None, None )
@@ -50,54 +47,13 @@ def test_counter_images( webapp, webdriver ): #pylint: disable=too-many-locals
     fname = os.path.join( os.path.split(__file__)[0], "../static/images/missing-image.png" )
     missing_image_data = open( fname, "rb" ).read()
     check_images( gpids,
-        check_front = lambda gpid,code,data: code == 200 and data == missing_image_data,
-        check_back = lambda gpid,code,data: code == 200 and data == missing_image_data
+        check_front = lambda code, data: code == 200 and data == missing_image_data,
+        check_back = lambda code, data: code == 200 and data == missing_image_data
     )
 
-    # FUDGE! 6.5.0 introduced a lot of new counters for K:FW. The vehicle/ordnance entries for these
-    # will always be loaded, but if an older version of VASL has been configured, requests to get images
-    # for these counters will, of course, fail, since the new counters won't be in the older VASL modules.
-    # We figure out here what those GPID's are.
-    # NOTE: All of this is horrendously complicated, and the problem will re-appear if new counters
-    # are added to the core VASL module in the future. At that point, we should probably drop testing
-    # against older versions of VASL and just test against the latest version :-/
-    expected_missing_gpids = set()
-    for vo_type in ("vehicles","ordnance"):
-        kfw_listings = _kfw_listings[ vo_type ]
-        for entries in kfw_listings.values():
-            for entry in entries:
-                if isinstance( entry["gpid"], list ):
-                    expected_missing_gpids.update( entry["gpid"] )
-                else:
-                    expected_missing_gpids.add( entry["gpid"] )
-    expected_missing_gpids = set( str(e) for e in expected_missing_gpids )
-    # NOTE: However, some of the GPID's used by the new K:FW counters use old images that are available
-    # even in older versions of VASL, so we figure out here what those are.
-    def get_gpids( fname ):
-        """Extract the GPID's from the specified file."""
-        dname = os.path.join( os.path.split(__file__)[0], "fixtures" )
-        fname = os.path.join( dname, fname )
-        gpids = set()
-        for line_buf in open(fname,"r"):
-            mo = re.search( "^[0-9a-z:]+", line_buf )
-            if mo:
-                gpids.add( mo.group() )
-        return gpids
-    legacy_gpids = get_gpids( "vasl-pieces-legacy.txt" )
-    latest_gpids = get_gpids( "vasl-pieces-6.5.1.txt" )
-    common_gpids = legacy_gpids.intersection( latest_gpids )
-    expected_missing_gpids = expected_missing_gpids.difference( common_gpids )
-    expected_missing_gpids.remove( "1002" ) # FUDGE! this is a remapped GPID (11340)
-    expected_missing_gpids.remove( "1527" ) # FUDGE! this is a remapped GPID (12730)
-
-    vasl_version = None
-    def _do_check_front( gpid, code, data ):
-        if vasl_version not in _EXPECTED_MISSING_GPIDS_EXCEPTIONS and gpid in expected_missing_gpids:
-            return code == 404 and not data
+    def _do_check_front( code, data ):
         return code == 200 and data
-    def _do_check_back( gpid, code, data ):
-        if vasl_version not in _EXPECTED_MISSING_GPIDS_EXCEPTIONS and gpid in expected_missing_gpids:
-            return code == 404 and not data
+    def _do_check_back( code, data ):
         return (code == 200 and data) or (code == 404 and not data)
 
     # initialize
@@ -120,10 +76,7 @@ def test_counter_images( webapp, webdriver ): #pylint: disable=too-many-locals
         init_webapp( webapp, webdriver )
 
         # figure out what we're expecting to see
-        # NOTE: The results were the same across 6.4.0-6.4.4, but 6.5.0 introduced some changes.
         fname = os.path.join( check_dir, "vasl-pieces-{}.txt".format( vasl_version ) )
-        if not os.path.isfile( fname ):
-            fname = os.path.join( check_dir, "vasl-pieces-legacy.txt" )
         expected_vasl_pieces = open( fname, "r" ).read()
 
         # generate a report for the pieces loaded
@@ -148,7 +101,10 @@ def test_counter_images( webapp, webdriver ): #pylint: disable=too-many-locals
 
 # ---------------------------------------------------------------------
 
-def test_gpid_remapping( webapp, webdriver ):
+# NOTE: We disabled this test since we no longer support older versions of VASSAL+VASL, and the later versions
+# don't require GPID remapping, but we leave the code here in case we need it again in the future.
+
+def _DISABLED_test_gpid_remapping( webapp, webdriver ):
     """Test GPID remapping."""
 
     # initialize
@@ -223,12 +179,13 @@ def test_compare_version_strings():
     """Test comparing version strings."""
 
     # test comparing VASSAL version strings
-    for i,vassal_version in enumerate( SUPPORTED_VASSAL_VERSIONS):
+    vassal_versions = list( SUPPORTED_VASSAL_VERSIONS.keys() )
+    for i,vassal_version in enumerate( vassal_versions ):
         if i > 0:
-            assert compare_version_strings( SUPPORTED_VASSAL_VERSIONS[i-1], vassal_version ) < 0
-        assert compare_version_strings( SUPPORTED_VASSAL_VERSIONS[i], vassal_version ) == 0
-        if i < len(SUPPORTED_VASSAL_VERSIONS)-1:
-            assert compare_version_strings( vassal_version, SUPPORTED_VASSAL_VERSIONS[i+1] ) < 0
+            assert compare_version_strings( vassal_versions[i-1], vassal_version ) < 0
+        assert compare_version_strings( vassal_versions[i], vassal_version ) == 0
+        if i < len(vassal_versions)-1:
+            assert compare_version_strings( vassal_version, vassal_versions[i+1] ) < 0
 
     # test comparing VASL version strings
     for i,vasl_version in enumerate(SUPPORTED_VASL_MOD_VERSIONS):

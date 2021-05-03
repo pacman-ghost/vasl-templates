@@ -186,7 +186,9 @@ def get_online_counter_images():
     # There doesn't seem to be any pattern to these counters, and since there aren't too many of them,
     # the most robust solution is probably to fix them up manually :-/
     # NOTE: To check these: $/counter-image-urls.html?fetch-images=1
-    fname = os.path.join( DATA_DIR, "online-counter-images.json" )
+    if not globvars.vasl_mod:
+        return jsonify( {} )
+    fname = os.path.join( DATA_DIR, "vasl-"+globvars.vasl_mod.vasl_version, "online-counter-images.json" )
     return send_file( fname, "application/json" )
 
 # ---------------------------------------------------------------------

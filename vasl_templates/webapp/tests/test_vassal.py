@@ -7,6 +7,7 @@ import base64
 import random
 import typing.re #pylint: disable=import-error
 
+from vasl_templates.webapp.vassal import VassalShim
 from vasl_templates.webapp.utils import TempFile, change_extn, compare_version_strings
 from vasl_templates.webapp.tests import pytest_options
 from vasl_templates.webapp.tests.utils import \
@@ -509,7 +510,7 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
     # run the test against all versions of VASSAL+VASL
     run_vassal_tests( webapp, do_test )
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# ---------------------------------------------------------------------
 
 def test_player_owned_labels( webapp, webdriver ):
     """Test how we update labels owned by different player nationalities."""
@@ -668,7 +669,7 @@ def test_analyze_vsav_hip_concealed( webapp, webdriver ):
     # run the test against all versions of VASSAL+VASL
     run_vassal_tests( webapp, do_test )
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# ---------------------------------------------------------------------
 
 def test_reverse_remapped_gpids( webapp, webdriver ):
     """Test reverse mapping of GPID's."""
@@ -692,7 +693,7 @@ def test_reverse_remapped_gpids( webapp, webdriver ):
     # run the test against all versions of VASSAL+VASL
     run_vassal_tests( webapp, do_test, min_vasl_version="6.5.0" )
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# ---------------------------------------------------------------------
 
 def test_vo_entry_selection_for_theater( webapp, webdriver ):
     """Test selection of vehicle/ordnance entries by theater."""
@@ -749,17 +750,6 @@ def run_vassal_tests( webapp, func, all_combos=None, min_vasl_version=None, vasl
     vassal_versions = webapp.control_tests.get_vassal_versions()
     vasl_versions = webapp.control_tests.get_vasl_versions()
 
-    def is_valid_combo( vassal_version, vasl_version ):
-        """Check if this is a valid combination of VASSAL and VASL."""
-        # NOTE: From 3.3, VASSAL requires VASL 6.6.0 or later (and no longer works with Java 8).
-        if compare_version_strings( vassal_version, "3.3.0" ) >= 0:
-            if compare_version_strings( vasl_version, "6.6.0" ) < 0:
-                return False
-        else:
-            if compare_version_strings( vasl_version, "6.6.0" ) >= 0:
-                return False
-        return True
-
     # check if we want to test all VASSAL+VASL combinations (nb: if not, we test against only one combination,
     # and since they all should give the same results, it doesn't matter which one.
     if all_combos is None:
@@ -768,7 +758,7 @@ def run_vassal_tests( webapp, func, all_combos=None, min_vasl_version=None, vasl
         for _ in range(0,100):
             vasl_version = random.choice( vasl_versions )
             vassal_version = random.choice( vassal_versions )
-            if is_valid_combo( vassal_version, vasl_version ):
+            if VassalShim.is_compatible_version( vassal_version, vasl_version ):
                 vasl_versions = [ vasl_version ]
                 vassal_versions = [ vassal_version ]
                 break
@@ -780,7 +770,7 @@ def run_vassal_tests( webapp, func, all_combos=None, min_vasl_version=None, vasl
         for vasl_version in vasl_versions:
             if min_vasl_version and compare_version_strings( vasl_version, min_vasl_version ) < 0:
                 continue
-            if not is_valid_combo( vassal_version, vasl_version ):
+            if not VassalShim.is_compatible_version( vassal_version, vasl_version ):
                 continue
             webapp.control_tests \
                 .set_vassal_version( vassal_version ) \

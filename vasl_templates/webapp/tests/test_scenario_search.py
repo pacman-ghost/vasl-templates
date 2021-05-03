@@ -616,7 +616,7 @@ def test_scenario_upload( webapp, webdriver ):
         set_stored_msg( "_vsav-persistence_", base64.b64encode( vsav_data ).decode( "utf-8" ) )
         find_child( ".vsav-container", dlg ).click()
         # wait for the files to be prepared
-        wait_for( 30,
+        wait_for( 60,
             lambda: "loader.gif" not in find_child( ".screenshot-container .preview img" ).get_attribute( "src" )
         )
 

@@ -16,8 +16,8 @@ from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp.vo import get_vo_listings
 from vasl_templates.webapp.utils import compare_version_strings
 
-SUPPORTED_VASL_MOD_VERSIONS = [ "6.6.0", "6.6.1" ]
-SUPPORTED_VASL_MOD_VERSIONS_DISPLAY = "6.6.0-.1"
+SUPPORTED_VASL_MOD_VERSIONS = [ "6.6.0", "6.6.1", "6.6.2" ]
+SUPPORTED_VASL_MOD_VERSIONS_DISPLAY = "6.6.0-.2"
 
 _zip_file_lock = threading.Lock()
 
@@ -251,16 +251,16 @@ class VaslMod:
     def _load_vmod( self, data_dir ): #pylint: disable=too-many-branches,too-many-locals
         """Load a VASL module file and any extensions."""
 
-        # load our overrides
-        fname = os.path.join( data_dir, "vasl-overrides.json" )
-        vasl_overrides = json.load( open( fname, "r", encoding="utf-8" ) )
-        fname = os.path.join( data_dir, "expected-multiple-images.json" )
-        expected_multiple_images = json.load( open( fname, "r", encoding="utf-8" ) )
-
         # get the VASL version
         build_info = self._files[0][0].read( "buildFile" )
         doc = xml.etree.ElementTree.fromstring( build_info )
         self.vasl_version = doc.attrib.get( "version" )
+
+        # load our overrides
+        fname = os.path.join( data_dir, "vasl-"+self.vasl_version, "vasl-overrides.json" )
+        vasl_overrides = json.load( open( fname, "r", encoding="utf-8" ) )
+        fname = os.path.join( data_dir, "vasl-"+self.vasl_version, "expected-multiple-images.json" )
+        expected_multiple_images = json.load( open( fname, "r", encoding="utf-8" ) )
 
         # figure out which pieces we're interested in
         target_gpids = get_vo_gpids( self )
