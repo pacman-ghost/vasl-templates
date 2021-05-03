@@ -270,8 +270,8 @@ REDIRECTED_MA_NOTE_REGEX = re.compile(
 
 def _extract_note_number( val ):
     """Extract a vehicle/ordnance's note number."""
-    mo = re.search( r"^\d+", val )
-    return int( mo.group() )
+    mo = re.search( r"^\d+(\.\d)?", val )
+    return mo.group()
 
 def _extract_ma_note_ids( val ):
     """Extract a vehicle/ordnance's multi-applicable note ID's."""
