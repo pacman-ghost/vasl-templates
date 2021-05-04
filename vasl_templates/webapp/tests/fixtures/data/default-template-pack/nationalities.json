@@ -24,6 +24,15 @@
   "ob_colors": [ "OBCOL:british~canadian","OBCOL2:british~canadian", "OBCOL-BORDER:british~canadian" ]
 },
 
+"chinese": {
+  "display_name": "Chinese",
+  "ob_colors": [ "OBCOL:chinese","OBCOL2:chinese", "OBCOL-BORDER:chinese" ]
+},
+"chinese~gmd": {
+  "display_name": "Chinese GMD",
+  "ob_colors": [ "OBCOL:chinese~gmd","OBCOL2:chinese~gmd", "OBCOL-BORDER:chinese~gmd" ]
+},
+
 "french": {
   "display_name": "French",
   "ob_colors": [ "OBCOL:french","OBCOL2:french", "OBCOL-BORDER:french" ]

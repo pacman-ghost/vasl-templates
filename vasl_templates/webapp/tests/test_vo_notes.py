@@ -138,6 +138,39 @@ def test_ma_html_notes( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+def test_derived_nationalities( webapp, webdriver ):
+    """Test generating V/O notes for derived nationalities."""
+
+    # initialize
+    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
+    load_scenario( {
+        "PLAYER_1": "chinese",
+        "OB_VEHICLES_1": [ { "name": "a chinese vehicle" } ],
+        "OB_ORDNANCE_1": [ { "name": "a chinese ordnance" } ],
+        "PLAYER_2": "chinese~gmd",
+        "OB_VEHICLES_2": [ { "name": "a chinese vehicle" } ],
+        "OB_ORDNANCE_2": [ { "name": "a chinese ordnance" } ],
+    } )
+
+    # check the snippets for the base nationality
+    _check_vo_snippets( 1, "vehicles", [
+        ( "a chinese vehicle", "vehicles/chinese/note/1" )
+    ] )
+    _check_vo_snippets( 1, "ordnance", [
+        ( "a chinese ordnance", "ordnance/chinese/note/1" )
+    ] )
+
+    # check the snippets for the derived nationality
+    _check_vo_snippets( 2, "vehicles", [
+        ( "a chinese vehicle", "vehicles/chinese~gmd/note/1" )
+    ] )
+    _check_vo_snippets( 2, "ordnance", [
+        ( "a chinese ordnance", "ordnance/chinese~gmd/note/1" )
+    ] )
+
+# ---------------------------------------------------------------------
+
 def test_common_vo_notes( webapp, webdriver ):
     """Test handling of Allied/Axis Minor common vehicles/ordnance."""
 

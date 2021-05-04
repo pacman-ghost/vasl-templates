@@ -580,7 +580,11 @@ function get_vo_note( vo_type, nat, key )
     var vo_note = gVehicleOrdnanceNotes[ vo_type ][ nat ][ key ] ;
     // FUDGE! We need to detect between a full HTML note and an image-based one.
     // This is not great, but it'll do... :-/
-    if ( vo_note.substr( 0, nat.length+1 ) === nat+"/" )
+    var nat2 = nat ;
+    var pos = nat2.indexOf( "~" ) ;
+    if ( pos > 0 )
+        nat2 = nat2.substring( 0, pos ) ;
+    if ( vo_note.substr( 0, nat2.length+1 ) === nat2+"/" )
         return make_app_url( "/" + vo_type + "/" + nat + "/note/" + key, true ) ;
     else
         return vo_note ;
