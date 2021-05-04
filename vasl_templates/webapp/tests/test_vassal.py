@@ -793,7 +793,12 @@ def _update_vsav( fname, expected ):
     select_menu_option( "update_vsav" )
 
     # wait for the front-end to receive the data
-    wait_for( 2, lambda: get_stored_msg( "_vsav-persistence_" ) == "" )
+    def check_response():
+        # NOTE: If something is misconfigured, the error response can get stored in the persistence buffer
+        # really quickly i.e. before we get a chance to detect it here being cleared first.
+        resp = get_stored_msg( "_vsav-persistence_" )
+        return resp == "" or resp.startswith( "ERROR:" )
+    wait_for( 2, check_response )
 
     # wait for the updated data to come back
     timeout = 120 if os.name == "nt" else 60
