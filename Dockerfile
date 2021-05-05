@@ -8,9 +8,6 @@ FROM centos:8 AS base
 # update packages
 RUN dnf -y upgrade-minimal
 
-# install Python
-RUN dnf install -y python38 python3-pip
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # NOTE: We install the Python dependencies into a temporary intermediate stage, then copy everything over
@@ -19,6 +16,19 @@ RUN dnf install -y python38 python3-pip
 # to re-install Java and Firefox below, when we start building the final image.
 
 FROM base AS build
+
+# install Python
+# NOTE: The version of Python we want is newer than what's in Centos 8,
+# so we have to install from source :-/
+RUN dnf -y groupinstall "Development Tools" && \
+    dnf -y install openssl-devel bzip2-devel libffi-devel sqlite-devel
+RUN cd /tmp && \
+    dnf -y install wget && \
+    wget https://www.python.org/ftp/python/3.8.7/Python-3.8.7.tgz && \
+    tar xvf Python-3.8.7.tgz && \
+    cd Python-3.8.7/ && \
+    ./configure --enable-optimizations && \
+    make install
 
 # set up a virtualenv
 RUN python3 -m venv /opt/venv
@@ -36,6 +46,12 @@ RUN if [ -n "$CONTROL_TESTS_PORT" ]; then \
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 FROM base
+
+# copy the Python installation from the build image
+COPY --from=build /usr/local/bin/python3.8 /usr/local/bin/python3.8
+COPY --from=build /usr/local/lib/python3.8 /usr/local/lib/python3.8
+COPY --from=build /usr/local/bin/pip3 /usr/local/bin/pip3
+RUN ln -s /usr/local/bin/python3.8 /usr/local/bin/python3
 
 # install Java
 RUN url="https://download.java.net/java/GA/jdk15.0.1/51f4f36ad4ef43e39d0dfdbaf6549e32/9/GPL/openjdk-15.0.1_linux-x64_bin.tar.gz" ; \
