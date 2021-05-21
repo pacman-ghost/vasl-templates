@@ -4,16 +4,21 @@
 import os
 import io
 import re
+import json
 import copy
 import logging
+import urllib.request
 from collections import defaultdict
 
-from flask import request, render_template, jsonify, send_file, abort, Response, url_for
+from flask import request, render_template, jsonify, send_file, abort, redirect, Response, url_for
 
 from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.files import FileServer
 from vasl_templates.webapp.webdriver import WebDriver
 from vasl_templates.webapp.utils import read_text_file, resize_image_response, is_image_file, is_empty_file
+
+_asl_rulebook2_targets = None
+_asl_rulebook2_target_url_template = None
 
 # ---------------------------------------------------------------------
 
@@ -350,4 +355,45 @@ def get_vo_notes_report( nat, vo_type ):
     return render_template( "vo-notes-report.html",
         NATIONALITY = nat,
         VO_TYPE = vo_type
+    )
+
+# ---------------------------------------------------------------------
+
+@app.route( "/asl-rulebook2/vo-note-targets" )
+def get_asl_rulebook2_vo_note_targets():
+    """Return the Chapter H vehicle/ordnance note targets."""
+    if not _asl_rulebook2_targets:
+        abort( 404 )
+    return jsonify( _asl_rulebook2_targets )
+
+@app.route( "/asl-rulebook2/<path:target>" )
+def show_asl_rulebook2_target( target ):
+    """Show the specified asl-rulebook2 target."""
+    base_url = app.config.get( "ASL_RULEBOOK2_BASE_URL" )
+    if not base_url:
+        abort( 404 )
+    url = "{}?target={}".format( base_url, target )
+    return redirect( url, code=307 )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def load_asl_rulebook2_vo_note_targets( msg_store ):
+    """Load the Chapter H vehicle/ordnance note targets."""
+    global _asl_rulebook2_targets, _asl_rulebook2_target_url_template
+    _asl_rulebook2_targets = _asl_rulebook2_target_url_template = None
+    base_url = app.config.get( "ASL_RULEBOOK2_BASE_URL" )
+    if not base_url:
+        return
+    try:
+        if os.path.isfile( base_url ):
+            fp = open( base_url, "r", encoding="utf-8" )
+        else:
+            fp = urllib.request.urlopen( base_url + "/vo-note-targets" )
+        _asl_rulebook2_targets = json.load( fp )
+    except Exception as ex: #pylint: disable=broad-except
+        msg = str( getattr(ex,"reason",None) or ex )
+        msg_store.warning( "Couldn't get the ASL Rulebook2 Chapter H targets: {}".format( msg ) )
+        return
+    _asl_rulebook2_target_url_template = app.config.get( "ASL_RULEBOOK2_TARGET_URL_TEMPLATE",
+        base_url + "/chapter-h/{NAT}/{VO-TYPE}/{ID}"
     )

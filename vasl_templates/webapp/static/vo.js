@@ -155,6 +155,9 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
 {
     // initialize
     var nat = get_player_nat( player_no ) ;
+    var nat_type = gTemplatePack.nationalities[ nat ].type ;
+    var vo_note_key = get_vo_note_key( vo_entry ) ;
+    var is_landing_craft = vo_note_key ? vo_note_key.substring( 0, 3 ) === "LC " : null ;
     var $sortable2 = $( "#ob_" + vo_type + "-sortable_" + player_no ) ;
     if ( seq_id === null ) {
         // auto-assign a sequence ID
@@ -163,6 +166,43 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
             usedSeqIds[ $(this).data( "sortable2-data" ).id ] = true ;
         } ) ;
         seq_id = auto_assign_id( usedSeqIds, "seq_id" ) ;
+    }
+
+    // check if an asl-rulebook2 Chapter H note is available
+    var aslrb2_url = null ;
+    var aslrb2_nat = nat ;
+    if ( [ "allied-minor", "axis-minor" ].indexOf( nat_type ) != -1 )
+        aslrb2_nat = nat_type ;
+    else {
+        var pos = aslrb2_nat.indexOf( "~" ) ;
+        if ( pos > 0 ) {
+            // NOTE: This is a derived nationality - use the base nationality.
+            aslrb2_nat = aslrb2_nat.substring( 0, pos ) ;
+        } else {
+            // check for K:FW vehicles/ordnance
+            pos = vo_entry.id.indexOf( "/" ) ;
+            if ( pos > 0 ) {
+                var nat2 = vo_entry.id.substring( 0, pos ) ;
+                if ( nat2 == "kfw-uro" || nat2 == "kfw-bcfk" || nat2 == "kfw-un-common")
+                    aslrb2_nat = "un-forces" ;
+                else if ( nat2 == "kfw-kpa" || nat2 == "kfw-cpva" )
+                    aslrb2_nat = "communist-forces" ;
+            }
+        }
+    }
+    var entries = is_landing_craft ? gAslRulebook2VoNoteTargets["landing-craft"] : gAslRulebook2VoNoteTargets[aslrb2_nat] && gAslRulebook2VoNoteTargets[aslrb2_nat][vo_type] ;
+    if ( entries ) {
+        var key = vo_note_key ;
+        if ( is_landing_craft )
+            key = vo_note_key.substring( 3 ) ;
+        else {
+            var match = key.match( /^kfw-(un|un-common|comm):/ ) ;
+            if ( match )
+                key = key.substring( match[0].length ) ;
+        }
+        var aslrb2_entry = entries[ key ] ;
+        if ( aslrb2_entry )
+            aslrb2_url = gShowAslRulebook2VoNoteUrl.replace( "TARGET", aslrb2_entry.target ) ;
     }
 
     // add the specified vehicle/ordnance
@@ -194,11 +234,10 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
             "<div class='vo-capabilities'></div>",
         "</div>"
     ] ;
-    var vo_note_key = get_vo_note_key( vo_entry ) ;
     var vo_note = get_vo_note( vo_type, nat, vo_note_key ) ;
     var vo_note_image_url = null ;
     if ( vo_note ) {
-        if ( vo_note_key.substring( 0, 3 ) === "LC " )
+        if ( is_landing_craft )
             vo_note_image_url = make_app_url( "/" + vo_type + "/landing-craft/note/" + vo_note_key.substring(3), true ) ;
         else
             vo_note_image_url = make_app_url( "/" + vo_type + "/" + nat + "/note/" + vo_note_key, true ) ;
@@ -206,7 +245,6 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
         // NOTE: Note numbers seem to be distinct across all Allied Minor or all Axis Minor vehicles/ordnance,
         // so if we don't find a note in a given nationality's normal vehicles/ordnance, we can get away with
         // just checking their corresponding common vehicles/ordnance.
-        var nat_type = gTemplatePack.nationalities[ nat ].type ;
         if ( ["allied-minor","axis-minor"].indexOf( nat_type ) !== -1 ) {
             vo_note = get_vo_note( vo_type, nat_type, vo_note_key ) ;
             if ( vo_note )
@@ -224,8 +262,16 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
         data.vo_note = vo_note ;
         data.vo_note_image_url = vo_note_image_url ;
     }
+    if ( aslrb2_url ) {
+        buf.push(
+            "<a href='" + aslrb2_url + "' class='aslrb2'>",
+            "<img src='" + gImagesBaseUrl + "/aslrb2.png' class='aslrb2' title='Chapter H'>",
+            "</a>"
+        ) ;
+    }
     buf.push( "</div>" ) ;
     var $content = $( buf.join("") ) ;
+    fixup_external_links( $content, true ) ;
     var $entry = $sortable2.sortable2( "add", {
         content: $content,
         data: data,

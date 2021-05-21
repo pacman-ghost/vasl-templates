@@ -28,7 +28,8 @@ class AppWebPage( QWebEnginePage ):
     def acceptNavigationRequest( self, url, nav_type, is_mainframe ): #pylint: disable=no-self-use,unused-argument
         """Called when a link is clicked."""
         if url.host() in ("localhost","127.0.0.1"):
-            return True
+            if "/asl-rulebook2/" not in url.url(): # nb: asl-rulebook2 links are routed through our webapp
+                return True
         if not is_mainframe:
             # NOTE: We get here if we're in a child frame (e.g. Google Maps). However, we can't just ignore
             # these requests, because the help is also in a frame, and we want links to open in an external browser.

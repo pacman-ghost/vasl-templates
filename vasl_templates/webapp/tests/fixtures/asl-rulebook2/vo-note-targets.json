@@ -1,0 +1,60 @@
+{
+
+"german": {
+"vehicles": {
+    "1": { "caption": "german/vehicles #1", "target": "gv:1" }
+}
+},
+
+"russian": {
+"ordnance": {
+    "2": { "caption": "russian/ordnance #2", "target": "ro:2" }
+}
+},
+
+"allied-minor": {
+"vehicles": {
+    "1": { "caption": "dutch/vehicles #1", "target": "dv:1" },
+    "101": { "caption": "allied-minor/vehicles #101", "target": "almv:101" }
+}
+},
+
+"axis-minor": {
+"ordnance": {
+    "4": { "caption": "romanian/ordnance #4", "target": "ro:4" },
+    "104": { "caption": "axis-minor/ordnance #104", "target": "axmo:104" }
+}
+},
+
+"landing-craft": {
+    "1": { "caption": "landing-craft #1", "target": "lc:1" },
+    "2": { "caption": "landing-craft #2", "target": "lc:2" }
+},
+
+"chinese": {
+"vehicles": {
+    "1": { "caption": "chinese/vehicles #1", "target": "chv:1" }
+}
+},
+
+"un-forces": {
+"vehicles": {
+    "5": { "caption": "un-forces/vehicles #5", "target": "kfw-un:5" },
+    "6": { "caption": "un-forces/vehicles #6", "target": "kfw-un:6" }
+},
+"ordnance": {
+    "7": { "caption": "un-forces/ordnance #7", "target": "kfw-un:7" },
+    "8": { "caption": "un-forces/ordnance #8", "target": "kfw-un:8" }
+}
+},
+
+"communist-forces": {
+"vehicles": {
+    "15": { "caption": "communist-forces/vehicles #15", "target": "kfw-comm:15" }
+},
+"ordnance": {
+    "16": { "caption": "communist-forces/ordnance #16", "target": "kfw-comm:16" }
+}
+}
+
+}

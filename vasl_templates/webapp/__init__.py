@@ -52,6 +52,9 @@ def _init_webapp():
     # NOTE: While this is generally called only once (before the first request), the test suite
     # can force it be done again, since it wants to reconfigure the server to test different cases.
 
+    # initialize
+    from vasl_templates.webapp.main import startup_msg_store #pylint: disable=cyclic-import
+
     # start downloading files
     # NOTE: We used to do this in the mainline code of __init__, so that we didn't have to wait
     # for the first request before starting the download (useful if we are running as a standalone server).
@@ -71,7 +74,6 @@ def _init_webapp():
     # configure the VASL module
     fname = app.config.get( "VASL_MOD" )
     from vasl_templates.webapp.vasl_mod import set_vasl_mod #pylint: disable=cyclic-import
-    from vasl_templates.webapp.main import startup_msg_store #pylint: disable=cyclic-import
     set_vasl_mod( fname, startup_msg_store )
 
     # load the vehicle/ordnance listings
@@ -81,6 +83,10 @@ def _init_webapp():
     # load the vehicle/ordnance notes
     from vasl_templates.webapp.vo_notes import load_vo_notes #pylint: disable=cyclic-import
     load_vo_notes( startup_msg_store )
+
+    # load integration data from asl-rulebook2
+    from vasl_templates.webapp.vo_notes import load_asl_rulebook2_vo_note_targets #pylint: disable=cyclic-import
+    load_asl_rulebook2_vo_note_targets( startup_msg_store )
 
 # ---------------------------------------------------------------------
 

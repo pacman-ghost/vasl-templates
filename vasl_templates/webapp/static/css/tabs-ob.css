@@ -21,7 +21,7 @@
 .panel-ob_ordnance .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
 
 /* nb: the following CSS is shared by vehicles and ordnance */
-.panel-ob_vo .sortable .vo-entry { display: flex ;  }
+.panel-ob_vo .sortable .vo-entry { display: flex ; position: relative ; }
 .panel-ob_vo .sortable .vo-entry img.vasl-image { display: inline-block ; vertical-align: middle ; height: 3.25em ; margin-right: 0.5em ; }
 .panel-ob_vo .sortable .vo-entry.small-piece img.vasl-image { height: 2.25em ; margin-left: 0.5em ; margin-right: 0.75em ; }
 .panel-ob_vo .sortable .vo-entry .detail { flex-grow: 1 ; display: flex ; flex-direction: column ; justify-content: center ; }

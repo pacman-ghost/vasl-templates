@@ -6,6 +6,7 @@ gVehicleOrdnanceListings = {} ;
 gVehicleOrdnanceNotes = {} ;
 gVaslPieceInfo = {} ;
 gOnlineCounterImages = {} ;
+gAslRulebook2VoNoteTargets = {} ;
 
 gWebChannelHandler = null ;
 gEmSize = null ;
@@ -347,6 +348,16 @@ $(document).ready( function () {
         update_page_load_status( "template-pack" ) ;
     } ) ;
 
+    // get the ASL Rulebook2 vehicle/ordnance note targets
+    $.getJSON( gGetAslRulebook2VoNoteTargetsUrl, function(data) {
+        gAslRulebook2VoNoteTargets = data ;
+        update_page_load_status( "asl-rulebook2-vo-note-targets" ) ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        if ( xhr.status != 404 )
+            showErrorMsg( "Can't get the ASL Rulebook2 vehicle/ordnance note targets:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+        update_page_load_status( "asl-rulebook2-vo-note-targets" ) ;
+    } ) ;
+
     // fixup the layout
     var prevHeight = [] ;
     $(window).resize( function() {
@@ -534,7 +545,7 @@ function init_snippet_button( $btn )
 gPageLoadStatus = [
     "main", "app-config",
     "vehicle-listings", "ordnance-listings", "reset-scenario",
-    "vehicle-notes", "ordnance-notes",
+    "vehicle-notes", "ordnance-notes", "asl-rulebook2-vo-note-targets",
     "vasl-piece-info", "online-counter-images", "template-pack", "default-scenario"
 ] ;
 

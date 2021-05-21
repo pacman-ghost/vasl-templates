@@ -459,7 +459,7 @@ function get_month_name( month )
 
 // --------------------------------------------------------------------
 
-function fixup_external_links( $root )
+function fixup_external_links( $root, fixAll )
 {
     // NOTE: We want to open externals links in a new browser window, but simply adding target="_blank"
     // breaks the desktop app's ability to intercept clicks (in AppWebPage.acceptNavigationRequest()),
@@ -467,7 +467,7 @@ function fixup_external_links( $root )
     var regex = new RegExp(  "^https?://" ) ;
     $root.find( "a" ).each( function() {
         var url = $(this).attr( "href" ) ;
-        if ( url && url.match( regex ) )
+        if ( fixAll || ( url && url.match( regex ) ) )
             $(this).attr( "target", gWebChannelHandler?"":"_blank" ) ;
     } ) ;
 }

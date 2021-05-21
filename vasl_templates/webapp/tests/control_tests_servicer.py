@@ -156,6 +156,7 @@ class ControlTestsServicer( BaseControlTestsServicer ): #pylint: disable=too-man
         self.setAppConfigVal( SetAppConfigValRequest( key="DISABLE_DOWNLOADED_FILES", boolVal=True ), ctx )
         self.setAppConfigVal( SetAppConfigValRequest( key="DISABLE_LOCAL_ASA_INDEX_UPDATES", boolVal=True ), ctx )
         self.setAppConfigVal( SetAppConfigValRequest( key="DISABLE_LFA_HOTNESS_FADEIN", boolVal=True ), ctx )
+        self.deleteAppConfigVal( DeleteAppConfigValRequest( key="ASL_RULEBOOK2_BASE_URL" ), ctx )
         self.deleteAppConfigVal( DeleteAppConfigValRequest( key="ALTERNATE_WEBAPP_BASE_URL" ), ctx )
         # NOTE: The webapp has been reconfigured, but the client must reloaed the home page
         # with "?force-reinit=1", to force it to re-initialize with the new settings.

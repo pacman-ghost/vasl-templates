@@ -9,6 +9,7 @@ img.sortable-reset { vertical-align: middle ; height: 15px ; margin-right: 0.25e
 .sortable li:hover { cursor: pointer ; }
 .sortable li.ui-sortable-helper { opacity: 0.8 ; }
 .sortable li img.snippet { height: 1.25em ; margin: -2px -2px ; padding-left: 1em ; float: right ; }
+.sortable li img.aslrb2 { height: 1.25em ; position: absolute ; bottom: -2px ; right: -2px ; opacity: 0.6 ; }
 
 .sortable ul li, .sortable ol li { margin-top: -0.75em ; } /* nb: tighten up lists in sortable2 entries */
 

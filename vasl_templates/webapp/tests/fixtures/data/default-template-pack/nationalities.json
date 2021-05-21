@@ -81,6 +81,10 @@
   "type": "axis-minor"
 },
 
+"kfw-kpa": {
+  "display_name": "North Korean",
+  "ob_colors": [ "OBCOL:kfw-kpa","OBCOL2:kfw-kpa", "OBCOL-BORDER:kfw-kpa" ]
+},
 "kfw-cpva": {
   "display_name": "Communist Chinese",
   "ob_colors": [ "OBCOL:kfw-cpva","OBCOL2:kfw-cpva", "OBCOL-BORDER:kfw-cpva" ]
