@@ -215,7 +215,7 @@ public class VassalShim
             config.getProperty( "LFA_PATTERN_DICE3_ROLL", "^\\*\\*\\* 3d6 = (?<d1>\\d),(?<d2>\\d),(?<d3>\\d) \\*\\*\\*\\s+\\<(?<player>.+?)\\>" )
         ) ;
         Pattern turnTrackEventPattern = Pattern.compile(
-            config.getProperty( "LFA_PATTERN_TURN_TRACK", "^\\* New: (?<side>.+?) Turn (?<turn>\\d+) - (?<phase>.+?) \\*" )
+            config.getProperty( "LFA_PATTERN_TURN_TRACK", "^\\* (?!Phase Wheel)(New: )?(?<side>.+?) Turn (?<turn>\\d+) - (?<phase>\\S+)" )
         ) ;
         Pattern customLabelEventPattern = Pattern.compile(
             config.getProperty( "LFA_PATTERN_CUSTOM_LABEL", "!!vt-label (?<label>.+)$" )
