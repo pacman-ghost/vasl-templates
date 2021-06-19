@@ -878,13 +878,13 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
         caps = [ c.text for c in find_children(".vo-capability",get_sortable_elem()) ]
         if expected:
             assert vo_name.endswith( "\u24ba" )
-            expected = [ "A62", "sD8", "CS 6" ]
+            expected = [ "H9", "s9", "sD7", "CS 5" ]
             if custom:
                 expected.append( "HE11" )
             assert caps == expected
         else:
             assert "\u24ba" not in vo_name
-            expected = [ "A62", "sD7", "CS 6" ]
+            expected = [ "H8", "s9", "sD7", "CS 5" ]
             if custom:
                 expected.append( "HE10" )
             assert caps == expected
@@ -894,13 +894,13 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
         caps = [ c.get_attribute("value") for c in find_children("#vo_capabilities-sortable input[type='text']") ]
         if expected:
             assert vo_name.endswith( "\u24ba" )
-            expected = [ "A6<sup>2</sup>", "sD8", "CS 6" ]
+            expected = [ "H9", "s9", "sD7", "CS 5" ]
             if custom:
                 expected.append( "HE11" )
             assert caps == expected
         else:
             assert "\u24ba" not in vo_name
-            expected = [ "A6<sup>2</sup>", "sD7", "CS 6" ]
+            expected = [ "H8", "s9", "sD7", "CS 5" ]
             if custom:
                 expected.append( "HE10" )
             assert caps == expected
@@ -908,7 +908,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     # load the scenario
     scenario_data = {
         "PLAYER_1": "german",
-        "OB_VEHICLES_1": [ { "name": "PzKpfw VIE" } ], # A6[2] sD7
+        "OB_VEHICLES_1": [ { "name": "PSW 233" } ], # H8 s9 sD7 CS 5
     }
     load_scenario( scenario_data )
     select_tab( "ob1" )
@@ -921,8 +921,8 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     elem = find_child( "#vo_capabilities-add" )
     elem.click()
     elems = find_children( "#vo_capabilities-sortable input[type='text']" )
-    assert len(elems) == 4
-    elems[3].send_keys( "HE10" )
+    assert len(elems) == 5
+    elems[4].send_keys( "HE10" )
     click_dialog_button( "OK" )
 
     # make the vehicle elite
@@ -939,7 +939,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     assert len(saved_scenario["OB_VEHICLES_1"]) == 1
     assert saved_scenario["OB_VEHICLES_1"][0]["elite"]
     assert saved_scenario["OB_VEHICLES_1"][0]["custom_capabilities"] == \
-        [ "A6<sup>2</sup>", "sD8", "CS 6", "HE11" ]
+        [ "H9", "s9", "sD7", "CS 5", "HE11" ]
     select_menu_option( "new_scenario" )
     load_scenario( saved_scenario )
     select_tab( "ob1" )
@@ -959,7 +959,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     assert len(saved_scenario["OB_VEHICLES_1"]) == 1
     assert "elite" not in saved_scenario["OB_VEHICLES_1"][0]
     assert saved_scenario["OB_VEHICLES_1"][0]["custom_capabilities"] == \
-        [ "A6<sup>2</sup>", "sD7", "CS 6", "HE10" ]
+        [ "H8", "s9", "sD7", "CS 5", "HE10" ]
 
     # make the vehicle elite, remove the custom capability
     ActionChains( webdriver ).double_click( get_sortable_elem() ).perform()
@@ -968,8 +968,8 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     elem.click()
     check_elite2( True, True )
     elems = find_children( "#vo_capabilities-sortable li" )
-    webdriver.execute_script( "arguments[0].scrollIntoView(true);", elems[3] )
-    ActionChains( webdriver ).key_down( Keys.CONTROL ).click( elems[3] ).perform()
+    webdriver.execute_script( "arguments[0].scrollIntoView(true);", elems[4] )
+    ActionChains( webdriver ).key_down( Keys.CONTROL ).click( elems[4] ).perform()
     ActionChains( webdriver ).key_up( Keys.CONTROL ).perform()
     click_dialog_button( "OK" )
     check_elite( True, False )
@@ -978,7 +978,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     saved_scenario = save_scenario()
     assert len(saved_scenario["OB_VEHICLES_1"]) == 1
     assert saved_scenario["OB_VEHICLES_1"][0]["elite"]
-    assert saved_scenario["OB_VEHICLES_1"][0]["custom_capabilities"] == [ "A6<sup>2</sup>", "sD8", "CS 6" ]
+    assert saved_scenario["OB_VEHICLES_1"][0]["custom_capabilities"] == [ "H9", "s9", "sD7", "CS 5" ]
     select_menu_option( "new_scenario" )
     load_scenario( saved_scenario )
     select_tab( "ob1" )
