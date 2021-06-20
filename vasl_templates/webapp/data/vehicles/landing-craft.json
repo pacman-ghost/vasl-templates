@@ -22,9 +22,17 @@
   "damage_points": 3,
   "note_number": "3\u2020",
   "notes": [ "B\u2020<sup>2</sup>", "C\u2020<sup>1</sup>" ],
-  "comments": [ "Inherent Crew", "MA: 4&amp;4", "{? 06/1943- | | Unarmored &amp; unarmed | Unarmored &amp; unarmed (pre-6/43) ?}" ],
+  "comments": [ "MA: 4&amp;4" ],
   "id": "sh/v:002",
-  "gpid": [ 403, 405 ]
+  "gpid": 405
+},
+{ "name": "LCV",
+  "CS#": 5,
+  "damage_points": 3,
+  "note_number": "3\u2020",
+  "comments": [ "Inherent Crew" ],
+  "id": "sh/v:003",
+  "gpid": 403
 },
 { "name": "LCM(3)",
   "CS#": 6,
