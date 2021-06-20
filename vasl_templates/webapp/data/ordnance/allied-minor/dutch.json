@@ -2,6 +2,7 @@
 
 { "name": "Solothurn s/18-1100",
   "type": "ATR",
+  "comments": [ "No Long Range" ],
   "note_number": "15",
   "notes": [ "A", "Ne" ],
   "id": "du/o:000",

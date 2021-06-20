@@ -749,7 +749,7 @@ def test_capability_updates_in_ui( webapp, webdriver ):
         "OB_VEHICLES_2": [ { "name": "Churchill III(b)" } ], # D6[J4]/7[5]† ; HE7[F3]/8[4+]† ; sD6[4+] ; sM8† ; CS 7
         "OB_ORDNANCE_2": [ { "name": "45mm PTP obr. 32" } ], # NT ; A4[2]/5[3]/6[4]/7[5]
     }
-    scenario_data["OB_VEHICLES_1"].append( { "name": "PzJg I" } ) # A5[1]; HE7 ; CS 3
+    scenario_data["OB_VEHICLES_1"].append( { "name": "PzJg I" } ) # A5[1]/6[2]/5[3]; HE7 ; CS 3
     load_scenario( scenario_data )
 
     sortables = [
@@ -779,7 +779,7 @@ def test_capability_updates_in_ui( webapp, webdriver ):
     check_capabilities( None, [
         [
             [ "A4<sup>1</sup>5<sup>2</sup>", "sD6", "CS 4" ],
-            [ "A5<sup>1</sup>", "HE7", "CS 3" ]
+            [ "A5<sup>1</sup>6<sup>2</sup>5<sup>3</sup>", "HE7", "CS 3" ]
         ],
         [ [ "NT", "A4<sup>1</sup>5<sup>2</sup>4<sup>3</sup>3<sup>4</sup>", "H6[9]\u2020" ] ],
         [ [ "D6<sup>J4</sup>7<sup>5</sup>†", "HE7<sup>F3</sup>8<sup>4+</sup>\u2020", "sD6<sup>4+</sup>", "sM8\u2020", "CS 7" ] ], #pylint: disable=line-too-long
@@ -805,7 +805,7 @@ def test_capability_updates_in_ui( webapp, webdriver ):
     check_capabilities( "01/01/1940", [
         [
             [ "sD6", "CS 4" ],
-            [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
+            [ "A5<sup>1</sup>6<sup>2</sup>5<sup>3</sup>", "HE7", "CS 3", "foo!" ]
         ],
         [ [ "NT", "H6[9]\u2020" ] ],
         [ [ "sM8\u2020", "CS 7" ] ],
@@ -814,7 +814,7 @@ def test_capability_updates_in_ui( webapp, webdriver ):
     check_capabilities( "01/01/1941", [
         [
             [ "A4", "sD6", "CS 4" ] ,
-            [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
+            [ "A5<sup>1</sup>6<sup>2</sup>5<sup>3</sup>", "HE7", "CS 3", "foo!" ]
         ],
         [ [ "NT", "A4", "H6[9]\u2020" ] ],
         [ [ "sM8\u2020", "CS 7" ] ],
@@ -823,7 +823,7 @@ def test_capability_updates_in_ui( webapp, webdriver ):
     check_capabilities( "01/01/1942", [
         [
             [ "A5", "sD6", "CS 4" ],
-            [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
+            [ "A5<sup>1</sup>6<sup>2</sup>5<sup>3</sup>", "HE7", "CS 3", "foo!" ]
         ],
         [ [ "NT", "A5", "H6[9]\u2020" ] ],
         [ [ "sM8\u2020", "CS 7" ] ],
@@ -832,7 +832,7 @@ def test_capability_updates_in_ui( webapp, webdriver ):
     check_capabilities( "01/01/1943", [
         [
             [ "sD6", "CS 4" ],
-            [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
+            [ "A5<sup>1</sup>6<sup>2</sup>5<sup>3</sup>", "HE7", "CS 3", "foo!" ]
         ],
         [ [ "NT", "A4", "H6[9]\u2020" ] ],
         [ [ "sM8\u2020", "CS 7" ] ],
@@ -841,7 +841,7 @@ def test_capability_updates_in_ui( webapp, webdriver ):
     check_capabilities( "01/01/1944", [
         [
             [ "sD6", "CS 4" ],
-            [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
+            [ "A5<sup>1</sup>6<sup>2</sup>5<sup>3</sup>", "HE7", "CS 3", "foo!" ]
         ],
         [ [ "NT", "A3", "H6[9]\u2020" ] ],
         [ [ "HE8\u2020", "sD6", "sM8\u2020", "CS 7" ] ],
@@ -850,7 +850,7 @@ def test_capability_updates_in_ui( webapp, webdriver ):
     check_capabilities( "01/01/1945", [
         [
             [ "sD6", "CS 4" ],
-            [ "A5<sup>1</sup>", "HE7", "CS 3", "foo!" ]
+            [ "A5<sup>1</sup>6<sup>2</sup>5<sup>3</sup>", "HE7", "CS 3", "foo!" ]
         ],
         [ [ "NT", "H6[9]\u2020" ] ],
         [ [ "D7\u2020", "HE8\u2020", "sD6", "sM8\u2020", "CS 7" ] ],

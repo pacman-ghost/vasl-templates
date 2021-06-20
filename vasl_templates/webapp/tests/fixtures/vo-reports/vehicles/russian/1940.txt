@@ -5,12 +5,12 @@ Name                  Capabilities                                 (effective)  
 T-37                  ® CS 2                                       ® CS 2                   1       H† M                                                       +3 Target Size &amp; HD if in Water | 12: Immob, 11: Stall
 T-27                  ® CS 2                                       ® CS 2                   1.1†    M Q                                                        Riders: 1 crew, 1 SMC only (NA if Towing) | 12: Immob, 11: Stall | Stun = Recall, CE &amp; Fire NA
 T-40                  ® CS 2                                       ® CS 2                   2†      H†                                                         2 TK DR (12.7 &amp; MG) | +3 Target Size &amp; HD if in Water
-T-50                  ® A4[2] CS 4                                 ® CS 4                   3       n/a
+T-50                  ® A4[2]5[3] CS 4                             ® CS 4                   3       n/a
 T-60 M40              ® CS 2                                       ® CS 2                   4       n/a
 T-60 M42              ®† CS 2                                      ®† CS 2                  4       C†                                                         No Radio
-T-70                  ®† A4[2] CS 2                                ®† CS 2                  5       C†                                                         No Radio
+T-70                  ®† A4[2]5[3]6[4]7[5] CS 2                    ®† CS 2                  5       C†                                                         No Radio
 T-26 M33              ® CS 3                                       ® CS 3                   6       D I† M P                                                   12: Immob, 11: Stall
-T-26 M37/39           ® CS 3                                       ® CS 3                   6       D M P                                                      12: Immob, 11: Stall
+T-26S M37/39          ® CS 3                                       ® CS 3                   6       D M P                                                      12: Immob, 11: Stall
 T-26 M31              ® CS 3                                       ® CS 3                   6.1†    M P                                                        Turret Knock-Out: Non-HE TK = Final TK | CMG: Scrounge as BMG | 12: Immob, 11: Stall
 T-26 M32              ® CS 3                                       ® CS 3                   6.2†    M P                                                        CMG: Scrounge as BMG | 12: Immob, 11: Stall
 OT-26                 ® CS 3[brewup]                               ® CS 3[brewup]           6.3†    M P                                                        12: Immob, 11: Stall
@@ -25,38 +25,38 @@ T-28 M34(L)           ® s8 CS 5                                    ® s8 CS 5  
 T-28E M40             ® s8 CS 6                                    ® s8 CS 6                12†     M                                                          12: Immob, 11: Stall
 T-28E M40(L)          ® s8 CS 6                                    ® s8 CS 6                12.1†   M                                                          12: Immob, 11: Stall
 T-34 M40              ® CS 5                                       ® CS 5                   13      M                                                          12: Immob, 11: Stall
-T-34 M41              ®† A4[2] CS 5                                ®† CS 5                  14†     C† M                                                       No Radio | 12: Immob, 11: Stall
-OT-34                 ®† A2[2] AP7 CS 4                            ®† AP7 CS 4              15†     C† M                                                       No IF | No Radio | 12: Immob, 11: Stall
-T-34 M43              A4[2] CS 5                                   CS 5                     16†     n/a
-T-43                  ®† A4[2] CS 5                                ®† CS 5                  17      C† M                                                       No Radio | 12: Immob, 11: Stall
-T-34/85               A5[4] sD6† CS 6                              sD6† CS 6                18†     J†                                                         sD: single-use
-M4/76(a)              A3[4] s8 sM8 CS 6                            s8 sM8 CS 6              19†     N                                                          Black TH# | U.S. AP &amp; APCR TK #'s | American ESB
-T-44                  A6[5] CS 5                                   CS 5                     20      B† M                                                       BMG: +1 DRM vs Moving/Motion | 12: Immob, 11: Stall
+T-34 M41              ®† A4[2]5[3]6[4] CS 5                        ®† CS 5                  14†     C† M                                                       No Radio | 12: Immob, 11: Stall
+OT-34                 ®† A2[2]3[3]4[4]5[5] AP7 CS 4                ®† AP7 CS 4              15†     C† M                                                       No IF | No Radio | 12: Immob, 11: Stall
+T-34 M43              A4[2]5[3]6[4]7[5] CS 5                       CS 5                     16†     n/a
+T-43                  ®† A4[2]5[3]6[4] CS 5                        ®† CS 5                  17      C† M                                                       No Radio | 12: Immob, 11: Stall
+T-34/85               A5[4]6[5] sD6† CS 6                          sD6† CS 6                18†     J†                                                         sD: single-use
+M4/76(a)              A3[4]4[5] s8 sM8 CS 6                        s8 sM8 CS 6              19†     N                                                          Black TH# | U.S. AP &amp; APCR TK #'s | American ESB
+T-44                  A6[5] CS 5[brewup]                           CS 5[brewup]             20      B† M                                                       BMG: +1 DRM vs Moving/Motion | 12: Immob, 11: Stall
 T-35                  ® s9 CS 8                                    ® s9 CS 8                21†     M                                                          45L SA: Always BU; No TCA Change DRM; No IF | 12: Immob, 11: Stall
 SMK                   CS 7                                         CS 7                     21.1    M T†                                                       12: Immob, 11: Stall | 76 MA: RST | 45L SA: RST; Always BU; No IF | TCA restrictions
 T-100                 CS 7                                         CS 7                     21.2    M T†                                                       12: Immob, 11: Stall | 76 MA: RST | 45L SA: RST; Always BU; No IF | TCA restrictions
 KV-1 M39/40           CS 6                                         CS 6                     22†     M                                                          12: Immob, 11: Stall
 KV-1E                 CS 6                                         CS 6                     23      D M                                                        12: Immob, 11: Stall
-KV-1 M41              A4[2] CS 6                                   CS 6                     23      D M                                                        12: Immob, 11: Stall
-KV-1 M42              A4[2] CS 6                                   CS 6                     23      D M                                                        12: Immob, 11: Stall
+KV-1 M41              A4[2]5[3] CS 6                               CS 6                     23      D M                                                        12: Immob, 11: Stall
+KV-1 M42              A4[2]5[3] CS 6                               CS 6                     23      D M                                                        12: Immob, 11: Stall
 KV-2                  AP9 CS 7                                     AP9 CS 7                 24†     M                                                          Pays NT TCA DRM | No IF | 12: Immob, 11: Stall
-KV-8                  A4[2] AP7 CS 6                               AP7 CS 6                 15†     C M                                                        No Radio | 12: Immob, 11: Stall
-KV-1S                 A4[2] CS 6                                   CS 6                     25†     n/a
+KV-8                  A4[2]5[3] AP7 CS 6                           AP7 CS 6                 15†     C M                                                        No Radio | 12: Immob, 11: Stall
+KV-1S                 A4[2]5[3]6[4] CS 6                           CS 6                     25†     n/a
 KV-85                 A4[3]5[4] CS 5                               CS 5                     26      B†                                                         BMG: +1 DRM vs Moving/Motion
 IS-2                  CS 6                                         CS 6                     27      B†                                                         No IF | BMG: +1 DRM vs Moving/Motion
 IS-2m                 CS 6                                         CS 6                     28      B† G†                                                      No IF | BMG: +1 DRM vs Moving/Motion | AAMG: 12.7
 IS-3                  sD6† CS 6                                    sD6† CS 6                29      G† J†                                                      No IF | AAMG: 12.7 | sD: single-use
-SU-76M                A5[3] CS 4[brewup]                           CS 4[brewup]             30†     n/a
-SU-76i(g)             A5[3] CS 5                                   CS 5                     31      K                                                          German ESB | Red TH#
+SU-76M                A5[3]6[4]7[5] CS 4[brewup]                   CS 4[brewup]             30†     n/a
+SU-76i(g)             A5[3]6[4] CS 5                               CS 5                     31      K                                                          German ESB | Red TH#
 SU-122                H9 s8 CS 5                                   H9 s8 CS 5               32      n/a                                                        No IF
 SU-152                CS 6                                         CS 6                     33†     n/a                                                        No IF
 ISU-122               s8 CS 6                                      s8 CS 6                  34      G†                                                         No IF | AAMG: 12.7
 ISU-152               CS 6                                         CS 6                     34      G†                                                         No IF | AAMG: 12.7
-SU-85                 A5[3] HE7 s7 CS 5                            HE7 s7 CS 5              35      n/a
+SU-85                 A5[3]6[4]7[5] HE7 s7 CS 5                    HE7 s7 CS 5              35      n/a
 SU-100                HE7 CS 5                                     HE7 CS 5                 36      n/a
-SU-57(a)              A5[3] HE7 CS 4                               HE7 CS 4                 37      K                                                          American ESB | Red TH#
+SU-57(a)              A5[3]6[4]7[5] HE7 CS 4                       HE7 CS 4                 37      K                                                          American ESB | Red TH#
 BA-20                 ® CS 3                                       ® CS 3                   38      n/a
-BA-6                  ® A4[2] CS 4                                 ® CS 4                   39      n/a
+BA-6                  ® A4[2]5[3] CS 4                             ® CS 4                   39      n/a
 BA-64B                CS 2                                         CS 2                     40†     A†                                                         BU Fire NA | MA &amp; CMG: AA ok
 ZSU-37                CS 4                                         CS 4                     41†     A†                                                         Pays NT CA DRM | MA &amp; CMG: AA ok
 SU-12                 AP7 s8 CS 4                                  AP7 s8 CS 4              42      F†                                                         MA: VCA &#8804; level NA

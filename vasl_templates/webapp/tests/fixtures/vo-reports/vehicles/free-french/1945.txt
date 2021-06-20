@@ -6,7 +6,7 @@ H39(f)                    ® AP10 CS 2                                ® AP10 CS
 M5A1                      C7†[2] CS 4                                C7†[2] CS 4                       Fr 37†[1]  Fr Y†
 H39(L)(f)                 ® AP10 CS 2                                ® AP10 CS 2                       Fr 8†      Fr A†<sup>1</sup> Fr C Fr E Fr F                                                        CMG: AA ok (TCA only) | CMG: Scrounge OK | CE: +1 Rear Turret &amp; Indirect Fire | Red TH# | French ESB+ | Captured Use (unless Free/Vichy French)
 R35(L)(f)                 ® AP10 CS 2                                ® AP10 CS 2                       Fr 8†      Fr A†<sup>1</sup> Fr C Fr E Fr F                                                        CMG: AA ok (TCA only) | CMG: Scrounge OK | CE: +1 Rear Turret &amp; Indirect Fire | Red TH# | French ESB+ | Captured Use (unless Free/Vichy French)
-Crusader II               sM8 CS 4[brewup]                           sM8 CS 4[brewup]                  Fr 38      Fr W†
+Crusader II               sM8 CS 5[brewup]                           sM8 CS 5[brewup]                  Fr 38      Fr W†
 Crusader III              HE7[F3+]†[1] sD7 sM8†[2] CS 3[brewup]      HE7†[1] sD7 sM8†[2] CS 3[brewup]  Fr 38      Fr W†
 M4                        WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  WP7†[3] s5 sM5 CS 5[brewup]       Fr 39      Fr Y†                                                                                   Multiple Hits
 M4A1                      WP7[J4+]†[3] s5[J4+] sM5[4+] CS 5[brewup]  WP7†[3] s5 sM5 CS 5[brewup]       Fr 39†     Fr Y†                                                                                   Multiple Hits

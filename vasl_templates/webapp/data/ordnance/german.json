@@ -243,7 +243,7 @@
 },
 { "name": "8.8cm FlaK 18 o. 36",
   "type": "AA",
-  "capabilities2": { "A": [ [5,2], [4,3], [3,4] ], "LF": [ "88L\u2020", "1 ROF", "B11" ] },
+  "capabilities2": { "A": [ [5,2], [4,3], [3,4] ], "LF": [ "88\u2020", "1 ROF", "B11" ] },
   "note_number": "30",
   "notes": [ "C\u2020", "N" ],
   "id": "ge/o:029",

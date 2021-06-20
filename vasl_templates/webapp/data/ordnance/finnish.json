@@ -18,7 +18,7 @@
 { "name": "81 Krh/32",
   "type": "MTR",
   "capabilities2": { "s": [ [8,"N1+"], "\u2020" ], "IR": [ [null,"3+"], "\u2020" ] },
-  "comments": [ "QSU" ],
+  "comments": [ "QSU", "Smoke range: 3-24" ],
   "note_number": "3\u2020",
   "notes": [ "A" ],
   "id": "fi/o:002",

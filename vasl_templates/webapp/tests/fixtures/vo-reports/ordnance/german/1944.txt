@@ -31,7 +31,7 @@ s 10cm K 18               H6 s8                                H6 s8            
 2cm FlaKvierling 38                                                                                 27†  N                 4 TK DR
 3.7cm FlaK 36 o. 37       H5[9]†                               H5[9]†                               28   B† N
 3.7cm FlaK 43                                                                                       29   n/a
-8.8cm FlaK 18 o. 36       A5[2]4[3]3[4] LF [88L†, 1 ROF, B11]  A3 LF [88L†, 1 ROF, B11]             30   C† N
+8.8cm FlaK 18 o. 36       A5[2]4[3]3[4] LF [88†, 1 ROF, B11]   A3 LF [88†, 1 ROF, B11]              30   C† N
 2cm Tankb&#252;sche S-18                                                                            1†   AxM A             No Long Range | Animal-Packed
 4.7 cm PaK 36(t)          A5[1]4[2]                                                                 2†   n/a               QSU
 7.5 cm Geb G36            H7†                                  H7†                                  3†   Ge O              HEAT &#8805; 26 hexes: As * Gun | QSU | Animal-Packed

@@ -1,8 +1,8 @@
 === ordnance/dutch/1942 ===
 
 Name                         Capabilities              (effective)                 #  Notes    Comments
----------------------------  ------------------------  ------------------------  ---  -------  -------------
-Solothurn s/18-1100                                                               15  A Ne     Animal-Packed
+---------------------------  ------------------------  ------------------------  ---  -------  -----------------------------
+Solothurn s/18-1100                                                               15  A Ne     No Long Range | Animal-Packed
 Brandt 47mm Mortar                                                                 1  n/a
 Krupp 75mm M1933 Field Gun   C4†                       C4†                         2  US C†    QSU
 Bofors 105mm M1924 Howitzer  LF [NT, B11]              LF [NT, B11]                3  n/a
