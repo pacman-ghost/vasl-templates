@@ -71,6 +71,8 @@ class WebDriver:
         if "chromedriver" in webdriver_path:
             options = webdriver.ChromeOptions()
             options.headless = True
+            options.add_argument( "--no-sandbox" ) # nb: need this on the rPi 4
+            options.add_argument( "--no-proxy-server" )
             # OMG! The chromedriver looks for Chrome/Chromium in a hard-coded, fixed location (the default
             # installation directory). We offer a way here to override this.
             chrome_path = app.config.get( "CHROME_PATH" )
@@ -85,6 +87,7 @@ class WebDriver:
             kwargs["service_log_path"] = app.config.get( "GECKODRIVER_LOG",
                 os.path.join( tempfile.gettempdir(), "geckodriver.log" )
             )
+            kwargs["proxy"] = None
             self.driver = webdriver.Firefox( **kwargs )
         else:
             raise SimpleError( "Can't identify webdriver: {}".format( webdriver_path ) )
