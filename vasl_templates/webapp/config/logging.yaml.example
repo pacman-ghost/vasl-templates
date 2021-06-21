@@ -1,4 +1,5 @@
 # This is a sample config file for Python logging - rename it as logging.yaml.
+# It also gets deployed into the Docker container, unless you create $/docker/config/logging.yaml.
 
 version: 1
 
@@ -8,6 +9,10 @@ formatters:
         datefmt: "%H:%M:%S"
 
 handlers:
+    console:
+        class: "logging.StreamHandler"
+        formatter: "standard"
+        stream: "ext://sys.stdout"
     file:
         class: "logging.FileHandler"
         formatter: "standard"
@@ -16,32 +21,45 @@ handlers:
 
 root:
     level: "WARNING"
-    handlers: [ "file" ]
+    handlers: [ "console", "file" ]
 loggers:
     werkzeug:
-        level: "WARNING"
-        handlers: [ "file" ]
+        level: "ERROR"
+        handlers: [ "console", "file" ]
+        propagate: 0
     javascript:
         level: "INFO"
-        handlers: [ "file" ]
+        handlers: [ "console", "file" ]
+        propagate: 0
     qt:
         level: "INFO"
-        handlers: [ "file" ]
+        handlers: [ "console", "file" ]
+        propagate: 0
     vasl_mod:
         level: "WARNING"
-        handlers: [ "file" ]
+        handlers: [ "console", "file" ]
+        propagate: 0
+    vassal_shim:
+        level: "WARNING"
+        handlers: [ "console", "file" ]
+        propagate: 0
     update_vsav:
         level: "WARNING"
-        handlers: [ "file" ]
+        handlers: [ "console", "file" ]
+        propagate: 0
     analyze_vsav:
         level: "WARNING"
-        handlers: [ "file" ]
+        handlers: [ "console", "file" ]
+        propagate: 0
     analyze_vlog:
         level: "WARNING"
-        handlers: [ "file" ]
+        handlers: [ "console", "file" ]
+        propagate: 0
     webdriver:
         level: "WARNING"
-        handlers: [ "file" ]
+        handlers: [ "console", "file" ]
+        propagate: 0
     downloads:
         level: "WARNING"
-        handlers: [ "file" ]
+        handlers: [ "console", "file" ]
+        propagate: 0

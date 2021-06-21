@@ -83,6 +83,7 @@ COPY setup.py requirements.txt requirements-dev.txt LICENSE.txt ./
 RUN pip3 install --editable .
 
 # install the config files
+COPY vasl_templates/webapp/config/logging.yaml.example ./vasl_templates/webapp/config/logging.yaml
 COPY docker/config/ ./vasl_templates/webapp/config/
 
 # create a new user
