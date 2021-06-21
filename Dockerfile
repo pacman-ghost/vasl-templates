@@ -87,9 +87,15 @@ COPY vasl_templates/webapp/config/logging.yaml.example ./vasl_templates/webapp/c
 COPY docker/config/ ./vasl_templates/webapp/config/
 
 # create a new user
+# NOTE: It would be nice to just specify the UID/GID in the "docker run" command, but VASSAL has problems
+# if there is no user :-/ We could specify these here, but that would bake them into the image.
+# In general, this is not a problem, since the application doesn't need to access files outside the container,
+# but if the user wants to e.g. keep the cached scenario index files outside the container, and they are
+# running with a non-default UID/GID, they will have to manage permissions themselves. Sigh...
 RUN useradd --create-home app
 USER app
 
+# run the application
 EXPOSE 5010
 COPY docker/run.sh ./
 CMD ./run.sh
