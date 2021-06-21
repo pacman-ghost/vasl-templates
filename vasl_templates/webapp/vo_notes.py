@@ -363,7 +363,8 @@ def get_vo_notes_report( nat, vo_type ):
 def get_asl_rulebook2_vo_note_targets():
     """Return the Chapter H vehicle/ordnance note targets."""
     if not _asl_rulebook2_targets:
-        abort( 404 )
+        # FUDGE! We should really 404 here, but this causes a warning to appear in the browser console :-/
+        return jsonify( {} )
     return jsonify( _asl_rulebook2_targets )
 
 @app.route( "/asl-rulebook2/<path:target>" )

@@ -353,8 +353,7 @@ $(document).ready( function () {
         gAslRulebook2VoNoteTargets = data ;
         update_page_load_status( "asl-rulebook2-vo-note-targets" ) ;
     } ).fail( function( xhr, status, errorMsg ) {
-        if ( xhr.status != 404 )
-            showErrorMsg( "Can't get the ASL Rulebook2 vehicle/ordnance note targets:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+        showErrorMsg( "Can't get the ASL Rulebook2 vehicle/ordnance note targets:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
         update_page_load_status( "asl-rulebook2-vo-note-targets" ) ;
     } ) ;
 
