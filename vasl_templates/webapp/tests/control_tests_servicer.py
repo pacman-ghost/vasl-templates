@@ -158,6 +158,7 @@ class ControlTestsServicer( BaseControlTestsServicer ): #pylint: disable=too-man
         self.setAppConfigVal( SetAppConfigValRequest( key="DISABLE_LFA_HOTNESS_FADEIN", boolVal=True ), ctx )
         self.deleteAppConfigVal( DeleteAppConfigValRequest( key="ASL_RULEBOOK2_BASE_URL" ), ctx )
         self.deleteAppConfigVal( DeleteAppConfigValRequest( key="ALTERNATE_WEBAPP_BASE_URL" ), ctx )
+        self.setAppConfigVal( SetAppConfigValRequest( key="VO_NOTES_IMAGE_CACHE_DIR", strVal="disabled" ), ctx )
         # NOTE: The webapp has been reconfigured, but the client must reloaed the home page
         # with "?force-reinit=1", to force it to re-initialize with the new settings.
 
@@ -495,6 +496,8 @@ class ControlTestsServicer( BaseControlTestsServicer ): #pylint: disable=too-man
             if request.HasField( val_type ):
                 key, val = request.key, getattr(request,val_type)
                 _logger.debug( "- Setting app config: %s = %s (%s)", key, str(val), type(val).__name__ )
+                if val == "{{TEMP_DIR}}":
+                    val = self._temp_dir.name
                 self._webapp.config[ key ] = val
                 return Empty()
         raise RuntimeError( "Can't find app config key." )

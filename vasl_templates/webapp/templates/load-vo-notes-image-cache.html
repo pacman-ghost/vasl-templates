@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<title> Load the vehicle/ordnance notes image cache </title>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='jquery-ui/jquery-ui.min.css')}}" />
+<style>
+#progress { position: relative ; margin-bottom: 5px ; }
+#progress .caption { position: absolute ; top: 7px ; left: 49% ; color: #666 ; }
+#status { color: #333 ; }
+img#vo-note { max-width: 95% ; border: 1px dotted #666 ; border-radius: 5px ; padding: 8px ; display: none ; }
+</style>
+</head>
+
+<body>
+<div style="width:49%;float:left;">
+    {%include "configure-vo-notes-image-cache.html" %}
+    <p> <button id="start"> Go </button>
+    <div id="progress"> <div class="caption"></div> </div>
+    <div id="status"></div>
+</div>
+<div style="width:49%;float:right;">
+    <img id="vo-note">
+</div>
+</body>
+
+<script src="{{url_for('static',filename='jquery/jquery-3.3.1.min.js')}}"></script>
+<script src="{{url_for('static',filename='jquery-ui/jquery-ui.min.js')}}"></script>
+<script src="{{url_for('static',filename='snippets.js')}}"></script>
+<script src="{{url_for('static',filename='vo.js')}}"></script>
+<script src="{{url_for('static',filename='utils.js')}}"></script>
+
+<script>
+
+gAppConfig = {} ;
+gTemplatePack = {} ;
+gVehicleOrdnanceNotes = {} ;
+gTotalEntries = 0 ;
+
+$( document ).ready( function () {
+
+    // initialize
+    var startup = 3 ;
+    $( "#start" ).attr( "disabled", true ).on( "click", main ) ;
+
+    // get the template pack
+    $.getJSON( "{{url_for( 'get_template_pack' )}}", function( resp ) {
+        gTemplatePack = resp ;
+        -- startup ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        alert( "Can't get the nationalities:\n\n" + errorMsg ) ;
+    } ) ;
+
+    // get the vehicle/ordnance notes
+    function get_vo_notes( vo_type, url ) {
+        $.getJSON( url, function( resp ) {
+            gVehicleOrdnanceNotes[ vo_type ] = resp ;
+            if ( --startup == 0 )
+                $( "#start" ).attr( "disabled", false ) ;
+        } ).fail( function( xhr, status, errorMsg ) {
+            alert( "Can't get the " + vo_type + " notes:\n\n" + errorMsg ) ;
+        } ) ;
+    }
+    get_vo_notes( "vehicles", "{{url_for('get_vehicle_notes')}}" ) ;
+    get_vo_notes( "ordnance", "{{url_for('get_ordnance_notes')}}" ) ;
+
+} ) ;
+
+function main() {
+
+    // generate all the requests we need to make
+    var requests = [] ;
+    [ "vehicles", "ordnance" ].forEach( function( vo_type ) {
+        for ( var nat in gVehicleOrdnanceNotes[ vo_type ] ) {
+            for ( var key in gVehicleOrdnanceNotes[ vo_type ][ nat ] ) {
+                if ( key == "multi-applicable" )
+                    continue ;
+                var rc = make_vo_note_image_url( vo_type, nat, key ) ;
+                var url = rc[0] ;
+                if ( ! url )
+                    continue ;
+                var nat_info = gTemplatePack.nationalities[ nat ] ;
+                var nat_name = nat_info ? nat_info.display_name : nat ;
+                var caption = vo_type + ": " + nat_name + " #" + key ;
+                requests.push( [ url, caption ] ) ;
+            }
+        }
+    } ) ;
+    var nRequests = requests.length ;
+    if ( nRequests == 0 ) {
+        alert( "No vehicle/ordnance notes were found." ) ;
+        return ;
+    }
+
+    // initialize
+    $( "#start" ).hide() ;
+    var $img = $( "img#vo-note" ).on( "load", function() {
+        // the vehicle/ordnance note finished loading - request the next one
+        $(this).show() ;
+        processNextRequest() ;
+    } ) ;
+    var $status = $( "#status" ) ;
+    var $progress = $( "#progress" ).progressbar( {
+        change: function( ) {
+            var val = $progress.progressbar( "value" ) ;
+            $progress.find( ".caption" ).text( val + "%" ) ;
+        },
+        complete: function() {
+            $progress.find( ".caption" ).text( "" ) ;
+        },
+    } ) ;
+
+    // fetch each vehicle/ordnance note image
+    function processNextRequest() {
+        if ( requests.length == 0 ) {
+            $progress.progressbar( { value: 100 } ) ;
+            $progress.find( ".caption" ).text( "100%" ) ;
+            $status.text( "All done." ) ;
+            return ;
+        }
+        var req = requests.shift() ;
+        var val = Math.floor( 100 * requests.length / nRequests ) ;
+        $progress.progressbar( {
+            value: Math.min( 100-val, 99 )
+        } ) ;
+        $status.text( "Generating " + req[1] ) ;
+        // NOTE: We show the generated the image to the user for visual feedback, which will trigger
+        // a "load" event when it has finished loading, which will invoke processNextRequest() to get
+        // the next image, until they're all done.
+        $img.attr( "src", req[0] ) ;
+    }
+    processNextRequest() ;
+}
+
+</script>

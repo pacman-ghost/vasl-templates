@@ -234,23 +234,8 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
             "<div class='vo-capabilities'></div>",
         "</div>"
     ] ;
-    var vo_note = get_vo_note( vo_type, nat, vo_note_key ) ;
-    var vo_note_image_url = null ;
-    if ( vo_note ) {
-        if ( is_landing_craft )
-            vo_note_image_url = make_app_url( "/" + vo_type + "/landing-craft/note/" + vo_note_key.substring(3), true ) ;
-        else
-            vo_note_image_url = make_app_url( "/" + vo_type + "/" + nat + "/note/" + vo_note_key, true ) ;
-    } else {
-        // NOTE: Note numbers seem to be distinct across all Allied Minor or all Axis Minor vehicles/ordnance,
-        // so if we don't find a note in a given nationality's normal vehicles/ordnance, we can get away with
-        // just checking their corresponding common vehicles/ordnance.
-        if ( ["allied-minor","axis-minor"].indexOf( nat_type ) !== -1 ) {
-            vo_note = get_vo_note( vo_type, nat_type, vo_note_key ) ;
-            if ( vo_note )
-                vo_note_image_url = make_app_url( "/" + vo_type + "/" + nat_type + "/note/" + vo_note_key, true ) ;
-        }
-    }
+    var rc = make_vo_note_image_url( vo_type, nat, vo_note_key ) ;
+    var vo_note_image_url = rc[0], vo_note = rc[1] ;
     if ( vo_note ) {
         var template_id = (vo_type === "vehicles") ? "ob_vehicle_note" : "ob_ordnance_note" ;
         if ( is_template_available( template_id ) ) {
@@ -283,6 +268,35 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
         generate_snippet( $(this), evt.shiftKey, {} ) ;
         return false ;
     } ) ;
+}
+
+function make_vo_note_image_url( vo_type, nat, key )
+{
+    // generate the URL to get a vehicle/ordnance note image
+    var url = null ;
+    var vo_note = get_vo_note( vo_type, nat, key ) ;
+    if ( vo_note ) {
+        var is_landing_craft = key ? key.substring( 0, 3 ) === "LC " : null ;
+        if ( is_landing_craft )
+            url = make_app_url( "/" + vo_type + "/landing-craft/note/" + key.substring(3), true ) ;
+        else
+            url = make_app_url( "/" + vo_type + "/" + nat + "/note/" + key, true ) ;
+    } else {
+        // NOTE: Note numbers seem to be distinct across all Allied Minor or all Axis Minor vehicles/ordnance,
+        // so if we don't find a note in a given nationality's normal vehicles/ordnance, we can get away with
+        // just checking their corresponding common vehicles/ordnance.
+        var nat_type ;
+        if ( [ "allied-minor", "axis-minor" ].indexOf( nat ) !== -1 )
+            nat_type = nat ;
+        else
+            nat_type = gTemplatePack.nationalities[ nat ].type ;
+        if ( [ "allied-minor", "axis-minor" ].indexOf( nat_type ) !== -1 ) {
+            vo_note = get_vo_note( vo_type, nat_type, key ) ;
+            if ( vo_note )
+                url = make_app_url( "/" + vo_type + "/" + nat_type + "/note/" + key, true ) ;
+        }
+    }
+    return [ url, vo_note ] ;
 }
 
 function update_vo_sortable2_entry( $entry, vo_type, snippet_params )

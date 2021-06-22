@@ -2,6 +2,7 @@
 
 import os
 import shutil
+import urllib.request
 import io
 import re
 
@@ -214,6 +215,7 @@ def test_common_vo_notes2( webapp, webdriver ):
     # initialize
     webapp.control_tests.set_vo_notes_dir( "{TEST}" )
     init_webapp( webapp, webdriver, scenario_persistence=1 )
+    _enable_vo_no_notes_as_images( True )
 
     # load the test scenario
     load_scenario( {
@@ -224,13 +226,6 @@ def test_common_vo_notes2( webapp, webdriver ):
         ],
     } )
 
-    # enable "show vehicle/ordnance notes as images"
-    select_menu_option( "user_settings" )
-    elem = find_child( ".ui-dialog.user-settings input[name='vo-notes-as-images']" )
-    assert not elem.is_selected()
-    elem.click()
-    click_dialog_button( "OK" )
-
     # check the snippets
     _check_vo_snippets( 1, "vehicles", [
         ( "HTML note", "vehicles/greek/note/202" ),
@@ -238,11 +233,6 @@ def test_common_vo_notes2( webapp, webdriver ):
     ] )
 
     # restore "show vehicle/ordnance notes as images"
-    select_menu_option( "user_settings" )
-    elem = find_child( ".ui-dialog.user-settings input[name='vo-notes-as-images']" )
-    assert elem.is_selected()
-    elem.click()
-    click_dialog_button( "OK" )
 
 # ---------------------------------------------------------------------
 
@@ -342,6 +332,62 @@ def test_landing_craft_notes( webapp, webdriver ):
         "japanese vehicle: <table width='500'><tr><td>\nJapanese Vehicle Note #2.\n</table>",
         "Daihatsu: <table width='500'><tr><td>\nLanding Craft Note #2.\n</table>",
     ] )
+
+# ---------------------------------------------------------------------
+
+def test_vo_notes_image_cache( webapp, webdriver ):
+    """Test the vehicle/ordnance notes image cache."""
+
+    def init_test():
+        # initialize the webapp
+        init_webapp( webapp, webdriver, scenario_persistence=1 )
+        _enable_vo_no_notes_as_images( True )
+        # load the test scenario
+        load_scenario( {
+            "PLAYER_1": "japanese",
+            "OB_VEHICLES_1": [
+                { "name": "japanese vehicle" },
+            ],
+        } )
+
+    # initialize
+    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    init_test()
+
+    # get the vehicle note snippet
+    select_tab( "ob1" )
+    elems = find_children( "#ob_vehicles-sortable_1 li" )
+    assert len(elems) == 1
+    btn = find_child( "img.snippet", elems[0] )
+    btn.click()
+    expected = ( "japanese vehicle", "vehicles/japanese/note/2" )
+    snippet = wait_for_clipboard( 2, expected, transform=_extract_vo_note )
+    mo = re.search( r"<img src=\"(.+?)\">", snippet )
+    url = mo.group( 1 )
+
+    # get the vehicle note image (should be created)
+    resp = urllib.request.urlopen( url )
+    assert not resp.headers.get( "X-WasCached" )
+    image_data = resp.read()
+
+    # get the vehicle note image (should be re-created)
+    resp = urllib.request.urlopen( url )
+    assert not resp.headers.get( "X-WasCached" )
+    assert resp.read() == image_data
+
+    # enable image caching
+    webapp.control_tests.set_app_config_val( "VO_NOTES_IMAGE_CACHE_DIR", "{{TEMP_DIR}}" )
+    init_test()
+
+    # get the vehicle note image (should be re-created)
+    resp = urllib.request.urlopen( url )
+    assert not resp.headers.get( "X-WasCached" )
+    assert resp.read() == image_data
+
+    # get the vehicle note image (should be cached)
+    resp = urllib.request.urlopen( url )
+    assert resp.headers.get( "X-WasCached" )
+    assert resp.read() == image_data
 
 # ---------------------------------------------------------------------
 
@@ -676,3 +722,13 @@ def _extract_vo_note( clipboard ):
         return ( mo.group(1), mo.group(2) )
     else:
         return clipboard
+
+def _enable_vo_no_notes_as_images( enable ):
+    """Enable/disable vehicle/ordnance notes as images."""
+    select_menu_option( "user_settings" )
+    elem = find_child( ".ui-dialog.user-settings input[name='vo-notes-as-images']" )
+    if (elem.is_selected() and not enable) or (not elem.is_selected() and enable):
+        elem.click()
+        click_dialog_button( "OK" )
+    else:
+        click_dialog_button( "Cancel" )

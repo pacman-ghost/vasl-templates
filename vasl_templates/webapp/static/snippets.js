@@ -577,17 +577,12 @@ function get_vo_note( vo_type, nat, key )
     if ( !( key in gVehicleOrdnanceNotes[ vo_type ][ nat ] ) )
         return null ;
 
+    // check if we have an image or HTML note
     var vo_note = gVehicleOrdnanceNotes[ vo_type ][ nat ][ key ] ;
-    // FUDGE! We need to detect between a full HTML note and an image-based one.
-    // This is not great, but it'll do... :-/
-    var nat2 = nat ;
-    var pos = nat2.indexOf( "~" ) ;
-    if ( pos > 0 )
-        nat2 = nat2.substring( 0, pos ) ;
-    if ( vo_note.substr( 0, nat2.length+1 ) === nat2+"/" )
-        return make_app_url( "/" + vo_type + "/" + nat + "/note/" + key, true ) ;
+    if ( vo_note.content !== undefined )
+        return vo_note.content ;
     else
-        return vo_note ;
+        return make_app_url( "/" + vo_type + "/" + nat + "/note/" + key, true ) ;
 }
 
 function get_ma_notes_keys( nat, vo_entries, vo_type )

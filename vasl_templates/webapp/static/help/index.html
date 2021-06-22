@@ -374,6 +374,7 @@ The report also calculates <em>"hotness"</em>, which is a measure of how hot you
 
 <h4> Show Chapter H vehicle/ordnance notes as images </h4>
 <p> If you have set up the <a href="#" onclick="select_tab('chapterh');">Chapter H vehicle/ordnance notes</a> as HTML, it may not be possible to get the layout you want, since VASSAL's HTML engine is very old and doesn't support many HTML/CSS features. To work around this, this option tells <em>VASL Templates</em> to render the HTML itself (using a modern browser) and send it as an image to VASSAL, which is slower but gives better results.
+<p> To optimize this process, the generated images are cached, and if you want to keep these cached images between sessions, configure <tt>VO_NOTES_IMAGE_CACHE_DIR </tt> in your <tt>site.cfg</tt> file. To pre-load this cache with all the available images, open <tt>http://localhost:5010/load-vo-notes-image-cache</tt> in a browser.
 
 </div>
 

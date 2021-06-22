@@ -17,6 +17,8 @@ from vasl_templates.webapp.files import FileServer
 from vasl_templates.webapp.webdriver import WebDriver
 from vasl_templates.webapp.utils import read_text_file, resize_image_response, is_image_file, is_empty_file
 
+_vo_notes_image_cache_dname = None
+
 _asl_rulebook2_targets = None
 _asl_rulebook2_target_url_template = None
 
@@ -137,7 +139,9 @@ def load_vo_notes( msg_store ): #pylint: disable=too-many-statements,too-many-lo
                 # NOTE: We only do this if we don't already have an HTML version.
                 if not vo_notes.get( vo_type2, {} ).get( nat2, {} ).get( key ):
                     rel_path = os.path.relpath( fname, dname )
-                    vo_notes[vo_type2][nat2][key] = rel_path.replace( "\\", "/" )
+                    vo_notes[vo_type2][nat2][key] = {
+                        "filename": rel_path.replace( "\\", "/" )
+                    }
 
             elif extn == ".html":
 
@@ -171,10 +175,13 @@ def load_vo_notes( msg_store ): #pylint: disable=too-many-statements,too-many-lo
                     if extn_id:
                         key = "{}:{}".format( extn_id, key )
                     rel_path = os.path.relpath( os.path.split(fname)[0], dname )
-                    vo_notes[ vo_type2 ][ nat2 ][ key ] = _fixup_urls(
-                        html_content,
-                        "{{CHAPTER_H}}/" + rel_path.replace( "\\", "/" ) + "/"
-                    )
+                    vo_notes[ vo_type2 ][ nat2 ][ key ] = {
+                        "filename": fname,
+                        "content": _fixup_urls(
+                            html_content,
+                            "{{CHAPTER_H}}/" + rel_path.replace( "\\", "/" ) + "/"
+                        )
+                    }
 
                 else:
 
@@ -287,14 +294,14 @@ def get_vo_note( vo_type, nat, key ):
         abort( 404 )
 
     # serve the file
-    if is_image_file( vo_note ):
-        resp = globvars.vo_notes_file_server.serve_file( vo_note, ignore_empty=True )
+    if "content" not in vo_note:
+        resp = globvars.vo_notes_file_server.serve_file( vo_note["filename"], ignore_empty=True )
         if not resp:
             abort( 404 )
         default_scaling = app.config.get( "CHAPTER_H_IMAGE_SCALING", 100 )
         return resize_image_response( resp, default_scaling=default_scaling )
     else:
-        buf = _make_vo_note_html( vo_note )
+        buf = _make_vo_note_html( vo_note["content"] )
         if request.args.get( "f" ) == "html":
             # return the content as HTML
             return Response( buf, mimetype="text/html" )
@@ -307,14 +314,28 @@ def get_vo_note( vo_type, nat, key ):
             # a link that calls us here to generate the Chapter H content as an image, and if this 2nd request
             # gets handled in a different thread (which it certainly will, since the 1st request is still
             # in progress), we will deadlock waiting for the shared instance to become available.
+            cached_fname = _make_vo_note_cached_image_fname( vo_type, nat, key )
+            if cached_fname and os.path.isfile( cached_fname ):
+                # we have a cached copy - compare the timestamps of the source HTML and the cached image
+                # NOTE: We should also check the HTML for any associated images, and check their timestamps, as well.
+                if os.path.getmtime( cached_fname ) >= os.path.getmtime( vo_note["filename"] ):
+                    resp = send_file( cached_fname )
+                    resp.headers[ "X-WasCached" ] = 1
+                    return resp
             with WebDriver.get_instance( "vo_note" ) as webdriver:
                 img = webdriver.get_snippet_screenshot( None, buf )
             buf = io.BytesIO()
             img.save( buf, format="PNG" )
             buf.seek( 0 )
+            if cached_fname:
+                # save a copy of the generated image
+                os.makedirs( os.path.dirname( cached_fname ), exist_ok=True )
+                with open( cached_fname, "wb" ) as fp:
+                    fp.write( buf.read() )
+                buf.seek( 0 )
             return send_file( buf, mimetype="image/png" )
 
-def _make_vo_note_html( vo_note ):
+def _make_vo_note_html( content ):
     """Generate the HTML for a vehicle/ordnance note."""
 
     # initialize
@@ -328,13 +349,31 @@ def _make_vo_note_html( vo_note ):
         globvars.template_pack.get( "css", {} ).get( "ob_vo_note", "" ),
     ]
     if any( css ):
-        vo_note = "<head>\n<style>\n{}\n</style>\n</head>\n\n{}".format( "\n".join(css), vo_note )
+        content = "<head>\n<style>\n{}\n</style>\n</head>\n\n{}".format( "\n".join(css), content )
 
     # update any parameters
-    vo_note = vo_note.replace( "{{CHAPTER_H}}", url_root+"/chapter-h" )
-    vo_note = vo_note.replace( "{{IMAGES_BASE_URL}}", url_root+url_for("static",filename="images") )
+    content = content.replace( "{{CHAPTER_H}}", url_root+"/chapter-h" )
+    content = content.replace( "{{IMAGES_BASE_URL}}", url_root+url_for("static",filename="images") )
 
-    return vo_note
+    return content
+
+def _make_vo_note_cached_image_fname( vo_type, nat, key ):
+    """Get the name of the cached vehicle/ordnance note image."""
+    if not _vo_notes_image_cache_dname:
+        return None
+    return os.path.join( _vo_notes_image_cache_dname, vo_type, nat, key+".png" )
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+@app.route( "/load-vo-notes-image-cache" )
+def load_vo_notes_image_cache():
+    """Show the helper page to preload the v/o notes image cache."""
+    dname = app.config.get( "VO_NOTES_IMAGE_CACHE_DIR" )
+    if not dname:
+        return render_template( "configure-vo-notes-image-cache.html",
+            NO_CACHE_DIR = True
+        )
+    return render_template( "load-vo-notes-image-cache.html" )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

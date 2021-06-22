@@ -84,6 +84,18 @@ def _init_webapp():
     from vasl_templates.webapp.vo_notes import load_vo_notes #pylint: disable=cyclic-import
     load_vo_notes( startup_msg_store )
 
+    # initialize the vehicle/ordnance notes image cache
+    from vasl_templates.webapp import vo_notes as webapp_vo_notes #pylint: disable=reimported
+    dname = app.config.get( "VO_NOTES_IMAGE_CACHE_DIR" )
+    if dname in ( "disable", "disabled" ):
+        webapp_vo_notes._vo_notes_image_cache_dname = None #pylint: disable=protected-access
+    elif dname:
+        webapp_vo_notes._vo_notes_image_cache_dname = dname #pylint: disable=protected-access
+    else:
+        webapp_vo_notes._vo_notes_image_cache_dname = os.path.join( #pylint: disable=protected-access
+            tempfile.gettempdir(), "vasl-templates", "vo-notes-image-cache"
+        )
+
     # load integration data from asl-rulebook2
     from vasl_templates.webapp.vo_notes import load_asl_rulebook2_vo_note_targets #pylint: disable=cyclic-import
     load_asl_rulebook2_vo_note_targets( startup_msg_store )

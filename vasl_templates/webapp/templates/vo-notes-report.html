@@ -148,7 +148,7 @@ function load_vo_notes( vo_entries )
             var vo_note = vo_notes[ keys[i] ] ;
             buf.push( "<tr>",
                 "<td class='key'>", keys[i]+":",
-                "<td>", vo_note.substr(vo_note.length-4) === ".png" ? vo_note : "(HTML content)"
+                "<td>", vo_note.content !== undefined ? "(HTML content)" : vo_note.filename
             ) ;
         }
         buf.push( "</table>" ) ;
