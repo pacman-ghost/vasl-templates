@@ -298,6 +298,8 @@ def _parse_analyze_report( fname ):
 class VassalShim:
     """Provide access to VASSAL via the Java shim."""
 
+    _vassal_version = None
+
     def __init__( self ): #pylint: disable=too-many-branches
 
         # locate the VASSAL engine
@@ -335,6 +337,8 @@ class VassalShim:
     @staticmethod
     def get_version():
         """Get the VASSAL version."""
+        if VassalShim._vassal_version:
+            return VassalShim._vassal_version
         vassal_dir = VassalShim._get_vassal_dir()
         if not vassal_dir:
             return None
@@ -343,7 +347,8 @@ class VassalShim:
             temp_file.close( delete=False )
             VassalShim()._run_vassal_shim( "version", temp_file.name ) #pylint: disable=protected-access
             with open( temp_file.name, "r", encoding="utf-8" ) as fp:
-                return fp.read()
+                VassalShim._vassal_version = fp.read()
+                return VassalShim._vassal_version
 
     @staticmethod
     def is_compatible_version( vassal_version, vasl_version ):
