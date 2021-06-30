@@ -496,8 +496,9 @@ class ControlTestsServicer( BaseControlTestsServicer ): #pylint: disable=too-man
             if request.HasField( val_type ):
                 key, val = request.key, getattr(request,val_type)
                 _logger.debug( "- Setting app config: %s = %s (%s)", key, str(val), type(val).__name__ )
-                if val == "{{TEMP_DIR}}":
-                    val = self._temp_dir.name
+                if isinstance( val, str ):
+                    val = val.replace( "{{TEMP_DIR}}", self._temp_dir.name ) \
+                             .replace( "{{FIXTURES_DIR}}", _FIXTURES_DIR )
                 self._webapp.config[ key ] = val
                 return Empty()
         raise RuntimeError( "Can't find app config key." )

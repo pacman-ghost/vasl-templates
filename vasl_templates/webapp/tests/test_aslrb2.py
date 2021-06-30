@@ -1,7 +1,5 @@
 """ Test integration with asl-rulebook2. """
 
-import os
-
 from vasl_templates.webapp.tests.utils import init_webapp, find_child, find_children
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
 
@@ -12,7 +10,7 @@ def test_chapter_h( webapp, webdriver ):
 
     # initialize
     webapp.control_tests.set_app_config_val( "ASL_RULEBOOK2_BASE_URL",
-        os.path.join( os.path.dirname(__file__), "fixtures/asl-rulebook2/vo-note-targets.json" )
+        "{{FIXTURES_DIR}}/asl-rulebook2/vo-note-targets.json"
     )
     init_webapp( webapp, webdriver, scenario_persistence=1 )
     base_url = "{}/asl-rulebook2/".format( webapp.base_url )
