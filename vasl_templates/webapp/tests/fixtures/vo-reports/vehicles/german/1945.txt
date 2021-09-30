@@ -35,7 +35,7 @@ PzKpfw VD               sD5 CS 5[brewup]                       sD5 CS 5[brewup] 
 PzKpfw VG               sN7[4]8[5] CS 6                        sN8 CS 6                 27†     H†                                 12: Stall
 PzKpfw M15/42(i)        CS 4                                   CS 4                     28      I                                  Red TH# | Italian ESB
 PzKpfw P26/40(i)        s8 CS 4                                s8 CS 4                  29      I                                  Red TH# | Italian ESB
-PzKpfw VIE              A6[2]5[3]4[4] sD7 CS 6                 sD7 CS 6                 30†     K N<sup>FT</sup>                   SA: Mines (CC: 12 FP) | Morale 9
+PzKpfw VIE              A6[2]5[3]4[4] sD7 CS 6                 sD7 CS 6                 30†     K N<sup>FT</sup>                   M7 (CC 12 FP, no smoke) | Morale 9
 PzKpfw VIE (L)          A4[4] sN7[4]8[5] CS 6                  sN8 CS 6                 31      K                                  Morale 9
 PzKpfw VIB              sN9 CS 6                               sN9 CS 6                 32†     K                                  Morale 9
 StuG IIIB               AP7 H6 s9 sD7 CS 4                     AP7 H6 s9 sD7 CS 4       33†     n/a
