@@ -1426,7 +1426,7 @@ function adjust_capabilities_for_elite( capabilities, delta )
         if ( capabilities[i].indexOf( "<sup>" ) !== -1 )
             continue ; // nb: ignore raw capabilities (e.g. if the scenario date hasn't been set)
         // NOTE: Elite status doesn't apply to vehicular smoke dispensers (C8.9).
-        var match = capabilities[i].match( /^(A|M|H|C|D|HE|AP|WP|S)([1-9][0-9]?)/ ) ;
+        var match = capabilities[i].match( /^(A|M|H|C|D|HE|AP|WP|s)([1-9][0-9]?)/ ) ;
         if ( match )
             capabilities[i] = match[1] + (parseInt(match[2]) + delta) + capabilities[i].substr(match[1].length+match[2].length) ;
     }

@@ -878,7 +878,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
         caps = [ c.text for c in find_children(".vo-capability",get_sortable_elem()) ]
         if expected:
             assert vo_name.endswith( "\u24ba" )
-            expected = [ "H9", "s9", "sD7", "CS 5" ]
+            expected = [ "H9", "s10", "sD7", "CS 5" ]
             if custom:
                 expected.append( "HE11" )
             assert caps == expected
@@ -894,7 +894,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
         caps = [ c.get_attribute("value") for c in find_children("#vo_capabilities-sortable input[type='text']") ]
         if expected:
             assert vo_name.endswith( "\u24ba" )
-            expected = [ "H9", "s9", "sD7", "CS 5" ]
+            expected = [ "H9", "s10", "sD7", "CS 5" ]
             if custom:
                 expected.append( "HE11" )
             assert caps == expected
@@ -939,7 +939,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     assert len(saved_scenario["OB_VEHICLES_1"]) == 1
     assert saved_scenario["OB_VEHICLES_1"][0]["elite"]
     assert saved_scenario["OB_VEHICLES_1"][0]["custom_capabilities"] == \
-        [ "H9", "s9", "sD7", "CS 5", "HE11" ]
+        [ "H9", "s10", "sD7", "CS 5", "HE11" ]
     select_menu_option( "new_scenario" )
     load_scenario( saved_scenario )
     select_tab( "ob1" )
@@ -978,7 +978,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     saved_scenario = save_scenario()
     assert len(saved_scenario["OB_VEHICLES_1"]) == 1
     assert saved_scenario["OB_VEHICLES_1"][0]["elite"]
-    assert saved_scenario["OB_VEHICLES_1"][0]["custom_capabilities"] == [ "H9", "s9", "sD7", "CS 5" ]
+    assert saved_scenario["OB_VEHICLES_1"][0]["custom_capabilities"] == [ "H9", "s10", "sD7", "CS 5" ]
     select_menu_option( "new_scenario" )
     load_scenario( saved_scenario )
     select_tab( "ob1" )

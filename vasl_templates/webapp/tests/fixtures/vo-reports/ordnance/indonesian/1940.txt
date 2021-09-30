@@ -2,7 +2,7 @@
 
 Name                               Capabilities    (effective)      #  Notes    Comments
 ---------------------------------  --------------  -------------  ---  -------  -------------------------------------------------------------
-Type 89 Heavy Grenade Launcher     S6[5] WP5[5]                     1  n/a      HE: Range &#8804; 2, ROF 1 | Smoke: [3-10] | WP: [1-5], ROF 1
+Type 89 Heavy Grenade Launcher     WP5[5] s6[5]                     1  n/a      HE: Range &#8804; 2, ROF 1 | Smoke: [3-10] | WP: [1-5], ROF 1
 Type 97 Automatic Gun                                               2  Jp A     No Long Range | Animal-Packed
 Year-11 Flat-Trajectory INF Gun                                     3  Jp A     Crewed | Animal-Packed
 Type 94 Rapid-Fire Gun                                              4  Jp A     QSU | Horse-Drawn | Animal-Packed

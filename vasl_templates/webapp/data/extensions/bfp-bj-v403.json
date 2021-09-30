@@ -738,7 +738,7 @@
 
 { "name": "Type 89 Heavy Grenade Launcher",
   "type": "MTR",
-  "capabilities2": { "WP": [ [5,5] ], "S": [ [6,5] ] },
+  "capabilities2": { "WP": [ [5,5] ], "s": [ [6,5] ] },
   "comments": [ "HE: Range &le; 2, ROF 1", "Smoke: [3-10]", "WP: [1-5], ROF 1" ],
   "note_number": "1",
   "id": "ina/o:900",
