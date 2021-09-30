@@ -19,11 +19,6 @@ BASE_DIR = os.path.split( os.path.abspath(__file__) )[ 0 ]
 MAIN_SCRIPT = "vasl_templates/main.py"
 APP_ICON = os.path.join( BASE_DIR, "vasl_templates/webapp/static/images/app.ico" )
 
-TARGET_NAMES = {
-    "win32": "vasl-templates.exe",
-}
-DEFAULT_TARGET_NAME = "vasl-templates"
-
 # ---------------------------------------------------------------------
 
 def get_git_info():
@@ -54,19 +49,26 @@ def get_git_info():
 
     return { "last_commit_id": last_commit_id, "branch_name": branch_name }
 
+def make_target_name( fname ):
+    """Generate a target filename."""
+    return fname+".exe" if sys.platform == "win32" else fname
+
 # ---------------------------------------------------------------------
 
 # parse the command-line options
 output_fname = None
+no_loader = False
 work_dir = None
 cleanup = True
-opts,args = getopt.getopt( sys.argv[1:], "o:w:", ["output=","work=","noclean"] )
-for opt,val in opts:
+opts,args = getopt.getopt( sys.argv[1:], "o:w:", ["output=","no-loader","work=","no-clean"] )
+for opt, val in opts:
     if opt in ["-o","--output"]:
         output_fname = val.strip()
+    elif opt in ["--no-loader"]:
+        no_loader = True
     elif opt in ["-w","--work"]:
         work_dir = val.strip()
-    elif opt in ["--noclean"]:
+    elif opt in ["--no-clean"]:
         cleanup = False
     else:
         raise RuntimeError( "Unknown argument: {}".format( opt ) )
@@ -75,6 +77,7 @@ if not output_fname:
 
 # figure out where to locate our work directories
 if work_dir:
+    work_dir = os.path.abspath( work_dir )
     build_dir = os.path.join( work_dir, "build" )
     if os.path.isdir( build_dir ):
         shutil.rmtree( build_dir )
@@ -98,19 +101,23 @@ if not output_fmt:
 
 # configure pyinstaller
 # NOTE: Using UPX gave ~25% saving on Windows, but failed to run because of corrupt DLL's :-/
-# NOTE: Setting --specpath breaks the build - it's being used as the project root...? (!)
-target_name = TARGET_NAMES.get( sys.platform, DEFAULT_TARGET_NAME )
+target_name = make_target_name( "vasl-templates" )
 args = [
     "--distpath", dist_dir,
     "--workpath", build_dir,
+    "--specpath", build_dir,
     "--onefile",
     "--name", target_name,
 ]
-args.extend( [ "--add-data", "vassal-shim/release/vassal-shim.jar" + os.pathsep + "vasl_templates/webapp" ] )
+args.extend( [ "--add-data",
+    os.path.join( BASE_DIR, "vassal-shim/release/vassal-shim.jar" + os.pathsep + "vasl_templates/webapp" )
+] )
 # NOTE: We also need to include the config/ and data/ subdirectories, but we would like to
 # make them available to the user, so we include them ourself in the final release archive.
 def map_dir( src, dest ): #pylint: disable=missing-docstring
-    args.extend( [ "--add-data", src + os.pathsep + dest ] )
+    args.extend( [ "--add-data",
+        os.path.join( BASE_DIR, src + os.pathsep + dest )
+    ] )
 map_dir( "vasl_templates/ui", "vasl_templates/ui" )
 map_dir( "vasl_templates/resources", "vasl_templates/resources" )
 map_dir( "vasl_templates/webapp/static", "vasl_templates/webapp/static" )
@@ -168,6 +175,22 @@ dname = os.path.join( dist_dir, "config" )
 with open( os.path.join(dname,"build-info.json"), "w" ) as fp:
     json.dump( build_info, fp )
 
+# freeze the loader
+if no_loader:
+    print( "Not including the loader." )
+else:
+    print( "--- BEGIN FREEZE LOADER ---" )
+    shutil.move(
+        os.path.join( dist_dir, target_name ),
+        os.path.join( dist_dir, make_target_name("vasl-templates-main") )
+    )
+    from loader.freeze import freeze_loader #pylint: disable=no-name-in-module
+    freeze_loader(
+        os.path.join( dist_dir, target_name ),
+        build_dir, # nb: a "loader" sub-directory will be created and used
+        False # nb: we will clean up, or not, everything ourself
+    )
+
 # create the release archive
 os.chdir( dist_dir )
 print()
@@ -179,7 +202,6 @@ print( "- Done: {0:.1f} MB".format( float(file_size) / 1024 / 1024 ) )
 # clean up
 if cleanup:
     os.chdir( BASE_DIR ) # so we can delete the build directory :-/
-    os.unlink( target_name + ".spec" )
     shutil.rmtree( build_dir )
     shutil.rmtree( dist_dir )
 
