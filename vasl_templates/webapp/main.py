@@ -3,6 +3,7 @@
 import os
 import threading
 import concurrent
+import socket
 import json
 import uuid
 from datetime import datetime, timedelta
@@ -224,7 +225,9 @@ def get_program_info():
         mo = re.search( r"^\d+:name=.+/docker/([0-9a-f]{12})", buf, re.MULTILINE )
         # NOTE: Reading cgroup stopped working when we upgraded to Fedora 33, but still works
         # on Centos 8 (but reading the host name gives the physical host's name under Centos :-/).
-        params[ "DOCKER_CONTAINER_ID" ] = mo.group(1) if mo else os.uname()[1]
+        # NOTE: os.uname() is not available on Windows. This isn't really a problem (since
+        # we're running on Linux inside a container), but pylint is complaining :-/
+        params[ "DOCKER_CONTAINER_ID" ] = mo.group(1) if mo else socket.gethostname()
         # replace Docker mount points with their targets on the host
         for key in [ "VASSAL_DIR", "VASL_MOD", "VASL_EXTNS_DIR", "BOARDS_DIR",
                      "CHAPTER_H_NOTES_DIR", "USER_FILES_DIR" ]:
