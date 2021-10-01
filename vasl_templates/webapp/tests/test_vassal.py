@@ -341,7 +341,8 @@ def test_dump_vsav( webapp, webdriver ):
 
         # check the result
         fname = change_extn( fname, ".txt" )
-        expected = open( fname, "r" ).read()
+        with open( fname, "r", encoding="utf-8" ) as fp:
+            expected = fp.read()
         assert vsav_dump == expected
 
     # run the test against all versions of VASSAL+VASL
@@ -370,7 +371,8 @@ def test_update_legacy_labels( webapp, webdriver ):
 
         # load the scenario into the UI and update the VSAV
         fname2 = change_extn( fname, ".json" )
-        saved_scenario = json.load( open( fname2, "r" ) )
+        with open( fname2, "r", encoding="utf-8" ) as fp:
+            saved_scenario = json.load( fp )
         load_scenario( saved_scenario )
         expected = 5 if enable_vo_notes else 1
         updated_vsav_dump = _update_vsav_and_dump( webapp, fname,

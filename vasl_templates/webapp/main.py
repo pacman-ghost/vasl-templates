@@ -150,7 +150,7 @@ def get_app_config():
         with open( fname, "r", encoding="utf-8" ) as fp:
             try:
                 vals[ "SCENARIOS_CONFIG" ] = json.load( fp )
-            except json.decoder.JSONDecodeError as ex:
+            except json.decoder.JSONDecodeError:
                 msg = "Couldn't load the ASL Scenario Archive config."
                 logging.error( "%s", msg )
                 startup_msg_store.error( msg )
@@ -219,7 +219,7 @@ def get_program_info():
             "%H:%M %d %b %Y"
         )
         params[ "DOCKER_CONTAINER_NAME" ] = os.environ.get( "DOCKER_CONTAINER_NAME" )
-        with open( "/proc/self/cgroup", "r" ) as fp:
+        with open( "/proc/self/cgroup", "r", encoding="utf-8" ) as fp:
             buf = fp.read()
         mo = re.search( r"^\d+:name=.+/docker/([0-9a-f]{12})", buf, re.MULTILINE )
         # NOTE: Reading cgroup stopped working when we upgraded to Fedora 33, but still works

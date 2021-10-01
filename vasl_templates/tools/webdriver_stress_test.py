@@ -44,7 +44,8 @@ def main( webapp_url, snippet_images, update_vsav, vsav_fname ):
     # read the VASL scenario file
     vsav_data = None
     if update_vsav > 0:
-        vsav_data = open( vsav_fname, "rb" ).read()
+        with open( vsav_fname, "rb" ) as fp:
+            vsav_data = fp.read()
 
     # prepare the test threads
     threads = []
@@ -185,7 +186,8 @@ def update_vsav_thread( webapp_url, vsav_fname, vsav_data ):
 
         # load a test scenario
         fname = os.path.join( os.path.split(__file__)[0], "../webapp/tests/fixtures/update-vsav/full.json" )
-        saved_scenario = json.load( open( fname, "r" ) )
+        with open( fname, "r", encoding="utf-8" ) as fp:
+            saved_scenario = json.load( fp )
         load_scenario( saved_scenario, webdriver )
 
         while not shutdown_event.is_set():

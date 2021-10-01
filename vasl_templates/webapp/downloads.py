@@ -141,12 +141,12 @@ class DownloadedFile:
                         _logger.debug( "- If-None-Match = %s", _etags[url] )
                         headers[ "If-None-Match" ] = _etags[ url ]
                     req = urllib.request.Request( url, headers=headers )
-                    resp = urllib.request.urlopen( req )
-                    data = resp.read()
-                    if resp.headers.get( "Content-Encoding" ) == "gzip":
-                        data = gzip.decompress( data )
-                    data = data.decode( "utf-8" )
-                    etag = resp.headers.get( "ETag" )
+                    with urllib.request.urlopen( req ) as resp:
+                        resp_data = resp.read()
+                        if resp.headers.get( "Content-Encoding" ) == "gzip":
+                            resp_data = gzip.decompress( resp_data )
+                        data = resp_data.decode( "utf-8" )
+                        etag = resp.headers.get( "ETag" )
                     _logger.info( "Downloaded the %s file OK: %d bytes", df.key, len(data) )
                     if etag:
                         _logger.debug( "- Got etag: %s", etag )

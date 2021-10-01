@@ -17,7 +17,8 @@ def get_build_info():
     fname = os.path.join( BASE_DIR, "config", "build-info.json" )
     if not os.path.isfile( fname ):
         return None
-    build_info = json.load( open( fname, "r" ) )
+    with open( fname, "r", encoding="utf-8" ) as fp:
+        build_info = json.load( fp )
 
     # get the build timestamp
     result = { "timestamp": build_info["timestamp"] }

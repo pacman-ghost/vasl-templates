@@ -58,7 +58,7 @@ def main( args ):
 
     # launch the main vasl-templates program
     try:
-        proc = subprocess.Popen( itertools.chain( [fname], args ) )
+        proc = subprocess.Popen( itertools.chain( [fname], args ) ) #pylint: disable=consider-using-with
     except Exception as ex: #pylint: disable=broad-except
         show_error_msg( "Can't start vasl-templates:\n\n{}".format( ex ), withdraw=True )
         return -2
@@ -146,7 +146,8 @@ def check_startup( proc, port ):
         # check if the webapp is responding
         url = "http://localhost:{}/ping".format( port )
         try:
-            _ = urllib.request.urlopen( url ).read()
+            with urllib.request.urlopen( url ) as resp:
+                _ = resp.read()
         except URLError:
             # no response - the webapp is probably still starting up
             return False

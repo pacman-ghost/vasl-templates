@@ -173,8 +173,8 @@ def main( input_file, line_nos, images ):
     # check if we've been given a .vmod file
     if os.path.splitext( input_file.name )[1] == ".vmod":
         # yup - extract the build file
-        zip_file = zipfile.ZipFile( input_file.name, "r" )
-        build_file = zip_file.read( "buildFile" )
+        with zipfile.ZipFile( input_file.name, "r" ) as zf:
+            build_file = zf.read( "buildFile" )
     else:
         # nope - read the build file from the specified file
         build_file = input_file.read()

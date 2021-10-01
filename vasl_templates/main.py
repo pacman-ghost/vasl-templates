@@ -76,7 +76,7 @@ def main( template_pack, default_scenario, remote_debugging, debug ):
         # assume too much about how much of our expected environment has been set up.
         try:
             fname = os.path.join( QDir.homePath(), "vasl-templates.log"  )
-            with open( fname, "w" ) as fp:
+            with open( fname, "w", encoding="utf-8" ) as fp:
                 traceback.print_exc( file=fp )
         except: #pylint: disable=bare-except
             pass
@@ -173,12 +173,13 @@ def _do_main( template_pack, default_scenario, remote_debugging, debug ): #pylin
             break
         try:
             url = "http://localhost:{}/ping".format( port )
-            resp = urllib.request.urlopen( url ).read().decode( "utf-8" )
-            # we got a response - figure out if we connected to ourself or another instance
-            if resp[:6] != "pong: ":
-                raise SimpleError( "Unexpected server check response: {}".format( resp ) )
-            if resp[6:] == INSTANCE_ID:
-                break
+            with urllib.request.urlopen( url ) as resp:
+                resp_data = resp.read().decode( "utf-8" )
+                # we got a response - figure out if we connected to ourself or another instance
+                if resp_data[:6] != "pong: ":
+                    raise SimpleError( "Unexpected server check response: {}".format( resp_data ) )
+                if resp_data[6:] == INSTANCE_ID:
+                    break
             from vasl_templates.webapp.config.constants import APP_NAME
             QMessageBox.warning( None, APP_NAME, "The program is already running." )
             return -1

@@ -188,8 +188,8 @@ def get_scenario( scenario_id ): #pylint: disable=too-many-locals
     # get any files available for download
     downloads = {}
     keys = { "vt_setup": "vaslTemplates", "vasl_setup": "vaslTemplateSetups", "screenshot": "templateImages" }
-    for key in keys:
-        for entry in scenario.get( keys[key], [] ):
+    for key, ftype in keys.items():
+        for entry in scenario.get( ftype, [] ):
             fname = os.path.basename( entry.get( "url", "" ) )
             pos = fname.find( "|" )
             if pos < 0:
@@ -563,8 +563,8 @@ def on_successful_asa_upload( scenario_id ):
     # download the specified scenario
     url = app.config["ASA_GET_SCENARIO_URL"].replace( "{ID}", scenario_id )
     try:
-        fp = urllib.request.urlopen( url )
-        new_scenario = json.loads( fp.read().decode( "utf-8" ) )
+        with urllib.request.urlopen( url ) as fp:
+            new_scenario = json.loads( fp.read().decode( "utf-8" ) )
     except Exception as ex: #pylint: disable=broad-except
         msg = str( getattr(ex,"reason",None) or ex )
         return jsonify( { "status": "error", "message": msg } )
@@ -618,8 +618,8 @@ def test_asa_upload( scenario_id ):
         """Generate a response."""
         dname = os.path.join( os.path.dirname(__file__), "tests/fixtures/asa-responses/" )
         fname = os.path.join( dname, "{}.json".format( fname ) )
-        resp = json.load( open( fname, "r", encoding="utf-8" ) )
-        return jsonify( resp )
+        with open( fname, "r", encoding="utf-8" ) as fp:
+            return jsonify( json.load( fp ) )
 
     # simulate a slow response
     delay = parse_int( app.config.get( "ASA_UPLOAD_DELAY" ), 0 )

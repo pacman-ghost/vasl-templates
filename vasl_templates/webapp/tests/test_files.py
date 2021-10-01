@@ -87,11 +87,11 @@ def test_local_user_files( webapp, webdriver ):
         # try getting a user file
         try:
             url = webapp.url_for( "get_user_file", path="hello.txt" )
-            resp = urllib.request.urlopen( url )
-            assert enable_user_files # nb: we should only get here if user files are enabled
-            assert resp.code == 200
-            assert resp.read().strip() == b"Yo, wassup!"
-            assert resp.headers[ "Content-Type" ].startswith( "text/plain" )
+            with urllib.request.urlopen( url ) as resp:
+                assert enable_user_files # nb: we should only get here if user files are enabled
+                assert resp.code == 200
+                assert resp.read().strip() == b"Yo, wassup!"
+                assert resp.headers[ "Content-Type" ].startswith( "text/plain" )
         except urllib.error.HTTPError as ex:
             assert not enable_user_files # nb: we should only get here if user files are disabled
             assert ex.code == 404
@@ -99,17 +99,18 @@ def test_local_user_files( webapp, webdriver ):
         # try getting a non-existent file (nb: should always fail, whether user files are enabled/disabled)
         with pytest.raises( urllib.error.HTTPError ) as exc_info:
             url = webapp.url_for( "get_user_file", path="unknown" )
-            resp = urllib.request.urlopen( url )
+            with urllib.request.urlopen( url ):
+                pass
         assert exc_info.value.code == 404
 
         # try getting a file in a sub-directory
         try:
             url = webapp.url_for( "get_user_file", path="subdir/placeholder.png" )
-            resp = urllib.request.urlopen( url )
-            assert enable_user_files # nb: we should only get here if user files are enabled
-            assert resp.code == 200
-            assert resp.read().startswith( b"\x89PNG\r\n" )
-            assert resp.headers[ "Content-Type" ] == "image/png"
+            with urllib.request.urlopen( url ) as resp:
+                assert enable_user_files # nb: we should only get here if user files are enabled
+                assert resp.code == 200
+                assert resp.read().startswith( b"\x89PNG\r\n" )
+                assert resp.headers[ "Content-Type" ] == "image/png"
         except urllib.error.HTTPError as ex:
             assert not enable_user_files # nb: we should only get here if user files are disabled
             assert ex.code == 404
@@ -119,17 +120,18 @@ def test_local_user_files( webapp, webdriver ):
         assert os.path.isfile( fname )
         with pytest.raises( urllib.error.HTTPError ) as exc_info:
             url = webapp.url_for( "get_user_file", path="../new-default-scenario.json" )
-            resp = urllib.request.urlopen( url )
+            with urllib.request.urlopen( url ):
+                pass
         assert exc_info.value.code == 404
 
         # try getting a file with special characters in its name
         try:
             url = webapp.url_for( "get_user_file", path="amp=& ; plus=+.txt" )
-            resp = urllib.request.urlopen( url )
-            assert enable_user_files # nb: we should only get here if user files are enabled
-            assert resp.code == 200
-            assert resp.read().strip() == b"special chars"
-            assert resp.headers[ "Content-Type" ].startswith( "text/plain" )
+            with urllib.request.urlopen( url ) as resp:
+                assert enable_user_files # nb: we should only get here if user files are enabled
+                assert resp.code == 200
+                assert resp.read().strip() == b"special chars"
+                assert resp.headers[ "Content-Type" ].startswith( "text/plain" )
         except urllib.error.HTTPError as ex:
             assert not enable_user_files # nb: we should only get here if user files are disabled
             assert ex.code == 404
@@ -164,11 +166,11 @@ def test_remote_user_files( webapp, webdriver ):
         # try getting a user file
         try:
             url = webapp.url_for( "get_user_file", path="menu.png" )
-            resp = urllib.request.urlopen( url )
-            assert enable_user_files # nb: we should only get here if user files are enabled
-            assert resp.code == 200
-            assert resp.read().startswith( b"\x89PNG\r\n" )
-            assert resp.headers[ "Content-Type" ] == "image/png"
+            with urllib.request.urlopen( url ) as resp:
+                assert enable_user_files # nb: we should only get here if user files are enabled
+                assert resp.code == 200
+                assert resp.read().startswith( b"\x89PNG\r\n" )
+                assert resp.headers[ "Content-Type" ] == "image/png"
         except urllib.error.HTTPError as ex:
             assert not enable_user_files # nb: we should only get here if user files are disabled
             assert ex.code == 404

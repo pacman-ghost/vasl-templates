@@ -25,12 +25,14 @@ def roar_string( s ):
 
 # load the ASL Scenario Archive scenarios
 fname = sys.argv[1]
-asa_data = json.load( open( fname, "r" ) )
+with open( fname, "r", encoding="utf-8" ) as fp:
+    asa_data = json.load( fp )
 _build_asa_scenario_index( _asa_scenarios, asa_data, None )
 
 # load the ROAR scenarios
 fname = sys.argv[2]
-roar_data = json.load( open( fname, "r" ) )
+with open( fname, "r", encoding="utf-8" ) as fp:
+    roar_data = json.load( fp )
 _build_roar_scenario_index( _roar_scenarios, roar_data, None )
 
 # try to connect each ASA scenario to ROAR

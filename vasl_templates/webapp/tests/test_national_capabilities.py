@@ -49,17 +49,18 @@ def test_national_capabilities_reports( webapp, webdriver ):
                 if save_dir:
                     fname2 = os.path.join( save_dir, fname )
                     os.makedirs( os.path.split(fname2)[0], exist_ok=True )
-                    with open( os.path.join(save_dir,fname2), "w" ) as fp:
+                    with open( os.path.join(save_dir,fname2), "w", encoding="utf-8" ) as fp:
                         fp.write( report )
 
                 # check the report
                 fname = os.path.join( check_dir, fname )
-                if open(fname,"r",encoding="utf-8").read() != report:
-                    if save_dir:
-                        print( "FAILED:", fname )
-                        failed = True
-                    else:
-                        assert False, "Report mismatch: {}".format( fname )
+                with open( fname, "r", encoding="utf-8" ) as fp:
+                    if fp.read() != report:
+                        if save_dir:
+                            print( "FAILED:", fname )
+                            failed = True
+                        else:
+                            assert False, "Report mismatch: {}".format( fname )
 
         assert not failed
 

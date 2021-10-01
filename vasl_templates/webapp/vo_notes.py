@@ -202,17 +202,17 @@ def load_vo_notes( msg_store ): #pylint: disable=too-many-statements,too-many-lo
             vo_notes[ vo_type2 ][ nat2 ][ "multi-applicable" ] = ma_notes
 
     # update nationality variants with the notes from their base nationality
-    for vo_type2 in vo_notes:
+    for vo_type2, vo_notes2 in vo_notes.items():
         # FUDGE! Some nationalities don't have any vehicles/ordnance of their own, so we have to do this manually.
         # NOTE: We do a deep copy so that these new nationalities don't get affected by changes we make
         # to the base nationality later (e.g. adding K:FW counters to the British).
-        if "chinese" in vo_notes[vo_type2]:
-            vo_notes[vo_type2]["chinese~gmd"] = copy.deepcopy( vo_notes[vo_type2]["chinese"] )
-        if "british" in vo_notes[vo_type2]:
-            vo_notes[vo_type2]["british~canadian"] = copy.deepcopy( vo_notes[vo_type2]["british"] )
-            vo_notes[vo_type2]["british~newzealand"] = copy.deepcopy( vo_notes[vo_type2]["british"] )
-            vo_notes[vo_type2]["british~australian"] = copy.deepcopy( vo_notes[vo_type2]["british"] )
-            vo_notes[vo_type2]["british~anzac"] = copy.deepcopy( vo_notes[vo_type2]["british"] )
+        if "chinese" in vo_notes2:
+            vo_notes2["chinese~gmd"] = copy.deepcopy( vo_notes2["chinese"] )
+        if "british" in vo_notes2:
+            vo_notes2["british~canadian"] = copy.deepcopy( vo_notes2["british"] )
+            vo_notes2["british~newzealand"] = copy.deepcopy( vo_notes2["british"] )
+            vo_notes2["british~australian"] = copy.deepcopy( vo_notes2["british"] )
+            vo_notes2["british~anzac"] = copy.deepcopy( vo_notes2["british"] )
 
     def install_kfw_vo_notes( nat, vo_type, extn_id, include ):
         """Install the K:FW vehicle/ordnance notes into the specified nationality."""
@@ -426,10 +426,11 @@ def load_asl_rulebook2_vo_note_targets( msg_store ):
         return
     try:
         if os.path.isfile( base_url ):
-            fp = open( base_url, "r", encoding="utf-8" )
+            with open( base_url, "r", encoding="utf-8" ) as fp:
+                _asl_rulebook2_targets = json.load( fp )
         else:
-            fp = urllib.request.urlopen( base_url + "/vo-note-targets" )
-        _asl_rulebook2_targets = json.load( fp )
+            with urllib.request.urlopen( base_url + "/vo-note-targets" ) as fp:
+                _asl_rulebook2_targets = json.load( fp )
     except Exception as ex: #pylint: disable=broad-except
         msg = str( getattr(ex,"reason",None) or ex )
         msg_store.warning( "Couldn't get the ASL Rulebook2 Chapter H targets: {}".format( msg ) )

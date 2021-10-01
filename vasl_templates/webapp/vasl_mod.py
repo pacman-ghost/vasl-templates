@@ -103,12 +103,11 @@ def _load_vasl_extns( extn_dir, msg_store ): #pylint: disable=too-many-locals,to
         # try to load the extension
         _logger.debug( "Checking VASL extension: %s", extn_fname )
         try:
-            zip_file = zipfile.ZipFile( extn_fname, "r" )
+            with zipfile.ZipFile( extn_fname, "r" ) as zf:
+                build_info = zf.read( "buildFile" )
         except zipfile.BadZipFile:
             log_warning( "Can't check VASL extension (not a ZIP file): {}", extn_fname )
             continue
-        try:
-            build_info = zip_file.read( "buildFile" )
         except KeyError:
             log_warning( "Missing buildFile: {}", extn_fname )
             continue
@@ -163,11 +162,11 @@ class VaslMod:
 
         # initialize
         self._pieces = {}
-        self._files = [ ( zipfile.ZipFile(fname,"r"), None ) ]
+        self._files = [ ( zipfile.ZipFile(fname,"r"), None ) ] #pylint: disable=consider-using-with
         if extns:
             for extn in extns:
                 self._files.append(
-                    ( zipfile.ZipFile(extn[0],"r"), extn[1] )
+                    ( zipfile.ZipFile(extn[0],"r"), extn[1] ) #pylint: disable=consider-using-with
                 )
 
         # load the VASL module and any extensions
@@ -258,9 +257,11 @@ class VaslMod:
 
         # load our overrides
         fname = os.path.join( data_dir, "vasl-"+self.vasl_version, "vasl-overrides.json" )
-        vasl_overrides = json.load( open( fname, "r", encoding="utf-8" ) )
+        with open( fname, "r", encoding="utf-8" ) as fp:
+            vasl_overrides = json.load( fp )
         fname = os.path.join( data_dir, "vasl-"+self.vasl_version, "expected-multiple-images.json" )
-        expected_multiple_images = json.load( open( fname, "r", encoding="utf-8" ) )
+        with open( fname, "r", encoding="utf-8" ) as fp:
+            expected_multiple_images = json.load( fp )
 
         # figure out which pieces we're interested in
         target_gpids = get_vo_gpids( self )

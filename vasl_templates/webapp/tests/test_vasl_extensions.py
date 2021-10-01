@@ -63,7 +63,8 @@ def test_vasl_extension_info( webapp, webdriver ):
 
     # prepare our test VASL extension
     fname = os.path.join( os.path.split(__file__)[0], "fixtures/vasl-extensions/test-extn.xml" )
-    extn_fname = _set_test_vasl_extn( webapp, open(fname,"r").read() )
+    with open( fname, "r", encoding="utf=8" ) as fp:
+        extn_fname = _set_test_vasl_extn( webapp, fp.read() )
 
     def do_test( dname, expected ): #pylint: disable=missing-docstring
         webapp.control_tests \

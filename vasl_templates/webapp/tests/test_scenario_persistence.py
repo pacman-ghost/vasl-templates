@@ -186,9 +186,9 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     load_scenario( saved_scenario )
     check_window_title( "my test scenario (xyz123)" )
     check_ob_tabs( "russian", "german" )
-    for tab_id in SCENARIO_PARAMS:
+    for tab_id, params in SCENARIO_PARAMS.items():
         select_tab( tab_id )
-        for field,val in SCENARIO_PARAMS[tab_id].items():
+        for field, val in params.items():
             if field in ("SCENARIO_NOTES","SSR"):
                 continue # nb: these require special handling, we do it below
             if field in ("OB_SETUPS_1","OB_SETUPS_2","OB_NOTES_1","OB_NOTES_2"):

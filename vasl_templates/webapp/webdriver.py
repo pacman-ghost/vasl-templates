@@ -39,7 +39,7 @@ class WebDriver:
 
     def start( self ):
         """Start the webdriver."""
-        self.lock.acquire()
+        self.lock.acquire() #pylint: disable=consider-using-with
         self._do_start()
 
     def _do_start( self ):

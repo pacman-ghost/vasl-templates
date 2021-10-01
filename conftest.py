@@ -136,7 +136,7 @@ def _make_webapp():
         # This means that the webapp doesn't get a chance to shutdown properly (in particular,
         # clean up the gRPC service), but since we send an EndTests message at the of each test,
         # the remote server gets a chance to clean up then. It's not perfect (e.g. if the tests fail
-        # or otherwise finish eearly before they get a chance to send the EndTests message), but
+        # or otherwise finish early before they get a chance to send the EndTests message), but
         # we can live with it.
         thread = threading.Thread(
             target = lambda: app.run( host="0.0.0.0", port=FLASK_WEBAPP_PORT, use_reloader=False ),
@@ -147,8 +147,8 @@ def _make_webapp():
         def is_ready():
             """Try to connect to the webapp server."""
             try:
-                resp = urllib.request.urlopen( app.url_for("ping") ).read()
-                assert resp.startswith( b"pong: " )
+                with urllib.request.urlopen( app.url_for("ping") ) as resp:
+                    assert resp.read().startswith( b"pong: " )
                 return True
             except URLError:
                 return False
@@ -158,14 +158,14 @@ def _make_webapp():
 
     # set up control of the remote webapp server
     try:
-        resp = json.load(
-            urllib.request.urlopen( app.url_for( "get_control_tests" ) )
-        )
+        url = app.url_for( "get_control_tests" )
+        with urllib.request.urlopen( url ) as resp:
+            resp_data = json.load( resp )
     except urllib.error.HTTPError as ex:
         if ex.code == 404:
             raise RuntimeError( "Can't get the test control port - has remote test control been enabled?" ) from ex
         raise
-    port_no = resp.get( "port" )
+    port_no = resp_data.get( "port" )
     if not port_no:
         raise RuntimeError( "The webapp server is not running the test control service." )
     mo = re.search( r"^http://(.+):\d+$", app.base_url )

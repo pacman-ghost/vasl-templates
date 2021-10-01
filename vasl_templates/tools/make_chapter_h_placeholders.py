@@ -38,9 +38,10 @@ def make_chapter_h_placeholders( output_fname, log=None \
     results = {}
 
     # load the nationalities
-    fname = os.path.join( os.path.split(__file__)[0], "../webapp/data/default-template-pack/nationalities.json" )
     global nationalities
-    nationalities = json.load( open( fname, "r" ) )
+    fname = os.path.join( os.path.split(__file__)[0], "../webapp/data/default-template-pack/nationalities.json" )
+    with open( fname, "r", encoding="utf-8" ) as fp:
+        nationalities = json.load( fp )
 
     # load the vehicle/ordnance data files
     base_dir = os.path.join( os.path.split(__file__)[0], "../webapp/data/" )
@@ -95,16 +96,16 @@ def make_chapter_h_placeholders( output_fname, log=None \
     base_dir = os.path.join( os.path.split(__file__)[0], "../webapp/data/extensions" )
     for fname in glob.glob( os.path.join( base_dir, "*.json" ) ):
         extn_data = load_vo_data_from_extension( fname )
-        for nat in extn_data:
-            for vo_type in extn_data[nat]:
-                for key in extn_data[nat][vo_type]:
+        for nat, vo_types in extn_data.items():
+            for vo_type in vo_types:
+                for key in vo_types[vo_type]:
                     if nat not in results:
                         results[nat] = {}
                     if vo_type not in results[nat]:
                         results[nat][vo_type] = {}
                     if key not in results[nat][vo_type]:
                         results[nat][vo_type][key] = []
-                    results[nat][vo_type][key].extend( extn_data[nat][vo_type].get( key, [] ) )
+                    results[nat][vo_type][key].extend( vo_types[vo_type].get( key, [] ) )
 
     # FUDGE! Allied Ordnance Note D is not in the Allied Minor common.json file (it's referenced
     # by some of the nationality-specific Guns e.g. Belgian DBT), so we add it in manually.
@@ -154,7 +155,8 @@ def load_vo_data( fname, nat ):
     notes, ma_notes = set(), set()
 
     # load the file
-    vo_data = json.load( open( fname, "r" ) )
+    with open( fname, "r", encoding="utf-8" ) as fp:
+        vo_data = json.load( fp )
     for vo_entry in vo_data:
         if "note_number" in vo_entry:
             notes.add(
@@ -218,7 +220,8 @@ def load_vo_data_from_extension( fname ):
     results = {}
 
     # get the extension ID
-    data = json.load( open( fname, "r" ) )
+    with open( fname, "r", encoding="utf-8" ) as fp:
+        data = json.load( fp )
     extn_id = data["extensionId"]
     if extn_id == "08d":
         # NOTE: All the vehicle/ordnance notes and multi-applicable notes in the Fight For Seoul extension

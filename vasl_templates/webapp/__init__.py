@@ -176,7 +176,8 @@ def _on_sigint( signum, stack ): #pylint: disable=unused-argument
             # NOTE: os.path.isfile() and .exists() both return True even after the log file has gone!?!?
             # Is somebody caching something somewhere? :-/
             try:
-                open( _LOCK_FNAME, "r" )
+                with open( _LOCK_FNAME, "rb" ):
+                    pass
             except FileNotFoundError:
                 break
             time.sleep( 0.1 )
@@ -191,7 +192,8 @@ flask.cli.show_server_banner = lambda *args: None
 app = Flask( __name__ )
 if _is_flask_child_process():
     # we are the Flask child process - create a lock file
-    open( _LOCK_FNAME, "w" ).close()
+    with open( _LOCK_FNAME, "wb" ):
+        pass
 
 # set config defaults
 # NOTE: These are defined here since they are used by both the back- and front-ends.
@@ -237,8 +239,8 @@ if os.path.isfile( _fname ):
     with open( _fname, "r", encoding="utf-8" ) as fp:
         try:
             logging.config.dictConfig( yaml.safe_load( fp ) )
-        except Exception as ex: #pylint: disable=broad-except
-            logging.error( "Can't load the logging config: %s", ex )
+        except Exception as _ex: #pylint: disable=broad-except
+            logging.error( "Can't load the logging config: %s", _ex )
 else:
     # stop Flask from logging every request :-/
     logging.getLogger( "werkzeug" ).setLevel( logging.WARNING )

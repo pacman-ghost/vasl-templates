@@ -359,7 +359,8 @@ def test_common_vo( webapp, webdriver ): #pylint: disable=too-many-locals
     def get_common_vo( fname ):
         """Get the vehicle/ordnance information from the specified file."""
         fname = os.path.join( DATA_DIR, fname )
-        data = json.load( open( fname, "r" ) )
+        with open( fname, "r", encoding="utf-8" ) as fp:
+            data = json.load( fp )
         def get_gpid( val ): #pylint: disable=missing-docstring
             if isinstance( val, list ):
                 val = val[0]
@@ -750,7 +751,8 @@ def test_invalid_vo_image_ids( webapp, webdriver ):
                 continue
 
             # load the next scenario, make sure a warning was issued for the V/O image ID
-            data = json.load( open(fname,"r") )
+            with open( fname, "r", encoding="utf-8" ) as fp:
+                data = json.load( fp )
             set_stored_msg_marker( "_last-warning_" )
             load_scenario( data )
             last_warning = get_stored_msg( "_last-warning_" )

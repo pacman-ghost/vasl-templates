@@ -30,9 +30,9 @@ def test_counter_images( webapp, webdriver ): #pylint: disable=too-many-locals
             for side in ("front","back"):
                 url = webapp.url_for( "get_counter_image", gpid=gpid, side=side )
                 try:
-                    resp = urllib.request.urlopen( url )
-                    resp_code = resp.code
-                    resp_data = resp.read()
+                    with urllib.request.urlopen( url ) as resp:
+                        resp_code = resp.code
+                        resp_data = resp.read()
                 except urllib.error.HTTPError as ex:
                     resp_code = ex.code
                     resp_data = None
@@ -45,7 +45,8 @@ def test_counter_images( webapp, webdriver ): #pylint: disable=too-many-locals
     # a missing image for everything anyway. We just use the most recent supported version.
     gpids = get_vo_gpids( None )
     fname = os.path.join( os.path.split(__file__)[0], "../static/images/missing-image.png" )
-    missing_image_data = open( fname, "rb" ).read()
+    with open( fname, "rb" ) as fp:
+        missing_image_data = fp.read()
     check_images( gpids,
         check_front = lambda code, data: code == 200 and data == missing_image_data,
         check_back = lambda code, data: code == 200 and data == missing_image_data
@@ -77,13 +78,14 @@ def test_counter_images( webapp, webdriver ): #pylint: disable=too-many-locals
 
         # figure out what we're expecting to see
         fname = os.path.join( check_dir, "vasl-pieces-{}.txt".format( vasl_version ) )
-        expected_vasl_pieces = open( fname, "r" ).read()
+        with open( fname, "r", encoding="utf-8" ) as fp:
+            expected_vasl_pieces = fp.read()
 
         # generate a report for the pieces loaded
         report, gpids = webapp.control_tests.get_vasl_pieces( vasl_version )
         if save_dir:
             fname2 = os.path.join( save_dir, vasl_version+".txt" )
-            with open( fname2, "w" ) as fp:
+            with open( fname2, "w", encoding="utf-8" ) as fp:
                 fp.write( report )
 
         # check the report
@@ -114,8 +116,8 @@ def _DISABLED_test_gpid_remapping( webapp, webdriver ):
         """Check if we can get the image for the specified GPID."""
         url = webapp.url_for( "get_counter_image", gpid=gpid, side="front" )
         try:
-            resp = urllib.request.urlopen( url )
-            return resp.code
+            with urllib.request.urlopen( url ) as resp:
+                return resp.code
         except urllib.error.HTTPError as ex:
             assert ex.code != 200
             return ex.code
@@ -156,7 +158,8 @@ def _DISABLED_test_gpid_remapping( webapp, webdriver ):
 
     # load the test scenario
     fname = os.path.join( os.path.split(__file__)[0], "fixtures/gpid-remapping.json" )
-    scenario_data = json.load( open( fname, "r" ) )
+    with open( fname, "r", encoding="utf-8" ) as fp:
+        scenario_data = json.load( fp )
 
     # run the tests using VASL 6.4.4 and 6.5.0
     # NOTE: Versions of VASL prior to 6.6.0 are no longer officially supported (since they use Java 8),

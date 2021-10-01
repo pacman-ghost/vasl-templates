@@ -128,7 +128,7 @@ class ControlTestsServicer( BaseControlTestsServicer ): #pylint: disable=too-man
         # set up a directory for our temp files
         if self._temp_dir:
             self._temp_dir.cleanup()
-        self._temp_dir = tempfile.TemporaryDirectory()
+        self._temp_dir = tempfile.TemporaryDirectory() #pylint: disable=consider-using-with
 
         # reset the webapp server
         ctx = None

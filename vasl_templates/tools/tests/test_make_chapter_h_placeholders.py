@@ -18,7 +18,8 @@ def test_make_chapter_h_placeholders():
 
         # get the expected results
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/chapter-h-placeholders.txt" )
-        expected = [ line.strip() for line in open(fname,"r") ]
+        with open( fname, "r", encoding="utf-8" ) as fp:
+            expected = [ line.strip() for line in fp ]
 
         # check the results
         with ZipFile( temp_file.name, "r" ) as zip_file:

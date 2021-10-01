@@ -327,7 +327,8 @@ def get_nationality_display_name( nat_id ):
 def get_nationalities( webapp ):
     """Get the nationalities table."""
     url = webapp.url_for( "get_template_pack" )
-    template_pack = json.load( urllib.request.urlopen( url ) )
+    with urllib.request.urlopen( url ) as resp:
+        template_pack = json.load( resp )
     return template_pack["nationalities"]
 
 # ---------------------------------------------------------------------

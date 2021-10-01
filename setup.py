@@ -16,11 +16,12 @@ def parse_requirements( fname ):
     """Parse a requirements file."""
     lines = []
     fname = os.path.join( os.path.split(__file__)[0], fname )
-    for line in open(fname,"r"):
-        line = line.strip()
-        if line == "" or line.startswith("#"):
-            continue
-        lines.append( line )
+    with open( fname, "r", encoding="utf-8" ) as fp:
+        for line in fp:
+            line = line.strip()
+            if line == "" or line.startswith("#"):
+                continue
+            lines.append( line )
     return lines
 
 # ---------------------------------------------------------------------
@@ -38,8 +39,8 @@ setup(
             # NOTE: PyQt5 requirements: https://doc.qt.io/qt-5/linux.html
             #   Linux: mesa-libGL-devel ; @"C Development Tools and Libraries"
             # NOTE: You may need to disable VMware 3D acceleration, if QWebEngineView is crashing.
-            "PyQT5==5.15.2",
-            "PyQtWebEngine==5.15.2",
+            "PyQT5==5.15.4",
+            "PyQtWebEngine==5.15.4",
         ],
         "dev": parse_requirements( "requirements-dev.txt" ),
     },

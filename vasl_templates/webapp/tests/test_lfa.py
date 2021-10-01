@@ -617,7 +617,8 @@ def _analyze_vlogs( fnames ):
     # add each log file
     for fno,fname in enumerate(fnames):
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/analyze-vlog/"+fname )
-        vlog_data = open( fname, "rb" ).read()
+        with open( fname, "rb" ) as fp:
+            vlog_data = fp.read()
         set_stored_msg( "_vlog-persistence_", "{}|{}".format(
             os.path.split( fname )[1],
             base64.b64encode( vlog_data ).decode( "utf-8" )

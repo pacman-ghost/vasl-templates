@@ -464,18 +464,20 @@ class VassalShim:
                 # but it does hide the DOS box if the user has configured java.exe instead of javaw.exe.
                 kwargs["creationflags"] = 0x8000000 # nb: win32process.CREATE_NO_WINDOW
             try:
-                proc = subprocess.Popen( args2, **kwargs )
+                with subprocess.Popen( args2, **kwargs ) as proc:
+                    try:
+                        proc.wait( timeout )
+                    except subprocess.TimeoutExpired:
+                        proc.kill()
+                        raise
             except FileNotFoundError as ex:
                 raise SimpleError( "Can't run the VASSAL shim (have you configured Java?): {}".format( ex ) ) from ex
-            try:
-                proc.wait( timeout )
-            except subprocess.TimeoutExpired:
-                proc.kill()
-                raise
             buf1.close( delete=False )
-            stdout = open( buf1.name, "r", encoding="utf-8" ).read()
+            with open( buf1.name, "r", encoding="utf-8" ) as fp:
+                stdout = fp.read()
             buf2.close( delete=False )
-            stderr = open( buf2.name, "r", encoding="utf-8" ).read()
+            with open( buf2.name, "r", encoding="utf-8" ) as fp:
+                stderr = fp.read()
         elapsed_time = time.time() - start_time
         logger.info( "- Completed OK: %.3fs", elapsed_time )
 

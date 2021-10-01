@@ -32,15 +32,15 @@ class FileServer:
             url = "{}/{}".format( self.base_dir, path )
             # NOTE: We download the target file and serve it ourself (instead of just redirecting)
             # since VASSAL can't handle SSL :-/
-            resp = urllib.request.urlopen( url )
             buf = io.BytesIO()
-            buf.write( resp.read() )
-            buf.seek( 0 )
+            with urllib.request.urlopen( url ) as resp:
+                buf.write( resp.read() )
             mime_type = mimetypes.guess_type( url )[0]
             if not mime_type:
                 # FUDGE! send_file() requires a MIME type, so we take a guess and hope the browser
                 # can figure it out if we're wrong :-/
                 mime_type = "image/png"
+            buf.seek( 0 )
             return send_file( buf, mimetype=mime_type )
         else:
             path = path.replace( "\\", "/" ) # nb: for Windows :-/
@@ -95,7 +95,7 @@ def get_counter_image( gpid, side, index=0 ):
         abort( 404 )
     return send_file(
         io.BytesIO( image_data ),
-        attachment_filename = os.path.split( image_path )[1] # nb: so Flask can figure out the MIME type
+        download_name = os.path.split( image_path )[1] # nb: so Flask can figure out the MIME type
     )
 
 # ---------------------------------------------------------------------

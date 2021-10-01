@@ -62,7 +62,8 @@ def main( bind_addr, force_init_delay, flask_debug ):
             # (in particular, starting the download thread).
             time.sleep( force_init_delay )
             url = "http://{}:{}/ping".format( host, port )
-            _ = urllib.request.urlopen( url )
+            with urllib.request.urlopen( url ) as resp:
+                _ = resp.read()
         threading.Thread( target=_start_server, daemon=True ).start()
 
     # run the server

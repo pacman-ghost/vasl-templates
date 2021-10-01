@@ -75,7 +75,7 @@ class TempFile:
         else:
             encoding = "utf-8" if "b" not in self.mode else None
         assert self.temp_file is None
-        self.temp_file = tempfile.NamedTemporaryFile(
+        self.temp_file = tempfile.NamedTemporaryFile( #pylint: disable=consider-using-with
             mode = self.mode,
             encoding = encoding,
             suffix = self.extn,

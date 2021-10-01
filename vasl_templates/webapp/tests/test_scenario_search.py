@@ -612,7 +612,8 @@ def test_scenario_upload( webapp, webdriver ):
         assert asa_upload["token"] == api_token
         # send the VSAV data to the front-end
         fname = os.path.join( os.path.dirname(__file__), "fixtures/update-vsav/full.vsav" )
-        vsav_data = open( fname, "rb" ).read()
+        with open( fname, "rb" ) as fp:
+            vsav_data = fp.read()
         set_stored_msg( "_vsav-persistence_", base64.b64encode( vsav_data ).decode( "utf-8" ) )
         find_child( ".vsav-container", dlg ).click()
         # wait for the files to be prepared

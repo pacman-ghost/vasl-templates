@@ -366,28 +366,28 @@ def test_vo_notes_image_cache( webapp, webdriver ):
     url = mo.group( 1 )
 
     # get the vehicle note image (should be created)
-    resp = urllib.request.urlopen( url )
-    assert not resp.headers.get( "X-WasCached" )
-    image_data = resp.read()
+    with urllib.request.urlopen( url ) as resp:
+        assert not resp.headers.get( "X-WasCached" )
+        image_data = resp.read()
 
     # get the vehicle note image (should be re-created)
-    resp = urllib.request.urlopen( url )
-    assert not resp.headers.get( "X-WasCached" )
-    assert resp.read() == image_data
+    with urllib.request.urlopen( url ) as resp:
+        assert not resp.headers.get( "X-WasCached" )
+        assert resp.read() == image_data
 
     # enable image caching
     webapp.control_tests.set_app_config_val( "VO_NOTES_IMAGE_CACHE_DIR", "{{TEMP_DIR}}" )
     init_test()
 
     # get the vehicle note image (should be re-created)
-    resp = urllib.request.urlopen( url )
-    assert not resp.headers.get( "X-WasCached" )
-    assert resp.read() == image_data
+    with urllib.request.urlopen( url ) as resp:
+        assert not resp.headers.get( "X-WasCached" )
+        assert resp.read() == image_data
 
     # get the vehicle note image (should be cached)
-    resp = urllib.request.urlopen( url )
-    assert resp.headers.get( "X-WasCached" )
-    assert resp.read() == image_data
+    with urllib.request.urlopen( url ) as resp:
+        assert resp.headers.get( "X-WasCached" )
+        assert resp.read() == image_data
 
 # ---------------------------------------------------------------------
 
@@ -587,12 +587,13 @@ def test_vo_notes_reports( webapp, webdriver ): #pylint: disable=too-many-locals
 
             # check the report
             fname = os.path.join( check_dir, fname )
-            if open( fname, "r", encoding="utf-8" ).read() != report:
-                if save_dir:
-                    print( "FAILED:", fname )
-                    failed = True
-                else:
-                    assert False, "Report mismatch: {}".format( fname )
+            with open( fname, "r", encoding="utf-8" ) as fp:
+                if fp.read() != report:
+                    if save_dir:
+                        print( "FAILED:", fname )
+                        failed = True
+                    else:
+                        assert False, "Report mismatch: {}".format( fname )
 
     assert not failed
 

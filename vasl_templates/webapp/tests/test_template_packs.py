@@ -186,6 +186,32 @@ def test_missing_templates( webapp, webdriver ):
         else:
             return template_id
 
+    def check_buttons( fname, sel, is_snippet_control ): #pylint: disable=missing-docstring
+        for btn in find_children( sel ):
+            # check the UI state of the next button
+            template_id = adjust_template_id( btn.get_attribute( "data-id" ) )
+            if fname == "national-capabilities.json":
+                expected = False # nb: this is the JSON file, not the template file, and so doesn't effect buttons
+            elif fname == "nat_caps.j2":
+                expected = template_id.startswith( "nat_caps_" )
+            else:
+                expected = os.path.splitext( fname )[0] == template_id
+            disabled = webdriver.execute_script( "return $(arguments[0]).button('option','disabled')", btn )
+            assert expected == disabled
+            # check that snippet control groups have been enabled/disabled correctly
+            parent = btn.find_element_by_xpath( ".." )
+            parent_classes = get_css_classes( parent )
+            if is_snippet_control:
+                assert "snippet-control" in parent_classes
+                elem = find_child( ".ui-selectmenu-button", parent )
+                elem_classes = get_css_classes( elem )
+                if expected:
+                    assert "ui-selectmenu-disabled" in elem_classes
+                else:
+                    assert "ui-selectmenu-disabled" not in elem_classes
+            else:
+                assert "snippet-control" not in parent_classes
+
     # upload the template pack, with one file missing each time
     for fname in files:
 
@@ -197,33 +223,8 @@ def test_missing_templates( webapp, webdriver ):
 
         # check the state of each button (everything should be enabled, except for the one
         # corresponding to the template file we excluded from the upload)
-        def check_buttons( sel, is_snippet_control ): #pylint: disable=missing-docstring
-            for btn in find_children( sel ):
-                # check the UI state of the next button
-                template_id = adjust_template_id( btn.get_attribute( "data-id" ) )
-                if fname == "national-capabilities.json":
-                    expected = False # nb: this is the JSON file, not the template file, and so doesn't effect buttons
-                elif fname == "nat_caps.j2":
-                    expected = template_id.startswith( "nat_caps_" )
-                else:
-                    expected = os.path.splitext( fname )[0] == template_id
-                disabled = webdriver.execute_script( "return $(arguments[0]).button('option','disabled')", btn )
-                assert expected == disabled
-                # check that snippet control groups have been enabled/disabled correctly
-                parent = btn.find_element_by_xpath( ".." )
-                parent_classes = get_css_classes( parent )
-                if is_snippet_control:
-                    assert "snippet-control" in parent_classes
-                    elem = find_child( ".ui-selectmenu-button", parent )
-                    elem_classes = get_css_classes( elem )
-                    if expected:
-                        assert "ui-selectmenu-disabled" in elem_classes
-                    else:
-                        assert "ui-selectmenu-disabled" not in elem_classes
-                else:
-                    assert "snippet-control" not in parent_classes
-        check_buttons( "button.generate", True )
-        check_buttons( "button.edit-template", False )
+        check_buttons( fname, "button.generate", True )
+        check_buttons( fname, "button.edit-template", False )
 
         # NOTE: We should really check that the "generate snippet" buttons don't appear in sortable entries,
         # but that's more trouble than it's worth - templates such as ob_setup and ob_vehicles are never
@@ -250,7 +251,7 @@ def make_zip_from_files( dname ):
             fname = os.path.join( root, fname )
             assert fname.startswith( dname )
             fname2 = fname[len(dname)+1:]
-            with open( fname, "r" ) as fp:
+            with open( fname, "r", encoding="utf-8" ) as fp:
                 files[fname2] = fp.read()
     return _make_zip( files )
 
