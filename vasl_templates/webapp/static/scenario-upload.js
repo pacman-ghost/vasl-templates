@@ -275,7 +275,7 @@ function uploadFiles( asaScenarioId )
         // prepare the upload
         var formData = new FormData() ;
         var vtSetupJson = JSON.stringify( vtSetup, null, 4 ) ;
-        var vtSetupJsonUTF8 = (new TextEncoder()).encode( vtSetupJson ) ;
+        var vtSetupJsonUTF8 = toUTF8( vtSetupJson ) ;
         formData.append( "vt_setup",
             makeBlob( vtSetupJsonUTF8, "application/json" ),
             prefix + "|" + "scenario.json"

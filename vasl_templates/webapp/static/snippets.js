@@ -1842,7 +1842,7 @@ function on_save_scenario()
     }
 
     // return the parameters to the user as a downloadable file
-    download( data, save_fname, "application/json" ) ;
+    download( toUTF8(data), save_fname, "application/json" ) ;
 
     // NOTE: We get no indication if the download was successful, so we can't show feedback :-/
     // Also, if the download didn't actually happen (e.g. because it was cancelled), then setting

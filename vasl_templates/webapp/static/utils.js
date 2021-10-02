@@ -498,6 +498,12 @@ function addUrlParam( url, param, val )
     return url + "?" + param + "=" + encodeURIComponent(val) ;
 }
 
+function toUTF8( val )
+{
+    // convert the value to UTF-8 (nb: returns a Uint8Array)
+    return (new TextEncoder()).encode( val ) ;
+}
+
 function escapeHTML( val ) { return new Option(val).innerHTML ; }
 function trimString( val ) { return val ? val.trim() : val ; }
 function fpFmt( val, nDigits ) { return val.toFixed( nDigits ) ; }

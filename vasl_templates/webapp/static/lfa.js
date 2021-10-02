@@ -1890,7 +1890,7 @@ function onDownloadData()
         if ( gWebChannelHandler )
             gWebChannelHandler.save_log_file_analysis( data ) ;
         else
-            download( data, "analysis.csv", "application/text" ) ;
+            download( toUTF8(data), "analysis.csv", "application/text" ) ;
     }
 }
 
