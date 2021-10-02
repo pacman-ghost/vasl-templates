@@ -129,14 +129,14 @@ def test_nationality_specific( webapp, webdriver ): #pylint: disable=too-many-lo
         """Check that the PF snippets are generated correctly."""
         btn = find_child( "button[data-id='pf']" )
         col = "[OBCOL:german]/[OBCOL-BORDER:german]"
-        do_check_snippets( btn, (1942,1), "PF: range=[1] ; check=[2] (drm=[+1]) ; col={}".format(col), True )
-        do_check_snippets( btn, (1943,9), "PF: range=[1] ; check=[2] (drm=[+1]) ; col={}".format(col), True )
+        do_check_snippets( btn, (1942,1), "PF: range=[1] ; check=[3] ; col={}".format(col), True )
+        do_check_snippets( btn, (1943,9), "PF: range=[1] ; check=[3] ; col={}".format(col), True )
         do_check_snippets( btn, (1943,10), "PF: range=[1] ; check=[3] ; col={}".format(col), False )
         do_check_snippets( btn, (1944,5), "PF: range=[1] ; check=[3] ; col={}".format(col), False )
         do_check_snippets( btn, (1944,6), "PF: range=[2] ; check=[3] ; col={}".format(col), False )
         do_check_snippets( btn, (1944,12), "PF: range=[2] ; check=[3] ; col={}".format(col), False )
-        do_check_snippets( btn, (1945,1), "PF: range=[3] ; check=[4] (drm=[-1]) ; col={}".format(col), False )
-        do_check_snippets( btn, (1946,1), "PF: range=[3] ; check=[4] (drm=[-1]) ; col={}".format(col), False )
+        do_check_snippets( btn, (1945,1), "PF: range=[3] ; check=[4] ; col={}".format(col), False )
+        do_check_snippets( btn, (1946,1), "PF: range=[3] ; check=[4] ; col={}".format(col), False )
 
     # initialize
     def check_psk_snippets():

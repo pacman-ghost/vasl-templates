@@ -2,7 +2,10 @@
 
 <head>
 <meta charset="utf-8">
-<style> {{CSS:common}} </style>
+<style>
+    {{CSS:common}}
+    .pfk { color: #444 ; font-style: italic ; }
+</style>
 </head>
 
 <table>
@@ -19,7 +22,7 @@
 <tr>
 
 <td valign="top" rowspan="2" style="padding:2px 5px;">
-    PF check: dr &le; {{PF_CHECK_DR}} (&#9651;)
+    <b>PF check</b>: dr &le; {{PF_CHECK_DR}} (&#9651;)
     <table style="margin-left:10px;">
         <tr>
             <td style="width:25px;"> +1 <td> HS/crew
@@ -29,13 +32,21 @@
             <td> +1 <td> CX
         <tr>
             <td> +1 <td> non-AFV target
+{%if not SCENARIO_YEAR%}
+        <tr>
+            <td> -1 <td> 1945
+{%endif%}
+{%if SCENARIO_YEAR == 1943 and SCENARIO_MONTH >= 8 and SCENARIO_MONTH <= 9 %}
+        <tr class="pfk">
+            <td> +1 <td> PFk
+{%endif%}
     </table>
     original 6 = pinned
 
 <td valign="top" style="padding:0 5px;">
     <table>
     <tr>
-        <td> <b>Range</b> <td> <b>TH#</b>
+        <td> Range <td> &nbsp; <b>TH#</b> &nbsp;
     <tr>
         <td class="c"> 0 <td class="c"> 10
     <tr>
@@ -49,12 +60,17 @@
     {%endif%}
     {%endif%}
     </table>
+    original 12 = CR
 
 <tr>
 
-<td style="padding:0 5px;text-align:right;">
-    <b>TK#:</b> 31 <br>
-    16-3
+<td style="padding:0 5px;">
+    <div>
+        <b>TK#</b>: 31 <i>(16-3)</i>
+    </div>
+    <div class="pfk">
+        PFk TK#: 22 <i>(12-1)</i>
+    </div>
 
 </table>
 

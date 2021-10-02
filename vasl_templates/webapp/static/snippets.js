@@ -342,16 +342,10 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         params.PF_RANGE = 2 ;
     else
         params.PF_RANGE = 3 ;
-    if ( params.SCENARIO_YEAR < 1943 || (params.SCENARIO_YEAR === 1943 && params.SCENARIO_MONTH <= 9) ) {
-        params.PF_CHECK_DRM = "+1" ;
-        params.PF_CHECK_DR = 2 ;
-    } else if ( params.SCENARIO_YEAR >= 1945 ) {
-        params.PF_CHECK_DRM = "-1" ;
+    if ( params.SCENARIO_YEAR >= 1945 )
         params.PF_CHECK_DR = 4 ;
-    } else {
-        params.PF_CHECK_DRM = "" ;
+    else
         params.PF_CHECK_DR = 3 ;
-    }
 
     // generate BAZ parameters
     if ( params.SCENARIO_YEAR >= 1945 ) {
