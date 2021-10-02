@@ -6,6 +6,7 @@ import os
 import shutil
 import subprocess
 import traceback
+import html
 import re
 import logging
 import pprint
@@ -548,7 +549,22 @@ class VassalShim:
             version = VassalShim.get_version()
         except Exception as ex: #pylint: disable=broad-except
             if msg_store:
-                msg_store.error( "Can't get the VASSAL version: <p> {}", ex )
+                # NOTE: We get here if Java is unable to run the VASSAL shim e.g. because it's too much older
+                # than the version used to compile the shim. We normally show the user detailed error output
+                # from VASSAL in a dialog, but getting the VASSAL version number is a bit different, since it's
+                # an unsolicited action done as we start up, so showing the error to the user is problematic,
+                # since we don't have a way to trigger the dialog. We could add a new field to MsgStore for
+                # detailed messages that should be shown in a dialog, but what if e.g. there's more than one?
+                # It gets messy real fast, so we just extract the important part of the error output and
+                # show it to the user in a normal error balloon.
+                msg = str( ex )
+                if isinstance( ex, VassalShimError ):
+                    mo = re.search( r'Exception in thread "main" (.+?)$', ex.stderr or ex.stdout, re.MULTILINE )
+                    if mo:
+                        msg = mo.group( 1 )
+                msg_store.error( "Can't get the VASSAL version: <div class='pre'> {} </div>",
+                    html.escape( msg )
+                )
             return
         if version not in SUPPORTED_VASSAL_VERSIONS:
             if msg_store:
