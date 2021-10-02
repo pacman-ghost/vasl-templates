@@ -109,18 +109,19 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
     var $reset_capabilities = $( "#vo_capabilities-reset" ) ;
     $reset_capabilities.data( { vo_entry: vo_entry, params: params } ) ;
     function on_reset_capabilities() {
-        $dlg.find( ".header .vo-name" ).html( make_vo_name( vo_entry.name, elite ) ) ;
+        var curr_vo_entry = $reset_capabilities.data( "vo_entry" ) ;
+        var curr_params = $reset_capabilities.data( "params" ) ;
+        $dlg.find( ".header .vo-name" ).html( make_vo_name( curr_vo_entry.name, false ) ) ;
         load_entries( $capabilities,
-            get_default_capabilities( $reset_capabilities.data("vo_entry"), $reset_capabilities.data("params"), false )
+            get_default_capabilities( curr_vo_entry, curr_params, false )
         ) ;
         $elite.prop( "checked", false ) ;
     }
     var $reset_comments = $( "#vo_comments-reset" ) ;
     $reset_comments.data( { vo_entry: vo_entry, params: params } ) ;
     function on_reset_comments() {
-        load_entries( $comments,
-            get_default_comments( $reset_comments.data("vo_entry") )
-        ) ;
+        var curr_vo_entry = $reset_capabilities.data( "vo_entry" ) ;
+        load_entries( $comments, get_default_comments(curr_vo_entry) ) ;
     }
 
     function update_for_elite( delta ) {
