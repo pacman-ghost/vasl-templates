@@ -7,7 +7,7 @@ $(document).ready( function() {
     var $caption = $( "#app-name" ) ;
     var version = getUrlParam( "version" ) ;
     if ( version )
-        $caption.html( $caption.html() + " <small>(" + version + ")</small>" ) ;
+        $( "#app-version" ).text( " (" + version +")" ) ;
     $caption.fadeIn( 500 ) ;
 
     // catch clicks on links
@@ -58,11 +58,6 @@ $(document).ready( function() {
     }
 
     // initialize the tabs
-    if ( getUrlParam( "embedded" ) ) {
-        // update the UI
-        $( "#helptabs li:contains('Installation')" ).remove() ;
-        $( "#helptabs-installation" ).remove() ;
-    }
     $("#loader").fadeOut( 500 ) ;
     $("#helptabs").tabs().fadeIn( 500 ) ;
     $("#helptabs .ui-tabs-nav a").click( function() { $(this).blur() ; } ) ;
