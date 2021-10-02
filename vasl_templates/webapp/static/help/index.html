@@ -69,6 +69,12 @@ pip install .[gui]
 
 <p> Then, just run the <tt>vasl-templates</tt> command.
 
+<div class="hint">
+<a name="selenium-fix"></a>
+<img src="images/selenium-fix.png" class="preview" style="float:right;width:250px;">
+If you're running from source on Windows, you may see a black DOS box appear temporarily when performing certain actions (e.g. updating a VASL scenario). This is because <em>vasl-templates</em> runs a webdriver as part of its processing, which is a CLI program, and so the DOS box appears. Unfortunately, there's no way to control this in the <em>vasl-templates</em> code, but it can be disabled in the webdriver code itself. In your virtualenv, open the file <tt>Lib/site-packages/selenium/webdriver/common/service.py</tt>, and in the call to <tt>subprocess.Popen()</tt>, add a new <tt>creationflags = 0x8000000</tt> parameter.
+</div>
+
 <h4> Running just the web server </h4>
 
 <p> The simpler option is to just run the web server:
@@ -600,6 +606,10 @@ Note that both of these are run as part of a normal <tt>pytest</tt> run.
 python freeze.py --output c:\temp\vasl-templates.zip
 </div>
 The script will compile the program, then package it all up with the necessary support files into a single archive file.
+
+<div class="hint">
+If you are creating a Windows release, you should apply the <a href="#selenium-fix" onclick="select_tab('installation');">webdriver fix</a> first.
+</div>
 
 </div>
 
