@@ -99,9 +99,12 @@ and then connect to it in a browser at <tt>http://localhost:5010</tt>.
 </div>
 
 <p> Then open a browser and connect to the webapp at <tt>http://localhost:5010</tt>.
+
 <div class="warning"> If you have SElinux enabled, it may prevent the container from accessing files on the host. Access can be allowed like this:
 <div class="code"> chcon -Rt svirt_sandbox_file_t /home/pacman-ghost/vasl/ </div>
 </div>
+
+<div class="info" style="margin-top:-1.5em;"> Note that config files installed into the container are taken from their normal location (<tt>$/vasl_templates/webapp/config/</tt>), but are <em>overridden</em> with Docker-specific versions in <tt>$/docker/config/</tt>. </div>
 
 <a name="install-webdriver"></a>
 <h2>Installing a webdriver</h2>
