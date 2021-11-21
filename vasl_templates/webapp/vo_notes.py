@@ -319,7 +319,16 @@ def get_vo_note( vo_type, nat, key ):
                 # we have a cached copy - compare the timestamps of the source HTML and the cached image
                 # NOTE: We should also check the HTML for any associated images, and check their timestamps, as well.
                 if os.path.getmtime( cached_fname ) >= os.path.getmtime( vo_note["filename"] ):
-                    resp = send_file( cached_fname )
+                    # FUDGE! We get errors on Windows when using waitress to serve the webapp, when the tests end
+                    # and ControlTestsServicer tries to clean up its TemporaryDirectory ("not a directory" errors
+                    # for something that is a file :-/). TemporaryDirectory added a ignore_cleanup_errors argument
+                    # in Python 3.10, but for now, we work-around this problem by reading the file ourself and
+                    # serving it from memory.
+                    with open( cached_fname, "rb" ) as fp:
+                        buf = fp.read()
+                    resp = send_file( io.BytesIO( buf ),
+                        download_name = os.path.basename( cached_fname )
+                    )
                     resp.headers[ "X-WasCached" ] = 1
                     return resp
             with WebDriver.get_instance( "vo_note" ) as webdriver:

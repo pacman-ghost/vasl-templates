@@ -185,9 +185,6 @@ def _on_sigint( signum, stack ): #pylint: disable=unused-argument
 
 # ---------------------------------------------------------------------
 
-# disable the Flask startup banner
-flask.cli.show_server_banner = lambda *args: None
-
 # initialize Flask
 app = Flask( __name__ )
 if _is_flask_child_process():

@@ -143,11 +143,18 @@ def _do_main( template_pack, default_scenario, remote_debugging, debug ): #pylin
         return 2
 
     # start the webapp server
-    port = webapp.config[ "FLASK_PORT_NO" ]
+    flask_port = webapp.config[ "FLASK_PORT_NO" ]
     def webapp_thread():
         """Run the webapp server."""
         try:
-            webapp.run( host="localhost", port=port, use_reloader=False )
+            import waitress
+            # FUDGE! Browsers tend to send a max. of 6-8 concurrent requests per server, so we increase
+            # the number of worker threads to avoid task queue warnings :-/
+            nthreads = webapp.config.get( "WAITRESS_THREADS", 8 )
+            waitress.serve( webapp,
+                host="localhost", port=flask_port,
+                threads=nthreads
+            )
         except Exception as ex: #pylint: disable=broad-except
             logging.critical( "WEBAPP SERVER EXCEPTION: %s", ex )
             logging.critical( traceback.format_exc() )
@@ -172,7 +179,7 @@ def _do_main( template_pack, default_scenario, remote_debugging, debug ): #pylin
         if _webapp_error:
             break
         try:
-            url = "http://localhost:{}/ping".format( port )
+            url = "http://localhost:{}/ping".format( flask_port )
             with urllib.request.urlopen( url ) as resp:
                 resp_data = resp.read().decode( "utf-8" )
                 # we got a response - figure out if we connected to ourself or another instance
@@ -210,7 +217,7 @@ def _do_main( template_pack, default_scenario, remote_debugging, debug ): #pylin
     disable_browser = webapp.config.get( "DISABLE_WEBENGINEVIEW" )
 
     # run the application
-    url = "http://localhost:{}".format( port )
+    url = "http://localhost:{}".format( flask_port )
     from vasl_templates.main_window import MainWindow #pylint: disable=cyclic-import
     main_window = MainWindow( url, disable_browser )
     main_window.show()
