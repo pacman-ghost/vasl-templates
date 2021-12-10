@@ -46,6 +46,8 @@ function get_sorted_nats()
 function get_player_colors( player_no )
 {
     // get the colors for the specified player
+    // NOTE: The returned color array holds the following values:
+    //   [ background, hover background, border ]
     var player_nat = get_player_nat( player_no ) ;
     return gTemplatePack.nationalities[ player_nat ].ob_colors ;
 }

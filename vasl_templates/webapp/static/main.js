@@ -433,6 +433,14 @@ $(document).ready( function () {
     // In particualar, the dragstart events doesn't fire if something is being dragged into the browser from outside.
     $(document).on( { dragenter: stopEvent, dragleave: stopEvent, dragover: stopEvent, drop: stopEvent } ) ;
 
+    // FUDGE! We need this to get the input box in the LFA colorpicker to work :-/
+    //   https://github.com/bgrins/spectrum/issues/161#issuecomment-108089372
+    $.widget( "custom.dialog", $.ui.dialog, {
+        _allowInteraction: function( evt ) {
+            return !! $(evt.target).is( ".sp-input" ) || this._super( evt );
+        }
+    } ) ;
+
     // figure out how many pixels an em is
     var $em = $( "<span>M</span>" ) ;
     $("body").append( $em ) ;

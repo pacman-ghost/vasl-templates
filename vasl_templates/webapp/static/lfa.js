@@ -470,7 +470,7 @@ function initHotnessPopup()
         closeAllPopupsAndDropLists() ;
         // NOTE: We have to re-generate the report each time it's shown, since the user
         // may have chosen a different set of log files.
-        $gHotnessPopup.html( makeReport() ).show() ;
+        $gHotnessPopup.html( makeReport() ).fadeIn( 50 ) ;
         var maxWidth = 0 ;
         $gHotnessPopup.find( "table" ).each( function() {
             maxWidth = Math.max( $(this).outerWidth() , maxWidth ) ;
@@ -490,7 +490,7 @@ function initHotnessPopup()
         return false ;
     } ) ;
     gEventHandlers.addHandler( $("#lfa"), "click", function() {
-        $gHotnessPopup.hide() ;
+        $gHotnessPopup.fadeOut( 20 ) ;
     } ) ;
 }
 
@@ -605,6 +605,27 @@ function initPlayerColorsConfig()
     //   BEFORE SHOW ; HIDE ; SHOW ; ...
     var isBeforeShowActive = false ;
 
+    // NOTE: People want to use nationality colors in their graphs, so we provide them as a pre-defined palette.
+    var natColors=[], natNames=[] ;
+    var sortedNats = get_sorted_nats() ;
+    sortedNats.forEach( function( nat ) {
+        // NOTE: As always, two-tone counters cause us grief :-/ We probably want to use the background
+        // color here (index 0), but in general, they're just too weak :-(
+        natColors.push( gTemplatePack.nationalities[ nat ].ob_colors[2] ) ;
+        natNames.push( gTemplatePack.nationalities[ nat ].display_name ) ;
+    } ) ;
+    function fixupPaletteTooltips() {
+        // NOTE: It's possible to add custom color names (e.g. "german" = #d3edfc), and these custom names
+        // will appear as palette tooltips (if we set the preferred format to "name"):
+        //   https://github.com/bgrins/spectrum/pull/356#issuecomment-149417882
+        // Unfortunately, quite a few nationalities have the same color, so if the user selects e.g. "ANZAC",
+        // it might appear in the UI as "British" :-/ Instead, we provide this function that fixes up
+        // the tooltips. Sigh...
+        $( ".sp-palette-container .sp-thumb-el:visible" ).each( function( n ) {
+            $(this).attr( "title", natNames[n] ) ;
+        } ) ;
+    }
+
     // initialize the color pickers
     function initColorPicker( colorPickerNo, playerId, caption, style ) {
         var buf = [ "<div class='row'>",
@@ -619,14 +640,27 @@ function initPlayerColorsConfig()
         $elem = $gPlayerColorsPopup.find( ".color-picker.player" + colorPickerNo ) ;
         $elem.spectrum( {
             color: playerId === ":expected:" ? gUserSettings.lfa["player-colors"][0] : gUserSettings.lfa["player-colors"][gPlayerColorIndex[playerId]],
+            showPalette: true, palette: natColors,
+            showInput: true, preferredFormat: "hex",
             chooseText: "OK",
             cancelText: "Cancel",
             clickoutFiresChange: false,
-            move: function( color ) { updateChartColors( playerId, color.toHexString() ) ; },
+            move: function( color ) {
+                updateChartColors( playerId, color.toHexString() ) ;
+                fixupPaletteTooltips() ;
+            },
             beforeShow: function() { isBeforeShowActive=true ; },
             show: function() {
                 $(this).attr( "data-prev-color", $(this).spectrum("get").toHexString() ) ;
+                fixupPaletteTooltips() ;
                 isBeforeShowActive = false ;
+                // FUDGE! The spectrum control sizes itself too narrow if the window is zoomed (I think the problem
+                // is in getOffset() in spectrum.js), and since the colorpicker panel is floating, it ends up below
+                // the palette panel (instead of to the right). We hack around this by re-positioning the container.
+                const lfaWidth = $( "#lfa" )[0].clientWidth ;
+                var $popup = $( ".sp-container:visible" ) ;
+                const popupWidth = $popup.outerWidth() ;
+                $popup.css( { left: Math.round( lfaWidth - popupWidth ) + "px" } ) ;
             },
             hide: function( color ) {
                 // NOTE: We get this event when the color-picker is closed, regardless of whether a new color

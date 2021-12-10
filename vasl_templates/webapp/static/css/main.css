@@ -50,6 +50,11 @@ button.edit-template img { height: 18px ; vertical-align: middle ; margin-right:
 .ui-dialog-buttonpane button.ok { background: #ddd ; }
 .ui-dialog-buttonpane button.ok:hover { background: #ccc ; }
 
+/* spectrum color-picker */
+.sp-container { border-color: #aaa ; border-radius: 2px ; }
+.sp-palette { max-width: 120px ; }
+.sp-palette-row-selection { margin-top: 6px ; border-top: 1px solid #ccc ; padding-top: 6px ; }
+
 .growl-title { display: none ; }
 .growl .pre { font-family: monospace ; }
 .growl div.pre { margin: 0 0 1em 1em ; font-size: 80% ; }
