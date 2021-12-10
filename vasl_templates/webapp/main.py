@@ -320,6 +320,9 @@ def get_control_tests():
     def get_port():
         """Get the configured gRPC service port."""
         # NOTE: The Docker container configures this setting via an environment variable.
+        # NOTE: It would be nice to default this to -1, so that pytest will work out-of-the-box,
+        # without the user having to do anything, but since this endpoint can be used to
+        # mess with the server, we don't want it active by default.
         return app.config.get( "CONTROL_TESTS_PORT", os.environ.get("CONTROL_TESTS_PORT") )
 
     # check if the test control service should be made available
@@ -381,6 +384,9 @@ def get_favicon():
     # FUDGE! We specify the favicon in the main page (in a <link> tag), but the additional support pages
     # don't have this, which results in a spurious and annoying 404 warning message in the console,
     # so we explicitly provide this endpoint :-/
+    # NOTE: The icon file is a little on the chunky side (since it contains a lot of variants) but we don't
+    # want to just remove them, since this file is also used as the app icon for the desktop icon.
+    # We could strip it down here, but that's overkill :-/
     return app.send_static_file( "images/app.ico" )
 
 # ---------------------------------------------------------------------
