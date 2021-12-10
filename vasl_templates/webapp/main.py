@@ -14,7 +14,7 @@ from flask import request, render_template, jsonify, send_file, redirect, url_fo
 
 from vasl_templates.webapp import app, shutdown_event
 from vasl_templates.webapp.vassal import VassalShim
-from vasl_templates.webapp.utils import MsgStore, parse_int
+from vasl_templates.webapp.utils import MsgStore, get_java_version, parse_int
 import vasl_templates.webapp.config.constants
 from vasl_templates.webapp.config.constants import BASE_DIR, DATA_DIR, IS_FROZEN
 from vasl_templates.webapp import globvars
@@ -182,6 +182,7 @@ def get_program_info():
     for key in [ "VASSAL_DIR", "VASL_MOD", "VASL_EXTNS_DIR", "BOARDS_DIR",
                  "JAVA_PATH", "WEBDRIVER_PATH", "CHAPTER_H_NOTES_DIR", "USER_FILES_DIR" ]:
         params[ key ] = app.config.get( key )
+    params[ "JAVA_VERSION" ] = get_java_version()
 
     def parse_timestamp( val ):
         """Parse a timestamp."""

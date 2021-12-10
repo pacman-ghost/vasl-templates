@@ -33,7 +33,12 @@
 
 <table>
     <tr> <td class="key"> Java:
-         <td class="val path"> {%if JAVA_PATH%} {{JAVA_PATH}} {%else%} - {%endif%}
+         <td class="val path"> {%if JAVA_PATH%}
+            {{JAVA_PATH}}
+            {%if JAVA_VERSION%} <span class="info"> ({{JAVA_VERSION}}) </span> {%endif%}
+        {%else%}
+            -
+        {%endif%}
     <tr> <td class="key"> Web driver:
          <td class="val path"> {%if WEBDRIVER_PATH%} {{WEBDRIVER_PATH}} {%else%} - {%endif%}
 </table>

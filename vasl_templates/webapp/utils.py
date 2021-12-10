@@ -2,6 +2,7 @@
 
 import os
 import shutil
+import subprocess
 import io
 import tempfile
 import pathlib
@@ -209,6 +210,48 @@ def get_image_data( img, **kwargs ):
 def remove_alpha_from_image( img ):
     """Remove the alpha channel from an image."""
     return img.convert( "RGB" )
+
+# ---------------------------------------------------------------------
+
+def get_java_version():
+    """Get the version of the configured Java runtime."""
+    java_path = get_java_path()
+    if not java_path:
+        return None
+    try:
+        args = [ java_path, "-version" ]
+        kwargs = {
+            "capture_output": True, "text": True,
+            "stdin": subprocess.DEVNULL,
+        }
+        if is_windows():
+            kwargs["creationflags"] = 0x8000000 # nb: win32process.CREATE_NO_WINDOW
+        proc = subprocess.run( args, check=True, **kwargs )
+        return proc.stderr.split( "\n" )[0]
+    except Exception as ex: #pylint: disable=broad-except
+        logging.error( "Can't get Java version: %s", ex )
+        return "???"
+
+def get_java_path():
+    """Locate the Java runtime."""
+
+    # get the configured path to Java
+    java_path = app.config.get( "JAVA_PATH" )
+
+    # check if we should use the Java that now comes bundled with VASSAL
+    if not java_path and is_windows():
+        vassal_dir = app.config.get( "VASSAL_DIR" )
+        if vassal_dir:
+            fname = os.path.join( vassal_dir, "jre/bin/java.exe" )
+            if os.path.isfile( fname ):
+                java_path = fname
+
+    # check if we've found a Java runtime
+    if not java_path:
+        # nope - hope that there's one on the PATH
+        java_path = "java"
+
+    return java_path
 
 # ---------------------------------------------------------------------
 
