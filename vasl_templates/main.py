@@ -22,7 +22,7 @@ from PyQt5.QtCore import Qt, QSettings, QDir
 import PyQt5.QtCore
 import click
 
-from vasl_templates.webapp.utils import SimpleError
+from vasl_templates.webapp.utils import SimpleError, is_windows
 
 # NOTE: We're supposed to do the following to support HiDPI, but it causes the main window
 # to become extremely large when the Windows zoom level is high (and it doesn't really fix
@@ -212,6 +212,16 @@ def _do_main( template_pack, default_scenario, remote_debugging, debug ): #pylin
         logging.info( "Setting OpenGL: %s", opengl_type )
         opengl_type = getattr( Qt, opengl_type )
         QApplication.setAttribute( opengl_type )
+
+    #pylint: disable=line-too-long
+    # FUDGE! This works around a weird problem on Windows, if it has been configured to *not* show
+    # accelerator underlines by default. Pressing ALT is supposed to show them, but doesn't :-/
+    # The odd thing is, the default theme is "windowsvista", but we need to set it anyway (probably
+    # a timing issue during startup). It might also have something to do with virtualenv's:
+    #   https://stackoverflow.com/questions/69032767/show-hide-menu-underline-accelerators-with-pyqt-according-to-platform-integratio#comment122036986_69032767
+    #pylint: enable=line-too-long
+    if is_windows():
+        QApplication.setStyle( "windowsvista" )
 
     # check if we should disable the embedded browser
     disable_browser = webapp.config.get( "DISABLE_WEBENGINEVIEW" )
