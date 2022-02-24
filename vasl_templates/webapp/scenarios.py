@@ -563,8 +563,10 @@ def on_successful_asa_upload( scenario_id ):
     # download the specified scenario
     url = app.config["ASA_GET_SCENARIO_URL"].replace( "{ID}", scenario_id )
     try:
-        with urllib.request.urlopen( url ) as fp:
-            new_scenario = json.loads( fp.read().decode( "utf-8" ) )
+        with urllib.request.urlopen( url ) as resp:
+            new_scenario = json.loads(
+                resp.read().decode( "utf-8" )
+            )
     except Exception as ex: #pylint: disable=broad-except
         msg = str( getattr(ex,"reason",None) or ex )
         return jsonify( { "status": "error", "message": msg } )

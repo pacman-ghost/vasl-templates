@@ -438,8 +438,8 @@ def load_asl_rulebook2_vo_note_targets( msg_store ):
             with open( base_url, "r", encoding="utf-8" ) as fp:
                 _asl_rulebook2_targets = json.load( fp )
         else:
-            with urllib.request.urlopen( base_url + "/vo-note-targets" ) as fp:
-                _asl_rulebook2_targets = json.load( fp )
+            with urllib.request.urlopen( base_url + "/vo-note-targets" ) as resp:
+                _asl_rulebook2_targets = json.load( resp )
     except Exception as ex: #pylint: disable=broad-except
         msg = str( getattr(ex,"reason",None) or ex )
         msg_store.warning( "Couldn't get the ASL Rulebook2 Chapter H targets: {}".format( msg ) )

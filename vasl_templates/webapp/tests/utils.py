@@ -13,6 +13,7 @@ import lxml.html
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, WebDriverException
 
 import vasl_templates.webapp.tests
@@ -157,7 +158,7 @@ def select_tab_for_elem( elem ):
 def get_tab_for_elem( elem ):
     """Identify the tab that contains the specified element."""
     while elem.tag_name not in ("html","body"):
-        elem = elem.find_element_by_xpath( ".." )
+        elem = elem.find_element( By.XPATH, ".." )
         if elem.tag_name == "div":
             div_id = elem.get_attribute( "id" )
             if div_id.startswith( "tabs-" ):
@@ -431,14 +432,14 @@ def find_child( sel, parent=None ):
     """Find a single child element."""
     try:
         # NOTE: I tried caching these results, but it didn't help the tests run any faster :-(
-        return (parent if parent else _webdriver).find_element_by_css_selector( sel )
+        return (parent if parent else _webdriver).find_element( By.CSS_SELECTOR, sel )
     except NoSuchElementException:
         return None
 
 def find_children( sel, parent=None ):
     """Find child elements."""
     try:
-        return (parent if parent else _webdriver).find_elements_by_css_selector( sel )
+        return (parent if parent else _webdriver).find_elements( By.CSS_SELECTOR, sel )
     except NoSuchElementException:
         return None
 

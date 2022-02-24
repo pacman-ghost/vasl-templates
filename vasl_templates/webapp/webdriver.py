@@ -67,7 +67,9 @@ class WebDriver:
 
         # create the webdriver
         _logger.debug( "- Launching webdriver process: %s", webdriver_path )
-        kwargs = { "executable_path": webdriver_path }
+        log_fname = app.config.get( "WEBDRIVER_LOG",
+            os.path.join( tempfile.gettempdir(), "webdriver.log" )
+        )
         if "chromedriver" in webdriver_path:
             options = webdriver.ChromeOptions()
             options.headless = True
@@ -78,17 +80,21 @@ class WebDriver:
             chrome_path = app.config.get( "CHROME_PATH" )
             if chrome_path:
                 options.binary_location = chrome_path
-            kwargs["options"] = options
-            self.driver = webdriver.Chrome( **kwargs )
+            service = webdriver.chrome.service.Service(
+                webdriver_path, log_path=log_fname
+            )
+            self.driver = webdriver.Chrome(
+                options=options, service=service
+            )
         elif "geckodriver" in webdriver_path:
             options = webdriver.FirefoxOptions()
             options.headless = True
-            kwargs["options"] = options
-            kwargs["service_log_path"] = app.config.get( "GECKODRIVER_LOG",
-                os.path.join( tempfile.gettempdir(), "geckodriver.log" )
+            service = webdriver.firefox.service.Service(
+                webdriver_path, log_path=log_fname
             )
-            kwargs["proxy"] = None
-            self.driver = webdriver.Firefox( **kwargs )
+            self.driver = webdriver.Firefox(
+                options=options, proxy=None, service=service
+            )
         else:
             raise SimpleError( "Can't identify webdriver: {}".format( webdriver_path ) )
         _logger.debug( "- Started OK." )

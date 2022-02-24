@@ -148,7 +148,8 @@ disable=print-statement,
     import-outside-toplevel,
     isinstance-second-argument-not-valid-type,
     consider-using-f-string,
-    consider-using-max-builtin
+    consider-using-max-builtin,
+    use-implicit-booleaness-not-comparison
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option

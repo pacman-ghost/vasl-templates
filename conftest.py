@@ -1,11 +1,9 @@
 """ pytest support functions. """
 
-import os
 import threading
 import json
 import re
 import logging
-import tempfile
 import urllib.request
 from urllib.error import URLError
 import pytest
@@ -147,7 +145,8 @@ def _make_webapp():
         def is_ready():
             """Try to connect to the webapp server."""
             try:
-                with urllib.request.urlopen( app.url_for("ping") ) as resp:
+                url = app.url_for( "ping" )
+                with urllib.request.urlopen( url ) as resp:
                     assert resp.read().startswith( b"pong: " )
                 return True
             except URLError:
@@ -200,24 +199,12 @@ def webdriver( request ):
     if driver == "firefox":
         options = wb.FirefoxOptions()
         options.headless = _pytest_options.headless
-        driver = wb.Firefox(
-            options = options,
-            service_log_path = os.path.join( tempfile.gettempdir(), "geckodriver.log" )
-        )
+        driver = wb.Firefox( options=options )
     elif driver == "chrome":
         options = wb.ChromeOptions()
         options.headless = _pytest_options.headless
         options.add_argument( "--disable-gpu" )
         driver = wb.Chrome( options=options )
-    elif driver == "ie":
-        # NOTE: IE11 requires a registry key to be set:
-        #   https://github.com/SeleniumHQ/selenium/wiki/InternetExplorerDriver#required-configuration
-        options = wb.IeOptions()
-        if _pytest_options.headless:
-            raise RuntimeError( "IE WebDriver cannot be run headless." )
-        options.IntroduceInstabilityByIgnoringProtectedModeSettings = True
-        options.EnsureCleanSession = True
-        driver = wb.Ie( ie_options=options )
     else:
         raise RuntimeError( "Unknown webdriver: {}".format( driver ) )
 

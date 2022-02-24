@@ -204,8 +204,8 @@ def get_flag( nat ):
         fname = globvars.template_pack.get( "nationalities", {} ).get( nat, {} ).get( "flag" )
         if fname:
             if fname.startswith( ("http://","https://") ):
-                with urllib.request.urlopen( fname ) as fp:
-                    return _get_small_image( fp, key, height )
+                with urllib.request.urlopen( fname ) as resp:
+                    return _get_small_image( resp, key, height )
             else:
                 with open( fname, "rb" ) as fp:
                     return _get_small_image( fp, key, height )

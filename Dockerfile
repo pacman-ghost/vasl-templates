@@ -1,7 +1,7 @@
 # NOTE: Use the run-container.sh script to build and launch this container.
 
 # NOTE: Multi-stage builds require Docker >= 17.05.
-FROM centos:8 AS base
+FROM rockylinux:8 AS base
 
 # update packages and install requirements
 RUN dnf -y upgrade-minimal && \
@@ -16,14 +16,14 @@ RUN url="https://download.java.net/java/GA/jdk15.0.1/51f4f36ad4ef43e39d0dfdbaf65
 
 # install Firefox
 RUN dnf install -y wget bzip2 xorg-x11-server-Xvfb gtk3 dbus-glib && \
-    wget -qO- "https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US" \
+    wget -qO- "https://ftp.mozilla.org/pub/firefox/releases/94.0.2/linux-x86_64/en-US/firefox-94.0.2.tar.bz2" \
         | tar -C /usr/local/ -jx && \
     ln -s /usr/local/firefox/firefox /usr/bin/firefox && \
     echo "exclude=firefox" >>/etc/dnf/dnf.conf
 
 # install geckodriver
-RUN url=$( curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | grep -Poh 'https.*linux64\.tar\.gz(?!\.)' ) && \
-    curl -sL "$url" | tar -C /usr/bin/ -xz
+RUN curl -sL "https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz" \
+    | tar -C /usr/bin/ -xz
 
 # clean up
 RUN dnf clean all
@@ -72,6 +72,13 @@ COPY docker/config/ ./vasl_templates/webapp/config/
 # running with a non-default UID/GID, they will have to manage permissions themselves. Sigh...
 RUN useradd --create-home app
 USER app
+
+# FUDGE! We need this to stop spurious warning messages:
+#   Fork support is only compatible with the epoll1 and poll polling strategies
+# Setting the verbosity to ERROR should suppress these, but doesn't :-/
+#   https://github.com/grpc/grpc/issues/17253
+#   https://github.com/grpc/grpc/blob/master/doc/environment_variables.md
+ENV GRPC_VERBOSITY=NONE
 
 # run the application
 EXPOSE 5010
