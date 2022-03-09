@@ -1,0 +1,147 @@
+{
+
+"2474": {
+    "expected": {
+        "name": "Goliath",
+        "front_images": [ "ge/gegol.gif", "ge/gegolb.gif" ],
+        "back_images": null
+    },
+    "updated": {
+        "front_images": "ge/gegol.gif"
+    }
+},
+
+"1555": {
+    "expected": {
+        "name": "2pdr Portee",
+        "front_images": "br/vehicles/portee.gif",
+        "back_images": [ "br/vehicles/portee.gif", "br/vehicles/portee0.gif" ]
+    },
+    "updated": {
+        "front_images": [ "br/vehicles/portee.gif", "br/vehicles/portee0.gif" ],
+        "back_images": null
+    }
+},
+
+"3463": {
+    "expected": {
+        "name": "75L AA 75/46",
+        "front_images": [ "it/gun/itAA7546.gif", "it/gun/itAA7546b.gif" ],
+        "back_images": [ "it/gun/itAA7546b.gif", "it/gun/itAA7546lb.gif" ]
+    },
+    "updated": {
+        "front_images": "it/gun/itAA7546.gif",
+        "back_images": "it/gun/itAA7546b.gif"
+    }
+},
+
+"3776": {
+    "expected": {
+        "name": "37* INF Skoda IG",
+        "front_images": [ "ax/gun/buIN37s.gif", "ax/gun/buIN37s2.gif" ],
+        "back_images": "ax/gun/buIN37sb.gif"
+    },
+    "updated": {
+        "front_images": "ax/gun/buIN37s.gif"
+    }
+},
+
+"3777": {
+    "expected": {
+        "name": "70* INF Skoda IG",
+        "front_images": [ "ax/gun/buIN37s.gif", "ax/gun/buIN37s2.gif" ],
+        "back_images": "ax/gun/buIN37sb.gif"
+    },
+    "updated": {
+        "front_images": "ax/gun/buIN37s2.gif"
+    }
+},
+
+"6802": {
+    "expected": {
+        "name": "20L (4) AA",
+        "front_images": [ "fi/gun/fi20L4 _2.png", "fi/gun/fi20L4 _2 LIM.png" ],
+        "back_images": null
+    },
+    "updated": {
+        "front_images": "fi/gun/fi20L4 _2.png"
+    }
+},
+
+"6803": {
+    "expected": {
+        "name": "20L VKT (12) AA",
+        "front_images": [ "fi/gun/fi20L12.png", "fi/gun/fi20L12L.png" ],
+        "back_images": null
+    },
+    "updated": {
+        "front_images": "fi/gun/fi20L12.png"
+    }
+},
+
+"6804": {
+    "expected": {
+        "name": "40L Bofors AA (s)",
+        "front_images": [ "fi/gun/fi40L.png", "fi/gun/fi40LL.png" ],
+        "back_images": null
+    },
+    "updated": {
+        "front_images": "fi/gun/fi40L.png"
+    }
+},
+
+"adf:1824": {
+    "expected": {
+        "name": "37L AT PTP obr. 30",
+        "front_images": "ru/gun/ruAT37L.gif",
+        "back_images": "ru/gun/ruAT37Lb.gif"
+    },
+    "updated": {
+        "front_images": "ru/gun/ru37LPTPobr30.png"
+    }
+},
+"adf:1822": {
+    "expected": {
+        "name": "37* INF PP obr. 15R",
+        "front_images": "ru/gun/ruINF37s.gif",
+        "back_images": "ru/gun/ruINF37sb.gif"
+    },
+    "updated": {
+        "front_images": "ru/gun/ru37PPobr15R.png"
+    }
+},
+"adf:1823": {
+    "expected": {
+        "name": "76* INF PP obr. 27",
+        "front_images": "ru/gun/ruINF76s.gif",
+        "back_images": "ru/gun/ruINF76sb.gif"
+    },
+    "updated": {
+        "front_images": "ru/gun/ru76PPobr27.png"
+    }
+},
+
+"3b5:10093": {
+    "expected": {
+        "name": "SL truck",
+        "front_images": [ "sh/SL3b(KFW).png", "sh/SL4b(KFW).png", "sh/SL5b(KFW).png", "sh/SL6b(KFW).png", "sh/SL1b(KFW).png", "sh/SL2b(KFW).png" ],
+        "back_images": [ "sh/SL3(KFW).png", "sh/SL4(KFW).png", "sh/SL5(KFW).png", "sh/SL6(KFW).png", "sh/SL1(KFW).png", "sh/SL2(KFW).png" ]
+    },
+    "updated": {
+        "front_images": "us/veh/usSearchlight(KFW).png",
+        "back_images": null
+    }
+},
+
+"08d:75": {
+    "expected": {
+        "name": "RCL 75*",
+        "front_images": "amrcl75-malf.png",
+        "back_images": "dm-75rcl.gif"
+    },
+    "updated": {
+        "front_images": "amrcl75.png"
+    }
+}
+
+}

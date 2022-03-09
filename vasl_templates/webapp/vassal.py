@@ -36,6 +36,7 @@ from vasl_templates.webapp.vasl_mod import get_reverse_remapped_gpid
 #   6.6.1 | 3.4.6   15+36
 #   6.6.2 | 3.5.5   16+36
 #   6.6.3 | 3.5.8   16+36
+#   6.6.4 | 3.6.6   17.0.2+8-LTS
 # NOTE: VASSAL+VASL back-compat has gone out the window :-/ We have to tie versions of VASL
 # to specific versions of VASSAL. Sigh...
 SUPPORTED_VASSAL_VERSIONS = {
@@ -43,6 +44,7 @@ SUPPORTED_VASSAL_VERSIONS = {
     "3.4.6": [ "6.6.0", "6.6.1" ],
     "3.5.5": [ "6.6.0", "6.6.1", "6.6.2" ],
     "3.5.8": [ "6.6.0", "6.6.1", "6.6.2", "6.6.3", "6.6.3.1" ],
+    "3.6.6": [ "6.6.0", "6.6.1", "6.6.2", "6.6.3", "6.6.3.1", "6.6.4" ],
 }
 SUPPORTED_VASSAL_VERSIONS_DISPLAY = "3.4.2, 3.4.6, 3.5.5, 3.5.8"
 
