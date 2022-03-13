@@ -130,6 +130,7 @@ def get_app_config():
         logging.error( "Can't check the VASSAL version: %s", str(ex) )
     if globvars.vasl_mod:
         vals["VASL_VERSION"] = globvars.vasl_mod.vasl_version
+        vals["VASL_REAL_VERSION"] = globvars.vasl_mod.vasl_real_version
 
     # include information about VASL extensions
     if globvars.vasl_mod and globvars.vasl_mod.extns:
@@ -179,6 +180,7 @@ def get_program_info():
     }
     if globvars.vasl_mod:
         params[ "VASL_VERSION" ] = globvars.vasl_mod.vasl_version
+        params[ "VASL_REAL_VERSION" ] = globvars.vasl_mod.vasl_real_version
     for key in [ "VASSAL_DIR", "VASL_MOD", "VASL_EXTNS_DIR", "BOARDS_DIR",
                  "JAVA_PATH", "WEBDRIVER_PATH", "CHAPTER_H_NOTES_DIR", "USER_FILES_DIR" ]:
         params[ key ] = app.config.get( key )

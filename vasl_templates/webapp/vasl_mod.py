@@ -48,7 +48,7 @@ def set_vasl_mod( vmod_fname, msg_store ):
             if msg_store:
                 msg_store.warning(
                     "This program has not been tested with VASL {}.<p>Things might work, but they might not...".format(
-                        globvars.vasl_mod.vasl_version
+                        globvars.vasl_mod.vasl_real_version
                     )
                 )
 
@@ -172,7 +172,7 @@ class VaslMod:
         # load the VASL module and any extensions
         self._load_vmod( data_dir )
         if self.vasl_version not in SUPPORTED_VASL_MOD_VERSIONS:
-            _logger.warning( "Unsupported VASL version: %s", self.vasl_version )
+            _logger.warning( "Unsupported VASL version: %s", self.vasl_real_version )
 
     def __del__( self ):
         # clean up
@@ -253,7 +253,16 @@ class VaslMod:
         # get the VASL version
         build_info = self._files[0][0].read( "buildFile" )
         doc = xml.etree.ElementTree.fromstring( build_info )
-        self.vasl_version = doc.attrib.get( "version" )
+        # NOTE: We have data files for each version of VASL, mostly for tracking things like changed GPID's,
+        # expected image URL problems, etc. These don't always change between releases, so to avoid
+        # having to create a new set of identical data files, we allow VASL versions to be aliased.
+        # This also helps in the case of emergency releases e.g. 6.6.3.1 is treated the same as 6.6.3,
+        # and beta releases (e.g. 6.6.4-beta5 = 6.6.3).
+        self.vasl_real_version = doc.attrib.get( "version" )
+        fname = os.path.join( data_dir, "vasl-version-aliases.json" )
+        with open( fname, "r", encoding="utf-8" ) as fp:
+            aliases = json.load( fp )
+        self.vasl_version = aliases.get( self.vasl_real_version, self.vasl_real_version )
 
         # load our overrides
         fname = os.path.join( data_dir, "vasl-"+self.vasl_version, "vasl-overrides.json" )
