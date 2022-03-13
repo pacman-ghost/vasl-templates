@@ -19,6 +19,7 @@ function main
     CONTAINER_NAME=vasl-templates
     DETACH=
     NO_BUILD=
+    BUILD_ARGS=
     BUILD_NETWORK=
     RUN_NETWORK=
     CONTROL_TESTS_PORT=
@@ -30,7 +31,7 @@ function main
         print_help
         exit 0
     fi
-    params="$(getopt -o p:v:e:k:t:d -l port:,control-tests-port:,vassal:,vasl:,vasl-extensions:,boards:,chapter-h:,template-pack:,user-files:,tag:,name:,detach,no-build,build-network:,run-network:,test-data-vassal:,test-data-vasl-mods:,help --name "$0" -- "$@")"
+    params="$(getopt -o p:v:e:k:t:d -l port:,control-tests-port:,vassal:,vasl:,vasl-extensions:,boards:,chapter-h:,template-pack:,user-files:,tag:,name:,detach,no-build,build-arg:,build-network:,run-network:,test-data-vassal:,test-data-vasl-mods:,help --name "$0" -- "$@")"
     if [ $? -ne 0 ]; then exit 1; fi
     eval set -- "$params"
     while true; do
@@ -71,6 +72,9 @@ function main
             --no-build )
                 NO_BUILD=1
                 shift 1 ;;
+            --build-arg )
+                BUILD_ARGS="$BUILD_ARGS --build-arg $2"
+                shift 2 ;;
             --build-network )
                 # FUDGE! We sometimes can't get out to the internet from the container (DNS problems) using the default
                 # "bridge" network, so we offer the option of using an alternate network (e.g. "host").
@@ -187,7 +191,7 @@ function main
 
     # check if testing has been enabled
     if [ -n "$CONTROL_TESTS_PORT" ]; then
-        CONTROL_TESTS_PORT_BUILD="--build-arg CONTROL_TESTS_PORT=$CONTROL_TESTS_PORT"
+        BUILD_ARGS="$BUILD_ARGS --build-arg CONTROL_TESTS_PORT=$CONTROL_TESTS_PORT"
         CONTROL_TESTS_PORT_RUN="--env CONTROL_TESTS_PORT=$CONTROL_TESTS_PORT --publish $CONTROL_TESTS_PORT:$CONTROL_TESTS_PORT"
     fi
 
@@ -196,7 +200,7 @@ function main
         echo Building the \"$IMAGE_TAG\" image...
         docker build \
             --tag vasl-templates:$IMAGE_TAG \
-            $CONTROL_TESTS_PORT_BUILD \
+            $BUILD_ARGS \
             $BUILD_NETWORK \
             . 2>&1 \
           | sed -e 's/^/  /'

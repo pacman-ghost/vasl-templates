@@ -11,19 +11,19 @@ RUN dnf -y upgrade-minimal && \
 # it all every time we change the requirements :-/
 
 # install Java
-RUN url="https://download.java.net/java/GA/jdk15.0.1/51f4f36ad4ef43e39d0dfdbaf6549e32/9/GPL/openjdk-15.0.1_linux-x64_bin.tar.gz" ; \
-    curl -s "$url" | tar -C /usr/bin/ -xz
+ARG JAVA_URL=https://download.java.net/java/GA/jdk15.0.1/51f4f36ad4ef43e39d0dfdbaf6549e32/9/GPL/openjdk-15.0.1_linux-x64_bin.tar.gz
+RUN curl -s "$JAVA_URL" | tar -xz -C /usr/bin/
 
 # install Firefox
-RUN dnf install -y wget bzip2 xorg-x11-server-Xvfb gtk3 dbus-glib && \
-    wget -qO- "https://ftp.mozilla.org/pub/firefox/releases/94.0.2/linux-x86_64/en-US/firefox-94.0.2.tar.bz2" \
-        | tar -C /usr/local/ -jx && \
+ARG FIREFOX_URL=https://ftp.mozilla.org/pub/firefox/releases/94.0.2/linux-x86_64/en-US/firefox-94.0.2.tar.bz2
+RUN dnf install -y bzip2 xorg-x11-server-Xvfb gtk3 dbus-glib && \
+    curl -s "$FIREFOX_URL" | tar -jx -C /usr/local/ && \
     ln -s /usr/local/firefox/firefox /usr/bin/firefox && \
     echo "exclude=firefox" >>/etc/dnf/dnf.conf
 
 # install geckodriver
-RUN curl -sL "https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz" \
-    | tar -C /usr/bin/ -xz
+ARG GECKODRIVER_URL=https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz
+RUN curl -sL "$GECKODRIVER_URL" | tar -xz -C /usr/bin/
 
 # clean up
 RUN dnf clean all
