@@ -34,6 +34,11 @@ from vasl_templates.webapp.utils import SimpleError, is_windows
 #   QApplication.setAttribute( PyQt5.QtCore.Qt.AA_EnableHighDpiScaling, True )
 #   QApplication.setAttribute( PyQt5.QtCore.Qt.AA_UseHighDpiPixmaps, True )
 
+# FUDGE! We need this to get the embedded browser working on Fedora 35 (things were
+# still OK on Windows, but setting this doesn't seem to hurt), and it needs to be done
+# before creating the QApplication.
+os.environ[ "QTWEBENGINE_CHROMIUM_FLAGS" ] = "--no-sandbox"
+
 # FUDGE! This needs to be created before showing any UI elements e.g. an error message box.
 qt_app = QApplication( sys.argv )
 
