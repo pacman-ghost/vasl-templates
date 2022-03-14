@@ -171,6 +171,17 @@ def _make_webapp():
     addr = "{}:{}".format( mo.group(1), port_no )
     app.control_tests = ControlTests( addr )
 
+    # NOTE: We set the back-end webdriver to be the of the same type (Firefox or Chrome) as the browser
+    # being used to drive the tests, which, strictly speaking, doesn't make sense, since the two things
+    # don't have anything to do with each other. However, this is a convenient way to switch the backend
+    # webdriver's and exercise both of them. The webdriver binary must be on the path, but if it's not,
+    # we won't have even got this far, since it needs to be there to drive the browser.
+    # NOTE: This will have no effect if we're talking to a remote server, but we can live with that.
+    if _pytest_options.webdriver == "firefox":
+        app.config[ "WEBDRIVER_PATH" ] = "geckodriver"
+    elif _pytest_options.webdriver == "chrome":
+        app.config[ "WEBDRIVER_PATH" ] = "chromedriver"
+
     return app
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
