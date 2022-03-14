@@ -118,6 +118,9 @@ class WebDriver:
     def get_screenshot( self, html, window_size, large_window_size=None ):
         """Get a preview screenshot of the specified HTML."""
 
+        # NOTE: If this is taking a really long time to run, check if there are images
+        # being downloaded from the internet, but no internet access... :-/
+
         def do_get_screenshot(): #pylint: disable=missing-docstring
             data = self.driver.get_screenshot_as_png()
             img = Image.open( io.BytesIO( data ) )

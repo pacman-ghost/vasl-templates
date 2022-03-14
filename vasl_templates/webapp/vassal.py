@@ -391,6 +391,12 @@ class VassalShim:
     def _run_vassal_shim( self, *args ): #pylint: disable=too-many-locals
         """Run the VASSAL shim."""
 
+        # NOTE: If VASSAL is taking a really long time to run (when it's loading the VASL module),
+        # check if any NIC's are enabled, but there isn't actually any internet access. I suspect
+        # that VASL is checking for something online, and taking a really long time to time-out.
+        # If there are no NIC's, then the attempt to connect fails immediately, but there are,
+        # the networking stack tries to find a route online.
+
         # initialize
         logger = logging.getLogger( "vassal_shim" )
 
