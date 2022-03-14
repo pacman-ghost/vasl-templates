@@ -1,8 +1,10 @@
 """ pytest support functions. """
 
+import os
 import threading
 import json
 import re
+import tempfile
 import logging
 import urllib.request
 from urllib.error import URLError
@@ -207,10 +209,12 @@ def webdriver( request ):
     # initialize
     driver = request.config.getoption( "--webdriver" )
     from selenium import webdriver as wb
+    log_fname = os.path.join( tempfile.gettempdir(), "webdriver-pytest.log" )
     if driver == "firefox":
         options = wb.FirefoxOptions()
         options.headless = _pytest_options.headless
-        driver = wb.Firefox( options=options )
+        service = wb.firefox.service.Service( log_path=log_fname )
+        driver = wb.Firefox( options=options, service=service )
     elif driver == "chrome":
         options = wb.ChromeOptions()
         options.headless = _pytest_options.headless
