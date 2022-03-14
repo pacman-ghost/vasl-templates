@@ -65,6 +65,11 @@ def test_counter_images( webapp, webdriver ): #pylint: disable=too-many-locals
             shutil.rmtree( save_dir )
         os.makedirs( save_dir )
 
+    # load the VASL version aliases
+    fname = os.path.join( os.path.dirname( __file__ ), "../data/vasl-version-aliases.json" )
+    with open( fname, "r", encoding="utf-8" ) as fp:
+        aliases = json.load( fp )
+
     # test each VASL version
     failed = False
     vasl_versions = webapp.control_tests.get_vasl_versions()
@@ -77,7 +82,9 @@ def test_counter_images( webapp, webdriver ): #pylint: disable=too-many-locals
         init_webapp( webapp, webdriver )
 
         # figure out what we're expecting to see
-        fname = os.path.join( check_dir, "vasl-pieces-{}.txt".format( vasl_version ) )
+        fname = os.path.join( check_dir, "vasl-pieces-{}.txt".format(
+            aliases.get( vasl_version, vasl_version )
+        ) )
         with open( fname, "r", encoding="utf-8" ) as fp:
             expected_vasl_pieces = fp.read()
 

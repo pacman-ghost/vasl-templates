@@ -433,10 +433,10 @@ def test_update_legacy_labels( webapp, webdriver ):
     # so I suspect the code is trying to deserialize something it no longers knows about :-/
     # The tests here are for handling legacy labels, which was an issue quite a long time ago
     # in vasl-templates years, so we just ignore this problem...
-    run_vassal_tests( webapp, lambda: do_test(True), max_vasl_version="6.6.2" )
+    run_vassal_tests( webapp, lambda: do_test(True), ignore_vasl_versions=["6.6.3"] )
 
     # run the test again (once) with no Chapter H vehicle/ordnance notes
-    run_vassal_tests( webapp, lambda: do_test(False), all_combos=False, max_vasl_version="6.6.2" )
+    run_vassal_tests( webapp, lambda: do_test(False), all_combos=False, ignore_vasl_versions=["6.6.3"] )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -749,7 +749,7 @@ def test_vo_entry_selection_for_theater( webapp, webdriver ):
 # ---------------------------------------------------------------------
 
 def run_vassal_tests( webapp, func, vasl_extns_type=None,
-    all_combos=None, min_vasl_version=None, max_vasl_version=None
+    all_combos=None, min_vasl_version=None, max_vasl_version=None, ignore_vasl_versions=None
 ):
     """Run the test function for each combination of VASSAL + VASL.
 
@@ -759,7 +759,25 @@ def run_vassal_tests( webapp, func, vasl_extns_type=None,
 
     # get the available VASSAL and VASL versions
     vassal_versions = webapp.control_tests.get_vassal_versions()
+    assert len( vassal_versions ) > 0, "Can't find any VASSAL versions."
     vasl_versions = webapp.control_tests.get_vasl_versions()
+    if min_vasl_version:
+        vasl_versions = [
+            v for v in vasl_versions
+            if compare_version_strings( v, min_vasl_version ) >= 0
+        ]
+    if max_vasl_version:
+        vasl_versions = [
+            v for v in vasl_versions
+            if compare_version_strings( v, max_vasl_version ) <= 0
+        ]
+    if ignore_vasl_versions:
+        assert isinstance( ignore_vasl_versions, list )
+        vasl_versions = [
+            v for v in vasl_versions
+            if v not in ignore_vasl_versions
+        ]
+    assert len( vasl_versions ) > 0, "Can't find any VASL versions."
 
     # check if we want to test all VASSAL+VASL combinations (nb: if not, we test against only one combination,
     # and since they all should give the same results, it doesn't matter which one.
@@ -779,10 +797,6 @@ def run_vassal_tests( webapp, func, vasl_extns_type=None,
     # run the test for each VASSAL+VASL
     for vassal_version in vassal_versions:
         for vasl_version in vasl_versions:
-            if min_vasl_version and compare_version_strings( vasl_version, min_vasl_version ) < 0:
-                continue
-            if max_vasl_version and compare_version_strings( vasl_version, max_vasl_version ) > 0:
-                continue
             if not VassalShim.is_compatible_version( vassal_version, vasl_version ):
                 continue
             webapp.control_tests \

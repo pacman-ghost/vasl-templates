@@ -98,7 +98,7 @@ class ControlTestsServicer( BaseControlTestsServicer ): #pylint: disable=too-man
             for fname in glob.glob( fspec ):
                 # FUDGE! We assume that the version number is part of the filename (we can do this
                 # since we are only used for running tests i.e. in a controlled environment).
-                mo = re.search( r"\d+\.\d+\.\d+", os.path.basename(fname) )
+                mo = re.search( r"\d+\.\d+\.\d+(\.\d+)?", os.path.basename(fname) )
                 self._vasl_mods[ mo.group() ] = fname
             for key,val in self._vasl_mods.items():
                 _logger.debug( "- %s -> %s", key, val )

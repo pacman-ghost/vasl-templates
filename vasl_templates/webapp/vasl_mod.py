@@ -16,8 +16,8 @@ from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp.vo import get_vo_listings
 from vasl_templates.webapp.utils import compare_version_strings
 
-SUPPORTED_VASL_MOD_VERSIONS = [ "6.6.0", "6.6.1", "6.6.2", "6.6.3" ]
-SUPPORTED_VASL_MOD_VERSIONS_DISPLAY = "6.6.0-.3"
+SUPPORTED_VASL_MOD_VERSIONS = [ "6.6.0", "6.6.1", "6.6.2", "6.6.3", "6.6.3.1" ]
+SUPPORTED_VASL_MOD_VERSIONS_DISPLAY = "6.6.0-.3, 6.6.3.1"
 
 _zip_file_lock = threading.Lock()
 

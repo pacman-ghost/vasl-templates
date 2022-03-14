@@ -287,8 +287,9 @@ def is_windows():
 def compare_version_strings( lhs, rhs  ):
     """Compare two version strings."""
     def parse( val ): #pylint: disable=missing-docstring
-        mo = re.search( r"^(\d+)\.(\d+)\.(\d+)$", val )
-        return ( int(mo.group(1)), int(mo.group(2)), int(mo.group(3)) )
+        mo = re.search( r"^(\d+)\.(\d+)\.(\d+)(.\d+)?$", val )
+        last = int( mo.group(4)[1:] ) if mo.group(4) else 0
+        return ( int(mo.group(1)), int(mo.group(2)), int(mo.group(3)), last )
     lhs, rhs = parse(lhs), parse(rhs)
     if lhs < rhs:
         return -1
