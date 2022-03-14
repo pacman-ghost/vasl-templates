@@ -117,8 +117,9 @@ def _get_nat_caps( webapp, webdriver, nat, theater, year, month ): #pylint: disa
         else:
             assert len(elems) == 1
             report[ field ] = to_text( elems[0] ).strip()
-    assert report["hob-drm"].startswith( "Heat of Battle: " )
-    report["hob-drm"] = report["hob-drm"][16:]
+    if report["hob-drm"] != "-":
+        assert report["hob-drm"].startswith( "Heat of Battle: " )
+        report["hob-drm"] = report["hob-drm"][16:]
 
     # parse the OBA comments
     report["oba-comments"] = []

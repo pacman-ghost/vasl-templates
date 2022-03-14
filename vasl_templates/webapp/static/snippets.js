@@ -157,7 +157,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         var colors = get_player_colors( player_no ) ;
         params.OB_COLOR = colors[0] ;
         params.OB_COLOR_2 = colors[2] ;
-        if ( gUserSettings["include-flags-in-snippets"] )
+        if ( gUserSettings["include-flags-in-snippets"] && gHasPlayerFlag[player_nat] )
             params.PLAYER_FLAG = make_player_flag_url( player_nat, true ) ;
     }
 
@@ -320,8 +320,10 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     params.PLAYER_1_NAME = get_nationality_display_name( params.PLAYER_1 ) ;
     params.PLAYER_2_NAME = get_nationality_display_name( params.PLAYER_2 ) ;
     if ( gUserSettings["include-flags-in-snippets"] ) {
-        params.PLAYER_FLAG_1 = make_player_flag_url( get_player_nat(1), true ) ;
-        params.PLAYER_FLAG_2 = make_player_flag_url( get_player_nat(2), true ) ;
+        if ( gHasPlayerFlag[ get_player_nat( 1 ) ] )
+            params.PLAYER_FLAG_1 = make_player_flag_url( get_player_nat(1), true ) ;
+        if ( gHasPlayerFlag[ get_player_nat( 2 ) ] )
+            params.PLAYER_FLAG_2 = make_player_flag_url( get_player_nat(2), true ) ;
     }
 
     // pass through all the player colors and names

@@ -188,6 +188,19 @@
     ]
 },
 
+"partisan": {
+    "th_color": [ "Red", "[EXC: ATR/MG]" ],
+    "notes": [
+        "Stealthy when Good Order",
+        "Never Elite/Inexperienced",
+        "ELR 5",
+        "Leadership NA for non-Partisan units",
+        "Massacre OK",
+        "RtPh Surrender NA",
+        "Disrupt NA"
+    ]
+},
+
 "kfw-rok": {
     "th_color": "{! -08/1950 = Red | 09/1950-04/1951 = Red (ROK) ; Black (KMC) | 05/1951- = Black | ??? !}",
     "oba": [ "{! 06/1950- = 10B | ??? !}", "3R",

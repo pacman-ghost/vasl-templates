@@ -212,8 +212,12 @@ def get_flag( nat ):
 
     # serve the standard flag
     fname = os.path.join( "static/images/flags/", nat+".png" )
-    with app.open_resource( fname, "rb" ) as fp:
-        return _get_small_image( fp, key, height )
+    try:
+        with app.open_resource( fname, "rb" ) as fp:
+            return _get_small_image( fp, key, height )
+    except FileNotFoundError:
+        abort( 404 )
+        return None # stop pylint from complaining :-/
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

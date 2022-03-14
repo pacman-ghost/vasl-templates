@@ -1,0 +1,14 @@
+=== partisan (ETO 1941) ===
+
+-
+HoB: -
+Red TH# [EXC: ATR/MG]
+OBA: - - -
+
+* Stealthy when Good Order
+* Never Elite/Inexperienced
+* ELR 5
+* Leadership NA for non-Partisan units
+* Massacre OK
+* RtPh Surrender NA
+* Disrupt NA

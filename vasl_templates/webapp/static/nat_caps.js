@@ -25,10 +25,17 @@ function set_nat_caps_params( player_nat, params )
     // set the TH# color
     if ( nat_caps.th_color ) {
         if ( $.isArray( nat_caps.th_color ) ) {
-            add_nat_cap( "TH_COLOR",
-                make_time_based_comment( nat_caps.th_color[0], params.SCENARIO_MONTH, params.SCENARIO_YEAR ) + " TH#" +
-                " <span class='comment'>(" + nat_caps.th_color[1] + ")</span>"
-            ) ;
+            var buf = [
+                make_time_based_comment( nat_caps.th_color[0], params.SCENARIO_MONTH, params.SCENARIO_YEAR ) + " TH#",
+                " <span class='comment'>"
+            ] ;
+            var comment = nat_caps.th_color[ 1 ] ;
+            if ( comment.substring( 0, 5 ) === "[EXC:" && comment[comment.length-1] === "]" )
+                buf.push( comment ) ;
+            else
+                buf.push( "(" + comment + ")" ) ;
+            buf.push( "</span>" ) ;
+            add_nat_cap( "TH_COLOR", buf.join("") ) ;
         } else {
             var th_color = make_time_based_comment( nat_caps.th_color, params.SCENARIO_MONTH, params.SCENARIO_YEAR ) ;
             var match = th_color.match( /\(.+\)$/ ) ;

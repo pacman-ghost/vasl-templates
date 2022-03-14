@@ -1,6 +1,7 @@
 gAppConfig = {} ;
 gDefaultTemplatePack = null ;
 gTemplatePack = {} ;
+gHasPlayerFlag = {} ;
 gValidTemplateIds = [] ;
 gVehicleOrdnanceListings = {} ;
 gVehicleOrdnanceNotes = {} ;
@@ -203,39 +204,6 @@ $(document).ready( function () {
         edit: function( $sortable2, $entry ) { edit_ob_ordnance( $entry, 2 ) ; },
     } ) ;
 
-    // initialize the player droplists
-    function on_player_droplist_open( $sel ) {
-        // remember the current selection
-        $sel.data( "prev-val", $sel.val() ) ;
-        // limit the droplist's height to the available space
-        restrict_droplist_height( $sel ) ;
-    }
-    function format_player_droplist_item( opt ) {
-        if ( ! opt.id )
-            return opt.text ;
-        var url = make_player_flag_url( opt.id, false ) ;
-        return $( "<div style='display:flex;align-items:center;height:23px;'>" +
-            "<div style='display:inline-block;width:1em;text-align:center;margin-right:5px;'>" +
-            "<img src='" + url + "' style='height:0.8em;'>" +
-            "</div>" +
-            " " + opt.text +
-        "</div>" ) ;
-    }
-    init_select2( $( "select[name='PLAYER_1']" ),
-        "auto", false, format_player_droplist_item
-    ).on( "select2:open", function() {
-        on_player_droplist_open( $(this) ) ;
-    } ).on( "change", function() {
-        on_player_change_with_confirm( 1 ) ;
-    } ) ;
-    init_select2( $( "select[name='PLAYER_2']" ),
-        "auto", false, format_player_droplist_item
-    ).on( "select2:open", function() {
-        on_player_droplist_open( $(this) ) ;
-    } ).on( "change", function() {
-        on_player_change_with_confirm( 2 ) ;
-    } ) ;
-
     // load the ELR's and SAN's
     buf = [ "<option value=''>-</option>" ] ; // nb: to help the user to remember to set this
     for ( var i=0 ; i <= 5 ; ++i ) // nb: A19.1: ELR is 0-5
@@ -343,6 +311,23 @@ $(document).ready( function () {
         // is the set of valid template ID's will depend on what's in it :-/
         gValidTemplateIds = Object.keys( data.templates ) ;
         update_page_load_status( "template-pack" ) ;
+        // figure out which player flags are available (because some nationalities don't have one)
+        var nats = Object.keys( gTemplatePack.nationalities ) ;
+        var nFlagsChecked = 0 ;
+        function onFlagChecked() {
+            if ( ++nFlagsChecked === nats.length ) {
+                // we've checked all the flags - now we can build the player droplists
+                init_player_droplists() ;
+                update_page_load_status( "flag-urls" ) ;
+            }
+        }
+        nats.forEach( function( nat ) {
+            var url = make_player_flag_url( nat, false ) ;
+            $.ajax( url, {
+                success: function() { gHasPlayerFlag[nat] = true ; onFlagChecked() ; },
+                error: function() { onFlagChecked() ; },
+            } ) ;
+        } ) ;
     } ).fail( function( xhr, status, errorMsg ) {
         showErrorMsg( "Can't get the template pack:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
         update_page_load_status( "template-pack" ) ;
@@ -475,6 +460,42 @@ $(document).ready( function () {
     $("input[name='SCENARIO_NAME']").focus().focus() ;
 } ) ;
 
+function init_player_droplists()
+{
+    // initialize the player droplists
+    function on_player_droplist_open( $sel ) {
+        // remember the current selection
+        $sel.data( "prev-val", $sel.val() ) ;
+        // limit the droplist's height to the available space
+        restrict_droplist_height( $sel ) ;
+    }
+    function format_player_droplist_item( opt ) {
+        if ( ! opt.id )
+            return opt.text ;
+        var url = gHasPlayerFlag[opt.id] ? make_player_flag_url( opt.id, false ) : "" ;
+        return $( "<div style='display:flex;align-items:center;height:23px;'>" +
+            "<div style='display:inline-block;width:1em;text-align:center;margin-right:5px;'>" +
+            "<img src='" + url + "' style='height:0.8em;'>" +
+            "</div>" +
+            " " + opt.text +
+        "</div>" ) ;
+    }
+    init_select2( $( "select[name='PLAYER_1']" ),
+        "auto", false, format_player_droplist_item
+    ).on( "select2:open", function() {
+        on_player_droplist_open( $(this) ) ;
+    } ).on( "change", function() {
+        on_player_change_with_confirm( 1 ) ;
+    } ) ;
+    init_select2( $( "select[name='PLAYER_2']" ),
+        "auto", false, format_player_droplist_item
+    ).on( "select2:open", function() {
+        on_player_droplist_open( $(this) ) ;
+    } ).on( "change", function() {
+        on_player_change_with_confirm( 2 ) ;
+    } ) ;
+}
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 function init_snippet_button( $btn )
@@ -553,7 +574,7 @@ gPageLoadStatus = [
     "main", "app-config",
     "vehicle-listings", "ordnance-listings", "reset-scenario",
     "vehicle-notes", "ordnance-notes", "asl-rulebook2-vo-note-targets",
-    "vasl-piece-info", "online-counter-images", "template-pack", "default-scenario"
+    "vasl-piece-info", "online-counter-images", "template-pack", "flag-urls", "default-scenario"
 ] ;
 
 function update_page_load_status( id )
@@ -617,9 +638,6 @@ function update_page_load_status( id )
         } ).fail( function( xhr, status, errorMsg ) {
             showErrorMsg( "Can't get the startup messages:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
         } ) ;
-        // preload the flag images (so that the player droplist renders immediately)
-        for ( var nat in gTemplatePack.nationalities )
-            $.get( make_player_flag_url( nat, false ) ) ;
     }
 }
 
@@ -697,7 +715,7 @@ function install_template_pack( data )
 
     // update the OB tab headers
     // NOTE: We don't do this while the page is initially loading, it will be done when the default scenario loaded.
-    if ( gPageLoadStatus.indexOf( "template-pack" ) === -1 ) {
+    if ( gPageLoadStatus.indexOf( "flag-urls" ) === -1 ) {
         update_ob_tab_header( 1 ) ;
         update_ob_tab_header( 2 ) ;
     }
@@ -805,10 +823,11 @@ function update_ob_tab_header( player_no )
     var display_name = get_nationality_display_name( player_nat ) ;
     var image_url = make_player_flag_url( player_nat, false ) ;
     var $elem = $( "#tabs .ui-tabs-nav a[href='#tabs-ob" + player_no + "']" ) ;
-    $elem.html(
-        "<img src='" + image_url + "'>&nbsp;" +
-        "<span>" + escapeHTML(display_name) + " OB</span>"
-    ) ;
+    var buf = [] ;
+    if ( gHasPlayerFlag[ player_nat ] )
+        buf.push( "<img src='" + image_url + "'>&nbsp;" ) ;
+    buf.push( "<span>" + escapeHTML(display_name) + " OB</span>" ) ;
+    $elem.html( buf.join("") ) ;
 
     return player_nat ;
 }

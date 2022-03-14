@@ -548,7 +548,7 @@ def test_vo_notes_reports( webapp, webdriver ): #pylint: disable=too-many-locals
 
             # get the next report
             vo_notes, ma_notes, keys = get_vo_notes_report( webapp, webdriver, nat, vo_type )
-            if nat in ("burmese","filipino") \
+            if nat in ("burmese","filipino","partisan") \
               or (nat,vo_type) in [ ("landing-craft","ordnance"), ("anzac","ordnance"), ("kfw-cpva","vehicles") ]:
                 assert not vo_notes and not ma_notes and not keys
                 continue

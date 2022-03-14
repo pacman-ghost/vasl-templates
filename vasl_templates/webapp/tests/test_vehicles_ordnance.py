@@ -420,6 +420,8 @@ def test_common_vo( webapp, webdriver ): #pylint: disable=too-many-locals
             if nat == "kfw-cpva" and vo_type == "vehicles":
                 assert not elem.is_enabled()
                 continue
+            if nat == "partisan":
+                continue
             elem.click()
 
             # get the vehicles/ordnance
