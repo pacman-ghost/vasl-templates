@@ -879,6 +879,8 @@ def _check_vsav_dump( vsav_dump, expected, ignore=None ):
         snippet_id = mo2.group( 1 )
         if snippet_id.startswith( "extras/" ):
             continue
+        for tag in [ "b", "em" ]:
+            label = label.replace( "<{}>".format( tag ), "" ).replace( "</{}>".format( tag ), "" )
         labels[snippet_id] = label
 
     # compare what we extracted from the dump with what's expected
