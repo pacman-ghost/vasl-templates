@@ -11,7 +11,7 @@ from selenium import webdriver
 from PIL import Image
 
 from vasl_templates.webapp import app, globvars
-from vasl_templates.webapp.utils import TempFile, SimpleError, trim_image
+from vasl_templates.webapp.utils import TempFile, SimpleError, trim_image, is_windows
 
 _logger = logging.getLogger( "webdriver" )
 
@@ -58,13 +58,6 @@ class WebDriver:
         if not webdriver_path:
             raise SimpleError( "No webdriver has been configured." )
 
-        # NOTE: If we are being run on Windows without a console (e.g. the frozen PyQt desktop app),
-        # Selenium will launch the webdriver in a visible DOS box :-( There's no way to turn this off,
-        # but it can be disabled by modifying the Selenium source code. Find the subprocess.Popen() call
-        # in $/site-packages/selenium/webdriver/common/service.py and add the following parameter:
-        #   creationflags = 0x8000000  # win32process.CREATE_NO_WINDOW
-        # It's pretty icky to have to do this, but since we're in a virtualenv, it's not too bad...
-
         # create the webdriver
         _logger.debug( "- Launching webdriver process: %s", webdriver_path )
         log_fname = app.config.get( "WEBDRIVER_LOG",
@@ -83,6 +76,8 @@ class WebDriver:
             service = webdriver.chrome.service.Service(
                 webdriver_path, log_path=log_fname
             )
+            if is_windows():
+                service.creationflags = 0x8000000  # win32process.CREATE_NO_WINDOW
             self.driver = webdriver.Chrome(
                 options=options, service=service
             )
@@ -92,6 +87,8 @@ class WebDriver:
             service = webdriver.firefox.service.Service(
                 webdriver_path, log_path=log_fname
             )
+            if is_windows():
+                service.creationflags = 0x8000000  # win32process.CREATE_NO_WINDOW
             self.driver = webdriver.Firefox(
                 options=options, proxy=None, service=service
             )
