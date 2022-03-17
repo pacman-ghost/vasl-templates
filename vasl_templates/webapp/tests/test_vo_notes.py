@@ -335,6 +335,55 @@ def test_landing_craft_notes( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
+def test_vo_note_image_url_path( webapp, webdriver ):
+    """Test generating the VO_NOTE_IMAGE_URL_PATH parameter."""
+
+    # initialize
+    webapp.control_tests \
+        .set_data_dir( "{TEST}" ) \
+        .set_vo_notes_dir( "{TEST}" ) \
+        .set_default_template_pack( "vo-note-image-url-path/" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
+
+    def extract_url_path( clipboard ):
+        mo = re.search( r"^VO_NOTE_IMAGE_URL_PATH = (.+)", clipboard )
+        return mo.group( 1 )
+    def check_url_path( player_no, vo_type, entry_no, expected):
+        select_tab( "ob{}".format( player_no ) )
+        sortable = find_child( "#ob_{}-sortable_{}".format( vo_type, player_no ) )
+        elems = find_children( "li", sortable )
+        elem = elems[ entry_no ]
+        btn = find_child( "img.snippet", elem )
+        btn.click()
+        wait_for_clipboard( 2, expected, transform=extract_url_path )
+
+    # test normal vehicles/ordnance
+    load_scenario( {
+        "PLAYER_1": "german", "PLAYER_2": "russian",
+        "OB_VEHICLES_1": [ { "name": "a german vehicle" } ],
+        "OB_ORDNANCE_2": [ { "name": "a russian ordnance" } ],
+    } )
+    check_url_path( 1, "vehicles", 0, "german/vehicles/1" )
+    check_url_path( 2, "ordnance", 0, "russian/ordnance/1" )
+
+    # test Allied/Axis Minor common vehicles/ordnance
+    load_scenario( {
+        "PLAYER_1": "dutch", "PLAYER_2": "romanian",
+        "OB_ORDNANCE_1": [ { "name": "common allied minor ordnance" } ],
+        "OB_VEHICLES_2": [ { "name": "common axis minor vehicle" } ],
+    } )
+    check_url_path( 1, "ordnance", 0, "allied-minor/ordnance/102" )
+    check_url_path( 2, "vehicles", 0, "axis-minor/vehicles/103" )
+
+    # test landing craft
+    load_scenario( {
+        "PLAYER_1": "japanese",
+        "OB_VEHICLES_1": [ { "name": "Shohatsu" } ],
+    } )
+    check_url_path( 1, "vehicles", 0, "landing-craft/3" )
+
+# ---------------------------------------------------------------------
+
 def test_vo_notes_image_cache( webapp, webdriver ):
     """Test the vehicle/ordnance notes image cache."""
 

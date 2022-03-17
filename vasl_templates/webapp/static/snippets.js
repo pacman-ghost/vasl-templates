@@ -225,6 +225,23 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         if ( data.vo_note.substr( 0, 7 ) === "http://" ) {
             // the vehicle/ordnance note is an image - just include it directly
             params.VO_NOTE_HTML = '<img src="' + data.vo_note + '">' ;
+            // FUDGE! People are asking to be able to load Chapter H images from an online server.
+            // The code that figures out how to generate Chapter H content is horrendously complicated :-/,
+            // and letting the user point to the source content via a base URL or file system directory
+            // would make it even worse :-/
+            // We could add a debug setting that specifies a base URL, and use it when we generate the image URL
+            // at the end of get_vo_note(), but that means that the location of the Chapter H content would be
+            // configurable in the UI, but ignored :-/
+            // Parsing the generated image URL like this, and then getting the user to change their template
+            // to use this new parameter, is a bit hacky, but (1) it's more likely to get the path right,
+            // (2) is less likely to break existing functionality,  and (3) we don't really want to be encouraging
+            // people to put their Chapter H content up online, anyway :-/
+            var match = data.vo_note.match( /^https?:\/\/.*?\/(.*?)\/(.*?)\/note\/(.*)/ ) ;
+            if ( match ) {
+                params.VO_NOTE_IMAGE_URL_PATH = match[2] === "landing-craft" ?
+                    match[2] + "/" + match[3] :
+                    match[2] + "/" + match[1] + "/" + match[3] ;
+            }
         } else {
             // the vehicle/ordnance is HTML - check if we should show it as HTML or as an image
             if ( gUserSettings["vo-notes-as-images"] ) {
