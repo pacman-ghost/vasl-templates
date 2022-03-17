@@ -802,13 +802,15 @@ function on_player_change( player_no )
     $( "#ob_ordnance-sortable_" + player_no ).sortable2( "delete-all" ) ;
     $("input[name='OB_ORDNANCE_WIDTH_"+player_no+"']").val( "" ) ;
 
-    // enable/disable the "add vehicle/ordnance" buttons
+    // disable the vehicles/ordnance panels if none are available
     function update_add_vo_button( vo_type ) {
-        if ( ! gVehicleOrdnanceListings[ vo_type ] )
-            return ;
-        $( "#ob_"+vo_type+"-add_"+player_no ).button(
-            gVehicleOrdnanceListings[vo_type][player_nat] ? "enable": "disable"
-        ) ;
+        var $panel = $( "#panel-ob_" + vo_type + "_" + player_no ) ;
+        if ( gVehicleOrdnanceListings[ vo_type ] !== undefined && gVehicleOrdnanceListings[vo_type][ player_nat ] !== undefined ) {
+            $panel.find( ".footer" ).show() ;
+        } else {
+            $panel.find( ".footer" ).hide() ;
+            $panel.find( ".sortable-hint" ).html( "There are no " + vo_type + " available." ) ;
+        }
     }
     update_add_vo_button( "vehicles" ) ;
     update_add_vo_button( "ordnance" ) ;

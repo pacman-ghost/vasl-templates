@@ -447,29 +447,29 @@ def test_update_ui( webapp, webdriver ):
     webapp.control_tests.set_vo_notes_dir( "{TEST}" )
     init_webapp( webapp, webdriver )
 
-    def do_test( nat, veh_expected, ord_expected ):
+    def do_test( nat, veh_expected, ord_expected, ma_veh_expected, ma_ord_expected ):
         """Do the test."""
         # set the specified player
         set_player( 1, nat )
         select_tab( "ob1" )
-        # check that the Multi-Applicable Notes controls are visible/hidden
+        # check that the controls are visible/hidden
         fieldset = find_child( "#tabs-ob1 fieldset[name='ob_vehicles_1']" )
-        assert find_child( ".snippets-notes", fieldset ).is_displayed() == veh_expected
-        assert find_child( "label[for='ob']", fieldset ).is_displayed() == veh_expected
+        assert find_child( ".snippets-ob", fieldset ).is_displayed() == veh_expected
+        assert find_child( ".snippets-notes", fieldset ).is_displayed() == ma_veh_expected
+        assert find_child( "label[for='ob']", fieldset ).is_displayed() == ma_veh_expected
         fieldset = find_child( "#tabs-ob1 fieldset[name='ob_ordnance_1']" )
-        assert find_child( ".snippets-notes", fieldset ).is_displayed() == ord_expected
-        assert find_child( "label[for='ob']", fieldset ).is_displayed() == ord_expected
-        # the OB snippet controls should always be visible
-        assert find_child( ".snippets-ob", fieldset ).is_displayed()
+        assert find_child( ".snippets-ob", fieldset ).is_displayed() == ord_expected
+        assert find_child( ".snippets-notes", fieldset ).is_displayed() == ma_ord_expected
+        assert find_child( "label[for='ob']", fieldset ).is_displayed() == ma_ord_expected
 
     # do the tests
-    do_test( "german", True, True )
-    do_test( "russian", True, True )
-    do_test( "british", True, False )
-    do_test( "french", False, True )
-    do_test( "finnish", False, False )
-    do_test( "dutch", True, True ) # nb: because they are Allied Minor
-    do_test( "romanian", True, True ) # nb: because they are Axis Minor
+    do_test( "german", True, True, True, True )
+    do_test( "russian", True, True, True, True )
+    do_test( "british", True, True, True, False )
+    do_test( "french", False, False, False, False )
+    do_test( "finnish", False, False, False, False )
+    do_test( "dutch", True, True, True, True ) # nb: because they are Allied Minor
+    do_test( "romanian", True, True, True, True ) # nb: because they are Axis Minor
 
 # ---------------------------------------------------------------------
 

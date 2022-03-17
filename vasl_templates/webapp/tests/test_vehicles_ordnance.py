@@ -415,10 +415,10 @@ def test_common_vo( webapp, webdriver ): #pylint: disable=too-many-locals
             # check if the nationality has any vehicles/ordnance
             elem = find_child( "#ob_{}-add_1".format( vo_type ) )
             if nat in ["thai","indonesian","anzac","burmese","filipino"]: # nb: these are in the BFP extension
-                assert not elem.is_enabled()
+                assert not elem.is_displayed()
                 continue
             if nat == "kfw-cpva" and vo_type == "vehicles":
-                assert not elem.is_enabled()
+                assert not elem.is_displayed()
                 continue
             if nat == "partisan":
                 continue
