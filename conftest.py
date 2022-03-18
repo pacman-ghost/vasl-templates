@@ -100,7 +100,7 @@ def _make_webapp():
     if webapp_url and not webapp_url.startswith( "http://" ):
         webapp_url = "http://" + webapp_url
     app.base_url = webapp_url if webapp_url else "http://localhost:{}".format( FLASK_WEBAPP_PORT )
-    logging.disable( logging.CRITICAL )
+    _disable_console_logging()
 
     # initialize
     # WTF?! https://github.com/pallets/flask/issues/824
@@ -191,7 +191,7 @@ def _make_webapp():
 @pytest.fixture( scope="session" )
 def test_client():
     """Return a test client that can be used to connect to the webapp."""
-    logging.disable( logging.CRITICAL )
+    _disable_console_logging()
     return app.test_client()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -232,3 +232,19 @@ def webdriver( request ):
         yield driver
     finally:
         driver.quit()
+
+# ---------------------------------------------------------------------
+
+def _disable_console_logging():
+    """Disable Python logging to the console.
+
+    We do this when running tests because:
+    (1) pytest's output is voluminous enough without including our stuff in there as well (and it tends to be
+        not that helpful, anyway)
+    (2) pytest captures all output and shows it when the test ends i.e. we don't get to see messages in real-time.
+    """
+    for logger in utils.get_all_loggers():
+        # NOTE: FileHandler derives from StreamHandler, and we want to keep those, so we can't use isinstance().
+        handlers = [ h for h in logger.handlers if type( h ) is logging.StreamHandler ] #pylint: disable=unidiomatic-typecheck
+        for h in handlers:
+            logger.removeHandler( h )

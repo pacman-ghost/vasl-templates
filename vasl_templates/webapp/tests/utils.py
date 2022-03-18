@@ -7,6 +7,7 @@ import time
 import re
 import typing
 import uuid
+import logging
 from collections import defaultdict
 
 import lxml.html
@@ -646,3 +647,11 @@ def get_css_classes( elem ):
     """Get the CSS classes for the specified element."""
     classes = elem.get_attribute( "class" )
     return classes.split() if classes else []
+
+# ---------------------------------------------------------------------
+
+def get_all_loggers():
+    """Return all Python loggers."""
+    yield logging.getLogger() # nb: this is the root logger
+    for name in logging.root.manager.loggerDict: #pylint: disable=no-member
+        yield logging.getLogger( name )
