@@ -41,18 +41,24 @@ table.settings td.val { font-family: monospace ; }
 /* -------------------------------------------------------------------- */
 
 div.info {
-    margin: 0.5em ; padding: 0.5em 0.5em 0.5em 30px ;
-    background: url(images/info.gif) 2px 2px no-repeat ;
+    display: inline-block ; min-height: 18px ;
+    border: 1px dotted #444 ; border-radius: 5px ;
+    padding: 0.5em 0.5em 0.5em 32px ;
+    background: url(images/info.gif) 0.25em 0.25em no-repeat ;
     font-size: 80% ; font-style: italic ;
 }
 div.hint {
-    margin: 0.5em ; padding: 0.5em 0.5em 0.5em 30px ;
-    background: url(images/hint.gif) 2px 2px no-repeat ;
+    display: inline-block ; min-height: 22px ;
+    border: 1px dotted #444 ; border-radius: 5px ;
+    padding: 0.5em 0.5em 0.5em 32px ;
+    background: url(images/hint.gif) 0.25em 0.25em no-repeat ;
     font-size: 80% ; font-style: italic ;
 }
 div.warning {
-    margin: 0.5em ; padding: 0.5em 0.5em 0.5em 30px ;
-    background: url(images/warning.gif) 2px 2px no-repeat ;
+    display: inline-block ; min-height: 18px ;
+    border: 1px dotted #444 ; border-radius: 5px ;
+    padding: 0.5em 0.5em 0.5em 32px ;
+    background: url(images/warning.gif) 0.25em 0.25em no-repeat ;
     font-size: 80% ; font-style: italic ;
 }
 
