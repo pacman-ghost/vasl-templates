@@ -178,8 +178,9 @@ class VaslMod:
         # clean up
         # NOTE: We keep our module and extension ZIP files open for the duration (so we can
         # read images out of them on demand), so we need to make sure we close them here.
-        for f in self._files:
-            f[0].close()
+        if hasattr( self, "_files" ):
+            for f in self._files:
+                f[0].close()
 
     def get_piece_image( self, gpid, side, index ):
         """Get the image for the specified piece."""
