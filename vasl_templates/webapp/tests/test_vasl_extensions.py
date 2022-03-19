@@ -250,10 +250,10 @@ def test_bfp_extensions( webapp, webdriver ):
     btn.click()
     wait_for_clipboard( 2, re.compile(
         'Type 97A CHI-HA'
-        '.+<div class="note"'
+        '.+<td class="note"'
         '.+8\u2020, B\u2020<sup>1</sup>, C\u2020<sup>2</sup>'
         r'.+M3A1 Scout Car\(a\)'
-        '.+<div class="note"'
+        '.+<td class="note"'
         '.+&#x2756;'
         '.+17, A, C, AllM 34\u2020<sup>2</sup>, Jp A\u2020<sup>1</sup>, Ch F\u2020',
         re.DOTALL
@@ -312,14 +312,14 @@ def test_bfp_extensions2( webapp, webdriver ):
     btn.click()
     wait_for_clipboard( 2, re.compile(
         r'\bM5A1\b'
-        '.+<div class="note"'
+        '.+<td class="note"'
         '.+5\u2020, C\u2020<sup>2</sup>, F\u2020<sup>1</sup>, G, N, Y'
         r'.+\bM5A1F\b'
-        '.+<div class="note"'
+        '.+<td class="note"'
         '.+&#x2756;'
         '.+5\u2020, US C\u2020<sup>2</sup>, US F\u2020<sup>1</sup>, US G, US N, US Y, C'
         r'.+\bM5A1C\b'
-        '.+<div class="note"'
+        '.+<td class="note"'
         '.+&#x2756;'
         '.+5\u2020, US C\u2020<sup>2</sup>, US F\u2020<sup>1</sup>, US G, US N, US Y, A, B',
         re.DOTALL
@@ -383,7 +383,7 @@ def test_ffs_extensions( webapp, webdriver ):
     btn.click()
     wait_for_clipboard( 2, re.compile(
         'POA-CWS-H5'
-        '.+<div class="note"'
+        '.+<td class="note"'
         '.+&#x2756;'
         '.+5\u2020, C, M',
         re.DOTALL
@@ -409,7 +409,7 @@ def test_ffs_extensions( webapp, webdriver ):
     btn.click()
     wait_for_clipboard( 2, re.compile(
         r'M20\(L\) 75mm Recoilless Rifle'
-        '.+<div class="note"'
+        '.+<td class="note"'
         '.+&#x2756;'
         '.+25\u2020, K, M, O, P, R',
         re.DOTALL

@@ -32,19 +32,6 @@ def test_include_vasl_images_in_snippets( webapp, webdriver ):
     set_player( 1, "german" )
     add_vo( webdriver, "vehicles", 1, "PzKpfw IB" )
 
-    # enable "show VASL images in snippets"
-    select_menu_option( "user_settings" )
-    elem = find_child( ".ui-dialog.user-settings input[name='include-vasl-images-in-snippets']" )
-    assert not elem.is_selected()
-    elem.click()
-    click_dialog_button( "OK" )
-    _check_cookies( webdriver, "include-vasl-images-in-snippets", True )
-
-    # make sure that it took effect
-    snippet_btn = find_child( "button[data-id='ob_vehicles_1']" )
-    snippet_btn.click()
-    wait_for_clipboard( 2, "/counter/2524/front", contains=True )
-
     # disable "show VASL images in snippets"
     select_menu_option( "user_settings" )
     elem = find_child( ".ui-dialog.user-settings input[name='include-vasl-images-in-snippets']" )
@@ -54,8 +41,21 @@ def test_include_vasl_images_in_snippets( webapp, webdriver ):
     _check_cookies( webdriver, "include-vasl-images-in-snippets", False )
 
     # make sure that it took effect
+    snippet_btn = find_child( "button[data-id='ob_vehicles_1']" )
     snippet_btn.click()
     wait_for_clipboard( 2, "/counter/2524/front", contains=False )
+
+    # enable "show VASL images in snippets"
+    select_menu_option( "user_settings" )
+    elem = find_child( ".ui-dialog.user-settings input[name='include-vasl-images-in-snippets']" )
+    assert not elem.is_selected()
+    elem.click()
+    click_dialog_button( "OK" )
+    _check_cookies( webdriver, "include-vasl-images-in-snippets", True )
+
+    # make sure that it took effect
+    snippet_btn.click()
+    wait_for_clipboard( 2, "/counter/2524/front", contains=True )
 
 # ---------------------------------------------------------------------
 
@@ -72,27 +72,6 @@ def test_include_flags_in_snippets( webapp, webdriver ):
     sortable = find_child( "#ob_setups-sortable_1" )
     add_simple_note( sortable, "OB setup note", None )
 
-    # enable "show flags in snippets"
-    select_menu_option( "user_settings" )
-    elem = find_child( ".ui-dialog.user-settings input[name='include-flags-in-snippets']" )
-    assert not elem.is_selected()
-    elem.click()
-    click_dialog_button( "OK" )
-    _check_cookies( webdriver, "include-flags-in-snippets", True )
-
-    # make sure that it took effect
-    ob_setup_snippet_btn = find_child( "li img.snippet", sortable )
-    ob_setup_snippet_btn.click()
-    wait_for_clipboard( 2, "/flags/german", contains=True )
-
-    # make sure it also affects vehicle/ordnance snippets
-    ob_vehicles_snippet_btn = find_child( "button.generate[data-id='ob_vehicles_1']" )
-    ob_vehicles_snippet_btn.click()
-    wait_for_clipboard( 2, "/flags/german", contains=True )
-    ob_ordnance_snippet_btn = find_child( "button.generate[data-id='ob_ordnance_1']" )
-    ob_ordnance_snippet_btn.click()
-    wait_for_clipboard( 2, "/flags/german", contains=True )
-
     # disable "show flags in snippets"
     select_menu_option( "user_settings" )
     elem = find_child( ".ui-dialog.user-settings input[name='include-flags-in-snippets']" )
@@ -102,14 +81,35 @@ def test_include_flags_in_snippets( webapp, webdriver ):
     _check_cookies( webdriver, "include-flags-in-snippets", False )
 
     # make sure that it took effect
+    ob_setup_snippet_btn = find_child( "li img.snippet", sortable )
     ob_setup_snippet_btn.click()
     wait_for_clipboard( 2, "/flags/german", contains=False )
 
     # make sure it also affects vehicle/ordnance snippets
+    ob_vehicles_snippet_btn = find_child( "button.generate[data-id='ob_vehicles_1']" )
     ob_vehicles_snippet_btn.click()
     wait_for_clipboard( 2, "/flags/german", contains=False )
+    ob_ordnance_snippet_btn = find_child( "button.generate[data-id='ob_ordnance_1']" )
     ob_ordnance_snippet_btn.click()
     wait_for_clipboard( 2, "/flags/german", contains=False )
+
+    # enable "show flags in snippets"
+    select_menu_option( "user_settings" )
+    elem = find_child( ".ui-dialog.user-settings input[name='include-flags-in-snippets']" )
+    assert not elem.is_selected()
+    elem.click()
+    click_dialog_button( "OK" )
+    _check_cookies( webdriver, "include-flags-in-snippets", True )
+
+    # make sure that it took effect
+    ob_setup_snippet_btn.click()
+    wait_for_clipboard( 2, "/flags/german", contains=True )
+
+    # make sure it also affects vehicle/ordnance snippets
+    ob_vehicles_snippet_btn.click()
+    wait_for_clipboard( 2, "/flags/german", contains=True )
+    ob_ordnance_snippet_btn.click()
+    wait_for_clipboard( 2, "/flags/german", contains=True )
 
 # ---------------------------------------------------------------------
 

@@ -15,6 +15,7 @@ from vasl_templates.webapp.tests.utils import \
     new_scenario, set_player, find_child
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, load_scenario_params, save_scenario, \
     assert_scenario_params_complete
+from vasl_templates.webapp.tests.test_user_settings import set_user_settings
 
 # ---------------------------------------------------------------------
 
@@ -28,6 +29,7 @@ def test_full_update( webapp, webdriver ):
             .set_data_dir( "{REAL}" ) \
             .set_vo_notes_dir( "{TEST}" if enable_vo_notes else None )
         init_webapp( webapp, webdriver, vsav_persistence=1, no_app_config_snippet_params=1 )
+        _disable_snippet_images()
 
         # load the scenario fields
         SCENARIO_PARAMS = {
@@ -211,6 +213,7 @@ def test_latw_autocreate( webapp, webdriver ):
         # initialize
         webapp.control_tests.set_data_dir( "{REAL}" )
         init_webapp( webapp, webdriver, vsav_persistence=1 )
+        _disable_snippet_images()
 
         # check the VASL scenario
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/empty.vsav" )
@@ -277,6 +280,7 @@ def test_latw_update( webapp, webdriver ):
         # initialize
         webapp.control_tests.set_data_dir( "{REAL}" )
         init_webapp( webapp, webdriver, vsav_persistence=1 )
+        _disable_snippet_images()
 
         # check the VASL scenario
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/latw.vsav" )
@@ -360,6 +364,7 @@ def test_update_legacy_labels( webapp, webdriver ):
             .set_data_dir( "{REAL}" ) \
             .set_vo_notes_dir( "{TEST}" if enable_vo_notes else None )
         init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
+        _disable_snippet_images()
 
         # dump the VASL scenario
         # NOTE: We implemented snippet ID's in v0.5, this scenario is the "Hill 621" example from v0.4.
@@ -448,6 +453,7 @@ def test_update_legacy_latw_labels( webapp, webdriver ):
         # initialize
         webapp.control_tests.set_data_dir( "{REAL}" )
         init_webapp( webapp, webdriver, vsav_persistence=1, scenario_persistence=1 )
+        _disable_snippet_images()
 
         # dump the VASL scenario
         # NOTE: This scenario contains LATW labels created using v0.4 i.e. they have no snippet ID's.
@@ -529,6 +535,7 @@ def test_player_owned_labels( webapp, webdriver ):
         # initialize
         webapp.control_tests.set_data_dir( "{REAL}" )
         init_webapp( webapp, webdriver, vsav_persistence=1 )
+        _disable_snippet_images()
         load_scenario_params( {
             "scenario": {
                 "SCENARIO_NAME": "Player-owned labels",
@@ -956,3 +963,14 @@ def analyze_vsav( fname, expected_ob1, expected_ob2, expected_report ):
     if msg == prev_info_msg:
         msg = get_stored_msg( "_last-warning_" )
     assert all( e in msg for e in expected_report )
+
+def _disable_snippet_images():
+    """Disable images in snippets."""
+    # NOTE: These used to default to off, but we changed that to on (v1.9), and since this will cause many labels
+    # to update when we are not expecting them to (because they now have an image in them), we turn everything off
+    # before running tests.
+    set_user_settings( {
+        "include-vasl-images-in-snippets": False,
+        "include-flags-in-snippets": False,
+        "custom-list-bullets": False,
+    } )

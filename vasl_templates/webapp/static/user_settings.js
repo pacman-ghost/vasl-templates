@@ -1,7 +1,12 @@
 SCENARIO_IMAGES_SOURCE_THIS_PROGRAM = 1 ;
 SCENARIO_IMAGES_SOURCE_INTERNET = 2 ;
 
-DEFAULT_USER_SETTINGS = { "scenario-images-source": SCENARIO_IMAGES_SOURCE_INTERNET } ;
+DEFAULT_USER_SETTINGS = {
+    "scenario-images-source": SCENARIO_IMAGES_SOURCE_INTERNET,
+    "include-vasl-images-in-snippets": true,
+    "include-flags-in-snippets": true,
+    "custom-list-bullets": true,
+} ;
 gUserSettings = Cookies.getJSON( "user-settings" ) || DEFAULT_USER_SETTINGS ;
 
 USER_SETTINGS = {
