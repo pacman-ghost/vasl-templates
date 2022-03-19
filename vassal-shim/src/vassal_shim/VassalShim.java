@@ -135,8 +135,11 @@ public class VassalShim
     {
         // analyze each log file
         ArrayList<LogFileAnalysis> results = new ArrayList<LogFileAnalysis>() ;
-        for ( String fname: logFilenames )
+        for ( int i=0 ; i < logFilenames.size() ; ++i ) {
+            String fname = logFilenames.get( i ) ;
+            logger.info( "Analyzing log files (" + (1+i) + "/" + logFilenames.size() + "): " + fname ) ;
             results.add( this._doAnalyzeLogs( fname ) ) ;
+        }
 
         // generate the report
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument() ;
@@ -162,6 +165,7 @@ public class VassalShim
             rootElem.appendChild( logFileElem ) ;
         }
         Utils.saveXml( doc, reportFilename ) ;
+        logger.info( "All done." ) ;
     }
 
     public LogFileAnalysis _doAnalyzeLogs( String logFilename )
@@ -280,11 +284,11 @@ public class VassalShim
         throws IOException, ParserConfigurationException, TransformerConfigurationException, TransformerException
     {
         // load the scenario
+        logger.info( "Analyzing scenario: " + scenarioFilename ) ;
         Command cmd = loadScenario( scenarioFilename ) ;
         cmd.execute() ;
 
         // analyze the scenario
-        logger.info( "Analyzing scenario: " + scenarioFilename ) ;
         HashMap<String,AnalyzeNode> results = new HashMap<String,AnalyzeNode>() ;
         for ( GamePiece gamePiece: GameModule.getGameModule().getGameState().getAllPieces() ) {
             if ( gamePiece.getProperty(VASSAL.counters.Properties.OBSCURED_BY) != null || gamePiece.getProperty(VASSAL.counters.Properties.HIDDEN_BY) != null ) {
@@ -327,12 +331,14 @@ public class VassalShim
 
         // save the report
         Utils.saveXml( doc, reportFilename ) ;
+        logger.info( "All done." ) ;
     }
 
     public void updateScenario( String scenarioFilename, String snippetsFilename, String saveFilename, String reportFilename )
         throws IOException, ParserConfigurationException, SAXException, XPathExpressionException, TransformerException
     {
         // load the snippets supplied to us by the web server
+        logger.info( "Updating scenario: " + scenarioFilename ) ;
         String[] players = new String[2] ;
         Map<String,Snippet> snippets = new HashMap<String,Snippet>() ;
         AppBoolean fuzzyLabelCompares = new AppBoolean( false ) ;
@@ -391,6 +397,7 @@ public class VassalShim
 
         // generate the report
         generateLabelReport( labelReport, reportFilename ) ;
+        logger.info( "All done." ) ;
 
         // NOTE: The test suite always dumps the scenario after updating it, so we could save a lot of time
         // by dumping it here, thus avoiding the need to run this shim again to do the dump (and spinning up
@@ -931,11 +938,13 @@ public class VassalShim
         throws IOException, InterruptedException
     {
         // load the scenario
+        logger.info( "Taking screenshot of scenario: " + scenarioFilename ) ;
         Command cmd = loadScenario( scenarioFilename ) ;
         cmd.execute() ;
 
         // generate the screenshot
         doTakeScreenshot( cmd, outputFilename ) ;
+        logger.info( "All done." ) ;
     }
 
     private void doTakeScreenshot( Command cmd, String outputFilename )
@@ -953,6 +962,7 @@ public class VassalShim
         File outputFile = new File( outputFilename ) ;
         int timeout = Integer.parseInt( config.getProperty( "SCREENSHOT_TIMEOUT", "30" ) ) ;
         logger.debug( "Creating screenshot: width=" + mapWidth + " ; height=" + mapHeight + " ; timeout=" + timeout ) ;
+        // FIXME! This causes the log file to be truncated if it's not in append mode?!?!
         imageSaver.generateScreenshot( outputFile, mapWidth, mapHeight, timeout ) ;
     }
 
@@ -960,6 +970,7 @@ public class VassalShim
         throws IOException, InterruptedException
     {
         // load the scenario
+        logger.info( "Preparing scenario for upload: " + scenarioFilename ) ;
         Command cmd = loadScenario( scenarioFilename ) ;
         cmd.execute() ;
 
@@ -1017,6 +1028,8 @@ public class VassalShim
         logger.info( "Generating screenshot..." ) ;
         doTakeScreenshot( cmd, screenshotFilename ) ;
         logger.info( "- OK." ) ;
+
+        logger.info( "All done." ) ;
     }
 
     private VASSAL.build.module.Map selectMap()
