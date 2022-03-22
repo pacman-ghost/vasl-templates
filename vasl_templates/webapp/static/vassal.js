@@ -402,7 +402,7 @@ function _create_vo_entries_from_analysis( report )
 
         // add a vehicle/ordnance for each relevant GPID
         var nCreated = 0 ;
-        gpids = Object.keys( report ) ;
+        gpids = Object.keys( report.pieces ) ;
         for ( i=0 ; i < gpids.length ; ++i ) {
             var gpid = gpids[ i ] ;
             var entry = chooseEntry( gpid ) ;
@@ -420,6 +420,17 @@ function _create_vo_entries_from_analysis( report )
         [ create_vo_entries( 1, "vehicles" ), create_vo_entries( 1, "ordnance" ) ],
         [ create_vo_entries( 2, "vehicles" ), create_vo_entries( 2, "ordnance" ) ]
     ] ;
+
+    // report the VASSAL and VASL versions
+    // NOTE: We don't do this during the test suite since it can only store 1 message at a time :-/
+    // It would be nice to test this functionality, but the implemenation is simple, so we can live without it.
+    if ( ! getUrlParam( "store_msgs" ) ) {
+        showInfoMsg( "The scenario was created with: <ul style='margin-top:0;'>" +
+            "<li> VASSAL " + report.vassal_version +
+            " <li> VASL " + report.vasl_version +
+            " </ul>"
+        ) ;
+    }
 
     // report what happened
     var report_strings = [] ;

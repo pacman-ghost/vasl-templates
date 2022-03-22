@@ -12,6 +12,8 @@ import logging
 import pprint
 import base64
 import time
+import io
+import zipfile
 import xml.etree.cElementTree as ET
 
 from flask import request, jsonify
@@ -227,7 +229,7 @@ def _parse_label_report( fname ):
 # ---------------------------------------------------------------------
 
 @app.route( "/analyze-vsav", methods=["POST"] )
-def analyze_vsav():
+def analyze_vsav(): #pylint: disable=too-many-locals
     """Analyze a VASL scenario file."""
 
     # parse the request
@@ -272,13 +274,24 @@ def analyze_vsav():
     # and it contains pieces that had their GPID's changed from 6.4.4. This kind of nonsense
     # is probably unsustainable over the long-term, but we try to maintain some semblance of
     # back-compatibility for as long as we can :-/
-    report2 = {}
+    report2 = { "pieces": {} }
     for gpid,vals in report.items():
         orig_gpid = get_reverse_remapped_gpid( globvars.vasl_mod, gpid )
         if orig_gpid == gpid:
-            report2[ gpid ] = vals
+            report2["pieces"][ gpid ] = vals
         else:
-            report2[ orig_gpid ] = vals
+            report2["pieces"][ orig_gpid ] = vals
+
+    # extract the VASSAL and VASL versions from the VSAV data
+    def get_node_text( key, node_name ):
+        elem = doc.find( "./{}".format( node_name ) )
+        if elem is not None:
+            report2[ key ] = elem.text
+    with zipfile.ZipFile( io.BytesIO( vsav_data ) ) as zfile:
+        module_data = zfile.read( "moduledata" )
+        doc = ET.parse( io.BytesIO( module_data ) )
+        get_node_text( "vassal_version", "VassalVersion" )
+        get_node_text( "vasl_version", "version" )
 
     # return the results
     logger.info( "Analyzed the VSAV file OK: elapsed=%.3fs\n%s",
