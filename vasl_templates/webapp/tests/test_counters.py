@@ -23,9 +23,14 @@ def test_counter_images( webapp, webdriver ): #pylint: disable=too-many-locals
 
     # NOTE: This is ridiculously slow on Windows :-/
 
-    def check_images( gpids, check_front, check_back ): #pylint: disable=unused-argument
+    def check_images( vasl_version, gpids, check_front, check_back ): #pylint: disable=unused-argument
         """Check getting the front and back images for each counter."""
+        is_pre_vasl664 = vasl_version and compare_version_strings( vasl_version, "6.6.4" ) < 0
         for gpid in gpids:
+
+            # FUDGE! These Swedish ordnance were only added in VASL 6.6.4.
+            if is_pre_vasl664 and gpid in [ "13832", "13835", "13836" ]:
+                continue
 
             for side in ("front","back"):
                 url = webapp.url_for( "get_counter_image", gpid=gpid, side=side )
@@ -47,7 +52,7 @@ def test_counter_images( webapp, webdriver ): #pylint: disable=too-many-locals
     fname = os.path.join( os.path.split(__file__)[0], "../static/images/missing-image.png" )
     with open( fname, "rb" ) as fp:
         missing_image_data = fp.read()
-    check_images( gpids,
+    check_images( None, gpids,
         check_front = lambda code, data: code == 200 and data == missing_image_data,
         check_back = lambda code, data: code == 200 and data == missing_image_data
     )
@@ -104,7 +109,7 @@ def test_counter_images( webapp, webdriver ): #pylint: disable=too-many-locals
                 assert False, "Report mismatch: {}".format( vasl_version )
 
         # check each counter
-        check_images( gpids, check_front=_do_check_front, check_back=_do_check_back )
+        check_images( vasl_version, gpids, check_front=_do_check_front, check_back=_do_check_back )
 
     assert not failed
 

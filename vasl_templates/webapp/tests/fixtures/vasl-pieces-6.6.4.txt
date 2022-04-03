@@ -1285,6 +1285,9 @@ GPID       Name                          Front images                           
 12687      OML 2in MTR (KW)              br/brMTR.gif                                                           br/brMTRb.gif
 12689      60* MTR M2 (KW)               am/amMTR.gif                                                           am/amMTRb.gif
 12730      IP Carrier AOV                br/vehicles/ipcaov.gif
+13832      81* MTR                       sv/gun/svMTR81s.gif                                                    sv/gun/svMTR81sb.gif
+13835      37L AT                        sv/gun/svAT37L.gif                                                     sv/gun/svAT37Lb.gif
+13836      84* ART                       sv/gun/svART84s.gif                                                    sv/gun/svART84sb.gif
 3b5:10093  SL truck                      us/veh/usSearchlight(KFW).png
 3b5:10114  57LL AT PTP obr. 43           cc/gun/ccAT57LL(KFW).png                                               cc/gun/ccAT57LLm(KFW).png
 3b5:10115  70* INF Type 92               cc/gun/ccINF70(KFW).png                                                cc/gun/ccINF70m(KFW).png

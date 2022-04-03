@@ -1,0 +1,10 @@
+=== swedish (ETO 1943) ===
+
+-
+HoB: 0 DRM
+Red TH# [EXC: MG]
+OBA: 6B 3R -
+
+* 1st Line Battle Hardening → Fanatic
+* Allied Troops Captured Use penalties NA
+* Extreme Winter effects NA

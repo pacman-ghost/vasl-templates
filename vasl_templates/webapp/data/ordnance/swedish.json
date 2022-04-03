@@ -1,0 +1,26 @@
+[
+
+{ "name": "81mm Granatkastare m/29",
+  "type": "MTR",
+  "capabilities2": { "s": 8 },
+  "comments": [ "QSU" ],
+  "note_number": "1",
+  "id": "swe/o:000",
+  "gpid": 13832
+},
+{ "name": "37mm Pansarv&auml;rnskanon m/38",
+  "type": "AT",
+  "comments": [ "QSU" ],
+  "note_number": "2",
+  "id": "swe/o:001",
+  "gpid": 13835
+},
+{ "name": "8.4cm Feltkanon m/1887",
+  "type": "ART",
+  "comments": [ "QSU", "No Gunshield", "Acquisition NA" ],
+  "note_number": "3",
+  "id": "swe/o:002",
+  "gpid": 13836
+}
+
+]

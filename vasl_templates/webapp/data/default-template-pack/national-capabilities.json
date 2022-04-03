@@ -109,6 +109,17 @@
     ]
 },
 
+"swedish": {
+    "th_color": [ "Red", "[EXC: MG]" ],
+    "oba": [ "6B", "3R"],
+    "hob_drm": "0 DRM",
+    "notes": [
+        "1<sup>st</sup> Line Battle Hardening &rarr; Fanatic",
+        "Allied Troops Captured Use penalties NA",
+        "Extreme Winter effects NA"
+    ]
+},
+
 "axis-minor": {
     "th_color": "Red",
     "oba": [ "6B", "3R" ], "oba_access": "&le; 1",

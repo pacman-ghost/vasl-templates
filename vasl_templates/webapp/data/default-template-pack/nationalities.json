@@ -55,6 +55,11 @@
   "ob_colors": [ "#edefef","#ced3d3", "#ced3d3" ]
 },
 
+"swedish": {
+  "display_name": "Swedish",
+  "ob_colors": [ "#89bfe9","#699fc9", "#699fc9" ]
+},
+
 "japanese": {
   "display_name": "Japanese",
   "ob_colors": [ "#fff200","#ffdb00", "#ffdb00" ]

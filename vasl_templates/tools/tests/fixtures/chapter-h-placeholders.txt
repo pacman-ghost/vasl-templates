@@ -1468,6 +1468,9 @@ slovakian/vehicles/20.png
 slovakian/vehicles/21.png
 slovakian/vehicles/22.png
 slovakian/vehicles/23.png
+swedish/ordnance/1.png
+swedish/ordnance/2.png
+swedish/ordnance/3.png
 thai/ordnance/adf-bj/4.png
 thai/ordnance/adf-bj/5.png
 thai/ordnance/adf-bj/8.png

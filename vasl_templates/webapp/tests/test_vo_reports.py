@@ -68,7 +68,7 @@ def test_vo_reports( webapp, webdriver ): #pylint: disable=too-many-locals
                     continue
                 results = get_vo_report( webapp, webdriver, vo_type, nat, "ETO", year, 1 )
                 if nat in ( "burmese", "filipino", "partisan" ) \
-                  or ( nat, vo_type ) in [ ("anzac","ordnance"), ("kfw-cpva","vehicles") ]:
+                  or ( nat, vo_type ) in [ ("anzac","ordnance"), ("kfw-cpva","vehicles"), ("swedish","vehicles") ]:
                     assert not results
                     continue
 

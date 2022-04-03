@@ -1,0 +1,7 @@
+=== ordnance/swedish/1944 ===
+
+Name                             Capabilities    (effective)      #  Notes    Comments
+-------------------------------  --------------  -------------  ---  -------  -----------------------------------
+81mm Granatkastare m/29          s8              s8               1  n/a      QSU
+37mm Pansarv&#228;rnskanon m/38                                   2  n/a      QSU
+8.4cm Feltkanon m/1887                                            3  n/a      QSU | No Gunshield | Acquisition NA

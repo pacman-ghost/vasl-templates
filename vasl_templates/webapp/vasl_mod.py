@@ -381,7 +381,9 @@ class VaslMod:
                 return True
             if val.startswith( "," ):
                 val = val[1:]
-            if val.startswith( ("ru/","ge/","am/","br/","it/","ja/","ch/","sh/","fr/","al/","ax/","hu/","fi/","nk/") ):
+            if val.startswith( (
+                "ru/", "ge/", "am/", "br/", "it/", "ja/", "ch/", "sh/", "fr/", "al/", "ax/", "hu/", "fi/", "nk/", "sv/"
+              ) ):
                 return True
             return False
         fields = [ f for f in fields if is_image_path(f) ]
