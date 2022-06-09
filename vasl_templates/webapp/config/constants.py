@@ -4,7 +4,7 @@ import sys
 import os
 
 APP_NAME = "VASL Templates"
-APP_VERSION = "v1.9" # nb: also update setup.py
+APP_VERSION = "v1.10" # nb: also update setup.py
 APP_DESCRIPTION = "Generate HTML for use in VASL scenarios."
 APP_HOME_URL = "https://vasl-templates.org"
 
