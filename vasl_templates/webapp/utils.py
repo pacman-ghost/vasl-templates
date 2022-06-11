@@ -178,7 +178,7 @@ def resize_image_response( resp, default_width=None, default_height=None, defaul
     if width or height:
         assert width and height
         # yup - make it so
-        img = img.resize( (int(width),int(height)), Image.ANTIALIAS )
+        img = img.resize( (int(width),int(height)), Image.Resampling.LANCZOS )
         buf = io.BytesIO()
         img.save( buf, format="PNG" )
         buf.seek( 0 )

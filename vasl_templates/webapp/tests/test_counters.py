@@ -198,7 +198,7 @@ def test_compare_version_strings():
     for i,vassal_version in enumerate( vassal_versions ):
         if i > 0:
             assert compare_version_strings( vassal_versions[i-1], vassal_version ) < 0
-        assert compare_version_strings( vassal_versions[i], vassal_version ) == 0
+        assert compare_version_strings( vassal_version, vassal_version ) == 0
         if i < len(vassal_versions)-1:
             assert compare_version_strings( vassal_version, vassal_versions[i+1] ) < 0
 

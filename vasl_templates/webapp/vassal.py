@@ -14,7 +14,7 @@ import base64
 import time
 import io
 import zipfile
-import xml.etree.cElementTree as ET
+import xml.etree.ElementTree as ET
 
 from flask import request, jsonify
 

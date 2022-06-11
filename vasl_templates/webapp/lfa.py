@@ -4,7 +4,7 @@ import os
 import time
 import base64
 import logging
-import xml.etree.cElementTree as ET
+import xml.etree.ElementTree as ET
 
 from flask import request, jsonify
 

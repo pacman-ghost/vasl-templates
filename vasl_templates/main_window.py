@@ -25,7 +25,7 @@ _CONSOLE_SOURCE_REGEX = re.compile( r"^http://.+?/static/(.*)$" )
 class AppWebPage( QWebEnginePage ):
     """Application web page."""
 
-    def acceptNavigationRequest( self, url, nav_type, is_mainframe ): #pylint: disable=no-self-use,unused-argument
+    def acceptNavigationRequest( self, url, nav_type, is_mainframe ): #pylint: disable=unused-argument
         """Called when a link is clicked."""
         if url.host() in ("localhost","127.0.0.1"):
             if "/asl-rulebook2/" not in url.url(): # nb: asl-rulebook2 links are routed through our webapp
@@ -39,7 +39,7 @@ class AppWebPage( QWebEnginePage ):
         QDesktopServices.openUrl( url )
         return False
 
-    def javaScriptConsoleMessage( self, level, msg, line_no, source_id ): #pylint: disable=unused-argument,no-self-use
+    def javaScriptConsoleMessage( self, level, msg, line_no, source_id ): #pylint: disable=unused-argument
         """Log a Javascript console message."""
         mo = _CONSOLE_SOURCE_REGEX.search( source_id )
         source = mo.group(1) if mo else source_id
@@ -308,7 +308,7 @@ class MainWindow( QWidget ):
 
     @pyqtSlot( str )
     @catch_exceptions( caption="SLOT EXCEPTION" )
-    def on_user_settings_change( self, user_settings ): #pylint: disable=no-self-use
+    def on_user_settings_change( self, user_settings ):
         """Called when the user changes the user settings."""
         # delete all existing keys
         for key in app_settings.allKeys():

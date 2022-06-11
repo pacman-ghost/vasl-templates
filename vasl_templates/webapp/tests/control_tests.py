@@ -4,7 +4,7 @@ import json
 import base64
 
 import grpc
-from google.protobuf.empty_pb2 import Empty
+from google.protobuf.empty_pb2 import Empty #pylint: disable=no-name-in-module
 
 from vasl_templates.webapp.tests.proto.generated.control_tests_pb2_grpc import ControlTestsStub
 from vasl_templates.webapp.tests.proto.utils import enum_from_string

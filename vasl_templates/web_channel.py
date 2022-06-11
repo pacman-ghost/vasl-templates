@@ -68,7 +68,7 @@ class WebChannelHandler:
             title += " (*)"
         self.parent.setWindowTitle( title )
 
-    def on_snippet_image( self, img_data ): #pylint: disable=no-self-use
+    def on_snippet_image( self, img_data ):
         """Called when a snippet image has been generated."""
         # NOTE: We could maybe add an HTML object to the clipboard as well, but having two formats on the clipboard
         # simultaneously might confuse some programs, causing problems for no real benefit :shrug:

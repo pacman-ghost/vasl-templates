@@ -124,7 +124,7 @@ def _do_load_vo_listings( vasl_mod, vo_type, merge_common, real_data_dir, msg_st
                 vo_entries[i] = copy_vo_entry( vo_entry, vo_index[vo_id], nat, vo_type, msg_store )
 
     # update nationality variants with the listings from their base nationality
-    for nat in listings:
+    for nat in list( listings.keys() ):
         if "~" not in nat:
             continue
         base_nat = nat.split( "~" )[0]

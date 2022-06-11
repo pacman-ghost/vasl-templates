@@ -1,8 +1,8 @@
-# python 3.8.7
+# python 3.10.4
 
-flask==2.0.3
+flask==2.1.2
 pyyaml==6.0
-pillow==9.0.1
-selenium==4.1.0
-waitress==2.0.0
-click==8.0.4
+pillow==9.1.1
+selenium==4.2.0
+waitress==2.1.2
+click==8.1.3

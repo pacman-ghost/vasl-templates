@@ -247,7 +247,7 @@ def _get_small_image( fp, key, default_height ):
             if height > 0:
                 width = img.size[0] / ( float(img.size[1]) / height )
                 width = int( width + 0.5 )
-                img = img.resize( (width,height), Image.ANTIALIAS )
+                img = img.resize( (width,height), Image.Resampling.LANCZOS )
             # add the image to the cache
             buf = io.BytesIO()
             img.save( buf, format="PNG" )

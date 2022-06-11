@@ -61,7 +61,7 @@ class AboutDialog( QDialog ):
             APP_HOME_URL, mo.group(1) if mo else APP_HOME_URL
         ) )
 
-    def on_app_icon_clicked( self, event ): #pylint: disable=no-self-use,unused-argument
+    def on_app_icon_clicked( self, event ): #pylint: disable=unused-argument
         """Click handler."""
         QDesktopServices.openUrl( QUrl( APP_HOME_URL ) )
 

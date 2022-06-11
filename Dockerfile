@@ -1,17 +1,17 @@
 # NOTE: Use the run-container.sh script to build and launch this container.
 
 # NOTE: Multi-stage builds require Docker >= 17.05.
-FROM rockylinux:8 AS base
+FROM rockylinux:8.5 AS base
 
 # update packages and install requirements
 RUN dnf -y upgrade-minimal && \
-    dnf install -y python38
+    dnf install -y python39
 
 # NOTE: We don't need the following stuff for the build step, but it's nice to not have to re-install
 # it all every time we change the requirements :-/
 
 # install Java
-ARG JAVA_URL=https://download.java.net/java/GA/jdk15.0.1/51f4f36ad4ef43e39d0dfdbaf6549e32/9/GPL/openjdk-15.0.1_linux-x64_bin.tar.gz
+ARG JAVA_URL=https://download.oracle.com/java/17/archive/jdk-17.0.2_linux-x64_bin.tar.gz
 RUN curl -s "$JAVA_URL" | tar -xz -C /usr/bin/
 
 # install Firefox
@@ -22,7 +22,7 @@ RUN dnf install -y bzip2 xorg-x11-server-Xvfb gtk3 dbus-glib && \
     echo "exclude=firefox" >>/etc/dnf/dnf.conf
 
 # install geckodriver
-ARG GECKODRIVER_URL=https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz
+ARG GECKODRIVER_URL=https://github.com/mozilla/geckodriver/releases/download/v0.31.0/geckodriver-v0.31.0-linux64.tar.gz
 RUN curl -sL "$GECKODRIVER_URL" | tar -xz -C /usr/bin/
 
 # clean up

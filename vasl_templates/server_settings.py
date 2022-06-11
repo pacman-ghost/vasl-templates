@@ -155,9 +155,9 @@ class ServerSettingsDialog( QDialog ):
                 app_settings.setValue( "ServerSettings/"+key, val )
             try:
                 install_server_settings( False )
-            except Exception as ex: #pylint: disable=broad-except
+            except Exception as ex2: #pylint: disable=broad-except
                 logging.error( traceback.format_exc() )
-                MainWindow.showErrorMsg( "Couldn't rollback the server settings:\n\n{}".format( ex ) )
+                MainWindow.showErrorMsg( "Couldn't rollback the server settings:\n\n{}".format( ex2 ) )
             return
         self.close()
 

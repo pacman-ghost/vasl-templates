@@ -13,7 +13,7 @@ import inspect
 import random
 
 import tabulate
-from google.protobuf.empty_pb2 import Empty
+from google.protobuf.empty_pb2 import Empty #pylint: disable=no-name-in-module
 
 from vasl_templates.webapp.config.constants import DATA_DIR
 from vasl_templates.webapp.vassal import VassalShim

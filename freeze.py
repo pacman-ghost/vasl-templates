@@ -95,8 +95,8 @@ def main( args ): #pylint: disable=too-many-locals
         args.append( "--noconsole" )
         args.extend( [ "--icon", APP_ICON ] )
         # NOTE: These files are not always required but it's probably safer to always include them.
-        import distutils.sysconfig #pylint: disable=import-error
-        dname = os.path.join( distutils.sysconfig.get_python_lib() , "PyQt5/Qt5/bin" )
+        import sysconfig
+        dname = os.path.join( sysconfig.get_path("platlib") , "PyQt5/Qt5/bin" )
         args.extend( [ "--add-binary", os.path.join(dname,"libEGL.dll") + os.pathsep + "PyQt5/Qt/bin" ] )
         args.extend( [ "--add-binary", os.path.join(dname,"libGLESv2.dll") + os.pathsep + "PyQt5/Qt/bin" ] )
     args.append( MAIN_SCRIPT )
