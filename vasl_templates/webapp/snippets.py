@@ -216,6 +216,11 @@ def get_flag( nat ):
         with app.open_resource( fname, "rb" ) as fp:
             return _get_small_image( fp, key, height )
     except FileNotFoundError:
+        if nat in globvars.template_pack["nationalities"]:
+            # NOTE: If the nationalitity is valid but has no flag, we return a spacer image, so that
+            # the scenario card doesn't show a "broken image" image.
+            fname = os.path.join( "static/images/spacer.png" )
+            return send_file( fname )
         abort( 404 )
         return None # stop pylint from complaining :-/
 
