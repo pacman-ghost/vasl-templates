@@ -80,7 +80,7 @@ window.selectRoarScenario = function( onSelected )
                 // update the UI
                 onResize( $(this) ) ;
             },
-            resize: onResize,
+            resize: function() { onResize( $(this) ) ; },
             buttons: {
                 OK: { text: "OK", class: "ok", click: function() {
                     // notify the caller about the selected scenario
