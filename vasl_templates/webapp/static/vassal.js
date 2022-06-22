@@ -546,7 +546,7 @@ function show_vassal_shim_error_dlg( resp, caption )
             else if ( resp.stderr )
                 log = resp.stderr ;
             if ( log )
-                $( "#vassal-shim-error .log" ).val( log ).show() ;
+                $( "#vassal-shim-error .log" ).text( log ).show() ;
             else
                 $( "#vassal-shim-error .log" ).hide() ;
         },

@@ -1,10 +1,12 @@
-#vassal-shim-error textarea {
-    height: 15em ; min-height: 5em ;
-    resize: none ;
+#vassal-shim-error .log {
+    height: 15em ; min-height: 5em ; resize: none ;
+    overflow-y: auto ;
     margin-top: 0.5em ; padding: 2px ;
-    font-family: monospace ; font-size: 80% ;
+    border: 1px solid #333 ;
+    white-space: pre-wrap ;
+    font-family: monospace ; font-size: 70% ;  color: #333 ;
 }
 .ui-dialog.vassal-shim-error .ui-dialog-titlebar { background: #f5af41 ; }
-.ui-dialog.vassal-shim-error .ui-dialog-content { display: flex ; flex-direction: column ; }
-.ui-dialog.vassal-shim-error .ui-dialog-content textarea { flex-grow: 1 ; }
+.ui-dialog.vassal-shim-error .ui-dialog-content { display: flex ; flex-direction: column ; overflow-y: hidden ; }
+.ui-dialog.vassal-shim-error .ui-dialog-content .log { flex-grow: 1 ; }
 .ui-dialog.vassal-shim-error .ui-dialog-buttonpane { border: none ; margin-top: 0 !important ; padding-top: 0 !important ; }
