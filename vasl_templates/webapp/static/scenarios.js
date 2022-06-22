@@ -592,6 +592,7 @@ const IMPORT_FIELDS = [
     { key: "scenario_display_id", name: "scenario ID", paramName: "SCENARIO_ID", type: "text" },
     { key: "scenario_location", name: "location", paramName: "SCENARIO_LOCATION", type: "text" },
     { key: "scenario_date_iso", name: "scenario date", paramName: "SCENARIO_DATE", type: "date" },
+    { key: "scenario_turns", name: "scenario_turns", paramName: "TURN_TRACK_NTURNS", type: "select2" },
     { key: "theater", name: "theater", paramName: "SCENARIO_THEATER", type: "select2" },
     { key: "defender_name", name: "defender", paramName: "PLAYER_1", type: "player" },
     { key: "defender_desc", name: "defender description", paramName: "PLAYER_1_DESCRIPTION", type: "text" },
@@ -696,6 +697,11 @@ function onImportScenario()
 
 function doImportScenario( scenario )
 {
+    // NOTE: We could reset the ELR/SAN here, but if the user is importing on top of an existing setup,
+    // the most likely reason is because they want to connect it to an ASA scenario, not because
+    // they want to import a whole set of new details, so clearing the ELR/SAN wouldn't make sense.
+    // Ditto for the scenario turn count, and the associated turn track settings.
+
     // import each field
     IMPORT_FIELDS.forEach( function( importField ) {
         var $elem = $gDialog.find( ".import-control .warnings input[name='" + importField.key + "']" ) ;
@@ -706,9 +712,6 @@ function doImportScenario( scenario )
     } ) ;
 
     // update for the newly-connected scenario
-    // NOTE: We could reset the ELR/SAN here, but if the user is importing on top of an existing setup,
-    // the most likely reason is because they want to connect it to an ASA scenario, not because
-    // they want to import a whole set of new details, so clearing the ELR/SAN wouldn't make sense.
     updateForConnectedScenario(
         scenario.scenario_id,
         scenario.roar ? scenario.roar.scenario_id : null
@@ -779,6 +782,8 @@ function getImportFieldCurrVal_select2( importField ) {
     // get the current field value
     if ( importField.paramName == "SCENARIO_THEATER" )
         return null ; // nb: this will always be updated without warning
+    if ( importField.paramName == "TURN_TRACK_NTURNS" )
+        return null ; // nb: this will always be updated without warning
     return $( "select[name='" + importField.paramName + "']" ).val().trim() ;
 }
 
@@ -790,9 +795,14 @@ function doImportField_select2( importField, newVal ) {
             if ( ! newVal )
                 newVal = "other" ;
         }
+        else
+            newVal = "ETO" ;
+    } else if ( importField.paramName === "TURN_TRACK_NTURNS" ) {
+        // ensure the turn count we are about to import is in the droplist
+        updateTurnTrackNTurns( newVal ) ;
     }
     var $elem = $( "select[name='" + importField.paramName + "']" ) ;
-    $elem.val( newVal || "ETO" ).trigger( "change" ) ;
+    $elem.val( newVal ).trigger( "change" ) ;
 }
 
 function getEffectiveTheater( theater ) {

@@ -24,9 +24,24 @@
                     <button class="generate" data-id="scenario">Snippet</button>
                 </span>
             </div>
-            <div class="row" style="margin-top:0.5em;">
+            <div class="row" style="margin-top:0.25em;">
+                <label for="TURN_TRACK_NTURNS">Turns:</label>
+                <select name="TURN_TRACK_NTURNS" class="param"></select>
+                <div class="turn-track-controls small" style="display:none;align-items:center;">
+                    <button id="turn-track-settings" title="Turn track settings"><img src="{{url_for('static',filename='images/menu/settings.png')}}"></button>
+                    <button class="generate" data-id="turn_track">Snippet</button>
+                </div>
+            </div>
+            <div class="small" style="display:none;">
+                Width: <input type="text" name="TURN_TRACK_WIDTH" class="param" size="1">
+                <input type="checkbox" name="TURN_TRACK_VERTICAL" class="param"> Vertical </input> &nbsp;
+                R<sub>1</sub>: <input type="text" name="TURN_TRACK_REINFORCEMENTS_1" class="param" size=8">
+                R<sub>2</sub>: <input type="text" name="TURN_TRACK_REINFORCEMENTS_2" class="param" size=8">
+                <input type="checkbox" name="TURN_TRACK_SWAP_PLAYERS" class="param"> Swap players </input>
+            </div>
+            <div class="row" style="margin-top:-0.75em;">
                 <label></label>
-                <span style='width:12.9em'></span>
+                <span style='width:13.9em'></span>
                 <label class="header" for="ELR">ELR</label>
                 <span style='width:0.2em'></span>
                 <label class="header" for="SAN">SAN</label>

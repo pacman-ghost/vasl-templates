@@ -1,0 +1,93 @@
+<html> <!-- vasl-templates:id {{SNIPPET_ID}} -->
+
+<head>
+<meta charset="utf-8">
+<style> {{CSS:common}} </style>
+
+<style>
+
+td {
+    width: 50px ; min-width: 50px ;
+    height: {%if TURN_TRACK_PREVIEW_MODE%} 50px {%else%} 43px {%endif%} ;
+    padding: 2px ;
+    border: 1px solid black ;
+}
+{% set RESET_TD = "min-width: unset ; height: unset ; padding: 0 ; border: none" %}
+td.turn-no {
+    {{RESET_TD}} ; width: unset ;
+    text-align: center ; vertical-align: center ; font-size: 18px ; font-weight: bold ;
+}
+td.no-reinforce { {{RESET_TD}} ; width: 13px ; }
+{# NOTE: We do the reinforcement flags as CSS backgrounds, since VASSAL is incredibly slow downloading normal images. #}
+td.reinforce1 { {{RESET_TD}} ; width: 13px ; background: url("{{TURN_TRACK_FLAG_1}}") top left no-repeat ; vertical-align: top ; }
+td.reinforce2 { {{RESET_TD}} ; width: 13px ; background: url("{{TURN_TRACK_FLAG_2}}") bottom right no-repeat ; vertical-align: bottom ; }
+td.half-turn {
+    background: url("{{IMAGES_BASE_URL}}/turn-track-half-turn.png") bottom right no-repeat ;
+    background-size: contain ; {# nb: doesn't work in VASSAL, the image file needs to be the correct size :-/ #}
+}
+
+{% if TURN_TRACK_PREVIEW_MODE %}
+body { margin: 0 ; }
+.reinforce1, .reinforce2 { opacity: 0 ; }
+.click { width: 13px ; height: 13px ; cursor: pointer ; }
+{%endif%}
+
+</style>
+
+</head>
+
+{% if TURN_TRACK_PREVIEW_MODE %}
+<script>
+// notify the parent window of a click on a reinforcement flag
+function onFlagClick( turnNo, playerNo ) {
+    window.parent.postMessage( {
+        type: "FlagClick",
+        turnNo: turnNo, uiPlayerNo: playerNo
+    }, "*" ) ;
+}
+</script>
+{%endif%}
+
+<table class="turn-track">
+
+{% for row in TURN_TRACK_SQUARES %}
+<tr>
+
+{% for turnSquare in row %}
+<td {%if turnSquare[0] == TURN_TRACK_HALF_TURN%} class="half-turn" {%endif%} >
+
+    <table style="width:100%;height:100%;"> <tr>
+
+    <td id="flag-{{turnSquare[0]}}_1" width="100%"
+      class = {% if turnSquare[1] %} "reinforce1" {%else%} "no-reinforce" {%endif%}
+    >
+{% if TURN_TRACK_PREVIEW_MODE %}
+        <div class="click"
+          onclick = "onFlagClick( {{turnSquare[0]}}, 1 )"
+        > </div>
+{%endif%}
+    </td>
+
+    <td class="turn-no"> {{turnSquare[0]}} </td>
+
+    <td id="flag-{{turnSquare[0]}}_2" width="100%"
+      class = {% if turnSquare[2] and turnSquare[0] != TURN_TRACK_HALF_TURN %} "reinforce2" {%else%} "no-reinforce" {%endif%}
+    >
+{% if TURN_TRACK_PREVIEW_MODE and turnSquare[0] != TURN_TRACK_HALF_TURN %}
+        <div class="click"
+          onclick = "onFlagClick( {{turnSquare[0]}}, 2 )"
+        > </div>
+{%endif%}
+    </td>
+
+    </tr> </table>
+
+</td>
+{%endfor%}
+
+</tr>
+{%endfor%}
+
+</table>
+
+</html>

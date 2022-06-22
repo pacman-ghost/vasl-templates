@@ -12,7 +12,7 @@ from vasl_templates.webapp.tests.utils import \
     get_stored_msg, set_stored_msg_marker, find_child, find_children, adjust_html, \
     for_each_template, add_simple_note, edit_simple_note, \
     get_sortable_entry_count, generate_sortable_entry_snippet, drag_sortable_entry_to_trash, \
-    new_scenario, set_scenario_date
+    new_scenario, set_scenario_date, set_turn_track_nturns
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, load_scenario_params
 
 # ---------------------------------------------------------------------
@@ -232,6 +232,7 @@ def test_edit_templates( webapp, webdriver ):
     # initialize
     webapp.control_tests.set_vo_notes_dir( "{TEST}" )
     init_webapp( webapp, webdriver, edit_template_links=1 )
+    set_turn_track_nturns( "3" )
     ob_setups = {
         1: find_child( "#ob_setups-sortable_1" ),
         2: find_child( "#ob_setups-sortable_2" )

@@ -14,6 +14,7 @@ from vasl_templates.webapp.tests.test_scenario_persistence import save_scenario,
 from vasl_templates.webapp.tests.test_vassal import run_vassal_tests
 from vasl_templates.webapp.tests.utils import init_webapp, select_tab, new_scenario, \
     set_player, set_template_params, set_scenario_date, get_player_nat, get_theater, set_theater, \
+    get_turn_track_nturns, \
     wait_for, wait_for_elem, find_child, find_children, get_css_classes, set_stored_msg, click_dialog_button
 
 # ---------------------------------------------------------------------
@@ -31,7 +32,7 @@ def test_scenario_cards( webapp, webdriver ):
         "scenario_name": "Full content scenario", "scenario_id": "FCS-1",
         "scenario_url": "https://aslscenarioarchive.com/scenario.php?id=1",
         "scenario_location": "Some place", "scenario_date": "31st December, 1945",
-        "theater": "PTO", "turn_count": "6", "playing_time": "1\u00bc hours",
+        "theater": "PTO", "turn_count": "4-5", "playing_time": "1\u00bc hours",
         "icons": [ "aslsk.png", "deluxe.png", "night.png", "oba.png" ],
         "designer": "Joe Author",
         "publication": "ASL Journal",
@@ -87,6 +88,7 @@ def test_import_scenario( webapp, webdriver ):
     wait_for( 2, lambda: _check_scenario(
         SCENARIO_NAME="Full content scenario", SCENARIO_ID="FCS-1",
         SCENARIO_LOCATION="Some place",
+        SCENARIO_TURNS="5",
         PLAYER_1="dutch", PLAYER_1_DESCRIPTION="1st Dutch Army",
         PLAYER_2="romanian", PLAYER_2_DESCRIPTION="1st Romanian Army",
         THEATER="PTO"
@@ -100,6 +102,7 @@ def test_import_scenario( webapp, webdriver ):
     wait_for( 2, lambda: _check_scenario(
         SCENARIO_NAME="Untitled scenario (#no-content)", SCENARIO_ID="",
         SCENARIO_LOCATION="",
+        SCENARIO_TURNS="",
         PLAYER_1="dutch", PLAYER_1_DESCRIPTION="",
         PLAYER_2="romanian", PLAYER_2_DESCRIPTION="",
         THEATER="ETO"
@@ -114,6 +117,8 @@ def _check_scenario( **kwargs ):
     if get_player_nat( 1 ) != kwargs["PLAYER_1"] or get_player_nat( 2 ) != kwargs["PLAYER_2"]:
         return False
     if get_theater() != kwargs[ "THEATER" ]:
+        return False
+    if get_turn_track_nturns() != kwargs["SCENARIO_TURNS"]:
         return False
     return True
 

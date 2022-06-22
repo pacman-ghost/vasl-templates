@@ -27,6 +27,14 @@
     "PLAYER_2": "russian",
     "PLAYER_2_ELR": "3",
     "PLAYER_2_SAN": "2",
+    "TURN_TRACK": {
+        "NTURNS": "14",
+        "WIDTH": "5",
+        "VERTICAL": false,
+        "REINFORCEMENTS_1": "1,5",
+        "REINFORCEMENTS_2": "1",
+        "SWAP_PLAYERS": true
+    },
     "SSR": [
         "The SPW 251/sMG inherent HS is a 3-4-8.",
         "German inherent crews have a morale of 9.",
@@ -110,7 +118,7 @@
     ],
     "OB_NOTES_1": [],
     "OB_NOTES_2": [],
-    "_app_version": "v1.3",
-    "_last_update_time": "2020-09-27T04:33:18.643Z",
+    "_app_version": "v1.10",
+    "_last_update_time": "2022-06-23T08:33:33.484Z",
     "_creation_time": "2020-09-27T04:11:07.200Z"
 }

@@ -381,7 +381,8 @@ def test_hotness_report( webapp, webdriver ):
         report = {}
         for key in ( "2s", "12s", "snipers" ):
             report[ key ] = unload_table(
-                "//div[@class='hotness-popup']//table[@class='{}']//tr".format( key )
+                "//div[@class='hotness-popup']//table[@class='{}']/tbody".format( key ),
+                unload=True
             )
         return report
 
@@ -692,5 +693,6 @@ def _select_log_file( fname ):
 def _unload_table( sel ):
     """Unload chart data from an HTML table."""
     return unload_table(
-        "//*[@class='{}']//table[@class='chart-data']//tr".format( sel )
+        "//*[@class='{}']//table[@class='chart-data']/tbody".format( sel ),
+        unload=True
     )

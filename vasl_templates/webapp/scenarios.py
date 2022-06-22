@@ -177,6 +177,11 @@ def get_scenario( scenario_id ): #pylint: disable=too-many-locals
     args[ "attacker_name" ] = scenario.get( "attacker" )
     args = { k.lower(): v for k,v in args.items() }
 
+    # get the number of turns
+    nturns = scenario.get( "max_turns" ) or scenario.get( "min_turns" )
+    if nturns:
+        args[ "scenario_turns" ] = nturns
+
     def get_win_score( key ):
         """Get a player's win percentage."""
         nWins = parse_int( playings.get( key+"_wins" ), -1 )

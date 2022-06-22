@@ -125,7 +125,7 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     params.TIMESTAMP = (new Date()).toISOString() ;
     params.IMAGES_BASE_URL = gUserSettings["scenario-images-source"] == SCENARIO_IMAGES_SOURCE_INTERNET ?
         gAppConfig.ONLINE_IMAGES_URL_BASE :
-        make_app_url(  gImagesBaseUrl, true ) ;
+        make_app_url( gImagesBaseUrl, true ) ;
     if ( gUserSettings["snippet-font-family"] ) {
         // NOTE: Layout of snippets ends up being slightly different on Windows and Linux, presumably because
         // VASSAL is using different fonts. Unfortunately, explicitly specifying which font to use doesn't
@@ -465,6 +465,9 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         return { content: "[error: can't compile template]" } ;
     }
 
+    // generate the turn track parameters
+    make_turn_track_params( params ) ;
+
     // process the template
     var snippet ;
     try {
@@ -504,6 +507,86 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         template_id: template_id,
         snippet_id: params.SNIPPET_ID,
         save_name: snippet_save_name,
+    } ;
+}
+
+function make_turn_track_params( params )
+{
+    // initialize
+    if ( ! params.TURN_TRACK || ! params.TURN_TRACK.NTURNS )
+        return ;
+    var args = parseTurnTrackParams( params ) ;
+
+    // generate the data for each turn track square
+    var turnTrackSquares=[], nTurnTrackSquares=0 ;
+    var nRows = Math.ceil( args.nTurns / args.width ) ;
+    for ( var row=0 ; row < nRows ; ++row ) {
+        turnTrackSquares.push( [] ) ;
+        for ( var col=0 ; col < args.width ; ++col ) {
+            var turnNo ;
+            if ( args.vertical )
+                turnNo = 1 + col * nRows + row ;
+            else
+                turnNo = 1 + row * args.width + col ;
+            if ( turnNo > args.nTurns )
+                break ;
+            var val = [ turnNo, args.reinforce2[turnNo]?true:false, args.reinforce1[turnNo]?true:false ] ;
+            if ( params.TURN_TRACK.SWAP_PLAYERS )
+                val = [ val[0], val[2], val[1] ] ;
+            turnTrackSquares[ turnTrackSquares.length-1 ].push( val ) ;
+            nTurnTrackSquares += 1 ;
+        }
+    }
+
+    // update the snippet params
+    params.TURN_TRACK_SQUARES = turnTrackSquares ;
+    if ( args.halfTurn )
+        params.TURN_TRACK_HALF_TURN = nTurnTrackSquares ;
+    // NOTE: The convention is that player 1 sets up first, player 2 moves first,
+    // so swapping players actually maps turn track player 1 to the real player 1.
+    // NOTE: We generate the player flag URL's instead of using params.PLAYER_FLAG_1/2
+    // so that flags will work even if the user has disabled player flags in snippets.
+    var forceLocalImages = params.TURN_TRACK_PREVIEW_MODE ;
+    params.TURN_TRACK_FLAG_1 = make_player_flag_url(
+        get_player_nat( params.TURN_TRACK.SWAP_PLAYERS ? 1 : 2 ),
+        true, forceLocalImages
+    ) ;
+    params.TURN_TRACK_FLAG_2 = make_player_flag_url(
+        get_player_nat( params.TURN_TRACK.SWAP_PLAYERS ? 2 : 1 ),
+        true, forceLocalImages
+    ) ;
+}
+
+function parseTurnTrackParams( params )
+{
+    function parseReinforcements( reinf ) {
+        var turnFlags = {} ;
+        reinf.split( "," ).forEach( function( turnNo ) {
+            turnNo = parseInt( turnNo.trim() ) ;
+            if ( ! isNaN( turnNo ) )
+                turnFlags[ turnNo ] = true ;
+        } ) ;
+        return turnFlags ;
+    }
+
+    // parse the turn track parameters
+    var nTurns = params.TURN_TRACK.NTURNS ;
+    var halfTurn = false ;
+    if ( nTurns.substr( nTurns.length-2 ) === ".5" ) {
+        nTurns = parseInt( nTurns.substr( 0, nTurns.length-2 ) ) + 1 ;
+        halfTurn = true ;
+    }
+    var vertical = params.TURN_TRACK.VERTICAL ;
+    var width = params.TURN_TRACK.WIDTH ;
+    if ( width === "" )
+        width = vertical ? 1 : nTurns ;
+    var reinforce1 = parseReinforcements( params.TURN_TRACK.REINFORCEMENTS_1 ) ;
+    var reinforce2 = parseReinforcements( params.TURN_TRACK.REINFORCEMENTS_2 ) ;
+
+    return {
+        nTurns: nTurns, halfTurn: halfTurn,
+        vertical: vertical, width: width,
+        reinforce1: reinforce1, reinforce2: reinforce2
     } ;
 }
 
@@ -867,6 +950,24 @@ function unload_snippet_params( unpack_scenario_date, template_id )
     $("input[type='text'].param").each( function() { add_param( $(this) ) ; } ) ;
     $("textarea.param").each( function() { add_param( $(this) ) ; } ) ;
     $("select.param").each( function() { add_param( $(this) ) ; } ) ;
+
+    // fix up the turn track parameters
+    var nTurns = params.TURN_TRACK_NTURNS ;
+    if ( nTurns !== "" ) {
+        var width = $( "input[name='TURN_TRACK_WIDTH']" ).val() ;
+        params.TURN_TRACK = {
+            "NTURNS": nTurns,
+            "WIDTH": isNaN( parseInt( width ) ) ? "" : width,
+            "VERTICAL": $( "input[name='TURN_TRACK_VERTICAL']" ).prop( "checked" ),
+            "REINFORCEMENTS_1": $( "input[name='TURN_TRACK_REINFORCEMENTS_1']" ).val().trim(),
+            "REINFORCEMENTS_2": $( "input[name='TURN_TRACK_REINFORCEMENTS_2']" ).val().trim(),
+            "SWAP_PLAYERS": $( "input[name='TURN_TRACK_SWAP_PLAYERS']" ).prop( "checked" ),
+        } ;
+    }
+    Object.keys( params ).forEach( function( key ) {
+        if ( key.substr(0,11) === "TURN_TRACK_" )
+            delete params[key] ;
+    } ) ;
 
     // collect the SSR's
     params.SSR = [] ;
@@ -1651,6 +1752,16 @@ function do_load_scenario_data( params )
     var i ;
     for ( var key in params ) {
         var player_no, $sortable2 ;
+        if ( key === "TURN_TRACK" ) {
+            setTurnTrackNTurns( params[key].NTURNS ) ;
+            $( "input[name='TURN_TRACK_VERTICAL']" ).prop( "checked", params[key].VERTICAL ) ;
+            $( "input[name='TURN_TRACK_WIDTH']" ).val( params[key].WIDTH ) ;
+            $( "input[name='TURN_TRACK_REINFORCEMENTS_1']" ).val( params[key].REINFORCEMENTS_1 ) ;
+            $( "input[name='TURN_TRACK_REINFORCEMENTS_2']" ).val( params[key].REINFORCEMENTS_2 ) ;
+            $( "input[name='TURN_TRACK_SWAP_PLAYERS']" ).prop( "checked", params[key].SWAP_PLAYERS ) ;
+            params_loaded[key] = true ;
+            continue ;
+        }
         if ( key === "SSR" ) {
             $sortable2 = $( "#ssr-sortable" ) ;
             for ( i=0 ; i < params[key].length ; ++i )
@@ -1984,9 +2095,10 @@ function reset_scenario()
             $(this).val( "" ) ;
     } ) ;
     $("textarea.param").each( function() { $(this).val("") ; } ) ;
+    $("input[type='checkbox']").prop( "checked", false ) ;
+    $( "select[name='TURN_TRACK_NTURNS'].param" ).val( "" ).trigger( "change" ) ;
 
-    // reset all the template parameters
-    // nb: there's no way to reset the player droplist's
+    // reset the player droplist's
     var player_no ;
     for ( player_no=1 ; player_no <= 2 ; ++player_no ) {
         on_player_change( player_no ) ;

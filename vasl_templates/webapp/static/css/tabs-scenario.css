@@ -9,6 +9,9 @@
 #panel-scenario .scenario-search img { margin-top: 2px ; width: 16px ; }
 #panel-scenario input[name='SCENARIO_DATE'] { width: 6em ; flex-grow: 0 ; }
 
+#panel-scenario label[for='TURN_TRACK_NTURNS'] { margin-top: 2px ; }
+#panel-scenario button#turn-track-settings { width: 25px ; height: 24px ; margin-right: 5px ; padding: 3px 2px 2px 2px ; }
+
 #panel-scenario label[for='PLAYER_1'] { margin-top: 2px ; }
 #panel-scenario .select2[name="PLAYER_1"] { flex: 1 ; }
 #panel-scenario label[for='PLAYER_2'] { margin-top: 2px ; }
@@ -16,14 +19,14 @@
 
 #panel-scenario input[name="PLAYER_1_DESCRIPTION"],
 #panel-scenario input[name="PLAYER_2_DESCRIPTION"] {
-    margin-left: calc(6.35em + 2px) ; margin-top: 1px ; font-size: 75% ;
+    margin-left: 6.35em ; margin-top: 1px ; font-size: 75% ;
 }
 
 #panel-scenario label { font-weight: bold ; width: 4.75em ; }
 #panel-scenario label.header { font-weight: bold ; width: 3em ; text-align: center ; }
 #panel-scenario input { margin-bottom: 0.25em ; }
 
-#panel-scenario .select2-container { margin: 2px ; }
+#panel-scenario .select2-container { margin-right: 2px ; }
 #panel-scenario .select2-selection__rendered { height: 23px ; line-height: 23px ; }
 #panel-scenario .select2-selection__arrow { margin-top: -2px ; }
 #panel-scenario .select2-selection { height: 24px !important ; border-radius: 0 !important ; }

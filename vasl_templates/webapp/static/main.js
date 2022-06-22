@@ -151,6 +151,28 @@ $(document).ready( function () {
         onClose: on_scenario_date_change,
     } ) ;
 
+    // initialize the turn track controls
+    var $turnCountSel = $( "select[name='TURN_TRACK_NTURNS']" ) ;
+    init_select2(
+        $turnCountSel, "4em", false, formatTurnTrackOption
+    ).on( "select2:open", function() {
+        restrict_droplist_height( $(this) ) ;
+    } ).on( "change", function() {
+        if ( $(this).val() === "(show-dialog)" ) {
+            $(this).val( DEFAULT_TURN_TRACK_TURNS_MIN ).trigger( "change" ) ;
+            editTurnTrackSettings() ;
+        } else {
+            updateTurnTrackNTurns( $(this).val() ) ;
+            $( "#panel-scenario .turn-track-controls" ).css( {
+                display: $(this).val() !== "" ? "flex" : "none"
+            } ) ;
+        }
+    } ) ;
+    $turnCountSel.append( $( "<option value=''>-</option>" ) ) ;
+    for ( var nTurns=DEFAULT_TURN_TRACK_TURNS_MIN ; nTurns <= DEFAULT_TURN_TRACK_TURNS_MAX ; nTurns += 0.5 )
+        $turnCountSel.append( $( "<option value='" + nTurns + "'>" + nTurns + "</option>" ) ) ;
+    $( "button#turn-track-settings" ).button().click( editTurnTrackSettings ) ;
+
     // initialize the SSR's
     $("#ssr-sortable").sortable2( "init", {
         add: add_ssr, edit: edit_ssr
@@ -735,6 +757,11 @@ function install_template_pack( data )
     }
     $( "button.generate" ).each( function() { update_button( $(this) ) ; } ) ;
     $( "button.edit-template" ).each( function() { update_button( $(this) ) ; } ) ;
+
+    // update the turn track controls
+    enable = is_template_available( "turn_track" ) ;
+    $( "select[name='TURN_TRACK_NTURNS']" ).css("color","red").prop( "disabled", !enable ) ;
+    $( "button#turn-track-settings" ).button( enable ? "enable" : "disable" ) ;
 }
 
 // --------------------------------------------------------------------
@@ -960,6 +987,17 @@ function handle_escape( evt )
     } ) ;
 
     // find the top-most dialog (if any) and close it
+    var $topmost = findTopmostDialog() ;
+    if ( $topmost ) {
+        var $dlg = $topmost.children( ".ui-dialog-content" ) ;
+        if ( ["please-wait","ask","lfa"].indexOf( $dlg.attr("id") ) === -1 )
+            $topmost.children( ".ui-dialog-content" ).dialog( "close" ) ;
+    }
+}
+
+function findTopmostDialog()
+{
+    // find the top-most dialog
     var $topmost = null ;
     $( ".ui-dialog" ).each( function() {
         if ( $(this).css( "display" ) != "block" )
@@ -967,11 +1005,7 @@ function handle_escape( evt )
         if ( $topmost === null || $(this).css("z-index") > $topmost.css("z-index") )
             $topmost = $(this) ;
     } ) ;
-    if ( $topmost ) {
-        var $dlg = $topmost.children( ".ui-dialog-content" ) ;
-        if ( ["please-wait","ask","lfa"].indexOf( $dlg.attr("id") ) === -1 )
-            $topmost.children( ".ui-dialog-content" ).dialog( "close" ) ;
-    }
+    return $topmost ;
 }
 
 // --------------------------------------------------------------------

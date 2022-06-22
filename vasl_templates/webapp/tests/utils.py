@@ -24,6 +24,7 @@ _STD_TEMPLATES = {
     "scenario": [
         "scenario", "players", "victory_conditions", "scenario_notes", "ssr",
         "nat_caps_1", # nb: "nat_caps_2" is functionally the same as this
+        "turn_track", # nb: this will only be used if a turn count has been specified
     ],
     "ob1": [ "ob_setup_1", "ob_note_1",
         "ob_vehicles_1", "ob_vehicle_note_1", "ob_vehicles_ma_notes_1",
@@ -83,12 +84,18 @@ def _wait_for_webapp():
 def for_each_template( func ): #pylint: disable=too-many-branches
     """Test each template."""
 
+    # initialize
+    sel = Select( find_child( "#tabs-scenario select[name='TURN_TRACK_NTURNS']" ) )
+    has_turn_track = sel.first_selected_option.get_attribute( "value" ) != ""
+
     # generate a list of all the templates we need to test
     templates_to_test = set()
     dname = os.path.join( os.path.split(__file__)[0], "../data/default-template-pack" )
     for fname in os.listdir(dname):
         fname,extn = os.path.splitext( fname )
         if extn != ".j2":
+            continue
+        if fname == "turn_track" and not has_turn_track:
             continue
         if fname == "ob_vo":
             templates_to_test.update( [ "ob_vehicles", "ob_ordnance" ] )
@@ -102,6 +109,8 @@ def for_each_template( func ): #pylint: disable=too-many-branches
     # test the standard templates
     for tab_id,template_ids in _STD_TEMPLATES.items():
         for template_id in template_ids:
+            if template_id == "turn_track" and not has_turn_track:
+                continue
             select_tab( tab_id )
             orig_template_id = template_id
             if template_id == "scenario_notes":
@@ -313,6 +322,16 @@ def set_theater( theater ):
 def get_theater():
     """Get the scenario theater."""
     sel = Select( find_child( "select[name='SCENARIO_THEATER']" ) )
+    return sel.first_selected_option.get_attribute( "value" )
+
+def set_turn_track_nturns( nturns ):
+    """Set the number of turns in the scenario (to enable the turn track)."""
+    elem = find_child( "#tabs-scenario select[name='TURN_TRACK_NTURNS']" )
+    select_droplist_val( Select(elem), nturns )
+
+def get_turn_track_nturns():
+    """Get the number of turns in the scenario."""
+    sel = Select( find_child( "#tabs-scenario select[name='TURN_TRACK_NTURNS']" ) )
     return sel.first_selected_option.get_attribute( "value" )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -600,10 +619,34 @@ def wait_for_clipboard( timeout, expected, contains=None, transform=None ):
 
 # ---------------------------------------------------------------------
 
-def unload_table( xpath ):
+class SwitchFrame:
+    """Helper class to switch frames in the browser window."""
+    def __init__( self, webdriver, iframe ):
+        self.webdriver = webdriver
+        self.iframe = iframe
+    def __enter__( self ):
+        if isinstance( self.iframe, str ):
+            self.iframe = wait_for( 5, lambda: find_child( self.iframe ) )
+        wait_for( 2, self.iframe.is_displayed )
+        self.webdriver.switch_to.frame( self.iframe )
+        return self
+    def __exit__( self, *args ):
+        self.webdriver.switch_to.default_content()
+
+# ---------------------------------------------------------------------
+
+def unload_table( xpath, unload, html=None ):
     """Unload data from an HTML table."""
 
     # NOTE: Extracting table data using Selenium is extremely slow, we use lxml for the win!
+
+    # initialize
+    doc = lxml.html.fromstring( html or _webdriver.page_source )
+    elems = doc.xpath( xpath )
+    if not elems:
+        return []
+    assert len(elems) == 1
+    table = elems[0]
 
     def unload_cells( cells ):
         """Unload cell data from a table row."""
@@ -611,17 +654,18 @@ def unload_table( xpath ):
 
     # unload the table data
     results = []
-    doc = lxml.html.fromstring( _webdriver.page_source )
-    for row in doc.xpath( xpath ):
+    for row in table.xpath( "./tr" ):
         if not results:
             # we check for <th> in the first row only
-            cells = list( row.xpath( ".//th" ) )
+            cells = list( row.xpath( "./th" ) )
             if cells:
                 results.append( unload_cells( cells ) )
                 continue
         # extract the next row
-        cells = row.xpath( ".//td" )
-        results.append( unload_cells( cells ) )
+        cells = row.xpath( "./td" )
+        if unload:
+            cells = unload_cells( cells )
+        results.append( cells )
 
     return results
 

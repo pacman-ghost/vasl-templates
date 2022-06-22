@@ -160,6 +160,10 @@ function _generate_snippets()
             vo_index[ data.vo_entry.id ] = true ;
             snippet_id = template_id + "_" + player_no + "." + data.id ;
         }
+        if ( template_id === "turn_track" ) {
+            if ( $( "select[name='TURN_TRACK_NTURNS']" ).val() === "" )
+                return ;
+        }
         var raw_content = _get_raw_content( snippet_id, $btn, params ) ;
         if ( ["scenario","players","victory_conditions"].indexOf( snippet_id ) === -1 ) {
             // NOTE: We don't pass through a snippet for things that have no content,
@@ -211,6 +215,8 @@ function _get_raw_content( snippet_id, $btn, params )
         return get_values([ "SCENARIO_NAME", "SCENARIO_ID", "SCENARIO_LOCATION" ]) ;
     if ( snippet_id === "victory_conditions" )
         return get_values([ "VICTORY_CONDITIONS" ]) ;
+    if ( snippet_id === "turn_track" )
+        return true ;
     if ( snippet_id === "players" ) {
         return [
             "ELR:", "SAN:",

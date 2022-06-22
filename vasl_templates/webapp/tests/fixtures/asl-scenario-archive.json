@@ -12,7 +12,7 @@
     "scen_date": "1945-12-31 00:00:00",
     "theatre": "PTO",
     "time_to_play": 1.25,
-    "min_turns": "6", "max_turns": "6",
+    "min_turns": "4", "max_turns": "5",
     "oba": "B", "night": "1", "deluxe": "1", "aslsk": "1",
     "author": "Joe Author",
     "pub_name": "ASL Journal",

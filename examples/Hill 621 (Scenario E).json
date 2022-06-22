@@ -27,6 +27,14 @@
     "PLAYER_2": "german",
     "PLAYER_2_ELR": "3",
     "PLAYER_2_SAN": "4",
+    "TURN_TRACK": {
+        "NTURNS": "10",
+        "WIDTH": "",
+        "VERTICAL": false,
+        "REINFORCEMENTS_1": "2,5",
+        "REINFORCEMENTS_2": "1,2,4,5,8",
+        "SWAP_PLAYERS": false
+    },
     "SSR": [
         "EC are Moderate, with no wind at start.",
         "After \"At Start\" placement, each German infantry unit must take a TC. The only possible consequence of failure is that the unit must begin the scenario broken. Those units which break during this pre-game TC are not subject to DM in the initial German RPh.",
@@ -173,7 +181,7 @@
             "id": 2
         }
     ],
-    "_app_version": "v1.3",
-    "_last_update_time": "2020-09-27T04:13:08.719Z",
+    "_app_version": "v1.10",
+    "_last_update_time": "2022-06-23T08:15:50.772Z",
     "_creation_time": "2020-09-27T03:46:56.089Z"
 }

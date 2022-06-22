@@ -6,7 +6,7 @@ import io
 
 import lxml.html
 
-from vasl_templates.webapp.tests.utils import init_webapp, get_nationalities, wait_for, find_child
+from vasl_templates.webapp.tests.utils import init_webapp, get_nationalities, SwitchFrame
 
 # ---------------------------------------------------------------------
 
@@ -83,13 +83,8 @@ def _get_nat_caps( webapp, webdriver, nat, theater, year, month ): #pylint: disa
     # get the snippet
     url = webapp.url_for( "get_national_capabilities", nat=nat, theater=theater, year=year, month=month )
     webdriver.get( url )
-    iframe = find_child( "#results" )
-    wait_for( 2, iframe.is_displayed )
-    try:
-        webdriver.switch_to.frame( iframe )
+    with SwitchFrame( webdriver, "#results" ):
         buf = webdriver.page_source
-    finally:
-        webdriver.switch_to.default_content()
 
     # check if there is anything
     if "Not available." in buf:

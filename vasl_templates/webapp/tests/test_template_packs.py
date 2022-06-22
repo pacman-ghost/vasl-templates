@@ -11,7 +11,7 @@ from selenium.webdriver.common.by import By
 from vasl_templates.webapp.utils import TempFile
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.utils import \
-    select_tab, select_menu_option, set_player, \
+    select_tab, select_menu_option, set_player, set_turn_track_nturns, \
     wait_for_clipboard, get_stored_msg, set_stored_msg, set_stored_msg_marker,\
     add_simple_note, for_each_template, find_child, find_children, wait_for, \
     get_player_nat, get_droplist_vals_index, init_webapp, get_css_classes
@@ -26,6 +26,7 @@ def test_individual_files( webapp, webdriver ):
     init_webapp( webapp, webdriver, template_pack_persistence=1 )
     set_player( 1, "german" )
     set_player( 2, "russian" )
+    set_turn_track_nturns( "3" )
 
     # try uploading a customized version of each template
     def test_template( template_id, orig_template_id ):
@@ -55,6 +56,7 @@ def test_zip_files( webapp, webdriver ):
     init_webapp( webapp, webdriver, template_pack_persistence=1 )
     set_player( 1, "german" )
     set_player( 2, "russian" )
+    set_turn_track_nturns( "3" )
 
     # upload a template pack that contains a full set of templates
     zip_data = make_zip_from_files( "full" )
@@ -89,6 +91,7 @@ def test_new_default_template_pack( webapp, webdriver ):
         .set_default_template_pack( "new-default/" ) \
         .set_vo_notes_dir( "{TEST}" )
     init_webapp( webapp, webdriver )
+    set_turn_track_nturns( "3" )
 
     # check that the new templates are being used
     _do_test_default_template_pack( webdriver )
@@ -104,6 +107,7 @@ def test_new_default_template_pack_zip( webapp, webdriver ):
         .set_default_template_pack( zip_data ) \
         .set_vo_notes_dir( "{TEST}" )
     init_webapp( webapp, webdriver )
+    set_turn_track_nturns( "3" )
 
     # check that the new templates are being used
     _do_test_default_template_pack( webdriver )

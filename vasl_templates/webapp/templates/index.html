@@ -33,6 +33,7 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/scenario-card.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/scenario-upload-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/scenario-downloads-dialog.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/turn-track-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/user-settings-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/program-info.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/please-wait.css')}}" />
@@ -90,6 +91,7 @@
 {%include "lfa.html"%}
 {%include "lfa-upload.html"%}
 
+{%include "turn-track-dialog.html"%}
 {%include "user-settings-dialog.html"%}
 {%include "program-info-dialog.html"%}
 
@@ -162,6 +164,7 @@ gHelpUrl = "{{url_for('show_help')}}" ;
 <script src="{{url_for('static',filename='lfa.js')}}"></script>
 <script src="{{url_for('static',filename='lfa-upload.js')}}"></script>
 <script src="{{url_for('static',filename='LogFileAnalysis.js')}}"></script>
+<script src="{{url_for('static',filename='turn_track.js')}}"></script>
 <script src="{{url_for('static',filename='roar.js')}}"></script>
 <script src="{{url_for('static',filename='sortable.js')}}"></script>
 <script src="{{url_for('static',filename='user_settings.js')}}"></script>

@@ -63,10 +63,10 @@ function get_player_colors_for_element( $elem )
     return get_player_colors( player_no ) ;
 }
 
-function make_player_flag_url( nat, for_snippet ) {
+function make_player_flag_url( nat, for_snippet, force_local_image ) {
     if ( ! gTemplatePack.nationalities )
         return null ;
-    if ( for_snippet && gUserSettings["scenario-images-source"] == SCENARIO_IMAGES_SOURCE_INTERNET )
+    if ( for_snippet && gUserSettings["scenario-images-source"] == SCENARIO_IMAGES_SOURCE_INTERNET && !force_local_image )
         return gAppConfig.ONLINE_IMAGES_URL_BASE + "/flags/" + nat + ".png" ;
     else {
         var url = "/flags/" + nat ;
@@ -127,11 +127,17 @@ function copyToClipboard( val )
         return ;
     }
 
+    // FUDGE! If a dialog is open, the overlay will stop the copy command from working,
+    // so we attach the <textarea> to the dialog instead. Setting the z-index to something
+    // large is also supposed to work, but apparently not... :-/
+    var $topmost = findTopmostDialog() ;
+    var target = $topmost ? $topmost[0] : document.body ;
+
     if ( document.queryCommandSupported && document.queryCommandSupported("copy") ) {
         // create a textarea to hold the content
         var textarea = document.createElement( "textarea" ) ;
         textarea.style.position = "fixed" ; // prevent scrolling to bottom in MS Edge
-        document.body.appendChild( textarea ) ;
+        target.appendChild( textarea ) ;
         textarea.textContent = val ;
         // copy the textarea content to the clipboard
         textarea.select() ;
@@ -144,7 +150,7 @@ function copyToClipboard( val )
             showErrorMsg( "Can't copy to the clipboard:<div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
         }
         finally {
-            document.body.removeChild( textarea ) ;
+            target.removeChild( textarea ) ;
         }
     }
 }
