@@ -1,6 +1,6 @@
 <div id="user-settings" style="display:none;">
 
-    <div class="row" style="display:flex;align-items:center;">
+    <div class="row" style="display:flex;align-items:center;margin-bottom:0.25em;">
         <label for="vasl-username" style="display:inline-block;width:8.75em;"> VASL user name: </label>
         <input type="text" name="vasl-username" style="flex:1;">
     </div>
@@ -36,16 +36,25 @@
     </div>
 
     <fieldset> <legend> Images in scenarios </legend>
-        <label for="scenario-images-source"> Get images from: </label>
-        <select name="scenario-images-source" style="width:7.5em;">
-            <option value="1">this program</option>
-            <option value="2">the internet</option>
-        </select> <br>
-        <input type="checkbox" name="include-vasl-images-in-snippets" class="need-localhost sometimes"> Include VASL counter images in snippets <br>
-        <input type="checkbox" name="include-flags-in-snippets" class="need-localhost sometimes"> Include player flags in snippets <br>
-        <input type="checkbox" name="custom-list-bullets" class="need-localhost sometimes"> Use custom list bullets <br>
-        <div style="height:0.5em;"></div>
-        <input type="checkbox" name="vo-notes-as-images" class="need-localhost"> Show Chapter H vehicle/ordnance notes as images <br>
+        <div class="row">
+            <label for="scenario-images-source"> Get images from: </label>
+            <select name="scenario-images-source" style="width:7.5em;">
+                <option value="1">this program</option>
+                <option value="2">the internet</option>
+            </select> <br>
+        </div>
+        <div class="row" style="margin-top:0.4em;">
+            <input type="checkbox" name="include-vasl-images-in-snippets" class="need-localhost sometimes"> Include VASL counter images in snippets <br>
+        </div>
+        <div class="row">
+            <input type="checkbox" name="include-flags-in-snippets" class="need-localhost sometimes"> Include player flags in snippets <br>
+        </div>
+        <div class="row">
+            <input type="checkbox" name="custom-list-bullets" class="need-localhost sometimes"> Use custom list bullets <br>
+        </div>
+        <div class="row" style="margin-top:0.5em;margin-bottom:-0.25em;">
+            <input type="checkbox" name="vo-notes-as-images" class="need-localhost"> Show Chapter H vehicle/ordnance notes as images <br>
+        </div>
     </fieldset>
 
 </div>

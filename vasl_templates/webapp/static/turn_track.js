@@ -159,7 +159,7 @@ function editTurnTrackSettings()
         if ( $dlg.find( "input[name='vertical']" ).prop( "checked" ) ) {
             // vertical layout
             $iframe.css( { position: "absolute",
-                top: "10px", height: "calc(100% - 20px)", left: "150px", width: "calc(100% - 160px)"
+                top: "18px", height: "calc(100% - 25px)", left: "170px", width: "calc(100% - 160px)"
             } ) ;
             $dlg.addClass( "vert" ).removeClass( "horz" ) ;
             $dlg.find( ".controls" ).addClass( "vert" ).removeClass( "horz" ) ;
@@ -168,7 +168,7 @@ function editTurnTrackSettings()
         } else {
             // horizontal layout
             $iframe.css( { position: "absolute",
-                top: "95px", height: "calc(100% - 105px)", left: "10px", width: "calc(100% - 20px)"
+                top: "110px", height: "calc(100% - 120px)", left: "18px", width: "calc(100% - 33px)"
             } ) ;
             $dlg.addClass( "horz" ).removeClass( "vert" ) ;
             $dlg.find( ".controls" ).addClass( "horz" ).removeClass( "vert" ) ;
@@ -200,7 +200,7 @@ function editTurnTrackSettings()
         "title": "Turn track",
         dialogClass: "turn-track",
         modal: true,
-        minWidth: 500, minHeight: 250,
+        minWidth: 500, minHeight: 280,
         resizable: true,
         create: function() {
             // initialize the dialog
@@ -235,7 +235,7 @@ function editTurnTrackSettings()
             $btn.prepend(
                 $( "<img src='" + gImagesBaseUrl+"/snippet.png" + "' style='height:0.9em;margin:0 0.35em -1px 0;'>" )
             ) ;
-            $btn.css( { position: "absolute", left: 5 } ) ;
+            $btn.css( { position: "absolute", left: 15 } ) ;
             // load the dialog
             $dlg = $(this) ;
             $iframe = $dlg.find( "iframe#turn-track-preview" ) ;

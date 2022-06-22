@@ -1,4 +1,5 @@
 .ui-dialog.lfa-upload .ui-dialog-titlebar { background: #e0c090 ; }
+.ui-dialog.lfa-upload .ui-dialog-content { padding-bottom: 0.75em !important ; }
 .ui-dialog.lfa-upload .ui-dialog-buttonpane { border: none ; margin-top: 0 !important ; padding-top: 0 !important ; }
 .ui-dialog.lfa-upload .ui-dialog-buttonpane button.add { display: inline-flex ; align-items: center ; margin-left: 0 !important ; height: 25px ; padding: 2px 8px 2px 6px ; }
 .ui-dialog.lfa-upload .ui-dialog-buttonpane button.add img { height: 15px ; margin-right: 0.5em ; }
@@ -8,7 +9,7 @@
 }
 
 #lfa-upload .files {
-    width: 100% ; height: 99% ;
+    width: calc(100% - 2px) ; height: 99% ;
     margin: 0 ;
     border: 1px solid #ccc ; border-radius: 2px ;
     overflow-x: hidden ;

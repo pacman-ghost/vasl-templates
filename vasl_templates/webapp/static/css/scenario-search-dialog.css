@@ -1,9 +1,9 @@
 /* jQuery dialog */
 .ui-dialog.scenario-search .ui-dialog-titlebar { background: #e0e0a0 ; }
 #scenario-search { display: flex ; }
-#scenario-search .left { min-width: 300px ; display: flex ; flex-direction: column ; }
+#scenario-search .left { min-width: 300px ; display: flex ; flex-direction: column ; padding-right: 5px ; }
 #scenario-search .left .scenarios { flex: 1 ; }
-#scenario-search .right { min-width: 400px ; flex: 1 ; display: flex ; flex-direction: column ; }
+#scenario-search .right { min-width: 400px ; flex: 1 ; display: flex ; flex-direction: column ; padding-left: 5px ; }
 #scenario-search .scenario-card { flex: 1 ; overflow-y: hidden ; }
 
 /* splitter */
@@ -11,7 +11,7 @@
 #scenario-search .gutter img { position: absolute ; top: 45% ; left: -2px ; }
 
 /* search control */
-#scenario-search .select2-container { top: 10px !important ; }
+#scenario-search .select2-container { top: 1em !important ; left: 1em !important ; }
 #scenario-search .select2-selection { display: none ; }
 #scenario-search .select2-dropdown { border: none ; }
 #scenario-search .select2-search--dropdown { padding: 0 0 0.5em 0 ; }
@@ -51,7 +51,7 @@
 #scenario-search .footer a:focus { outline: 0 ; }
 
 /* import control */
-#scenario-search .import-control { margin-top: 0.5em ; padding-top: 0.25em ; border-top: 1px dotted #666 ; }
+#scenario-search .import-control { margin-top: 0.5em ; padding-top: 0.5em ; border-top: 1px dotted #666 ; }
 #scenario-search .import-control .buttons button { float: right ; margin-left: 0.5em ; padding: 0.1em 0.5em ; }
 #scenario-search .import-control .buttons button.import { height: 2em ; display: flex ; align-items: center ; }
 #scenario-search .import-control .buttons button.import img { height: 1em ; margin-right: 0.5em ; }

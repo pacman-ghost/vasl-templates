@@ -37,7 +37,7 @@ window.searchForScenario = function()
             modal: true,
             closeOnEscape: false, // nb: handled in handle_escape()
             width: $(window).width() * 0.8,
-            minWidth: 750,
+            minWidth: 760,
             height: $(window).height() * 0.8,
             minHeight: 400,
             position: { my: "center center", at: "center center", of: window },
@@ -1030,7 +1030,7 @@ function onDownloads() {
         title: "Downloads for this scenario:",
         modal: true,
         width: 450, minWidth: 300,
-        height: 200, minHeight: 150,
+        height: 200, minHeight: 132,
         draggable: false,
         closeOnEscape: false, // nb: handled in handle_escape()
         open: function() {
@@ -1245,7 +1245,7 @@ window.showScenarioInfo = function()
                 modal: true,
                 closeOnEscape: false, // nb: handled in handle_escape()
                 width: $(window).width() * 0.8,
-                minWidth: 500,
+                minWidth: 550,
                 height: $(window).height() * 0.8,
                 minHeight: 300,
                 create: function() {
@@ -1428,7 +1428,7 @@ window.addAsaCreditPanel = function( $dlg, scenarioId )
         "</div>"
     ] ;
     var $credit = $( buf.join("") ) ;
-    $credit.css( { float: "left", "margin-right": "0.5em", display: "flex", "align-items": "center" } ) ;
+    $credit.css( { position: "absolute", left: "1em", bottom: "13px",  display: "flex", "align-items": "center" } ) ;
     $credit.find( "img" ).css( { height: "1.4em", "margin-right": "0.5em", opacity: 0.7 } ) ;
     $credit.find( ".caption" ).css( { "font-size": "70%", "line-height": "1em", "margin-top": "-4px" } ) ;
     $credit.find( "a" ).css( { "text-decoration": "none", "font-style": "italic", color: "#666" } ) ;

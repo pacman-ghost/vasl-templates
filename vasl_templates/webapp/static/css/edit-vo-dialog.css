@@ -1,4 +1,4 @@
-.ui-dialog.edit-vo .ui-dialog-content { overflow: hidden ; display: flex ; flex-direction: column ; }
+.ui-dialog.edit-vo .ui-dialog-content { overflow: hidden ; display: flex ; flex-direction: column ; padding-bottom: 0.5em !important ; }
 .ui-dialog.edit-vo .ui-dialog-buttonpane { border: none ; margin-top: 0 !important ; padding-top: 0 !important ; }
 
 .ui-dialog.edit-vo .header { display: flex ; align-items: center ; margin-bottom: 0.5em ; }

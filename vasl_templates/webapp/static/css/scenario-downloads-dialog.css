@@ -1,5 +1,5 @@
 .ui-dialog.scenario-downloads { border-radius: 5px ; }
-.ui-dialog.scenario-downloads .ui-dialog-titlebar { background: none ; border: none ; cursor: auto ; }
+.ui-dialog.scenario-downloads .ui-dialog-titlebar { background: none ; border: none ; padding: 0.5em 1em 0.2em 1em !important ; cursor: auto ; }
 .ui-dialog.scenario-downloads .ui-dialog-titlebar-close { display: none; }
 #scenario-downloads-dialog { padding-top: 0 !important ; }
 

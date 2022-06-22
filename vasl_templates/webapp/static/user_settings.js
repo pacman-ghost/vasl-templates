@@ -102,7 +102,6 @@ function user_settings( on_ok, caption )
         dialogClass: "user-settings",
         modal: true,
         width: 460,
-        height: 400,
         resizable: false,
         create: function() {
             init_dialog( $(this), "OK", true ) ;

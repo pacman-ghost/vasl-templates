@@ -535,7 +535,7 @@ function show_vassal_shim_error_dlg( resp, caption )
         dialogClass: "vassal-shim-error",
         title: caption,
         modal: true,
-        width: 600, height: "auto",
+        minWidth: 600, minHeight: 250,
         open: function() {
             $( "#vassal-shim-error .message" ).html( resp.error ) ;
             var log = "" ;

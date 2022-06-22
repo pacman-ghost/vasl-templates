@@ -1,5 +1,5 @@
 #select-vo { overflow: hidden ; }
-.ui-dialog.select-vo .ui-dialog-content { padding-top: 0 !important ; }
+.ui-dialog.select-vo .ui-dialog-content { padding: 0.5em 1em !important ; }
 .ui-dialog.select-vo .ui-dialog-buttonpane { border: none ; margin-top: 0 !important ; padding-top: 0 !important ; }
 
 #select-vo .header { height: 1.75em ; margin-top: 0.25em ; font-size: 80% ; }

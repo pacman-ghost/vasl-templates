@@ -1,4 +1,9 @@
-#vassal-shim-error textarea { width: 100% ; height: 15em ; min-height: 5em ; resize: none ; padding: 2px ; font-family: monospace ; font-size: 80% ; }
+#vassal-shim-error textarea {
+    height: 15em ; min-height: 5em ;
+    resize: none ;
+    margin-top: 0.5em ; padding: 2px ;
+    font-family: monospace ; font-size: 80% ;
+}
 .ui-dialog.vassal-shim-error .ui-dialog-titlebar { background: #f5af41 ; }
 .ui-dialog.vassal-shim-error .ui-dialog-content { display: flex ; flex-direction: column ; }
 .ui-dialog.vassal-shim-error .ui-dialog-content textarea { flex-grow: 1 ; }
