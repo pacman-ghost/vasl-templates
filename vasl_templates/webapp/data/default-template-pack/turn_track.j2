@@ -22,14 +22,15 @@ td.no-reinforce { {{RESET_TD}} ; width: 13px ; }
 td.reinforce1 { {{RESET_TD}} ; width: 13px ; background: url("{{TURN_TRACK_FLAG_1}}") top left no-repeat ; vertical-align: top ; }
 td.reinforce2 { {{RESET_TD}} ; width: 13px ; background: url("{{TURN_TRACK_FLAG_2}}") bottom right no-repeat ; vertical-align: bottom ; }
 td.half-turn {
-    background: url("{{IMAGES_BASE_URL}}/turn-track-half-turn.png") bottom right no-repeat ;
+    background: url("{{TURN_TRACK_HALF_TURN_IMAGE_URL}}") bottom right no-repeat ;
     background-size: contain ; {# nb: doesn't work in VASSAL, the image file needs to be the correct size :-/ #}
 }
 
 {% if TURN_TRACK_PREVIEW_MODE %}
 body { margin: 0 ; }
 .reinforce1, .reinforce2 { opacity: 0 ; }
-.click { width: 13px ; height: 13px ; cursor: pointer ; }
+.flag-click { width: 13px ; height: 13px ; cursor: pointer ; }
+.shading-click { cursor: pointer ; }
 {%endif%}
 
 </style>
@@ -45,6 +46,12 @@ function onFlagClick( turnNo, playerNo ) {
         turnNo: turnNo, uiPlayerNo: playerNo
     }, "*" ) ;
 }
+function onShadingClick( turnNo ) {
+    window.parent.postMessage( {
+        type: "ShadingClick",
+        turnNo: turnNo
+    }, "*" ) ;
+}
 </script>
 {%endif%}
 
@@ -54,27 +61,40 @@ function onFlagClick( turnNo, playerNo ) {
 <tr>
 
 {% for turnSquare in row %}
-<td {%if turnSquare[0] == TURN_TRACK_HALF_TURN%} class="half-turn" {%endif%} >
+<td id="turn-square-{{turnSquare[0]}}"
+  {%if turnSquare[0] == TURN_TRACK_HALF_TURN%} class="half-turn" {%endif%}
+  {% if turnSquare[1] %} style="background-color:{{TURN_TRACK_SHADING_COLOR}};" {%endif%}
+>
 
     <table style="width:100%;height:100%;"> <tr>
 
     <td id="flag-{{turnSquare[0]}}_1" width="100%"
-      class = {% if turnSquare[1] %} "reinforce1" {%else%} "no-reinforce" {%endif%}
+      class = {% if turnSquare[2] %} "reinforce1" {%else%} "no-reinforce" {%endif%}
     >
 {% if TURN_TRACK_PREVIEW_MODE %}
-        <div class="click"
+        <div class="flag-click"
           onclick = "onFlagClick( {{turnSquare[0]}}, 1 )"
         > </div>
 {%endif%}
     </td>
 
-    <td class="turn-no"> {{turnSquare[0]}} </td>
+    <td class="turn-no">
+{% if TURN_TRACK_PREVIEW_MODE %}
+        <div class="shading-click"
+          onclick = "onShadingClick( {{turnSquare[0]}} )"
+        >
+            {{turnSquare[0]}}
+        </div>
+{%else%}
+        {{turnSquare[0]}}
+{%endif%}
+    </td>
 
     <td id="flag-{{turnSquare[0]}}_2" width="100%"
-      class = {% if turnSquare[2] and turnSquare[0] != TURN_TRACK_HALF_TURN %} "reinforce2" {%else%} "no-reinforce" {%endif%}
+      class = {% if turnSquare[3] and turnSquare[0] != TURN_TRACK_HALF_TURN %} "reinforce2" {%else%} "no-reinforce" {%endif%}
     >
 {% if TURN_TRACK_PREVIEW_MODE and turnSquare[0] != TURN_TRACK_HALF_TURN %}
-        <div class="click"
+        <div class="flag-click"
           onclick = "onFlagClick( {{turnSquare[0]}}, 2 )"
         > </div>
 {%endif%}

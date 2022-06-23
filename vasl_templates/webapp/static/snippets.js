@@ -530,23 +530,31 @@ function make_turn_track_params( params )
                 turnNo = 1 + row * args.width + col ;
             if ( turnNo > args.nTurns )
                 break ;
-            var val = [ turnNo, args.reinforce2[turnNo]?true:false, args.reinforce1[turnNo]?true:false ] ;
+            var val = [ turnNo,
+                args.shading[turnNo] ? true : false,
+                args.reinforce2[turnNo] ? true : false,
+                args.reinforce1[turnNo] ? true : false,
+            ] ;
             if ( params.TURN_TRACK.SWAP_PLAYERS )
-                val = [ val[0], val[2], val[1] ] ;
+                val = [ val[0], val[1], val[3], val[2] ] ;
             turnTrackSquares[ turnTrackSquares.length-1 ].push( val ) ;
             nTurnTrackSquares += 1 ;
         }
     }
 
     // update the snippet params
+    var forceLocalImages = params.TURN_TRACK_PREVIEW_MODE ;
     params.TURN_TRACK_SQUARES = turnTrackSquares ;
     if ( args.halfTurn )
         params.TURN_TRACK_HALF_TURN = nTurnTrackSquares ;
+    params.TURN_TRACK_HALF_TURN_IMAGE_URL = forceLocalImages ?
+        make_app_url( "/static/images/turn-track-half-turn.png", true ) :
+        params.IMAGES_BASE_URL + "/turn-track-half-turn.png" ;
+    params.TURN_TRACK_SHADING_COLOR = TURN_TRACK_SHADING_COLOR ;
     // NOTE: The convention is that player 1 sets up first, player 2 moves first,
     // so swapping players actually maps turn track player 1 to the real player 1.
     // NOTE: We generate the player flag URL's instead of using params.PLAYER_FLAG_1/2
     // so that flags will work even if the user has disabled player flags in snippets.
-    var forceLocalImages = params.TURN_TRACK_PREVIEW_MODE ;
     params.TURN_TRACK_FLAG_1 = make_player_flag_url(
         get_player_nat( params.TURN_TRACK.SWAP_PLAYERS ? 1 : 2 ),
         true, forceLocalImages
@@ -559,7 +567,7 @@ function make_turn_track_params( params )
 
 function parseTurnTrackParams( params )
 {
-    function parseReinforcements( reinf ) {
+    function parseCommaList( reinf ) {
         var turnFlags = {} ;
         reinf.split( "," ).forEach( function( turnNo ) {
             turnNo = parseInt( turnNo.trim() ) ;
@@ -580,12 +588,13 @@ function parseTurnTrackParams( params )
     var width = params.TURN_TRACK.WIDTH ;
     if ( width === "" )
         width = vertical ? 1 : nTurns ;
-    var reinforce1 = parseReinforcements( params.TURN_TRACK.REINFORCEMENTS_1 ) ;
-    var reinforce2 = parseReinforcements( params.TURN_TRACK.REINFORCEMENTS_2 ) ;
+    var shading = parseCommaList( params.TURN_TRACK.SHADING ) ;
+    var reinforce1 = parseCommaList( params.TURN_TRACK.REINFORCEMENTS_1 ) ;
+    var reinforce2 = parseCommaList( params.TURN_TRACK.REINFORCEMENTS_2 ) ;
 
     return {
         nTurns: nTurns, halfTurn: halfTurn,
-        vertical: vertical, width: width,
+        vertical: vertical, width: width, shading: shading,
         reinforce1: reinforce1, reinforce2: reinforce2
     } ;
 }
@@ -959,6 +968,7 @@ function unload_snippet_params( unpack_scenario_date, template_id )
             "NTURNS": nTurns,
             "WIDTH": isNaN( parseInt( width ) ) ? "" : width,
             "VERTICAL": $( "input[name='TURN_TRACK_VERTICAL']" ).prop( "checked" ),
+            "SHADING": $( "input[name='TURN_TRACK_SHADING']" ).val().trim(),
             "REINFORCEMENTS_1": $( "input[name='TURN_TRACK_REINFORCEMENTS_1']" ).val().trim(),
             "REINFORCEMENTS_2": $( "input[name='TURN_TRACK_REINFORCEMENTS_2']" ).val().trim(),
             "SWAP_PLAYERS": $( "input[name='TURN_TRACK_SWAP_PLAYERS']" ).prop( "checked" ),
@@ -1756,6 +1766,7 @@ function do_load_scenario_data( params )
             setTurnTrackNTurns( params[key].NTURNS ) ;
             $( "input[name='TURN_TRACK_VERTICAL']" ).prop( "checked", params[key].VERTICAL ) ;
             $( "input[name='TURN_TRACK_WIDTH']" ).val( params[key].WIDTH ) ;
+            $( "input[name='TURN_TRACK_SHADING']" ).val( params[key].SHADING ) ;
             $( "input[name='TURN_TRACK_REINFORCEMENTS_1']" ).val( params[key].REINFORCEMENTS_1 ) ;
             $( "input[name='TURN_TRACK_REINFORCEMENTS_2']" ).val( params[key].REINFORCEMENTS_2 ) ;
             $( "input[name='TURN_TRACK_SWAP_PLAYERS']" ).prop( "checked", params[key].SWAP_PLAYERS ) ;

@@ -44,10 +44,10 @@ def test_turn_track_controls( webapp, webdriver ):
     # show the turn track dialog
     dlg = _show_turn_track_dialog( 6 )
     with SwitchFrame( webdriver, "#turn-track-preview" ):
-        _click_reinf_flag( 1, 1 )
-        _click_reinf_flag( 2, 1 )
-        _click_reinf_flag( 2, 2 )
-        _click_reinf_flag( 3, 2 )
+        _toggle_reinf( 1, 1 )
+        _toggle_reinf( 2, 1 )
+        _toggle_reinf( 2, 2 )
+        _toggle_reinf( 3, 2 )
 
     # change the width
     _change_turn_track_width( dlg, 3 )
@@ -100,10 +100,10 @@ def test_turn_track_reinforcements( webapp, webdriver ):
 
     # turn on some reinforcements, then check the snippet
     with SwitchFrame( webdriver, "#turn-track-preview" ):
-        _click_reinf_flag( 2, 1 )
-        _click_reinf_flag( 3, 1 )
-        _click_reinf_flag( 3, 2 )
-        _click_reinf_flag( 7, 1 )
+        _toggle_reinf( 2, 1 )
+        _toggle_reinf( 3, 1 )
+        _toggle_reinf( 3, 2 )
+        _toggle_reinf( 7, 1 )
     assert _generate_turn_track_snippet( dlg ) == [
         [ (1,None,None), (2,"player1",None), (3,"player1","player2"),
           (4,None,None), (5,None,None) , (6,None,None), (7,"player1",None)
@@ -112,14 +112,48 @@ def test_turn_track_reinforcements( webapp, webdriver ):
 
     # turn off some reinforcements, turn some on, then check the snippet
     with SwitchFrame( webdriver, "#turn-track-preview" ):
-        _click_reinf_flag( 2, 2 )
-        _click_reinf_flag( 3, 1 )
-        _click_reinf_flag( 3, 2 )
-        _click_reinf_flag( 5, 2 )
-        _click_reinf_flag( 7, 1 )
+        _toggle_reinf( 2, 2 )
+        _toggle_reinf( 3, 1 )
+        _toggle_reinf( 3, 2 )
+        _toggle_reinf( 5, 2 )
+        _toggle_reinf( 7, 1 )
     assert _generate_turn_track_snippet( dlg ) == [
         [ (1,None,None), (2,"player1","player2"), (3,None,None),
           (4,None,None), (5,None,"player2") , (6,None,None), (7,None,None)
+        ]
+    ]
+
+# ---------------------------------------------------------------------
+
+def test_turn_track_shading( webapp, webdriver ):
+    """Test shading squares on the turn track."""
+
+    # initialize
+    webapp.control_tests.set_data_dir( "{REAL}" )
+    init_webapp( webapp, webdriver )
+
+    # show the turn track dialog
+    dlg = _show_turn_track_dialog( 6.5 )
+
+    # shade some turn track squares, then check the snippet
+    with SwitchFrame( webdriver, "#turn-track-preview" ):
+        _toggle_shading( 1 )
+        _toggle_shading( 2 )
+        _toggle_shading( 7 )
+    assert _generate_turn_track_snippet( dlg ) == [
+        [ (1,None,None,True), (2,None,None,True), (3,None,None),
+          (4,None,None), (5,None,None) , (6,None,None), (7,None,None,True)
+        ]
+    ]
+
+    # change the shading for some turn track squares, then check the snippet
+    with SwitchFrame( webdriver, "#turn-track-preview" ):
+        _toggle_shading( 1 )
+        _toggle_shading( 3 )
+        _toggle_shading( 7 )
+    assert _generate_turn_track_snippet( dlg ) == [
+        [ (1,None,None), (2,None,None,True), (3,None,None,True),
+          (4,None,None), (5,None,None) , (6,None,None), (7,None,None)
         ]
     ]
 
@@ -141,10 +175,12 @@ def test_turn_track_persistence( webapp, webdriver ):
 
     # configure the turn track
     with SwitchFrame( webdriver, "#turn-track-preview" ):
-        _click_reinf_flag( 1, 1 )
-        _click_reinf_flag( 2, 2 )
-        _click_reinf_flag( 3, 1 )
-        _click_reinf_flag( 3, 2 )
+        _toggle_reinf( 1, 1 )
+        _toggle_reinf( 2, 2 )
+        _toggle_reinf( 3, 1 )
+        _toggle_reinf( 3, 2 )
+        _toggle_shading( 2 )
+        _toggle_shading( 4 )
     _change_turn_track_width( dlg, 4 )
     _swap_turn_track_players( dlg )
     _change_turn_track_direction( dlg )
@@ -152,7 +188,7 @@ def test_turn_track_persistence( webapp, webdriver ):
     # check the snippet
     expected = [
         [ (1,None,"player2"), (3,"player1","player2"), (5,None,None), (7,None,None) ],
-        [ (2,"player1",None) , (4,None,None), (6,None,None) ]
+        [ (2,"player1",None,True) , (4,None,None,True), (6,None,None) ]
     ]
     wait_for( 2,
         lambda: _generate_turn_track_snippet( dlg ) == expected
@@ -164,6 +200,7 @@ def test_turn_track_persistence( webapp, webdriver ):
     assert saved_scenario["TURN_TRACK"] == {
         "NTURNS": "6.5",
         "WIDTH": "4", "VERTICAL": True, "SWAP_PLAYERS": True,
+        "SHADING": "2,4",
         "REINFORCEMENTS_1": "2,3", "REINFORCEMENTS_2": "1,3",
     }
     assert _generate_turn_track_snippet( None ) == expected
@@ -264,13 +301,18 @@ def _generate_turn_track_snippet( dlg ):
             return None
 
     def unload_square( square ):
+        # unload the reinforcement flags
         cells = square.xpath( ".//td" )
         assert len(cells) == 3
-        return (
+        vals = (
             int( cells[1].text ),
             get_reinforce_class( cells[0] ),
             get_reinforce_class( cells[2] ),
         )
+        # check if the square is shaded
+        if any( s.startswith( "background-color:" ) for s in square.xpath( ".//@style" ) ):
+            vals = ( *vals, True )
+        return vals
 
     # unload the snippet contents
     squares = unload_table( "//table[@class='turn-track']", html=clipboard, unload=False )
@@ -302,10 +344,16 @@ def _unload_turn_track_droplist():
         keys.append( key )
     return keys
 
-def _click_reinf_flag( turn_no, player_no ):
-    """Click on a reinforcement flag."""
+def _toggle_reinf( turn_no, player_no ):
+    """Toggle a player's reinforcements for the specified turn."""
     find_child(
-        "#flag-{}_{} .click".format( turn_no, player_no )
+        "#flag-{}_{} .flag-click".format( turn_no, player_no )
+    ).click()
+
+def _toggle_shading( turn_no ):
+    """Toggle the shading for a turn track square."""
+    find_child(
+        "#turn-square-{} .shading-click".format( turn_no )
     ).click()
 
 # ---------------------------------------------------------------------

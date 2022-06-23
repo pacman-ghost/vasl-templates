@@ -1,10 +1,12 @@
 DEFAULT_TURN_TRACK_TURNS_MIN = 6 ;
 DEFAULT_TURN_TRACK_TURNS_MAX = 10 ;
+TURN_TRACK_SHADING_COLOR = "#e0e0e0" ;
 
 // NOTE: Reinforcement flags get clipped on turn 100, but this is unlikely to be an issue :-/
 _MAX_TURN_TRACK_TURNS = 100 ;
 
 gTurnTrackReinforcements = null ;
+gTurnTrackShading = null ;
 
 // --------------------------------------------------------------------
 
@@ -14,6 +16,7 @@ function editTurnTrackSettings()
     var $dlg, $iframe, iframeSeqNo=0 ;
     // FUDGE! This should work as a local variable, but causes a weird problem where it doesn't get reset properly :-/
     gTurnTrackReinforcements = null ;
+    gTurnTrackShading = null ;
 
     function loadControls() {
         // load the dialog controls
@@ -34,6 +37,7 @@ function editTurnTrackSettings()
         var params = updatePreview( false ) ;
         var args = parseTurnTrackParams( params ) ;
         gTurnTrackReinforcements = { 1: args.reinforce1, 2: args.reinforce2 } ;
+        gTurnTrackShading = args.shading ;
         // update the UI
         updateUI() ;
     }
@@ -46,9 +50,11 @@ function editTurnTrackSettings()
                 $panel.find( "input[name='TURN_TRACK_WIDTH']" ).val( "" ) ;
                 $panel.find( "input[name='TURN_TRACK_VERTICAL']" ).prop( "checked", false ) ;
                 $panel.find( "input[name='TURN_TRACK_SWAP_PLAYERS']" ).prop( "checked", false ) ;
+                $panel.find( "input[name='TURN_TRACK_SHADING']" ).val( "" ) ;
                 $panel.find( "input[name='TURN_TRACK_REINFORCEMENTS_1']" ).val( "" ) ;
                 $panel.find( "input[name='TURN_TRACK_REINFORCEMENTS_2']" ).val( "" ) ;
                 gTurnTrackReinforcements = null ;
+                gTurnTrackShading = null ;
                 loadControls() ;
             }
         } ) ;
@@ -141,6 +147,21 @@ function editTurnTrackSettings()
         updateFlag( turnNo, playerNo ) ;
     }
 
+    function onShadingClick( turnNo ) {
+        // NOTE: This method gets called by a click handler in the snippet HTML.
+        // toggle the turn track square's shading
+        if ( gTurnTrackShading[turnNo] )
+            delete gTurnTrackShading[turnNo] ;
+        else
+            gTurnTrackShading[turnNo] = true ;
+        $panel.find( "input[name='TURN_TRACK_SHADING']" ).val(
+            Object.keys( gTurnTrackShading ).join( "," )
+        ) ;
+        $iframe.contents().find( "#turn-square-" + turnNo ).css( {
+            "background-color": gTurnTrackShading && gTurnTrackShading[turnNo] ? TURN_TRACK_SHADING_COLOR : "inherit"
+        } ) ;
+    }
+
     function updateFlag( turnNo, playerNo ) {
         // update the specified reinforcement flag
         $iframe.contents().find( "#flag-" + turnNo + "_" + flipPlayerNo2(playerNo) ).css( {
@@ -225,6 +246,8 @@ function editTurnTrackSettings()
             window.addEventListener( "message", function( evt ) {
                 if ( evt.data.type === "FlagClick" )
                     onFlagClick( evt.data.turnNo, flipPlayerNo2(evt.data.uiPlayerNo) ) ;
+                else if ( evt.data.type === "ShadingClick" )
+                    onShadingClick( evt.data.turnNo ) ;
             } ) ;
 
         },
