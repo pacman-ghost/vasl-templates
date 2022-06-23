@@ -17,7 +17,6 @@ USER_SETTINGS = {
     "scenario-images-source": { type: "droplist", for_update_vsav: true },
     "hide-unavailable-ma-notes": { type: "checkbox", for_update_vsav: true },
     "confirm-update-vsav-settings": { type: "checkbox", for_update_vsav: true },
-    "auto-create-national-capabilities-labels": { type: "checkbox", for_update_vsav: true },
     "include-vasl-images-in-snippets": { type: "checkbox", for_update_vsav: true },
     "include-flags-in-snippets": { type: "checkbox", for_update_vsav: true },
     "custom-list-bullets": { type: "checkbox", for_update_vsav: true },

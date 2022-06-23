@@ -112,10 +112,6 @@ function _generate_snippets()
         }
         no_autocreate[template_id] = true ;
     }
-    if ( ! gUserSettings["auto-create-national-capabilities-labels"] ) {
-        no_autocreate.nat_caps_1 = true ;
-        no_autocreate.nat_caps_2 = true ;
-    }
 
     function on_snippet_button( $btn, inactive ) {
         var template_id = $btn.attr( "data-id" ) ;
