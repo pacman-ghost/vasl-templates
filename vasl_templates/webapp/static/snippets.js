@@ -519,6 +519,7 @@ function make_turn_track_params( params )
 
     // generate the data for each turn track square
     var turnTrackSquares=[], nTurnTrackSquares=0 ;
+    var shadings = parseTurnTrackShadings( args.shadings ) ;
     var nRows = Math.ceil( args.nTurns / args.width ) ;
     for ( var row=0 ; row < nRows ; ++row ) {
         turnTrackSquares.push( [] ) ;
@@ -530,14 +531,15 @@ function make_turn_track_params( params )
                 turnNo = 1 + row * args.width + col ;
             if ( turnNo > args.nTurns )
                 break ;
-            var val = [ turnNo,
-                args.shading[turnNo] ? true : false,
+            var vals = [ turnNo,
                 args.reinforce2[turnNo] ? true : false,
                 args.reinforce1[turnNo] ? true : false,
             ] ;
             if ( params.TURN_TRACK.SWAP_PLAYERS )
-                val = [ val[0], val[1], val[3], val[2] ] ;
-            turnTrackSquares[ turnTrackSquares.length-1 ].push( val ) ;
+                vals = [ vals[0], vals[2], vals[1] ] ;
+            if ( shadings[turnNo] )
+                vals.push( gAppConfig.TURN_TRACK_SHADING_COLORS[ shadings[turnNo] - 1 ] ) ;
+            turnTrackSquares[ turnTrackSquares.length-1 ].push( vals ) ;
             nTurnTrackSquares += 1 ;
         }
     }
@@ -550,7 +552,6 @@ function make_turn_track_params( params )
     params.TURN_TRACK_HALF_TURN_IMAGE_URL = forceLocalImages ?
         make_app_url( "/static/images/turn-track-half-turn.png", true ) :
         params.IMAGES_BASE_URL + "/turn-track-half-turn.png" ;
-    params.TURN_TRACK_SHADING_COLOR = TURN_TRACK_SHADING_COLOR ;
     // NOTE: The convention is that player 1 sets up first, player 2 moves first,
     // so swapping players actually maps turn track player 1 to the real player 1.
     // NOTE: We generate the player flag URL's instead of using params.PLAYER_FLAG_1/2
@@ -567,12 +568,16 @@ function make_turn_track_params( params )
 
 function parseTurnTrackParams( params )
 {
-    function parseCommaList( reinf ) {
-        var turnFlags = {} ;
+    function parseCommaList( reinf, verbatim ) {
+        var turnFlags = verbatim ? [] : {} ;
         reinf.split( "," ).forEach( function( turnNo ) {
-            turnNo = parseInt( turnNo.trim() ) ;
-            if ( ! isNaN( turnNo ) )
-                turnFlags[ turnNo ] = true ;
+            if ( verbatim )
+                turnFlags.push( turnNo.trim() ) ;
+            else  {
+                turnNo = parseInt( turnNo.trim() ) ;
+                if ( ! isNaN( turnNo ) )
+                    turnFlags[ turnNo ] = true ;
+            }
         } ) ;
         return turnFlags ;
     }
@@ -588,13 +593,13 @@ function parseTurnTrackParams( params )
     var width = params.TURN_TRACK.WIDTH ;
     if ( width === "" )
         width = vertical ? 1 : nTurns ;
-    var shading = parseCommaList( params.TURN_TRACK.SHADING ) ;
-    var reinforce1 = parseCommaList( params.TURN_TRACK.REINFORCEMENTS_1 ) ;
-    var reinforce2 = parseCommaList( params.TURN_TRACK.REINFORCEMENTS_2 ) ;
+    var shadings = parseCommaList( params.TURN_TRACK.SHADING, true ) ;
+    var reinforce1 = parseCommaList( params.TURN_TRACK.REINFORCEMENTS_1, false ) ;
+    var reinforce2 = parseCommaList( params.TURN_TRACK.REINFORCEMENTS_2, false ) ;
 
     return {
         nTurns: nTurns, halfTurn: halfTurn,
-        vertical: vertical, width: width, shading: shading,
+        vertical: vertical, width: width, shadings: shadings,
         reinforce1: reinforce1, reinforce2: reinforce2
     } ;
 }

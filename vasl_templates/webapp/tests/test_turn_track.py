@@ -1,5 +1,8 @@
 """ Test the turn track functionality. """
 
+import os
+import re
+
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 
@@ -7,6 +10,13 @@ from vasl_templates.webapp.tests.utils import \
     init_webapp, get_turn_track_nturns, set_turn_track_nturns, select_droplist_val, get_droplist_vals, \
     SwitchFrame, unload_table, wait_for, wait_for_elem, wait_for_clipboard, find_child
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, save_scenario
+
+# extract the turn track shading colors
+_TURN_TRACK_SHADING_COLORS = {}
+with open( os.path.join( os.path.dirname(__file__), "../main.py" ), "r", encoding="ascii" ) as fp:
+    mo = re.search( r'"TURN_TRACK_SHADING_COLORS": \[ (.+) \]', fp.read(), flags=re.MULTILINE )
+    for mo2 in re.finditer( '"#[0-9a-f]{6}"', mo.group(1) ):
+        _TURN_TRACK_SHADING_COLORS[ mo2.group()[1:-1] ] = len(_TURN_TRACK_SHADING_COLORS) + 1
 
 # ---------------------------------------------------------------------
 
@@ -141,8 +151,8 @@ def test_turn_track_shading( webapp, webdriver ):
         _toggle_shading( 2 )
         _toggle_shading( 7 )
     assert _generate_turn_track_snippet( dlg ) == [
-        [ (1,None,None,True), (2,None,None,True), (3,None,None),
-          (4,None,None), (5,None,None) , (6,None,None), (7,None,None,True)
+        [ (1,None,None,"shading1"), (2,None,None,"shading1"), (3,None,None),
+          (4,None,None), (5,None,None) , (6,None,None), (7,None,None,"shading1")
         ]
     ]
 
@@ -152,8 +162,20 @@ def test_turn_track_shading( webapp, webdriver ):
         _toggle_shading( 3 )
         _toggle_shading( 7 )
     assert _generate_turn_track_snippet( dlg ) == [
-        [ (1,None,None), (2,None,None,True), (3,None,None,True),
-          (4,None,None), (5,None,None) , (6,None,None), (7,None,None)
+        [ (1,None,None,"shading2"), (2,None,None,"shading1"), (3,None,None,"shading1"),
+          (4,None,None), (5,None,None) , (6,None,None), (7,None,None,"shading2")
+        ]
+    ]
+
+    # change the shading for some turn track squares, then check the snippet
+    with SwitchFrame( webdriver, "#turn-track-preview" ):
+        _toggle_shading( 1 )
+        _toggle_shading( 3 )
+        _toggle_shading( 2 )
+        _toggle_shading( 2 )
+    assert _generate_turn_track_snippet( dlg ) == [
+        [ (1,None,None), (2,None,None), (3,None,None,"shading2"),
+          (4,None,None), (5,None,None) , (6,None,None), (7,None,None,"shading2")
         ]
     ]
 
@@ -181,6 +203,7 @@ def test_turn_track_persistence( webapp, webdriver ):
         _toggle_reinf( 3, 2 )
         _toggle_shading( 2 )
         _toggle_shading( 4 )
+        _toggle_shading( 4 )
     _change_turn_track_width( dlg, 4 )
     _swap_turn_track_players( dlg )
     _change_turn_track_direction( dlg )
@@ -188,7 +211,7 @@ def test_turn_track_persistence( webapp, webdriver ):
     # check the snippet
     expected = [
         [ (1,None,"player2"), (3,"player1","player2"), (5,None,None), (7,None,None) ],
-        [ (2,"player1",None,True) , (4,None,None,True), (6,None,None) ]
+        [ (2,"player1",None,"shading1") , (4,None,None,"shading2"), (6,None,None) ]
     ]
     wait_for( 2,
         lambda: _generate_turn_track_snippet( dlg ) == expected
@@ -200,7 +223,7 @@ def test_turn_track_persistence( webapp, webdriver ):
     assert saved_scenario["TURN_TRACK"] == {
         "NTURNS": "6.5",
         "WIDTH": "4", "VERTICAL": True, "SWAP_PLAYERS": True,
-        "SHADING": "2,4",
+        "SHADING": "2,4+",
         "REINFORCEMENTS_1": "2,3", "REINFORCEMENTS_2": "1,3",
     }
     assert _generate_turn_track_snippet( None ) == expected
@@ -310,8 +333,15 @@ def _generate_turn_track_snippet( dlg ):
             get_reinforce_class( cells[2] ),
         )
         # check if the square is shaded
-        if any( s.startswith( "background-color:" ) for s in square.xpath( ".//@style" ) ):
-            vals = ( *vals, True )
+        cols = [ s for s in square.xpath( ".//@style" ) if s.startswith( "background-color:" ) ]
+        if cols:
+            assert len(cols) == 1
+            col = cols[0][17:]
+            assert col.endswith( ";" )
+            col = col[:-1]
+            shading = _TURN_TRACK_SHADING_COLORS.get( col )
+            assert shading, "Can't find turn track shading color: {}".format( shading )
+            vals = ( *vals, "shading{}".format( shading ) )
         return vals
 
     # unload the snippet contents

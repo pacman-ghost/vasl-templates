@@ -75,6 +75,7 @@ _APP_CONFIG_DEFAULTS = { # Bodhgaya, India (APR/19)
     "ONLINE_COUNTER_IMAGES_URL_TEMPLATE": "https://raw.githubusercontent.com/vasl-developers/vasl/develop/dist/images/{{PATH}}", #pylint: disable=line-too-long
     "ONLINE_EXTN_COUNTER_IMAGES_URL_TEMPLATE": "http://vasl-templates.org/services/counter/{{EXTN_ID}}/{{PATH}}",
     "ASA_UPLOAD_URL": "https://aslscenarioarchive.com/rest/update/{ID}?user={USER}&token={TOKEN}",
+    "TURN_TRACK_SHADING_COLORS": [ "#e0e0e0", "#c0c0c0" ],
 }
 
 @app.route( "/app-config" )
@@ -99,6 +100,8 @@ def get_app_config():
     }
     if isinstance( vals["THEATERS"], str ):
         vals["THEATERS"] = vals["THEATERS"].split()
+    if isinstance( vals["TURN_TRACK_SHADING_COLORS"], str ):
+        vals["TURN_TRACK_SHADING_COLORS"] = vals["TURN_TRACK_SHADING_COLORS"].split()
     for key in [ "APP_NAME", "APP_VERSION", "APP_DESCRIPTION", "APP_HOME_URL" ]:
         vals[ key ] = getattr( vasl_templates.webapp.config.constants, key )
 

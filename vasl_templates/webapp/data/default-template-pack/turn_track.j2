@@ -28,6 +28,9 @@ td.half-turn {
 
 {% if TURN_TRACK_PREVIEW_MODE %}
 body { margin: 0 ; }
+body ::selection {}
+body ::moz-selection {}
+body { user-select: none ; }
 .reinforce1, .reinforce2 { opacity: 0 ; }
 .flag-click { width: 13px ; height: 13px ; cursor: pointer ; }
 .shading-click { cursor: pointer ; }
@@ -63,13 +66,13 @@ function onShadingClick( turnNo ) {
 {% for turnSquare in row %}
 <td id="turn-square-{{turnSquare[0]}}"
   {%if turnSquare[0] == TURN_TRACK_HALF_TURN%} class="half-turn" {%endif%}
-  {% if turnSquare[1] %} style="background-color:{{TURN_TRACK_SHADING_COLOR}};" {%endif%}
+  {% if turnSquare[3] %} style="background-color:{{turnSquare[3]}};" {%endif%}
 >
 
     <table style="width:100%;height:100%;"> <tr>
 
     <td id="flag-{{turnSquare[0]}}_1" width="100%"
-      class = {% if turnSquare[2] %} "reinforce1" {%else%} "no-reinforce" {%endif%}
+      class = {% if turnSquare[1] %} "reinforce1" {%else%} "no-reinforce" {%endif%}
     >
 {% if TURN_TRACK_PREVIEW_MODE %}
         <div class="flag-click"
@@ -91,7 +94,7 @@ function onShadingClick( turnNo ) {
     </td>
 
     <td id="flag-{{turnSquare[0]}}_2" width="100%"
-      class = {% if turnSquare[3] and turnSquare[0] != TURN_TRACK_HALF_TURN %} "reinforce2" {%else%} "no-reinforce" {%endif%}
+      class = {% if turnSquare[2] and turnSquare[0] != TURN_TRACK_HALF_TURN %} "reinforce2" {%else%} "no-reinforce" {%endif%}
     >
 {% if TURN_TRACK_PREVIEW_MODE and turnSquare[0] != TURN_TRACK_HALF_TURN %}
         <div class="flag-click"

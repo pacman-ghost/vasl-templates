@@ -1,12 +1,11 @@
 DEFAULT_TURN_TRACK_TURNS_MIN = 6 ;
 DEFAULT_TURN_TRACK_TURNS_MAX = 10 ;
-TURN_TRACK_SHADING_COLOR = "#e0e0e0" ;
 
 // NOTE: Reinforcement flags get clipped on turn 100, but this is unlikely to be an issue :-/
 _MAX_TURN_TRACK_TURNS = 100 ;
 
 gTurnTrackReinforcements = null ;
-gTurnTrackShading = null ;
+gTurnTrackShadings = null ;
 
 // --------------------------------------------------------------------
 
@@ -16,7 +15,7 @@ function editTurnTrackSettings()
     var $dlg, $iframe, iframeSeqNo=0 ;
     // FUDGE! This should work as a local variable, but causes a weird problem where it doesn't get reset properly :-/
     gTurnTrackReinforcements = null ;
-    gTurnTrackShading = null ;
+    gTurnTrackShadings = null ;
 
     function loadControls() {
         // load the dialog controls
@@ -37,7 +36,7 @@ function editTurnTrackSettings()
         var params = updatePreview( false ) ;
         var args = parseTurnTrackParams( params ) ;
         gTurnTrackReinforcements = { 1: args.reinforce1, 2: args.reinforce2 } ;
-        gTurnTrackShading = args.shading ;
+        gTurnTrackShadings = parseTurnTrackShadings( args.shadings ) ;
         // update the UI
         updateUI() ;
     }
@@ -54,7 +53,7 @@ function editTurnTrackSettings()
                 $panel.find( "input[name='TURN_TRACK_REINFORCEMENTS_1']" ).val( "" ) ;
                 $panel.find( "input[name='TURN_TRACK_REINFORCEMENTS_2']" ).val( "" ) ;
                 gTurnTrackReinforcements = null ;
-                gTurnTrackShading = null ;
+                gTurnTrackShadings = null ;
                 loadControls() ;
             }
         } ) ;
@@ -150,16 +149,27 @@ function editTurnTrackSettings()
     function onShadingClick( turnNo ) {
         // NOTE: This method gets called by a click handler in the snippet HTML.
         // toggle the turn track square's shading
-        if ( gTurnTrackShading[turnNo] )
-            delete gTurnTrackShading[turnNo] ;
-        else
-            gTurnTrackShading[turnNo] = true ;
-        $panel.find( "input[name='TURN_TRACK_SHADING']" ).val(
-            Object.keys( gTurnTrackShading ).join( "," )
-        ) ;
-        $iframe.contents().find( "#turn-square-" + turnNo ).css( {
-            "background-color": gTurnTrackShading && gTurnTrackShading[turnNo] ? TURN_TRACK_SHADING_COLOR : "inherit"
+        // determine the new shading strength
+        var strength = gTurnTrackShadings[turnNo] || 0 ;
+        var col ;
+        if ( ++strength <= gAppConfig.TURN_TRACK_SHADING_COLORS.length ) {
+            gTurnTrackShadings[turnNo] = strength ;
+            col = gAppConfig.TURN_TRACK_SHADING_COLORS[ strength-1 ] ;
+        } else {
+            delete gTurnTrackShadings[turnNo] ;
+            col = "inherit" ;
+        }
+        // update the saved setting
+        var shadings = [] ;
+        Object.keys( gTurnTrackShadings ).forEach( function( key ) {
+            var strength = gTurnTrackShadings[key] ;
+            for ( var i=1 ; i < strength ; ++i )
+                key += "+" ;
+            shadings.push( key ) ;
         } ) ;
+        $panel.find( "input[name='TURN_TRACK_SHADING']" ).val( shadings.join( "," ) ) ;
+        // update the turn square in the UI
+        $iframe.contents().find( "#turn-square-" + turnNo ).css( { "background-color": col } ) ;
     }
 
     function updateFlag( turnNo, playerNo ) {
@@ -320,6 +330,26 @@ function updateTurnTrackNTurns( nTurns )
         else
             $sel.append( $opt2 ) ;
     }
+}
+
+function parseTurnTrackShadings( shadings ) {
+    // NOTE: A turn track shading setting consists of a number (the turn number),
+    // followed by 0 or more plus signs (to indicate a darker shading color).
+    var shadingTable = {} ;
+    shadings.forEach( function( shading ) {
+        var strength = 1 ;
+        while ( shading.length > 0 && shading.substr( shading.length-1 ) === "+" ) {
+            strength += 1 ;
+            shading = shading.substr( 0, shading.length-1 ) ;
+        }
+        if ( strength > gAppConfig.TURN_TRACK_SHADING_COLORS.length )
+            return ;
+        var turnNo = parseInt( shading ) ;
+        if ( isNaN( turnNo ) )
+            return ;
+        shadingTable[turnNo] = strength ;
+    } ) ;
+    return shadingTable ;
 }
 
 function formatTurnTrackOption( opt ) {
