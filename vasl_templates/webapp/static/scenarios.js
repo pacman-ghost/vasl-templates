@@ -697,6 +697,17 @@ function onImportScenario()
 
 function doImportScenario( scenario )
 {
+    // reset the turn track
+    $( "#panel-scenario input" ).each( function() {
+        if ( $(this).attr( "name" ).substr( 0, 11 ) !== "TURN_TRACK_" )
+            return ;
+        var inputType = $(this).attr( "type" ) ;
+        if ( inputType === "text" )
+            $(this).val( "" ) ;
+        else if ( inputType === "checkbox" )
+            $(this).prop( "checked", false ) ;
+    } ) ;
+
     // NOTE: We could reset the ELR/SAN here, but if the user is importing on top of an existing setup,
     // the most likely reason is because they want to connect it to an ASA scenario, not because
     // they want to import a whole set of new details, so clearing the ELR/SAN wouldn't make sense.
