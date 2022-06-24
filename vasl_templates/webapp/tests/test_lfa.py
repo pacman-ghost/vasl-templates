@@ -5,6 +5,9 @@ import base64
 import csv
 
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import ElementClickInterceptedException
 
 from vasl_templates.webapp.tests.utils import init_webapp, select_menu_option, \
     wait_for, wait_for_elem, find_child, find_children, set_stored_msg, set_stored_msg_marker, get_stored_msg, \
@@ -121,7 +124,7 @@ def test_full( webapp, webdriver ):
         assert lfa["hotness"] == [ ["Alice",""], ["Bob",""] ]
 
         # close the analysis window
-        find_child( "#lfa button.ui-dialog-titlebar-close" ).click()
+        _close_lfa_dialog( webdriver )
 
     # run the tests
     run_vassal_tests( webapp, do_test )
@@ -203,7 +206,7 @@ def test_4players( webapp, webdriver ):
         ]
 
         # close the analysis window
-        find_child( "#lfa button.ui-dialog-titlebar-close" ).click()
+        _close_lfa_dialog( webdriver )
 
     # run the tests
     run_vassal_tests( webapp, do_test )
@@ -272,7 +275,7 @@ def test_multiple_files( webapp, webdriver ):
         ]
 
         # close the analysis window
-        find_child( "#lfa button.ui-dialog-titlebar-close" ).click()
+        _close_lfa_dialog( webdriver )
 
         # load 2 log files that have different players
         _analyze_vlogs( [ "multiple-1a.vlog", "multiple-2.vlog" ] )
@@ -364,7 +367,7 @@ def test_multiple_files( webapp, webdriver ):
         check_color_pickers( [ "Alice", "Bob", "Chuck" ] )
 
         # close the analysis window
-        find_child( "#lfa button.ui-dialog-titlebar-close" ).click()
+        _close_lfa_dialog( webdriver )
 
     # run the tests
     run_vassal_tests( webapp, do_test )
@@ -492,7 +495,7 @@ def test_3d6( webapp, webdriver ):
         ]
 
         # close the analysis window
-        find_child( "#lfa button.ui-dialog-titlebar-close" ).click()
+        _close_lfa_dialog( webdriver )
 
     # run the tests
     run_vassal_tests( webapp, do_test )
@@ -524,7 +527,7 @@ def test_banner_updates( webapp, webdriver ):
         check_banner( "Showing Random Selection rolls." )
 
         # close the analysis window
-        find_child( "#lfa button.ui-dialog-titlebar-close" ).click()
+        _close_lfa_dialog( webdriver )
 
     # run the tests
     run_vassal_tests( webapp, do_test, all_combos=False )
@@ -654,6 +657,16 @@ def _get_chart_data( window_size=None ):
     }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def _close_lfa_dialog( webdriver ):
+    """Close the LFA dialog."""
+    try:
+        find_child( "#lfa button.ui-dialog-titlebar-close" ).click()
+    except ElementClickInterceptedException:
+        # FUDGE! We sometimes get here in Firefox :shrug:
+        dlg = find_child( "#lfa" )
+        ActionChains( webdriver ).key_down( Keys.SHIFT ).click( dlg ).perform()
+        ActionChains( webdriver ).key_up( Keys.SHIFT ).perform()
 
 def _select_roll_type( roll_type ):
     """Select the roll type."""
