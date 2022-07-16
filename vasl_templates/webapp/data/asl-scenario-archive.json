@@ -1,11 +1,12 @@
 {
 
 "_comment_": "This section maps theaters from those at the ASL Scenario Archive to ours.",
+"_comment2_": "CBI is handled in getEffectiveTheater().",
 "theater-mappings": {
+    "WTO": "ETO",
     "MTO": "ETO",
     "Normandy": "ETO",
-    "KW": "Korea",
-    "CBI": "PTO"
+    "KW": "Korea"
 },
 
 "_comment_": "This section maps player nationalities from those at the ASL Scenario Archive (must be lower-case) to our nationality ID's.",

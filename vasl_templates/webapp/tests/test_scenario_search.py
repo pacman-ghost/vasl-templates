@@ -271,27 +271,35 @@ def test_oba_info( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-def test_unknown_theaters( webapp, webdriver ):
-    """Test importing scenarios with unknown theaters."""
+def test_asa_theater_mappings( webapp, webdriver ):
+    """Test mapping ASA theaters."""
 
     # initialize
     init_webapp( webapp, webdriver )
 
-    # search for the "MTO" scenario (this has a theater mapping)
-    set_theater( "Korea" )
-    dlg = _do_scenario_search( "MTO", ["3a"], webdriver )
-    _click_import_button( dlg )
-    wait_for( 2, lambda: not dlg.is_displayed() )
-    assert get_theater() == "ETO"
+    def do_test( query, scenario_id, expected, warning=None ):
+        new_scenario()
+        set_theater( "DTO" )
+        dlg = _do_scenario_search( query, [scenario_id], webdriver )
+        _click_import_button( dlg )
+        if warning:
+            _check_warnings( [], [warning] )
+            find_child( "button.confirm-import", dlg ).click()
+        wait_for( 2, lambda: not dlg.is_displayed() )
+        assert get_theater() == expected
 
-    # search for the "Africa" scenario (this has no theater mapping)
-    new_scenario()
-    set_theater( "Korea" )
-    dlg = _do_scenario_search( "Africa", ["3b"], webdriver )
-    _click_import_button( dlg )
-    _check_warnings( [], ["Unknown theater: Africa"] )
-    find_child( "button.confirm-import", dlg ).click()
-    assert get_theater() == "other"
+    # test some basic theater mappings
+    do_test( "WTO", "3a", "ETO" )
+    do_test( "MTO", "3b", "ETO" )
+    do_test( "KFW", "3c", "Korea" )
+
+    # test mapping CBI scenarios
+    do_test( "China", "3d1", "PTO" )
+    do_test( "Burma", "3d2", "Burma" )
+    do_test( "India", "3d3", "PTO" )
+
+    # test a theater that has no mapping
+    do_test( "Africa", "3e", "other", warning="Unknown theater: Africa" )
 
 # ---------------------------------------------------------------------
 

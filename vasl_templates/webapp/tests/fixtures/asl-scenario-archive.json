@@ -76,10 +76,33 @@
 },
 
 { "scenario_id": "3a",
+    "title": "WTO Scenario",
+    "theatre": "WTO"
+},
+{ "scenario_id": "3b",
     "title": "MTO Scenario",
     "theatre": "MTO"
 },
-{ "scenario_id": "3b",
+{ "scenario_id": "3c",
+    "title": "KFW Scenario",
+    "theatre": "KW"
+},
+{ "scenario_id": "3d1",
+    "title": "CBI(China) Scenario",
+    "scen_location": "Somewhere in China",
+    "theatre": "CBI"
+},
+{ "scenario_id": "3d2",
+    "title": "CBI(Burma) Scenario",
+    "scen_location": "Somewhere in Burma",
+    "theatre": "CBI"
+},
+{ "scenario_id": "3d3",
+    "title": "CBI(India) Scenario",
+    "scen_location": "Somewhere in India",
+    "theatre": "CBI"
+},
+{ "scenario_id": "3e",
     "title": "African Scenario",
     "theatre": "Africa"
 },

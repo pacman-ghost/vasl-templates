@@ -525,7 +525,7 @@ function insertPlayerFlags( $target, scenario )
 function loadObaInfo( $target, scenario, scenarioDateOverride )
 {
     // initialize
-    var theater = getEffectiveTheater( scenario.theater ) ;
+    var theater = getEffectiveTheater( scenario.theater, scenario ) ;
     var scenarioDate = scenario.scenario_date_iso ;
     if ( ! theater || ( !scenarioDate && !scenarioDateOverride ) )
         return ;
@@ -613,7 +613,7 @@ function onImportScenario()
             // check for warnings for the next field
             var newVal = trimString( scenario[ importField.key ] ) ;
             if ( newVal ) {
-                var msg = eval( "checkImportField_" + importField.type )( importField, newVal ) ; // jshint ignore: line
+                var msg = eval( "checkImportField_" + importField.type )( importField, newVal, scenario ) ; // jshint ignore: line
                 if ( msg ) {
                     if ( msg.substring(0,2) == "!=" )
                         newVal = msg.substring( 2 ) ;
@@ -723,7 +723,7 @@ function doImportScenario( scenario )
         if ( $elem.length > 0 && ! $elem.prop("checked") )
             return ;
         var newVal = scenario[ importField.key ] ;
-        eval( "doImportField_" + importField.type )( importField, newVal ) ; // jshint ignore: line
+        eval( "doImportField_" + importField.type )( importField, newVal, scenario ) ; // jshint ignore: line
     } ) ;
 
     // update for the newly-connected scenario
@@ -766,7 +766,7 @@ function onCancelImportScenario()
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function checkImportField_text( importField, newVal, warnings2 ) {
+function checkImportField_text( importField, newVal, scenario ) {
     return null ;
 }
 
@@ -775,17 +775,17 @@ function getImportFieldCurrVal_text( importField ) {
     return $( "input[name='" + importField.paramName + "']" ).val().trim() ;
 }
 
-function doImportField_text( importField, newVal ) {
+function doImportField_text( importField, newVal, scenario ) {
     // update the field in the scenario
     $( "input[name='" + importField.paramName + "']" ).val( newVal ) ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function checkImportField_select2( importField, newVal, warnings2 ) {
+function checkImportField_select2( importField, newVal, scenario ) {
     if ( importField.paramName == "SCENARIO_THEATER" ) {
         // check if we will be able to import this theater
-        if ( newVal && ! getEffectiveTheater( newVal ) ) {
+        if ( newVal && ! getEffectiveTheater( newVal, scenario ) ) {
             // nope - issue a warning
             return "Unknown theater: " + newVal ;
         }
@@ -802,11 +802,11 @@ function getImportFieldCurrVal_select2( importField ) {
     return $( "select[name='" + importField.paramName + "']" ).val().trim() ;
 }
 
-function doImportField_select2( importField, newVal ) {
+function doImportField_select2( importField, newVal, scenario ) {
     // update the field in the scenario
     if ( importField.paramName == "SCENARIO_THEATER" ) {
         if ( newVal ) {
-            newVal = getEffectiveTheater( newVal ) ;
+            newVal = getEffectiveTheater( newVal, scenario ) ;
             if ( ! newVal )
                 newVal = "other" ;
         }
@@ -820,9 +820,23 @@ function doImportField_select2( importField, newVal ) {
     $elem.val( newVal ).trigger( "change" ) ;
 }
 
-function getEffectiveTheater( theater ) {
+function getEffectiveTheater( theater, scenario ) {
     if ( gAppConfig.THEATERS.indexOf( theater ) !== -1 )
         return theater ;
+    // NOTE: The ASL Scenario Archive has a bunch of different theaters, which we try to map to ours.
+    // The most common ones are:
+    // - WTO: places like France, Holland, Belgium, so I think "Western Theatre Of Operations"
+    // - MTO: places like Sicily, Italy, Greece, so I think "Mediterranean Theatre Of Operations"
+    if ( theater === "CBI" ) {
+        // I think this is "China, Burma, India", but this one is tricky since we can't just
+        // map it to PTO, since we have "Burma" as a separate theatre. We peek at the scenario
+        // location to figure out what to do.
+        var loc = scenario.scenario_location || "" ;
+        if ( loc.indexOf( "Burma" ) !== -1 )
+            return "Burma" ;
+        // NOTE: It's debatable whether scenarios in India should be considered PTO, but why not...
+        return "PTO" ;
+    }
     theater = gAppConfig.SCENARIOS_CONFIG["theater-mappings"][ theater ] ;
     if ( theater )
         return theater ;
@@ -831,7 +845,7 @@ function getEffectiveTheater( theater ) {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function checkImportField_date( importField, newVal, warnings2 ) {
+function checkImportField_date( importField, newVal, scenario ) {
     return null ;
 }
 
@@ -845,7 +859,7 @@ function getImportFieldCurrVal_date( importField ) {
     return [ scenarioDate[3], scenarioDate[4] ] ;
 }
 
-function doImportField_date( importField, newVal ) {
+function doImportField_date( importField, newVal, scenario ) {
     // update the field in the scenario
     var $elem = $( "input[name='" + importField.paramName + "']" ) ;
     $elem.datepicker( "setDate",
@@ -855,7 +869,7 @@ function doImportField_date( importField, newVal ) {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function checkImportField_player( importField, newVal, warnings2 ) {
+function checkImportField_player( importField, newVal, scenario ) {
     // check if we will be able to import this player
     if ( newVal ) {
         var effectiveNat = getEffectivePlayerNat( newVal ) ;
@@ -881,7 +895,7 @@ function getImportFieldCurrVal_player( importField ) {
     return [ currVal, get_nationality_display_name(currVal), "This player's OB will be removed." ] ;
 }
 
-function doImportField_player( importField, newVal ) {
+function doImportField_player( importField, newVal, scenario ) {
     // update the player's nationality in the scenario
     var effectiveNat = getEffectivePlayerNat( newVal ) ;
     if ( ! effectiveNat )
