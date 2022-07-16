@@ -32,12 +32,20 @@ def _build_asa_scenario_index( df, new_data, logger ):
         scenario["scenario_id"]: scenario
         for scenario in new_data["scenarios"]
     }
+    for scenario in index.values():
+        _tidyup_strings( scenario )
     # install the results
     df.index = index
     df.generated_at = new_data.get( "_generatedAt_" )
     if logger:
         logger.debug( "Loaded the ASL Secenario Archive index: #scenarios=%d", len(df.index) )
         logger.debug( "- Generated at: %s", new_data.get( "_generatedAt_", "n/a" ) )
+
+def _tidyup_strings( scenario ):
+    """Tidy up strings in scenario records."""
+    for key, val in scenario.items():
+        if isinstance( val, str ):
+            scenario[key] = val.strip()
 
 _asa_scenarios = DownloadedFile( "ASA", 6, # nb: TTL = #hours
     "asl-scenario-archive.json",
@@ -56,6 +64,7 @@ def _build_roar_scenario_index( df, new_data, logger ):
         if roar_id.startswith( "_" ):
             continue
         scenario[ "roar_id" ] = roar_id
+        _tidyup_strings( scenario )
         index[ roar_id ] = scenario
         _update_roar_matching_index( title_matching, scenario.get("name"), roar_id )
         _update_roar_matching_index( id_matching, scenario.get("scenario_id"), roar_id )
