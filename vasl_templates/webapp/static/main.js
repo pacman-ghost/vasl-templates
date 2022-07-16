@@ -563,7 +563,8 @@ function init_snippet_button( $btn )
             generate_snippet( $(this), evt.shiftKey, null ) ;
             return false ;
         } )
-        .attr( "title", GENERATE_SNIPPET_HINT ) ;
+        .attr( "title", GENERATE_SNIPPET_HINT )
+        .css( { "padding-right": $btn.text() !== "" ? "10px" : "0" } ) ;
 
     // add in the droplist
     $newBtn.controlgroup() ;
