@@ -708,6 +708,10 @@ function doImportScenario( scenario )
             $(this).prop( "checked", false ) ;
     } ) ;
 
+    // reset the compass
+    $( "#panel-scenario input[name='COMPASS']" ).val( "" ) ;
+    updateCompassImage() ;
+
     // NOTE: We could reset the ELR/SAN here, but if the user is importing on top of an existing setup,
     // the most likely reason is because they want to connect it to an ASA scenario, not because
     // they want to import a whole set of new details, so clearing the ELR/SAN wouldn't make sense.

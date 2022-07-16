@@ -16,7 +16,7 @@ from vasl_templates.webapp.tests.utils import \
 ALL_SCENARIO_PARAMS = {
     "scenario": [
         "SCENARIO_NAME", "SCENARIO_ID",
-        "SCENARIO_LOCATION", "SCENARIO_THEATER",
+        "SCENARIO_LOCATION", "SCENARIO_THEATER", "COMPASS",
         "SCENARIO_DATE", "SCENARIO_WIDTH",
         "ASA_ID", "ROAR_ID",
         "PLAYER_1", "PLAYER_1_ELR", "PLAYER_1_SAN", "PLAYER_1_DESCRIPTION",
@@ -67,6 +67,7 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
             "SCENARIO_NAME": "my test scenario",
             "SCENARIO_ID": "xyz123",
             "SCENARIO_LOCATION": "right here",
+            "COMPASS": "right",
             "SCENARIO_THEATER": "PTO",
             "SCENARIO_DATE": "12/31/1945",
             "SCENARIO_WIDTH": "101",

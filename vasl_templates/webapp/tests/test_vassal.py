@@ -38,6 +38,7 @@ def test_full_update( webapp, webdriver ):
                 "SCENARIO_ID": "xyz123",
                 "SCENARIO_LOCATION": "Right here",
                 "SCENARIO_THEATER": "PTO",
+                "COMPASS": "",
                 "SCENARIO_DATE": "12/31/1945",
                 "SCENARIO_WIDTH": "101",
                 "ASA_ID": "", "ROAR_ID": "",
@@ -564,7 +565,7 @@ def test_player_owned_labels( webapp, webdriver ):
         #   - players (new American player)
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/player-owned-labels-legacy.vsav" )
         updated_vsav_dump  = _update_vsav_and_dump( webapp, fname,
-                { "created": 2, "updated": 4 }
+            { "created": 2, "updated": 4 }
         )
         _check_vsav_dump( updated_vsav_dump , {
             "german/ob_setup_1.1": "german setup #1",
@@ -767,6 +768,65 @@ def test_vo_entry_selection_for_theater( webapp, webdriver ):
             ("kfw-un-common/o:002","12689/0"), ("kfw-un-common/o:002","11391/0"), ("kfw-un-common/o:002","11440/0")
         ] )
     run_vassal_tests( webapp, do_tests, min_vasl_version="6.5.0" )
+
+# ---------------------------------------------------------------------
+
+def test_compass( webapp, webdriver ):
+    """Test creating compass labels."""
+
+    # NOTE: We're only interested in what happens with the compass label, we ignore everything else.
+    ignore_labels = [ "scenario", "players", "victory_conditions",
+        "german/nat_caps_1", "russian/nat_caps_2",
+    ]
+
+    def do_test(): #pylint: disable=missing-docstring
+
+        # initialize
+        webapp.control_tests.set_data_dir( "{REAL}" )
+        init_webapp( webapp, webdriver, scenario_persistence=1, vsav_persistence=1 )
+
+        # NOTE: We don't test the simple case of updating a scenario without specifying a compass direction
+        # since that is done in the other tests that pre-date the compass label.
+
+        # update a scenario with the compass direction set
+        load_scenario( { "COMPASS": "left" } )
+        fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/empty.vsav" )
+        vsav_data = _update_vsav( fname,
+            { "created": 6 }
+        )
+        with TempFile() as temp_file:
+            temp_file.write( vsav_data )
+            temp_file.close( delete=False )
+            vsav_dump = _dump_vsav( webapp, temp_file.name )
+            _check_vsav_dump( vsav_dump, {
+                "compass": "compass/left.png",
+            }, ignore_labels )
+
+            # update the scenario with a different compass direction
+            load_scenario( { "COMPASS": "right" } )
+            vsav_data = _update_vsav( temp_file.name,
+                { "updated": 2 }
+            )
+            with TempFile() as temp_file2:
+                temp_file2.write( vsav_data )
+                temp_file2.close( delete=False )
+                vsav_dump = _dump_vsav( webapp, temp_file2.name )
+                _check_vsav_dump( vsav_dump, {
+                    "compass": "compass/right.png",
+                }, ignore_labels )
+
+                # update the scenario with the compass disabled
+                load_scenario( { "COMPASS": "" } )
+                vsav_data = _update_vsav( temp_file2.name,
+                    { "updated": 1, "deleted": 1 }
+                )
+                with TempFile() as temp_file3:
+                    temp_file3.write( vsav_data )
+                    temp_file3.close( delete=False )
+                    vsav_dump = _dump_vsav( webapp, temp_file3.name )
+                    _check_vsav_dump( vsav_dump, {}, ignore_labels )
+
+    run_vassal_tests( webapp, do_test, all_combos=False )
 
 # ---------------------------------------------------------------------
 

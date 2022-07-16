@@ -9,6 +9,7 @@ import random
 from selenium.webdriver.common.by import By
 
 from vasl_templates.webapp.utils import TempFile
+from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.utils import \
     select_tab, select_menu_option, set_player, set_turn_track_nturns, \
@@ -90,8 +91,11 @@ def test_new_default_template_pack( webapp, webdriver ):
     webapp.control_tests \
         .set_default_template_pack( "new-default/" ) \
         .set_vo_notes_dir( "{TEST}" )
-    init_webapp( webapp, webdriver )
-    set_turn_track_nturns( "3" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
+    load_scenario( {
+        "COMPASS": "north",
+        "TURN_TRACK": { "NTURNS": 3 },
+    } )
 
     # check that the new templates are being used
     _do_test_default_template_pack( webdriver )
@@ -106,8 +110,11 @@ def test_new_default_template_pack_zip( webapp, webdriver ):
     webapp.control_tests \
         .set_default_template_pack( zip_data ) \
         .set_vo_notes_dir( "{TEST}" )
-    init_webapp( webapp, webdriver )
-    set_turn_track_nturns( "3" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
+    load_scenario( {
+        "COMPASS": "north",
+        "TURN_TRACK": { "NTURNS": 3 },
+    } )
 
     # check that the new templates are being used
     _do_test_default_template_pack( webdriver )

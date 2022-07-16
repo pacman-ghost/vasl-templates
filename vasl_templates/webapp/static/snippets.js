@@ -1888,6 +1888,7 @@ function do_load_scenario_data( params )
     gLastSavedScenario = unload_params_for_save( false ) ;
 
     // update the UI
+    updateCompassImage() ;
     $("#tabs").tabs( "option", "active", 0 ) ;
     on_scenario_date_change() ;
     update_scenario_status() ;

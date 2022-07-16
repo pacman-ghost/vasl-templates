@@ -25,6 +25,7 @@ _STD_TEMPLATES = {
         "scenario", "players", "victory_conditions", "scenario_notes", "ssr",
         "nat_caps_1", # nb: "nat_caps_2" is functionally the same as this
         "turn_track", # nb: this will only be used if a turn count has been specified
+        "compass",
     ],
     "ob1": [ "ob_setup_1", "ob_note_1",
         "ob_vehicles_1", "ob_vehicle_note_1", "ob_vehicles_ma_notes_1",

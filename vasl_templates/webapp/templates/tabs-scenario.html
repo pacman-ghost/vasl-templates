@@ -14,17 +14,19 @@
                 <label for="SCENARIO_LOCATION">Location:</label>
                 <input name="SCENARIO_LOCATION" type="text" class="param">
                 <select name="SCENARIO_THEATER" class="param" title="Scenario theater"> </select>
+                <button class="generate" data-id="compass"></button>
+                <input name="COMPASS" type="text" class="param" style="display:none;width:1em;">
             </div>
             <div class="row">
                 <label for="SCENARIO_DATE">Date:</label>
                 <input name="SCENARIO_DATE" type="text" size="10" class="param">
                 <span class="spacer"></span>
-                <span class="small">
-                    Width: <input type="text" class="param" name="SCENARIO_WIDTH" size="5">
+                <span class="small" style="display:flex;align-items:center;">
+                    Width: <input type="text" class="param" name="SCENARIO_WIDTH" size="5" style="margin:0 0.25em;">
                     <button class="generate" data-id="scenario"></button>
                 </span>
             </div>
-            <div class="row" style="margin-top:0.2em;">
+            <div class="row" style="margin-top:0.2em;height:26px;">
                 <label for="TURN_TRACK_NTURNS">Turns:</label>
                 <select name="TURN_TRACK_NTURNS" class="param"></select>
                 <div class="turn-track-controls small" style="display:none;align-items:center;">
@@ -40,7 +42,7 @@
                 R<sub>2</sub>: <input type="text" name="TURN_TRACK_REINFORCEMENTS_2" class="param" size=7">
                 <input type="checkbox" name="TURN_TRACK_SWAP_PLAYERS" class="param"> Swap </input>
             </div>
-            <div class="row" style="margin-top:-0.6em;">
+            <div class="row" style="margin-top:-1.1em;">
                 <label></label>
                 <span style='width:12.8em;'></span>
                 <label class="header" for="ELR">ELR</label>
@@ -52,9 +54,10 @@
                 <select name="PLAYER_1" class="param"></select>
                 <select name="PLAYER_1_ELR" class="param"></select>
                 <select name="PLAYER_1_SAN" class="param"></select>
-                <button class="generate" data-id="nat_caps_1" style="margin-left:8px;"></button>
+                <button class="generate" data-id="nat_caps_1" style="margin-left:5px;"></button>
             </div>
             <div class="row">
+                <label for="PLAYER_1_DESCRIPTION"></label>
                 <input name="PLAYER_1_DESCRIPTION" type="text" class="param" title="Description of the player's OB.">
             </div>
             <div class="row">
@@ -62,18 +65,19 @@
                 <select name="PLAYER_2" class="param"></select>
                 <select name="PLAYER_2_ELR" class="param"></select>
                 <select name="PLAYER_2_SAN" class="param"></select>
-                <button class="generate" data-id="nat_caps_2" style="margin-left:8px;"></button>
+                <button class="generate" data-id="nat_caps_2" style="margin-left:5px;"></button>
             </div>
             <div class="row">
+                <label for="PLAYER_2_DESCRIPTION"></label>
                 <input name="PLAYER_2_DESCRIPTION" type="text" class="param" title="Description of the player's OB.">
             </div>
             <div class="row">
                 <input name="ASA_ID" type="text" size="1" class="param" style="display:none;">
                 <input name="ROAR_ID" type="text" size="1" class="param" style="display:none;">
                 <span class="spacer"></span>
-                <span class="small">
+                <span class="small" style="display:flex;align-items:center;">
                     Width:
-                    <input type="text" class="param" name="PLAYERS_WIDTH" size="5">
+                    <input type="text" class="param" name="PLAYERS_WIDTH" size="5" style="margin:0 0.25em;">
                     <button class="generate" data-id="players"></button>
                 </span>
             </div>

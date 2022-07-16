@@ -391,6 +391,23 @@ $(document).ready( function () {
     // replace all the "generate" buttons with "generate/edit" button/droplist's
     $("button.generate").each( function() { init_snippet_button( $(this) ) ; } ) ;
 
+    // add special options to the COMPASS snippet button menu
+    var $compassMenu = $( "select[data-id='compass']" ) ;
+    var compassDirns = [ "", "right", "left", "down", "up" ] ;
+    compassDirns.forEach( function( dirn ) {
+        var caption = (dirn === "") ? "-" : dirn[0].toUpperCase() + dirn.substring(1) ;
+        $compassMenu.prepend(
+            "<option value='" + dirn + "'>" + caption + "</option>"
+        ) ;
+    } ) ;
+    $( ".snippet-control[data-id='compass'] select" ).on( "selectmenuselect", function( evt, ui ) {
+        var dirn = ui.item.value ;
+        if ( ! compassDirns.includes( dirn ) )
+            return ;
+        $( "input.param[name='COMPASS']" ).val( dirn ) ;
+        updateCompassImage() ;
+    } ) ;
+
     // handle requests to edit the templates
     $("button.edit-template").click( function() {
         edit_template( $(this).data( "id" ) ) ;
@@ -555,7 +572,9 @@ function init_snippet_button( $btn )
     var fname="snippet.png", style="" ;
     if ( template_id.substring( 0, 9 ) === "nat_caps_" ) {
         fname = "nat-caps.png" ;
-        style = "height:15px;margin-right:0;" ;
+        style = "height:15px;" ;
+    } else if ( template_id == "compass" ) {
+        fname = "compass/none.png" ;
     }
     $newBtn.find( "button" )
         .prepend( $( "<img src='" + gImagesBaseUrl + "/" + fname + "' style='" + style + "'>" ) )
@@ -564,7 +583,7 @@ function init_snippet_button( $btn )
             return false ;
         } )
         .attr( "title", GENERATE_SNIPPET_HINT )
-        .css( { "padding-right": $btn.text() !== "" ? "10px" : "0" } ) ;
+        .css( { "padding-right": $btn.text() !== "" ? "5px" : "0" } ) ;
 
     // add in the droplist
     $newBtn.controlgroup() ;
@@ -589,6 +608,22 @@ function init_snippet_button( $btn )
 
     // replace the existing button with the new replacement button
     $btn.replaceWith( $newBtn ) ;
+}
+
+function updateCompassImage() {
+    // update the image in the COMPASS snippet button
+    var dirn = $( "input.param[name='COMPASS']" ).val() || "none" ;
+    var $btn = $( "button.generate[data-id='compass']" ) ;
+    var imagePadding = {
+        up: "2px 0 0 0", down: "0 0 2px 0", left: "0", right: "0",
+        none: "0"
+    } ;
+    $btn.find( "img" ).attr( "src",
+        make_app_url( "/static/images/compass/" + dirn + ".png" )
+    ).css( {
+        padding: imagePadding[dirn]
+    } ) ;
+    $btn.button( dirn === "none" ? "disable" : "enable" ) ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

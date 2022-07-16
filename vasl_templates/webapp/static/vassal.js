@@ -213,6 +213,8 @@ function _get_raw_content( snippet_id, $btn, params )
         return get_values([ "VICTORY_CONDITIONS" ]) ;
     if ( snippet_id === "turn_track" )
         return true ;
+    if ( snippet_id === "compass" && get_values(["COMPASS"]).length > 0 )
+        return true ;
     if ( snippet_id === "players" ) {
         return [
             "ELR:", "SAN:",

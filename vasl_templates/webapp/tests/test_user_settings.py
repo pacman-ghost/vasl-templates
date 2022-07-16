@@ -302,6 +302,7 @@ def test_alternate_webapp_base_url( webapp, webdriver ):
         load_scenario( {
             "SCENARIO_NAME": "test scenario",
             "SCENARIO_DATE": "01/01/1940",
+            "COMPASS": "north",
             "VICTORY_CONDITIONS": "Just do it!",
             "SCENARIO_NOTES": [ { "caption": "Scenario note #1" } ],
             "SSR": [ "SSR #1", "SSR #2", "SSR #3" ],

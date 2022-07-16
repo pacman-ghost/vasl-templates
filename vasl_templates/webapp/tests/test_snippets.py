@@ -12,8 +12,8 @@ from vasl_templates.webapp.tests.utils import \
     get_stored_msg, set_stored_msg_marker, find_child, find_children, adjust_html, \
     for_each_template, add_simple_note, edit_simple_note, \
     get_sortable_entry_count, generate_sortable_entry_snippet, drag_sortable_entry_to_trash, \
-    new_scenario, set_scenario_date, set_turn_track_nturns
-from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario, load_scenario_params
+    new_scenario, set_scenario_date
+from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
 
 # ---------------------------------------------------------------------
 
@@ -25,14 +25,14 @@ def test_snippet_ids( webapp, webdriver ):
     init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load a scenario (so that we get some sortable's)
-    scenario_data = {
+    load_scenario( {
+        "COMPASS": "left",
         "SCENARIO_NOTES": [ { "caption": "Scenario note #1"  } ],
         "OB_SETUPS_1": [ { "caption": "OB setup note #1" } ],
         "OB_NOTES_1": [ { "caption": "OB note #1" } ],
         "OB_SETUPS_2": [ { "caption": "OB setup note #2" } ],
         "OB_NOTES_2": [ { "caption": "OB note #2" } ],
-    }
-    load_scenario( scenario_data )
+    } )
 
     def check_snippet( btn ):
         """Generate a snippet and check that it has an ID."""
@@ -59,7 +59,10 @@ def test_snippet_ids( webapp, webdriver ):
 
     # test snippets with British/American
     new_scenario()
-    load_scenario_params( { "scenario": { "PLAYER_1": "british", "PLAYER_2": "american" } } )
+    load_scenario( {
+        "PLAYER_1": "british", "PLAYER_2": "american",
+        "COMPASS": "right",
+    } )
     do_test( "" )
     do_test( "11/01/1942" )
 
@@ -231,8 +234,11 @@ def test_edit_templates( webapp, webdriver ):
 
     # initialize
     webapp.control_tests.set_vo_notes_dir( "{TEST}" )
-    init_webapp( webapp, webdriver, edit_template_links=1 )
-    set_turn_track_nturns( "3" )
+    init_webapp( webapp, webdriver, scenario_persistence=1, edit_template_links=1 )
+    load_scenario( {
+        "TURN_TRACK": { "NTURNS": 3 },
+        "COMPASS": "down",
+    } )
     ob_setups = {
         1: find_child( "#ob_setups-sortable_1" ),
         2: find_child( "#ob_setups-sortable_2" )
