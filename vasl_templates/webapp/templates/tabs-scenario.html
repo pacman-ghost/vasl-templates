@@ -6,29 +6,29 @@
         <div id="panel-scenario">
             <div class="row">
                 <label for="SCENARIO_NAME">Name:</label>
-                <input name="SCENARIO_NAME" type="text" class="param">
+                <input name="SCENARIO_NAME" type="text" class="param" title="Scenario name">
                 <input name="SCENARIO_ID" type="text" class="param" title="Scenario ID">
                 <button class="scenario-search" title="Search for scenarios"></button>
             </div>
             <div class="row">
                 <label for="SCENARIO_LOCATION">Location:</label>
-                <input name="SCENARIO_LOCATION" type="text" class="param">
+                <input name="SCENARIO_LOCATION" type="text" class="param" title="Scenario location">
                 <select name="SCENARIO_THEATER" class="param" title="Scenario theater"> </select>
                 <button class="generate" data-id="compass"></button>
                 <input name="COMPASS" type="text" class="param" style="display:none;width:1em;">
             </div>
             <div class="row">
                 <label for="SCENARIO_DATE">Date:</label>
-                <input name="SCENARIO_DATE" type="text" size="10" class="param">
+                <input name="SCENARIO_DATE" type="text" size="10" class="param" title="Scenario date">
                 <span class="spacer"></span>
                 <span class="small" style="display:flex;align-items:center;">
-                    Width: <input type="text" class="param" name="SCENARIO_WIDTH" size="5" style="margin:0 0.25em;">
+                    <input type="text" class="param snippet-width" name="SCENARIO_WIDTH" style="margin:0 0.25em;">
                     <button class="generate" data-id="scenario"></button>
                 </span>
             </div>
             <div class="row" style="margin-top:0.2em;height:26px;">
                 <label for="TURN_TRACK_NTURNS">Turns:</label>
-                <select name="TURN_TRACK_NTURNS" class="param"></select>
+                <select name="TURN_TRACK_NTURNS" class="param" "Number of turns"></select>
                 <div class="turn-track-controls small" style="display:none;align-items:center;">
                     <button id="turn-track-settings" title="Turn track settings"><img src="{{url_for('static',filename='images/menu/settings.png')}}"></button>
                     <button class="generate" data-id="turn_track"></button>
@@ -58,7 +58,7 @@
             </div>
             <div class="row">
                 <label for="PLAYER_1_DESCRIPTION"></label>
-                <input name="PLAYER_1_DESCRIPTION" type="text" class="param" title="Description of the player's OB.">
+                <input name="PLAYER_1_DESCRIPTION" type="text" class="param" title="Description of the player's OB">
             </div>
             <div class="row">
                 <label for="PLAYER_2">Player 2:</label>
@@ -69,15 +69,14 @@
             </div>
             <div class="row">
                 <label for="PLAYER_2_DESCRIPTION"></label>
-                <input name="PLAYER_2_DESCRIPTION" type="text" class="param" title="Description of the player's OB.">
+                <input name="PLAYER_2_DESCRIPTION" type="text" class="param" title="Description of the player's OB">
             </div>
             <div class="row">
                 <input name="ASA_ID" type="text" size="1" class="param" style="display:none;">
                 <input name="ROAR_ID" type="text" size="1" class="param" style="display:none;">
                 <span class="spacer"></span>
                 <span class="small" style="display:flex;align-items:center;">
-                    Width:
-                    <input type="text" class="param" name="PLAYERS_WIDTH" size="5" style="margin:0 0.25em;">
+                    <input type="text" class="param snippet-width" name="PLAYERS_WIDTH" style="margin:0 0.25em;">
                     <button class="generate" data-id="players"></button>
                 </span>
             </div>
@@ -109,8 +108,7 @@
             <div class="footer">
                 <span class="spacer"></span>
                 <span class="small">
-                    <label for="VICTORY_CONDITIONS_WIDTH">Width:</label>
-                    <input type="text" class="param" name="VICTORY_CONDITIONS_WIDTH" size="5">
+                    <input type="text" class="param snippet-width" name="VICTORY_CONDITIONS_WIDTH">
                     <button class="generate" data-id="victory_conditions"></button>
                 </span>
             </div>
@@ -128,8 +126,7 @@
                 <img id="ssr-trash" class="sortable-trash">
                 <span class="spacer"></span>
                 <span class="small">
-                    <label for="SSR_WIDTH">Width:</label>
-                    <input type="text" class="param" name="SSR_WIDTH" size="5">
+                    <input type="text" class="param snippet-width" name="SSR_WIDTH">
                     <button class="generate" data-id="ssr"></button>
                 </span>
             </div>

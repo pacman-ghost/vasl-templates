@@ -31,8 +31,8 @@ var NATIONALITY_SPECIFIC_BUTTONS = {
     "thh": [ "japanese" ],
 } ;
 
-GENERATE_SNIPPET_HINT = "Generate an HTML snippet (shift-click to get an image)." ;
-EDIT_TEMPLATE_HINT = "Edit the template that will generate this snippet." ;
+GENERATE_SNIPPET_HINT = "Generate an HTML snippet" ;
+EDIT_TEMPLATE_HINT = "Edit the snippet template" ;
 
 // --------------------------------------------------------------------
 
@@ -391,6 +391,15 @@ $(document).ready( function () {
     // replace all the "generate" buttons with "generate/edit" button/droplist's
     $("button.generate").each( function() { init_snippet_button( $(this) ) ; } ) ;
 
+    // add a tooltip to the snippet width textbox's
+    $( "input.param.snippet-width" ).each( function() {
+        // NOTE: I tried putting a little icon in the textbox background, and placeholder text, but it didn't
+        // look good (and the whole point of removing the "Width:" labels was to remove visual clutter),
+        // so we just leave the textbox's blank. Hopefully, the default values in some of them, plus the tooltip,
+        // will be enough for the user to figure out what's going on.
+        $(this).attr( "title", "Snippet width" ) ;
+    } ) ;
+
     // add special options to the COMPASS snippet button menu
     var $compassMenu = $( "select[data-id='compass']" ) ;
     var compassDirns = [ "", "right", "left", "down", "up" ] ;
@@ -564,7 +573,7 @@ function init_snippet_button( $btn )
         // NOTE: We use really short captions so they don't get truncated if the popup menu
         // is opened near the right-hand edge of the window :-/
         "<option value='edit' class='edit-template' title='" + EDIT_TEMPLATE_HINT + "'>Edit</option>",
-        "<option value='as-image' class='as-image' title='Generate the snippet as an image.'>Image</option>",
+        "<option value='as-image' class='as-image' title='Generate the snippet as an image'>Image</option>",
         "</select>",
         "</div>"
     ] ;

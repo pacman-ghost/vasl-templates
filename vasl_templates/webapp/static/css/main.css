@@ -40,6 +40,8 @@ label { height: 1.25em ; }
 button.edit-template { height: 30px ; padding: 4px 10px ; }
 button.edit-template img { height: 18px ; vertical-align: middle ; margin-right: 0.25em ; }
 
+input.snippet-width { width: 3.75em ; }
+
 .ui-dialog-titlebar { padding: 0.2em 0.5em 0.2em 0.5em !important ; }
 .ui-dialog-titlebar img.flag { height: 0.9em ; margin: -2px 0.25em 0 0 ; }
 .ui-dialog-titlebar-close { margin-top: -10px !important ; }
