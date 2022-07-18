@@ -204,13 +204,13 @@ def test_missing_templates( webapp, webdriver ):
             # check the UI state of the next button
             template_id = adjust_template_id( btn.get_attribute( "data-id" ) )
             if fname == "national-capabilities.json":
-                expected = False # nb: this is the JSON file, not the template file, and so doesn't effect buttons
+                expected = False # nb: this is the JSON file, not the template file, and so doesn't affect buttons
             elif fname == "nat_caps.j2":
                 expected = template_id.startswith( "nat_caps_" )
             else:
                 expected = os.path.splitext( fname )[0] == template_id
             disabled = webdriver.execute_script( "return $(arguments[0]).button('option','disabled')", btn )
-            assert expected == disabled
+            assert disabled == expected
             # check that snippet control groups have been enabled/disabled correctly
             parent = btn.find_element( By.XPATH, ".." )
             parent_classes = get_css_classes( parent )
@@ -224,6 +224,15 @@ def test_missing_templates( webapp, webdriver ):
                     assert "ui-selectmenu-disabled" not in elem_classes
             else:
                 assert "snippet-control" not in parent_classes
+            # check if the button has an associated "snippet-width" textbox
+            sel = btn.get_attribute( "data-id" )
+            if sel.endswith( ( "_1", "_2" ) ):
+                sel = sel[:-2] + "_width" + sel[-2:]
+            else:
+                sel = sel + "_width"
+            elem = find_child( "input.snippet-width[name='{}']".format( sel.upper() ) )
+            if elem:
+                assert not elem.is_enabled() == expected
 
     # upload the template pack, with one file missing each time
     for fname in files:

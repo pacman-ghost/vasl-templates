@@ -795,9 +795,20 @@ function install_template_pack( data )
         if ( template_id.match( /^ob_(vehicles|ordnance).*_[12]$/ ) )
             template_id = template_id.substring( 0, template_id.length-2 ) ;
         var enable = is_template_available( template_id ) ;
-        if ( $btn.parent().hasClass( "snippet-control" ) )
+        if ( $btn.parent().hasClass( "snippet-control" ) ) {
             $btn.parent().controlgroup( enable ? "enable" : "disable" ) ;
-        else
+            // check if there's a corresponding "snippet-width" textbox
+            var sel = $btn.attr( "data-id" ) ;
+            if ( sel.match( /_[12]$/ ) )
+                sel = sel.substr( 0, sel.length-2 ) + "_width" + sel.substr( sel.length-2 ) ;
+            else
+                sel += "_width" ;
+            var $width = $( "input.snippet-width[name='" + sel.toUpperCase() + "']" ) ;
+            if ( $width.length > 0 ) {
+                // yup - update it as well
+                $width.val( "" ).prop( "disabled", !enable ) ;
+            }
+        } else
             $btn.button( enable ? "enable": "disable" ) ;
     }
     $( "button.generate" ).each( function() { update_button( $(this) ) ; } ) ;

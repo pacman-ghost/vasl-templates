@@ -1733,7 +1733,10 @@ function do_load_scenario_data( params )
             }
         }
         else {
-            $elem.val( params[key] ) ;
+            if ( $elem.prop( "disabled" ) )
+                $elem.val( "" ) ;
+            else
+                $elem.val( params[key] ) ;
             if ( key === "ASA_ID" )
                 updateForConnectedScenario( params[key], params.ROAR_ID ) ;
         }
