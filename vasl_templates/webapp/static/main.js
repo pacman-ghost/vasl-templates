@@ -340,11 +340,13 @@ $(document).ready( function () {
             if ( ++nFlagsChecked === nats.length ) {
                 // we've checked all the flags - now we can build the player droplists
                 init_player_droplists() ;
+                update_ob_tab_header( 1 ) ;
+                update_ob_tab_header( 2 ) ;
                 update_page_load_status( "flag-urls" ) ;
             }
         }
         nats.forEach( function( nat ) {
-            var url = make_player_flag_url( nat, false ) ;
+            var url = make_player_flag_url( nat, false ) + "?no-spacer=1" ;
             $.ajax( url, {
                 success: function() { gHasPlayerFlag[nat] = true ; onFlagChecked() ; },
                 error: function() { onFlagChecked() ; },
@@ -522,8 +524,8 @@ function init_player_droplists()
             return opt.text ;
         var url = gHasPlayerFlag[opt.id] ? make_player_flag_url( opt.id, false ) : "" ;
         return $( "<div style='display:flex;align-items:center;height:23px;'>" +
-            "<div style='display:inline-block;width:1em;text-align:center;margin-right:5px;'>" +
-            "<img src='" + url + "' style='height:0.8em;'>" +
+            "<div style='width:12px;margin-right:5px;text-align:center;'>" +
+            "<img src='" + url + "' style='height:12px;'>" +
             "</div>" +
             " " + opt.text +
         "</div>" ) ;
@@ -682,8 +684,8 @@ function update_page_load_status( id )
     if ( gPageLoadStatus.length === 0 ) {
         // yup - update the UI
         apply_user_settings() ;
-        $( "a[href='#tabs-extras'] div" ).html(
-            "<img src='" + gImagesBaseUrl + "/extras.png'>&nbsp;Extras"
+        $( "a[href='#tabs-extras']" ).html(
+            "<img src='" + gImagesBaseUrl + "/extras.png'>Extras"
         ) ;
         $("#tabs").tabs({ disabled: [] }) ;
         $("#loader").fadeOut( 500 ) ;
@@ -781,7 +783,7 @@ function install_template_pack( data )
     }
 
     // update the OB tab headers
-    // NOTE: We don't do this while the page is initially loading, it will be done when the default scenario loaded.
+    // NOTE: We don't do this while the page is initially loading, since we need the player flags.
     if ( gPageLoadStatus.indexOf( "flag-urls" ) === -1 ) {
         update_ob_tab_header( 1 ) ;
         update_ob_tab_header( 2 ) ;
@@ -910,7 +912,7 @@ function update_ob_tab_header( player_no )
     var $elem = $( "#tabs .ui-tabs-nav a[href='#tabs-ob" + player_no + "']" ) ;
     var buf = [] ;
     if ( gHasPlayerFlag[ player_nat ] )
-        buf.push( "<img src='" + image_url + "'>&nbsp;" ) ;
+        buf.push( "<img src='" + image_url + "'>" ) ;
     buf.push( "<span>" + escapeHTML(display_name) + " OB</span>" ) ;
     $elem.html( buf.join("") ) ;
 

@@ -8,8 +8,9 @@
 #tabs .ui-tabs-nav { background: white ; border: none ; }
 #tabs .ui-tabs-nav a { color: #888 ; }
 #tabs .ui-tabs-nav a:hover { color: #444 ; }
+#tabs .ui-tabs-anchor { display: flex ; align-items: center ; }
 #tabs .ui-tabs-tab.ui-state-active a { color: #444 ; }
-#tabs .ui-tabs-nav li img { position: relative ; top: 2px ; height: 1em ; }
+#tabs .ui-tabs-nav li img {  position: relative ; top: -1px ; margin-right: 0.4em ; height: 14px ; }
 #tabs .ui-tabs-panel { background: #f6f6f6 ; }
 
 /* nb: these are managed in the code but we define them here for the initial load */

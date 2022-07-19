@@ -43,7 +43,7 @@ button.edit-template img { height: 18px ; vertical-align: middle ; margin-right:
 input.snippet-width { width: 3.75em ; }
 
 .ui-dialog-titlebar { padding: 0.2em 0.5em 0.2em 0.5em !important ; }
-.ui-dialog-titlebar img.flag { height: 0.9em ; margin: -2px 0.25em 0 0 ; }
+.ui-dialog-titlebar img.flag { height: 0.9em ; margin: -2px 0.4em 0 0 ; }
 .ui-dialog-titlebar-close { margin-top: -10px !important ; }
 .ui-dialog-content { padding: 1em !important ; }
 .ui-dialog-content p { margin-bottom: 0.5em ; }

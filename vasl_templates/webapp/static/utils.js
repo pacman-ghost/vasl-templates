@@ -431,7 +431,7 @@ function add_flag_to_dialog_titlebar( $dlg, player_no )
 {
     // add a flag to the dialog's titlebar
     var player_nat = get_player_nat( player_no ) ;
-    if ( ! player_nat )
+    if ( ! player_nat || ! gHasPlayerFlag[ player_nat ] )
         return ;
     var $titlebar = $dlg.dialog( "instance" ).uiDialogTitlebar ;
     var url = make_player_flag_url( player_nat, false ) ;
