@@ -139,7 +139,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
         dialogClass: "edit-vo",
         title: "Edit "+vo_type,
         minWidth: 550,
-        minHeight: 470,
+        minHeight: 500,
         modal: true,
         create: function() {
             // initialize the dialog

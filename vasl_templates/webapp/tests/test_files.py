@@ -57,7 +57,7 @@ def test_remote_file_server( webapp ):
 
     # do the tests
     with webapp.test_request_context():
-        do_test( "hint.gif" )
+        do_test( "hint.png" )
         do_test( "flags/german.png" )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

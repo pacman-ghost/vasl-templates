@@ -266,7 +266,7 @@ function editTurnTrackSettings()
             var $btnPane = $( ".ui-dialog.turn-track .ui-dialog-buttonpane" ) ;
             var $btn = $btnPane.find( "button.snippet" ) ;
             $btn.prepend(
-                $( "<img src='" + gImagesBaseUrl+"/snippet.png" + "' style='height:0.9em;margin:0 0.35em -1px 0;'>" )
+                $( "<img src='" + gImagesBaseUrl+"/snippet.png" + "' style='height:0.9em;margin:0 0 -2px -2px;'>" )
             ) ;
             $btn.css( { position: "absolute", left: 15 } ) ;
             // load the dialog

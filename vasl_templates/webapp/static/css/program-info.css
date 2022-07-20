@@ -1,12 +1,15 @@
 .ui-dialog.program-info .ui-dialog-titlebar { background: #80d0ff ; }
+.ui-dialog.program-info .ui-dialog-buttonpane { margin-top: 0 !important ; }
 
-#program-info table { margin-bottom: 0.5em ; }
-#program-info td { text-align: bottom ; }
-#program-info td.key { width: 8.5em ; font-weight: bold ; white-space: nowrap ; }
+#program-info td { vertical-align: top ; padding: 0.2em 0 ; line-height: 18px ; }
+#program-info td.key { width: 9em ; font-weight: bold ; white-space: nowrap ; }
 #program-info td.val { border: none ; }
 #program-info td ul { margin-top: 0 ; }
 
+#program-info .downloads td { padding-top: 0 ; padding-bottom: 0 ; }
+#program-info .downloads td.key { width: 12.5em ; }
+
 #program-info .na { font-style: italic ; color: #444 ; }
-#program-info .path { font-family: monospace ; font-size: 90% ; }
+#program-info .path { font-family: monospace ; font-size: 80% ; }
 #program-info .extra { padding-left: 0.75em ; }
 #program-info .info { font-size: 80% ; font-style: italic ; color: #666 ; }

@@ -93,7 +93,7 @@ def create_window( app_icon ):
     """Create the splash window."""
 
     # create the splash window
-    main_window.geometry( "290x75" )
+    main_window.geometry( "275x64" )
     main_window.title( "vasl-templates loader" )
     main_window.overrideredirect( 1 ) # nb: "-type splash" doesn't work on Windows :-/
     main_window.eval( "tk::PlaceWindow . center" )
@@ -103,11 +103,11 @@ def create_window( app_icon ):
 
     # add the app icon
     label = tkinter.Label( main_window, image=app_icon )
-    label.grid( row=0, column=0, rowspan=2, padx=5, pady=5 )
+    label.grid( row=0, column=0, rowspan=2, padx=8, pady=8 )
 
     # add the caption
     label = tkinter.Label( main_window, text="Loading vasl-templates...", font=("Helvetica",12) )
-    label.grid( row=0, column=1, padx=5, pady=(5,0) )
+    label.grid( row=0, column=1, padx=5, pady=(8,0) )
 
     # add the "loading" image (we have to animate it ourself :-/)
     anim_label = tkinter.Label( main_window )

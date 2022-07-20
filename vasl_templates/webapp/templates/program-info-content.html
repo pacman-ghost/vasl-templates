@@ -26,33 +26,33 @@
     <td class="val"> {%if VASL_REAL_VERSION%} {{VASL_REAL_VERSION}} {%else%} <span class="na"> n/a </span> {%endif%}
          {%if VASL_MOD%} <span class="extra path"> {{VASL_MOD}} </span> {%endif%}
     <tr> <td class="key"> VASL extensions:
-         <td class="val path"> {%if VASL_EXTNS_DIR%} {{VASL_EXTNS_DIR}} {%else%} - {%endif%}
+        <td class="val"> <span class="path"> {%if VASL_EXTNS_DIR%} {{VASL_EXTNS_DIR}} {%else%} - {%endif%} </span>
     <tr> <td class="key"> VASL boards:
-         <td class="val path"> {%if BOARDS_DIR%} {{BOARDS_DIR}} {%else%} - {%endif%}
+        <td class="val"> <span class="path"> {%if BOARDS_DIR%} {{BOARDS_DIR}} {%else%} - {%endif%} </span>
 </table>
 
 <table>
     <tr> <td class="key"> Java:
-         <td class="val path"> {%if JAVA_PATH%}
+        <td class="val"> <span class="path"> {%if JAVA_PATH%}
             {{JAVA_PATH}}
             {%if JAVA_VERSION%} <span class="info"> ({{JAVA_VERSION}}) </span> {%endif%}
         {%else%}
             -
-        {%endif%}
+        {%endif%} </span>
     <tr> <td class="key"> Web driver:
-         <td class="val path"> {%if WEBDRIVER_PATH%} {{WEBDRIVER_PATH}} {%else%} - {%endif%}
+        <td class="val"> <span class="path"> {%if WEBDRIVER_PATH%} {{WEBDRIVER_PATH}} {%else%} - {%endif%} </span>
 </table>
 
 <table>
     <tr> <td class="key"> Chapter H:
-         <td class="val path"> {%if CHAPTER_H_NOTES_DIR%} {{CHAPTER_H_NOTES_DIR}} {%else%} - {%endif%}
+        <td class="val"> <span class="path"> {%if CHAPTER_H_NOTES_DIR%} {{CHAPTER_H_NOTES_DIR}} {%else%} - {%endif%} </span>
     <tr> <td class="key"> User files:
-         <td class="val path"> {%if USER_FILES_DIR%} {{USER_FILES_DIR}} {%else%} - {%endif%}
+        <td class="val"> <span class="path"> {%if USER_FILES_DIR%} {{USER_FILES_DIR}} {%else%} - {%endif%} </span>
 </table>
 
-<table>
+<table class="downloads">
     <tr> <td class="key" colspan="2"> Scenario downloads:
-    <tr> <td class="key"> <ul> <li> ASA: </ul>
+    <tr> <td class="key"> <ul> <li> ASL Scenario Archive: </ul>
          <td class="val"> {%if LAST_ASA_SCENARIO_INDEX_DOWNLOAD_TIME%}
               {{LAST_ASA_SCENARIO_INDEX_DOWNLOAD_TIME}}
               {%if LAST_ASA_SCENARIO_INDEX_GENERATED_AT%} <span class="info"> (generated {{LAST_ASA_SCENARIO_INDEX_GENERATED_AT}}) </span> {%endif%}

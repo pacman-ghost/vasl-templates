@@ -11,4 +11,4 @@
 
 .ui-dialog.user-settings img.need-localhost { display: inline-block ; height: 0.75em ; }
 .ui-dialog.user-settings div.need-localhost { float: left ; margin-top: -5px ; width: 290px ; font-size: 80% ; font-style: italic ; color: #c02020 ; }
-.ui-dialog.user-settings div.need-localhost img { float: left ; height: 1.5em ; margin-right: 0.25em ; }
+.ui-dialog.user-settings div.need-localhost img { float: left ; height: 1.5em ; margin-right: 0.5em ; }

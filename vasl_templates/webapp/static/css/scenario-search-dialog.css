@@ -16,7 +16,7 @@
 #scenario-search .select2-dropdown { border: none ; }
 #scenario-search .select2-search--dropdown { padding: 0 0 0.5em 0 ; }
 
-#scenario-search .select2-results__options { padding: 0 0.25em ; }
+#scenario-search .select2-results__options { padding: 0 ; }
 #scenario-search .select2-results__option--highlighted[aria-selected] { color: #f0f0f0 ; }
 #scenario-search .select2-results__option--highlighted[aria-selected] .scenario-date { color: #f0f0f0 ; }
 #scenario-search .select2-results__option--highlighted[aria-selected] .publication-name { color: #f0f0f0 ; }
@@ -51,8 +51,8 @@
 #scenario-search .footer a:focus { outline: 0 ; }
 
 /* import control */
-#scenario-search .import-control { margin-top: 0.5em ; padding-top: 0.5em ; border-top: 1px dotted #666 ; }
-#scenario-search .import-control .buttons button { float: right ; margin-left: 0.5em ; padding: 0.1em 0.5em ; }
+#scenario-search .import-control { margin-top: 0.5em ; padding-top: 0.75em ; border-top: 1px dotted #666 ; }
+#scenario-search .import-control .buttons button { float: right ; margin-left: 0.5em ; padding: 0.2em 0.5em ; }
 #scenario-search .import-control .buttons button.import { height: 2em ; display: flex ; align-items: center ; }
 #scenario-search .import-control .buttons button.import img { height: 1em ; margin-right: 0.5em ; }
 #scenario-search .import-control .buttons button.downloads { height: 2em ; display: flex ; align-items: center ; }

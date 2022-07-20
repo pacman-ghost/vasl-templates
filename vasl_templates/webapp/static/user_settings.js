@@ -106,15 +106,15 @@ function user_settings( on_ok, caption )
             init_dialog( $(this), "OK", true ) ;
             // initialize the "this program must be running" warnings
             $( "input.need-localhost" ).each( function() {
-                var $img = $( "<img src='" + gImagesBaseUrl+"/warning.gif" + "'class='need-localhost'>" ) ;
+                var $img = $( "<img src='" + gImagesBaseUrl+"/warning.png" + "'class='need-localhost'>" ) ;
                 if ( $(this).hasClass( "sometimes" ) )
                     $img.addClass( "sometimes" ) ;
-                $img.attr( "title", "If you turn this option on, this program must be running\nbefore you load scenarios into VASSAL." ) ;
+                $img.attr( "title", "If you turn this option on, this program must be running before you load scenarios into VASSAL." ) ;
                 $(this).next().before( $img ) ;
             } ) ;
             var $btn_pane = $(".ui-dialog.user-settings .ui-dialog-buttonpane") ;
             $btn_pane.prepend( $(
-                "<div class='need-localhost'><img src='" + gImagesBaseUrl+"/warning.gif" + "'>" +
+                "<div class='need-localhost'><img src='" + gImagesBaseUrl+"/warning.png" + "'>" +
                 "This program must be running before<br>you load scenarios into VASSAL.</div>"
             ) ) ;
             // install handlers to keep the UI updated

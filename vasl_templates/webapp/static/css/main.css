@@ -30,15 +30,15 @@ label { height: 1.25em ; }
 .select2-dropdown { color: #444 ; }
 
 .snippet-control button.generate { height: 26px ; padding: 2px 0 2px 5px ; color: #000 ; }
-.snippet-control button.generate.inactive { color: #aaa ; }
+.snippet-control button.generate.inactive { color: #888 ; }
 .snippet-control button.generate img { height: 20px ; margin-right: 5px ; vertical-align: middle ; }
 .snippet-control .ui-selectmenu-button { padding: 2px 10px ; }
 .snippet-control-menu-item { font-size: 75% ; font-style: italic ; }
 .snippet-control .ui-selectmenu-button-closed { height: 26px ; }
 .snippet-control .ui-selectmenu-icon.ui-icon { margin-top: -8px ; }
 
-button.edit-template { height: 30px ; padding: 4px 10px ; }
-button.edit-template img { height: 18px ; vertical-align: middle ; margin-right: 0.25em ; }
+button.edit-template { height: 28px ; padding: 4px 10px ; }
+button.edit-template img { height: 18px ; vertical-align: middle ; margin: -2px 0.4em 0 0 ; }
 
 input.snippet-width { width: 3.75em ; }
 
@@ -48,7 +48,8 @@ input.snippet-width { width: 3.75em ; }
 .ui-dialog-content { padding: 1em !important ; }
 .ui-dialog-content p { margin-bottom: 0.5em ; }
 .ui-dialog-buttonpane { margin: 0.5em !important ; padding: 0.75em 0.5em 0.4em 0.5em !important ; }
-.ui-dialog-buttonpane button { margin: 0 0 0 5px !important ; padding: 0.1em 0.5em ; }
+.ui-dialog-buttonpane button { margin: 0 0 0 0.5em !important ; padding: 0.2em 0.5em ; }
+.ui-dialog-buttonpane button:first-child {  margin-left: 0.25em !important ; }
 .ui-dialog-buttonpane button.ok { background: #ddd ; }
 .ui-dialog-buttonpane button.ok:hover { background: #ccc ; }
 
@@ -58,6 +59,7 @@ input.snippet-width { width: 3.75em ; }
 .sp-palette-row-selection { margin-top: 6px ; border-top: 1px solid #ccc ; padding-top: 6px ; }
 
 .growl-title { display: none ; }
+.growl-close { position: absolute ; top: 0 ; right: 5px ; }
 .growl .pre { font-family: monospace ; }
 .growl div.pre { margin: 0 0 1em 1em ; font-size: 80% ; }
 

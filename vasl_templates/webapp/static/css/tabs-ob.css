@@ -29,5 +29,5 @@
 .panel-ob_vo .sortable .vo-entry .detail .vo-capabilities { max-height: 2.5em ; overflow: hidden ; font-size: 80% ; font-style: italic ; }
 .panel-ob_vo .sortable .vo-entry .detail .vo-capability { margin-right: 0.5em ; color: #444 ; }
 .panel-ob_vo label.header { font-weight: bold ; display: inline-block ; width: 3.25em ; }
-.panel-ob_vo .snippet-admin { align-self: flex-end ; }
+.panel-ob_vo .snippet-admin { align-self: flex-end ; display: flex ; align-items: center ; }
 .panel-ob_vo .snippets-notes { margin-top: 2px ; }

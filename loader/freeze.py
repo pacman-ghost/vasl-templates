@@ -98,7 +98,7 @@ def _convert_app_icon( save_fname ):
     # to an image, then insert it into the PyInstaller-generated executable (so that
     # we don't have to bundle Pillow into the release).
     img = Image.open( APP_ICON )
-    img = img.convert( "RGBA" ).resize( (64, 64) )
+    img = img.convert( "RGBA" ).resize( (48, 48) )
     img.save( save_fname, "png" )
 
 # ---------------------------------------------------------------------

@@ -141,10 +141,7 @@ function _make_simple_note( note_type, caption )
     buf.push( caption, "</div>" ) ;
     var $content = $( buf.join("") ) ;
     fixup_external_links( $content ) ;
-    $content.children( "img" ).hover(
-        function() { $(this).attr( "src", gImagesBaseUrl + "/snippet-hot.png" ) ; },
-        function() { $(this).attr( "src", gImagesBaseUrl + "/snippet.png" ) ; }
-    ) ;
+    makeSnippetHotHover( $content.children( "img" ) ) ;
 
     // add a handler for the snippet button
     $content.children("img.snippet").click( function( evt ) {

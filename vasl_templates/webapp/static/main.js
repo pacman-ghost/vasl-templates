@@ -632,6 +632,7 @@ function updateCompassImage() {
     $btn.find( "img" ).attr( "src",
         make_app_url( "/static/images/compass/" + dirn + ".png" )
     ).css( {
+        opacity: (dirn === "none") ? 1 : 0.85,
         padding: imagePadding[dirn]
     } ) ;
     $btn.button( dirn === "none" ? "disable" : "enable" ) ;

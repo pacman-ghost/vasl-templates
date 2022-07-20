@@ -440,6 +440,14 @@ function add_flag_to_dialog_titlebar( $dlg, player_no )
     ).css( { display: "flex", "align-items": "center" } ) ;
 }
 
+function makeSnippetHotHover( $sel )
+{
+    $sel.hover(
+        function() { $(this).attr( "src", gImagesBaseUrl + "/snippet-hot.png" ) ; },
+        function() { $(this).attr( "src", gImagesBaseUrl + "/snippet.png" ) ; }
+    ) ;
+}
+
 // --------------------------------------------------------------------
 
 var _MONTH_NAMES = [ // nb: we assume English :-/

@@ -86,7 +86,7 @@
     background: #fffff8 ;
 }
 #lfa .options input[type=checkbox] { vertical-align: middle ; }
-#lfa .options button.download { position: absolute ; right: 5px ; bottom: 5px ; padding: 3px !important ; }
+#lfa .options button.download { position: absolute ; right: 5px ; bottom: 6px ; padding: 0 !important ; }
 #lfa .options button.player-colors { padding: 3px 6px 2px 5px !important ; }
 .ui-dialog.lfa input[type=checkbox][disabled] { opacity: 0.5 ; }
 .ui-dialog.lfa input[type=checkbox][disabled] + label { opacity: 0.5 ; }

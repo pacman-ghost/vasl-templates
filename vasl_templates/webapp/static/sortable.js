@@ -77,15 +77,18 @@ $.fn.sortable2 = function( action, args )
         $sortable2.data( "no_confirm_delete", args.no_confirm_delete ) ;
         $sortable2.data( "on_edit", args.edit ) ;
         var $add_btn = find_helper( $sortable2, "add" ) ;
-        $add_btn.prepend( $( "<div style='white-space:nowrap;'><img src='" + gImagesBaseUrl + "/sortable-add.png' class='sortable-add'> Add</div>" ) )
-            .button( {} ) ;
+        $add_btn.prepend( $( "<div style='display:flex;align-items:center;whitespace:nowrap;'>" +
+            "<img src='" + gImagesBaseUrl + "/sortable-add.png' class='sortable-add'>" +
+            "Add" +
+            "</div>"
+        ) ).button( {} ) ;
         var $add = find_helper( $sortable2, "add" ) ;
         $add.prop( "title", "Add a new " + display_name[0] )
             .click( args.add ) ;
         if ( args.reset ) {
             $sortable2.data( "on_reset", args.reset ) ;
             var $reset_btn = find_helper( $sortable2, "reset" ) ;
-            $reset_btn.prepend( $( "<div style='white-space:nowrap;'><img src='" + gImagesBaseUrl + "/sortable-reset.png' class='sortable-reset'> Reset</div>" ) )
+            $reset_btn.prepend( $( "<div style=display:flex;align-items:center;'whitespace:nowrap;'><img src='" + gImagesBaseUrl + "/sortable-reset.png' class='sortable-reset'> Reset</div>" ) )
                 .button( {} ) ;
             var $reset = find_helper( $sortable2, "reset" ) ;
             $reset.prop( "title", "Reset the " + display_name[1] )
@@ -188,7 +191,7 @@ $.fn.sortable2 = function( action, args )
         if ( $sortable2.children("li").length === 0 ) {
             $sortable2.hide() ;
             var display_name = SORTABLE_DISPLAY_NAMES[ get_sortable2_type($sortable2) ] ;
-            var img = "<img src='" + gImagesBaseUrl + "/sortable-add.png' style='height:1em;'>" ;
+            var img = "<img src='" + gImagesBaseUrl + "/sortable-add.png' style='height:12px;margin-bottom:-1px;'>" ;
             var buf = [
                 SORTABLE_HINTS[ get_sortable2_type($sortable2) ],
                 "<ul class='instructions'>",

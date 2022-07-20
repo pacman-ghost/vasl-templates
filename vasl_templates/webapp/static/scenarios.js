@@ -619,7 +619,7 @@ function onImportScenario()
                         newVal = msg.substring( 2 ) ;
                     else {
                         buf = [ "<div class='warning2'>",
-                            "<img src='" + gImagesBaseUrl + "/warning.gif'>",
+                            "<img src='" + gImagesBaseUrl + "/warning.png'>",
                             msg,
                             "</div>"
                         ] ;
@@ -659,7 +659,7 @@ function onImportScenario()
                     buf.push( "<div class='hint'>", "Currently \"" + displayCurrVal + "\".", "</div>" ) ;
                 }
                 if ( extraMsg )
-                    buf.push( "<div class='hint'>", "<img src='"+gImagesBaseUrl+"/warning.gif'>", extraMsg, "</div>" ) ;
+                    buf.push( "<div class='hint'>", "<img src='"+gImagesBaseUrl+"/warning.png'>", extraMsg, "</div>" ) ;
                 warnings.push( $( buf.join("") ) ) ;
             }
         } ) ;
@@ -676,7 +676,7 @@ function onImportScenario()
         if ( warnings.length > 0 ) {
             var buf = [
                 "<div class='header'>",
-                "<img src='" + gImagesBaseUrl + "/warning.gif'>",
+                "<img src='" + gImagesBaseUrl + "/warning.png' style=height:1em;'>",
                 "<div class='caption'> Some values in your scenario will be changed: </div>",
                 "</div>"
             ] ;
@@ -1094,7 +1094,7 @@ function updateLayout()
     $dlg.find( ".select2-dropdown" ).css( "width",
         $dlg.find( ".scenarios" ).width()
     ) ;
-    var newHeight = $dlg.find( ".scenarios" ).height() - $dlg.find( ".select2-search" ).height() - 15 ;
+    var newHeight = $dlg.find( ".scenarios" ).height() - $dlg.find( ".select2-search" ).height() - 10 ;
     $sel.find( ".select2-results__options" ).css( {
         height: newHeight,
         "max-height": newHeight,
@@ -1274,7 +1274,7 @@ window.showScenarioInfo = function()
                 modal: true,
                 closeOnEscape: false, // nb: handled in handle_escape()
                 width: $(window).width() * 0.8,
-                minWidth: 550,
+                minWidth: 570,
                 height: $(window).height() * 0.8,
                 minHeight: 300,
                 create: function() {
@@ -1295,17 +1295,19 @@ window.showScenarioInfo = function()
                     // configure the "upload scenario" button
                     var $btn = $btnPane.find( "button.upload" ) ;
                     $btn.prepend(
-                        $( "<img src='" + gImagesBaseUrl+"/upload.png" + "' style='height:0.9em;margin:0 0.35em -1px 0;'>" )
+                        $( "<img src='" + gImagesBaseUrl+"/upload.png" + "' style='height:0.8em;margin:0 0.35em -1px 0;'>" )
                     ) ;
                     var creditWidth = $btnPane.find( ".credit" ).outerWidth() ;
-                    $btn.css( { position: "absolute", left: creditWidth+20, padding: "2px 5px" } ) ;
+                    // FUDGE! We force the width of $btn since $btn needs to know it in order to position itself,
+                    // and there is a short delay before the UI updates itself for the inserted image.
+                    $btn.css( { position: "absolute", left: creditWidth+20, width: 90 } ) ;
                     $btn.attr( "title", "Upload your setup to the ASL Scenario Archive" ) ;
                     // configure the "unlink scenario" button
                     var $btn2 = $btnPane.find( "button.unlink" ) ;
                     $btn2.prepend(
                         $( "<img src='" + gImagesBaseUrl+"/cross.png" + "' style='height:0.6em;margin-right:0.35em;padding-bottom:1px;'>" )
                     ) ;
-                    $btn2.css( { position: "absolute", left: creditWidth+40+$btn.outerWidth(), padding: "2px 5px" } ) ;
+                    $btn2.css( { position: "absolute", left: creditWidth+$btn.outerWidth()+30 } ) ;
                     $btn2.attr( "title", "Unlink your scenario from the ASL Scenario Archive" ) ;
                     // update the layout
                     onResize() ;
@@ -1378,7 +1380,7 @@ window.updateForConnectedScenario = function( scenarioId, roarId )
     // update the UI
     var $btn = $( "button.scenario-search" ) ;
     if ( scenarioId ) {
-        $btn.find( "img" ).attr( "src", gImagesBaseUrl+"/info.gif" ) ;
+        $btn.find( "img" ).attr( "src", gImagesBaseUrl+"/scenario-info.png" ) ;
         $btn.attr( "title", "Scenario details" ) ;
     } else {
         $btn.find( "img" ).attr( "src", gImagesBaseUrl+"/search.png" ) ;
@@ -1457,10 +1459,10 @@ window.addAsaCreditPanel = function( $dlg, scenarioId )
         "</div>"
     ] ;
     var $credit = $( buf.join("") ) ;
-    $credit.css( { position: "absolute", left: "1em", bottom: "13px",  display: "flex", "align-items": "center" } ) ;
+    $credit.css( { position: "absolute", left: "1em", bottom: "18px",  display: "flex", "align-items": "center" } ) ;
     $credit.find( "img" ).css( { height: "1.4em", "margin-right": "0.5em", opacity: 0.7 } ) ;
-    $credit.find( ".caption" ).css( { "font-size": "70%", "line-height": "1em", "margin-top": "-4px" } ) ;
-    $credit.find( "a" ).css( { "text-decoration": "none", "font-style": "italic", color: "#666" } ) ;
+    $credit.find( ".caption" ).css( { "font-size": "70%", "line-height": "1em" } ) ;
+    $credit.find( "a" ).css( { height: "1.4em", "text-decoration": "none", "font-style": "italic", color: "#666" } ) ;
     $credit.find( "a" ).on( "click", function() { $(this).blur() ; } ) ;
 
     // add the credit panel to the dialog's button pane

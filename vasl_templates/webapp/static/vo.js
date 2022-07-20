@@ -256,6 +256,7 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
     }
     buf.push( "</div>" ) ;
     var $content = $( buf.join("") ) ;
+    makeSnippetHotHover( $content.children( "img.snippet" ) ) ;
     fixup_external_links( $content, true ) ;
     var $entry = $sortable2.sortable2( "add", {
         content: $content,

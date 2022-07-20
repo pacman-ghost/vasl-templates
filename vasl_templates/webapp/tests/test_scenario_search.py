@@ -947,7 +947,7 @@ def _check_warnings( expected, expected2 ):
 def _get_scenario_info():
     """Open the scenario info and unload the information."""
     btn = find_child( "button.scenario-search" )
-    assert find_child( "img", btn ).get_attribute( "src" ).endswith( "/info.gif" )
+    assert find_child( "img", btn ).get_attribute( "src" ).endswith( "/scenario-info.png" )
     btn.click()
     wait_for_elem( 2, "#scenario-info-dialog" )
     card = _unload_scenario_card()
