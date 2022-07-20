@@ -246,10 +246,9 @@ def get_java_path():
             if os.path.isfile( fname ):
                 java_path = fname
 
-    # check if we've found a Java runtime
+    # check the PATH
     if not java_path:
-        # nope - hope that there's one on the PATH
-        java_path = "java"
+        java_path = shutil.which( "java" )
 
     return java_path
 
