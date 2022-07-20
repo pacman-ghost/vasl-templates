@@ -1,3 +1,7 @@
+var gEditVoDialogSplitter = null ;
+var gPrevEditVoDialogEntry = null ;
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 function edit_ob_vehicle( $entry, player_no ) { _do_edit_ob_vo( $entry, player_no, "vehicle" ) ; }
 function edit_ob_ordnance( $entry, player_no ) { _do_edit_ob_vo( $entry, player_no, "ordnance" ) ; }
@@ -138,7 +142,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
     var $dlg = $( "#edit-vo" ).dialog( {
         dialogClass: "edit-vo",
         title: "Edit "+vo_type,
-        minWidth: 550,
+        minWidth: 500,
         minHeight: 500,
         modal: true,
         create: function() {
@@ -172,6 +176,33 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
             load_entries( $capabilities, capabilities ) ;
             $elite.prop( "checked", elite ? true : false ) ;
             load_entries( $comments, comments ) ;
+            // initialize the spliiter
+            // FUDGE! We should be able to do this in the dialog's "create" handler, but it doesn't
+            // really work (setting the minSize doesn't work). Thing is, doing it here (once) also
+            // doesn't work, but in a way that's more acceptable :-/
+            if ( gEditVoDialogSplitter === null ) {
+                gEditVoDialogSplitter = Split( [ "#edit-vo .capabilities", "#edit-vo .comments" ], {
+                    "direction": "vertical",
+                    gutterSize: 3
+                } ) ;
+                var $gripper = $( "<img src='" + gImagesBaseUrl + "/gripper-horz.png'>" ) ;
+                $( "#edit-vo .gutter.gutter-vertical" ).append( $gripper ) ;
+                // FUDGE! Work-around a weird layout problem with the splitter, where things don't work
+                // until the dialog is resized, and then it's OK thereafter :-/ The height will be corrected
+                // when the UI updates and the layout is re-calculated.
+                $( ".split-container" ).css( { height: "1px" } ) ;
+            }
+            if ( $entry !== gPrevEditVoDialogEntry ) {
+                var nEntriesAvail = ( $capabilities.height() + $comments.height() ) / 27 ;
+                var nEntriesTotal = capabilities.length + comments.length ;
+                if ( nEntriesTotal === 0 || (capabilities.length <= nEntriesAvail/2 && comments.length <= nEntriesAvail/2) )
+                    gEditVoDialogSplitter.setSizes( [ 50, 50 ] ) ;
+                else {
+                    var ratio = Math.floor( 100 * capabilities.length / nEntriesTotal ) ;
+                    gEditVoDialogSplitter.setSizes( [ ratio, 100-ratio ] ) ;
+                }
+                gPrevEditVoDialogEntry = $entry ;
+            }
         },
         buttons: {
             OK: function() {
