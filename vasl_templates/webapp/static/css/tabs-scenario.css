@@ -1,6 +1,7 @@
 /* -------------------------------------------------------------------- */
 
 #panel-scenario { display: flex ; flex-direction: column ; }
+fieldset[name='scenario'] { min-height: 91px ; max-height: 265px ; overflow: hidden ; }
 
 #panel-scenario .row { display: flex ; align-items: center ; margin-bottom: 2px ; }
 #panel-scenario input { flex-grow: 1 ; }

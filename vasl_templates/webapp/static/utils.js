@@ -440,6 +440,27 @@ function add_flag_to_dialog_titlebar( $dlg, player_no )
     ).css( { display: "flex", "align-items": "center" } ) ;
 }
 
+function addSplitterGripper( $gutter, horz, gutterSize, gutterStyle )
+{
+    // add a gripper image to a splitter
+    var key = (horz ? "h" : "v") + "splitter-gripper" ;
+    var $gripper = $(
+        "<img src='" + gImagesBaseUrl+"/"+key+".png" + "' class='"+key+"'>"
+    ) ;
+    $gutter.append( $gripper ) ;
+    if ( horz ) {
+        $gutter.css( "min-width", gutterSize ) ;
+        var gripperLeft = - Math.floor( (8 - gutterSize) / 2 ) ;
+        $gripper.css( "left", gripperLeft ) ;
+    } else {
+        $gutter.css( { "min-height": gutterSize } ) ;
+         var gripperTop = - Math.floor( (8 - gutterSize) / 2 ) ;
+        $gripper.css( { "top": gripperTop } ) ;
+    }
+    if ( gutterStyle )
+        $gutter.css( gutterStyle ) ;
+}
+
 function makeSnippetHotHover( $sel )
 {
     $sel.hover(

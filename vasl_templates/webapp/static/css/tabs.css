@@ -21,29 +21,29 @@
 
 #tabs-scenario { display: flex ; }
 #tabs-scenario .left { width: 29.25em ; min-width: 29.25em ; }
-#tabs-scenario .right { flex-grow: 1 ; min-width: 25em ; }
+#tabs-scenario .right { flex-grow: 1 ; min-width: 26em ; }
 
 #tabs-scenario .left { display: flex ; flex-direction: column ; }
-#tabs-scenario .tl { flex-basis: content ; }
 #tabs-scenario .bl { height: 100% ; flex-grow: 1 ; }
 
 #tabs-scenario .right { display: flex ; flex-direction: column ; }
 #tabs-scenario .tr { height: 100% ; flex-grow: 1 ; }
-#tabs-scenario .br { height: 100% ; flex-grow: 1 ; }
+#tabs-scenario .br { height: 100% ; flex-grow: 1 ; min-height: 9em ; }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 .ui-tabs-panel.tabs-ob { display: flex ; }
-.ui-tabs-panel.tabs-ob .left { flex-grow: 1 ; min-width: 32em ; }
-.ui-tabs-panel.tabs-ob .right { width: 28em ; min-width: 26em ; }
+.ui-tabs-panel.tabs-ob .left { flex-grow: 1 ; min-width: 20em ; }
+.ui-tabs-panel.tabs-ob .right { width: 28em ; min-width: 20em ; }
 
 .ui-tabs-panel.tabs-ob .left { display: flex ; flex-direction: column ; }
-.ui-tabs-panel.tabs-ob .tl { height: 100% ; flex-grow: 1 }
-.ui-tabs-panel.tabs-ob .bl { height: 100% ; flex-grow: 1 }
+.ui-tabs-panel.tabs-ob .tl { height: 100% ; flex-grow: 1 ; min-height: 9em ; }
+.ui-tabs-panel.tabs-ob .bl { height: 100% ; flex-grow: 1 ; min-height: 9em ; }
 
 .ui-tabs-panel.tabs-ob .right { display: flex ; flex-direction: column ; }
-.ui-tabs-panel.tabs-ob .tr { height: 100% ; flex-grow: 1 }
-.ui-tabs-panel.tabs-ob .br { height: 100% ; flex-grow: 1 }
+/* NOTE: min-height for the vehicle/ordnance panels are set dynamically. */
+.ui-tabs-panel.tabs-ob .tr { height: 100% ; flex-grow: 1 ; }
+.ui-tabs-panel.tabs-ob .br { height: 100% ; flex-grow: 1 ; }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 

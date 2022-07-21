@@ -2,13 +2,13 @@
 
 .panel-ob_setups { height: 100% ;  display: flex ; flex-direction: column ; }
 .panel-ob_setups .content { flex-grow: 1 ; }
-.panel-ob_setups .footer { margin-top: 0.5em ; padding-bottom: 1px ; display: flex ; align-items: center ; }
+.panel-ob_setups .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
 
 /* -------------------------------------------------------------------- */
 
 .panel-ob_notes { height: 100% ;  display: flex ; flex-direction: column ; }
 .panel-ob_notes .content { flex-grow: 1 ; }
-.panel-ob_notes .footer { margin-top: 0.5em ; padding-bottom: 1px ; display: flex ; align-items: center ; }
+.panel-ob_notes .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
 
 /* -------------------------------------------------------------------- */
 

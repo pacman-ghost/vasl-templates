@@ -17,4 +17,4 @@ img.sortable-reset { height: 16px ; margin: -2px 0.4em 0 -2px ; }
 .sortable-hint .instructions { margin: 1em 0 0 1em ; font-size: 80% ; font-style: italic ; color: #888 ; }
 .sortable-hint .instructions li { margin: 0.5em 0 0 0.25em ; }
 
-.sortable-trash { height: 22px ; margin-left: 6px ; }
+.sortable-trash { height: 22px ; margin-left: 6px ; margin-right: 6px ; }

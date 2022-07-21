@@ -23,8 +23,6 @@
 #lfa .split.top-pane { display: flex ; min-height: 350px ; }
 #lfa .split.top-pane .right { position: relative ; }
 #lfa .split.bottom-pane { min-height: 200px ; position: relative ; }
-#lfa .gutter { position: relative ; min-height: 3px ; background-color: #f0f0f0 ; cursor: row-resize ; z-index: 49 ; }
-#lfa .gutter img { position: absolute ; left: 40% ; top: -2px ; }
 
 /* top pane: dr/DR distribution & pie charts */
 #lfa .distrib { position: relative ; }

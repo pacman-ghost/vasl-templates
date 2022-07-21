@@ -1,7 +1,7 @@
 /* -------------------------------------------------------------------- */
 
 #tabs-extras { height: 100% ; display: flex ; flex-direction: row ; overflow: hidden ; }
-#tabs-extras .left-panel { flex: 0 0 auto ; overflow: hidden auto ; min-width: 13em ; border-right: 2px dotted #aaa; margin-right: 5px ; padding-right: 5px ; }
+#tabs-extras .left-panel { flex: 0 0 auto ; overflow: hidden auto ; min-width: 13em ; max-width: 40% ; }
 #tabs-extras .right-panel { flex: 1 1 auto ; width: 100%; bottom: 0 ; }
 
 #tabs-extras .left-panel ul { list-style-type: none ; margin: 0 ; }
@@ -16,6 +16,9 @@
 #tabs-extras .right-panel div.name { font-size: 150% ; font-weight: bold ; }
 #tabs-extras .right-panel div.caption { font-style: italic ; }
 #tabs-extras .right-panel div.description { margin-top: 0.5em ;  }
+
+#tabs-extras .right-panel button.generate { height: 30px ; }
+#tabs-extras .right-panel .snippet-control .ui-selectmenu-button { height: 30px ; }
 
 #tabs-extras .right-panel table { margin-top: 1em ; }
 #tabs-extras .right-panel td.caption { font-weight: bold ; padding-right: 0.25em ; }

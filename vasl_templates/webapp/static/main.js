@@ -10,6 +10,7 @@ gOnlineCounterImages = {} ;
 gAslRulebook2VoNoteTargets = {} ;
 
 gWebChannelHandler = null ;
+gPlayerOBSplitters = {} ;
 gEmSize = null ;
 
 var NATIONALITY_SPECIFIC_BUTTONS = {
@@ -249,6 +250,9 @@ $(document).ready( function () {
         $sel.data( "select2" ).$results.css( "max-height", "15em" ) ;
     }
 
+    // initialize the splitters
+    initSplitters() ;
+
     // get the application config
     $.getJSON( gAppConfigUrl, function(data) {
         gAppConfig = data ;
@@ -422,7 +426,7 @@ $(document).ready( function () {
     // handle requests to edit the templates
     $("button.edit-template").click( function() {
         edit_template( $(this).data( "id" ) ) ;
-    } ).html( "<div><img src='" + gImagesBaseUrl + "/edit-template.png'>Edit</div>" )
+    } ).html( "<div style='white-space:nowrap;'><img src='" + gImagesBaseUrl + "/edit-template.png'>Edit</div>" )
         .attr( "title", EDIT_TEMPLATE_HINT )
         .button( {} ) ;
 
@@ -548,6 +552,83 @@ function init_player_droplists()
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+function initSplitters()
+{
+    // add splitters to the SCENARIO tab
+    Split( [ "#tabs-scenario .left", "#tabs-scenario .right" ], {
+        direction: "horizontal",
+        sizes: [ 1, 99 ],
+        gutterSize: 8,
+    } ) ;
+    addSplitterGripper( $( "#tabs-scenario .left + .gutter" ), true, 8, {
+        margin: "5px -2px", "background-color": "inherit"
+    } ) ;
+    Split( [ "#tabs-scenario .left .tl", "#tabs-scenario .left .bl" ], {
+        direction: "vertical",
+        sizes: [ 99, 1 ],
+        gutterSize: 8,
+    } ) ;
+    addSplitterGripper( $( "#tabs-scenario .left .gutter" ), false, 8, {
+        margin: "-2px 5px -6px 5px", "background-color": "inherit",
+    } ) ;
+    Split( [ "#tabs-scenario .right .tr", "#tabs-scenario .right .br" ], {
+        direction: "vertical",
+        sizes: [ 50, 50 ],
+        gutterSize: 8,
+    } ) ;
+    addSplitterGripper( $( "#tabs-scenario .right .gutter" ), false, 8, {
+        margin: "-2px 5px -6px 5px", "background-color": "inherit",
+    } ) ;
+
+    // add splitters to the OB tabs
+    // NOTE: The split sizes will be set later by on_player_change().
+    function initOBSplitter( col ) {
+        var $col = $( "#tabs-ob" + playerNo + " ." + col ) ;
+        gPlayerOBSplitters[ playerNo ].push(
+            Split( [ $col.find( ".t"+col[0] )[0], $col.find( ".b"+col[0] )[0] ], {
+                direction: "vertical",
+                gutterSize: 8,
+            } )
+        ) ;
+        addSplitterGripper( $col.find(".gutter"), false, 8, {
+            margin: "-2px 5px -6px 5px", "background-color": "inherit",
+        } ) ;
+    }
+    for ( var playerNo=1 ; playerNo <= 2 ; ++playerNo ) {
+        gPlayerOBSplitters[ playerNo ] = [] ;
+        gPlayerOBSplitters[ playerNo ].push(
+            Split( [ "#tabs-ob"+playerNo+" .left", "#tabs-ob"+playerNo+" .right" ], {
+                direction: "horizontal",
+                gutterSize: 8,
+            } )
+        ) ;
+        addSplitterGripper( $( "#tabs-ob"+playerNo+" .left + .gutter" ), true, 8, {
+            margin: "5px -2px", "background-color": "inherit",
+        } ) ;
+        [ "left", "right" ].forEach( initOBSplitter ) ;
+    }
+}
+
+function updatePlayerOBSplitters( playerNo )
+{
+    // FUDGE! We want to set the minimum width of the left column in the OB tab based on how many
+    // extra template buttons the nationality has in the NOTES panel, but their widths will be 0
+    // if another tab is active.
+    // Instead, we count how many buttons there are, and estimate what the min-width should be,
+    // based on the number of buttons and their captions.
+    var nButtons=0, nChars=0 ;
+    $( "#panel-ob_notes_" + playerNo + " .footer .snippet-control" ).each( function() {
+        if ( $(this).css( "display" ) === "none" )
+            return ;
+        nButtons += 1 ;
+        nChars += $(this).find( "button.generate" ).text().length ;
+    } ) ;
+    var minWidth = Math.max( 270 + 60*nButtons + gEmSize*nChars*0.5, 320 ) ;
+    $( "#tabs-ob" + playerNo + " .left" ).css( "min-width", minWidth ) ;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 function init_snippet_button( $btn )
 {
     // figure out what template we're dealing with
@@ -594,7 +675,7 @@ function init_snippet_button( $btn )
             return false ;
         } )
         .attr( "title", GENERATE_SNIPPET_HINT )
-        .css( { "padding-right": $btn.text() !== "" ? "5px" : "0" } ) ;
+        .css( { "padding-right": $btn.text() !== "" ? "10px" : "0" } ) ;
 
     // add in the droplist
     $newBtn.controlgroup() ;
@@ -874,9 +955,10 @@ function on_player_change( player_no )
         var $fieldset = $( "#tabs-ob" + player_no + " fieldset[name='ob_" + vo_type + "_" + player_no ) ;
         $fieldset.find( ".snippets-notes" ).css( "display", show?"block":"none" ) ;
         $fieldset.find( "label[for='ob']" ).css( "display", show?"inline-block":"none" ) ;
+        return show ;
     }
-    update_ma_notes_controls( "vehicles" ) ;
-    update_ma_notes_controls( "ordnance" ) ;
+    var hasVehicles = update_ma_notes_controls( "vehicles" ) ;
+    var hasOrdnance = update_ma_notes_controls( "ordnance" ) ;
     // TO DO: We should also show a button that lets the ob_vehicle/ordnance_note template to be edited.
 
     // reset the OB params
@@ -892,14 +974,23 @@ function on_player_change( player_no )
     function update_add_vo_button( vo_type ) {
         var $panel = $( "#panel-ob_" + vo_type + "_" + player_no ) ;
         if ( gVehicleOrdnanceListings[ vo_type ] !== undefined && gVehicleOrdnanceListings[vo_type][ player_nat ] !== undefined ) {
+            var hasMaNotes = (vo_type === "vehicles" && hasVehicles) || (vo_type === "ordnance" && hasOrdnance) ;
+            $panel.parent().css( "min-height", hasMaNotes ? "10.7em" : "9em" ) ;
             $panel.find( ".footer" ).show() ;
         } else {
+            $panel.parent().css( "min-height", "2.5em" ) ;
             $panel.find( ".footer" ).hide() ;
             $panel.find( ".sortable-hint" ).html( "There are no " + vo_type + " available." ) ;
         }
     }
     update_add_vo_button( "vehicles" ) ;
     update_add_vo_button( "ordnance" ) ;
+
+    // reset the player's splitters
+    updatePlayerOBSplitters( player_no ) ;
+    gPlayerOBSplitters[ player_no ].forEach( function( splitter ) {
+        splitter.setSizes( [ 50, 50 ] ) ;
+    } ) ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1021,6 +1112,8 @@ function adjust_footer_vspacers()
         var footer_bottom = $footer.position().top + $footer.height() ;
         var delta = footer_bottom - fieldset_bottom ;
         delta -= 4 ;
+        if ( gWebChannelHandler && $(this).attr("name").indexOf( "ob_" ) === 0 )
+            delta += 28 ;
         // add a vertical spacer after the footer (to push it up a bit)
         $footer.after( "<div class='vspacer' style='height:" + Math.ceil(Math.max(0,delta)) + "px'></div>" ) ;
     } ) ;

@@ -4,12 +4,13 @@
 function init_extras()
 {
     // initialize the layout
-    $( "#tabs-extras .left-panel" ).resizable( {
-        resizeHeight: false,
-        handles: "e",
-        create: function( event, ui ) {
-            $( ".ui-resizable-e" ).css( "cursor", "ew-resize" ) ;
-        },
+    Split( [ "#tabs-extras .left-panel", "#tabs-extras .right-panel" ], {
+        direction: "horizontal",
+        sizes: [ 1, 99 ],
+        gutterSize: 8,
+    } ) ;
+    addSplitterGripper( $( "#tabs-extras .left-panel + .gutter" ), true, 8, {
+        margin: "5px 2px", "background-color": "inherit"
     } ) ;
 
     // identify the extras templates

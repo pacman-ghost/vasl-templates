@@ -183,10 +183,11 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
             if ( gEditVoDialogSplitter === null ) {
                 gEditVoDialogSplitter = Split( [ "#edit-vo .capabilities", "#edit-vo .comments" ], {
                     "direction": "vertical",
-                    gutterSize: 3
+                    gutterSize: 1
                 } ) ;
-                var $gripper = $( "<img src='" + gImagesBaseUrl + "/gripper-horz.png'>" ) ;
-                $( "#edit-vo .gutter.gutter-vertical" ).append( $gripper ) ;
+                addSplitterGripper( $("#edit-vo .gutter"), false, 1, {
+                    margin: "13px 8em -13px 8em"
+                } ) ;
                 // FUDGE! Work-around a weird layout problem with the splitter, where things don't work
                 // until the dialog is resized, and then it's OK thereafter :-/ The height will be corrected
                 // when the UI updates and the layout is re-calculated.

@@ -42,14 +42,15 @@
                 R<sub>2</sub>: <input type="text" name="TURN_TRACK_REINFORCEMENTS_2" class="param" size=7">
                 <input type="checkbox" name="TURN_TRACK_SWAP_PLAYERS" class="param"> Swap </input>
             </div>
-            <div class="row" style="margin-top:-1.1em;">
+            <div class="row" style="margin-top:-1.1em;max-width:32em;">
                 <label></label>
-                <span style='width:12.8em;'></span>
+                <span style='flex-grow:1;'></span>
                 <label class="header" for="ELR">ELR</label>
                 <span style='width:0.1em'></span>
                 <label class="header" for="SAN">SAN</label>
+                <span style='width:58px;'></span>
             </div>
-            <div class="row">
+            <div class="row" style='max-width:32em;'>
                 <label for="PLAYER_1"><u>P</u>layer 1:</label>
                 <select name="PLAYER_1" class="param"></select>
                 <select name="PLAYER_1_ELR" class="param"></select>
@@ -60,7 +61,7 @@
                 <label for="PLAYER_1_DESCRIPTION"></label>
                 <input name="PLAYER_1_DESCRIPTION" type="text" class="param" title="Description of the player's OB">
             </div>
-            <div class="row">
+            <div class="row" style='max-width:32em;'>
                 <label for="PLAYER_2">Player 2:</label>
                 <select name="PLAYER_2" class="param"></select>
                 <select name="PLAYER_2_ELR" class="param"></select>
@@ -107,8 +108,8 @@
             <textarea name="VICTORY_CONDITIONS" type="text" class="param"></textarea>
             <div class="footer">
                 <span class="spacer"></span>
-                <span class="small">
-                    <input type="text" class="param snippet-width" name="VICTORY_CONDITIONS_WIDTH">
+                <span class="small" style="display:flex;align-items:center;">
+                    <input type="text" class="param snippet-width" name="VICTORY_CONDITIONS_WIDTH" style="margin:0 0.25em;">
                     <button class="generate" data-id="victory_conditions"></button>
                 </span>
             </div>
@@ -125,8 +126,8 @@
                 <button id="ssr-add" class="sortable-add"></button>
                 <img id="ssr-trash" class="sortable-trash">
                 <span class="spacer"></span>
-                <span class="small">
-                    <input type="text" class="param snippet-width" name="SSR_WIDTH">
+                <span class="small" style="margin-bottom:-1px;display:flex;align-items:center;">
+                    <input type="text" class="param snippet-width" name="SSR_WIDTH" style="margin:0 0.25em;">
                     <button class="generate" data-id="ssr"></button>
                 </span>
             </div>

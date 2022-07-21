@@ -114,11 +114,12 @@ function initDialog( $dlg, scenarios )
     Split( [ $dlg.find( ".left" )[0], $dlg.find( ".right" )[0] ], {
         sizes: [ 30, 70 ],
         direction: "horizontal",
-        gutterSize: 3,
+        gutterSize: 1,
         onDrag: updateLayout,
     } ) ;
-    var $gripper = $( "<img src='" + gImagesBaseUrl + "/gripper-vert.png'>" ) ;
-    $dlg.find( ".gutter.gutter-horizontal" ).append( $gripper ) ;
+    addSplitterGripper( $dlg.find(".gutter"), true, 1, {
+        margin: "0 5px",
+    } ) ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

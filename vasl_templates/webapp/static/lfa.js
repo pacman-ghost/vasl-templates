@@ -147,11 +147,12 @@ window.show_lfa_dialog = function( resp )
                 direction: "vertical",
                 sizes: [ 60, 40 ],
                 minSize: [ 350, 200 ], /* nb: this needs to be set in the CSS as well */
-                gutterSize: 3,
+                gutterSize: 1,
                 onDrag: updateLayout,
             } ) ;
-            var $gripper = $( "<img src='" + gImagesBaseUrl + "/gripper-horz.png'>" ) ;
-            $( "#lfa .gutter.gutter-vertical" ).append( $gripper ) ;
+            addSplitterGripper( $("#lfa .gutter"), false, 1, {
+                "margin-bottom": 3, "z-index": 49,
+            } ) ;
             // initialize other controls
             $(this).find( "select[name='roll-type']" ).selectmenu( {
                 width: 70,

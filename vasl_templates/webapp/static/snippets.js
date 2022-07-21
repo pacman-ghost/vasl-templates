@@ -2451,5 +2451,7 @@ function on_scenario_theater_change()
 
     // show/hide the nationality-specific buttons
     update_nationality_specific_buttons( 1 ) ;
+    updatePlayerOBSplitters( 1 ) ;
     update_nationality_specific_buttons( 2 ) ;
+    updatePlayerOBSplitters( 2 ) ;
 }

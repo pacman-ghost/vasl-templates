@@ -24,7 +24,3 @@
 
 .ui-dialog.edit-vo .fieldset .footer { margin-top: 0.25em ; display: flex ; align-items: center ; }
 .ui-dialog.edit-vo .fieldset .footer img.trash { margin: 3px 5px ; height: 24px ; }
-
-/* splitter */
-#edit-vo .gutter { position: relative ; margin: 12px 8em -12px 8em ; min-height: 3px ; background-color: #eee ; cursor: row-resize ; }
-#edit-vo .gutter img { position: absolute ; left: 40% ; top: -2px ; }
