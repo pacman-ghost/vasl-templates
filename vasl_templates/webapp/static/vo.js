@@ -212,7 +212,7 @@ function do_add_vo( vo_type, player_no, vo_entry, vo_image_id, elite, custom_cap
     var fixed_height = "3.25em" ;
     if ( is_small_vasl_piece( vo_entry ) ) {
         div_tag += " small-piece" ;
-        fixed_height = "2.25em" ;
+        fixed_height = "2.5em" ;
     }
     div_tag += "'>" ;
     var data = {

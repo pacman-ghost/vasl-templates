@@ -277,9 +277,12 @@ class VaslMod:
         target_gpids = get_vo_gpids( self )
 
         # parse the VASL module and any extensions
+        fname = os.path.join( data_dir, "vasl-"+self.vasl_version, "piece-info.json" )
+        with open( fname, "r", encoding="utf-8" ) as fp:
+            piece_info = json.load( fp )
         for i,files in enumerate( self._files ):
             _logger.info( "Loading VASL %s: %s", ("module" if i == 0 else "extension"), files[0].filename )
-            self._parse_zip_file( files[0], target_gpids, vasl_overrides, expected_multiple_images )
+            self._parse_zip_file( files[0], target_gpids, piece_info, vasl_overrides, expected_multiple_images )
 
         # NOTE: The code below may log warnings if we're using an older version of VASL (because we know
         # about pieces that were added in a later version, but, of course, aren't in the older version).
@@ -299,7 +302,7 @@ class VaslMod:
             gpids = ", ".join( expected_multiple_images.keys() )
             _logger.warning( "Expected multiple images but didn't find them: %s", gpids )
 
-    def _parse_zip_file( self, zip_file, target_gpids, vasl_overrides, expected_multiple_images ): #pylint: disable=too-many-locals
+    def _parse_zip_file( self, zip_file, target_gpids, piece_info, vasl_overrides, expected_multiple_images ): #pylint: disable=too-many-locals
         """Parse a VASL module or extension."""
 
         # load the build file
@@ -329,7 +332,7 @@ class VaslMod:
                 "name": node.attrib["entryName"].strip(),
                 "front_images": front_images,
                 "back_images": back_images,
-                "is_small": int(node.attrib["height"]) <= 48,
+                "is_small": piece_info.get( gpid, {} ).get( "is_small", False ),
                 "zip_file": zip_file,
             }
 

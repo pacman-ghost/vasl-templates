@@ -82,6 +82,12 @@ public class Main
                 shim.prepareUpload( args[2], args[3], args[4] ) ;
                 System.exit( 0 ) ;
             }
+            else if ( cmd.equals( "getpieceinfo" ) ) {
+                checkArgs( args, 3, false, "the VASL .vmod file, and output file" ) ;
+                VassalShim shim = new VassalShim( args[1], null ) ;
+                shim.getPieceInfo( args[2] ) ;
+                System.exit( 0 ) ;
+            }
             else if ( cmd.equals( "version" ) ) {
                 checkArgs( args, 2, false, "the output file" ) ;
                 System.out.println( Info.getVersion() ) ;

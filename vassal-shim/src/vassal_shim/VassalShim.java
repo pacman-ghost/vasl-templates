@@ -25,6 +25,7 @@ import java.util.regex.Pattern ;
 import java.util.regex.Matcher ;
 import java.awt.Point ;
 import java.awt.Dimension ;
+import java.awt.Rectangle ;
 
 import javax.xml.parsers.DocumentBuilderFactory ;
 import javax.xml.parsers.DocumentBuilder ;
@@ -1030,6 +1031,35 @@ public class VassalShim
         logger.info( "- OK." ) ;
 
         logger.info( "All done." ) ;
+    }
+
+    public void getPieceInfo( String reportFilename )
+        throws IOException, TransformerException, TransformerConfigurationException, ParserConfigurationException
+    {
+        // initialize
+        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument() ;
+        Element rootElem = doc.createElement( "pieceInfos" ) ;
+        doc.appendChild( rootElem ) ;
+
+        // get the info for each piece
+        logger.info( "Getting piece info..." ) ;
+        int nPieces = 0 ;
+        for ( PieceSlot pieceSlot : GameModule.getGameModule().getAllDescendantComponentsOf( PieceSlot.class ) ) {
+            GamePiece gamePiece = pieceSlot.getPiece() ;
+            Rectangle bbox = gamePiece.boundingBox() ;
+            Element elem = doc.createElement( "pieceInfo" ) ;
+            elem.setAttribute( "gpid", pieceSlot.getGpId() ) ;
+            elem.setAttribute( "width", Integer.toString( bbox.width ) ) ;
+            elem.setAttribute( "height", Integer.toString( bbox.height ) ) ;
+            rootElem.appendChild( elem ) ;
+            nPieces += 1 ;
+        }
+        logger.info( "- Found " + Integer.toString(nPieces) + " pieces." ) ;
+
+        // save the results
+        logger.debug( "Saving piece info report: " + reportFilename ) ;
+        File outputFile = new File( reportFilename ) ;
+        Utils.saveXml( doc, reportFilename ) ;
     }
 
     private VASSAL.build.module.Map selectMap()

@@ -23,7 +23,7 @@
 /* nb: the following CSS is shared by vehicles and ordnance */
 .panel-ob_vo .sortable .vo-entry { display: flex ; position: relative ; }
 .panel-ob_vo .sortable .vo-entry img.vasl-image { display: inline-block ; vertical-align: middle ; height: 3.25em ; margin-right: 0.5em ; }
-.panel-ob_vo .sortable .vo-entry.small-piece img.vasl-image { height: 2.25em ; margin-left: 0.5em ; margin-right: 0.75em ; }
+.panel-ob_vo .sortable .vo-entry.small-piece img.vasl-image { height: 2.5em ; margin-left: 0.375em ; margin-right: 0.875em ; }
 .panel-ob_vo .sortable .vo-entry .detail { flex-grow: 1 ; display: flex ; flex-direction: column ; justify-content: center ; }
 .panel-ob_vo .sortable .vo-entry .detail .vo-type { font-style: italic ; font-size: 80% ; color: #666 ;  }
 .panel-ob_vo .sortable .vo-entry .detail .vo-capabilities { max-height: 2.5em ; overflow: hidden ; font-size: 80% ; font-style: italic ; }

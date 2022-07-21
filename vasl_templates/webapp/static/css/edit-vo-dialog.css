@@ -3,7 +3,7 @@
 
 .ui-dialog.edit-vo .header { display: flex ; align-items: center ; margin-bottom: 0.5em ; }
 .ui-dialog.edit-vo .header img.vasl-image { height: 3.5em ; margin-right: 0.5em ; }
-.ui-dialog.edit-vo .header img.vasl-image.small-piece { height: 2.7em ; margin-left: 0.4em ; margin-right: 0.9em ; }
+.ui-dialog.edit-vo .header img.vasl-image.small-piece { height: 2.7em ; margin-left: 0.4em ; margin-right: 0.4em ; }
 .ui-dialog.edit-vo .header .content { display: flex ; flex-direction: column ; justify-content: center ; }
 .ui-dialog.edit-vo .header .content .vo-name { margin-left: 0.5em ; font-size: 125% ; font-weight: bold ; color: #333 ; }
 .ui-dialog.edit-vo .header .content input.select-vo-image { width: 15px ; position: relative ; top: 10px ; }
