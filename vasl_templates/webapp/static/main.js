@@ -746,7 +746,10 @@ function update_page_load_status( id )
         // NOTE: If the default scenario contains any vehicles or ordnance, it will look up the V/O listings,
         // so we need to wait until those have arrived. Note that while the default scenario will normally
         // be empty, having stuff in it is very useful during development.
-        if ( gPageLoadStatus.indexOf( "vehicle-listings" ) === -1 && gPageLoadStatus.indexOf( "ordnance-listings" ) === -1 ) {
+        // NOTE: We also have to wait for the vehicle/ordnance notes to arrive, so that we can show/hide
+        // the UI controls in the OB tabs.
+        if ( gPageLoadStatus.indexOf( "vehicle-listings" ) === -1 && gPageLoadStatus.indexOf( "ordnance-listings" ) === -1 &&
+             gPageLoadStatus.indexOf( "vehicle-notes" ) === -1 && gPageLoadStatus.indexOf( "ordnance-notes" ) === -1 ) {
             // NOTE: We also need to wait for the app config to arrive (for the scenario theaters).
             if ( gPageLoadStatus.indexOf( "app-config" ) === -1 ) {
                 do_on_new_scenario( false ) ;
