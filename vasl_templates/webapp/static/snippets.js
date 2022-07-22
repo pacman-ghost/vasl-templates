@@ -162,15 +162,20 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
     }
 
     // set the snippet ID
-    var data ;
-    if ( ["ob_setup","ob_note","ob_vehicle_note","ob_ordnance_note"].indexOf( template_id ) !== -1 ) {
-        data = $btn.parent().parent().data( "sortable2-data" ) ;
-        params.SNIPPET_ID = template_id + "_" + player_no + "." + data.id ;
-    } else if ( template_id === "scenario_note" ) {
-        data = $btn.parent().parent().data( "sortable2-data" ) ;
-        params.SNIPPET_ID = template_id + "." + data.id ;
-    } else
-        params.SNIPPET_ID = template_id ;
+    var snippetId = $btn.data( "snippet-id" ) ;
+    if ( snippetId )
+        params.SNIPPET_ID = snippetId ;
+    else {
+        var data ;
+        if ( ["ob_setup","ob_note","ob_vehicle_note","ob_ordnance_note"].indexOf( template_id ) !== -1 ) {
+            data = $btn.parent().parent().data( "sortable2-data" ) ;
+            params.SNIPPET_ID = template_id + "_" + player_no + "." + data.id ;
+        } else if ( template_id === "scenario_note" ) {
+            data = $btn.parent().parent().data( "sortable2-data" ) ;
+            params.SNIPPET_ID = template_id + "." + data.id ;
+        } else
+            params.SNIPPET_ID = template_id ;
+    }
     if ( player_nat )
         params.SNIPPET_ID = player_nat + "/" + params.SNIPPET_ID ;
 
@@ -985,10 +990,7 @@ function unload_snippet_params( unpack_scenario_date, template_id )
     } ) ;
 
     // collect the SSR's
-    params.SSR = [] ;
-    var data = $("#ssr-sortable").sortable2( "get-entry-data" ) ;
-    for ( var i=0 ; i < data.length ; ++i )
-        params.SSR.push( data[i].caption ) ;
+    params.SSR = unload_ssrs() ;
 
     // collect the vehicles/ordnance
     function get_vo( vo_type, player_no, key, show_warnings ) {
@@ -1082,6 +1084,16 @@ function unload_snippet_params( unpack_scenario_date, template_id )
     get_vo( "ordnance", 2, "OB_ORDNANCE_2", template_id === "ob_ordnance_2" ) ;
 
     return params ;
+}
+
+function unload_ssrs()
+{
+    // unload the SSR's
+    ssrs = [] ;
+    var data = $( "#ssr-sortable" ).sortable2( "get-entry-data" ) ;
+    for ( var i=0 ; i < data.length ; ++i )
+        ssrs.push( data[i].caption ) ;
+    return ssrs ;
 }
 
 function get_vo_comments( vo_entry, month, year )

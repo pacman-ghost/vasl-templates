@@ -4,29 +4,72 @@
 
 // --------------------------------------------------------------------
 
-function add_scenario_note() { _do_edit_simple_note( $("#scenario_notes-sortable"), null, gDefaultScenario._SCENARIO_NOTE_WIDTH ) ; }
+function add_scenario_note() { _do_edit_simple_note( "scenario_note", null, $("#scenario_notes-sortable"), null, gDefaultScenario._SCENARIO_NOTE_WIDTH ) ; }
 function do_add_scenario_note( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
-function edit_scenario_note( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry, null ) ; }
+function edit_scenario_note( $sortable2, $entry ) { _do_edit_simple_note( "scenario_note", null, $sortable2, $entry, null ) ; }
 
-function add_ssr() { _do_edit_simple_note( $("#ssr-sortable"), null, null ) ; }
+function add_ssr() { _do_edit_simple_note( "ssr", null, $("#ssr-sortable"), null, null ) ; }
 function do_add_ssr( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
-function edit_ssr( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry, null ) ; }
+function edit_ssr( $sortable2, $entry ) { _do_edit_simple_note( "ssr", null, $sortable2, $entry, null ) ; }
 
-function add_ob_setup( player_no ) { _do_edit_simple_note( $("#ob_setups-sortable_"+player_no), null, gDefaultScenario._OB_SETUP_WIDTH ) ; }
+function add_ob_setup( player_no ) { _do_edit_simple_note( "ob_setup", player_no, $("#ob_setups-sortable_"+player_no), null, gDefaultScenario._OB_SETUP_WIDTH ) ; }
 function do_add_ob_setup( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
-function edit_ob_setup( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry, null ) ; }
+function edit_ob_setup( $sortable2, $entry ) { _do_edit_simple_note( "ob_setup", get_player_no_for_element($sortable2), $sortable2, $entry, null ) ; }
 
-function add_ob_note( player_no ) { _do_edit_simple_note( $("#ob_notes-sortable_"+player_no), null, gDefaultScenario._OB_NOTE_WIDTH ) ; }
+function add_ob_note( player_no ) { _do_edit_simple_note( "ob_note", player_no, $("#ob_notes-sortable_"+player_no), null, gDefaultScenario._OB_NOTE_WIDTH ) ; }
 function do_add_ob_note( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
-function edit_ob_note( $sortable2, $entry ) { _do_edit_simple_note( $sortable2, $entry, null ) ; }
+function edit_ob_note( $sortable2, $entry ) { _do_edit_simple_note( "ob_note", get_player_no_for_element($sortable2), $sortable2, $entry, null ) ; }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function _do_edit_simple_note( $sortable2, $entry, default_width )
+function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, default_width )
 {
     // figure out what we're editing
     var note_type = _get_note_type_for_sortable( $sortable2 ) ;
     var note_type0 = note_type.substring( 0, note_type.length-1 ) ; // plural -> singular :-/
+
+    // determine the next available ID
+    var usedIds = {} ;
+    $sortable2.children( "li" ).each( function() {
+        usedIds[ $(this).data("sortable2-data").id ] = true ;
+    } ) ;
+    var nextAvailableId = auto_assign_id( usedIds, "id" ) ;
+
+    function makeSimpleSnippet( evt ) {
+        // initialize
+        var $btnPane = $( ".ui-dialog.edit-simple_note .ui-dialog-buttonpane" ) ;
+        var $btn = $btnPane.find( "button.snippet" ) ;
+        var caption = $caption.val().trim() ;
+        var width = $width.val().trim() ;
+        // prepare the template parameters
+        // NOTE: We don't bother handling the case of an empty caption.
+        var extraParams = {} ;
+        if ( template_id === "ssr" ) {
+            // NOTE: All the SSR's are combined into a single snippet, so it doesn't actually make sense
+            // to have a snippet button for individual SSR's, but it's convenient. We unload all the SSR's
+            // from the UI, then update the content for the one being edited (if it already exists), or
+            // add it to the end of the list (if it's a new one).
+            var ssrs = unload_ssrs() ;
+            if ( $entry ) {
+                // find and update the SSR being edited
+                $( "#ssr-sortable > li" ).each( function( index ) {
+                    if ( $(this)[0] === $entry[0] )
+                        ssrs[ index ] = caption ;
+                } ) ;
+            } else {
+                // add the new SSR to the end of the list
+                ssrs.push( caption ) ;
+            }
+            extraParams.SSR = ssrs ;
+        } else {
+            // override the template parameters unloaded from the UI with the current values from the dialog
+            var paramKey = template_id.toUpperCase() ;
+            extraParams[ paramKey ] = caption ;
+            extraParams[ paramKey+"_WIDTH" ] = width ;
+        }
+        // generate the snippet
+        generate_snippet( $btn, evt.shiftKey, extraParams ) ;
+    }
 
     // let the user edit the note
     var $caption, $width ;
@@ -45,16 +88,35 @@ function _do_edit_simple_note( $sortable2, $entry, default_width )
             on_dialog_open( $(this), $caption ) ;
             add_flag_to_dialog_titlebar( $(this), get_player_no_for_element($sortable2) ) ;
             var $btn_pane = $(".ui-dialog.edit-simple_note .ui-dialog-buttonpane") ;
-            $width = $btn_pane.children( "input[name='width']" ) ;
+            var $btn = $btn_pane.find( "button.snippet" ) ;
+            $btn.prepend(
+                $( "<img src='" + gImagesBaseUrl+"/snippet.png" + "' style='height:0.9em;margin:0 0 -2px -2px;'>" )
+            ) ;
+            $width = $btn_pane.find( "input[name='width']" ) ;
             if ( $width.length === 0 ) {
                 // create the width controls
-                $btn_pane.prepend( $("<label for='width'>Width:</label>&nbsp;<input type='text' name='width' size='5'>") ) ;
-                $width = $btn_pane.children( "input[name='width']" ) ;
+                $btn_pane.prepend( $( "<div style='position:absolute;left:15px;height:28px;display:flex;align-items:center;'>" +
+                    "<label for='width'>Width:</label>&nbsp;<input type='text' name='width' size='4' style='margin-top:-1px;'>" +
+                "</div>" ) ) ;
+                $width = $btn_pane.find( "input[name='width']" ) ;
             }
+            // tweak the SNIPPETS button so that snippets will work
+            $btn.data( { id: template_id, "player-no": player_no } ) ;
+            var snippet_id = template_id ;
+            if ( player_no )
+                snippet_id += "_" + player_no ;
+            var entryData = $entry ? $entry.data("sortable2-data") : null ;
+            if ( template_id !== "ssr" )
+                snippet_id += "." + (entryData ? entryData.id : nextAvailableId) ;
+            $btn.data( "snippet-id", snippet_id ) ;
+            $btn.button( is_template_available( template_id ) ? "enable" : "disable" ) ;
             // show/hide the width controls (nb: SSR's have a separate width setting that affects all of them)
             var show = (note_type !== "ssr") ;
-            $btn_pane.children( "label[for='width']" ).css( "display", show?"inline":"none" ) ;
+            $btn_pane.find( "label[for='width']" ).css( "display", show?"inline":"none" ) ;
             $width.css( "display", show?"inline":"none" ) ;
+            $btn.css( { position: "absolute", left:
+                show ? $width.offset().left + $width.width() - $btn_pane.find("label[for='width']").offset().left + 25 : 15
+            } ) ;
             // enable auto-dismiss for the dialog
             var $dlg = $(this) ;
             $width.keydown( function(evt) { auto_dismiss_dialog( $dlg, evt, "OK" ) ; } ) ;
@@ -65,12 +127,12 @@ function _do_edit_simple_note( $sortable2, $entry, default_width )
                 border: "1px solid "+colors[2]
             } ) ;
             // load the dialog
-            var data = $entry ? $entry.data("sortable2-data") : null ;
-            $caption.val( data ? data.caption : "" ).focus() ;
-            $width.val( data ? data.width : default_width ) ;
+            $caption.val( entryData ? entryData.caption : "" ).focus() ;
+            $width.val( entryData ? entryData.width : default_width ) ;
             $(this).height( $(this).height() ) ; // fudge: force the textarea to resize
         },
         buttons: {
+            Snippet: { text:" Snippet", class: "snippet", click: makeSimpleSnippet },
             OK: function() {
                 var caption = $caption.val().trim() ;
                 var width = $width.val().trim() ;
@@ -88,13 +150,8 @@ function _do_edit_simple_note( $sortable2, $entry, default_width )
                     // create a new note
                     if ( caption !== "" ) {
                         data = { caption: caption, width: width } ;
-                        if ( note_type === "scenario_notes" || note_type === "ob_setups" || note_type === "ob_notes" ) {
-                            var usedIds = {} ;
-                            $sortable2.children( "li" ).each( function() {
-                                usedIds[ $(this).data("sortable2-data").id ] = true ;
-                            } ) ;
-                            data.id = auto_assign_id( usedIds, "id" ) ;
-                        }
+                        if ( note_type === "scenario_notes" || note_type === "ob_setups" || note_type === "ob_notes" )
+                            data.id = nextAvailableId ;
                         $entry = _do_add_simple_note( $sortable2, data ) ;
                     }
                 }

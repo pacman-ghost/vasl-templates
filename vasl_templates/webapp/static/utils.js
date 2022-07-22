@@ -77,6 +77,9 @@ function make_player_flag_url( nat, for_snippet, force_local_image ) {
 function get_player_no_for_element( $elem )
 {
     // get the player that owns the specified element
+    var playerNo = $elem.data( "player-no" ) ;
+    if ( playerNo )
+        return playerNo ;
     if ( $.contains( $("#tabs-ob1")[0], $elem[0] ) )
         return 1 ;
     if ( $.contains( $("#tabs-ob2")[0], $elem[0] ) )

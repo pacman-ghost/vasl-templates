@@ -1,5 +1,6 @@
 """ Test HTML snippet generation. """
 
+import re
 import base64
 
 import pytest
@@ -9,8 +10,8 @@ from selenium.webdriver.common.keys import Keys
 from vasl_templates.webapp.tests import pytest_options
 from vasl_templates.webapp.tests.utils import \
     init_webapp, select_tab, find_snippet_buttons, set_template_params, wait_for, wait_for_clipboard, \
-    get_stored_msg, set_stored_msg_marker, find_child, find_children, adjust_html, \
-    for_each_template, add_simple_note, edit_simple_note, \
+    get_stored_msg, set_stored_msg_marker, find_child, find_children, find_sortable_helper, adjust_html, \
+    for_each_template, add_simple_note, edit_simple_note, click_dialog_button, \
     get_sortable_entry_count, generate_sortable_entry_snippet, drag_sortable_entry_to_trash, \
     new_scenario, set_scenario_date
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
@@ -226,6 +227,107 @@ def test_players_snippets( webapp, webdriver ):
             " | player2=[british:British] ; ELR=[3] ; SAN=[4] ; description=[Barmy Army]",
         [ "Both players have the same nationality!" ],
     )
+
+# ---------------------------------------------------------------------
+
+def test_simple_snippets_from_dialog( webapp, webdriver ):
+    """Test generating snippets from the "add/edit simple note" dialog."""
+
+    # initialize
+    webapp.control_tests.set_data_dir( "{REAL}" )
+    init_webapp( webapp, webdriver, scenario_persistence=1 )
+    load_scenario( {
+        "SCENARIO_NOTES": [
+            { "id": 1, "caption": "scenario note 1", "width": "111px" },
+            { "id": 2, "caption": "scenario note 2" }
+            ],
+        "SSR": [ "SSR #1", "SSR #2" ],
+        "SSR_WIDTH": "222px",
+        "OB_SETUPS_1": [
+            { "id": 1, "caption": "german ob setup #1", "width": "991px" },
+            { "id": 2, "caption": "german ob setup #2" }
+        ],
+        "OB_NOTES_2": [
+            { "id": 1, "caption": "russian setup note #1", "width": "992px" },
+            { "id": 2, "caption": "russian setup note #2" }
+        ]
+    } )
+
+    def test_existing_simple_note( sortable, entry_no, expected ):
+        # edit the simple note
+        elems = find_children( "li", sortable )
+        ActionChains(webdriver).double_click( elems[entry_no] ).perform()
+        # change the snippet content
+        elem = find_child( ".ui-dialog.edit-simple_note textarea" )
+        elem.clear()
+        elem.send_keys( "modified content" )
+        # change the snippet width
+        elem = find_child( ".ui-dialog.edit-simple_note input[name='width']" )
+        if elem.is_displayed():
+            elem.clear()
+            elem.send_keys( "123px" )
+        # generate the snippet
+        click_dialog_button( "Snippet" )
+        if isinstance( expected, str ):
+            # NOTE: We also check that the snippet ID is correct.
+            expected = re.compile( ".*".join( [
+                "<!-- vasl-templates:id {} -->".format( expected ),
+                "width: 123px",
+                "modified content",
+            ] ), re.DOTALL )
+        wait_for_clipboard( 2, expected )
+        click_dialog_button( "Cancel" )
+
+    def test_new_simple_note( sortable, expected ) :
+        # add a new simple note
+        find_sortable_helper( sortable, "add" ).click()
+        elem = find_child( ".ui-dialog.edit-simple_note textarea" )
+        elem.send_keys( "new content" )
+        elem = find_child( ".ui-dialog.edit-simple_note input[name='width']" )
+        if elem.is_displayed():
+            elem.clear()
+            elem.send_keys( "789px" )
+        # generate the snippet
+        click_dialog_button( "Snippet" )
+        if isinstance( expected, str ):
+            # NOTE: We also check that the snippet ID is correct.
+            expected = re.compile( ".*".join( [
+                "<!-- vasl-templates:id {} -->".format( expected ),
+                "width: 789px",
+                "new content",
+                ] ), re.DOTALL )
+        wait_for_clipboard( 2, expected )
+        click_dialog_button( "Cancel" )
+
+    # test scenario notes
+    sortable = find_child( "#scenario_notes-sortable" )
+    test_existing_simple_note( sortable, 1, "scenario_note.2" )
+    test_new_simple_note( sortable, "scenario_note.3" )
+
+    # test SSR's
+    sortable = find_child( "#ssr-sortable" )
+    test_existing_simple_note( sortable, 1, re.compile( ".*".join( [
+        "<!-- vasl-templates:id ssr -->",
+        "width: 222px",
+        r'<ul id="ssr">\s*<li>\s*SSR #1\s*<li>\s*modified content\s*</ul>',
+    ] ), re.DOTALL ) )
+    test_new_simple_note( sortable, re.compile( ".*".join( [
+        "<!-- vasl-templates:id ssr -->",
+        "width: 222px",
+        r'<ul id="ssr">\s*<li>\s*SSR #1\s*<li>\s*SSR #2\s*<li>\s*new content\s*</ul>',
+    ] ), re.DOTALL ) )
+
+    # test OB setups
+    select_tab( "ob1" )
+    sortable = find_child( "#ob_setups-sortable_1" )
+    test_existing_simple_note( sortable, 1, "german/ob_setup_1.2" )
+    test_new_simple_note( sortable, "german/ob_setup_1.3" )
+
+    # test OB setups
+    select_tab( "ob2" )
+    sortable = find_child( "#ob_notes-sortable_2" )
+    test_existing_simple_note( sortable, 1, "russian/ob_note_2.2" )
+    test_new_simple_note( sortable, "russian/ob_note_2.3" )
 
 # ---------------------------------------------------------------------
 
