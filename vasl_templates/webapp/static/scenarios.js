@@ -733,6 +733,10 @@ function doImportScenario( scenario )
         scenario.roar ? scenario.roar.scenario_id : null
     ) ;
 
+    // update the UI
+    on_scenario_date_change() ;
+    on_scenario_theater_change() ;
+
     // all done - we can now close the dialog
     $gDialog.dialog( "close" ) ;
 }
@@ -909,6 +913,7 @@ function doImportField_player( importField, newVal, scenario ) {
         var playerNo = importField.paramName.substring( importField.paramName.length-1 ) ;
         on_player_change( playerNo ) ;
         $elem.val( newVal ).trigger( "change" ) ;
+        on_player_change( playerNo ) ; // nb: to update the UI for the new player
     }
 }
 
