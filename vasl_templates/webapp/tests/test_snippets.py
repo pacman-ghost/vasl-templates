@@ -277,6 +277,7 @@ def test_simple_snippets_from_dialog( webapp, webdriver ):
             ] ), re.DOTALL )
         wait_for_clipboard( 2, expected )
         click_dialog_button( "Cancel" )
+        click_dialog_button( "OK", find_child(".ui-dialog.ask") )
 
     def test_new_simple_note( sortable, expected ) :
         # add a new simple note
@@ -298,6 +299,7 @@ def test_simple_snippets_from_dialog( webapp, webdriver ):
                 ] ), re.DOTALL )
         wait_for_clipboard( 2, expected )
         click_dialog_button( "Cancel" )
+        click_dialog_button( "OK", find_child(".ui-dialog.ask") )
 
     # test scenario notes
     sortable = find_child( "#scenario_notes-sortable" )

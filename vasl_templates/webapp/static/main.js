@@ -1145,8 +1145,15 @@ function handle_escape( evt )
     var $topmost = findTopmostDialog() ;
     if ( $topmost ) {
         var $dlg = $topmost.children( ".ui-dialog-content" ) ;
-        if ( ["please-wait","ask","lfa"].indexOf( $dlg.attr("id") ) === -1 )
-            $topmost.children( ".ui-dialog-content" ).dialog( "close" ) ;
+        if ( [ "please-wait", "ask", "lfa" ].indexOf( $dlg.attr("id") ) === -1 ) {
+            // NOTE: We prefer clicking on a Cancel button, so that the dialog has a chance
+            // to confirm (and perhaps cancel) the operation.
+            var $btn = $topmost.find( ".ui-dialog-buttonpane button.cancel" ) ;
+            if ( $btn.length > 0 )
+                $btn.trigger( "click" ) ;
+            else
+                $topmost.children( ".ui-dialog-content" ).dialog( "close" ) ;
+        }
     }
 }
 

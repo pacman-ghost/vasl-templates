@@ -39,8 +39,7 @@ function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, defau
         // initialize
         var $btnPane = $( ".ui-dialog.edit-simple_note .ui-dialog-buttonpane" ) ;
         var $btn = $btnPane.find( "button.snippet" ) ;
-        var caption = $caption.val().trim() ;
-        var width = $width.val().trim() ;
+        var data = unloadData() ;
         // prepare the template parameters
         // NOTE: We don't bother handling the case of an empty caption.
         var extraParams = {} ;
@@ -54,29 +53,39 @@ function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, defau
                 // find and update the SSR being edited
                 $( "#ssr-sortable > li" ).each( function( index ) {
                     if ( $(this)[0] === $entry[0] )
-                        ssrs[ index ] = caption ;
+                        ssrs[ index ] = data.caption ;
                 } ) ;
             } else {
                 // add the new SSR to the end of the list
-                ssrs.push( caption ) ;
+                ssrs.push( data.caption ) ;
             }
             extraParams.SSR = ssrs ;
         } else {
             // override the template parameters unloaded from the UI with the current values from the dialog
             var paramKey = template_id.toUpperCase() ;
-            extraParams[ paramKey ] = caption ;
-            extraParams[ paramKey+"_WIDTH" ] = width ;
+            extraParams[ paramKey ] = data.caption ;
+            extraParams[ paramKey+"_WIDTH" ] = data.width ;
         }
         // generate the snippet
         generate_snippet( $btn, evt.shiftKey, extraParams ) ;
     }
 
+    function unloadData() {
+        // unload the snippet data
+        return {
+            caption: $caption.val().trim(),
+            width: $width.val().trim(),
+        } ;
+    }
+
     // let the user edit the note
-    var $caption, $width ;
-    $("#edit-simple_note").dialog( {
+    var dlgTitle = ($entry ? "Edit " : "Add ") + SORTABLE_DISPLAY_NAMES[note_type][0] ;
+    var $caption, $width, origData ;
+    var $dlg = $("#edit-simple_note").dialog( {
         dialogClass: "edit-simple_note",
-        title: ($entry ? "Edit " : "Add ") + SORTABLE_DISPLAY_NAMES[note_type][0],
+        title: dlgTitle,
         modal: true,
+        closeOnEscape: false,
         minWidth: 600,
         minHeight: 250,
         create: function() {
@@ -129,27 +138,27 @@ function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, defau
             // load the dialog
             $caption.val( entryData ? entryData.caption : "" ).focus() ;
             $width.val( entryData ? entryData.width : default_width ) ;
+            origData = unloadData() ;
             $(this).height( $(this).height() ) ; // fudge: force the textarea to resize
         },
         buttons: {
             Snippet: { text:" Snippet", class: "snippet", click: makeSimpleSnippet },
             OK: function() {
-                var caption = $caption.val().trim() ;
-                var width = $width.val().trim() ;
+                var data = unloadData() ;
                 if ( $entry ) {
                     // update the existing note
-                    if ( caption === "" )
+                    if ( data.caption === "" )
                         $sortable2.sortable2( "delete", { entry: $entry } ) ;
                     else {
-                        $entry.data("sortable2-data").caption = caption ;
-                        $entry.data("sortable2-data").width = width ;
-                        $entry.empty().append( _make_simple_note( note_type, caption ) ) ;
+                        $entry.data("sortable2-data").caption = data.caption ;
+                        $entry.data("sortable2-data").width = data.width ;
+                        $entry.empty().append( _make_simple_note( note_type, data.caption ) ) ;
                     }
                 }
                 else {
                     // create a new note
-                    if ( caption !== "" ) {
-                        data = { caption: caption, width: width } ;
+                    if ( data.caption !== "" ) {
+                        data = { caption: data.caption, width: data.width } ;
                         if ( note_type === "scenario_notes" || note_type === "ob_setups" || note_type === "ob_notes" )
                             data.id = nextAvailableId ;
                         $entry = _do_add_simple_note( $sortable2, data ) ;
@@ -163,7 +172,15 @@ function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, defau
                 }
                 $(this).dialog( "close" ) ;
             },
-            Cancel: function() { $(this).dialog( "close" ) ; },
+            Cancel: function() {
+                if ( JSON.stringify( unloadData() ) != JSON.stringify( origData ) ) {
+                    ask( dlgTitle, "Discard your changes?", {
+                        ok: function() { $dlg.dialog( "close" ) ; },
+                    } ) ;
+                    return ;
+                }
+                $(this).dialog( "close" ) ;
+            },
         },
     } ) ;
 }
