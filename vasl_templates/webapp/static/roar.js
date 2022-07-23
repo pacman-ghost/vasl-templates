@@ -2,6 +2,8 @@
 
 ( function() { // nb: put the entire file into its own local namespace, global stuff gets added to window.
 
+var gSelectRoarScenarioDlgState = null ;
+
 // --------------------------------------------------------------------
 
 window.selectRoarScenario = function( onSelected )
@@ -53,6 +55,9 @@ window.selectRoarScenario = function( onSelected )
             dialogClass: "select-roar-scenario",
             modal: true,
             closeOnEscape: false, // nb: handled in handle_escape()
+            position: gSelectRoarScenarioDlgState ? gSelectRoarScenarioDlgState.position : { my: "right bottom", at: "right-5 bottom-5", of: window },
+            width: gSelectRoarScenarioDlgState ? gSelectRoarScenarioDlgState.width : $(window).width() * 0.6,
+            height: gSelectRoarScenarioDlgState ? gSelectRoarScenarioDlgState.height : $(window).height() * 0.8,
             minWidth: 400,
             minHeight: 350,
             create: function() {
@@ -81,6 +86,9 @@ window.selectRoarScenario = function( onSelected )
                 onResize( $(this) ) ;
             },
             resize: function() { onResize( $(this) ) ; },
+            beforeClose: function() {
+                gSelectRoarScenarioDlgState = getDialogState( $(this) ) ;
+            },
             buttons: {
                 OK: { text: "OK", class: "ok", click: function() {
                     // notify the caller about the selected scenario

@@ -1,3 +1,4 @@
+var gSelectVoDlgState = null ;
 
 // --------------------------------------------------------------------
 
@@ -79,6 +80,9 @@ function add_vo( vo_type, player_no )
         dialogClass: "select-vo",
         closeOnEscape: false, // nb: this is handled by handle_escape()
         modal: true,
+        position: gSelectVoDlgState ? gSelectVoDlgState.position : { my: "left top", at: "left+30 top+30", of: window },
+        width: gSelectVoDlgState ? gSelectVoDlgState.width : $(window).width() * 0.3,
+        height: gSelectVoDlgState ? gSelectVoDlgState.height : $(window).height() - 60,
         minWidth: 400,
         minHeight: 350,
         create: function() {
@@ -112,6 +116,9 @@ function add_vo( vo_type, player_no )
             on_resize( $(this) ) ;
         },
         resize: function() { on_resize( $(this) ) ; },
+        beforeClose: function() {
+            gSelectVoDlgState = getDialogState( $(this) ) ;
+        },
         buttons: {
             OK: function() {
                 // get the selected vehicle/ordnance

@@ -6,6 +6,8 @@ var gIsFirstSearch ;
 var $gDialog, $gScenariosSelect, $gSearchQueryInputBox, $gScenarioCard, $gFooter ;
 var $gImportControl, $gDownloadsButton, $gImportScenarioButton, $gConfirmImportButton, $gCancelImportButton, $gImportWarnings ;
 
+var gScenarioSearchDlgState=null, gScenarioInfoDlgState=null ;
+
 // At time of writing, there are ~8600 scenarios, and loading them all into a select2 makes it a bit sluggish.
 // The problem is when the user types the first 1 or 2 characters of the search query, which can result in
 // thousands of results being loaded into the DOM. We work-around this by limiting the number of results
@@ -36,11 +38,11 @@ window.searchForScenario = function()
             dialogClass: "scenario-search",
             modal: true,
             closeOnEscape: false, // nb: handled in handle_escape()
-            width: $(window).width() * 0.8,
+            position: gScenarioSearchDlgState ? gScenarioSearchDlgState.position : { my: "center", at: "center", of: window },
+            width: gScenarioSearchDlgState ? gScenarioSearchDlgState.width : $(window).width() * 0.8,
+            height: gScenarioSearchDlgState ? gScenarioSearchDlgState.height : $(window).height() * 0.8,
             minWidth: 760,
-            height: $(window).height() * 0.8,
             minHeight: 400,
-            position: { my: "center center", at: "center center", of: window },
             create: function() {
                 initDialog( $(this), scenarios ) ;
                 // FUDGE! This works around a weird layout problem. The very first time the dialog opens,
@@ -70,6 +72,9 @@ window.searchForScenario = function()
                 gIsFirstSearch = true ;
                 gActiveScenaridCardRequest = null ;
                 gScenarioCardRequestTimerId = null ;
+            },
+            beforeClose: function() {
+                gScenarioSearchDlgState = getDialogState( $(this) ) ;
             },
             close: function() {
                 // clean up
@@ -1064,6 +1069,7 @@ function onDownloads() {
         dialogClass: "scenario-downloads",
         title: "Downloads for this scenario:",
         modal: true,
+        // NOTE: We auto-size this dialog based on its content, so we don't need to save/restore its state.
         width: 450, minWidth: 300,
         height: 200, minHeight: 132,
         draggable: false,
@@ -1279,10 +1285,11 @@ window.showScenarioInfo = function()
                 dialogClass: "scenario-info",
                 modal: true,
                 closeOnEscape: false, // nb: handled in handle_escape()
-                width: $(window).width() * 0.8,
-                minWidth: 570,
-                height: $(window).height() * 0.8,
-                minHeight: 300,
+                position: gScenarioInfoDlgState ? gScenarioInfoDlgState.position : { my: "center", at: "center", of: window },
+                width: gScenarioInfoDlgState ? gScenarioInfoDlgState.width : $(window).width() * 0.8,
+                height: gScenarioInfoDlgState ? gScenarioInfoDlgState.height : $(window).height() * 0.8,
+                minWidth: 600,
+                minHeight: 450,
                 create: function() {
                     addAsaCreditPanel( $(".ui-dialog.scenario-info"), null ) ;
                 },
@@ -1329,6 +1336,9 @@ window.showScenarioInfo = function()
                     } ) ;
                     // set initial focus
                     $btnPane.find( "button.ok" ).focus() ;
+                },
+                beforeClose: function() {
+                    gScenarioInfoDlgState = getDialogState( $(this) ) ;
                 },
                 close: function() {
                     // clean up

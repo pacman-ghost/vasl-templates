@@ -430,6 +430,27 @@ function restrict_droplist_height( $sel )
 
 // --------------------------------------------------------------------
 
+function getDialogState( $dlg )
+{
+    // FUDGE! Setting a dialog's initial size is easy (by setting the width/height parameters
+    // in the initial dialog() call, but it gets applied every time the dialog is opened
+    // i.e. if the user resizes the dialog, the change is not remembered. We work around this
+    // by saving the dialog's state when it is closed, and restoring it the next time it's opened.
+    var $parent = $dlg.parent() ;
+    return {
+        position: {
+            my: "left top",
+            at: "left+" + $parent.offset().left + " top+" + $parent.offset().top,
+            of: window,
+            collision: "fit"
+        },
+        width: $dlg.dialog( "option", "width" ),
+        height: $dlg.dialog( "option", "height" ),
+    } ;
+}
+
+// --------------------------------------------------------------------
+
 function add_flag_to_dialog_titlebar( $dlg, player_no )
 {
     // add a flag to the dialog's titlebar

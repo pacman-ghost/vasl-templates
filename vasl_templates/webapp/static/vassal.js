@@ -1,4 +1,5 @@
 gLoadVsavHandler = null ;
+gVassalShimErrorDlgState = null ;
 
 // --------------------------------------------------------------------
 
@@ -533,7 +534,11 @@ function show_vassal_shim_error_dlg( resp, caption )
         dialogClass: "vassal-shim-error",
         title: caption,
         modal: true,
-        minWidth: 600, minHeight: 250,
+        position: gVassalShimErrorDlgState ? gVassalShimErrorDlgState.position : { my: "center", at: "center", of: window },
+        width: gVassalShimErrorDlgState ? gVassalShimErrorDlgState.width : $(window).width() * 0.8,
+        height: gVassalShimErrorDlgState ? gVassalShimErrorDlgState.height : $(window).height() * 0.8,
+        minWidth: 600,
+        minHeight: 400,
         open: function() {
             $( "#vassal-shim-error .message" ).html( resp.error ) ;
             var log = "" ;
@@ -547,6 +552,9 @@ function show_vassal_shim_error_dlg( resp, caption )
                 $( "#vassal-shim-error .log" ).text( log ).show() ;
             else
                 $( "#vassal-shim-error .log" ).hide() ;
+        },
+        beforeClose: function() {
+            gVassalShimErrorDlgState = getDialogState( $(this) ) ;
         },
         buttons: {
             Close: function() { $(this).dialog( "close" ) ; },

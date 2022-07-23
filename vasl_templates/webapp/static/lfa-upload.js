@@ -4,6 +4,8 @@ var $gLogFilesToUpload ;
 var gEventHandlers ;
 var gDisableClickToAddTimestamp = new Date() ;
 
+var gLfaUploadDialogState = null ;
+
 // --------------------------------------------------------------------
 
 window.on_analyze_vlog = function()
@@ -84,11 +86,11 @@ window.on_analyze_vlog = function()
         title: "Analyze log files",
         dialogClass: "lfa-upload",
         modal: true,
-        width: $(window).innerWidth() / 2,
+        position: gLfaUploadDialogState ? gLfaUploadDialogState.position : { my: "center", at: "center", of: window },
+        width: gLfaUploadDialogState ? gLfaUploadDialogState.width : $(window).width() / 2,
+        height: gLfaUploadDialogState ? gLfaUploadDialogState.height : $(window).height() / 2,
         minWidth: 400,
-        height: $(window).innerHeight() / 2,
         minHeight: 300,
-        position: { my: "center", at: "center", of: window },
         create: function() {
             // initialize the dialog
             init_dialog( $(this), "OK", false ) ;
@@ -109,6 +111,9 @@ window.on_analyze_vlog = function()
             gEventHandlers.addHandler( $gLogFilesToUpload, "click", onAddFile ) ;
             gEventHandlers.addHandler( $dlg.find(".hint"), "click", onAddFile ) ;
             updateUi() ;
+        },
+        beforeClose: function() {
+            gLfaUploadDialogState = getDialogState( $(this) ) ;
         },
         close: function() {
             // clean up handlers
