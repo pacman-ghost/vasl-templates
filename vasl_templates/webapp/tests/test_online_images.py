@@ -47,8 +47,8 @@ def test_online_images( webapp, webdriver ):
 
     # test player flags
     do_test( "players",
-        re.compile( r'<img src="http://vasl-templates.org/.+/flags/german.png"' ),
-        re.compile( r'<img src="http://[a-z0-9.]+:\d+/flags/german"' )
+        re.compile( r'<img src="http://vasl-templates.org/.+/flags/german.png\?prefh=11"' ),
+        re.compile( r'<img src="http://[a-z0-9.]+:\d+/flags/german\?prefh=11"' )
     )
 
     # test custom list bullets
