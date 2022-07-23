@@ -26,7 +26,7 @@ td.description { font-size: 90% ; font-style: italic ; color: #808080 ; }
 
 <tr>
     {# Some versions of Java require <img> tags to have the width and height specified!?! #}
-    <td class="flag"> {%if PLAYER_FLAG_1%} <img src="{{PLAYER_FLAG_1}}" {{PLAYER_FLAG_SIZE}}> {%endif%}
+    <td class="flag"> {%if PLAYER_FLAG_1%} <img src="{{PLAYER_FLAG_1}}?prefh={{PLAYER_FLAG_SIZE}}" width="{{PLAYER_FLAG_SIZE}}" height="{{PLAYER_FLAG_SIZE}}"> {%endif%}
     <td class="player"> {{PLAYER_1_NAME}}:
     <td class="val"> &nbsp; ELR: {{PLAYER_1_ELR}}
     <td class="val"> &nbsp; SAN: {{PLAYER_1_SAN}}
@@ -39,7 +39,7 @@ td.description { font-size: 90% ; font-style: italic ; color: #808080 ; }
 
 <tr>
     {# Some versions of Java require <img> tags to have the width and height specified!?! #}
-    <td class="flag"> {%if PLAYER_FLAG_2%} <img src="{{PLAYER_FLAG_2}}" {{PLAYER_FLAG_SIZE}}> {%endif%}
+    <td class="flag"> {%if PLAYER_FLAG_2%} <img src="{{PLAYER_FLAG_2}}?prefh={{PLAYER_FLAG_SIZE}}" width="{{PLAYER_FLAG_SIZE}}" height="{{PLAYER_FLAG_SIZE}}"> {%endif%}
     <td class="player"> {{PLAYER_2_NAME}}:
     <td class="val"> &nbsp; ELR: {{PLAYER_2_ELR}}
     <td class="val"> &nbsp; SAN: {{PLAYER_2_SAN}}

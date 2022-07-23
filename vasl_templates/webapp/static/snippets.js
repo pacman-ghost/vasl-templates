@@ -136,13 +136,12 @@ function make_snippet( $btn, params, extra_params, show_date_warnings )
         params.SNIPPET_FONT_SIZE = gUserSettings["snippet-font-size"] ;
     if ( gUserSettings["custom-list-bullets"] )
         params.CUSTOM_LIST_BULLETS = true ;
-    // some versions of Java require <img> tags to have the width and height specified!?!
-    params.PLAYER_FLAG_SIZE = "width='11' height='11'" ;
+    params.PLAYER_FLAG_SIZE = 11 ;
     // FUDGE! A lot of labels use a larger font for their heading (e.g. V/O notes, PF, ATMM, etc.) and so
     // we would like to show a larger flag to match, or at least vertically center the flag. This would be
     // trivial to do with CSS, but VASSAL's HTML engine can't handle it, so we have to manually force
     // the flag to render at a larger size >:-/
-    params.PLAYER_FLAG_SIZE_LARGE = "width='13' height='13'" ;
+    params.PLAYER_FLAG_SIZE_LARGE = 13 ;
 
     // set player-specific parameters
     var player_no ;

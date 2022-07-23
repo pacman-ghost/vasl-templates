@@ -191,13 +191,27 @@ def make_snippet_image():
 def get_flag( nat ):
     """Get a flag image."""
 
+    # NOTE: Serving flag images should be so easy :-/ Normally, we would just return the appropriate image file,
+    # and let the client resize it to whatever it wants. However, VASSAL does a fairly bad job of this, so we allow
+    # the client to specify a preferred height, and we resize the image ourself. This gives slightly better results
+    # (although there's only so much you can do when your images are 11x11 :-/), but it's slow, and there are still
+    # some that don't look great (e.g. the German flag), so we allow the client to specify a preferred height, and
+    # if we have a prepared file of that size, we just return that directly.
+    # The downside of all this tomfoolery is when images are being downloaded from the internet, since the server
+    # needs to handle pre-sized files, based on a query parameter. The RewriteRule is funky, but it works :-/
+    # NOTE: We could insert the preferred size into the URL (e.g. "$/flags/11/german"), but this takes control away
+    # from the templates wrt what goes into the labels, and won't work for custom flag URL's. It's probably cleaner
+    # and safer over the longer term to just have a single URL for each flag, and tweak it with something that
+    # won't break things if it's not there (i.e. a query parameter). At worst, the default image will be served
+    # and things will just look a bit bad, but it won't 404 :-/
+
     # initialize
     if not re.search( "^[-a-z~]+$", nat ):
         abort( 404 )
     key = "flags:{}".format( nat )
-    # NOTE: Most of the flags are at the larger size, so we default to that size (since we get better results
-    # doing that, and scaling down to the smaller size as needed, rather than the other way around).
-    height = app.config.get( "DEFAULT_FLAG_HEIGHT", 13 )
+    height = int( request.args.get( "prefh",
+        app.config.get( "DEFAULT_FLAG_HEIGHT", 13 )
+    ) )
 
     # check if a custom flag has been configured
     if globvars.template_pack:
@@ -205,16 +219,24 @@ def get_flag( nat ):
         if fname:
             if fname.startswith( ("http://","https://") ):
                 with urllib.request.urlopen( fname ) as resp:
-                    return _get_small_image( resp, key, height )
+                    return _get_resized_image( resp, key, height )
             else:
                 with open( fname, "rb" ) as fp:
-                    return _get_small_image( fp, key, height )
+                    return _get_resized_image( fp, key, height )
 
     # serve the standard flag
-    fname = os.path.join( "static/images/flags/", nat+".png" )
+    # NOTE: Some flags don't reduce so well (e.g. German), so we allow for pre-reduced versions.
+    # This means that for labels that get images from the internet, we need some funky RewriteRule's
+    # on the online server, so that it can check the "height" query parameter, and serve the correct file.
+    # We could try to tweak image URL's so that the height is embedded in them (e.g. $/flags/11/german),
+    # but this is fiddly, and doesn't play well with custom flag URL's i.e. we're better off having
+    # a single base URL for each flag, and then tweaking it via query parameters.
+    fname = "static/images/flags/{}-{}.png".format( nat, height )
+    if not os.path.isfile( os.path.join( app.root_path, fname ) ):
+        fname = "static/images/flags/{}.png".format( nat )
     try:
         with app.open_resource( fname, "rb" ) as fp:
-            return _get_small_image( fp, key, height )
+            return _get_resized_image( fp, key, height )
     except FileNotFoundError:
         if nat in globvars.template_pack["nationalities"] and not request.args.get("no-spacer"):
             # NOTE: If the nationalitity is valid but has no flag, we return a spacer image, so that
@@ -226,24 +248,21 @@ def get_flag( nat ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-_small_image_cache = {}
-_small_image_cache_lock = threading.Lock()
+_resized_image_cache = {}
+_resized_image_cache_lock = threading.Lock()
 
-def _get_small_image( fp, key, default_height ):
-    """Get a small image (cached)."""
+def _get_resized_image( fp, key, height ):
+    """Get a resized image (cached)."""
 
-    # check how we should resize the image
-    # NOTE: Resizing images in the HTML snippets looks dreadful (presumably
-    # because VASSAL's HTML engine is so ancient), so we do it ourself :-/
-    height = int( request.args.get( "height", default_height ) )
+    # initialize
     if height <= 0:
         abort( 400 )
 
-    with _small_image_cache_lock:
+    with _resized_image_cache_lock:
 
         # check if we have the image in the cache
         cache_key = ( key, height )
-        if cache_key not in _small_image_cache:
+        if cache_key not in _resized_image_cache:
 
             # nope - load it
             img = Image.open( fp )
@@ -257,8 +276,8 @@ def _get_small_image( fp, key, default_height ):
             buf = io.BytesIO()
             img.save( buf, format="PNG" )
             buf.seek( 0 )
-            _small_image_cache[ cache_key ] = buf.read()
+            _resized_image_cache[ cache_key ] = buf.read()
 
         # return the flag image
-        img_data =_small_image_cache[ cache_key ]
+        img_data =_resized_image_cache[ cache_key ]
         return send_file( io.BytesIO(img_data), mimetype="image/png" )
