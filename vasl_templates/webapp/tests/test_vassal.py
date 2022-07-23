@@ -910,8 +910,7 @@ def _update_vsav( fname, expected ):
     wait_for( 2, check_response )
 
     # wait for the updated data to come back
-    timeout = 120 if os.name == "nt" else 60
-    wait_for( timeout, lambda: get_stored_msg( "_vsav-persistence_" ) != "" )
+    wait_for( 120, lambda: get_stored_msg( "_vsav-persistence_" ) != "" )
     updated_vsav_data = get_stored_msg( "_vsav-persistence_" )
     if updated_vsav_data.startswith( "ERROR: " ):
         raise RuntimeError( updated_vsav_data )
