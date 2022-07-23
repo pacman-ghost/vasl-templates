@@ -7,6 +7,8 @@ _MAX_TURN_TRACK_TURNS = 100 ;
 gTurnTrackReinforcements = null ;
 gTurnTrackShadings = null ;
 
+gTurnTrackDlgState = null ;
+
 // --------------------------------------------------------------------
 
 function editTurnTrackSettings()
@@ -231,6 +233,9 @@ function editTurnTrackSettings()
         "title": "Turn track",
         dialogClass: "turn-track",
         modal: true,
+        position: gTurnTrackDlgState ? gTurnTrackDlgState.position : { my: "center", at: "center", of: window },
+        width: gTurnTrackDlgState ? gTurnTrackDlgState.width : $(window).width() * 0.8,
+        height: gTurnTrackDlgState ? gTurnTrackDlgState.height : $(window).height() * 0.5,
         minWidth: 500, minHeight: 280,
         resizable: true,
         create: function() {
@@ -273,6 +278,9 @@ function editTurnTrackSettings()
             $dlg = $(this) ;
             $iframe = $dlg.find( "iframe#turn-track-preview" ) ;
             loadControls() ;
+        },
+        beforeClose: function() {
+            gTurnTrackDlgState = getDialogState( $(this) ) ;
         },
         buttons: {
             Snippet: { text:" Snippet", class: "snippet", click: function( evt ) {

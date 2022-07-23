@@ -4,6 +4,7 @@
 
 var gVsavData, gScreenshotData ;
 var $gDialog, $gVsavContainer, $gScreenshotContainer ;
+var gScenarioUploadDlgState = null ;
 
 // --------------------------------------------------------------------
 
@@ -144,8 +145,10 @@ window.uploadScenario = function() {
         title: "Upload to the ASL Scenario Archive",
         dialogClass: "scenario-upload",
         modal: true,
-        width: 800, minWidth: 800,
-        height: 500, minHeight: 500,
+        position: gScenarioUploadDlgState ? gScenarioUploadDlgState.position : { my: "center", at: "center", of: window },
+        width: gScenarioUploadDlgState ? gScenarioUploadDlgState.width: $(window).width() * 0.8,
+        height: gScenarioUploadDlgState ? gScenarioUploadDlgState.height: $(window).height() * 0.8,
+        minWidth: 800, minHeight: 500,
         create: function() {
             // add handlers to add files to be uploaded
             $gVsavContainer = $(this).find( ".vsav-container" ) ;
@@ -210,6 +213,9 @@ window.uploadScenario = function() {
             updateUi() ;
         },
         resize: onResize,
+        beforeClose: function() {
+            gScenarioUploadDlgState = getDialogState( $(this) ) ;
+        },
         buttons: {
             Upload: { text: "Upload", class: "upload", click: function() {
                 uploadFiles( asaScenarioId ) ;

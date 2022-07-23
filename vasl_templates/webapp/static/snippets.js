@@ -33,6 +33,7 @@ var gDefaultScenario = null ;
 var gLastSavedScenario = null ;
 var gLastSavedScenarioFilename = null ;
 var gScenarioCreatedTime = null ;
+var gEditTemplateDlgState = null ;
 
 // --------------------------------------------------------------------
 
@@ -1612,6 +1613,9 @@ function edit_template( template_id )
         dialogClass: "edit-template",
         title: "Editing template: " + escapeHTML(template_id),
         modal: false,
+        position: gEditTemplateDlgState ? gEditTemplateDlgState.position : { my: "center", at: "center", of: window },
+        width: gEditTemplateDlgState ? gEditTemplateDlgState.width : $(window).width() * 0.8,
+        height: gEditTemplateDlgState ? gEditTemplateDlgState.height : $(window).height() * 0.8,
         minWidth: 600, minHeight: 300,
         create: function() {
             init_dialog( $(this), "Close", true ) ;
@@ -1620,6 +1624,9 @@ function edit_template( template_id )
             on_dialog_open( $(this) ) ;
             $(this).height( $(this).height() ) ; // fudge: force the textarea to resize
             $("#edit-template textarea").change( on_template_change ) ;
+        },
+        beforeClose: function() {
+            gEditTemplateDlgState = getDialogState( $(this) ) ;
         },
         close: function() {
             $("#edit-template textarea").off( "change", on_template_change ) ;

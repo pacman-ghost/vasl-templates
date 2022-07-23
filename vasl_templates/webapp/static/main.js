@@ -1172,6 +1172,8 @@ function findTopmostDialog()
 
 // --------------------------------------------------------------------
 
+var gProgramInfoDlgState = null ;
+
 function show_program_info()
 {
     // show the PROGRAM INFO dialog
@@ -1185,9 +1187,10 @@ function show_program_info()
         title: caption,
         dialogClass: "program-info",
         modal: true,
-        width: $(window).width() * 0.8,
+        position: gProgramInfoDlgState ? gProgramInfoDlgState.position : { my: "center", at: "center", of: window },
+        width: gProgramInfoDlgState ? gProgramInfoDlgState.width : $(window).width() * 0.8,
+        height: gProgramInfoDlgState ? gProgramInfoDlgState.height : $(window).height() * 0.8,
         minWidth: 750,
-        height: $(window).height() * 0.8,
         minHeight: 400,
         open: function() {
             var $dlg = $(this) ;
@@ -1201,6 +1204,9 @@ function show_program_info()
                 showErrorMsg( "Can't get the program info:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
                 $dlg.dialog( "close" ) ;
             } ) ;
+        },
+        beforeClose: function() {
+            gProgramInfoDlgState = getDialogState( $(this) ) ;
         },
         buttons: {
             OK: function() {

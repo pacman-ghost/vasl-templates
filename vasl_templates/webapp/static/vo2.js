@@ -1,5 +1,6 @@
 var gEditVoDialogSplitter = null ;
 var gPrevEditVoDialogEntry = null ;
+var gEditVoDlgState = null ;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -142,8 +143,11 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
     var $dlg = $( "#edit-vo" ).dialog( {
         dialogClass: "edit-vo",
         title: "Edit "+vo_type,
-        minWidth: 500,
-        minHeight: 500,
+        position: gEditVoDlgState ? gEditVoDlgState.position : { my: "left top", at: "left+30 top+30", of: window },
+        width: gEditVoDlgState ? gEditVoDlgState.width : $(window).width() * 0.4,
+        height: gEditVoDlgState ? gEditVoDlgState.height : $(window).height() - 60,
+        minWidth: 480,
+        minHeight: 440,
         modal: true,
         create: function() {
             // initialize the dialog
@@ -204,6 +208,9 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
                 }
                 gPrevEditVoDialogEntry = $entry ;
             }
+        },
+        beforeClose: function() {
+            gEditVoDlgState = getDialogState( $(this) ) ;
         },
         buttons: {
             OK: function() {
