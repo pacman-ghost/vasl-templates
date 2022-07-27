@@ -33,7 +33,7 @@ fieldset[name='scenario'] { min-height: 91px ; max-height: 265px ; overflow: hid
 /* -------------------------------------------------------------------- */
 
 #panel-vc { height: 100% ; display: flex ; flex-direction: column ; }
-#panel-vc textarea { width: 100% ; resize: none ; flex-grow: 1 ; }
+#panel-vc .trumbowyg-box { flex-grow: 1 ; min-height: 100px ; width: calc(100% - 2px) ; }
 #panel-vc .footer { margin-top: 0.5em ; display: flex ; align-items: center ; }
 
 /* -------------------------------------------------------------------- */

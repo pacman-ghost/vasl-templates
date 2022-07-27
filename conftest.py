@@ -42,7 +42,7 @@ def pytest_addoption( parser ):
         help="Run the tests headless."
     )
     parser.addoption(
-        "--window-size", action="store", dest="window_size", default="1000x700",
+        "--window-size", action="store", dest="window_size", default="1020x700",
         help="Browser window size."
     )
 
@@ -183,6 +183,11 @@ def _make_webapp():
         app.config[ "WEBDRIVER_PATH" ] = "geckodriver"
     elif _pytest_options.webdriver == "chrome":
         app.config[ "WEBDRIVER_PATH" ] = "chromedriver"
+
+    # NOTE: Trumboyg adds a lot of buttons to the UI, which slows Selenium down a lot
+    # when it's searching for elements, so we run tests with a minimal configuration.
+    app.config[ "TRUMBOWYG_BUTTONS_VICTORY_CONDITIONS" ] = [ "viewHTML" ]
+    app.config[ "TRUMBOWYG_BUTTONS_SIMPLE_NOTE_DIALOG" ] = [ "viewHTML" ]
 
     return app
 

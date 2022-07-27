@@ -1,0 +1,59 @@
+.trumbowyg-box { min-height: 2em ; border-color: #ccc ; }
+
+.trumbowyg-editor, .trumbowyg-textarea {
+    padding: 0.5em 0.75em ;
+    min-height: 2em ;
+}
+
+.trumbowyg-button-group button::after { top: 25px !important ; }
+
+/* custom bullets for the editor */
+.trumbowyg-editor ul { margin: 0 0 0 0.85em ; list-style-image: url("../images/bullet.png") ; }
+.trumbowyg-editor ul ul { margin: 0 0 0 0.85em ; list-style-image: url("../images/bullet2.png") ; }
+.trumbowyg-editor ul ul ul { margin: 0 0 0 0.85em ; list-style-image: url("../images/bullet3.png") ; }
+
+/* make tables visible in the editor */
+.trumbowyg-editor table.table { width: auto ; }
+.trumbowyg-editor table.table td { border: 1px dotted #888 ; }
+
+/* FUDGE! CSS for blockquote doesn't work in VASSAL :-/, so we try to match its indent in our UI. */
+.trumbowyg-editor blockquote { margin-left: 2.5em ; }
+
+/* modal box */
+.trumbowyg-modal-box { border: 1px solid #666 ; }
+.trumbowyg-modal-box .trumbowyg-input-infos label { color: #444 ; font-weight: bold ; }
+
+/* configure button */
+.trumbowyg-foreColor-button {
+    width: 40px !important ;
+    background: no-repeat 12px 12px url("../images/color-picker.png") !important ;
+    background-size: 12px 12px !important ;
+    filter: grayscale(100%) brightness(60%) ;
+}
+.trumbowyg-backColor-button {
+    width: 40px !important ;
+    background: no-repeat 11px 11px url("../images/color-picker-bgd.png") !important ;
+    background-size: 14px 14px !important ;
+    filter: grayscale(100%) brightness(60%) ;
+}
+.trumbowyg-removeformat-button { line-height: 33px !important ;  border:1px dotted red; }
+.trumbowyg-dropdown-specialChars { width: 320px ; max-width: 320px ; }
+
+/* configure an image for our custom "flags" button */
+.trumbowyg-flags-button {
+    width: 40px !important ;
+    background: no-repeat 10px 10px url("../images/nat-caps.png") !important ;
+    background-size: 14px 15px !important ;
+    filter: grayscale(100%) brightness(60%) ;
+}
+.trumbowyg-dropdown-flags button img { width: 13px ; }
+
+/* FUDGE! Fix-up the appearance of some of the buttons. */
+.trumbowyg-fontsize-button svg { width: 14px ; opacity: 0.9 ; }
+.trumbowyg-backColor-button svg { opacity: 0.7 ; }
+.trumbowyg-specialChars-button svg { width: 14px ; }
+.trumbowyg-emoji-button svg { opacity: 0.8 ; }
+.trumbowyg-indent-button svg, .trumbowyg-outdent-button svg { width: 13px ; }
+.trumbowyg-indent-button svg { transform: scaleX(-1) ; }
+
+

@@ -16,15 +16,15 @@ from vasl_templates.webapp.tests.utils import \
 
 def test_ob_setup( webapp, webdriver ):
     """Test generating OB setup snippets."""
-    _do_test_ob_entries( webapp, webdriver, "ob_setups" )
+    _do_test_ob_entries( webapp, webdriver, "ob_setups", False )
 
 def test_ob_notes( webapp, webdriver ):
     """Test generating OB note snippets."""
-    _do_test_ob_entries( webapp, webdriver, "ob_notes" )
+    _do_test_ob_entries( webapp, webdriver, "ob_notes", True )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def _do_test_ob_entries( webapp, webdriver, ob_type ):
+def _do_test_ob_entries( webapp, webdriver, ob_type, has_para ):
     """Test generating OB setup/notes."""
 
     # initialize
@@ -73,7 +73,11 @@ def _do_test_ob_entries( webapp, webdriver, ob_type ):
         "[German] [<i>updated {} #2</i>] (col=[OBCOL:german/OBCOL-BORDER:german]) (width=[200px])".format( ob_type )
     )
     check_snippet( sortable1, 0,
-        "[German] [{} #1] (col=[OBCOL:german/OBCOL-BORDER:german]) (width=[100px])".format( ob_type )
+        "[German] [{}{} #1{}] (col=[OBCOL:german/OBCOL-BORDER:german]) (width=[100px])".format(
+            "<p>" if has_para else "",
+            ob_type,
+            "</p>" if has_para else ""
+        )
     )
 
     # delete an OB setup/note by dragging it into the trash

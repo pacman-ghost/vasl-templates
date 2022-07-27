@@ -15,6 +15,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, WebDriverException
 
 import vasl_templates.webapp.tests
@@ -169,7 +170,7 @@ def select_tab_for_elem( elem ):
 def get_tab_for_elem( elem ):
     """Identify the tab that contains the specified element."""
     while elem.tag_name not in ("html","body"):
-        elem = elem.find_element( By.XPATH, ".." )
+        elem = get_parent_elem( elem )
         if elem.tag_name == "div":
             div_id = elem.get_attribute( "id" )
             if div_id.startswith( "tabs-" ):
@@ -266,15 +267,13 @@ def set_template_params( params ): #pylint: disable=too-many-branches
                 add_vo( _webdriver, vo_type, int(key[-1]), vo_name )
             continue
 
-        # locate the next parameter
-        elem = next( c for c in ( \
-            find_child( "{}[name='{}']".format(elem_type,key) ) \
-            for elem_type in ["input","textarea","select"]
-        ) if c )
-
         # set the parameter value
+        elem = find_child( ".param[name='{}']".format( key ) )
         if elem.tag_name == "select":
             select_droplist_val( Select(elem), val )
+        elif elem.tag_name == "div":
+            assert "trumbowyg-editor" in get_css_classes( elem )
+            load_trumbowyg( elem, val )
         else:
             if elem.is_displayed():
                 elem.clear()
@@ -374,9 +373,8 @@ def edit_simple_note( sortable, entry_no, caption, width ):
 
     # edit the note
     if caption is not None:
-        elem = find_child( "#edit-simple_note textarea" )
-        elem.clear()
-        elem.send_keys( caption )
+        elem = find_child( "#edit-simple_note .trumbowyg-editor" )
+        load_trumbowyg( elem, caption )
     if width is not None:
         elem = find_child( ".ui-dialog-buttonpane input[name='width']" )
         elem.clear()
@@ -464,6 +462,26 @@ def find_children( sel, parent=None ):
     except NoSuchElementException:
         return None
 
+def find_child_by_xpath( sel, parent=None ):
+    """Find a single child element."""
+    # NOTE: Searching by XPath is much slower than CSS, so only use this when necessary.
+    try:
+        return (parent if parent else _webdriver).find_element( By.XPATH, sel )
+    except NoSuchElementException:
+        return None
+
+def find_children_xpath( sel, parent=None ):
+    """Find child elements."""
+    # NOTE: Searching by XPath is much slower than CSS, so only use this when necessary.
+    try:
+        return (parent if parent else _webdriver).find_elements( By.XPATH, sel )
+    except NoSuchElementException:
+        return None
+
+def get_parent_elem( elem ):
+    """Get the parent of the specified element."""
+    return elem.find_element( By.XPATH, ".." )
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def find_snippet_buttons( webdriver=None ):
@@ -522,6 +540,38 @@ def get_droplist_vals( sel ):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+def load_trumbowyg( ctrl, val ):
+    """Load a Trumbowyg HTML editor control."""
+    # find the corresponding raw HTML textarea and load it with the specifed value
+    elem = get_trumbowyg_editor( ctrl )
+    root = get_parent_elem( elem )
+    elem = find_child( "textarea.trumbowyg-textarea", root )
+    if elem.size["height"] == 1:
+        # the control is in WYSIWYG mode - switch it to raw HTML
+        btn = find_child( "button.trumbowyg-viewHTML-button", root )
+        btn.click()
+    elem.clear()
+    elem.send_keys( val )
+
+def unload_trumbowyg( ctrl ):
+    """Unload a Trumbowyg HTML editor control."""
+    elem = get_trumbowyg_editor( ctrl )
+    elem = find_child_by_xpath( "..//textarea[@class='trumbowyg-textarea']", elem )
+    return elem.get_attribute( "value" )
+
+def get_trumbowyg_editor( ctrl ):
+    """Locate a Trumbowyg HTML editor's WYSIWYG control."""
+    if isinstance( ctrl, str ):
+        # we were given the template ID - find the corresponding Trumbowyg edit control
+        return find_child( ".trumbowyg-editor[name='{}']".format( ctrl ) )
+    elif isinstance( ctrl, WebElement ):
+        assert "trumbowyg-editor" in get_css_classes( ctrl )
+        return ctrl
+    assert False
+    return None
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 def dismiss_notifications():
     """Dismiss all notifications."""
     assert False, "Shouldn't need to call this function." # nb: notifications have been disabled during tests
@@ -537,14 +587,22 @@ def dismiss_notifications():
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def click_dialog_button( caption, parent=None ):
+def click_dialog_button( caption, dlg_class=None, contains=False ):
     """Click a dialog button."""
-    btns = [
-        elem for elem in find_children( ".ui-dialog button", parent )
-        if elem.text == caption
-    ]
-    assert len(btns) == 1
-    btns[0].click()
+    # NOTE: We used to find the target button using find_children(), and checking the button texts,
+    # but Trumbowyg introduces a large number of new buttons, which made things ridiculously slow.
+    if dlg_class:
+        dlg = find_child( ".ui-dialog.{}".format( dlg_class ) )
+    else:
+        dlgs = [ d for d in find_children( ".ui-dialog" ) if d.is_displayed() ]
+        if len(dlgs) > 1:
+            # NOTE: This handles the common case of a dialog putting up an "ask" dialog.
+            dlgs = [ d for d in dlgs if "ask" in get_css_classes(d) ]
+        assert len(dlgs) == 1
+        dlg = dlgs[0]
+    query = ( "contains(text(), '{}')" if contains else "text()='{}'" ).format( caption )
+    btn = find_child_by_xpath( ".//button[{}]".format( query ), dlg )
+    btn.click()
 
 # ---------------------------------------------------------------------
 

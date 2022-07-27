@@ -775,6 +775,13 @@ function update_page_load_status( id )
         $("#tabs").tabs({ disabled: [] }) ;
         $("#loader").fadeOut( 500 ) ;
         adjust_footer_vspacers() ;
+        // initialize the HTML WYSIWYG editors (nb: we do it here, since we need the app config
+        // and template pack (for the player flags))
+        initVictoryConditionsTrumbowyg() ;
+        $( "#panel-vc .footer" ).fadeIn( 2*1000 ) ;
+        // FUDGE! This works around a timing problem during startup, where we unload the current parameters
+        // before the Victory Conditions Trumbowyg control has initialized (and so doesn't get included).
+        gLastSavedScenario = unload_params_for_save( false ) ;
         // NOTE: The watermark image appears briefly in IE when reloading the page, but not even
         // creating the watermark dynamically and removing it when the page unloads fixes it :-(
         $("#watermark").fadeIn( 5*1000 ) ;
@@ -826,16 +833,20 @@ function init_hotkeys()
         set_focus_to( "#tabs-scenario", $("select[name='PLAYER_1']") ) ;
     } ) ;
     $(document).bind( "keydown", "alt+y", function() {
-        set_focus_to( "#tabs-scenario", $("textarea[name='VICTORY_CONDITIONS']") ) ;
+        var $elem = $(".trumbowyg-editor[name='VICTORY_CONDITIONS']") ;
+        if ( $elem.parent().hasClass( "trumbowyg-editor-visible" ) )
+            set_focus_to( "#tabs-scenario", $elem ) ;
+        else
+            set_focus_to( "#tabs-scenario", $elem.parent().find( ".trumbowyg-textarea" ) ) ;
     } ) ;
     $(document).bind( "keydown", "alt+0", function() {
         set_focus_to( "#tabs-scenario", $("input[name='SCENARIO_NAME']") ) ; // nb: for consistency with Alt-1 and Alt-2
     } ) ;
     $(document).bind( "keydown", "alt+1", function() {
-        set_focus_to( "#tabs-ob1", $("textarea[name='OB_SETUP_1']") ) ;
+        set_focus_to( "#tabs-ob1" ) ;
     } ) ;
     $(document).bind( "keydown", "alt+2", function() {
-        set_focus_to( "#tabs-ob2", $("textarea[name='OB_SETUP_2']") ) ;
+        set_focus_to( "#tabs-ob2" ) ;
     } ) ;
     $(document).bind( "keydown", "alt+x", function() {
         set_focus_to( "#tabs-extras" ) ;
@@ -947,6 +958,7 @@ function on_player_change( player_no )
     var player_nat = update_ob_tab_header( player_no ) ;
     update_nationality_specific_buttons( player_no ) ;
     $( "input[name='PLAYER_" + player_no + "_DESCRIPTION']" ).val( "" ) ;
+    updateTrumbowygFlagsDropdown( $( ".param[name='VICTORY_CONDITIONS']" ) ) ;
 
     // show/hide the vehicle/ordnance multi-applicable notes controls
     function update_ma_notes_controls( vo_type ) {
@@ -1140,6 +1152,14 @@ function handle_escape( evt )
     $(".growl-close").each( function() {
         $(this).trigger( "click" ) ;
     } ) ;
+
+    // check if there is a Trumbowyg control full-screen
+    var $elem = $( ".trumbowyg-fullscreen" ) ;
+    if ( $elem.length > 0 ) {
+        // yup - restore it back to normal size
+        $elem.children( ".trumbowyg-editor" ).trumbowyg( "execCmd", { cmd: "fullscreen" } ) ;
+        return ;
+    }
 
     // find the top-most dialog (if any) and close it
     var $topmost = findTopmostDialog() ;
