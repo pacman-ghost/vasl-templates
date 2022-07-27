@@ -86,7 +86,9 @@ def get_app_config():
         """Get a JSON value from the app config."""
         try:
             val = app.config.get( key, default )
-            return val if isinstance(val,dict) else json.loads(val)
+            if isinstance( val, (dict,list) ):
+                return val
+            return json.loads( val )
         except json.decoder.JSONDecodeError:
             msg = "Couldn't parse app config setting: {}".format( key )
             logging.error( "%s", msg )
@@ -159,6 +161,47 @@ def get_app_config():
                 msg = "Couldn't load the ASL Scenario Archive config."
                 logging.error( "%s", msg )
                 startup_msg_store.error( msg )
+
+    # include the Trumbowyg config
+    # NOTE: We don't include the "insertImage" button because it doesn't seem to work when
+    # the Trumbowyg control is in a dialog, and given VASSAL's handling of images, we don't
+    # really want to be encouraging their use :-/
+    vals[ "trumbowyg" ] = {
+        "format-options": get_json_val( "TRUMBOWYG_FORMAT_OPTIONS", [
+            "h1", "h2", "h3",
+        ] ),
+        "special-chars":  get_json_val( "TRUMBOWYG_SPECIAL_CHARS", [
+            "2264", "2265", "2260", "00d7", "00f7", None, # math
+            "00bd", "00bc", "00be", "215b", "215c", "215d", "215e", None, # fractions
+            "25b3", "24c7", "24b7", "24ba", "2605", "221e", "b0", "b7", None, # special
+            "e4", "eb", "ef", "f6", "fc",  "c4", "cb", "cf", "d6", "dc", None, # umlaut
+            "e1", "e9", "ed", "f3", "fa",  "c1", "c9", "cd", "d3", "da", None, # acute
+            "e0", "e8", "ec", "f2", "f9",  "c0", "c8", "cc", "d2", "d9", None, # grave
+            "e2", "ea", "ee", "f4", "fb",  "c2", "ca", "ce", "d4", "db", None, # circumflex
+            "1f850", "1f852", "1f851", "1f853", # arrows
+        ] ),
+        "victory-conditions": get_json_val( "TRUMBOWYG_BUTTONS_VICTORY_CONDITIONS", [
+            [ "strong", "em", "underline", "superscript", "subscript", "format" ],
+            [ "foreColor", "backColor", "fontfamily", "fontsize" ],
+            [ "outdent", "indent" ],
+            [ "unorderedList", "orderedList", "table" ],
+            [ "specialChars", "flags", "emoji" ],
+            [ "removeformat", "historyUndo", "historyRedo", "viewHTML", "fullscreen" ],
+        ] ),
+        # NOTE: I tried having different buttons for OB setup notes (which tend to be simpler)
+        # and OB notes (which can be more involved), but (1) this meant we had to tear down
+        # and re-create the Trumbowyg control each time the dialog was opened (since there doesn't
+        # seem to be any way to dynamically change the buttons), which caused a noticeable delay,
+        # and (2) users are probaly going to complain :-/
+        "simple-note-dialog": get_json_val( "TRUMBOWYG_BUTTONS_SIMPLE_NOTE_DIALOG", [
+            [ "strong", "em", "underline", "del", "superscript", "subscript", "format" ],
+            [ "foreColor", "backColor", "fontfamily", "fontsize" ],
+            [ "align", "outdent", "indent" ],
+            [ "unorderedList", "orderedList", "table" ],
+            [ "specialChars", "flags", "emoji" ],
+            [ "removeformat", "historyUndo", "historyRedo", "viewHTML", "fullscreen" ],
+        ] ),
+    }
 
     return jsonify( vals )
 

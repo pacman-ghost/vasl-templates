@@ -200,7 +200,9 @@ function _get_raw_content( snippet_id, $btn, params )
     var raw_content = [] ;
     function get_values( names ) {
         for ( var i=0 ; i < names.length ; ++i ) {
-            var val = $( ".param[name='" + names[i] + "']" ).val().trim() ;
+            var $elem = $( ".param[name='" + names[i] + "']" ) ;
+            var val = $elem.hasClass("trumbowyg-editor") ? unloadTrumbowyg($elem,false) : $elem.val() ;
+            val = val.trim() ;
             if ( val )
                 raw_content.push( val ) ;
         }

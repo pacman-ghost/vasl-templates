@@ -6,15 +6,13 @@ import base64
 import re
 import random
 
-from selenium.webdriver.common.by import By
-
 from vasl_templates.webapp.utils import TempFile
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.utils import \
     select_tab, select_menu_option, set_player, set_turn_track_nturns, \
     wait_for_clipboard, get_stored_msg, set_stored_msg, set_stored_msg_marker,\
-    add_simple_note, for_each_template, find_child, find_children, wait_for, \
+    add_simple_note, for_each_template, find_child, find_children, get_parent_elem, wait_for, \
     get_player_nat, get_droplist_vals_index, init_webapp, get_css_classes
 
 # ---------------------------------------------------------------------
@@ -212,7 +210,7 @@ def test_missing_templates( webapp, webdriver ):
             disabled = webdriver.execute_script( "return $(arguments[0]).button('option','disabled')", btn )
             assert disabled == expected
             # check that snippet control groups have been enabled/disabled correctly
-            parent = btn.find_element( By.XPATH, ".." )
+            parent = get_parent_elem( btn )
             parent_classes = get_css_classes( parent )
             if is_snippet_control:
                 assert "snippet-control" in parent_classes

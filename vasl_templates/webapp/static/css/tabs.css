@@ -27,7 +27,7 @@
 #tabs-scenario .bl { height: 100% ; flex-grow: 1 ; }
 
 #tabs-scenario .right { display: flex ; flex-direction: column ; }
-#tabs-scenario .tr { height: 100% ; flex-grow: 1 ; }
+#tabs-scenario .tr { height: 100% ; min-height: 210px ; flex-grow: 1 ; }
 #tabs-scenario .br { height: 100% ; flex-grow: 1 ; min-height: 9em ; }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */

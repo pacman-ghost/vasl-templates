@@ -9,12 +9,13 @@ from vasl_templates.webapp.tests.test_scenario_persistence import ALL_SCENARIO_P
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
 from vasl_templates.webapp.tests.utils import \
     init_webapp, select_tab, select_menu_option, add_simple_note, select_droplist_val, select_droplist_index, \
-    drag_sortable_entry_to_trash, get_sortable_entry_count, \
-    get_stored_msg, set_stored_msg_marker, find_child, wait_for, click_dialog_button
+    drag_sortable_entry_to_trash, get_sortable_entry_count, get_css_classes, \
+    get_stored_msg, set_stored_msg_marker, find_child, wait_for, click_dialog_button, \
+    unload_trumbowyg, load_trumbowyg
 
 # ---------------------------------------------------------------------
 
-def test_dirty_scenario_checks( webapp, webdriver ):
+def test_dirty_scenario_checks( webapp, webdriver ): #pylint: disable=too-many-statements
     """Test checking for a dirty scenario."""
 
     # initialize
@@ -49,11 +50,8 @@ def test_dirty_scenario_checks( webapp, webdriver ):
             mo = re.search( r"([a-z]+)-", info[0] )
             add_vo( webdriver, mo.group(1), info[1], info[2] )
             return target
-        target = next( e for e in [
-            find_child( "{}[name='{}']".format( ctype, param ) )
-            for ctype in ["input","select","textarea"]
-        ] if e  )
-        if target.tag_name in ("input","textarea"):
+        target = find_child( ".param[name='{}']".format( param ) )
+        if target.tag_name == "input":
             prev_val = target.get_attribute( "value" )
             new_val = "01/01/2000" if param == "SCENARIO_DATE" else "changed value"
             if target.is_displayed():
@@ -61,6 +59,12 @@ def test_dirty_scenario_checks( webapp, webdriver ):
                 target.send_keys( new_val )
             else:
                 webdriver.execute_script( "arguments[0].value = arguments[1]", target, new_val )
+            return target, prev_val, new_val
+        elif target.tag_name == "div":
+            assert "trumbowyg-editor" in get_css_classes( target )
+            prev_val = unload_trumbowyg( target )
+            new_val = "changed value"
+            load_trumbowyg( target, new_val )
             return target, prev_val, new_val
         elif target.tag_name == "select":
             sel = Select( target )
@@ -77,8 +81,11 @@ def test_dirty_scenario_checks( webapp, webdriver ):
             assert get_sortable_entry_count( state ) == 1
         elif param in VEHICLE_ORDNANCE:
             assert get_sortable_entry_count( state ) == 1
-        elif state[0].tag_name in ("input","textarea"):
+        elif state[0].tag_name == "input":
             assert state[0].get_attribute("value") == state[2]
+        elif state[0].tag_name == "div":
+            assert "trumbowyg-editor" in get_css_classes( state[0] )
+            assert unload_trumbowyg( state[0] ) == state[2]
         elif state[0].tag_name == "select":
             assert Select(state[0]).first_selected_option.get_attribute("value") == state[2]
         else:
@@ -90,12 +97,15 @@ def test_dirty_scenario_checks( webapp, webdriver ):
             drag_sortable_entry_to_trash( state, 0 )
         elif param in VEHICLE_ORDNANCE:
             drag_sortable_entry_to_trash( state, 0 )
-        elif state[0].tag_name in ("input","textarea"):
+        elif state[0].tag_name == "input":
             if state[0].is_displayed():
                 state[0].clear()
                 state[0].send_keys( state[1] )
             else:
                 webdriver.execute_script( "arguments[0].value = arguments[1]", state[0], state[1] )
+        elif state[0].tag_name == "div":
+            assert "trumbowyg-editor" in get_css_classes( state[0] )
+            load_trumbowyg( state[0], state[1] )
         elif state[0].tag_name == "select":
             select_droplist_val( Select(state[0]), state[1] )
         else:

@@ -20,7 +20,7 @@ class jQueryHandlers
         for ( var i=this.events.length-1 ; i >= 0 ; --i ) {
             var evt = this.events[ i ] ;
             evt[0].off( evt[1], evt[2] ) ;
-}
+        }
     }
 
 }

@@ -2,18 +2,21 @@
 
 import re
 import base64
+import time
 
 import pytest
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests import pytest_options
+from vasl_templates.webapp.tests.test_user_settings import set_user_settings, SCENARIO_IMAGES_SOURCE_THIS_PROGRAM
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, select_tab, find_snippet_buttons, set_template_params, wait_for, wait_for_clipboard, \
+    init_webapp, select_tab, find_snippet_buttons, set_template_params, wait_for, wait_for_clipboard, wait_for_elem, \
     get_stored_msg, set_stored_msg_marker, find_child, find_children, find_sortable_helper, adjust_html, \
     for_each_template, add_simple_note, edit_simple_note, click_dialog_button, \
+    load_trumbowyg, unload_trumbowyg, get_trumbowyg_editor, \
     get_sortable_entry_count, generate_sortable_entry_snippet, drag_sortable_entry_to_trash, \
-    new_scenario, set_scenario_date
+    new_scenario, set_scenario_date, set_player
 from vasl_templates.webapp.tests.test_scenario_persistence import load_scenario
 
 # ---------------------------------------------------------------------
@@ -258,16 +261,15 @@ def test_simple_snippets_from_dialog( webapp, webdriver ):
         elems = find_children( "li", sortable )
         ActionChains(webdriver).double_click( elems[entry_no] ).perform()
         # change the snippet content
-        elem = find_child( ".ui-dialog.edit-simple_note textarea" )
-        elem.clear()
-        elem.send_keys( "modified content" )
+        elem = find_child( ".ui-dialog.edit-simple_note .trumbowyg-editor" )
+        load_trumbowyg( elem, "modified content" )
         # change the snippet width
         elem = find_child( ".ui-dialog.edit-simple_note input[name='width']" )
         if elem.is_displayed():
             elem.clear()
             elem.send_keys( "123px" )
         # generate the snippet
-        click_dialog_button( "Snippet" )
+        click_dialog_button( "Snippet", contains=True )
         if isinstance( expected, str ):
             # NOTE: We also check that the snippet ID is correct.
             expected = re.compile( ".*".join( [
@@ -277,19 +279,19 @@ def test_simple_snippets_from_dialog( webapp, webdriver ):
             ] ), re.DOTALL )
         wait_for_clipboard( 2, expected )
         click_dialog_button( "Cancel" )
-        click_dialog_button( "OK", find_child(".ui-dialog.ask") )
+        click_dialog_button( "OK" )
 
     def test_new_simple_note( sortable, expected ) :
         # add a new simple note
         find_sortable_helper( sortable, "add" ).click()
-        elem = find_child( ".ui-dialog.edit-simple_note textarea" )
-        elem.send_keys( "new content" )
+        elem = find_child( ".ui-dialog.edit-simple_note .trumbowyg-editor" )
+        load_trumbowyg( elem, "new content" )
         elem = find_child( ".ui-dialog.edit-simple_note input[name='width']" )
         if elem.is_displayed():
             elem.clear()
             elem.send_keys( "789px" )
         # generate the snippet
-        click_dialog_button( "Snippet" )
+        click_dialog_button( "Snippet", contains=True )
         if isinstance( expected, str ):
             # NOTE: We also check that the snippet ID is correct.
             expected = re.compile( ".*".join( [
@@ -299,7 +301,7 @@ def test_simple_snippets_from_dialog( webapp, webdriver ):
                 ] ), re.DOTALL )
         wait_for_clipboard( 2, expected )
         click_dialog_button( "Cancel" )
-        click_dialog_button( "OK", find_child(".ui-dialog.ask") )
+        click_dialog_button( "OK" )
 
     # test scenario notes
     sortable = find_child( "#scenario_notes-sortable" )
@@ -508,6 +510,63 @@ def test_snippet_images( webapp, webdriver ):
     do_sortable_test( "ob_notes-sortable_2", "ob note 2.1.png" )
     do_sortable_test( "ob_vehicles-sortable_2", "a russian vehicle.png" )
     do_sortable_test( "ob_ordnance-sortable_2", "a russian ordnance.png" )
+
+# ---------------------------------------------------------------------
+
+def test_player_flags_in_trumbowyg( webapp, webdriver, monkeypatch ):
+    """Test inserting images for player flags into Trumbowyg HTML editor controls."""
+
+    # initialize
+    monkeypatch.setitem( webapp.config, "TRUMBOWYG_BUTTONS_VICTORY_CONDITIONS" ,
+        [ "flags", "viewHTML" ]
+    )
+    init_webapp( webapp, webdriver )
+
+    def check_flags_dropdown( expected ):
+        dropdown = find_child( "#panel-vc .trumbowyg-dropdown-flags" )
+        nats = [
+            img.get_attribute( "data-nat" )
+            for img in find_children( "button img", dropdown )
+        ]
+        assert nats[ 0 : len(expected) ] == expected
+
+    # check the initial state of the flags dropdown
+    check_flags_dropdown( [ "german", "russian", "american", "british" ] )
+
+    # change the players, check the flags dropdown
+    set_player( 1, "british" )
+    set_player( 2, "french" )
+    check_flags_dropdown( [ "british", "french", "american", "burmese" ] )
+
+    # load some content into the Victory Conditions and position the cursor
+    editor = get_trumbowyg_editor( "VICTORY_CONDITIONS" )
+    editor.send_keys( "abcxyz" )
+    for _ in range( 3 ):
+        editor.send_keys( Keys.LEFT )
+
+    def insert_flag( nat ):
+        find_child( "#panel-vc .trumbowyg-flags-button" ).click()
+        wait_for_elem( 2, "#panel-vc .trumbowyg-dropdown-flags" )
+        find_child( "button.trumbowyg-{}-dropdown-button".format( nat ) ).click()
+    def wait_for_flag( expected ):
+        if expected.search( unload_trumbowyg( editor ) ):
+            return True
+        time.sleep( 0.1 )
+        return False
+
+    # insert an online flag
+    insert_flag( "japanese" )
+    wait_for( 2, lambda: wait_for_flag(
+        re.compile( 'abc<img src="http://vasl-templates.org/.+?/japanese.png["?].+?>xyz' )
+    ) )
+
+    # configure local images, then add another image
+    # NOTE: Opening the User Settings dialog makes the cursor move to the start of the Trumboyg content.
+    set_user_settings( { "scenario-images-source": SCENARIO_IMAGES_SOURCE_THIS_PROGRAM } )
+    insert_flag( "american" )
+    wait_for( 2, lambda: wait_for_flag(
+        re.compile( r'<img src="http://localhost:\d+/flags/american["?].+?>abc<img src="http://vasl-templates.org/' )
+    ) )
 
 # ---------------------------------------------------------------------
 

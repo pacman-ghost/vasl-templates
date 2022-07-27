@@ -2,27 +2,29 @@
 // which is used by OB setups and OB notes (which differ only in their templates,
 // the code to manage them is almost identical).
 
+var gEditSimpleNoteDlgState = null ;
+
 // --------------------------------------------------------------------
 
-function add_scenario_note() { _do_edit_simple_note( "scenario_note", null, $("#scenario_notes-sortable"), null, gDefaultScenario._SCENARIO_NOTE_WIDTH ) ; }
+function add_scenario_note() { _do_edit_simple_note( "scenario_note", null, $("#scenario_notes-sortable"), null, gDefaultScenario._SCENARIO_NOTE_WIDTH, false ) ; }
 function do_add_scenario_note( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
-function edit_scenario_note( $sortable2, $entry ) { _do_edit_simple_note( "scenario_note", null, $sortable2, $entry, null ) ; }
+function edit_scenario_note( $sortable2, $entry ) { _do_edit_simple_note( "scenario_note", null, $sortable2, $entry, null, false ) ; }
 
-function add_ssr() { _do_edit_simple_note( "ssr", null, $("#ssr-sortable"), null, null ) ; }
+function add_ssr() { _do_edit_simple_note( "ssr", null, $("#ssr-sortable"), null, null, true ) ; }
 function do_add_ssr( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
-function edit_ssr( $sortable2, $entry ) { _do_edit_simple_note( "ssr", null, $sortable2, $entry, null ) ; }
+function edit_ssr( $sortable2, $entry ) { _do_edit_simple_note( "ssr", null, $sortable2, $entry, null, true ) ; }
 
-function add_ob_setup( player_no ) { _do_edit_simple_note( "ob_setup", player_no, $("#ob_setups-sortable_"+player_no), null, gDefaultScenario._OB_SETUP_WIDTH ) ; }
+function add_ob_setup( player_no ) { _do_edit_simple_note( "ob_setup", player_no, $("#ob_setups-sortable_"+player_no), null, gDefaultScenario._OB_SETUP_WIDTH, true ) ; }
 function do_add_ob_setup( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
-function edit_ob_setup( $sortable2, $entry ) { _do_edit_simple_note( "ob_setup", get_player_no_for_element($sortable2), $sortable2, $entry, null ) ; }
+function edit_ob_setup( $sortable2, $entry ) { _do_edit_simple_note( "ob_setup", get_player_no_for_element($sortable2), $sortable2, $entry, null, true ) ; }
 
-function add_ob_note( player_no ) { _do_edit_simple_note( "ob_note", player_no, $("#ob_notes-sortable_"+player_no), null, gDefaultScenario._OB_NOTE_WIDTH ) ; }
+function add_ob_note( player_no ) { _do_edit_simple_note( "ob_note", player_no, $("#ob_notes-sortable_"+player_no), null, gDefaultScenario._OB_NOTE_WIDTH, false ) ; }
 function do_add_ob_note( $sortable2, data ) { _do_add_simple_note($sortable2,data) ; }
-function edit_ob_note( $sortable2, $entry ) { _do_edit_simple_note( "ob_note", get_player_no_for_element($sortable2), $sortable2, $entry, null ) ; }
+function edit_ob_note( $sortable2, $entry ) { _do_edit_simple_note( "ob_note", get_player_no_for_element($sortable2), $sortable2, $entry, null, false ) ; }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, default_width )
+function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, default_width, remove_first_para )
 {
     // figure out what we're editing
     var note_type = _get_note_type_for_sortable( $sortable2 ) ;
@@ -73,7 +75,7 @@ function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, defau
     function unloadData() {
         // unload the snippet data
         return {
-            caption: $caption.val().trim(),
+            caption: unloadTrumbowyg( $caption, remove_first_para ),
             width: $width.val().trim(),
         } ;
     }
@@ -86,6 +88,10 @@ function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, defau
         title: dlgTitle,
         modal: true,
         closeOnEscape: false,
+        position: gEditSimpleNoteDlgState ? gEditSimpleNoteDlgState.position : { my: "center", at: "center", of: window },
+        width: gEditSimpleNoteDlgState ? gEditSimpleNoteDlgState.width : $(window).width() * 0.4,
+        // NOTE: Simple notes don't normally have a lot of content, but we need space for the Trumbowyg dropdowns.
+        height: gEditSimpleNoteDlgState ? gEditSimpleNoteDlgState.height : Math.max( $(window).height() * 0.5, 325 ),
         minWidth: 600,
         minHeight: 250,
         create: function() {
@@ -93,7 +99,7 @@ function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, defau
         },
         open: function() {
             // initialize
-            $caption = $(this).children( "textarea" ) ;
+            $caption = $(this).find( "div.caption" ) ;
             on_dialog_open( $(this), $caption ) ;
             add_flag_to_dialog_titlebar( $(this), get_player_no_for_element($sortable2) ) ;
             var $btn_pane = $(".ui-dialog.edit-simple_note .ui-dialog-buttonpane") ;
@@ -104,10 +110,20 @@ function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, defau
             $width = $btn_pane.find( "input[name='width']" ) ;
             if ( $width.length === 0 ) {
                 // create the width controls
-                $btn_pane.prepend( $( "<div style='position:absolute;left:15px;height:28px;display:flex;align-items:center;'>" +
+                $btn_pane.prepend( $( "<div style='position:absolute;left:19px;height:28px;display:flex;align-items:center;'>" +
                     "<label for='width'>Width:</label>&nbsp;<input type='text' name='width' size='4' style='margin-top:-1px;'>" +
                 "</div>" ) ) ;
                 $width = $btn_pane.find( "input[name='width']" ) ;
+            }
+            // initialize the Trumbowyg HTML editor
+            if ( ! gEditSimpleNoteDlgState ) // nb: check if this is the first time the dialog has been opened
+                initTrumbowyg( $caption, gAppConfig.trumbowyg["simple-note-dialog"], $(this) ) ;
+            else {
+                // always start non-maximized, and in HTML mode
+                if ( $caption.parent().hasClass( "trumbowyg-fullscreen" ) )
+                    $caption.trumbowyg( "execCmd", { cmd: "fullscreen" } ) ;
+                if ( $caption.parent().hasClass( "trumbowyg-editor-hidden" ) )
+                    $caption.trumbowyg( "toggle" ) ;
             }
             // tweak the SNIPPETS button so that snippets will work
             $btn.data( { id: template_id, "player-no": player_no } ) ;
@@ -136,10 +152,13 @@ function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, defau
                 border: "1px solid "+colors[2]
             } ) ;
             // load the dialog
-            $caption.val( entryData ? entryData.caption : "" ).focus() ;
+            $caption.trumbowyg( "html", entryData ? entryData.caption : "" ) ;
             $width.val( entryData ? entryData.width : default_width ) ;
             origData = unloadData() ;
-            $(this).height( $(this).height() ) ; // fudge: force the textarea to resize
+            $(this).height( $(this).height() ) ; // fudge: force everything to resize
+        },
+        beforeClose: function() {
+            gEditSimpleNoteDlgState = getDialogState( $(this) ) ;
         },
         buttons: {
             Snippet: { text:" Snippet", class: "snippet", click: makeSimpleSnippet },

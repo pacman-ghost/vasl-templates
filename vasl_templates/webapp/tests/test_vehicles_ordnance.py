@@ -319,7 +319,7 @@ def test_duplicate_vo_entries( webapp, webdriver ):
         elem.send_keys( Keys.RETURN )
         elem = find_child( "#ask" )
         assert "already in the OB" in elem.text
-        click_dialog_button( "Cancel", find_child(".ui-dialog.ask") )
+        click_dialog_button( "Cancel" )
         click_dialog_button( "Cancel" )
 
         # make sure the player's OB is unchanged
@@ -332,7 +332,7 @@ def test_duplicate_vo_entries( webapp, webdriver ):
         elem.send_keys( Keys.RETURN )
         elem = find_child( "#ask" )
         assert "already in the OB" in elem.text
-        click_dialog_button( "OK", find_child(".ui-dialog.ask") )
+        click_dialog_button( "OK" )
 
         # make sure the vehicle/ordnance was added to the player's OB
         assert get_sortable_vo_names( sortable ) == [ vo_name, vo_name ]

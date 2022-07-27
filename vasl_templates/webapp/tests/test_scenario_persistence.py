@@ -10,7 +10,7 @@ from vasl_templates.webapp.config.constants import APP_NAME, APP_VERSION
 from vasl_templates.webapp.tests.utils import \
     init_webapp, get_nationality_display_name, load_scenario_params, select_tab, select_menu_option, \
     get_sortable_entry_text, get_sortable_vo_names, get_stored_msg, set_stored_msg, set_stored_msg_marker, \
-    find_child, find_children, wait_for
+    find_child, find_children, wait_for, get_css_classes, unload_trumbowyg
 
 # this table lists all parameters stored in a scenario
 ALL_SCENARIO_PARAMS = {
@@ -178,10 +178,6 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
     ob_setups2, ob_notes2 = find_child("#ob_setups-sortable_2"), find_child("#ob_notes-sortable_2")
     vehicles1, ordnance1 = find_child("#ob_vehicles-sortable_1"), find_child("#ob_ordnance-sortable_1")
     vehicles2, ordnance2 = find_child("#ob_vehicles-sortable_2"), find_child("#ob_ordnance-sortable_2")
-    elems = {
-        c.get_attribute("name"): c
-        for elem_type in ("input","textarea","select") for c in find_children(elem_type)
-    }
 
     # load a scenario and make sure it was loaded into the UI correctly
     load_scenario( saved_scenario )
@@ -196,9 +192,12 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
                 continue # nb: these require special handling, we do it below
             if field in ("OB_VEHICLES_1","OB_ORDNANCE_1","OB_VEHICLES_2","OB_ORDNANCE_2"):
                 continue # nb: these require special handling, we do it below
-            elem = elems[ field ]
+            elem = find_child( ".param[name='{}']".format( field ) )
             if elem.tag_name == "select":
                 assert Select(elem).first_selected_option.get_attribute("value") == val
+            elif elem.tag_name == "div":
+                assert "trumbowyg-editor" in get_css_classes( elem )
+                assert unload_trumbowyg( elem ) == val
             else:
                 assert elem.get_attribute("value") == val
     select_tab( "scenario" )

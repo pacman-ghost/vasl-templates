@@ -14,6 +14,12 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='select2/select2.min.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='chartjs/Chart.min.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='lightgallery/css/lightgallery.min.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='trumbowyg/ui/trumbowyg.min.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='trumbowyg/plugins/flags.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='trumbowyg/plugins/colors/ui/trumbowyg.colors.min.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='trumbowyg/plugins/emoji/ui/trumbowyg.emoji.min.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='trumbowyg/plugins/specialchars/ui/trumbowyg.specialchars.min.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='trumbowyg/plugins/table/ui/trumbowyg.table.min.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/main.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/tabs.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/tabs-scenario.css')}}" />
@@ -36,6 +42,7 @@
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/turn-track-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/user-settings-dialog.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/program-info.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/html-editor.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/please-wait.css')}}" />
 
 </head>
@@ -120,6 +127,16 @@
 <script src="{{url_for('static',filename='lightgallery/js/lg-thumbnail.min.js')}}"></script>
 <script src="{{url_for('static',filename='lightgallery/js/lg-zoom.min.js')}}"></script>
 <script src="{{url_for('static',filename='lightgallery/js/lg-rotate.min.js')}}"></script>
+<script src="{{url_for('static',filename='trumbowyg/trumbowyg.min.js')}}"></script>
+<script src="{{url_for('static',filename='trumbowyg/plugins/flags.js')}}"></script>
+<script src="{{url_for('static',filename='trumbowyg/plugins/colors/trumbowyg.colors.min.js')}}"></script>
+<script src="{{url_for('static',filename='trumbowyg/plugins/emoji/trumbowyg.emoji.min.js')}}"></script>
+<script src="{{url_for('static',filename='trumbowyg/plugins/fontfamily/trumbowyg.fontfamily.min.js')}}"></script>
+<script src="{{url_for('static',filename='trumbowyg/plugins/fontsize/trumbowyg.fontsize.min.js')}}"></script>
+<script src="{{url_for('static',filename='trumbowyg/plugins/history/trumbowyg.history.min.js')}}"></script>
+<script src="{{url_for('static',filename='trumbowyg/plugins/indent/trumbowyg.indent.min.js')}}"></script>
+<script src="{{url_for('static',filename='trumbowyg/plugins/specialchars/trumbowyg.specialchars.min.js')}}"></script>
+<script src="{{url_for('static',filename='trumbowyg/plugins/table/trumbowyg.table.min.js')}}"></script>
 
 <script>
 gAppName = "{{APP_NAME}}" ;
@@ -168,6 +185,7 @@ gHelpUrl = "{{url_for('show_help')}}" ;
 <script src="{{url_for('static',filename='roar.js')}}"></script>
 <script src="{{url_for('static',filename='sortable.js')}}"></script>
 <script src="{{url_for('static',filename='user_settings.js')}}"></script>
+<script src="{{url_for('static',filename='html-editor.js')}}"></script>
 <script src="{{url_for('static',filename='jQueryHandlers.js')}}"></script>
 <script src="{{url_for('static',filename='utils.js')}}"></script>
 <script src="{{url_for('static',filename='timer.js')}}"></script>

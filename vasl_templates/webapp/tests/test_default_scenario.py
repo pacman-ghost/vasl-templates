@@ -3,8 +3,8 @@
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 
-from vasl_templates.webapp.tests.utils import select_tab, find_child, get_sortable_entry_text, \
-    wait_for, init_webapp
+from vasl_templates.webapp.tests.utils import wait_for, init_webapp, \
+    select_tab, find_child, get_sortable_entry_text, unload_trumbowyg \
 
 # ---------------------------------------------------------------------
 
@@ -23,10 +23,9 @@ def test_default_scenario( webapp, webdriver ):
         """Check that a field has been loaded correctly."""
         elem = find_child( "input[name='{}']".format( field_name ) )
         assert elem.get_attribute( "value" ) == expected
-    def check_textarea( field_name, expected ):
+    def check_trumbowyg( field_name, expected ):
         """Check that a field has been loaded correctly."""
-        elem = find_child( "textarea[name='{}']".format( field_name ) )
-        assert elem.get_attribute( "value" ) == expected
+        assert unload_trumbowyg( field_name ) == expected
     def check_droplist( field_name, expected ):
         """Check that a field has been loaded correctly."""
         elem = find_child( "select[name='{}']".format( field_name ) )
@@ -50,7 +49,7 @@ def test_default_scenario( webapp, webdriver ):
     check_textbox( "PLAYERS_WIDTH", "" )
 
     # check the victory conditions
-    check_textarea( "VICTORY_CONDITIONS", "default victory conditions" )
+    check_trumbowyg( "VICTORY_CONDITIONS", "default victory conditions" )
     check_textbox( "VICTORY_CONDITIONS_WIDTH", "123px" )
 
     # check the scenario notes

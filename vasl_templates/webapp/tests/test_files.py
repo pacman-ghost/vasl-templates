@@ -8,7 +8,7 @@ import pytest
 import werkzeug.exceptions
 
 from vasl_templates.webapp.files import FileServer
-from vasl_templates.webapp.tests.utils import init_webapp, find_child, wait_for_clipboard
+from vasl_templates.webapp.tests.utils import init_webapp, find_child, wait_for_clipboard, load_trumbowyg
 
 # ---------------------------------------------------------------------
 
@@ -191,8 +191,7 @@ def test_user_file_snippets( webapp, webdriver ):
         init_webapp( webapp, webdriver )
 
         # set the victory conditions
-        elem = find_child( "textarea[name='VICTORY_CONDITIONS']" )
-        elem.send_keys( "my image: {{USER_FILES}}/subdir/placeholder.png" )
+        load_trumbowyg( "VICTORY_CONDITIONS", "my image: {{USER_FILES}}/subdir/placeholder.png" )
         btn = find_child( "button.generate[data-id='victory_conditions']" )
         btn.click()
         def get_user_file_url( clipboard ): #pylint: disable=missing-docstring

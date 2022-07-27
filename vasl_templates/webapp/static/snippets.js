@@ -34,6 +34,7 @@ var gLastSavedScenario = null ;
 var gLastSavedScenarioFilename = null ;
 var gScenarioCreatedTime = null ;
 var gEditTemplateDlgState = null ;
+var gPendingVictoryConditions = null ;
 
 // --------------------------------------------------------------------
 
@@ -964,10 +965,10 @@ function unload_snippet_params( unpack_scenario_date, template_id )
             if ( template_id === null || template_id.substr(0,7) !== "extras/" )
                 return ;
         }
-        params[ $elem.attr("name") ] = $elem.val() ;
+        params[ $elem.attr("name") ] = $elem.hasClass("trumbowyg-editor") ? unloadTrumbowyg($elem,false) : $elem.val() ;
     } ;
     $("input[type='text'].param").each( function() { add_param( $(this) ) ; } ) ;
-    $("textarea.param").each( function() { add_param( $(this) ) ; } ) ;
+    $(".trumbowyg-editor.param").each( function() { add_param( $(this) ) ; } ) ;
     $("select.param").each( function() { add_param( $(this) ) ; } ) ;
 
     // fix up the turn track parameters
@@ -1622,7 +1623,7 @@ function edit_template( template_id )
         },
         open: function() {
             on_dialog_open( $(this) ) ;
-            $(this).height( $(this).height() ) ; // fudge: force the textarea to resize
+            $(this).height( $(this).height() ) ; // fudge: force everything to resize
             $("#edit-template textarea").change( on_template_change ) ;
         },
         beforeClose: function() {
@@ -1751,10 +1752,11 @@ function do_load_scenario_data( params )
             }
         }
         else {
-            if ( $elem.prop( "disabled" ) )
-                $elem.val( "" ) ;
+            var val = $elem.prop("disabled") ? "" : params[key] ;
+            if ( $elem.hasClass( "trumbowyg-editor" ) )
+                $elem.trumbowyg( "html", val ) ;
             else
-                $elem.val( params[key] ) ;
+                $elem.val( val ) ;
             if ( key === "ASA_ID" )
                 updateForConnectedScenario( params[key], params.ROAR_ID ) ;
         }
@@ -1862,19 +1864,35 @@ function do_load_scenario_data( params )
             continue ;
         }
         //jshint loopfunc: true
-        var $elem = $("input[type='text'][name='"+key+"'].param").each( function() {
+        var $elem = $( "input[type='text'][name='" + key + "'].param" ).each( function() {
             set_param( $(this), key ) ;
         } ) ;
-        $elem = $("textarea[type='text'][name='"+key+"'].param").each( function() {
+        $elem = $( ".trumbowyg-editor[name='" + key + "'].param" ).each( function() {
             set_param( $(this), key ) ;
         } ) ;
-        $elem = $("select[name='"+key+"'].param").each( function() {
+        $elem = $( "select[name='" + key + "'].param" ).each( function() {
             if ( key !== "PLAYER_1" && key !== "PLAYER_2" )
                 set_param( $(this), key ).trigger( "change" ) ;
         } ) ;
     }
     if ( ! params.ASA_ID )
         updateForConnectedScenario( null, null ) ;
+
+    // NOTE: Loading the Victory Conditions creates a Trumbowyg history entry, so we clear the history
+    // so that user can't accidentally undo state all the way back to an empty control.
+    var trumbowyg = $( ".param[name='VICTORY_CONDITIONS']" ).data( "trumbowyg" ) ;
+    if ( trumbowyg ) {
+        var plugin = trumbowyg.o.plugins.history ;
+        plugin._stack = [] ;
+        plugin._index = -1 ;
+    }
+
+    // FUDGE! The introduction of the Trumbowyg introduced a timing issue dring startup - the Victory Conditions
+    // control can't be initialized until some things arrive from the backend, but loading the default scenario
+    // happens before then (which is where we are now), and so we end up warning about an unused key.
+    // Nornally, the default scenario would never contain VC, but it's useful for testing, so we handle it here.
+    gPendingVictoryConditions = params.VICTORY_CONDITIONS ;
+    delete params.VICTORY_CONDITIONS ;
 
     // look for unrecognized keys
     var buf = [] ;
@@ -2132,7 +2150,7 @@ function reset_scenario()
         if ( ! $.contains( $("#tabs-extras")[0], $(this)[0] ) )
             $(this).val( "" ) ;
     } ) ;
-    $("textarea.param").each( function() { $(this).val("") ; } ) ;
+    $(".trumbowyg-editor").each( function() { $(this).trumbowyg( "empty" ) ; } ) ;
     $("input[type='checkbox']").prop( "checked", false ) ;
     $( "select[name='TURN_TRACK_NTURNS'].param" ).val( "" ).trigger( "change" ) ;
 
