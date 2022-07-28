@@ -774,11 +774,14 @@ function update_page_load_status( id )
         ) ;
         $("#tabs").tabs({ disabled: [] }) ;
         $("#loader").fadeOut( 500 ) ;
-        adjust_footer_vspacers() ;
         // initialize the HTML WYSIWYG editors (nb: we do it here, since we need the app config
         // and template pack (for the player flags))
         initVictoryConditionsTrumbowyg() ;
-        $( "#panel-vc .footer" ).fadeIn( 2*1000 ) ;
+        // FUDGE! There are problems with the layout jumping around during startup in the desktop app,
+        // so we hide the footers on the scenario tab (which is the one visible during startup),
+        // and only show them them when we're ready.
+        $( "#tabs-scenario .footer" ).fadeIn( 2*1000 ) ;
+        adjust_footer_vspacers() ;
         // FUDGE! This works around a timing problem during startup, where we unload the current parameters
         // before the Victory Conditions Trumbowyg control has initialized (and so doesn't get included).
         gLastSavedScenario = unload_params_for_save( false ) ;

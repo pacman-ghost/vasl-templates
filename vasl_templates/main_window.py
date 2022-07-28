@@ -97,7 +97,7 @@ class MainWindow( QWidget ):
             # NOTE: This should be wide enough for the sortable hints to not wrap (so that
             # we don't see a scrollbar when their panels are reduced to their minimum height).
             # We also want the Trumbowyg button pane for the VC to wrap somewhere sensible.
-            self.setMinimumSize( 1030, 630 )
+            self.setMinimumSize( 1030, 650 )
 
         # initialize the layout
         layout = QVBoxLayout( self )

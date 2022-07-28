@@ -26,18 +26,13 @@
 .trumbowyg-modal-box .trumbowyg-input-infos label { color: #444 ; font-weight: bold ; }
 
 /* configure button */
-.trumbowyg-foreColor-button {
+.trumbowyg-foreColor-button, .trumbowyg-backColor-button {
     width: 40px !important ;
     background: no-repeat 12px 12px url("../images/color-picker.png") !important ;
     background-size: 12px 12px !important ;
     filter: grayscale(100%) brightness(60%) ;
 }
-.trumbowyg-backColor-button {
-    width: 40px !important ;
-    background: no-repeat 11px 11px url("../images/color-picker-bgd.png") !important ;
-    background-size: 14px 14px !important ;
-    filter: grayscale(100%) brightness(60%) ;
-}
+.trumbowyg-backColor-button { background-image: url("../images/color-picker-bgd.png") !important ; }
 .trumbowyg-removeformat-button { line-height: 33px !important ;  border:1px dotted red; }
 .trumbowyg-dropdown-specialChars { width: 320px ; max-width: 320px ; }
 
