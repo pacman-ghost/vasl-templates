@@ -6,10 +6,12 @@ body {
 p { margin-top: 5px ; margin-bottom: 0 ; }
 
 ul { margin: 0 ; padding: 0 0 0 10px ; }
+ol { margin: 0 ; padding: 0 0 0 21px ; }
 {%if CUSTOM_LIST_BULLETS%}
 ul { list-style-image: url("{{IMAGES_BASE_URL}}/bullet.png") ; }
 ul ul { list-style-image: url("{{IMAGES_BASE_URL}}/bullet2.png") ; }
 ul ul ul { list-style-image: url("{{IMAGES_BASE_URL}}/bullet3.png") ; }
+ol { list-style-image: none ; }
 {%endif%}
 
 td { margin: 0 ; padding: 0 ; }

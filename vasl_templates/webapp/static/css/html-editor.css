@@ -8,9 +8,11 @@
 .trumbowyg-button-group button::after { top: 25px !important ; }
 
 /* custom bullets for the editor */
-.trumbowyg-editor ul { margin: 0 0 0 0.85em ; list-style-image: url("../images/bullet.png") ; }
-.trumbowyg-editor ul ul { margin: 0 0 0 0.85em ; list-style-image: url("../images/bullet2.png") ; }
-.trumbowyg-editor ul ul ul { margin: 0 0 0 0.85em ; list-style-image: url("../images/bullet3.png") ; }
+.trumbowyg-editor ul { margin: 0 0 0 0.9em ; }
+.trumbowyg-editor ol { margin: 0 0 0 1.8em ; list-style-image: none ; }
+.trumbowyg-editor ul { list-style-image: url("../images/bullet.png") ; }
+.trumbowyg-editor ul ul { list-style-image: url("../images/bullet2.png") ; }
+.trumbowyg-editor ul ul ul { list-style-image: url("../images/bullet3.png") ; }
 
 /* make tables visible in the editor */
 .trumbowyg-editor table.table { width: auto ; }
