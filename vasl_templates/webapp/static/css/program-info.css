@@ -8,6 +8,7 @@
 
 #program-info .downloads td { padding-top: 0 ; padding-bottom: 0 ; }
 #program-info .downloads td.key { width: 12.5em ; }
+#program-info .downloads td.key li { margin-top: -1px ; }
 
 #program-info .na { font-style: italic ; color: #444 ; }
 #program-info .path { font-family: monospace ; font-size: 80% ; }

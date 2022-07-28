@@ -60,6 +60,7 @@ input.snippet-width { width: 3.75em ; }
 .sp-palette-row-selection { margin-top: 6px ; border-top: 1px solid #ccc ; padding-top: 6px ; }
 
 /* growl notification balloons */
+#growls-br { bottom: 2px ; right: 3px ; }
 .growl-title { display: none ; }
 .growl-close { position: absolute ; top: 0 ; right: 5px ; }
 .growl .pre { font-family: monospace ; }

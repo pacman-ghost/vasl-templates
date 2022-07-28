@@ -1626,7 +1626,9 @@ function edit_template( template_id )
         open: function() {
             on_dialog_open( $(this) ) ;
             $(this).height( $(this).height() ) ; // fudge: force everything to resize
-            $("#edit-template textarea").change( on_template_change ) ;
+            var $elem = $( "#edit-template textarea" ) ;
+            $elem.change( on_template_change ) ;
+            $elem.scrollTop( 0 )[0].setSelectionRange( 0, 0 ) ;
         },
         beforeClose: function() {
             gEditTemplateDlgState = getDialogState( $(this) ) ;

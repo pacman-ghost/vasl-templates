@@ -51,7 +51,7 @@ class AboutDialog( QDialog ):
                 time.strftime( "%d %B %Y %H:%M", time.localtime( build_info["timestamp"] ) )
             ) )
             if "git_info" in build_info:
-                buf.write( " <small><em>({})</em></small>".format( build_info["git_info"] ) )
+                buf.write( " <small><tt>({})</tt></small>".format( build_info["git_info"] ) )
             buf.write( "." )
             self.build_info.setText( buf.getvalue() )
         else:

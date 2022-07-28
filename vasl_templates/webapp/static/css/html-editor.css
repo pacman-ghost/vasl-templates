@@ -26,7 +26,7 @@
 .trumbowyg-modal-box .trumbowyg-input-infos label { color: #444 ; font-weight: bold ; }
 
 /* configure button */
-.trumbowyg-foreColor-button {
+.trumbowyg-foreColor-button, .trumbowyg-backColor-button {
     width: 40px !important ;
     background: no-repeat 12px 12px url("../images/trumbowyg/fore-color.png") !important ;
     background-size: 12px 12px !important ;
