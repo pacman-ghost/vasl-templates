@@ -1,4 +1,4 @@
-/* NOTE: This CSS is split out into a separate file so we can apply it when generating Chapter H notes as images. */
+{# NOTE: This CSS is split out into a separate file so we can apply it when generating Chapter H notes as images. #}
 
 img.piece { float: left ; margin-right: 0.5em ; }
 
@@ -22,3 +22,6 @@ img.piece { float: left ; margin-right: 0.5em ; }
 table.layout td { padding: 0 5px ; }
 
 .content .rf { display: none ; }
+
+{# FUDGE! VASSAL and modern browsers differ on how much left margin there should be :-/ The default setting works on VASSAL, but because I serve Chapter H as images (which get generated in a modern browser), we change things to suit that. Note that there are other places where unordered lists are used (e.g. multi-applicable notes), but since those are typically only shown in VASSAL, we let them use the VASSAL-preferred setting. #}
+.content ul { margin-left: 5px ; }
