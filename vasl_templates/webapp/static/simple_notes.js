@@ -188,6 +188,11 @@ function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, defau
                     var $elem = $entry.find( "img.snippet" ) ;
                     if ( $elem.length !== 0 )
                         $elem.click() ;
+                    else {
+                        // FUDGE! SSR sortables don't have individual snippet buttons, but a shared one for them all.
+                        if ( $entry.parent().attr( "id" ) === "ssr-sortable" )
+                            $( "button.generate[data-id='ssr']" ).click() ;
+                    }
                 }
                 $(this).dialog( "close" ) ;
             },
