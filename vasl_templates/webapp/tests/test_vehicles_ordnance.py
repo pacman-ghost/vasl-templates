@@ -161,7 +161,7 @@ def test_snippets( webapp, webdriver ):
         btn.click()
         caps = '"XYZ"'
         if vo_type == "vehicles":
-            caps += ' "<span class=\'brewup\'>cs 4</span>"'
+            caps += ' "<span class="brewup">cs 4</span>"'
         expected = [
             '[German] ; width=',
             '[*] another german {}: #=2'.format( vo_type0 ),

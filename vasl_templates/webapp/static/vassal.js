@@ -140,6 +140,7 @@ function _generate_snippets()
             } else
                 snippet_id = template_id + "." + data.id ;
             extra_params = get_simple_note_snippet_extra_params( $btn ) ;
+            sanitizeParams( extra_params ) ;
         }
         if ( ["ob_vehicle_note","ob_ordnance_note"].indexOf( template_id ) !== -1 ) {
             data = $btn.parent().parent().data( "sortable2-data" ) ;

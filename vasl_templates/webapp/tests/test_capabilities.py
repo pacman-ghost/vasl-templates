@@ -514,7 +514,7 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
         return elems
 
     # check the vehicle's snippet
-    check_snippet( '"XYZ" "<span class=\'brewup\'>cs 4</span>"' )
+    check_snippet( '"XYZ" "<span class="brewup">cs 4</span>"' )
 
     # edit the vehicle's capabilities
     vehicles_sortable = find_child( "#ob_vehicles-sortable_1" )
@@ -581,7 +581,7 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     btn = find_child( "#vo_capabilities-reset" )
     btn.click()
     click_dialog_button( "OK" )
-    check_snippet( '"XYZ" "<span class=\'brewup\'>cs 4</span>"' )
+    check_snippet( '"XYZ" "<span class="brewup">cs 4</span>"' )
 
     # make sure the custom capabilities are no longer saved in the scenario
     saved_scenario2 = save_scenario()

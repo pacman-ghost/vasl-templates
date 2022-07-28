@@ -53,6 +53,7 @@ function initTrumbowyg( $elem, buttons, $parentDlg )
                 },
             },
         },
+        tagsToRemove: gAppConfig.trumbowyg[ "tag-blacklist" ],
     } ) ;
     var $parent = $elem.parent() ;
     var $btnPane = $parent.find( ".trumbowyg-button-pane" ) ;
@@ -146,6 +147,7 @@ function unloadTrumbowyg( $elem, removeFirstPara )
     val = strReplaceAll( val, "<br></p>", "</p>" ) ;
     while ( val.substring( val.length-4 ) === "<br>" )
         val = val.substring( 0, val.length-4 ).trim() ;
+
     return val ;
 }
 
@@ -211,4 +213,24 @@ function updateTrumbowygFlagsDropdown( $elem )
     $btn = $btns[ nat1 ] ;
     if ( $btn )
         $dropdown.prepend( $btn ) ;
+}
+
+// --------------------------------------------------------------------
+
+function sanitizeParams( params )
+{
+    // recursively sanitize the scenario params
+    for ( var key in params ) {
+        if ( ! params.hasOwnProperty( key ) )
+            continue ;
+        if ( typeof params[key] === "object" )
+            sanitizeParams( params[key] ) ;
+        else if ( typeof params[key] === "string" ) {
+            var sanitized = DOMPurify.sanitize(
+                params[key],
+                { USE_PROFILES: { html: true } }
+            ) ;
+            params[key] = sanitized ;
+        }
+    }
 }

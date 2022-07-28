@@ -167,6 +167,14 @@ def get_app_config():
     # the Trumbowyg control is in a dialog, and given VASSAL's handling of images, we don't
     # really want to be encouraging their use :-/
     vals[ "trumbowyg" ] = {
+        # NOTE: Trumbowyg only allows tags to be black-listed, not attributes, but since we mostly
+        # do HTML sanitization using DOMPurify when loading/unloading the UI, what we configure here
+        # is only used to protect against the case where the user enters some malicious HTML into
+        # the editor i.e. the only risk is that they mess up their own session :-/
+        "tag-blacklist": get_json_val( "TRUMBOWYG_TAG_BLACKLIST", [
+            "script", "iframe", "form", "link", "style", "meta", "object", "applet",
+            "audio", "base", "bgsound", "embed", "isindex", "keygen", "layer", "svg", "template", "video",
+        ] ),
         "format-options": get_json_val( "TRUMBOWYG_FORMAT_OPTIONS", [
             "h1", "h2", "h3",
         ] ),

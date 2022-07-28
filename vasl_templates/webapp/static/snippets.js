@@ -43,6 +43,7 @@ function generate_snippet( $btn, as_image, extra_params )
     // generate the snippet
     var template_id = $btn.data( "id" ) ;
     var params = unload_snippet_params( true, template_id ) ;
+    sanitizeParams( extra_params ) ;
     var snippet = make_snippet( $btn, params, extra_params, true ) ;
 
     // check if the user is requesting the snippet as an image
@@ -1084,6 +1085,7 @@ function unload_snippet_params( unpack_scenario_date, template_id )
     get_vo( "ordnance", 1, "OB_ORDNANCE_1", template_id === "ob_ordnance_1" ) ;
     get_vo( "ordnance", 2, "OB_ORDNANCE_2", template_id === "ob_ordnance_2" ) ;
 
+    sanitizeParams( params ) ;
     return params ;
 }
 
@@ -1716,6 +1718,12 @@ function do_load_scenario_data( params )
     reset_scenario() ;
     gScenarioCreatedTime = params._creation_time ;
 
+    // sanitize the HTML
+    if ( ! getUrlParam( "no_sanitize_load" ) ) {
+        // NOTE: This is optional to make it easier for the test suite to bulk-load unsafe content.
+        sanitizeParams( params ) ;
+    }
+
     // auto-assign ID's to the OB setup notes and notes
     // NOTE: We do this here to handle scenarios that were created before these ID's were implemented.
     auto_assign_ids( params.SCENARIO_NOTES, "id" ) ;
@@ -2097,6 +2105,7 @@ function unload_params_for_save( includeMetadata )
         }
     }
 
+    sanitizeParams( params ) ;
     return params ;
 }
 
