@@ -184,7 +184,7 @@ function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, defau
                     }
                 }
                 // check if we should automatically generate a snippet
-                if ( isKeyDown( "Shift" ) ) {
+                if ( isKeyDown( "Shift" ) && data.caption !== "" ) {
                     var $elem = $entry.find( "img.snippet" ) ;
                     if ( $elem.length !== 0 )
                         $elem.click() ;
