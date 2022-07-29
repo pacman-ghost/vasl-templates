@@ -1,4 +1,5 @@
 gAppConfig = {} ;
+gProgramInfo = {} ;
 gDefaultTemplatePack = null ;
 gTemplatePack = {} ;
 gHasPlayerFlag = {} ;
@@ -794,6 +795,12 @@ function update_page_load_status( id )
         } ).fail( function( xhr, status, errorMsg ) {
             showErrorMsg( "Can't get the startup messages:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
         } ) ;
+        // get the program info (nb: we need this, but it's not required during startup)
+        getProgramInfo( function( resp ) {
+            gProgramInfo = resp ;
+        }, function( errorMsg ) {
+            showErrorMsg( "Can't get the program info:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
+        } ) ;
     }
 }
 
@@ -1211,14 +1218,13 @@ function show_program_info()
             var $dlg = $(this) ;
             $dlg.find( ".content" ).hide() ;
             $dlg.find( ".loader" ).show() ;
-            var url = gGetProgramInfoUrl + "?tz_offset=" + -new Date().getTimezoneOffset() ;
-            $.get( url, function( resp ) {
+            getProgramInfo( function( resp ) {
                 $dlg.find( ".loader" ).hide() ;
                 $dlg.find( ".content" ).html( resp ).fadeIn( 250 ) ;
-            } ).fail( function( xhr, status, errorMsg ) {
+            }, function( errorMsg ) {
                 showErrorMsg( "Can't get the program info:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
                 $dlg.dialog( "close" ) ;
-            } ) ;
+            }, "html" ) ;
         },
         beforeClose: function() {
             gProgramInfoDlgState = getDialogState( $(this) ) ;
@@ -1231,6 +1237,18 @@ function show_program_info()
     } ) ;
 }
 
+function getProgramInfo( onSuccess, onError, format )
+{
+    // get the program info
+    var url = gGetProgramInfoUrl + "?tz_offset=" + -new Date().getTimezoneOffset() ;
+    if ( format )
+        url += "&f=" + format ;
+    $.get( url, function( resp ) {
+        onSuccess( resp ) ;
+    } ).fail( function( xhr, status, errorMsg ) {
+        onError( errorMsg ) ;
+    } ) ;
+}
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 function show_help()
