@@ -19,7 +19,7 @@ import vasl_templates.webapp.config.constants
 from vasl_templates.webapp.config.constants import BASE_DIR, DATA_DIR, IS_FROZEN
 from vasl_templates.webapp import globvars
 from vasl_templates.webapp.lfa import DEFAULT_LFA_DICE_HOTNESS_WEIGHTS, DEFAULT_LFA_DICE_HOTNESS_THRESHOLDS
-from vasl_templates.utils import get_build_info
+from vasl_templates.utils import get_build_info, get_build_git_info
 
 # NOTE: This is used to stop multiple instances of the program from running (see main.py in the desktop app).
 INSTANCE_ID = uuid.uuid4().hex
@@ -232,6 +232,9 @@ def get_program_info():
         "APP_VERSION": vasl_templates.webapp.config.constants.APP_VERSION,
         "VASSAL_VERSION": VassalShim.get_version()
     }
+    build_git_info = get_build_git_info()
+    if build_git_info:
+        params[ "BUILD_GIT_INFO" ] = build_git_info
     if globvars.vasl_mod:
         params[ "VASL_VERSION" ] = globvars.vasl_mod.vasl_version
         params[ "VASL_REAL_VERSION" ] = globvars.vasl_mod.vasl_real_version
@@ -266,12 +269,10 @@ def get_program_info():
                 to_localtime( datetime.utcfromtimestamp( build_info["timestamp"] ) ),
                 "%H:%M (%d %b %Y)"
             )
-            params[ "BUILD_GIT_INFO" ] = build_info[ "git_info" ]
 
     # check if we are running inside a Docker container
     if app.config.get( "IS_CONTAINER" ):
         # yup - return related information
-        params[ "BUILD_GIT_INFO" ] = os.environ.get( "BUILD_GIT_INFO" )
         params[ "DOCKER_IMAGE_NAME" ] = os.environ.get( "DOCKER_IMAGE_NAME" )
         params[ "DOCKER_IMAGE_TIMESTAMP" ] = datetime.strftime(
             parse_timestamp( os.environ.get( "DOCKER_IMAGE_TIMESTAMP" ) ),
@@ -307,7 +308,9 @@ def get_program_info():
     check_df( _asa_scenarios )
     check_df( _roar_scenarios )
 
-    return render_template( "program-info-content.html", **params )
+    if request.args.get( "f" ) == "html":
+        return render_template( "program-info-content.html", **params )
+    return jsonify( params )
 
 # ---------------------------------------------------------------------
 

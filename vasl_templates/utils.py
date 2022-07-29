@@ -6,7 +6,8 @@ import logging
 import traceback
 import json
 
-from vasl_templates.webapp.config.constants import BASE_DIR
+from vasl_templates.webapp import app
+from vasl_templates.webapp.config.constants import BASE_DIR, IS_FROZEN
 
 # ---------------------------------------------------------------------
 
@@ -31,6 +32,16 @@ def get_build_info():
         result["git_info"] = git_info
 
     return result
+
+def get_build_git_info():
+    """Get the git details for the current build."""
+    if IS_FROZEN:
+        build_info = get_build_info()
+        if build_info:
+            return build_info[ "git_info" ]
+    elif app.config.get( "IS_CONTAINER" ):
+        return os.environ.get( "BUILD_GIT_INFO" )
+    return None
 
 # ---------------------------------------------------------------------
 
