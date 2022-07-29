@@ -50,13 +50,13 @@ def test_snippet_ids( webapp, webdriver ):
         set_scenario_date( scenario_date )
 
         # check each snippet
-        snippet_btns = find_snippet_buttons()
         for tab_id,btns in snippet_btns.items():
             select_tab( tab_id )
             for btn in btns:
                 check_snippet( btn )
 
     # test snippets with German/Russian
+    snippet_btns = find_snippet_buttons()
     do_test( "" )
     do_test( "10/01/1943" )
     do_test( "01/01/1944" )
@@ -67,6 +67,7 @@ def test_snippet_ids( webapp, webdriver ):
         "PLAYER_1": "british", "PLAYER_2": "american",
         "COMPASS": "right",
     } )
+    snippet_btns = find_snippet_buttons()
     do_test( "" )
     do_test( "11/01/1942" )
 

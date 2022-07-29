@@ -167,8 +167,7 @@ def test_kgs_extensions( webapp, webdriver ):
         add_vo( webdriver, "vehicles", 2, veh_name )
 
         # edit the vehicle
-        vehicles_sortable = find_child( "#ob_vehicles-sortable_2" )
-        elems = find_children( "li", vehicles_sortable )
+        elems = find_children( "#ob_vehicles-sortable_2 li" )
         ActionChains(webdriver).double_click( elems[-1] ).perform()
         dlg = find_child( ".ui-dialog.edit-vo" )
 
@@ -272,8 +271,7 @@ def test_bfp_extensions( webapp, webdriver ):
     ], transform=_extract_extn_ma_notes )
 
     # test the Chapter H note
-    vehicles_sortable = find_child( "#ob_vehicles-sortable_1" )
-    elems = find_children( "li img.snippet", vehicles_sortable )
+    elems = find_children( "#ob_vehicles-sortable_1 li img.snippet" )
     assert len(elems) == 2
     elems[0].click()
     wait_for_clipboard( 2, "By 1935 the latest European tanks", contains=True )
