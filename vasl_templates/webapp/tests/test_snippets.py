@@ -12,7 +12,7 @@ from vasl_templates.webapp.tests import pytest_options
 from vasl_templates.webapp.tests.test_user_settings import set_user_settings, SCENARIO_IMAGES_SOURCE_THIS_PROGRAM
 from vasl_templates.webapp.tests.utils import \
     init_webapp, select_tab, find_snippet_buttons, set_template_params, wait_for, wait_for_clipboard, wait_for_elem, \
-    get_stored_msg, set_stored_msg_marker, find_child, find_children, find_sortable_helper, adjust_html, \
+    get_stored_msg, set_stored_msg_marker, find_child, find_children, find_sortable_helper, \
     for_each_template, add_simple_note, edit_simple_note, click_dialog_button, \
     load_trumbowyg, unload_trumbowyg, get_trumbowyg_editor, \
     get_sortable_entry_count, generate_sortable_entry_snippet, drag_sortable_entry_to_trash, \
@@ -180,7 +180,7 @@ def test_scenario_notes_snippets( webapp, webdriver ):
     sortable = find_child( "#scenario_notes-sortable" )
     add_simple_note( sortable, "scenario <i>note</i> #1", None )
     add_simple_note( sortable, "scenario note #2", "100px" )
-    assert generate_sortable_entry_snippet( sortable, 0 ) == adjust_html( "[scenario <i>note</i> #1]" )
+    assert generate_sortable_entry_snippet( sortable, 0 ) == "[scenario <i>note</i> #1]"
     assert generate_sortable_entry_snippet( sortable, 1 ) == "[scenario note #2] (width=[100px])"
 
     # delete a scenario note by dragging it into the trash

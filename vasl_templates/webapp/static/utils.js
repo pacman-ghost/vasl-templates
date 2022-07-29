@@ -124,12 +124,6 @@ function copyToClipboard( val )
         return ;
     }
 
-    // IE-specific code path to prevent textarea being shown while dialog is visible
-    if ( window.clipboardData && window.clipboardData.setData ) {
-        clipboardData.setData( "Text", val ) ;
-        return ;
-    }
-
     // FUDGE! If a dialog is open, the overlay will stop the copy command from working,
     // so we attach the <textarea> to the dialog instead. Setting the z-index to something
     // large is also supposed to work, but apparently not... :-/
@@ -686,16 +680,6 @@ function makeBlob( data, mimeType )
     return new Blob( [bytes], {
         type: mimeType || "application/octet-stream"
     } ) ;
-}
-
-function isIE()
-{
-    // check if we're running in IE :-/
-    if ( navigator.userAgent.indexOf("MSIE") !== -1 )
-        return true ;
-    if ( navigator.appVersion.indexOf("Trident/") !== -1 )
-        return true ;
-    return false ;
 }
 
 isKeyDown = ( function( key ) {
