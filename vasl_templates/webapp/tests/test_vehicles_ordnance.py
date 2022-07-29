@@ -478,10 +478,11 @@ def test_vo_images( webapp, webdriver ): #pylint: disable=too-many-statements
         .set_data_dir( "{REAL}" ) \
         .set_vasl_version( "random", None )
     init_webapp( webapp, webdriver, scenario_persistence=1 )
+    vehicle_sortables = [ find_child( "#ob_vehicles-sortable_1" ), find_child( "#ob_vehicles-sortable_2" ) ]
 
     def check_sortable2_entries( player_no, expected ):
         """Check the settings on the player's vehicles."""
-        entries = find_children( "#ob_vehicles-sortable_{} li".format( player_no ) )
+        entries = find_children( "li", vehicle_sortables[player_no-1] )
         for i,entry in enumerate(entries):
             # check the displayed image
             elem = find_child( "img", entry )

@@ -868,8 +868,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
 
     def get_sortable_elem():
         """Find the sortable element for the test vehicle."""
-        sortable = find_child( "#ob_vehicles-sortable_1" )
-        elems = find_children( "li", sortable )
+        elems = find_children( "#ob_vehicles-sortable_1 li" )
         assert len(elems) == 1
         return elems[0]
     def check_elite( expected, custom ):

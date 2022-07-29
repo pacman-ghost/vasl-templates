@@ -96,8 +96,7 @@ def test_multiple_images( webapp, webdriver ):
     )
 
     # select the second image for the vehicle
-    sortable = find_child( "#ob_vehicles-sortable_1" )
-    elems = find_children( "li", sortable )
+    elems = find_children( "#ob_vehicles-sortable_1 li" )
     assert len(elems) == 1
     ActionChains(webdriver).double_click( elems[0] ).perform()
     btn = wait_for_elem( 2, "#edit-vo input.select-vo-image" )

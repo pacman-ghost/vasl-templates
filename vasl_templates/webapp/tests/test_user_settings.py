@@ -235,6 +235,7 @@ def test_vo_notes_as_images( webapp, webdriver ):
     # initialize
     webapp.control_tests.set_vo_notes_dir( "{TEST}" )
     init_webapp( webapp, webdriver, scenario_persistence=1 )
+    vehicles_sortable = find_child( "#ob_vehicles-sortable_1" )
 
     # load the test vehicle
     load_scenario( {
@@ -245,8 +246,7 @@ def test_vo_notes_as_images( webapp, webdriver ):
 
     def check_snippet( expected ):
         """Generate and check the vehicle note snippet."""
-        sortable = find_child( "#ob_vehicles-sortable_1" )
-        elems = find_children( "li", sortable )
+        elems = find_children( "li", vehicles_sortable )
         assert len(elems) == 1
         btn = find_child( "img.snippet", elems[0] )
         btn.click()
