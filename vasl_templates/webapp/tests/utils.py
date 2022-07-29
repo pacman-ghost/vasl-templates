@@ -730,22 +730,6 @@ def unload_table( xpath, unload, html=None ):
 
 # ---------------------------------------------------------------------
 
-_IE_HTML_TAGS = [ "<i>" ]
-
-def adjust_html( val ):
-    """Adjust HTML content for IE."""
-    if vasl_templates.webapp.tests.pytest_options.webdriver != "ie":
-        return val
-    # convert HTML tags to uppercase :-/
-    for tag in _IE_HTML_TAGS:
-        val = val.replace( tag, tag.upper() )
-        assert tag.startswith( "<" ) and tag.endswith( ">" )
-        close_tag = "</{}".format( tag[1:] )
-        val = val.replace( close_tag, close_tag.upper() )
-    return val
-
-# ---------------------------------------------------------------------
-
 def get_css_classes( elem ):
     """Get the CSS classes for the specified element."""
     classes = elem.get_attribute( "class" )

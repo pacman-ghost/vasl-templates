@@ -385,12 +385,6 @@ $(document).ready( function () {
                 prevHeight[id] = h ;
             }
         } ) ;
-        // FUDGE! Some panels are rendering with the wrong width in IE :-/
-        if ( isIE() ) {
-            var set_width = function($elem) { $elem.width( $elem.parent().width() ) ; } ;
-            set_width( $("#panel-vc textarea") ) ;
-            set_width( $("#panel-ssr .content") ) ;
-        }
     } ) ;
     $(window).trigger( "resize" ) ;
 
@@ -785,8 +779,6 @@ function update_page_load_status( id )
         // FUDGE! This works around a timing problem during startup, where we unload the current parameters
         // before the Victory Conditions Trumbowyg control has initialized (and so doesn't get included).
         gLastSavedScenario = unload_params_for_save( false ) ;
-        // NOTE: The watermark image appears briefly in IE when reloading the page, but not even
-        // creating the watermark dynamically and removing it when the page unloads fixes it :-(
         $("#watermark").fadeIn( 5*1000 ) ;
         // notify the test suite
         $("body").append( $("<div id='_page-loaded_'></div>") ) ;
