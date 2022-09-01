@@ -1,15 +1,18 @@
 {
 
-"SCENARIO_NAME": "default scenario name",
-"SCENARIO_LOCATION": "default location",
+"SCENARIO_NAME": "default <i>scenario name</i>",
+"SCENARIO_LOCATION": "default <i>location</i>",
+"SCENARIO_ID": "sc <u>id</u>",
 "SCENARIO_DATE": "2000-12-25",
 "SCENARIO_WIDTH": "1px",
 
 "PLAYER_1": "american",
+"PLAYER_1_DESCRIPTION": "player 1 <i>description</i>",
 "PLAYER_1_ELR": "1",
 "PLAYER_1_SAN": "2",
 
 "PLAYER_2": "japanese",
+"PLAYER_2_DESCRIPTION": "player 2 <i>description</i>",
 "PLAYER_2_ELR": "3",
 "PLAYER_2_SAN": "4",
 

@@ -703,7 +703,7 @@ function onImportScenario()
 
 function doImportScenario( scenario )
 {
-    // reset the turn track
+    // reset the scenario settings
     $( "#panel-scenario input" ).each( function() {
         if ( $(this).attr( "name" ).substr( 0, 11 ) !== "TURN_TRACK_" )
             return ;
@@ -712,6 +712,9 @@ function doImportScenario( scenario )
             $(this).val( "" ) ;
         else if ( inputType === "checkbox" )
             $(this).prop( "checked", false ) ;
+    } ) ;
+    $( "#panel-scenario div.html-editor" ).each( function() {
+        $(this).html( "" ) ;
     } ) ;
 
     // reset the compass
@@ -782,12 +785,20 @@ function checkImportField_text( importField, newVal, scenario ) {
 
 function getImportFieldCurrVal_text( importField ) {
     // get the current field value
-    return $( "input[name='" + importField.paramName + "']" ).val().trim() ;
+    var $elem = $( ".param[name='" + importField.paramName + "']" ) ;
+    if ( $elem.hasClass( "html-textbox" ) )
+        return $elem.html().trim() ;
+    else
+        return $elem.val().trim() ;
 }
 
 function doImportField_text( importField, newVal, scenario ) {
     // update the field in the scenario
-    $( "input[name='" + importField.paramName + "']" ).val( newVal ) ;
+    var $elem = $( ".param[name='" + importField.paramName + "']" ) ;
+    if ( $elem.hasClass( "html-textbox" ) )
+        $elem.html( newVal ) ;
+    else
+        $elem.val( newVal ) ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

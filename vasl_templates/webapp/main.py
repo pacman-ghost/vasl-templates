@@ -209,6 +209,12 @@ def get_app_config():
             [ "specialChars", "flags", "emoji" ],
             [ "removeformat", "historyUndo", "historyRedo", "viewHTML", "fullscreen" ],
         ] ),
+        "html-textbox-dialog": get_json_val( "TRUMBOWYG_BUTTONS_HTML_TEXTBOX_DIALOG", [
+            [ "strong", "em", "underline", "del", "superscript", "subscript" ],
+            [ "foreColor", "backColor" ],
+            [ "specialChars", "flags", "emoji" ],
+            [ "removeformat", "historyUndo", "historyRedo", "viewHTML", "fullscreen" ],
+        ] ),
     }
 
     return jsonify( vals )

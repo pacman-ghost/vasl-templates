@@ -22,6 +22,7 @@
 
 #tabs-extras .right-panel table { margin-top: 1em ; }
 #tabs-extras .right-panel td.caption { font-weight: bold ; padding-right: 0.25em ; }
+#tabs-extras .right-panel td.value { display: flex ; align-items: center ; }
 #tabs-extras .right-panel .snippet-control { margin-top: 0.5em ; }
 
 #tabs-extras .right-panel .footer { margin-top: 1em ; font-size: 80% ; font-style: italic ; color: #444 ; }

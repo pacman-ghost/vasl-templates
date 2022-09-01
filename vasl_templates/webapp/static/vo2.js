@@ -29,12 +29,15 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
         $sortable.sortable2( "delete-all" ) ;
         for ( var i=0 ; i < entries.length ; ++i )
             add_entry( $sortable, entries[i], false ) ;
+        $sortable.scrollTop( 0 ) ;
     }
     function unload_entries( $sortable ) {
         var entries = [] ;
-        $sortable.find( "input[type='text']" ).each( function() {
-            var val = $(this).val().trim() ;
-            if ( val )
+        $sortable.find( "div.html-textbox" ).each( function() {
+            var val = $(this).html().trim() ;
+            while ( val.substr( val.length-4 ) === "<br>" )
+                val = val.substr( 0, val.length-4 ) ;
+            if ( val.length > 0 )
                 entries.push( val ) ;
         } ) ;
         return entries ;
@@ -90,21 +93,35 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
     var $capabilities = $( "#vo_capabilities-sortable" ) ;
     var $elite = $( "#edit-vo .capabilities input.elite" ) ;
     var $comments = $( "#vo_comments-sortable" ) ;
-    function add_entry( $sortable, val, visible ) {
+    function add_entry( $sortable, val, focus ) {
         var $elem = $( "<div>" +
             "<img class='dragger' src='" + gImagesBaseUrl + "/dragger.png'>" +
-            "<input type='text'>" +
+            "<div class='html-textbox'></div>" +
             "</div>"
         ) ;
-        $elem.children( "input[type='text']" ).val( val ).keydown( function(evt) {
+        var $htmlTextbox = $elem.children( "div.html-textbox" ) ;
+        $htmlTextbox.html( val ).keydown( function( evt ) {
             auto_dismiss_dialog( $dlg, evt, "OK" ) ;
         } ) ;
         var $entry = $sortable.sortable2( "add", {
             content: $elem,
             data: { fixed_height: "1.5em" },
         } ) ;
-        if ( visible ) {
-            $entry.find( "input[type='text']" ).focus() ;
+        var objName ;
+        if ( $sortable === $capabilities )
+            objName = vo_type + " capability" ;
+        else if ( $sortable === $comments )
+            objName = vo_type + " comment" ;
+        initHtmlTextbox( $htmlTextbox, objName, false ) ;
+        // FUDGE! This works around a weird presentation error if there are superscripts and daggers
+        // in the content, where ths text won't be vertically aligned properly. Moving the cursor around
+        // seems to fix the layout, so we move to the start of the content, which will be a "normal" character.
+        $htmlTextbox.focus().trigger(
+            { type: "keypress", keycode: $.ui.keyCode.HOME }
+        ) ;
+        // check if we should set focus to the entry
+        if ( focus ) {
+            $entry.find( "div.html-textbox" ).focus() ;
             $entry[0].scrollIntoView() ;
         }
     }
@@ -152,6 +169,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
         create: function() {
             // initialize the dialog
             init_dialog( $(this), "OK", false ) ;
+            // NOTE: We disable Control-Click deleting entries, because we want that to open the "edit HTML" dialog.
             $capabilities.sortable2( "init", {
                 add: function() { add_entry( $capabilities, "", true ) ; },
                 reset: on_reset_capabilities,
@@ -162,6 +180,14 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
                 reset: on_reset_comments,
                 no_confirm_delete: true,
             } ) ;
+            // FUDGE! Making the entire entry draggable causes problems when clicking inside the HTML textbox
+            // (presumably because the click event is being eaten somewhere). We can work around this by adding
+            // a click handler that sets focus to the textbox, but the cursor is always placed at the start
+            // of the content, not where the mouse was clicked. We work-around the problem by only allow entries
+            // to be be dragged via the dragger icon.
+            $capabilities.sortable( "option", "handle", ".dragger" ) ;
+            $comments.sortable( "option", "handle", ".dragger" ) ;
+            // handle changes to Elite status
             $elite.click( function() {
                 update_for_elite( $(this).prop( "checked" ) ? +1 : -1 ) ;
             } ) ;

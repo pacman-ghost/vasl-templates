@@ -6,14 +6,16 @@
         <div id="panel-scenario">
             <div class="row">
                 <label for="SCENARIO_NAME">Name:</label>
-                <input name="SCENARIO_NAME" type="text" class="param" title="Scenario name">
-                <input name="SCENARIO_ID" type="text" class="param" title="Scenario ID">
+                <div name="SCENARIO_NAME" class="param html-textbox" title="Scenario name"></div>
+                <span class="spacer"></span>
+                <div name="SCENARIO_ID" class="param html-textbox" title="Scenario ID"></div>
                 <button class="scenario-search" title="Search for scenarios"></button>
             </div>
             <div class="row">
                 <label for="SCENARIO_LOCATION">Location:</label>
-                <input name="SCENARIO_LOCATION" type="text" class="param" title="Scenario location">
+                <div name="SCENARIO_LOCATION" class="param html-textbox" title="Scenario location"></div>
                 <select name="SCENARIO_THEATER" class="param" title="Scenario theater"> </select>
+                <span class="spacer"></span>
                 <button class="generate" data-id="compass"></button>
                 <input name="COMPASS" type="text" class="param" style="display:none;width:1em;">
             </div>
@@ -59,7 +61,7 @@
             </div>
             <div class="row">
                 <label for="PLAYER_1_DESCRIPTION"></label>
-                <input name="PLAYER_1_DESCRIPTION" type="text" class="param" title="Description of the player's OB">
+                <div name="PLAYER_1_DESCRIPTION" class="param html-textbox" title="Description of the player's OB"></div>
             </div>
             <div class="row" style='max-width:32em;'>
                 <label for="PLAYER_2">Player 2:</label>
@@ -70,7 +72,7 @@
             </div>
             <div class="row">
                 <label for="PLAYER_2_DESCRIPTION"></label>
-                <input name="PLAYER_2_DESCRIPTION" type="text" class="param" title="Description of the player's OB">
+                <div name="PLAYER_2_DESCRIPTION" class="param html-textbox" title="Description of the player's OB"></div>
             </div>
             <div class="row">
                 <input name="ASA_ID" type="text" size="1" class="param" style="display:none;">

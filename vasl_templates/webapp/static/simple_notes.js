@@ -111,7 +111,7 @@ function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, defau
             if ( $width.length === 0 ) {
                 // create the width controls
                 $btn_pane.prepend( $( "<div style='position:absolute;left:19px;height:28px;display:flex;align-items:center;'>" +
-                    "<label for='width'>Width:</label>&nbsp;<input type='text' name='width' size='4' style='margin-top:-1px;'>" +
+                    "<label for='width'>Width:</label>&nbsp;<input type='text' name='width' size='4' style='margin-top:-2px;'>" +
                 "</div>" ) ) ;
                 $width = $btn_pane.find( "input[name='width']" ) ;
             }
@@ -120,10 +120,7 @@ function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, defau
                 initTrumbowyg( $caption, gAppConfig.trumbowyg["simple-note-dialog"], $(this) ) ;
             else {
                 // always start non-maximized, and in HTML mode
-                if ( $caption.parent().hasClass( "trumbowyg-fullscreen" ) )
-                    $caption.trumbowyg( "execCmd", { cmd: "fullscreen" } ) ;
-                if ( $caption.parent().hasClass( "trumbowyg-editor-hidden" ) )
-                    $caption.trumbowyg( "toggle" ) ;
+                resetTrumbowyg( $caption ) ;
             }
             // tweak the SNIPPETS button so that snippets will work
             $btn.data( { id: template_id, "player-no": player_no } ) ;
@@ -140,7 +137,7 @@ function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, defau
             $btn_pane.find( "label[for='width']" ).css( "display", show?"inline":"none" ) ;
             $width.css( "display", show?"inline":"none" ) ;
             $btn.css( { position: "absolute", left:
-                show ? $width.offset().left + $width.width() - $btn_pane.find("label[for='width']").offset().left + 25 : 15
+                show ? $width.offset().left + $width.width() - $btn_pane.find("label[for='width']").offset().left + 32 : 15
             } ) ;
             // enable auto-dismiss for the dialog
             var $dlg = $(this) ;

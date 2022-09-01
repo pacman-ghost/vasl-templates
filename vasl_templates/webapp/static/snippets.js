@@ -967,11 +967,19 @@ function unload_snippet_params( unpack_scenario_date, template_id )
             if ( template_id === null || template_id.substr(0,7) !== "extras/" )
                 return ;
         }
-        params[ $elem.attr("name") ] = $elem.hasClass("trumbowyg-editor") ? unloadTrumbowyg($elem,false) : $elem.val() ;
+        var val ;
+        if ( $elem.hasClass( "trumbowyg-editor" ) )
+            val = unloadTrumbowyg( $elem, false ) ;
+        else if ( $elem.hasClass( "html-textbox" ) )
+            val = $elem.html() ;
+        else
+            val = $elem.val() ;
+        params[ $elem.attr("name") ] = val ;
     } ;
-    $("input[type='text'].param").each( function() { add_param( $(this) ) ; } ) ;
-    $(".trumbowyg-editor.param").each( function() { add_param( $(this) ) ; } ) ;
-    $("select.param").each( function() { add_param( $(this) ) ; } ) ;
+    $( "input[type='text'].param" ).each( function() { add_param( $(this) ) ; } ) ;
+    $( "div.html-textbox.param" ).each( function() { add_param( $(this) ) ; } ) ;
+    $( ".trumbowyg-editor.param" ).each( function() { add_param( $(this) ) ; } ) ;
+    $( "select.param" ).each( function() { add_param( $(this) ) ; } ) ;
 
     // fix up the turn track parameters
     var nTurns = params.TURN_TRACK_NTURNS ;
@@ -1518,7 +1526,7 @@ function make_crew_survival( vo_entry )
     // check if the vehicle is subject to brew up
     var pos = crew_survival.indexOf( ":brewup" ) ;
     if ( pos !== -1 ) {
-        crew_survival = "<span class='brewup'>" +
+        crew_survival = "<span class=\"brewup\">" +
             crew_survival.substring(0,pos) + crew_survival.substring(pos+7) +
             "</span>" ;
     }
@@ -1766,6 +1774,8 @@ function do_load_scenario_data( params )
             var val = $elem.prop("disabled") ? "" : params[key] ;
             if ( $elem.hasClass( "trumbowyg-editor" ) )
                 $elem.trumbowyg( "html", val ) ;
+            else if ( $elem.hasClass( "html-textbox" ) )
+                $elem.html( val ) ;
             else
                 $elem.val( val ) ;
             if ( key === "ASA_ID" )
@@ -1875,13 +1885,16 @@ function do_load_scenario_data( params )
             continue ;
         }
         //jshint loopfunc: true
-        var $elem = $( "input[type='text'][name='" + key + "'].param" ).each( function() {
+        $( "input[type='text'][name='" + key + "'].param" ).each( function() {
             set_param( $(this), key ) ;
         } ) ;
-        $elem = $( ".trumbowyg-editor[name='" + key + "'].param" ).each( function() {
+        $( "div.html-textbox[name='" + key + "'].param" ).each( function() {
             set_param( $(this), key ) ;
         } ) ;
-        $elem = $( "select[name='" + key + "'].param" ).each( function() {
+        $( ".trumbowyg-editor[name='" + key + "'].param" ).each( function() {
+            set_param( $(this), key ) ;
+        } ) ;
+        $( "select[name='" + key + "'].param" ).each( function() {
             if ( key !== "PLAYER_1" && key !== "PLAYER_2" )
                 set_param( $(this), key ).trigger( "change" ) ;
         } ) ;
@@ -2008,8 +2021,8 @@ function on_save_scenario()
     // generate the save filename
     var save_fname = gLastSavedScenarioFilename ;
     if ( ! save_fname ) {
-        var scenario_name = params.SCENARIO_NAME.trim() ;
-        var scenario_id = params.SCENARIO_ID.trim() ;
+        var scenario_name = $( "div.html-textbox[name='SCENARIO_NAME']" ).text().trim() ;
+        var scenario_id = $( "div.html-textbox[name='SCENARIO_ID']" ).text().trim() ;
         if ( scenario_name && scenario_id )
             save_fname = scenario_name + " (" + scenario_id + ").json" ;
         else if ( scenario_name )
@@ -2158,12 +2171,13 @@ function do_on_new_scenario( user_requested ) {
 function reset_scenario()
 {
     // reset all the template parameters
-    $("input[type='text'].param").each( function() {
+    $( "input[type='text'].param" ).each( function() {
         if ( ! $.contains( $("#tabs-extras")[0], $(this)[0] ) )
             $(this).val( "" ) ;
     } ) ;
-    $(".trumbowyg-editor").each( function() { $(this).trumbowyg( "empty" ) ; } ) ;
-    $("input[type='checkbox']").prop( "checked", false ) ;
+    $( "div.html-textbox.param" ).each( function() { $(this).html( "" ) ; } ) ;
+    $( ".trumbowyg-editor" ).each( function() { $(this).trumbowyg( "empty" ) ; } ) ;
+    $( "input[type='checkbox']" ).prop( "checked", false ) ;
     $( "select[name='TURN_TRACK_NTURNS'].param" ).val( "" ).trigger( "change" ) ;
 
     // reset the player droplist's
@@ -2468,8 +2482,8 @@ function _update_vo_sortable2_entries()
 function update_scenario_status()
 {
     // get the scenario details
-    var scenario_name = $("input[name='SCENARIO_NAME']").val().trim() ;
-    var scenario_id = $("input[name='SCENARIO_ID']").val().trim() ;
+    var scenario_name = $( "div.html-textbox[name='SCENARIO_NAME']" ).text().trim() ;
+    var scenario_id = $( "div.html-textbox[name='SCENARIO_ID']" ).text().trim() ;
     var caption = "" ;
     if ( scenario_name && scenario_id )
         caption = scenario_name + " (" + scenario_id + ")" ;

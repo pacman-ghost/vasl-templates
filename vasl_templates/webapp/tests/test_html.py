@@ -1,9 +1,10 @@
-""" Test sanitizing HTML. """
+""" Test HTML-related functionality. """
 
 import os
 import re
 
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import \
     init_webapp, select_tab, click_dialog_button, load_trumbowyg, unload_trumbowyg, \
@@ -29,6 +30,9 @@ def test_sanitize_load_scenario( webapp, webdriver ):
     def check_val( name, expected ):
         elem = find_child( ".param[name='{}']".format( name ) )
         assert elem.get_attribute( "value" ) == expected
+    def check_html_textbox( name, expected ):
+        elem = find_child( "div.html-textbox[name='{}']".format( name ) )
+        assert elem.get_attribute( "innerHTML" ) == expected
     def check_trumbowyg( name, expected ):
         assert unload_trumbowyg( name ) == expected
     def check_sortable( sortable_sel, expected, expected_width ):
@@ -43,18 +47,18 @@ def test_sanitize_load_scenario( webapp, webdriver ):
     def check_custom_cap( sortable_sel, expected ):
         elem = find_child( "{} li".format( sortable_sel ) ) # nb: we assume there's only 1 entry
         ActionChains( webdriver ).double_click( elem ).perform()
-        elem = find_child( ".ui-dialog.edit-vo .sortable input" )
-        assert elem.get_attribute( "value" ) == expected
+        elem = find_child( ".ui-dialog.edit-vo .sortable div.html-textbox" )
+        assert elem.get_attribute( "innerHTML" ) == expected
         click_dialog_button( "Cancel" )
 
     # check what was loaded into the UI
     # NOTE: We can't use save_scenario), since that also sanitizes HTML.
-    check_val( "SCENARIO_NAME", "!scenario_name:#" )
-    check_val( "SCENARIO_ID", "!scenario_id:@@@#" )
-    check_val( "SCENARIO_LOCATION", "!scenario_location:<div style=\"text-align:right;\">@@@</div>#" )
+    check_html_textbox( "SCENARIO_NAME", "!scenario_name:#" )
+    check_html_textbox( "SCENARIO_ID", "!scenario_id:@@@#" )
+    check_html_textbox( "SCENARIO_LOCATION", "!scenario_location:<div style=\"text-align:right;\">@@@</div>#" )
     check_val( "SCENARIO_WIDTH", "!scenario_width:@@@#" )
-    check_val( "PLAYER_1_DESCRIPTION", "!player1_description:#" )
-    check_val( "PLAYER_2_DESCRIPTION", "!player2_description:#" )
+    check_html_textbox( "PLAYER_1_DESCRIPTION", "!player1_description:#" )
+    check_html_textbox( "PLAYER_2_DESCRIPTION", "!player2_description:#" )
     check_val( "PLAYERS_WIDTH", "!players_width:@@@#" )
     check_trumbowyg( "VICTORY_CONDITIONS", "!victory_conditions:@@@#" )
     check_val( "VICTORY_CONDITIONS_WIDTH", "!victory_conditions_width:@@@#" )
@@ -283,6 +287,44 @@ def test_sanitize_input( webapp, webdriver ):
     find_child( "button.snippet", dlg ).click()
     wait_for_clipboard( 2, "foo  bar", contains=True )
     click_dialog_button( "OK" )
+
+# ---------------------------------------------------------------------
+
+def test_html_textbox( webapp, webdriver ):
+    """Test HTML textbox's."""
+
+    # initialize
+    init_webapp( webapp, webdriver )
+
+    def transform( clipboard ):
+        mo = re.search( r"\[(.*?)\]", clipboard )
+        return mo.group(1)
+
+    # enter some plain text into an HTML textbox, then check its contents
+    ctrl = find_child( "div.html-textbox[name='SCENARIO_NAME']" )
+    ctrl.send_keys( "abc" )
+    snippet_btn = find_child( "button.generate[data-id='scenario']" )
+    snippet_btn.click()
+    wait_for_clipboard( 2, "abc", transform=transform )
+
+    # open the dialog to add some HTML content, then check its contents
+    ActionChains( webdriver ).key_down( Keys.ALT ).click( ctrl ).perform()
+    ActionChains( webdriver ).key_up( Keys.ALT ).perform()
+    dlg = wait_for_elem( 2, ".ui-dialog.edit-html_textbox" )
+    elem = find_child( ".trumbowyg-editor", dlg )
+    elem.send_keys( Keys.END )
+    elem.send_keys( " " )
+    find_child( "button.trumbowyg-strong-button", dlg ).click()
+    elem.send_keys( "bold" )
+    click_dialog_button( "OK" )
+    snippet_btn.click()
+    wait_for_clipboard( 2, "abc <b>bold</b>", transform=transform )
+
+    # modify the HTML textbox directly, then check its contents
+    ctrl.send_keys( Keys.END )
+    ctrl.send_keys( "!!!" )
+    snippet_btn.click()
+    wait_for_clipboard( 2, "abc <b>bold!!!</b>", transform=transform )
 
 # ---------------------------------------------------------------------
 

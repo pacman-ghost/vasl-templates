@@ -1,26 +1,33 @@
 /* -------------------------------------------------------------------- */
 
 #panel-scenario { display: flex ; flex-direction: column ; }
-fieldset[name='scenario'] { min-height: 91px ; max-height: 265px ; overflow: hidden ; }
+fieldset[name='scenario'] {
+    min-height: 91px ; overflow: hidden ;
+    max-height: 255px ; /* nb: overridden in desktop.css */
+}
 
 #panel-scenario .row { display: flex ; align-items: center ; margin-bottom: 2px ; }
-#panel-scenario input { flex-grow: 1 ; }
-#panel-scenario input[name='SCENARIO_ID'] { margin-left: 0.25em ; width: 70px ; flex-grow: 0 ; text-align: right ; }
+#panel-scenario div.html-textbox[name='SCENARIO_ID'] { margin-left: 0.25em ; width: 70px ; flex-grow: 0 ; }
 #panel-scenario .scenario-search { width: 25px ; height: 22px ; margin: 0 0 0 0.25em ; padding: 0 ; }
 #panel-scenario .scenario-search img { margin-top: 2px ; width: 16px ; }
-#panel-scenario input[name='SCENARIO_DATE'] { width: 6em ; flex-grow: 0 ; }
+#panel-scenario input[name='SCENARIO_DATE'] {
+    /* nb: override in desktop.css for v-alignment */
+    width: 6em ; flex-grow: 0 ; color: #333 ;
+}
 
 #panel-scenario button#turn-track-settings { width: 25px ; height: 24px ; margin-right: 5px ; padding: 3px 2px 2px 2px ; }
 
 #panel-scenario .select2[name="PLAYER_1"] { flex: 1 ; }
 #panel-scenario .select2[name="PLAYER_2"] { flex: 1 ; }
 
-#panel-scenario input[name="PLAYER_1_DESCRIPTION"],
-#panel-scenario input[name="PLAYER_2_DESCRIPTION"] {
+#panel-scenario div.html-textbox[name="PLAYER_1_DESCRIPTION"],
+#panel-scenario div.html-textbox[name="PLAYER_2_DESCRIPTION"] {
     font-size: 75% ;
+    height: 14px ; max-height: 14px ; line-height: 14px ;
 }
 
-#panel-scenario label { margin-top: 2px ; font-weight: bold ; width: 4.75em ; }
+/* nb: see desktop.css for overrides to this panel's labels */
+#panel-scenario label { height: 18px ; font-weight: bold ; width: 4.75em ; }
 #panel-scenario label.header { font-weight: bold ; width: 3em ; text-align: center ; }
 
 #panel-scenario .select2-container { margin-right: 2px ; }

@@ -192,10 +192,10 @@ window.uploadScenario = function() {
             // initialize
             gVsavData = gScreenshotData = null ;
             // load the dialog
-            var scenarioName = $("input[name='SCENARIO_NAME']").val().trim() ;
+            var scenarioName = $("div.html-textbox[name='SCENARIO_NAME']").text().trim() ;
             if ( scenarioName )
                 $gDialog.find( ".scenario-name" ).text( scenarioName ) ;
-            var scenarioId = $("input[name='SCENARIO_ID']").val().trim() ;
+            var scenarioId = $("div.html-textbox[name='SCENARIO_ID']").text().trim() ;
             if ( scenarioId )
                 $gDialog.find( ".scenario-id" ).text( "(" + scenarioId + ")" ) ;
             $gDialog.find( ".asa-id" ).text( "(#" + asaScenarioId + ")" ) ;

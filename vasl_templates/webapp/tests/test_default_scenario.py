@@ -16,13 +16,17 @@ def test_default_scenario( webapp, webdriver ):
     init_webapp( webapp, webdriver )
 
     # wait for the scenario to load
-    elem = find_child( "input[name='SCENARIO_NAME']" )
-    wait_for( 5, lambda: elem.get_attribute("value") != "" )
+    elem = find_child( "div.html-textbox[name='SCENARIO_NAME']" )
+    wait_for( 5, lambda: elem.get_attribute( "innerHTML" ) != "" )
 
     def check_textbox( field_name, expected ):
         """Check that a field has been loaded correctly."""
         elem = find_child( "input[name='{}']".format( field_name ) )
         assert elem.get_attribute( "value" ) == expected
+    def check_html_textbox( field_name, expected ):
+        """Check that a field has been loaded correctly."""
+        elem = find_child( "div.html-textbox[name='{}']".format( field_name ) )
+        assert elem.get_attribute( "innerHTML" ) == expected
     def check_trumbowyg( field_name, expected ):
         """Check that a field has been loaded correctly."""
         assert unload_trumbowyg( field_name ) == expected
@@ -34,16 +38,19 @@ def test_default_scenario( webapp, webdriver ):
     select_tab( "scenario" )
 
     # check the scenario fields
-    check_textbox( "SCENARIO_NAME", "default scenario name" )
-    check_textbox( "SCENARIO_LOCATION", "default location" )
+    check_html_textbox( "SCENARIO_NAME", "default <i>scenario name</i>" )
+    check_html_textbox( "SCENARIO_LOCATION", "default <i>location</i>" )
+    check_html_textbox( "SCENARIO_ID", "sc <u>id</u>" )
     check_textbox( "SCENARIO_DATE", "12/25/2000" )
     check_textbox( "SCENARIO_WIDTH", "1px" )
 
     # check the player fields
     check_droplist( "PLAYER_1", "american" )
+    check_html_textbox( "PLAYER_1_DESCRIPTION", "player 1 <i>description</i>" )
     check_droplist( "PLAYER_1_ELR", "1" )
     check_droplist( "PLAYER_1_SAN", "2" )
     check_droplist( "PLAYER_2", "japanese" )
+    check_html_textbox( "PLAYER_2_DESCRIPTION", "player 2 <i>description</i>" )
     check_droplist( "PLAYER_2_ELR", "3" )
     check_droplist( "PLAYER_2_SAN", "4" )
     check_textbox( "PLAYERS_WIDTH", "" )

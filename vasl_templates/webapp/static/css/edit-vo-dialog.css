@@ -12,15 +12,22 @@
 
 .ui-dialog.edit-vo .capabilities { margin-top: 0.25em ; display: flex ; flex-direction: column ; }
 .ui-dialog.edit-vo .comments { margin-top: 0.5em ; display: flex ; flex-direction: column ; }
+.ui-dialog.edit-vo .brewup { color: #a04010 ; }
+.ui-dialog.edit-vo .split-mg-red { color: #a04010 ; }
+
+.ui-dialog.edit-vo #vo_capabilities-sortable { overflow-x: hidden ; }
+.ui-dialog.edit-vo #vo_comments-sortable { overflow-x: hidden ; }
 
 .ui-dialog.edit-vo .fieldset { flex-grow: 1 ; display: flex ; flex-direction: column ; align-items: stretch ; }
 .ui-dialog.edit-vo .fieldset { margin: 0 ; padding: 5px 8px 8px 8px ; border: 1px solid #aaa ; }
 .ui-dialog.edit-vo .fieldset-legend { color: #333 ; font-weight: bold ; }
 .ui-dialog.edit-vo .fieldset ul { flex-grow: 1 ; margin: 0 0 5px 0 ; list-style-type: none ; overflow-y: auto ; }
-.ui-dialog.edit-vo .fieldset li { margin: 2px ; padding: 2px 0px 2px 5px ; background: #eee ; }
-.ui-dialog.edit-vo .fieldset li div { display: flex ; align-items: center ; }
-.ui-dialog.edit-vo .fieldset li img.dragger { height: 1em ; margin-right: 5px ; }
-.ui-dialog.edit-vo .fieldset li input[type='text'] { flex-grow: 1 ; margin-right: 1em ; }
+.ui-dialog.edit-vo .fieldset li { margin: 2px ; padding: 2px 0px 2px 5px ; background: #eee ; max-width: 100% ; }
+.ui-dialog.edit-vo .fieldset li { height: 22px ; border: none !important ; }
+.ui-dialog.edit-vo .fieldset li:hover { cursor: auto ; }
+.ui-dialog.edit-vo .fieldset li > div { display: flex ; align-items: center ; padding-right: 2px ; }
+.ui-dialog.edit-vo .fieldset li img.dragger { height: 1em ; margin-right: 5px ; cursor: pointer ; }
+.ui-dialog.edit-vo .fieldset li div.html-textbox { flex-grow: 1 ; }
 
 .ui-dialog.edit-vo .fieldset .footer { margin-top: 0.25em ; display: flex ; align-items: center ; }
 .ui-dialog.edit-vo .fieldset .footer img.trash { margin: 3px 5px ; height: 24px ; }

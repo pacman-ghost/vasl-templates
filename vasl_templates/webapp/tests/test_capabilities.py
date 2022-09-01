@@ -4,12 +4,11 @@ import re
 
 import pytest
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
 
 from vasl_templates.webapp.tests.utils import \
-    init_webapp, select_menu_option, select_tab, click_dialog_button, \
+    init_webapp, select_menu_option, select_tab, click_dialog_button, drag_sortable_entry_to_trash, \
     find_child, find_children, wait_for_clipboard, \
-    set_scenario_date
+    set_scenario_date, load_html_textbox
 from vasl_templates.webapp.tests import pytest_options
 from vasl_templates.webapp.tests.test_vo_reports import get_vo_report
 from vasl_templates.webapp.tests.test_vehicles_ordnance import add_vo
@@ -509,8 +508,8 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     def check_capabilities_in_dialog( expected ):
         """Check the vehicle's capabilities."""
         elems = find_children( "#vo_capabilities-sortable li" )
-        elems2 = [ find_child("input[type='text']",c) for c in elems ]
-        assert [ e.get_attribute("value") for e in elems2 ] == expected
+        elems2 = [ find_child( "div.html-textbox", c ) for c in elems ]
+        assert [ e.get_attribute( "innerHTML" ) for e in elems2 ] == expected
         return elems
 
     # check the vehicle's snippet
@@ -521,23 +520,24 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     elems = find_children( "li", vehicles_sortable )
     assert len(elems) == 1
     ActionChains( webdriver ).double_click( elems[0] ).perform()
-    elems = check_capabilities_in_dialog( [ "XYZ", "<span class='brewup'>cs 4</span>" ] )
+    elems = check_capabilities_in_dialog( [ "XYZ", "<span class=\"brewup\">cs 4</span>" ] )
 
     # edit one of the capabilities
-    elem = find_child( "input[type='text']", elems[0] )
+    elem = find_child( "div.html-textbox", elems[0] )
     elem.clear()
     elem.send_keys( "XYZ (modified)" )
 
     # delete a capability
-    ActionChains( webdriver ).key_down( Keys.CONTROL ).click( elems[1] ).perform()
-    ActionChains( webdriver ).key_up( Keys.CONTROL ).perform()
+    sortable = find_child( "#vo_capabilities-sortable" )
+    drag_sortable_entry_to_trash( sortable, 1, ".dragger" )
 
     # add a new capability
     elem = find_child( "#vo_capabilities-add" )
     elem.click()
-    elems = find_children( "#vo_capabilities-sortable input[type='text']" )
+    elems = find_children( "#vo_capabilities-sortable div.html-textbox" )
     assert len(elems) == 2
-    elems[1].send_keys( "a <i>new</i> capability" )
+    htb = find_children( "div.html-textbox", sortable )[1]
+    load_html_textbox( htb, "a <i>new</i> capability" )
 
     # save the changes and check the vehicle's snippet
     click_dialog_button( "OK" )
@@ -561,9 +561,9 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     elems = check_capabilities_in_dialog( [ "XYZ (modified)", "a <i>new</i> capability" ] )
 
     # delete all capabilities
-    for elem in elems:
-        ActionChains( webdriver ).key_down( Keys.CONTROL ).click( elem ).perform()
-        ActionChains( webdriver ).key_up( Keys.CONTROL ).perform()
+    sortable = find_child( "#vo_capabilities-sortable" )
+    for _ in range( len(elems) ):
+        drag_sortable_entry_to_trash( sortable, 0, ".dragger" )
     click_dialog_button( "OK" )
     check_snippet( "" )
 
@@ -594,12 +594,11 @@ def test_custom_capabilities( webapp, webdriver ): #pylint: disable=too-many-sta
     elems = find_children( "li", vehicles_sortable )
     assert len(elems) == 1
     ActionChains( webdriver ).double_click( elems[0] ).perform()
-    elems = find_children( "#vo_capabilities-sortable input[type='text']" )
+    elems = find_children( "#vo_capabilities-sortable div.html-textbox" )
     assert len(elems) == 2
     elems[0].clear()
     elems[0].send_keys( "XYZ" )
-    elems[1].clear()
-    elems[1].send_keys( "<span class='brewup'>cs 4</span>" )
+    load_html_textbox( elems[1], "<span class=\"brewup\">cs 4</span>" )
     click_dialog_button( "OK" )
 
     # make sure the custom capabilities are no longer saved in the scenario
@@ -633,8 +632,8 @@ def test_custom_comments( webapp, webdriver ): #pylint: disable=too-many-stateme
     def check_comments_in_dialog( expected ):
         """Check the vehicle's comments."""
         elems = find_children( "#vo_comments-sortable li" )
-        elems2 = [ find_child("input[type='text']",c) for c in elems ]
-        assert [ e.get_attribute("value") for e in elems2 ] == expected
+        elems2 = [ find_child( "div.html-textbox", c ) for c in elems ]
+        assert [ e.get_attribute( "innerHTML" ) for e in elems2 ] == expected
         return elems
 
     # check the vehicle's snippet
@@ -648,20 +647,21 @@ def test_custom_comments( webapp, webdriver ): #pylint: disable=too-many-stateme
     elems = check_comments_in_dialog( [ "a comment", "another comment" ] )
 
     # edit one of the comments
-    elem = find_child( "input[type='text']", elems[0] )
+    elem = find_child( "div.html-textbox", elems[0] )
     elem.clear()
     elem.send_keys( "a comment (modified)" )
 
     # delete a comment
-    ActionChains( webdriver ).key_down( Keys.CONTROL ).click( elems[1] ).perform()
-    ActionChains( webdriver ).key_up( Keys.CONTROL ).perform()
+    sortable = find_child( "#vo_comments-sortable" )
+    drag_sortable_entry_to_trash( sortable, 1, ".dragger" )
 
     # add a new comment
     elem = find_child( "#vo_comments-add" )
     elem.click()
-    elems = find_children( "#vo_comments-sortable input[type='text']" )
+    elems = find_children( "#vo_comments-sortable div.html-textbox" )
     assert len(elems) == 2
-    elems[1].send_keys( "a <i>new</i> comment" )
+    htb = find_children( "div.html-textbox", sortable )[1]
+    load_html_textbox( htb, "a <i>new</i> comment" )
 
     # save the changes and check the vehicle's snippet
     click_dialog_button( "OK" )
@@ -685,9 +685,9 @@ def test_custom_comments( webapp, webdriver ): #pylint: disable=too-many-stateme
     elems = check_comments_in_dialog( [ "a comment (modified)", "a <i>new</i> comment" ] )
 
     # delete all comments
-    for elem in elems:
-        ActionChains( webdriver ).key_down( Keys.CONTROL ).click( elem ).perform()
-        ActionChains( webdriver ).key_up( Keys.CONTROL ).perform()
+    sortable = find_child( "#vo_comments-sortable" )
+    for _ in range( len(elems) ):
+        drag_sortable_entry_to_trash( sortable, 0, ".dragger" )
     click_dialog_button( "OK" )
     check_snippet( "" )
 
@@ -718,7 +718,7 @@ def test_custom_comments( webapp, webdriver ): #pylint: disable=too-many-stateme
     elems = find_children( "li", vehicles_sortable )
     assert len(elems) == 1
     ActionChains( webdriver ).double_click( elems[0] ).perform()
-    elems = find_children( "#vo_comments-sortable input[type='text']" )
+    elems = find_children( "#vo_comments-sortable div.html-textbox" )
     assert len(elems) == 2
     elems[0].clear()
     elems[0].send_keys( "a comment" )
@@ -795,7 +795,7 @@ def test_capability_updates_in_ui( webapp, webdriver ):
     ActionChains( webdriver ).double_click( elems[1] ).perform()
     elem = find_child( "#vo_capabilities-add" )
     elem.click()
-    elems = find_children( "#vo_capabilities-sortable input[type='text']" )
+    elems = find_children( "#vo_capabilities-sortable div.html-textbox" )
     assert len(elems) == 4
     elems[3].send_keys( "foo!" )
     click_dialog_button( "OK" )
@@ -890,7 +890,10 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     def check_elite2( expected, custom ):
         """Check the elite status of the vehicle in the edit dialog."""
         vo_name = find_child( "#edit-vo .header .vo-name" ).text
-        caps = [ c.get_attribute("value") for c in find_children("#vo_capabilities-sortable input[type='text']") ]
+        caps = [
+            c.get_attribute( "innerHTML" )
+            for c in find_children( "#vo_capabilities-sortable div.html-textbox" )
+        ]
         if expected:
             assert vo_name.endswith( "\u24ba" )
             expected = [ "H9", "s10", "sD7", "CS 5" ]
@@ -919,7 +922,7 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     ActionChains( webdriver ).double_click( get_sortable_elem() ).perform()
     elem = find_child( "#vo_capabilities-add" )
     elem.click()
-    elems = find_children( "#vo_capabilities-sortable input[type='text']" )
+    elems = find_children( "#vo_capabilities-sortable div.html-textbox" )
     assert len(elems) == 5
     elems[4].send_keys( "HE10" )
     click_dialog_button( "OK" )
@@ -966,10 +969,10 @@ def test_elite( webapp, webdriver ): #pylint: disable=too-many-statements
     elem = find_child( "#edit-vo .capabilities .elite" )
     elem.click()
     check_elite2( True, True )
-    elems = find_children( "#vo_capabilities-sortable li" )
+    sortable = find_child( "#vo_capabilities-sortable" )
+    elems = find_children( "li", sortable )
     webdriver.execute_script( "arguments[0].scrollIntoView(true);", elems[4] )
-    ActionChains( webdriver ).key_down( Keys.CONTROL ).click( elems[4] ).perform()
-    ActionChains( webdriver ).key_up( Keys.CONTROL ).perform()
+    drag_sortable_entry_to_trash( sortable, 4, ".dragger" )
     click_dialog_button( "OK" )
     check_elite( True, False )
 

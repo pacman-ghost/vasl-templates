@@ -1,0 +1,11 @@
+/* NOTE: This file contains work-arounds for the desktop app. */
+
+fieldset[name='scenario'] { max-height: 251px ; }
+
+/* these work around vertical alignment of text in input controls */
+#panel-scenario label { margin-bottom: -1px ; }
+#panel-scenario label[for="TURN_TRACK_NTURNS"], #panel-scenario label[for="PLAYER_1"], #panel-scenario label[for="PLAYER_2"] {
+    line-height: 20px ;
+}
+#panel-scenario input[name="SCENARIO_DATE"] { padding-top: 2px ; }
+

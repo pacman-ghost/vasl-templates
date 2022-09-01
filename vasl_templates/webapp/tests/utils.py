@@ -271,8 +271,7 @@ def set_template_params( params ): #pylint: disable=too-many-branches
         elem = find_child( ".param[name='{}']".format( key ) )
         if elem.tag_name == "select":
             select_droplist_val( Select(elem), val )
-        elif elem.tag_name == "div":
-            assert "trumbowyg-editor" in get_css_classes( elem )
+        elif "trumbowyg-editor" in get_css_classes( elem ):
             load_trumbowyg( elem, val )
         else:
             if elem.is_displayed():
@@ -404,11 +403,14 @@ def generate_sortable_entry_snippet( sortable, entry_no ):
     elems[entry_no].click()
     return _get_clipboard()
 
-def drag_sortable_entry_to_trash( sortable, entry_no ):
+def drag_sortable_entry_to_trash( sortable, entry_no, sel=None ):
     """Draw a sortable entry to the trash."""
     trash = find_sortable_helper( sortable, "trash" )
     elems = find_children( "li", sortable )
-    ActionChains(_webdriver).drag_and_drop( elems[entry_no], trash ).perform()
+    elem = elems[ entry_no ]
+    if sel:
+        elem = find_child( sel, elem )
+    ActionChains(_webdriver).drag_and_drop( elem, trash ).perform()
 
 def find_sortable_helper( sortable, tag ):
     """Find a sortable's helper element."""
@@ -569,6 +571,15 @@ def get_trumbowyg_editor( ctrl ):
         return ctrl
     assert False
     return None
+
+def load_html_textbox( ctrl, val ):
+    """Load an HTML textbox."""
+    htb_id = ctrl.get_attribute( "data-htb-id" )
+    find_child( ".edit-html-textbox[data-htb-id='{}']".format( htb_id ) ).click()
+    dlg = wait_for_elem( 2, ".ui-dialog.edit-html_textbox" )
+    load_trumbowyg( find_child( ".content", dlg ), val )
+    click_dialog_button( "OK", "edit-html_textbox" )
+    wait_for( 2, lambda: ctrl.get_attribute( "innerHTML" ) == val )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

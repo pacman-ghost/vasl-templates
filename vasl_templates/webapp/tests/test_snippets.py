@@ -87,7 +87,10 @@ def test_scenario_snippets( webapp, webdriver ):
         "SCENARIO_LOCATION": "right <u>here</u>",
         "SCENARIO_DATE": "01/02/1942",
     },
-        'name = [my <i>cool</i> scenario] | loc = [right <u>here</u>] | date = [01/02/1942] aka "2 January, 1942"',
+        # NOTE: Since we load the UI using send_keys(), content is interpreted as plain-text.
+        'name = [my &lt;i&gt;cool&lt;/i&gt; scenario]'
+          ' | loc = [right &lt;u&gt;here&lt;/u&gt;]'
+          ' | date = [01/02/1942] aka "2 January, 1942"',
         None
     )
 

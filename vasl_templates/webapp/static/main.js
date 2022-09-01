@@ -254,6 +254,24 @@ $(document).ready( function () {
     // initialize the splitters
     initSplitters() ;
 
+    // FUDGE! We show some fields in contenteditable div's, which want to auto-grow with their content.
+    // This doesn't play well when they're in a flexbox, so we set overflow-y to "hidden" to stop this
+    // from happening vertically, but have to dynamically set max-width to stop it horizontally :-/
+    var resizeObserver = new ResizeObserver( function( entries ) {
+        $( "div.html-textbox[name='SCENARIO_NAME']" ).css( {
+            "max-width": "calc(100% - 210px)"
+        } ) ;
+        $( "div.html-textbox[name='SCENARIO_LOCATION']" ).css( {
+            "max-width": "calc(100% - 237px)"
+        } ) ;
+        for ( var playerNo=1 ; playerNo <= 2 ; ++playerNo ) {
+            $( "div.html-textbox[name='PLAYER_" + playerNo + "_DESCRIPTION']" ).css( {
+                "max-width": "calc(100% - 7em - 8px)"
+            } ) ;
+        }
+    } ) ;
+    resizeObserver.observe( $( "#tabs-scenario .tl" )[0] ) ;
+
     // get the application config
     $.getJSON( gAppConfigUrl, function(data) {
         gAppConfig = data ;
@@ -426,8 +444,6 @@ $(document).ready( function () {
         .button( {} ) ;
 
     // watch for changes to the scenario details
-    $("input[name='SCENARIO_NAME']").on( "input propertychange paste", update_scenario_status ) ;
-    $("input[name='SCENARIO_ID']").on( "input propertychange paste", update_scenario_status ) ;
     // NOTE: The following is to add/remove the "scenario modified" indicator. It's pretty inefficent
     // to do this using a timer, but we would otherwise have to attach a "on change" event handler
     // to every single input field, simple note, etc., which would be far more complicated and error-prone.
@@ -506,7 +522,6 @@ $(document).ready( function () {
 
     // flag that we've finished initialization
     update_page_load_status( "main" ) ;
-    $("input[name='SCENARIO_NAME']").focus().focus() ;
 } ) ;
 
 function init_player_droplists()
@@ -763,6 +778,12 @@ function update_page_load_status( id )
     // check if the page has finished loading
     if ( gPageLoadStatus.length === 0 ) {
         // yup - update the UI
+        if ( gWebChannelHandler ) {
+            // inject CSS to work-around layout problems in the desktop app
+            $( "head" ).append(
+                "<link href='" + make_app_url("/static/css/desktop.css") + "' type='text/css' rel='stylesheet'>"
+            ) ;
+        }
         apply_user_settings() ;
         $( "a[href='#tabs-extras']" ).html(
             "<img src='" + gImagesBaseUrl + "/extras.png'>Extras"
@@ -772,6 +793,14 @@ function update_page_load_status( id )
         // initialize the HTML WYSIWYG editors (nb: we do it here, since we need the app config
         // and template pack (for the player flags))
         initVictoryConditionsTrumbowyg() ;
+        [ "SCENARIO_NAME", "SCENARIO_ID", "SCENARIO_LOCATION", "PLAYER_1_DESCRIPTION", "PLAYER_2_DESCRIPTION" ].forEach( function( key ) {
+            var $elem = $( "div.html-textbox[name='" + key + "']" ) ;
+            var caption = $elem.attr( "title" ) ;
+            initHtmlTextbox( $elem,
+                caption[0].toLowerCase() + caption.substring(1),
+                key.substr( 0, 7 ) === "PLAYER_"
+            ) ;
+        } ) ;
         // FUDGE! There are problems with the layout jumping around during startup in the desktop app,
         // so we hide the footers on the scenario tab (which is the one visible during startup),
         // and only show them them when we're ready.
@@ -829,7 +858,7 @@ function init_hotkeys()
             $ctrl.focus() ;
     }
     $(document).bind( "keydown", "alt+c", function() {
-        set_focus_to( "#tabs-scenario", $("input[name='SCENARIO_NAME']") ) ;
+        set_focus_to( "#tabs-scenario", $("div.html-textbox[name='SCENARIO_NAME']") ) ;
     } ) ;
     $(document).bind( "keydown", "alt+p", function() {
         set_focus_to( "#tabs-scenario", $("select[name='PLAYER_1']") ) ;
@@ -842,7 +871,7 @@ function init_hotkeys()
             set_focus_to( "#tabs-scenario", $elem.parent().find( ".trumbowyg-textarea" ) ) ;
     } ) ;
     $(document).bind( "keydown", "alt+0", function() {
-        set_focus_to( "#tabs-scenario", $("input[name='SCENARIO_NAME']") ) ; // nb: for consistency with Alt-1 and Alt-2
+        set_focus_to( "#tabs-scenario", $("div.html-textbox[name='SCENARIO_NAME']") ) ; // nb: for consistency with Alt-1 and Alt-2
     } ) ;
     $(document).bind( "keydown", "alt+1", function() {
         set_focus_to( "#tabs-ob1" ) ;
@@ -959,7 +988,7 @@ function on_player_change( player_no )
     // update the UI
     var player_nat = update_ob_tab_header( player_no ) ;
     update_nationality_specific_buttons( player_no ) ;
-    $( "input[name='PLAYER_" + player_no + "_DESCRIPTION']" ).val( "" ) ;
+    $( "div.html-textbox[name='PLAYER_" + player_no + "_DESCRIPTION']" ).html( "" ) ;
     updateTrumbowygFlagsDropdown( $( ".param[name='VICTORY_CONDITIONS']" ) ) ;
 
     // show/hide the vehicle/ordnance multi-applicable notes controls

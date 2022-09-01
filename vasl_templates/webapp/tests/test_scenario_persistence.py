@@ -195,11 +195,14 @@ def test_scenario_persistence( webapp, webdriver ): #pylint: disable=too-many-st
             elem = find_child( ".param[name='{}']".format( field ) )
             if elem.tag_name == "select":
                 assert Select(elem).first_selected_option.get_attribute("value") == val
-            elif elem.tag_name == "div":
-                assert "trumbowyg-editor" in get_css_classes( elem )
-                assert unload_trumbowyg( elem ) == val
             else:
-                assert elem.get_attribute("value") == val
+                css_classes = get_css_classes( elem )
+                if "trumbowyg-editor" in css_classes:
+                    assert unload_trumbowyg( elem ) == val
+                elif "html-textbox" in css_classes:
+                    assert elem.get_attribute( "innerHTML" ) == val
+                else:
+                    assert elem.get_attribute("value") == val
     select_tab( "scenario" )
     scenario_notes = [ c.text for c in find_children("#scenario_notes-sortable li") ]
     assert scenario_notes == [ sn["caption"] for sn in SCENARIO_PARAMS["scenario"]["SCENARIO_NOTES"] ]

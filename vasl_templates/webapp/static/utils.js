@@ -213,6 +213,9 @@ function init_dialog( $dlg, ok_button_text, auto_dismiss )
         $dlg.find( "input[type='checkbox']" ).keydown( function(evt) {
             auto_dismiss_dialog( $dlg, evt, ok_button_text ) ;
         } ) ;
+        $dlg.find( "div.html-textbox" ).keydown( function(evt) {
+            auto_dismiss_dialog( $dlg, evt, ok_button_text ) ;
+        } ) ;
         $dlg.find( "select" ).keydown( function(evt) {
             auto_dismiss_dialog( $dlg, evt, ok_button_text ) ;
         } ) ;

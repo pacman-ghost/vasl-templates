@@ -7,7 +7,7 @@ body { font-family: Arial, Helvetica, sans-serif ; font-size: 16px ; }
 p { margin-bottom: 0.5em ; }
 ul, ol { margin: 0.5em 0 0 1.25em ; }
 
-input[type="text"] { height: 20px ; border: 1px solid #c5c5c5 ; padding: 0 2px ; }
+input[type="text"] { height: 20px ; border: 1px solid #c5c5c5 ; padding: 0 5px ; }
 label { height: 1.25em ; }
 
 /* -------------------------------------------------------------------- */

@@ -60,18 +60,25 @@ def test_dirty_scenario_checks( webapp, webdriver ): #pylint: disable=too-many-s
             else:
                 webdriver.execute_script( "arguments[0].value = arguments[1]", target, new_val )
             return target, prev_val, new_val
-        elif target.tag_name == "div":
-            assert "trumbowyg-editor" in get_css_classes( target )
-            prev_val = unload_trumbowyg( target )
-            new_val = "changed value"
-            load_trumbowyg( target, new_val )
-            return target, prev_val, new_val
         elif target.tag_name == "select":
             sel = Select( target )
             prev_val = sel.first_selected_option.get_attribute( "value" )
             select_droplist_index( sel, 2 )
             new_val = sel.first_selected_option.get_attribute( "value" )
             return target, prev_val, new_val
+        else:
+            css_classes = get_css_classes( target )
+            if "trumbowyg-editor" in css_classes:
+                prev_val = unload_trumbowyg( target )
+                new_val = "changed value"
+                load_trumbowyg( target, new_val )
+                return target, prev_val, new_val
+            elif "html-textbox" in css_classes:
+                prev_val = target.get_attribute( "innerHTML" )
+                new_val = "changed value"
+                target.clear()
+                target.send_keys( new_val )
+                return target, prev_val, new_val
         assert False
         return None
 
@@ -83,13 +90,19 @@ def test_dirty_scenario_checks( webapp, webdriver ): #pylint: disable=too-many-s
             assert get_sortable_entry_count( state ) == 1
         elif state[0].tag_name == "input":
             assert state[0].get_attribute("value") == state[2]
-        elif state[0].tag_name == "div":
-            assert "trumbowyg-editor" in get_css_classes( state[0] )
-            assert unload_trumbowyg( state[0] ) == state[2]
         elif state[0].tag_name == "select":
             assert Select(state[0]).first_selected_option.get_attribute("value") == state[2]
         else:
-            assert False
+            css_classes = get_css_classes( state[0] )
+            if "trumbowyg-editor" in css_classes:
+                assert unload_trumbowyg( state[0] ) == state[2]
+            elif "html-textbox" in css_classes:
+                val = state[0].get_attribute( "innerHTML" )
+                if val.endswith( "<br>" ):
+                    val = val[:-4] # nb: for Firefox
+                assert val == state[2]
+            else:
+                assert False
 
     def revert_field( param, state ):
         """Revert a change we made to a field."""
@@ -103,13 +116,17 @@ def test_dirty_scenario_checks( webapp, webdriver ): #pylint: disable=too-many-s
                 state[0].send_keys( state[1] )
             else:
                 webdriver.execute_script( "arguments[0].value = arguments[1]", state[0], state[1] )
-        elif state[0].tag_name == "div":
-            assert "trumbowyg-editor" in get_css_classes( state[0] )
-            load_trumbowyg( state[0], state[1] )
         elif state[0].tag_name == "select":
             select_droplist_val( Select(state[0]), state[1] )
         else:
-            assert False
+            css_classes = get_css_classes( state[0] )
+            if "trumbowyg-editor" in css_classes:
+                load_trumbowyg( state[0], state[1] )
+            elif "html-textbox" in css_classes:
+                state[0].clear()
+                state[0].send_keys( state[1] )
+            else:
+                assert False
 
     def check_is_dirty( expected ):
         """Check if the scenario is being flagged as dirty."""

@@ -95,6 +95,16 @@ function _show_extra_template( template_id )
                 if ( template_info.params[i].description )
                     buf.push( " title='" + escapeHTML(template_info.params[i].description) + "'" ) ;
                 buf.push( ">" ) ;
+            } else if ( template_info.params[i].type == "html_textbox" ) {
+                buf.push( "<div class='param html-textbox' name='" + escapeHTML(template_info.params[i].name) + "'" ) ;
+                if ( template_info.params[i].width )
+                    buf.push( " style='width:" + (template_info.params[i].width * 0.75*gEmSize) + "px;'" ) ;
+                if ( template_info.params[i].description )
+                    buf.push( " title='" + escapeHTML(template_info.params[i].description) + "'" ) ;
+                buf.push( ">" ) ;
+                if ( template_info.params[i].default )
+                    buf.push( sanitizeHTML( template_info.params[i].default ) ) ;
+                buf.push( "</div>" ) ;
             } else if ( template_info.params[i].type === "select" ) {
                 buf.push( "<select class='param' name='" + escapeHTML(template_info.params[i].name) + "' style='width:6em;'>" ) ;
                 for ( j=0 ; j < template_info.params[i].options.length ; ++j )
@@ -164,6 +174,12 @@ function _show_extra_template( template_id )
     } ).on( "select2:open", function() {
         restrict_droplist_height( $(this) ) ;
     } ) ;
+    $form.find( "div.html-textbox" ).each( function() {
+        var title = $(this).attr( "title" ) ;
+        if ( title )
+            title = title[0].toLowerCase() +  title.substring(1) ;
+        initHtmlTextbox( $(this), title, false ) ;
+    } ) ;
     fixup_external_links( $form ) ;
     var $sel = $form.find( "select[name='_PLAYER_DROPLIST_']" ) ;
     if ( $sel.length > 0 ) {
@@ -219,8 +235,12 @@ function _parse_extra_template( template_id, template )
         else if ( param.name === "PLAYER_COLOR_DROPLIST" )
             param.type = "player-color-droplist" ;
         else {
-            // we have an <input>
-            param.type = "input" ;
+            // we have an <input> or HTML textbox
+            if ( param.name.substring( param.name.length-1 ) === "*" ) {
+                param.type = "html_textbox" ;
+                param.name = param.name.substring( 0, param.name.length-1 ) ;
+            } else
+                param.type = "input" ;
             // extract the default value and field width
             pos = val.indexOf( "/" ) ;
             if ( pos === -1 )
@@ -246,7 +266,7 @@ function _parse_extra_template( template_id, template )
 function fixup_template_parameters( template )
 {
     // identify any non-standard template parameters
-    var regex = /\{\{([A-Z0-9_]+?):.*?\}\}/g ;
+    var regex = /\{\{([A-Z0-9_]+?)\*?:.*?\}\}/g ;
     var matches = [] ;
     var match ;
     while( (match = regex.exec( template )) !== null )

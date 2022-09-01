@@ -111,8 +111,8 @@ def test_import_scenario( webapp, webdriver ):
 def _check_scenario( **kwargs ):
     """Check the scenario import."""
     for key in ["SCENARIO_NAME","SCENARIO_ID","SCENARIO_LOCATION","PLAYER_1_DESCRIPTION","PLAYER_2_DESCRIPTION"]:
-        elem = find_child( "input[name='{}']".format( key ) )
-        if elem.get_attribute( "value" ) != kwargs[ key ]:
+        elem = find_child( "div.html-textbox[name='{}']".format( key ) )
+        if elem.get_attribute( "innerHTML" ) != kwargs[ key ]:
             return False
     if get_player_nat( 1 ) != kwargs["PLAYER_1"] or get_player_nat( 2 ) != kwargs["PLAYER_2"]:
         return False
@@ -161,7 +161,10 @@ def test_import_warnings( webapp, webdriver ): #pylint: disable=too-many-stateme
             wait_for( 2, lambda: not find_child( ".warnings", dlg ).is_displayed() )
             # do the import again, and accept it
             _import_scenario_and_confirm( dlg )
-            assert elem.get_attribute( "value" ) == expected_val
+            if "html-textbox" in get_css_classes( elem ):
+                assert elem.get_attribute( "innerHTML" ) == expected_val
+            else:
+                assert elem.get_attribute( "value" ) == expected_val
         else:
             # nope - check that the import was done
             wait_for( 2, lambda: not dlg.is_displayed() )
