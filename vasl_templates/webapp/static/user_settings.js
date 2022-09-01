@@ -1,4 +1,5 @@
 SCENARIO_IMAGES_SOURCE_THIS_PROGRAM = 1 ;
+
 SCENARIO_IMAGES_SOURCE_INTERNET = 2 ;
 
 DEFAULT_USER_SETTINGS = {
@@ -176,6 +177,21 @@ function apply_user_settings()
         $scenario_date.val(
             $.datepicker.formatDate( date_format, curr_date )
         ).trigger( "change" ) ;
+    }
+
+    // check if custom list bullets have been enabled
+    var $link = $( "head link[data-id='custom-bullets']" ) ;
+    if ( gUserSettings[ "custom-list-bullets" ] )
+    {
+        // yup - inject our custom CSS into the UI to show them
+        if ( $link.length === 0 ) {
+            var url = make_app_url( "/static/css/custom-bullets.css" ) ;
+            $link = $( "<link href='" + url + "' type='text/css' rel='stylesheet' data-id='custom-bullets'></link>" ) ;
+            $( "head" ).append( $link ) ;
+        }
+    } else {
+        // nope - remove our custom CSS
+        $link.remove() ;
     }
 }
 

@@ -1,0 +1,5 @@
+/* NOTE: This stylesheet will be dynamically injected into the UI when custom list bullets are enabled. */
+.trumbowyg-editor ul { list-style-image: url("../images/bullet.png") ; }
+.trumbowyg-editor ul ul { list-style-image: url("../images/bullet2.png") ; }
+.trumbowyg-editor ul ul ul { list-style-image: url("../images/bullet3.png") ; }
+.trumbowyg-editor ol { list-style-image: none ; }
