@@ -42,7 +42,7 @@ body { user-select: none ; }
 
 {% if TURN_TRACK_PREVIEW_MODE %}
 <script>
-// notify the parent window of a click on a reinforcement flag
+// notify the parent window of clicks
 function onFlagClick( turnNo, playerNo ) {
     window.parent.postMessage( {
         type: "FlagClick",

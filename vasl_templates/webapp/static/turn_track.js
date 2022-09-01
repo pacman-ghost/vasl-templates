@@ -130,7 +130,11 @@ function editTurnTrackSettings()
             // FUDGE! This works around a weird problem when we load a scenario with a vertical turn track
             // and show it in a turn track dialog that was previously showing a horizontal turn track :-/
             updateLayout() ;
-        } ) ;
+            // forward key-presses from the <iframe> to us
+            $( $(this)[0].contentWindow.document ).keydown( function( evt ) {
+                $dlg.trigger( evt ) ;
+            } ) ;
+        } );
 
         return params ;
     }
@@ -264,7 +268,18 @@ function editTurnTrackSettings()
                 else if ( evt.data.type === "ShadingClick" )
                     onShadingClick( evt.data.turnNo ) ;
             } ) ;
-
+            // handle auto-dismiss
+            $(this).on( "keydown", function( evt ) {
+                if ( evt.keyCode == $.ui.keyCode.ENTER && evt.ctrlKey ) {
+                    if ( evt.shiftKey )
+                        $( ".ui-dialog.turn-track button.snippet" ).trigger( "click" ) ;
+                    $(this).find( "select" ).select2( "close" ) ;
+                    evt.preventDefault() ;
+                    evt.stopPropagation() ;
+                    $dlg.dialog( "close" ) ;
+                    return ;
+                }
+            } ) ;
         },
         open: function() {
             // initialize the dialog
