@@ -11,6 +11,18 @@ function edit_ob_ordnance( $entry, player_no ) { _do_edit_ob_vo( $entry, player_
 
 function _do_edit_ob_vo( $entry, player_no, vo_type )
 {
+    function unload_data( $dlg ) {
+        var data = {} ;
+        // unload the V/O image ID and elite status
+        var $img = $dlg.find( "img[class='vasl-image']" ) ;
+        data.vo_image_id = $img.data( "vo-image-id" ) ;
+        data.elite = $elite.prop( "checked" ) ;
+        // unload the capabilities and comments
+        data.capabilities = unload_entries( $capabilities ) ;
+        data.comments = unload_entries( $comments ) ;
+        return data ;
+    }
+
     function get_default_capabilities( vo_entry, params, show_warnings ) {
         return make_capabilities(
             false,
@@ -157,15 +169,18 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
     }
 
     // show the dialog
+    var dlgTitle = "Edit " + vo_type ;
+    var origData ;
     var $dlg = $( "#edit-vo" ).dialog( {
         dialogClass: "edit-vo",
-        title: "Edit "+vo_type,
+        title: dlgTitle,
         position: gEditVoDlgState ? gEditVoDlgState.position : { my: "left top", at: "left+30 top+30", of: window },
         width: gEditVoDlgState ? gEditVoDlgState.width : $(window).width() * 0.4,
         height: gEditVoDlgState ? gEditVoDlgState.height : $(window).height() - 60,
         minWidth: 480,
         minHeight: 440,
         modal: true,
+        closeOnEscape: false,
         create: function() {
             // initialize the dialog
             init_dialog( $(this), "OK", false ) ;
@@ -206,6 +221,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
             load_entries( $capabilities, capabilities ) ;
             $elite.prop( "checked", elite ? true : false ) ;
             load_entries( $comments, comments ) ;
+            origData = unload_data( $(this) ) ;
             // initialize the spliiter
             // FUDGE! We should be able to do this in the dialog's "create" handler, but it doesn't
             // really work (setting the minSize doesn't work). Thing is, doing it here (once) also
@@ -240,24 +256,21 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
         },
         buttons: {
             OK: function() {
-                // save the V/O image ID
-                var $img = $dlg.find( "img[class='vasl-image']" ) ;
-                vo_image_id = $img.data( "vo-image-id" ) ;
-                if ( vo_image_id )
-                    $entry.data( "sortable2-data" ).vo_image_id = vo_image_id ;
-                // unload the capabilities
-                var capabilities = unload_entries( $capabilities ) ;
-                if ( capabilities.join() !== get_default_capabilities( vo_entry, params, false ).join() )
-                    $entry.data( "sortable2-data" ).custom_capabilities = capabilities ;
+                var data = unload_data( $dlg ) ;
+                // save the V/O image ID and elite status
+                if ( data.vo_image_id )
+                    $entry.data( "sortable2-data" ).vo_image_id = data.vo_image_id ;
+                $entry.data( "sortable2-data" ).elite = data.elite ;
+                // save the capabilities and comments
+                if ( data.capabilities.join() !== get_default_capabilities( vo_entry, params, false ).join() )
+                    $entry.data( "sortable2-data" ).custom_capabilities = data.capabilities ;
                 else {
                     // the capabilities are the same as the default - no need to retain these custom settings
                     delete $entry.data( "sortable2-data" ).custom_capabilities ;
                 }
-                $entry.data( "sortable2-data" ).elite = $elite.prop( "checked" ) ;
-                // unload the comments
-                var comments = unload_entries( $comments ) ;
-                if ( comments.join() !== get_default_comments( vo_entry ).join() ) {
-                    $entry.data( "sortable2-data" ).custom_comments = comments ;
+                // save the comments
+                if ( data.comments.join() !== get_default_comments( vo_entry ).join() ) {
+                    $entry.data( "sortable2-data" ).custom_comments = data.comments ;
                 }
                 else {
                     // the comments are the same as the default - no need to retain these custom settings
@@ -267,7 +280,15 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
                 update_vo_sortable2_entry( $entry, vo_type ) ;
                 $(this).dialog( "close" ) ;
             },
-            Cancel: function() { $(this).dialog( "close" ) ; },
+            Cancel: function() {
+                if ( JSON.stringify( unload_data( $dlg ) ) != JSON.stringify( origData ) ) {
+                    ask( dlgTitle, "Discard your changes?", {
+                        ok: function() { $dlg.dialog( "close" ) ; },
+                    } ) ;
+                    return ;
+                }
+                $(this).dialog( "close" ) ;
+            },
         },
     } ) ;
 }
