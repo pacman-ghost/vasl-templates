@@ -370,6 +370,9 @@ def _make_vo_note_cached_image_fname( vo_type, nat, key ):
     """Get the name of the cached vehicle/ordnance note image."""
     if not _vo_notes_image_cache_dname:
         return None
+    # NOTE: Extensions will have keys like "adf-bj:12", so we put these in their own sub-directory.
+    # NOTE: ":" in file paths was also causing problems on Windows :-/
+    key = key.replace( ":", os.sep )
     return os.path.join( _vo_notes_image_cache_dname, vo_type, nat, key+".png" )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
