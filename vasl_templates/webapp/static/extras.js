@@ -106,7 +106,7 @@ function _show_extra_template( template_id )
                     buf.push( sanitizeHTML( template_info.params[i].default ) ) ;
                 buf.push( "</div>" ) ;
             } else if ( template_info.params[i].type === "select" ) {
-                buf.push( "<select class='param' name='" + escapeHTML(template_info.params[i].name) + "' style='width:6em;'>" ) ;
+                buf.push( "<select class='param' name='" + escapeHTML(template_info.params[i].name) + "'>" ) ;
                 for ( j=0 ; j < template_info.params[i].options.length ; ++j )
                     buf.push( "<option>", template_info.params[i].options[j], "</option>" ) ;
                 buf.push( "</select>" ) ;

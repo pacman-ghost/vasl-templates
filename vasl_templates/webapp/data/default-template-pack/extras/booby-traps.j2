@@ -1,0 +1,34 @@
+<html> <!-- vasl-templates:id {{SNIPPET_ID}} -->
+
+<!-- vasl-templates:name Booby Traps -->
+<!-- vasl-templates:description Data chart for Booby Traps. -->
+
+<!-- boards = {{BOARDS*:/8|Board(s)}} -->
+
+<head>
+<meta charset="utf-8">
+<style>
+{{CSS:common}}
+td.header { background: #f0f0f0 ; border-bottom: 1px solid #c0c0c0 ; padding: 2px 5px ; font-size: 105% ; font-weight: bold ; }
+</style>
+</head>
+
+<table>
+
+<tr>
+<td class="header">
+Booby Traps (Level {{LEVEL:A::B::C|Level}})
+
+<tr>
+<td style="padding:2px 5px;">
+<b> {%if BOARDS%} Boards: {{BOARDS}} {%else%} Entire map {%endif%} </b>
+<ul>
+    <li> Original TC
+            {% if LEVEL == "A" %} &ge; 11
+            {% elif LEVEL == "B" %} 11
+            {% elif LEVEL == "C" %} 12
+            {%else%} ??? {%endif%}
+    <li> Search Casualties
+</ul>
+
+</table>
