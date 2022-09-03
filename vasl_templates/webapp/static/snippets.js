@@ -971,7 +971,7 @@ function unload_snippet_params( unpack_scenario_date, template_id )
         if ( $elem.hasClass( "trumbowyg-editor" ) )
             val = unloadTrumbowyg( $elem, false ) ;
         else if ( $elem.hasClass( "html-textbox" ) )
-            val = $elem.html() ;
+            val = unloadHtmlTextbox( $elem ) ;
         else
             val = $elem.val() ;
         params[ $elem.attr("name") ] = val ;

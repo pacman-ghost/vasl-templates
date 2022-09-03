@@ -170,12 +170,7 @@ function unloadTrumbowyg( $ctrl, removeFirstPara )
         }
     }
 
-    // remove superfluous <br> tags
-    val = strReplaceAll( val, "<br></p>", "</p>" ) ;
-    while ( val.substring( val.length-4 ) === "<br>" )
-        val = val.substring( 0, val.length-4 ).trim() ;
-
-    return val ;
+    return _tidyHTML( val ) ;
 }
 
 // --------------------------------------------------------------------
@@ -355,6 +350,12 @@ function onEditHtmlTextbox( $ctrl, objName ) {
     } ) ;
 }
 
+function unloadHtmlTextbox( $ctrl )
+{
+    // unload the HTML textbox
+    return _tidyHTML( $ctrl.html() ) ;
+}
+
 // --------------------------------------------------------------------
 
 function sanitizeParams( params )
@@ -378,4 +379,42 @@ function sanitizeHTML( val )
         val,
         { USE_PROFILES: { html: true } }
     ) ;
+}
+
+// --------------------------------------------------------------------
+
+var $gTranslateHtmlDiv = null ;
+
+function translateHTML( val )
+{
+    // FUDGE! Allowing users to edit content in an HTML textbox introduced a problem when checking
+    // if they had made any changes. We have a lot of HTML content in data files (e.g. vehicle/ordnance
+    // capabilities and comments), and when we load them into an HTML textbox, we don't always get
+    // exactly the same thing back e.g. "&times;2" comes back as "\xd72" :-/
+    // Fixing up this kind of thing in the data files would be a big job, and wouldn't even be guaranteed
+    // to work, since what happens is surely browser-dependent, and so the only way to detect if this
+    // is happening is to load the content into a contenteditable and see what we get back. Sigh...
+
+    if ( $gTranslateHtmlDiv === null ) {
+        $gTranslateHtmlDiv = $( "<div contenteditable='true' style='display:none;'></div>" ) ;
+        $( "body" ).append( $gTranslateHtmlDiv ) ;
+    }
+    $gTranslateHtmlDiv.html( val ) ;
+    return $gTranslateHtmlDiv.html() ;
+}
+
+function _tidyHTML( val )
+{
+    val = val.trim() ;
+
+    // remove superfluous <br> tags
+    val = strReplaceAll( val, "<br></p>", "</p>" ) ;
+    while ( val.substring( val.length-4 ) === "<br>" )
+        val = val.substring( 0, val.length-4 ).trim() ;
+
+    // remove superfluous <p> blocks
+    if ( val.substring(0,3) === "<p>" && val.substring(val.length-4) === "</p>" && val.indexOf("<p>",1) === -1 )
+        val = val.substring( 3, val.length-4 ) ;
+
+    return val ;
 }

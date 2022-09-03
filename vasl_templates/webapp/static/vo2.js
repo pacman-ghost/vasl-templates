@@ -23,8 +23,8 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
         return data ;
     }
 
-    function get_default_capabilities( vo_entry, params, show_warnings ) {
-        return make_capabilities(
+    function get_default_capabilities( vo_entry, params, show_warnings, translate ) {
+        var caps = make_capabilities(
             false,
             vo_entry, vo_type,
             params[ "PLAYER_"+player_no ],
@@ -32,9 +32,21 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
             params.SCENARIO_THEATER, params.SCENARIO_YEAR, params.SCENARIO_MONTH,
             show_warnings
         ) ;
+        if ( translate ) {
+            caps.forEach( function( comment, index ) {
+                caps[index] = translateHTML( comment ) ;
+            } ) ;
+        }
+        return caps ;
     }
-    function get_default_comments( vo_entry ) {
-        return vo_entry.comments ? vo_entry.comments : [] ;
+    function get_default_comments( vo_entry, translate ) {
+        var comments = vo_entry.comments ? vo_entry.comments : [] ;
+        if ( translate ) {
+            comments.forEach( function( comment, index ) {
+                comments[index] = translateHTML( comment ) ;
+            } ) ;
+        }
+        return comments ;
     }
 
     function load_entries( $sortable, entries ) {
@@ -46,9 +58,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
     function unload_entries( $sortable ) {
         var entries = [] ;
         $sortable.find( "div.html-textbox" ).each( function() {
-            var val = $(this).html().trim() ;
-            while ( val.substr( val.length-4 ) === "<br>" )
-                val = val.substr( 0, val.length-4 ) ;
+            var val = unloadHtmlTextbox( $(this) ) ;
             if ( val.length > 0 )
                 entries.push( val ) ;
         } ) ;
@@ -70,11 +80,11 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
     var vo_entry = $entry.data( "sortable2-data" ).vo_entry ;
     var capabilities = $entry.data( "sortable2-data" ).custom_capabilities ;
     if ( ! capabilities )
-        capabilities = get_default_capabilities( vo_entry, params, true ).slice() ;
+        capabilities = get_default_capabilities( vo_entry, params, true, false ).slice() ;
     var elite = $entry.data( "sortable2-data" ).elite ;
     var comments = $entry.data( "sortable2-data" ).custom_comments ;
     if ( ! comments )
-        comments = get_default_comments( vo_entry ) ;
+        comments = get_default_comments( vo_entry, false ) ;
 
     // load the dialog
     var vo_image_id = $entry.data( "sortable2-data" ).vo_image_id ;
@@ -147,7 +157,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
         var curr_params = $reset_capabilities.data( "params" ) ;
         $dlg.find( ".header .vo-name" ).html( make_vo_name( curr_vo_entry.name, false ) ) ;
         load_entries( $capabilities,
-            get_default_capabilities( curr_vo_entry, curr_params, false )
+            get_default_capabilities( curr_vo_entry, curr_params, false, false )
         ) ;
         $elite.prop( "checked", false ) ;
     }
@@ -155,7 +165,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
     $reset_comments.data( { vo_entry: vo_entry, params: params } ) ;
     function on_reset_comments() {
         var curr_vo_entry = $reset_capabilities.data( "vo_entry" ) ;
-        load_entries( $comments, get_default_comments(curr_vo_entry) ) ;
+        load_entries( $comments, get_default_comments( curr_vo_entry, false ) ) ;
     }
 
     function update_for_elite( delta ) {
@@ -262,14 +272,14 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
                     $entry.data( "sortable2-data" ).vo_image_id = data.vo_image_id ;
                 $entry.data( "sortable2-data" ).elite = data.elite ;
                 // save the capabilities and comments
-                if ( data.capabilities.join() !== get_default_capabilities( vo_entry, params, false ).join() )
+                if ( data.capabilities.join() !== get_default_capabilities( vo_entry, params, false, true ).join() )
                     $entry.data( "sortable2-data" ).custom_capabilities = data.capabilities ;
                 else {
                     // the capabilities are the same as the default - no need to retain these custom settings
                     delete $entry.data( "sortable2-data" ).custom_capabilities ;
                 }
                 // save the comments
-                if ( data.comments.join() !== get_default_comments( vo_entry ).join() ) {
+                if ( data.comments.join() !== get_default_comments( vo_entry, true ).join() ) {
                     $entry.data( "sortable2-data" ).custom_comments = data.comments ;
                 }
                 else {
