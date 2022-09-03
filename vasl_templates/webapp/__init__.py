@@ -5,7 +5,6 @@ import os
 import signal
 import threading
 import time
-import tempfile
 import configparser
 import logging
 import logging.config
@@ -17,7 +16,6 @@ import yaml
 from vasl_templates.webapp.config.constants import BASE_DIR
 
 shutdown_event = threading.Event()
-_LOCK_FNAME = os.path.join( tempfile.gettempdir(), "vasl-templates.lock" )
 
 # ---------------------------------------------------------------------
 
@@ -92,9 +90,7 @@ def _init_webapp():
     elif dname:
         webapp_vo_notes._vo_notes_image_cache_dname = dname #pylint: disable=protected-access
     else:
-        webapp_vo_notes._vo_notes_image_cache_dname = os.path.join( #pylint: disable=protected-access
-            tempfile.gettempdir(), "vasl-templates", "vo-notes-image-cache"
-        )
+        webapp_vo_notes._vo_notes_image_cache_dname = globvars.user_profile.vo_notes_image_cache_dname #pylint: disable=protected-access
 
     # load integration data from asl-rulebook2
     from vasl_templates.webapp.vo_notes import load_asl_rulebook2_vo_note_targets #pylint: disable=cyclic-import
@@ -159,13 +155,13 @@ def _on_sigint( signum, stack ): #pylint: disable=unused-argument
     shutdown_event.set()
 
     # call any registered cleanup handlers
-    from vasl_templates.webapp import globvars #pylint: disable=cyclic-import
     for handler in globvars.cleanup_handlers:
         handler()
 
+    lock_fname = globvars.user_profile.flask_lock_fname
     if _is_flask_child_process():
         # notify the parent process that we're done
-        os.unlink( _LOCK_FNAME )
+        os.unlink( lock_fname )
     else:
         # we are the Flask parent process (so we wait for the child process to finish) or Flask reloading
         # is disabled (and the wait below will end immediately, because the lock file was never created).
@@ -176,7 +172,7 @@ def _on_sigint( signum, stack ): #pylint: disable=unused-argument
             # NOTE: os.path.isfile() and .exists() both return True even after the log file has gone!?!?
             # Is somebody caching something somewhere? :-/
             try:
-                with open( _LOCK_FNAME, "rb" ):
+                with open( lock_fname, "rb" ):
                     pass
             except FileNotFoundError:
                 break
@@ -187,10 +183,6 @@ def _on_sigint( signum, stack ): #pylint: disable=unused-argument
 
 # initialize Flask
 app = Flask( __name__ )
-if _is_flask_child_process():
-    # we are the Flask child process - create a lock file
-    with open( _LOCK_FNAME, "wb" ):
-        pass
 
 # set config defaults
 # NOTE: These are defined here since they are used by both the back- and front-ends.
@@ -201,19 +193,30 @@ app.config[ "ASA_GET_SCENARIO_URL" ] = "https://aslscenarioarchive.com/rest/scen
 app.config[ "ASA_MAX_VASL_SETUP_SIZE" ] = 200 # nb: KB
 app.config[ "ASA_MAX_SCREENSHOT_SIZE" ] = 200 # nb: KB
 
+# initialize logging
+_config_dir = os.path.join( BASE_DIR, "config" )
+_fname = os.path.join( _config_dir, "logging.yaml" )
+if os.path.isfile( _fname ):
+    with open( _fname, "r", encoding="utf-8" ) as fp:
+        try:
+            logging.config.dictConfig( yaml.safe_load( fp ) )
+        except Exception as _ex: #pylint: disable=broad-except
+            logging.error( "Can't load the logging config: %s", _ex )
+else:
+    # stop Flask from logging every request :-/
+    logging.getLogger( "werkzeug" ).setLevel( logging.WARNING )
+
 # load the application configuration
-config_dir = os.path.join( BASE_DIR, "config" )
-_fname = os.path.join( config_dir, "app.cfg" )
+_fname = os.path.join( _config_dir, "app.cfg" )
 _load_config( _fname, "System" )
 
 # load any site configuration
-_fname = os.path.join( config_dir, "site.cfg" )
+_fname = os.path.join( _config_dir, "site.cfg" )
 _load_config( _fname, "Site Config" )
 
 # load any debug configuration
-_fname = os.path.join( config_dir, "debug.cfg" )
-if os.path.isfile( _fname ) :
-    load_debug_config( _fname )
+_fname = os.path.join( _config_dir, "debug.cfg" )
+load_debug_config( _fname )
 
 # load any config from environment variables (e.g. set in the Docker container)
 # NOTE: We could add these settings to the container's site.cfg, so that they are always defined, and things
@@ -230,17 +233,16 @@ _set_config_from_env( "USER_FILES_DIR" )
 # NOTE: The Docker container also sets DEFAULT_TEMPLATE_PACK, but we read it directly from
 # the environment variable, since it is not something that is stored in app.config.
 
-# initialize logging
-_fname = os.path.join( config_dir, "logging.yaml" )
-if os.path.isfile( _fname ):
-    with open( _fname, "r", encoding="utf-8" ) as fp:
-        try:
-            logging.config.dictConfig( yaml.safe_load( fp ) )
-        except Exception as _ex: #pylint: disable=broad-except
-            logging.error( "Can't load the logging config: %s", _ex )
-else:
-    # stop Flask from logging every request :-/
-    logging.getLogger( "werkzeug" ).setLevel( logging.WARNING )
+# initialize the user profile
+from vasl_templates.webapp.user_profile import UserProfile #pylint: disable=cyclic-import
+from vasl_templates.webapp import globvars #pylint: disable=cyclic-import
+globvars.user_profile = UserProfile( app.config )
+
+# check if we are the Flask child process
+if _is_flask_child_process():
+    # yup - create a lock file
+    with open( globvars.user_profile.flask_lock_fname, "wb" ):
+        pass
 
 # load the application
 import vasl_templates.webapp.main #pylint: disable=cyclic-import

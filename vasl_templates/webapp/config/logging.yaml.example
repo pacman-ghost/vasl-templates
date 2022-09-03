@@ -63,3 +63,7 @@ loggers:
         level: "WARNING"
         handlers: [ "console", "file" ]
         propagate: 0
+    user_profile:
+        level: "WARNING"
+        handlers: [ "console", "file" ]
+        propagate: 0

@@ -22,6 +22,10 @@ from PyQt5.QtCore import Qt, QSettings, QDir
 import PyQt5.QtCore
 import click
 
+# notify everyone that we're being run as the desktop application
+os.environ[ "IS_DESKTOP_APP" ] = "1"
+os.environ[ "QDIR_HOME_PATH" ] = QDir.homePath()
+
 from vasl_templates.webapp.utils import SimpleError, is_windows
 
 # NOTE: We're supposed to do the following to support HiDPI, but it causes the main window
@@ -95,7 +99,7 @@ def _do_main( template_pack, default_scenario, remote_debugging, debug ): #pylin
 
     # NOTE: We do these imports here (instead of at the top of the file) so that we can catch errors.
     from vasl_templates.webapp import app as webapp
-    from vasl_templates.webapp import load_debug_config
+    from vasl_templates.webapp import globvars, load_debug_config
     from vasl_templates.webapp import main as webapp_main, snippets as webapp_snippets
 
     # configure the default template pack
@@ -121,12 +125,12 @@ def _do_main( template_pack, default_scenario, remote_debugging, debug ): #pylin
         os.environ["QTWEBENGINE_REMOTE_DEBUGGING"] = remote_debugging
 
     # load the application settings
-    app_settings_fname = "vasl-templates.ini" if sys.platform == "win32" else ".vasl-templates.conf"
-    if not os.path.isfile( app_settings_fname ) :
-        app_settings_fname = os.path.join( QDir.homePath(), app_settings_fname  )
     # FUDGE! Declaring app_settings as global here doesn't work on Windows (?!), we have to do this weird import :-/
     import vasl_templates.main #pylint: disable=import-self
-    vasl_templates.main.app_settings = QSettings( app_settings_fname, QSettings.IniFormat )
+    vasl_templates.main.app_settings = QSettings(
+        globvars.user_profile.desktop_settings_fname,
+        QSettings.IniFormat
+    )
 
     # install the debug config file
     if debug:

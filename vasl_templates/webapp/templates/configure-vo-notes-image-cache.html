@@ -1,7 +1,7 @@
 If you have set up your vehicle/ordnance notes using HTML, and have configured <em>"Show Chapter H vehicle/ordnance notes as images"</em> in the Settings, you will find that scenarios can be slow to open in VASSAL, since converting each note to an image takes time.
 
-<p> This process can be optimized by configuring a directory to cache the generated images, and this page will pre-load the cache with all the available vehicle/ordnance notes.
+<p> These images will be cached, but you can speed things up even more by pre-loading the cache with all the available vehicle/ordnance notes.
 
 {%if NO_CACHE_DIR %}
-<p> Configure <tt>VO_NOTES_IMAGE_CACHE_DIR</tt> in your <tt>site.cfg</tt>, restart the server, then reload this page.
+<p> Your cache is currently disabled (<tt>VO_NOTES_IMAGE_CACHE_DIR</tt> in your <tt>site.cfg</tt>), so enable it, restart the server, then reload this page.
 {%endif%}

@@ -377,8 +377,7 @@ def _make_vo_note_cached_image_fname( vo_type, nat, key ):
 @app.route( "/load-vo-notes-image-cache" )
 def load_vo_notes_image_cache():
     """Show the helper page to preload the v/o notes image cache."""
-    dname = app.config.get( "VO_NOTES_IMAGE_CACHE_DIR" )
-    if not dname:
+    if not _vo_notes_image_cache_dname:
         return render_template( "configure-vo-notes-image-cache.html",
             NO_CACHE_DIR = True
         )

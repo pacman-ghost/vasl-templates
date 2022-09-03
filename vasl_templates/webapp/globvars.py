@@ -3,6 +3,7 @@
 from vasl_templates.webapp import app
 from vasl_templates.webapp.config.constants import APP_NAME, APP_VERSION
 
+user_profile = None
 template_pack = None
 vasl_mod = None
 vo_listings = None

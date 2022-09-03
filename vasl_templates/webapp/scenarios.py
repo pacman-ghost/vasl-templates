@@ -48,7 +48,6 @@ def _tidyup_strings( scenario ):
             scenario[key] = val.strip()
 
 _asa_scenarios = DownloadedFile( "ASA", 6, # nb: TTL = #hours
-    "asl-scenario-archive.json",
     "https://vasl-templates.org/services/asl-scenario-archive/scenario-index.json",
     _build_asa_scenario_index,
     extra_args = { "index": None }
@@ -93,7 +92,6 @@ def _make_roar_matching_key( val ):
     return re.sub( "[^a-z0-9]", "", val.lower() )
 
 _roar_scenarios = DownloadedFile( "ROAR", 6, # nb: TTL = #hours
-    "roar-scenario-index.json",
     "https://vasl-templates.org/services/roar/scenario-index.json",
     _build_roar_scenario_index,
     extra_args = { "index": None }

@@ -1,9 +1,7 @@
 """ Wrapper for a Selenium webdriver. """
 
-import os
 import threading
 import io
-import tempfile
 import atexit
 import logging
 
@@ -60,9 +58,7 @@ class WebDriver:
 
         # create the webdriver
         _logger.debug( "- Launching webdriver process: %s", webdriver_path )
-        log_fname = app.config.get( "WEBDRIVER_LOG",
-            os.path.join( tempfile.gettempdir(), "webdriver.log" )
-        )
+        log_fname = globvars.user_profile.webdriver_log_fname
         if "chromedriver" in webdriver_path:
             options = webdriver.ChromeOptions()
             options.headless = True

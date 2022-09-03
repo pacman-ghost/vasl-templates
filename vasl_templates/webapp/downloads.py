@@ -11,10 +11,9 @@ import urllib.error
 import gzip
 import time
 import datetime
-import tempfile
 import logging
 
-from vasl_templates.webapp import app
+from vasl_templates.webapp import app, globvars
 from vasl_templates.webapp.utils import parse_int
 
 _registry = set()
@@ -27,12 +26,11 @@ _etags = {}
 class DownloadedFile:
     """Manage a downloaded file."""
 
-    def __init__( self, key, ttl, fname, url, on_data, extra_args=None ):
+    def __init__( self, key, ttl, url, on_data, extra_args=None ):
 
         # initialize
         self.key = key
         self.ttl = ttl
-        self.fname = fname
         self.url = url
         self.on_data = on_data
         self.error_msg = None
@@ -50,7 +48,7 @@ class DownloadedFile:
         _registry.add( self )
 
         # check if we have a cached copy of the file
-        self.cache_fname = os.path.join( tempfile.gettempdir(), "vasl-templates."+fname )
+        self.cache_fname = globvars.user_profile.downloaded_files[ self.key ]
         if os.path.isfile( self.cache_fname ):
             # yup - load it
             _logger.info( "Using cached %s file: %s", key, self.cache_fname )
