@@ -6,9 +6,13 @@ Red TH#
 OBA: 6B 3R (access: ≤ 1)
 
 * Escape NA
-* No Inherent PF
-* Inherent ATMM in Romanian non-Crew Elite & 1st Line MMC (-2 CC DRM)
 
 1st Line & Conscript:
 * 1 PAATC
 * Surrender on HoB Final DR ≥ 10
+
+Romanian, Hungarian:
+* No Inherent PF
+
+Romanian:
+* Inherent ATMM in non-Crew Elite  and 1st Line MMC (-2 CC DRM)

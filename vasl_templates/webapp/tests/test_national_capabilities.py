@@ -268,17 +268,20 @@ def test_time_based_national_capabilities( webapp, webdriver ):
     check_oba( "finnish", "ETO", 1, 1945, "7B", "3R", plentiful=True )
 
     # test the Axis Minor national capabilities
-    check_notes( "romanian", "ETO", 12, 1942, [
-        "No Inherent ATMM"
-    ] )
     check_notes( "romanian", "ETO", 6, 1943, [
-        "No Inherent ATMM"
+        "No Inherent PF", "No Inherent ATMM"
     ] )
     check_notes( "romanian", "ETO", 7, 1943, [
-        "Inherent ATMM in Romanian non-Crew Elite & 1st Line MMC (-2 CC DRM)"
+        "No Inherent PF", "Inherent ATMM in non-Crew Elite  and 1st Line MMC (-2 CC DRM)"
     ] )
-    check_notes( "romanian", "ETO", 1, 1944, [
-        "Inherent ATMM in Romanian non-Crew Elite & 1st Line MMC (-2 CC DRM)"
+    check_notes( "romanian", "ETO", 3, 1944, [
+        "Inherent PF  in non-Crew MMC", "Inherent ATMM in non-Crew Elite  and 1st Line MMC (-2 CC DRM)"
+    ] )
+    # FUDGE! Because the "Inherent PF" note appears in the "Romanian + Hungarian" or "Romanian" group,
+    # depending on the data, we distinguish between the two by having an extra space in the note,
+    # which won't make any different when it's rendered as HTML, but can be detected here... :-/
+    check_notes( "romanian", "ETO", 7, 1944, [
+        "Inherent PF in non-Crew MMC", "Inherent ATMM in non-Crew Elite  and 1st Line MMC (-2 CC DRM)"
     ] )
 
     # test the KFW American national Capabilities

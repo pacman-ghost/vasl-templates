@@ -173,11 +173,16 @@
     "grenades": "Smoke",
     "notes": [
         "Escape NA",
-        "{? 03/1944- | Inherent PF in non-Crew MMC (Romanian<sup>3/44+</sup>; Hungarian<sup>6/44+</sup>) | No Inherent PF | Inherent PF (Romanian<sup>3/44+</sup>; Hungarian<sup>6/44+</sup>) ?}",
-        "{? 07/1943- | Inherent ATMM in Romanian non-Crew Elite &amp; 1st Line MMC (-2 CC DRM) | No Inherent ATMM | Inherent ATMM<sup>(7/43+)</sup> ?}",
         { "caption": "1st Line &amp; Conscript", "notes": [
             "1 PAATC",
             "Surrender on HoB Final DR &ge; 10"
+        ] },
+        { "caption": "Romanian, Hungarian", "notes": [
+            "{! -02/1944 = No Inherent PF | 03/1944-05/1944 = | 06/1944- = Inherent PF in non-Crew MMC | Inherent PF <span class='comment'>(Romanian<sup>3/44+</sup>, Hungarian<sup>6/44+</sup>)</span> !}"
+        ] },
+        { "caption": "Romanian", "notes": [
+            "{! 03/1944-05/1944 = Inherent PF  in non-Crew MMC !}",
+            "{? 07/1943- | Inherent ATMM in non-Crew Elite <br> and 1st Line MMC (-2 CC DRM) | No Inherent ATMM | Inherent ATMM<sup>(7/43+)</sup> ?}"
         ] }
     ]
 },
