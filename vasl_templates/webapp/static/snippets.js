@@ -1041,7 +1041,8 @@ function unload_snippet_params( unpack_scenario_date, template_id )
             var nat = params[ "PLAYER_"+player_no ] ;
             var capabilities = $(this).data( "sortable2-data" ).custom_capabilities ;
             if ( capabilities ) {
-                obj.capabilities = capabilities ;
+                // NOTE: We take a copy of the capabilities list in case we want to adjust any of them.
+                obj.capabilities = capabilities.slice() ;
                 obj.capabilities_len = capabilities.length ;
                 obj.custom_capabilities = capabilities.slice() ;
             } else {
@@ -1054,7 +1055,7 @@ function unload_snippet_params( unpack_scenario_date, template_id )
                     false
                 ) ;
                 if ( capabilities ) {
-                    obj.capabilities = capabilities ;
+                    obj.capabilities = capabilities.slice() ;
                     obj.capabilities_len = capabilities.length ;
                 }
             }
@@ -1071,7 +1072,8 @@ function unload_snippet_params( unpack_scenario_date, template_id )
             }
             var custom_comments = $(this).data( "sortable2-data" ).custom_comments ;
             if ( custom_comments ) {
-                obj.comments = custom_comments ;
+                // NOTE: We take a copy of the comments list since we might adjust them e.g. split MG's
+                obj.comments = custom_comments.slice() ;
                 obj.custom_comments = custom_comments.slice() ;
             } else {
                 // NOTE: Loading up the vehicle/ordnance comments verbatim here might cause problems with time-based comments,
