@@ -9,7 +9,6 @@ OBA: 7B 2R (access: ≤ 1)
 * Starshell restrictions
 * Armored Assault NA
 * Riders NA
-* Assault Engineers: WP grenades
 * Leaders & Political Officers increase Morale  as if Commissar
 * SW B#/X#/ROF penalty
 * Restricted Fire
@@ -23,3 +22,6 @@ OBA: 7B 2R (access: ≤ 1)
 * Conceal if +2 Hindrance
 * Concealment -1 drm
 * Civilian Interrogation is always in effect
+
+Assault Engineers:
+* WP grenades

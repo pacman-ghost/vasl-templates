@@ -6,13 +6,15 @@ Red TH#
 OBA: ??? 3R (access: ≤ 1 (ROK) ; 2 (KMC))
 - Plentiful Ammo included (KMC)
 
-* Republic of Korea (ROK):
-  * Early KW ROK rules
-  * 1st Line MMC Battle-Harden to Fanatic
-  * 2nd Line & Conscript MMC:
-    * Always Lax
-    * Deploy NA
+Republic of Korea (ROK):
+* Early KW ROK rules
+* 1st Line MMC:
+  * Battle-Harden to Fanatic
+* 2nd Line & Conscript MMC:
+  * Always Lax
+  * Deploy NA
   * Human Bullets
-* Korean Marine Corps (KMC):
-  * Japanese-Armed KMC
-  * SW B#/X#/ROF penalty
+
+Korean Marine Corps (KMC):
+* Japanese-Armed KMC
+* SW B#/X#/ROF penalty

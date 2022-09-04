@@ -10,6 +10,8 @@ OBA: 5B 2R (access: ≤ 1)
 * Deploy NA
 * Lax at Night
 * +1 Leader Creation drm
-* 1st Line & Conscript: 1 PAATC
 * Human Wave
 * Dare-Death Squads [EXC: 5-3-7]
+
+1st Line & Conscript:
+* 1 PAATC

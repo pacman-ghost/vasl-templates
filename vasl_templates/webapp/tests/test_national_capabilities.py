@@ -3,6 +3,7 @@
 import os
 import shutil
 import io
+import itertools
 
 import lxml.html
 
@@ -99,7 +100,7 @@ def _get_nat_caps( webapp, webdriver, nat, theater, year, month ): #pylint: disa
             vals.extend( [ c.text, c.tail ] )
         vals.append( elem.tail )
         vals = [ v for v in vals if v ]
-        return "".join( vals )
+        return "".join( vals ).strip()
 
     # parse the basic details
     report = {}
@@ -111,7 +112,7 @@ def _get_nat_caps( webapp, webdriver, nat, theater, year, month ): #pylint: disa
             report[ field ] = "-"
         else:
             assert len(elems) == 1
-            report[ field ] = to_text( elems[0] ).strip()
+            report[ field ] = to_text( elems[0] )
     if report["hob-drm"] != "-":
         assert report["hob-drm"].startswith( "Heat of Battle: " )
         report["hob-drm"] = report["hob-drm"][16:]
@@ -121,28 +122,29 @@ def _get_nat_caps( webapp, webdriver, nat, theater, year, month ): #pylint: disa
     for elem in doc.xpath( "//ul[@class='oba-comments']/li" ):
         report["oba-comments"].append( elem.text.strip() )
 
-    def parse_list( root, items, depth ):
+    def parse_list( root, items ):
         """Parse a list of items (and their child items)."""
         for elem in root.xpath( "./li" ):
             val = to_text( elem )
-            val = val.strip()
             elems = elem.xpath( "./ul" )
             if not elems:
                 items.append( val )
             else:
                 assert len(elems) == 1
-                children = []
-                parse_list( elems[0], children, depth+1 )
-                items.append( [ val, children ] )
+                items.append( [
+                    val, parse_list( elems[0], [] )
+                ] )
+        return items
 
     # parse the notes
-    report["notes"] = []
-    elems = doc.xpath( "//ul[@class='notes']" )
-    if len(elems) == 0:
-        pass
-    else:
-        assert len(elems) == 1
-        parse_list( elems[0], report["notes"], 0 )
+    report[ "note-groups" ] = []
+    for group in doc.xpath( "//div[@class='note-group']" ):
+        caption = group.xpath( "./div[@class='caption']" )
+        notes = group.xpath( "./ul" )
+        report["note-groups"].append( [
+            to_text( caption[0] ) if caption else None,
+            parse_list( notes[0], [] ) if notes else None
+        ] )
 
     return report
 
@@ -175,9 +177,12 @@ def _make_report( nat, theater, year, nat_caps ):
     print( "", file=buf )
     for cmt in nat_caps["oba-comments"]:
         print( "- {}".format( cmt ), file=buf )
-    if nat_caps["notes"]:
+    for group in nat_caps.get( "note-groups", [] ):
         print( "", file=buf )
-        dump_list_items( nat_caps["notes"], 0 )
+        if group[0]:
+            print( group[0], file=buf )
+        if group[1]:
+            dump_list_items( group[1], 0 )
 
     return buf.getvalue()
 
@@ -199,8 +204,12 @@ def test_time_based_national_capabilities( webapp, webdriver ):
         nat_caps = _get_nat_caps( webapp, webdriver, nat, theater, year, month )
         for e in expected:
             notes = [
+                g[1] or []
+                for g in nat_caps.get( "note-groups", [] )
+            ]
+            notes = [
                 n if isinstance(n,str) else n[0]
-                for n in nat_caps["notes"]
+                for n in itertools.chain( *notes )
             ]
             if e.startswith( "!" ):
                 assert e[1:] not in notes

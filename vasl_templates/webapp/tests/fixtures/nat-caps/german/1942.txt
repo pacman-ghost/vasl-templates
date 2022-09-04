@@ -7,7 +7,8 @@ OBA: 8B 3R (access: ≤ 2)
 
 * No Inherent PF
 * No Inherent ATMM
-* SS:
-  * Disrupt & RtPh Surrender NA  vs Russians
-  * Massacre OK
-  * No Squad Assault Fire
+
+SS:
+* Disrupt & RtPh Surrender NA  vs Russians
+* Massacre OK
+* No Squad Assault Fire

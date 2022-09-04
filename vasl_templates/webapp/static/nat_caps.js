@@ -84,14 +84,46 @@ function set_nat_caps_params( player_nat, params )
     // set the OBA access number
     add_nat_cap( "OBA_ACCESS", nat_caps.oba_access ) ;
 
-    // add any additional notes
-    if ( nat_caps.notes ) {
-        params.NAT_CAPS.NOTES = [] ;
-        for ( i=0 ; i < nat_caps.notes.length ; ++i ) {
-            val = make_time_based_comment( nat_caps.notes[i], params.SCENARIO_MONTH, params.SCENARIO_YEAR ) ;
-            if ( val )
-                params.NAT_CAPS.NOTES.push( fixup_content( val ) ) ;
+    // add any notes
+    function load_notes( data ) {
+        // create a new note group
+        var group = {} ;
+        var groupIndex = params.NAT_CAPS.NOTE_GROUPS.length ;
+        params.NAT_CAPS.NOTE_GROUPS.push( group ) ;
+        // locate the notes
+        var notes ;
+        if ( $.isArray( data ) )
+            notes = data ; // nb: this is the root group (which has no caption)
+        else {
+            if ( data.caption )
+                group.CAPTION = fixup_content( data.caption ) ;
+            notes = data.notes || [] ;
         }
+        // add the notes to the new note group
+        var notes2 = [] ;
+        notes.forEach( function( note ) {
+            if ( typeof note === "string" ) {
+                // add the next note to the note group
+                val = make_time_based_comment( note, params.SCENARIO_MONTH, params.SCENARIO_YEAR ) ;
+                if ( val )
+                    notes2.push( fixup_content( val ) ) ;
+            } else {
+                // recurse down and add the child note group
+                load_notes( note ) ;
+            }
+        } ) ;
+        if ( notes2.length > 0 ) {
+            group.NOTES = notes2 ;
+            if ( group.CAPTION )
+                group.CAPTION += ":" ;
+        }
+        // remove the note group if it's empty
+        if ( ! group.NOTES && ! data.allow_empty )
+            params.NAT_CAPS.NOTE_GROUPS.splice( groupIndex, 1 ) ;
+    }
+    if ( nat_caps.notes ) {
+        params.NAT_CAPS.NOTE_GROUPS = [] ;
+        load_notes( nat_caps.notes ) ;
     }
 }
 

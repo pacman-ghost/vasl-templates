@@ -6,10 +6,12 @@ Black TH#
 OBA: 10B 3R (access: ≤ 1 (ROK) ; 2 (KMC))
 - Plentiful Ammo included
 
-* Republic of Korea (ROK):
-  * 1st Line MMC Battle-Harden to Fanatic
-  * 2nd Line & Conscript MMC:
-    * Always Lax
-    * Deploy NA
-* Korean Marine Corps (KMC):
-  * U.S.-Armed KMC
+Republic of Korea (ROK):
+* 1st Line MMC:
+  * Battle-Harden to Fanatic
+* 2nd Line & Conscript MMC:
+  * Always Lax
+  * Deploy NA
+
+Korean Marine Corps (KMC):
+* U.S.-Armed KMC

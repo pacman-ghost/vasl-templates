@@ -7,6 +7,7 @@
 td { padding: 2px 5px ; }
 li.comment { font-size: 96% ; font-style: italic ; color: #404040 ; }
 span.comment { font-size: 85% ; font-style: italic ; color: #404040 ; }
+.note-group { margin-top: 5px ; padding-top: 3px ; border-top: 1px solid #ccc ; }
 </style>
 </head>
 
@@ -30,18 +31,20 @@ span.comment { font-size: 85% ; font-style: italic ; color: #404040 ; }
 {%if NAT_CAPS.OBA_BLACK%}
     <li> OBA: <span class="oba-black">{{NAT_CAPS.OBA_BLACK}}</span> <span class="oba-red">{{NAT_CAPS.OBA_RED}}</span>
         {%if NAT_CAPS.OBA_ACCESS%} <span class="oba-access">(access: {{NAT_CAPS.OBA_ACCESS}})</span> {%endif%}
-    </span>
     {%if NAT_CAPS.OBA_COMMENTS%}
         <ul class="oba-comments"> {%for cmt in NAT_CAPS.OBA_COMMENTS%} <li class="comment"> {{cmt}} {%endfor%} </ul>
     {%endif%}
 {%endif%}
 </ul>
 
-{%if NAT_CAPS.NOTES%}
-<ul class="notes" style="margin-top:5px;"> {%for note in NAT_CAPS.NOTES%}
-    <li> {{note}}
-{%endfor%} </ul>
-{%endif%}
+{% for group in NAT_CAPS.NOTE_GROUPS %}
+<div class="note-group" {%if not group.CAPTION%}style="border-top:none;"{%endif%} >
+{%if group.CAPTION %}<div class="caption"> {{group.CAPTION}} </div>{%endif%}
+{%if group.NOTES %}<ul> {%for note in group.NOTES%}
+    <li> {{note}} {%endfor%}
+</ul> {%endif%}
+</div>
+{%endfor%}
 
 {%else%}
 

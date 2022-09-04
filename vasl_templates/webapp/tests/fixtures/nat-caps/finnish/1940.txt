@@ -9,10 +9,11 @@ OBA: 6B 3R (access: ≤ 1)
 * Deploy (1TC) & Recombine without Leader
 * Self-Rally OK [EXC: Conscript]
 * Cowering NA [EXC: Conscript]
-* Elite & 1st Line:
-  * Always Stealthy
-  * Use FT/DC as Elite
-  * No Inherent PF
 * Ski-trained (don Skis = one MF)
 * Leader Creation NA
 * Captured Use penalties NA for Russian MG  [EXC: LMG in 1939; .50-cal]
+
+Elite & 1st Line:
+* Always Stealthy
+* Use FT/DC as Elite
+* No Inherent PF
