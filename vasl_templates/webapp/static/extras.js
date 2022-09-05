@@ -82,39 +82,43 @@ function _show_extra_template( template_id )
     if ( template_info.params.length > 0 ) {
         buf.push( "<table name='" + template_info.template_id + "'>" ) ;
         for ( var i=0 ; i < template_info.params.length ; ++i ) {
+            var param = template_info.params[ i ] ;
             buf.push( "<tr>" ) ;
-            var display_name = template_info.params[i].caption || template_info.params[i].name ;
+            var display_name = param.caption || param.name ;
             buf.push( "<td class='caption'>", escapeHTML(display_name)+":" ) ;
             buf.push( "<td class='value'>" ) ;
-            if ( template_info.params[i].type === "input" ) {
-                buf.push( "<input class='param' name='" + escapeHTML(template_info.params[i].name) + "' type='text'" ) ;
-                if ( template_info.params[i].width )
-                    buf.push( " size='" + escapeHTML(template_info.params[i].width) + "'" ) ;
-                if ( template_info.params[i].default )
-                    buf.push( " value='" + escapeHTML(template_info.params[i].default) + "'" ) ;
-                if ( template_info.params[i].description )
-                    buf.push( " title='" + escapeHTML(template_info.params[i].description) + "'" ) ;
+            if ( param.type === "input" ) {
+                buf.push( "<input class='param' name='" + escapeHTML(param.name) + "' type='text'" ) ;
+                if ( param.width )
+                    buf.push( " size='" + escapeHTML(param.width) + "'" ) ;
+                if ( param.default )
+                    buf.push( " value='" + escapeHTML(param.default) + "'" ) ;
+                if ( param.description )
+                    buf.push( " title='" + escapeHTML(param.description) + "'" ) ;
                 buf.push( ">" ) ;
-            } else if ( template_info.params[i].type == "html_textbox" ) {
-                buf.push( "<div class='param html-textbox' name='" + escapeHTML(template_info.params[i].name) + "'" ) ;
-                if ( template_info.params[i].width )
-                    buf.push( " style='width:" + (template_info.params[i].width * 0.75*gEmSize) + "px;'" ) ;
-                if ( template_info.params[i].description )
-                    buf.push( " title='" + escapeHTML(template_info.params[i].description) + "'" ) ;
+            } else if ( param.type == "html_textbox" ) {
+                buf.push( "<div class='param html-textbox' name='" + escapeHTML(param.name) + "'" ) ;
+                if ( param.width )
+                    buf.push( " style='width:" + (param.width * 0.75*gEmSize) + "px;'" ) ;
+                if ( param.description )
+                    buf.push( " title='" + escapeHTML(param.description) + "'" ) ;
                 buf.push( ">" ) ;
-                if ( template_info.params[i].default )
-                    buf.push( sanitizeHTML( template_info.params[i].default ) ) ;
+                if ( param.default )
+                    buf.push( sanitizeHTML( param.default ) ) ;
                 buf.push( "</div>" ) ;
-            } else if ( template_info.params[i].type === "select" ) {
-                buf.push( "<select class='param' name='" + escapeHTML(template_info.params[i].name) + "'>" ) ;
-                for ( j=0 ; j < template_info.params[i].options.length ; ++j )
-                    buf.push( "<option>", template_info.params[i].options[j], "</option>" ) ;
+            } else if ( param.type === "select" ) {
+                buf.push( "<select class='param' name='" + escapeHTML(param.name) + "'" ) ;
+                if ( param.width )
+                    buf.push( " data-width='" + param.width + "em'" ) ; // nb: select2 seems to be recognizing this
+                buf.push( ">" ) ;
+                for ( j=0 ; j < param.options.length ; ++j )
+                    buf.push( "<option>", param.options[j], "</option>" ) ;
                 buf.push( "</select>" ) ;
-            } else if ( template_info.params[i].type === "player-droplist" ) {
+            } else if ( param.type === "player-droplist" ) {
                 buf.push( "<select name='_PLAYER_DROPLIST_' style='width:11.5em;'>" ) ;
                 add_player_nats( buf ) ;
                 buf.push( "</select>" ) ;
-            } else if ( template_info.params[i].type === "player-color-droplist" ) {
+            } else if ( param.type === "player-color-droplist" ) {
                 buf.push( "<select name='_PLAYER_DROPLIST_' style='width:11.5em;'>" ) ;
                 buf.push( "<option value=':black:'>black</option>" ) ;
                 buf.push( "<option value=':gray:'>gray</option>" ) ;
@@ -230,6 +234,14 @@ function _parse_extra_template( template_id, template )
             // we have a <select>
             param.type = "select" ;
             param.options = val.split( "::" ) ;
+            if ( param.options.length > 0 ) {
+                var lastOption = param.options[ param.options.length - 1 ] ;
+                var match = lastOption.match( /\/[0-9]+$/ ) ;
+                if ( match ) {
+                    param.options[ param.options.length - 1 ] = lastOption.substring( 0, match.index ) ;
+                    param.width = match[0].substr( 1 ) ;
+                }
+            }
         } else if ( param.name === "PLAYER_DROPLIST" )
             param.type = "player-droplist" ;
         else if ( param.name === "PLAYER_COLOR_DROPLIST" )

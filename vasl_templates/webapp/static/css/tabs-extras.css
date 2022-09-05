@@ -32,10 +32,3 @@
     padding: 0.2em  0.5em; border: 1px dotted #ccc ;
 }
 #tabs-extras .right-panel .footer td.key { background: #f8f8f8 ; font-weight: bold ; }
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
-#tabs-extras .right-panel [name="extras/kakazu-ridge-cave-complexes"] .select2 { width: 10em !important ; }
-#tabs-extras .right-panel [name="extras/victory-points"] .select2 { width: 9em !important ; }
-#tabs-extras .right-panel [name="extras/count-remaining"] .select2 { width: 11em !important ; }
-#tabs-extras .right-panel [name="extras/booby-traps"] .select2 { width: 2.5em !important ; }
