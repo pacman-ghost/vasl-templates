@@ -34,7 +34,7 @@ var NATIONALITY_SPECIFIC_BUTTONS = {
 } ;
 
 GENERATE_SNIPPET_HINT = "Generate an HTML snippet" ;
-EDIT_TEMPLATE_HINT = "Edit the snippet template" ;
+EDIT_TEMPLATE_HINT = "Edit the template" ;
 
 // --------------------------------------------------------------------
 
@@ -407,8 +407,11 @@ $(document).ready( function () {
     } ) ;
     $(window).trigger( "resize" ) ;
 
-    // replace all the "generate" buttons with "generate/edit" button/droplist's
+    // replace the "generate" buttons with menu droplists
     $("button.generate").each( function() { init_snippet_button( $(this) ) ; } ) ;
+
+    // replace the "add sortable" buttons with menu droplists
+    $("button.sortable-add").each( function() { init_sortable_add_button( $(this) ) ; } ) ;
 
     // add a tooltip to the snippet width textbox's
     $( "input.param.snippet-width" ).each( function() {
@@ -435,13 +438,6 @@ $(document).ready( function () {
         $( "input.param[name='COMPASS']" ).val( dirn ) ;
         updateCompassImage() ;
     } ) ;
-
-    // handle requests to edit the templates
-    $("button.edit-template").click( function() {
-        edit_template( $(this).data( "id" ) ) ;
-    } ).html( "<div style='white-space:nowrap;'><img src='" + gImagesBaseUrl + "/edit-template.png'>Edit</div>" )
-        .attr( "title", EDIT_TEMPLATE_HINT )
-        .button( {} ) ;
 
     // watch for changes to the scenario details
     // NOTE: The following is to add/remove the "scenario modified" indicator. It's pretty inefficent
@@ -498,26 +494,30 @@ $(document).ready( function () {
     $em.remove() ;
 
     // add some dummy links for the test suite to edit templates
+    function add_edit_template_link( $btn ) {
+        var template_id = $btn.attr( "data-id" ) ;
+        if ( ! template_id )
+            return ;
+        if ( template_id.substring(0,9) === "ob_setup_" )
+            template_id = "ob_setup" ;
+        else if ( template_id.substring(0,21) === "ob_vehicles_ma_notes_" )
+            template_id = "ob_vehicles_ma_notes" ;
+        else if ( template_id.substring(0,21) === "ob_ordnance_ma_notes_" )
+            template_id = "ob_ordnance_ma_notes" ;
+        else if ( template_id.substring(0,12) === "ob_vehicles_" )
+            template_id = "ob_vehicles" ;
+        else if ( template_id.substring(0,12) === "ob_ordnance_" )
+            template_id = "ob_ordnance" ;
+        else if ( template_id.substring(0,9) === "nat_caps_" )
+            template_id = "nat_caps" ;
+        $( "<a href='#' class='_edit-template-link_' data-id='" + template_id + "'" +
+           " onclick='edit_template(\"" + template_id + "\")'" +
+           "></a>"
+        ).appendTo( "body" ) ;
+    }
     if ( getUrlParam( "edit_template_links" ) ) {
-        $("button.generate").each( function() {
-            var template_id = $(this).attr( "data-id" ) ;
-            if ( template_id.substring(0,9) === "ob_setup_" )
-                template_id = "ob_setup" ;
-            else if ( template_id.substring(0,21) === "ob_vehicles_ma_notes_" )
-                template_id = "ob_vehicles_ma_notes" ;
-            else if ( template_id.substring(0,21) === "ob_ordnance_ma_notes_" )
-                template_id = "ob_ordnance_ma_notes" ;
-            else if ( template_id.substring(0,12) === "ob_vehicles_" )
-                template_id = "ob_vehicles" ;
-            else if ( template_id.substring(0,12) === "ob_ordnance_" )
-                template_id = "ob_ordnance" ;
-            else if ( template_id.substring(0,9) === "nat_caps_" )
-                template_id = "nat_caps" ;
-            $( "<a href='#' class='_edit-template-link_' data-id='" + template_id + "'" +
-               " onclick='edit_template(\"" + template_id + "\")'" +
-               "></a>"
-            ).appendTo( "body" ) ;
-        } ) ;
+        $( "button.generate" ).each( function() { add_edit_template_link( $(this) ) ; } ) ;
+        $( "button.sortable-add" ).each( function() { add_edit_template_link( $(this) ) ; } ) ;
     }
 
     // flag that we've finished initialization
@@ -633,7 +633,7 @@ function updatePlayerOBSplitters( playerNo )
         nButtons += 1 ;
         nChars += $(this).find( "button.generate" ).text().length ;
     } ) ;
-    var minWidth = Math.max( 270 + 60*nButtons + gEmSize*nChars*0.5, 320 ) ;
+    var minWidth = Math.max( 160 + 60*nButtons + gEmSize*nChars*0.5, 320 ) ;
     $( "#tabs-ob" + playerNo + " .left" ).css( "min-width", minWidth ) ;
 }
 
@@ -698,7 +698,6 @@ function init_snippet_button( $btn )
         } ) ;
     } ) ;
     $newBtn.children( ".ui-button-icon-only" ).css( "width", "1em" ) ;
-    $newBtn.children( ".ui-selectmenu-button" ).click( function() { $btn.blur() ; } ) ;
 
     // handle requests to edit the template
     $newBtn.children( "select" ).on( "selectmenuselect", function( evt, ui ) {
@@ -710,6 +709,66 @@ function init_snippet_button( $btn )
 
     // replace the existing button with the new replacement button
     $btn.replaceWith( $newBtn ) ;
+}
+
+function init_sortable_add_button( $btn )
+{
+    // NOTE: We used to have buttons in the UI for editing templates for SCENARIO NOTE's and OB SETUP/NOTE's,
+    // which took up a lot of real estate for something that almost certainly nobody is using :-/, so we instead
+    // tuck them away in a droplist, attached to the ADD button. We could put a button for this functionality
+    // in the "edit simple note" dialog, but here is OK, as well.
+    // They are currenly only used by simple notes, and are identified by having an "id" data attribute
+    // that specifies the associated template ID. Note that we don't do this for SSR's since it already has
+    // a snippet control, which works a little differenly (all the simple notes are munged together into
+    // a single label).
+
+    // check if this sortable-add button should be able to edit the underlying template
+    var template_id = $btn.data( "id" ) ;
+    if ( ! template_id )
+        return ;
+
+    // create the new button
+    // NOTE: It's important we retain the original button element, since it's already been initialized
+    // as a sortable helper. Since we want to replace the original button with the new one, we have to
+    // do a bit of stuffing around to figure out where to place it
+    var $btnPlaceholder = $( "<span class='orig-button'></span>" ) ;
+    $btn.before( $btnPlaceholder ) ;
+    $btn.detach() ;
+    var $newBtn = $( "<div class='snippet-control' data-id='" + template_id + "'></div>" ) ;
+    $newBtn.append( $btn ) ;
+    $newBtn.append( [
+        "<select data-id='" + template_id + "'>",
+        // NOTE: We can't have too many options, since these appear near the bottom of the window :-/
+        "<option value='edit' class='edit-template' title='" + EDIT_TEMPLATE_HINT + "'>Edit</option>",
+        "</select>"
+    ].join( "" ) ) ;
+
+    // add in the droplist
+    $newBtn.controlgroup() ;
+    $newBtn.children( "select" ).each( function() {
+        $(this).selectmenu( {
+            classes: {
+                "ui-selectmenu-button": "ui-button-icon-only",
+                "ui-selectmenu-menu": "snippet-control-menu-item",
+            },
+        } ) ;
+    } ) ;
+    $newBtn.children( ".ui-button-icon-only" ).css( {
+        width: "1em", height: 28, "border-left": "none"
+    } ) ;
+
+    // give the combined button rounded corners
+    $btn.css( "border-radius", "3px 0 0 3px" ) ;
+    $btn.parent().children( ".ui-selectmenu-button" ).css( "border-radius", "0 3px 3px 0" ) ;
+
+    // handle menu items
+    $newBtn.children( "select" ).on( "selectmenuselect", function( evt, ui ) {
+        if ( ui.item.value === "edit" )
+            edit_template( $(this).data( "id" ) ) ;
+    } ) ;
+
+    // replace the existing button with the new replacement button
+    $btnPlaceholder.replaceWith( $newBtn ) ;
 }
 
 function updateCompassImage() {
@@ -917,7 +976,7 @@ function install_template_pack( data )
     }
 
     // update the snippet buttons
-    function update_button( $btn ) {
+    function update_generate_button( $btn ) {
         var template_id = $btn.attr( "data-id" ) ;
         if ( template_id.substr( 0, 7 ) === "extras/" )
             return ;
@@ -940,8 +999,17 @@ function install_template_pack( data )
         } else
             $btn.button( enable ? "enable": "disable" ) ;
     }
-    $( "button.generate" ).each( function() { update_button( $(this) ) ; } ) ;
-    $( "button.edit-template" ).each( function() { update_button( $(this) ) ; } ) ;
+    function update_sortable_add_button( $btn ) {
+        var template_id = $btn.attr( "data-id" ) ;
+        if ( ! template_id )
+            return ;
+        var $dropdown = $btn.parent().find( "select[data-id='" + template_id + "']" ) ;
+        var enable = is_template_available( template_id ) ;
+        $dropdown.find( "option.edit-template" ).attr( "disabled", !enable ) ;
+        $dropdown.selectmenu( "refresh" ) ;
+    }
+    $( "button.generate" ).each( function() { update_generate_button( $(this) ) ; } ) ;
+    $( "button.sortable-add" ).each( function() { update_sortable_add_button( $(this) ) ; } ) ;
 
     // update the turn track controls
     enable = is_template_available( "turn_track" ) ;

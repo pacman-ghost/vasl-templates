@@ -197,8 +197,8 @@ def test_missing_templates( webapp, webdriver ):
         else:
             return template_id
 
-    def check_buttons( fname, sel, is_snippet_control ): #pylint: disable=missing-docstring
-        for btn in find_children( sel ):
+    def check_generate_buttons( fname ):
+        for btn in find_children( "button.generate" ):
             # check the UI state of the next button
             template_id = adjust_template_id( btn.get_attribute( "data-id" ) )
             if fname == "national-capabilities.json":
@@ -212,16 +212,13 @@ def test_missing_templates( webapp, webdriver ):
             # check that snippet control groups have been enabled/disabled correctly
             parent = get_parent_elem( btn )
             parent_classes = get_css_classes( parent )
-            if is_snippet_control:
-                assert "snippet-control" in parent_classes
-                elem = find_child( ".ui-selectmenu-button", parent )
-                elem_classes = get_css_classes( elem )
-                if expected:
-                    assert "ui-selectmenu-disabled" in elem_classes
-                else:
-                    assert "ui-selectmenu-disabled" not in elem_classes
+            assert "snippet-control" in parent_classes
+            elem = find_child( ".ui-selectmenu-button", parent )
+            elem_classes = get_css_classes( elem )
+            if expected:
+                assert "ui-selectmenu-disabled" in elem_classes
             else:
-                assert "snippet-control" not in parent_classes
+                assert "ui-selectmenu-disabled" not in elem_classes
             # check if the button has an associated "snippet-width" textbox
             sel = btn.get_attribute( "data-id" )
             if sel.endswith( ( "_1", "_2" ) ):
@@ -231,6 +228,18 @@ def test_missing_templates( webapp, webdriver ):
             elem = find_child( "input.snippet-width[name='{}']".format( sel.upper() ) )
             if elem:
                 assert not elem.is_enabled() == expected
+
+    def check_sortable_add_buttons( fname ):
+        for btn in find_children( "button.sortable-add" ):
+            template_id = btn.get_attribute( "data-id" )
+            if not template_id:
+                continue
+            # check the UI state of the next button
+            expected = os.path.splitext( fname )[0] == template_id
+            dropdown = find_child( "select[data-id='{}']".format( template_id ), get_parent_elem(btn) )
+            opt = find_child( "option.edit-template", dropdown )
+            disabled = opt.get_attribute( "disabled" ) is not None
+            assert disabled == expected
 
     # upload the template pack, with one file missing each time
     for fname in files:
@@ -243,8 +252,8 @@ def test_missing_templates( webapp, webdriver ):
 
         # check the state of each button (everything should be enabled, except for the one
         # corresponding to the template file we excluded from the upload)
-        check_buttons( fname, "button.generate", True )
-        check_buttons( fname, "button.edit-template", False )
+        check_generate_buttons( fname )
+        check_sortable_add_buttons( fname )
 
         # NOTE: We should really check that the "generate snippet" buttons don't appear in sortable entries,
         # but that's more trouble than it's worth - templates such as ob_setup and ob_vehicles are never

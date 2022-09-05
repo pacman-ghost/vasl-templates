@@ -38,9 +38,6 @@ label { height: 1.25em ; }
 .snippet-control .ui-selectmenu-button-closed { height: 26px ; }
 .snippet-control .ui-selectmenu-icon.ui-icon { margin-top: -8px ; }
 
-button.edit-template { height: 28px ; padding: 4px 10px ; margin-right: 0 ; }
-button.edit-template img { height: 18px ; vertical-align: middle ; margin: -2px 0.4em 0 0 ; }
-
 input.snippet-width { width: 3.75em ; }
 
 .ui-dialog-titlebar { padding: 0.2em 0.5em 0.2em 0.5em !important ; }

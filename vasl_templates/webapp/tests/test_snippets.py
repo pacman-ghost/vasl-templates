@@ -372,8 +372,9 @@ def test_edit_templates( webapp, webdriver ):
         if template_id in ("ob_vehicle_note","ob_ordnance_note"):
             return # nb: we currently don't support editing these in the UI
         # edit the template
-        elem = find_child( "a._edit-template-link_[data-id='{}']".format( template_id ) )
-        webdriver.execute_script( "$(arguments[0]).click();", elem )
+        webdriver.execute_script( "$(arguments[0]).click();",
+            find_child( "a._edit-template-link_[data-id='{}']".format( template_id ) )
+        )
         edit_template( orig_template_id )
         # check that the new template is being used
         elem = find_child( "button.generate[data-id='{}']".format( orig_template_id ) )
@@ -383,8 +384,9 @@ def test_edit_templates( webapp, webdriver ):
 
     # customize the SCENARIO NOTE template
     select_tab( "scenario" )
-    elem = find_child( "button[data-id='scenario_note']" )
-    elem.click()
+    webdriver.execute_script( "$(arguments[0]).click();",
+        find_child( "a._edit-template-link_[data-id='scenario_note']" )
+    )
     edit_template( "scenario_note" )
 
     # check that the new template is being used
@@ -396,8 +398,9 @@ def test_edit_templates( webapp, webdriver ):
 
     # customize the OB SETUP template
     select_tab( "ob1" )
-    elem = find_child( "#tabs-ob1 button[data-id='ob_setup']" )
-    elem.click()
+    webdriver.execute_script( "$(arguments[0]).click();",
+        find_child( "a._edit-template-link_[data-id='ob_setup']" )
+    )
     edit_template( "ob_setup" )
 
     # check that the new template is being used
@@ -411,8 +414,9 @@ def test_edit_templates( webapp, webdriver ):
 
     # customize the OB NOTE template
     select_tab( "ob2" )
-    elem = find_child( "#tabs-ob2 button[data-id='ob_note']" )
-    elem.click()
+    webdriver.execute_script( "$(arguments[0]).click();",
+        find_child( "a._edit-template-link_[data-id='ob_note']" )
+    )
     edit_template( "ob_note" )
 
     # check that the new template is being used
@@ -584,8 +588,9 @@ def test_jinja_in( webapp, webdriver ):
     def do_test( search_for, search_in, expected ):
         """Test the IN operator."""
         # install a new template
-        elem = find_child( "a._edit-template-link_[data-id='victory_conditions']" )
-        webdriver.execute_script( "$(arguments[0]).click();", elem )
+        webdriver.execute_script( "$(arguments[0]).click();",
+            find_child( "a._edit-template-link_[data-id='victory_conditions']" )
+        )
         elem = find_child( "#edit-template textarea" )
         elem.clear()
         buf = [
