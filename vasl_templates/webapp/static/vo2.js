@@ -122,6 +122,7 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
             "</div>"
         ) ;
         var $htmlTextbox = $elem.children( "div.html-textbox" ) ;
+        initHtmlTextbox( $htmlTextbox, objName, false ) ;
         $htmlTextbox.html( val ).keydown( function( evt ) {
             auto_dismiss_dialog( $dlg, evt, "OK" ) ;
         } ) ;
@@ -134,7 +135,6 @@ function _do_edit_ob_vo( $entry, player_no, vo_type )
             objName = vo_type + " capability" ;
         else if ( $sortable === $comments )
             objName = vo_type + " comment" ;
-        initHtmlTextbox( $htmlTextbox, objName, false ) ;
         // FUDGE! This works around a weird presentation error if there are superscripts and daggers
         // in the content, where ths text won't be vertically aligned properly. Moving the cursor around
         // seems to fix the layout, so we move to the start of the content, which will be a "normal" character.

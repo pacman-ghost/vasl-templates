@@ -254,10 +254,28 @@ $(document).ready( function () {
     // initialize the splitters
     initSplitters() ;
 
-    // FUDGE! We show some fields in contenteditable div's, which want to auto-grow with their content.
-    // This doesn't play well when they're in a flexbox, so we set overflow-y to "hidden" to stop this
-    // from happening vertically, but have to dynamically set max-width to stop it horizontally :-/
-    var resizeObserver = new ResizeObserver( function( entries ) {
+    // initialize the HTML textbox's
+    [ "SCENARIO_NAME", "SCENARIO_ID", "SCENARIO_LOCATION", "PLAYER_1_DESCRIPTION", "PLAYER_2_DESCRIPTION" ].forEach( function( key ) {
+        var $elem = $( "div.html-textbox[name='" + key + "']" ) ;
+        var caption = $elem.attr( "title" ) ;
+        initHtmlTextbox( $elem,
+            caption[0].toLowerCase() + caption.substring(1),
+            key.substr( 0, 7 ) === "PLAYER_"
+        ) ;
+    } ) ;
+    // FUDGE! We also need to stop the HTML textboxes that are in a flexbox from expanding out
+    // if they contain long words with no spaces. The layout still isn't quite right, but this
+    // isn't something that will happen often, so we just live with it :-/
+    // NOTE: Things work when the SCENARIO panel gets wider, but not when it narrows (because
+    // the HTML textbox has expanded out, and doesn't want to narrow when the parent element
+    // narrows, and so the panel doesn't narrow). We work-around this by checking the width
+    // of the SCENARIO NOTES panel, which will always be the same width as the SCENARIO panel.
+    var $panel2 = $("fieldset[name='scenario_notes']" ) ;
+    ( new ResizeObserver( function() {
+        // limit the horizontal width of the rows in the SCENARIO panel
+        var $panel = $( "fieldset[name='scenario']" ) ;
+        $panel.find( ".row" ).css( "max-width", $panel2.width() ) ;
+        // limit the width of the individual HTML textbox's
         $( "div.html-textbox[name='SCENARIO_NAME']" ).css( {
             "max-width": "calc(100% - 210px)"
         } ) ;
@@ -269,8 +287,11 @@ $(document).ready( function () {
                 "max-width": "calc(100% - 7em - 8px)"
             } ) ;
         }
-    } ) ;
-    resizeObserver.observe( $( "#tabs-scenario .tl" )[0] ) ;
+        // update the overflow icons
+        $panel.find( "div.html-textbox" ).each( function() {
+            $(this).data( "updateOverflowIcon" )() ;
+        } ) ;
+    } ) ).observe( $panel2[0] ) ;
 
     // get the application config
     $.getJSON( gAppConfigUrl, function(data) {
@@ -852,14 +873,6 @@ function update_page_load_status( id )
         // initialize the HTML WYSIWYG editors (nb: we do it here, since we need the app config
         // and template pack (for the player flags))
         initVictoryConditionsTrumbowyg() ;
-        [ "SCENARIO_NAME", "SCENARIO_ID", "SCENARIO_LOCATION", "PLAYER_1_DESCRIPTION", "PLAYER_2_DESCRIPTION" ].forEach( function( key ) {
-            var $elem = $( "div.html-textbox[name='" + key + "']" ) ;
-            var caption = $elem.attr( "title" ) ;
-            initHtmlTextbox( $elem,
-                caption[0].toLowerCase() + caption.substring(1),
-                key.substr( 0, 7 ) === "PLAYER_"
-            ) ;
-        } ) ;
         // FUDGE! There are problems with the layout jumping around during startup in the desktop app,
         // so we hide the footers on the scenario tab (which is the one visible during startup),
         // and only show them them when we're ready.

@@ -112,15 +112,6 @@ function initTrumbowyg( $ctrl, buttons, $parentDlg )
                     "max-height": $ctrl.height() + 5
                 } ) ;
             }
-            // FUDGE! We also need to stop the HTML textboxes that are in a flexbox from expanding out
-            // if they contain long words with no spaces. The layout still isn't quite right, but this
-            // isn't something that will happen often, so we just live with it :-/
-            // NOTE: Things work when the SCENARIO panel gets wider, but not when it narrows (because
-            // the HTML textbox has expanded out, and doesn't want to narrow when the parent element
-            // narrows, and so the panel doesn't narrow). We work-around this by checking the width
-            // of the SCENARIO NOTES panel, which will always be the same width as the SCENARIO panel.
-            var $panel = $( "fieldset[name='scenario_notes']" ) ;
-            $( ".row" ).css( "max-width", $panel.width() ) ;
         } ) ;
         resizeObserver.observe( $parent[0] ) ;
         $parent.data( "resizeObserver", resizeObserver ) ;
@@ -251,6 +242,14 @@ function initHtmlTextbox( $ctrl, objName, small )
         evt.preventDefault() ;
     }
 
+    function updateOverflowIcon() {
+        setTimeout( function() {
+            // check if the content is multi-line
+            var isOverflow = $ctrl.prop( "scrollHeight" ) > $ctrl.height() * 1.5 ;
+            $ctrl.data( "overflowIcon" ).css( "opacity", isOverflow?0.6:0 ) ;
+        }, 20 ) ;
+    }
+
     // make the HTML textbox editable
     var htbId = gNextHtmlTextboxId ++ ;
     $ctrl.attr( {
@@ -270,24 +269,42 @@ function initHtmlTextbox( $ctrl, objName, small )
         } else if ( evt.keyCode == $.ui.keyCode.ENTER )
             evt.preventDefault() ; // nb: disable ENTER
     } ) ;
+    ( new MutationObserver( updateOverflowIcon ) ).observe(
+        $ctrl[0], { characterData: true, childList: true, subtree: true }
+    ) ;
+    $ctrl.data( "updateOverflowIcon", updateOverflowIcon ) ;
+
+    // add a container for the associated icons
+    var $icons = $( "<div class='icons'></div>" ).css( {
+        position: "relative",
+        "margin-right": "-2px",
+    } ) ;
+    $ctrl.after( $icons ) ;
 
     // add an icon to open the "edit html textbox" dialog
-    var paramName = $ctrl.attr( "name" ) ;
     var $img = $( "<svg class='edit-html-textbox' data-htb-id='" + htbId + "'>" +
         "<use xlink:href='#trumbowyg-view-html'></use>" +
         "<title> Edit HTML (Ctrl-M) </title>" +
         "</svg>"
     ).css( {
         width: "10px", height: "15px",
-        position: "relative", top: small?"-2px":"-4px", right: "13px",
-        "margin-right": "-10px",
+        position: "absolute", top: small?"-10px":"-12px", right: small?"2px":"3px",
         opacity: 0.5,
         cursor: "pointer",
     } ) ;
-    $ctrl.after( $img ) ;
     $img.click( function( evt ) {
         onActivate( evt ) ;
     } ) ;
+    $icons.append( $img ) ;
+
+    // add an icon for the HTML preview
+    $img = $( "<img src='" + make_app_url("/static/images/ellipsis.png") + "' class='preview-html' title='Multi-line content'>" ).css( {
+        width: "8px",
+        position: "absolute", bottom: small?"-5px":"-7px", right: small?"3px":"4px",
+        opacity: 0,
+    } ) ;
+    $icons.append( $img ) ;
+    $ctrl.data( "overflowIcon", $img ) ;
 }
 
 function onEditHtmlTextbox( $ctrl, objName ) {
