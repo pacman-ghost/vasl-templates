@@ -7,8 +7,8 @@ fieldset[name='scenario'] {
 }
 
 #panel-scenario .row { display: flex ; align-items: center ; margin-bottom: 2px ; }
-#panel-scenario div.html-textbox[name='SCENARIO_ID'] { margin-left: 0.25em ; width: 70px ; flex-grow: 0 ; }
-#panel-scenario .scenario-search { width: 25px ; height: 22px ; margin: 0 0 0 0.25em ; padding: 0 ; }
+#panel-scenario div.html-textbox[name='SCENARIO_ID'] { margin-left: 2px ; width: 70px ; flex-grow: 0 ; }
+#panel-scenario .scenario-search { width: 25px ; height: 22px ; margin: 0 0 0 5px ; padding: 0 ; }
 #panel-scenario .scenario-search img { margin-top: 2px ; width: 16px ; }
 #panel-scenario input[name='SCENARIO_DATE'] {
     /* nb: override in desktop.css for v-alignment */
@@ -35,7 +35,8 @@ fieldset[name='scenario'] {
 #panel-scenario .select2-selection__arrow { margin-top: -2px ; }
 #panel-scenario .select2-selection { height: 24px !important ; border-radius: 0 !important ; }
 
-#panel-scenario .select2[name="SCENARIO_THEATER"] { margin-left: 0.25em ; margin-right: 0.25em ; }
+#panel-scenario button[data-id="compass"] { width: 33px ; }
+#panel-scenario .select2[name="SCENARIO_THEATER"] { margin-left: 4px ; margin-right: 2px ; }
 
 /* -------------------------------------------------------------------- */
 

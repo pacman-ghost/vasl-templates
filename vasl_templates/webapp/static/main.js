@@ -277,10 +277,10 @@ $(document).ready( function () {
         $panel.find( ".row" ).css( "max-width", $panel2.width() ) ;
         // limit the width of the individual HTML textbox's
         $( "div.html-textbox[name='SCENARIO_NAME']" ).css( {
-            "max-width": "calc(100% - 210px)"
+            "max-width": "calc(100% - 214px)"
         } ) ;
         $( "div.html-textbox[name='SCENARIO_LOCATION']" ).css( {
-            "max-width": "calc(100% - 237px)"
+            "max-width": "calc(100% - 235px)"
         } ) ;
         for ( var playerNo=1 ; playerNo <= 2 ; ++playerNo ) {
             $( "div.html-textbox[name='PLAYER_" + playerNo + "_DESCRIPTION']" ).css( {
