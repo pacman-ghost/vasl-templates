@@ -150,6 +150,9 @@ function _do_edit_simple_note( template_id, player_no, $sortable2, $entry, defau
             } ) ;
             // load the dialog
             $caption.trumbowyg( "html", entryData ? entryData.caption : "" ) ;
+            setTimeout( function() {
+                resetTrumbowygHistory( $caption, true ) ;
+            }, 20 ) ;
             $width.val( entryData ? entryData.width : default_width ) ;
             origData = unloadData() ;
             $(this).height( $(this).height() ) ; // fudge: force everything to resize

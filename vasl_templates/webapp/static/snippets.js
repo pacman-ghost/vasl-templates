@@ -1709,7 +1709,7 @@ function do_load_scenario( data, fname )
 {
     // NOTE: We reset the scenario first, in case the loaded scenario is missing fields,
     // so that those fields will be reset to their default values (instead of just staying unchanged).
-    do_on_new_scenario( false ) ;
+    do_on_new_scenario( false, false ) ;
 
     // load the scenario
     try {
@@ -1718,14 +1718,14 @@ function do_load_scenario( data, fname )
         showErrorMsg( "Can't load the scenario file:<div class='pre'>" + escapeHTML(ex) + "</div>" ) ;
         return false ;
     }
-    do_load_scenario_data( data ) ;
+    do_load_scenario_data( data, true ) ;
     gLastSavedScenarioFilename = fname ;
     showInfoMsg( "The scenario was loaded." ) ;
 
     return true ;
 }
 
-function do_load_scenario_data( params )
+function do_load_scenario_data( params, updateUi )
 {
     // reset the scenario
     reset_scenario() ;
@@ -1904,16 +1904,11 @@ function do_load_scenario_data( params )
     if ( ! params.ASA_ID )
         updateForConnectedScenario( null, null ) ;
 
-    // NOTE: Loading the Victory Conditions creates a Trumbowyg history entry, so we clear the history
-    // so that user can't accidentally undo state all the way back to an empty control.
-    var trumbowyg = $( ".param[name='VICTORY_CONDITIONS']" ).data( "trumbowyg" ) ;
-    if ( trumbowyg ) {
-        var plugin = trumbowyg.o.plugins.history ;
-        plugin._stack = [] ;
-        plugin._index = -1 ;
-    }
+    // reset the Victory Conditions
+    if ( updateUi )
+        resetTrumbowyg( $( ".param[name='VICTORY_CONDITIONS']" ) ) ;
 
-    // FUDGE! The introduction of the Trumbowyg introduced a timing issue dring startup - the Victory Conditions
+    // FUDGE! The introduction of the Trumbowyg introduced a timing issue during startup - the Victory Conditions
     // control can't be initialized until some things arrive from the backend, but loading the default scenario
     // happens before then (which is where we are now), and so we end up warning about an unused key.
     // Nornally, the default scenario would never contain VC, but it's useful for testing, so we handle it here.
@@ -2132,26 +2127,26 @@ function on_new_scenario()
 {
     // check if the scenario is dirty
     if ( ! is_scenario_dirty() )
-        do_on_new_scenario( true ) ;
+        do_on_new_scenario( true, true ) ;
     else {
         // yup - confirm the operation
         ask( "New scenario",
             "<p> This scenario has been changed. <p> Do you want to reset it, and lose your changes?", {
-            ok: function() { do_on_new_scenario( true ) ; },
+            ok: function() { do_on_new_scenario( true, true ) ; },
         } ) ;
     }
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function do_on_new_scenario( user_requested ) {
+function do_on_new_scenario( user_requested, updateUi ) {
     // load the default scenario
     if ( gDefaultScenario )
-        do_load_scenario_data( gDefaultScenario ) ;
+        do_load_scenario_data( gDefaultScenario, updateUi ) ;
     else {
         $.getJSON( gGetDefaultScenarioUrl, function(data) {
             gDefaultScenario = data ;
-            do_load_scenario_data( data ) ;
+            do_load_scenario_data( data, updateUi ) ;
             update_page_load_status( "default-scenario" ) ;
         } ).fail( function( xhr, status, errorMsg ) {
             showErrorMsg( "Can't get the default scenario:<div class='pre'>" + escapeHTML(errorMsg) + "</div>" ) ;
@@ -2178,7 +2173,10 @@ function reset_scenario()
             $(this).val( "" ) ;
     } ) ;
     $( "div.html-textbox.param" ).each( function() { $(this).html( "" ) ; } ) ;
-    $( ".trumbowyg-editor" ).each( function() { $(this).trumbowyg( "empty" ) ; } ) ;
+    $( ".trumbowyg-editor" ).each( function() {
+        $(this).trumbowyg( "empty" ) ;
+        resetTrumbowygHistory( $(this), false ) ;
+    } ) ;
     $( "input[type='checkbox']" ).prop( "checked", false ) ;
     $( "select[name='TURN_TRACK_NTURNS'].param" ).val( "" ).trigger( "change" ) ;
 

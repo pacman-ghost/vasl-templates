@@ -140,6 +140,34 @@ function resetTrumbowyg( $ctrl )
         $ctrl.trumbowyg( "execCmd", { cmd: "fullscreen" } ) ;
     if ( $ctrl.parent().hasClass( "trumbowyg-editor-hidden" ) )
         $ctrl.trumbowyg( "toggle" ) ;
+
+    // clear the history
+    resetTrumbowygHistory( $ctrl, false ) ;
+}
+
+function resetTrumbowygHistory( $ctrl, setFocus )
+{
+    // clear the history
+    var trumbowyg = $ctrl.data( "trumbowyg" ) ;
+    if ( trumbowyg ) {
+        var plugin = trumbowyg.o.plugins.history ;
+        plugin._stack = [] ;
+        plugin._index = -1 ;
+        if ( ! getUrlParam( "vsav_persistence" ) && ! getUrlParam( "scenario_persistence" ) ) {
+            // FUDGE! This forces the "undo" button to refresh itself.
+            // NOTE: Doing this can cause the HTML content to change e.g. "&ge;" => "&#8805",
+            // which can cause tests to get different results, so since we only do this to update
+            // the UI, we can skip it during tests.
+            $ctrl.trumbowyg( "toggle" ) ;
+            $ctrl.trumbowyg( "toggle" ) ;
+        }
+        // FUDGE! Clearing the history cause focus to not be set properly :-/
+        if ( setFocus ) {
+            setTimeout( function() {
+                $ctrl.focus() ;
+            }, 20 ) ;
+        }
+    }
 }
 
 function unloadTrumbowyg( $ctrl, removeFirstPara )
@@ -345,6 +373,9 @@ function onEditHtmlTextbox( $ctrl, objName ) {
             // load the dialog
             $content.trumbowyg( "html", $ctrl.html().trim() ) ;
             origVal = unloadData() ;
+            setTimeout( function() {
+                resetTrumbowygHistory( $content, true ) ;
+            }, 20 ) ;
         },
         beforeClose: function() {
             gEditHtmlTextboxDlgState = getDialogState( $(this) ) ;

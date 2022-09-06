@@ -842,7 +842,7 @@ function update_page_load_status( id )
              gPageLoadStatus.indexOf( "vehicle-notes" ) === -1 && gPageLoadStatus.indexOf( "ordnance-notes" ) === -1 ) {
             // NOTE: We also need to wait for the app config to arrive (for the scenario theaters).
             if ( gPageLoadStatus.indexOf( "app-config" ) === -1 ) {
-                do_on_new_scenario( false ) ;
+                do_on_new_scenario( false, true ) ;
                 update_page_load_status( "reset-scenario" ) ;
             }
         }
