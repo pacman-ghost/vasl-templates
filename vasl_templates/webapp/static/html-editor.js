@@ -99,6 +99,16 @@ function initTrumbowyg( $ctrl, buttons, $parentDlg )
     // FUDGE! There should be spaces around the +, but this causes the tooltip to wrap on Windows :-/
     $btnPane.find( ".trumbowyg-viewHTML-button" ).attr( "title", "View HTML (Ctrl+M)" ) ;
 
+    // allow Alt-Click to toggle full-screen mode
+    function onClick( evt ) {
+        if ( evt.altKey ) {
+            $ctrl.trumbowyg( "execCmd", { cmd: "fullscreen" } ) ;
+            evt.preventDefault() ;
+        }
+    }
+    eventHandlers.addHandler( $ctrl, "click", onClick ) ;
+    eventHandlers.addHandler( $textarea, "click", onClick ) ;
+
     // handle resize events
     if ( ! $parent.data( "resizeObserver" ) ) {
         var resizeObserver = new ResizeObserver( function( entries ) {

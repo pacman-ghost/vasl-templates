@@ -133,6 +133,8 @@ $.fn.sortable2 = function( action, args )
         $entry.click( function( evt ) {
             if ( evt.ctrlKey )
                 delete_entry( $sortable2, $(this) ) ; // ctrl-click => delete the entry
+            else if ( evt.altKey && on_edit )
+                on_edit( $sortable2, $entry ) ; // alt-click => edit the entry
             else if ( evt.shiftKey ) {
                 var $elem = $(this).find( "img.snippet" ) ;
                 if ( $elem.length !== 0 )
