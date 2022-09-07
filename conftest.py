@@ -70,6 +70,13 @@ def pytest_configure( config ):
     import vasl_templates.webapp.tests
     vasl_templates.webapp.tests.pytest_options = config.option
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+@pytest.fixture( scope="session" )
+def monkeypatch():
+    """Override the default monkeypatch fixture."""
+    assert False, "Don't use monkeypatch!" # it won't work when testing against a remote server
+
 # ---------------------------------------------------------------------
 
 _webapp = None
@@ -183,11 +190,6 @@ def _make_webapp():
         app.config[ "WEBDRIVER_PATH" ] = "geckodriver"
     elif _pytest_options.webdriver == "chrome":
         app.config[ "WEBDRIVER_PATH" ] = "chromedriver"
-
-    # NOTE: Trumboyg adds a lot of buttons to the UI, which slows Selenium down a lot
-    # when it's searching for elements, so we run tests with a minimal configuration.
-    app.config[ "TRUMBOWYG_BUTTONS_VICTORY_CONDITIONS" ] = [ "viewHTML" ]
-    app.config[ "TRUMBOWYG_BUTTONS_SIMPLE_NOTE_DIALOG" ] = [ "viewHTML" ]
 
     return app
 

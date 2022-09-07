@@ -80,16 +80,16 @@ def test_sanitize_load_scenario( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-def test_sanitize_save_scenario( webapp, webdriver, monkeypatch ):
+def test_sanitize_save_scenario( webapp, webdriver ):
     """Test sanitization of HTML content when saving scenarios."""
 
     # initialize
-    monkeypatch.setitem( webapp.config, "TRUMBOWYG_TAG_BLACKLIST", "[]" )
     webapp.control_tests.set_vo_notes_dir( "{TEST}" )
     init_webapp( webapp, webdriver, no_sanitize_load=1, scenario_persistence=1 )
 
     # load a scenario with unsafe content
     load_scenario( _make_scenario_params( False ) )
+    _check_scenario_params()
 
     # unload the scenario
     params = save_scenario()
@@ -153,13 +153,12 @@ def test_sanitize_save_scenario( webapp, webdriver, monkeypatch ):
 
 # ---------------------------------------------------------------------
 
-def test_sanitize_update_vsav( webapp, webdriver, monkeypatch ):
+def test_sanitize_update_vsav( webapp, webdriver ):
     """Test sanitization of HTML content when updating a VASL save file."""
 
     def do_test():
 
         # initialize
-        monkeypatch.setitem( webapp.config, "TRUMBOWYG_TAG_BLACKLIST", "[]" )
         webapp.control_tests \
             .set_data_dir( "{REAL}" ) \
             .set_vo_notes_dir( "{TEST}" )
@@ -168,6 +167,7 @@ def test_sanitize_update_vsav( webapp, webdriver, monkeypatch ):
 
         # load a scenario with unsafe content
         load_scenario( _make_scenario_params( True ) )
+        _check_scenario_params()
 
         # update the VSAV, then dump it
         fname = os.path.join( os.path.split(__file__)[0], "fixtures/update-vsav/empty.vsav" )
@@ -387,3 +387,14 @@ def _make_scenario_params( real_vo ):
         } )
 
     return params
+
+def _check_scenario_params():
+    """Check that the test scenario parameters were loaded correctly."""
+    # NOTE: We have to be careful when loading unsafe content into the UI, and make sure that it doesn't
+    # get sanitized as it is loaded. Loading unsafe content into an HTML textbox is not an issue, but
+    # for Trumbowyg controls (i.e. VICTORY_CONDITIONS), we have to consider its tag blacklist. However,
+    # this only kicks in when we switch between modes, so if we just load the raw content in, and don't
+    # switch modes, we should be OK.
+    elem = find_child( "div.html-textbox[name='SCENARIO_NAME']" )
+    assert "<script>" in elem.get_attribute( "innerHTML" )
+    assert "<applet>" in unload_trumbowyg( "VICTORY_CONDITIONS" )

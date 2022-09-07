@@ -521,12 +521,12 @@ def test_snippet_images( webapp, webdriver ):
 
 # ---------------------------------------------------------------------
 
-def test_player_flags_in_trumbowyg( webapp, webdriver, monkeypatch ):
+def test_player_flags_in_trumbowyg( webapp, webdriver ):
     """Test inserting images for player flags into Trumbowyg HTML editor controls."""
 
     # initialize
-    monkeypatch.setitem( webapp.config, "TRUMBOWYG_BUTTONS_VICTORY_CONDITIONS" ,
-        [ "flags", "viewHTML" ]
+    webapp.control_tests.set_app_config_val( "TRUMBOWYG_BUTTONS_VICTORY_CONDITIONS",
+        '[ "flags", "viewHTML" ]'
     )
     init_webapp( webapp, webdriver )
 

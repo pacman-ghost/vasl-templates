@@ -167,6 +167,19 @@ class ControlTestsServicer( BaseControlTestsServicer ): #pylint: disable=too-man
         # detect problems there, as well as in the front-end), and enable them only when needed.
         self.setAppConfigVal( SetAppConfigValRequest( key="_DISABLE_LANDING_CRAFT_", boolVal=True ), ctx )
 
+        # NOTE: Trumboyg adds a lot of buttons to the UI, which slows Selenium down a lot when
+        # searching for elements. We run tests with a minimal configuration, and tests that need
+        # specific buttons can override this.
+        self.setAppConfigVal( SetAppConfigValRequest( key="TRUMBOWYG_BUTTONS_VICTORY_CONDITIONS",
+            strVal='[ "viewHTML" ]' ), ctx
+        )
+        self.setAppConfigVal( SetAppConfigValRequest( key="TRUMBOWYG_BUTTONS_SIMPLE_NOTE_DIALOG",
+            strVal='[ "viewHTML" ]' ), ctx
+        )
+        self.setAppConfigVal( SetAppConfigValRequest( key="TRUMBOWTRUMBOWYG_BUTTONS_HTML_TEXTBOX_DIALOG",
+            strVal='[ "viewHTML" ]' ), ctx
+        )
+
         # return our capabilities to the caller
         caps = []
         if _ORIG_CHAPTER_H_NOTES_DIR:
