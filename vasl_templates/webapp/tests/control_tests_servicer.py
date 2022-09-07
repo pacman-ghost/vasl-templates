@@ -162,6 +162,11 @@ class ControlTestsServicer( BaseControlTestsServicer ): #pylint: disable=too-man
         # NOTE: The webapp has been reconfigured, but the client must reloaed the home page
         # with "?force-reinit=1", to force it to re-initialize with the new settings.
 
+        # NOTE: Dealing with landing craft is a major PITA, since it breaks the usual access pattern
+        # of "nat/vo-type". For the purpose of tests, we disable them in the back-end (so that we can
+        # detect problems there, as well as in the front-end), and enable them only when needed.
+        self.setAppConfigVal( SetAppConfigValRequest( key="_DISABLE_LANDING_CRAFT_", boolVal=True ), ctx )
+
         # return our capabilities to the caller
         caps = []
         if _ORIG_CHAPTER_H_NOTES_DIR:

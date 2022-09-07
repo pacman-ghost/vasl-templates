@@ -904,10 +904,12 @@ function get_ma_note( nat, vo_type, key )
 
     if ( ! ma_note ) {
         // still couldn't find anything - if we're Allied/Axis Minor, try the common notes
-        if ( gTemplatePack.nationalities[ nat ].type === "allied-minor" )
-            ma_note = get_ma_notes_for_nat( "allied-minor", vo_type )[ key ] ;
-        else if ( gTemplatePack.nationalities[ nat ].type === "axis-minor" )
-            ma_note = get_ma_notes_for_nat( "axis-minor", vo_type )[ key ] ;
+        if ( gTemplatePack.nationalities[ nat ] ) {
+            if ( gTemplatePack.nationalities[ nat ].type === "allied-minor" )
+                ma_note = get_ma_notes_for_nat( "allied-minor", vo_type )[ key ] ;
+            else if ( gTemplatePack.nationalities[ nat ].type === "axis-minor" )
+                ma_note = get_ma_notes_for_nat( "axis-minor", vo_type )[ key ] ;
+        }
     }
 
     return ma_note ;

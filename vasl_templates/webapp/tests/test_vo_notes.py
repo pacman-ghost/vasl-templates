@@ -240,7 +240,9 @@ def test_extra_ma_notes( webapp, webdriver ):
     """Test handling of Landing Craft and Allied/Axis Minor common vehicles/ordnance."""
 
     # initialize
-    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    webapp.control_tests \
+        .set_vo_notes_dir( "{TEST}" ) \
+        .set_app_config_val( "_DISABLE_LANDING_CRAFT_", False )
     init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load the test scenario
@@ -315,7 +317,9 @@ def test_landing_craft_notes( webapp, webdriver ):
     """Test handling of Landing Craft notes."""
 
     # initialize
-    webapp.control_tests.set_vo_notes_dir( "{TEST}" )
+    webapp.control_tests \
+        .set_vo_notes_dir( "{TEST}" ) \
+        .set_app_config_val( "_DISABLE_LANDING_CRAFT_", False )
     init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     # load the test scenario
@@ -342,7 +346,8 @@ def test_vo_note_image_url_path( webapp, webdriver ):
     webapp.control_tests \
         .set_data_dir( "{TEST}" ) \
         .set_vo_notes_dir( "{TEST}" ) \
-        .set_default_template_pack( "vo-note-image-url-path/" )
+        .set_default_template_pack( "vo-note-image-url-path/" ) \
+        .set_app_config_val( "_DISABLE_LANDING_CRAFT_", False )
     init_webapp( webapp, webdriver, scenario_persistence=1 )
 
     def extract_url_path( clipboard ):
@@ -572,7 +577,8 @@ def test_vo_notes_reports( webapp, webdriver ): #pylint: disable=too-many-locals
     webapp.control_tests \
         .set_data_dir( "{REAL}" ) \
         .set_vasl_version( "random", vasl_extns_type="{REAL}" ) \
-        .set_vo_notes_dir( "{REAL}" )
+        .set_vo_notes_dir( "{REAL}" ) \
+        .set_app_config_val( "_DISABLE_LANDING_CRAFT_", False )
     init_webapp( webapp, webdriver )
 
     # initialize

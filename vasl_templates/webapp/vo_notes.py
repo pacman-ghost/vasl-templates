@@ -104,6 +104,10 @@ def load_vo_notes( msg_store ): #pylint: disable=too-many-statements,too-many-lo
             dname2, vo_type2 = os.path.split( dname2 )
         else:
             extn_id = None
+        if app.config.get( "_DISABLE_LANDING_CRAFT_" ) and vo_type2 == "landing-craft":
+            # NOTE: Landing craft are usually disabled during tests (so that we can detect
+            # when the code has forgotten to consider them).
+            continue
         if vo_type2 not in ("vehicles","ordnance","landing-craft"):
             continue
         if os.path.split( dname2 )[1] == "tests":
