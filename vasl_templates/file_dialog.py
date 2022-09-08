@@ -21,6 +21,9 @@ class FileDialog:
         self.default_extn = default_extn
         self.filters = filters
         self.curr_fname = default_fname
+        # NOTE: We can't just use the directory of self.curr_fname, since this gets reset
+        # when the user chooses "new scenario", but we want to remember the current directory.
+        self._curr_dir = os.path.dirname( default_fname ) if default_fname else None
 
     def load_file( self, binary ):
         """Load a file."""
@@ -28,7 +31,7 @@ class FileDialog:
         # ask the user which file to load
         fname, _  = QFileDialog.getOpenFileName(
             self.parent, "Load {}".format( self.object_name ),
-            self.curr_fname,
+            self._get_start_path(),
             self.filters
         )
         if not fname:
@@ -44,6 +47,7 @@ class FileDialog:
         if not binary:
             data = data.decode( "utf-8" )
         self.curr_fname = fname
+        self._curr_dir = os.path.dirname( fname )
 
         return data
 
@@ -58,8 +62,8 @@ class FileDialog:
 
             # ask the user where to save the file
             fname, _  = QFileDialog.getSaveFileName(
-                self.parent, "Save {}".format( self.object_name),
-                self.curr_fname,
+                self.parent, "Save {}".format( self.object_name ),
+                self._get_start_path(),
                 self.filters
             )
             if not fname:
@@ -80,4 +84,13 @@ class FileDialog:
                 self.parent.showErrorMsg( "Can't save the {}:\n\n{}".format( self.object_name, ex ) )
                 continue
             self.curr_fname = fname
+            self._curr_dir = os.path.dirname( fname )
             return True
+
+    def _get_start_path( self ):
+        """Get the start filename or directory path for saving/loading files."""
+        if self.curr_fname and os.path.isabs( self.curr_fname ):
+            return self.curr_fname
+        if self._curr_dir and self.curr_fname:
+            return os.path.join( self._curr_dir, self.curr_fname )
+        return self.curr_fname

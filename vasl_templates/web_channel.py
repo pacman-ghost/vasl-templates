@@ -38,6 +38,7 @@ class WebChannelHandler:
     def on_new_scenario( self ):
         """Called when the scenario is reset."""
         self.scenario_file_dialog.curr_fname = None
+        self.updated_vsav_file_dialog.curr_fname = None
 
     def load_scenario( self ):
         """Called when the user wants to load a scenario."""
