@@ -234,7 +234,7 @@ function on_dialog_open( $dlg, $focus )
 
     // set initial focus
     if ( ! $focus )
-        $focus = $( ".ui-dialog-buttonpane button:contains(Cancel)" ) ;
+        $focus = findTopmostDialog().find( ".ui-dialog-buttonpane button:contains(Cancel)" ) ;
     setTimeout( function() {
         $focus.focus() ;
     }, 20 ) ;
