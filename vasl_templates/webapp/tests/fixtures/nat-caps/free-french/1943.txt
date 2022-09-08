@@ -5,14 +5,12 @@ HoB: -1 DRM
 Black TH#
 OBA: 8B 2R (access: ≤ 2)
 
+* No Assault Fire
+
 Elite & 1st Line:
 * Cowering NA
 
-ANZAC:
-* Stealthy (unless Green)
-
-Gurkha:
-* -1 CC DRM
-* Disrupt & RtPh Surrender NA
-* Commando (unless Green)
-* Stealthy
+No Captured Use penalty:
+* U.S. MTR/BAZ
+* Vichy French SW
+* British (f) vehicles/Guns/SW

@@ -259,6 +259,18 @@ def test_time_based_national_capabilities( webapp, webdriver ):
         "Commissars NA", "Riders OK"
     ] )
 
+    # test the Free French national capabilities
+    check_notes( "free-french", "ETO", 11, 1943, [
+        "No Assault Fire",
+        "British (f) vehicles/Guns/SW", "!British/French (a)/(f) SW",
+        "!Inherent Crews as British for Morale"
+    ] )
+    check_notes( "free-french", "ETO", 12, 1943, [
+        "Assault Fire",
+        "!British (f) vehicles/Guns/SW", "British/French (a)/(f) SW",
+        "Inherent Crews as British for Morale"
+    ] )
+
     # test the Finnish national capabilities
     # NOTE: We should test for Inherent PF here, but it's in a nested sub-list (more trouble than it's worth).
     check_oba( "finnish", "ETO", 12, 1943, "8B", "3R", plentiful=True )

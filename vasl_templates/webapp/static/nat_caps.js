@@ -140,7 +140,7 @@ function get_national_capabilities( nat, is_kfw )
         else if ( ["british","british~canadian","british~newzealand"].indexOf( nat ) !== -1 )
             nat = "kfw-bcfk" ;
     }
-    else if ( nat === "free-french" || nat.substring(0,8) === "british~" )
+    else if ( nat.substring(0,8) === "british~" )
         nat = "british" ;
     var nat_caps = gTemplatePack["national-capabilities"][ nat ] ;
     if ( nat_caps )

@@ -108,6 +108,26 @@
     "hob_drm": "+1 DRM",
     "grenades": "Smoke"
 },
+"free-french": {
+    "th_color": "Black",
+    "oba": [ "8B", "2R" ], "oba_access": "&le; 2",
+    "hob_drm": "-1 DRM",
+    "grenades": "{? 01/1944- | SMOKE | Smoke | SMOKE<sup>44+</sup> ?}",
+    "notes": [
+        "{? 12/1943- | Assault Fire | No Assault Fire | Assault Fire<sup>12/43+</sup> ?}",
+        "{? 12/1943-05/1945 | Inherent Crews as British for Morale | | Inherent Crews as British for Morale<sup>12/43-5/45</sup> ?}",
+        { "caption": "Elite &amp; 1st Line", "notes": [
+            "Cowering NA"
+        ] },
+        { "caption": "No Captured Use penalty", "notes": [
+            "U.S. MTR/BAZ",
+            "Vichy French SW",
+            "{? -11/1943 | British (f) vehicles/Guns/SW | | British (f) vehicles/Guns/SW <sup>-11/43</sup> ?}",
+            "{? 12/1943-05/1945 | British/French (a)/(f) SW | | British/French (a)/(f) SW<sup>12/43-5/45</sup> ?}"
+        ] }
+    ]
+},
+
 
 "italian": {
     "th_color": "Red",
