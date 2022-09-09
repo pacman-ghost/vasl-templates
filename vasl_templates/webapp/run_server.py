@@ -42,10 +42,7 @@ def main( bind_addr, force_init_delay, flask_debug ):
     # monitor extra files for changes
     extra_files = []
     fspecs = [ "static/", "static/css/", "static/help/", "templates/", "config/" ]
-    fspecs.extend( [
-        "data/default-template-pack/",
-        "data/default-template-pack/extras/", "data/default-template-pack/extras/kgs/"
-    ] )
+    fspecs.extend( [ "data/default-template-pack/", "data/default-template-pack/extras/" ] )
     fspecs.extend( [ "tests/control_tests_servicer.py", "tests/proto/generated/" ] )
     for fspec in fspecs:
         fspec = os.path.abspath( os.path.join( os.path.dirname(__file__), fspec ) )
