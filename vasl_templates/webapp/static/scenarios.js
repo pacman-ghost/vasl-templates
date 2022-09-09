@@ -2,7 +2,7 @@
 
 ( function() { // nb: put the entire file into its own local namespace, global stuff gets added to window.
 
-var gIsFirstSearch ;
+var gIsFirstSearch, gSearchQueryInputPending=0 ;
 var $gDialog, $gScenariosSelect, $gSearchQueryInputBox, $gScenarioCard, $gFooter ;
 var $gImportControl, $gDownloadsButton, $gImportScenarioButton, $gConfirmImportButton, $gCancelImportButton, $gImportWarnings ;
 
@@ -60,9 +60,7 @@ window.searchForScenario = function()
                 $gDialog.find( ".select2-results__option" ).remove() ;
                 updateForSearchResults() ;
                 $gScenarioCard.empty() ;
-                // NOTE: We don't hide the footer since we want it to take up its space in the layout,
-                // so that the list of search results is the correct height.
-                $gFooter.css( "opacity", 0 ) ;
+                $gFooter.find( ".asa" ).css( "opacity", 0 ) ;
                 $gImportWarnings.empty().hide() ;
                 $gDownloadsButton.button( "disable" ) ;
                 $gImportScenarioButton.show() ;
@@ -132,16 +130,20 @@ function initDialog( $dlg, scenarios )
 function initSearchResults( $dlg, scenarios )
 {
     // initialize the search results
+    $gFooter.find( ".loader" ).show() ;
     initPrefixIndex( scenarios ) ;
+    // FUDGE! Loading nearly 10k entries into the select2 is slow (and barely acceptable),
+    // so instead, we initialize it with an empty list, and load the scenarios asynchronously.
+    // Of course, if the user does a search while this is happening, they will only see results
+    // from those scenarios that have been loaded, but the user will usually be typing multiple
+    // characters, and since the loading process only takes around a second, it won't be long
+    // before they are searching over the complete set of scenarios.
+    // Note that this only an issue when we get a new scenario index i.e. the first time
+    // the user does a scenario search, or if the backend has downloaded an updated index (rare).
+    // Otherwise, the code will re-use what was previously loaded into the UI, which will be fast.
+    // NOTE: The dialog is still a bit sluggish when being opened for the second time (even though
+    // everything is already in the UI), but this seems to be a Chrome thing... :-/
     var options = [] ;
-    scenarios.forEach( function( scenario ) {
-        options.push( {
-            id: scenario.scenario_id,
-            text: scenario.scenario_name, // nb: this will always have something
-            scenario: scenario,
-        } ) ;
-    } ) ;
-    sortScenarios( options ) ;
 
     // load the search results
     if ( $gScenariosSelect ) {
@@ -156,6 +158,25 @@ function initSearchResults( $dlg, scenarios )
         closeOnSelect: false,
         dropdownParent: $dlg.find( ".scenarios" ),
     } ) ;
+
+    // load the scenarios
+    var pageSize = gAppConfig.SCENARIO_SEARCH_LOAD_BLOCK_SIZE ;
+    function loadScenarios( pageNo ) {
+        for ( var i=0 ; i < pageSize ; ++i ) {
+            var scenario = scenarios[ pageSize * pageNo + i ] ;
+            if ( ! scenario ) {
+                $gScenariosSelect.trigger( "change" ) ;
+                $gFooter.find( ".loader" ).fadeOut( 500 ) ;
+                return ;
+            }
+            opt = new Option( scenario.scenario_name, scenario.scenario_id ) ;
+            $(opt).data( "scenario", scenario ) ;
+            $gScenariosSelect.append( opt ) ;
+        }
+        $gScenariosSelect.trigger( "change" ) ;
+        setTimeout( function () { loadScenarios( pageNo+1 ) ; }, 20 ) ;
+    }
+    setTimeout( function () { loadScenarios( 0 ) ; }, 0 ) ;
 
     // stop the select2 droplist from closing up
     $gScenariosSelect.select2( "open" ) ;
@@ -173,11 +194,17 @@ function initSearchResults( $dlg, scenarios )
     $gSearchQueryInputBox.on( "input", function() {
         // FUDGE! select2 rebuilds the list of matching items, and selects the first one,
         // but doesn't send us a "select" event for it - we do things manually here :-/
-        var $elem = $( ".select2-results__option--highlighted .search-result" ) ;
-        onItemSelected( $elem.attr( "data-id" ) ) ;
-        updateForSearchResults() ;
-        // FUDGE! Undo the positioning hack we did in the "create" handler.
-        $dlg.find( ".select2-dropdown" ).css( "left", 0 ) ;
+        // NOTE: We wait for the user to stop typing before doing anything.
+        ++ gSearchQueryInputPending ;
+        setTimeout( function() {
+            if ( -- gSearchQueryInputPending !== 0 )
+                return ;
+            var $elem = $( ".select2-results__option--highlighted .search-result" ) ;
+            onItemSelected( $elem.attr( "data-id" ) ) ;
+            updateForSearchResults() ;
+            // FUDGE! Undo the positioning hack we did in the "create" handler.
+            $dlg.find( ".select2-dropdown" ).css( "left", 0 ) ;
+        }, gAppConfig.SCENARIO_SEARCH_QUERY_INPUT_DELAY ) ;
     } ) ;
 
     // handle Up and Down key-presses
@@ -241,7 +268,8 @@ function isMatchingItem( params, item )
             return item ;
     } else {
         // search for a matching substring
-        if ( item.scenario._searchText.indexOf( termLC ) !== -1 )
+        var scenario = $( item.element ).data( "scenario" ) ;
+        if ( scenario._searchText.indexOf( termLC ) !== -1 )
             return item ;
     }
     return null ;
@@ -261,36 +289,27 @@ function sortItems( items )
 {
     // NOTE: This function is called by the select2 to sort the items being shown.
 
-    // NOTE: We used to sort the items alphabetically here, but this could cause a new item to appear
-    // at the top of the list, which we want to be selected. It was ridiculously difficult to figure out
-    // how to select an item:
-    //     $gScenariosSelect.select2( "trigger", "select", {
-    //         data: { id: items[0].id }
-    //     } ) ;
-    // but unfortunately, this slows things down a lot in Chrome (everything flies in Firefox).
-    // We really need to present the scenarios in alphabetical order (so that scenarios with the same name
-    // are grouped together), but we can achieve that same effect by loading them into the select2
-    // in alphabetical order.
+    function getSortVal( item ) {
+        var sortVal = $(item).data( "sortVal" ) ;
+        if ( ! sortVal ) {
+            sortVal = item.text.trim().toLowerCase() ;
+            if ( sortVal[0] == '"' || sortVal[0] == "'" )
+                sortVal = sortVal.substring( 1 ) ;
+            if ( sortVal[0] == "\u00a1" || sortVal[0] == "\u00bf" ) // nb: inverted ! and ?
+                sortVal = sortVal.substring( 1 ) ;
+            if ( sortVal.substring( 0, 3 ) == "..." )
+                sortVal = sortVal.substring( 3 ) ;
+            $(item).data( "sortVal", sortVal ) ;
+        }
+        return sortVal ;
+    }
+
+    // sort the items
+    items.sort( function( lhs, rhs ) {
+        return getSortVal( lhs ).localeCompare( getSortVal( rhs ) ) ;
+    } ) ;
 
     return items ;
-}
-
-function sortScenarios( options )
-{
-    // NOTE See sortItems() for why we load the scenarios in alphabetical order.
-    function getSortVal( text ) {
-        text = text.trim().toLowerCase() ;
-        if ( text[0] == '"' || text[0] == "'" )
-            text = text.substring( 1 ) ;
-        if ( text[0] == "\u00a1" || text[0] == "\u00bf" ) // nb: inverted ! and ?
-            text = text.substring( 1 ) ;
-        if ( text.substring( 0, 3 ) == "..." )
-            text = text.substring( 3 ) ;
-        return text ;
-    }
-    options.sort( function( lhs, rhs ) {
-        return getSortVal( lhs.text ).localeCompare( getSortVal( rhs.text ) ) ;
-    } ) ;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -302,7 +321,7 @@ function formatItem( opt )
     // initialize
     if ( ! opt.id )
         return opt.text ;
-    var scenario = opt.scenario ;
+    var scenario = $( opt.element ).data( "scenario" ) ;
 
     function addVal( val, className, prefix, postfix ) {
         if ( val ) {
@@ -344,7 +363,7 @@ function formatItem( opt )
 
     // check if this is the first time we're showing search results
     if ( gIsFirstSearch ) {
-        $gFooter.fadeTo( 5*1000, 0.8 ) ;
+        $gFooter.find( ".asa" ).fadeTo( 5*1000, 0.8 ) ;
         gIsFirstSearch = false ;
     }
 

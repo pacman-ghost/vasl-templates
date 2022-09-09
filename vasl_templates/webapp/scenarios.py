@@ -10,7 +10,6 @@ import base64
 import re
 import time
 import math
-import hashlib
 import logging
 
 from flask import request, render_template, make_response, jsonify, abort
@@ -131,7 +130,15 @@ def get_scenario_index():
                 return _make_not_available_response(
                     "Please wait, the scenario index is still downloading.", None
                 )
-        etag = hashlib.md5( json.dumps( _asa_scenarios.index ).encode( "utf-8" ) ).hexdigest()
+        # NOTE: We used to calculate the ETag like this:
+        #   etag = hashlib.md5( json.dumps( _asa_scenarios.index ).encode( "utf-8" ) ).hexdigest()
+        # but this is slow, and is done *every* time i.e. even when nothing's changed and we return a 304 :-/
+        # So, we take advantage of the fact that the only time the index changes is when we've downloaded
+        # a new version, and the *entire* dict changes i.e. we can use id() to detect if anything's changed.
+        # The only exception to this is when we temporarily modify the index ourself after uploading
+        # a scenario to the ASL Scenario Archive, so in that case, we clone the dict to ensure that
+        # id() returns something different.
+        etag = str( id( _asa_scenarios.index ) )
         if request.headers.get( "If-None-Match" ) == etag:
             return "Not Modified", 304
         resp = make_response( jsonify( [
@@ -154,7 +161,8 @@ def get_roar_scenario_index():
                 return _make_not_available_response(
                     "Please wait, the ROAR scenarios are still downloading.", None
                 )
-        etag = hashlib.md5( json.dumps( _roar_scenarios.index ).encode( "utf-8" ) ).hexdigest()
+        # NOTE: See get_scenario_index() for why we calculate the ETag in this way.
+        etag = str( id( _roar_scenarios.index ) )
         if request.headers.get( "If-None-Match" ) == etag:
             return "Not Modified", 304
         resp = make_response( jsonify( _roar_scenarios.index ) )
@@ -598,6 +606,8 @@ def on_successful_asa_upload( scenario_id ):
 
     # update the in-memory scenario index
     with _asa_scenarios:
+        # NOTE: We clone the index so that it will get a new ETag in get_scenario_index().
+        _asa_scenarios.index = dict( _asa_scenarios.index )
         _asa_scenarios.index[ scenario_id ] = new_scenario
 
     return jsonify( { "status": "ok" } )

@@ -76,6 +76,7 @@ _APP_CONFIG_DEFAULTS = { # Bodhgaya, India (APR/19)
     "ONLINE_EXTN_COUNTER_IMAGES_URL_TEMPLATE": "http://vasl-templates.org/services/counter/{{EXTN_ID}}/{{PATH}}",
     "ASA_UPLOAD_URL": "https://aslscenarioarchive.com/rest/update/{ID}?user={USER}&token={TOKEN}",
     "TURN_TRACK_SHADING_COLORS": [ "#e0e0e0", "#c0c0c0" ],
+    "SCENARIO_SEARCH_LOAD_BLOCK_SIZE": 1000, "SCENARIO_SEARCH_QUERY_INPUT_DELAY": 20,
 }
 
 @app.route( "/app-config" )

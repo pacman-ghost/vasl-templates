@@ -35,6 +35,7 @@
 
 /* footer */
 #scenario-search .footer {
+    position: relative ;
     margin-bottom: -0.5em ;
     padding-top: 0.5em ;
     font-size: 70% ; font-style: italic ;
@@ -45,6 +46,7 @@
 #scenario-search .footer a { color: #666 ; }
 #scenario-search .footer a:link { text-decoration: none ; }
 #scenario-search .footer a:focus { outline: 0 ; }
+#scenario-search .footer img.loader { width: 15px ; height: 15px ; position: absolute ; bottom: 0 ; left: 0 ; }
 
 /* import control */
 #scenario-search .import-control { margin-top: 0.5em ; padding-top: 0.75em ; border-top: 1px dotted #666 ; }
