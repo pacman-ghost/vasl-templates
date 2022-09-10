@@ -90,6 +90,16 @@ function initTrumbowyg( $ctrl, buttons, $parentDlg )
             evt.preventDefault() ;
             return ;
         }
+        // check for Alt-Shift-< and > (because these are quite common)
+        if ( evt.keyCode == $.ui.keyCode.COMMA && evt.altKey && evt.shiftKey ) {
+            $ctrl.trumbowyg( "execCmd", { cmd: "insertText", param: "\u2264" } ) ;
+            evt.preventDefault() ;
+            return ;
+        } else if ( evt.keyCode == $.ui.keyCode.PERIOD && evt.altKey && evt.shiftKey ) {
+            $ctrl.trumbowyg( "execCmd", { cmd: "insertText", param: "\u2265" } ) ;
+            evt.preventDefault() ;
+            return ;
+        }
         // handle auto-dismiss if we are in a dialog
         if ( $parentDlg )
             auto_dismiss_dialog( $parentDlg, evt, "OK" ) ;
@@ -303,6 +313,12 @@ function initHtmlTextbox( $ctrl, objName, small )
     } ).keydown( function( evt ) {
         if ( evt.keyCode == 77 && evt.ctrlKey ) {
             onActivate( evt ) ; // nb: Ctrl-M opens the "edit HTML" dialog
+            evt.preventDefault() ;
+        } else if ( evt.keyCode == $.ui.keyCode.COMMA && evt.altKey && evt.shiftKey ) {
+            window.document.execCommand( "insertText", false, "\u2264" ) ;
+            evt.preventDefault() ;
+        } else if ( evt.keyCode == $.ui.keyCode.PERIOD && evt.altKey && evt.shiftKey ) {
+            window.document.execCommand( "insertText", false, "\u2265" ) ;
             evt.preventDefault() ;
         } else if ( evt.keyCode == $.ui.keyCode.ENTER )
             evt.preventDefault() ; // nb: disable ENTER
